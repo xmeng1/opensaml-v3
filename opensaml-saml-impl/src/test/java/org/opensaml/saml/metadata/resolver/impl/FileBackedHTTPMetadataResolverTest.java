@@ -204,13 +204,13 @@ public class FileBackedHTTPMetadataResolverTest extends XMLObjectBaseTestCase {
     }
     
     /**
-     * Tests use of backup file on simulated restart.
+     * Tests that backup file is not loaded on a refresh when already have cached metadata.
      * @throws ComponentInitializationException 
      * 
      * @throws ResolverException, ComponentInitializationException
      */
     @Test
-    public void testBackupFileOnRestart() throws Exception {
+    public void testNoBackupFileLoadWhenMetadataCached() throws Exception {
         File backupFile = new File(backupFilePath);
         Resources.copy(Resources.getResource(relativeMDResource), new FileOutputStream(backupFile));
         
