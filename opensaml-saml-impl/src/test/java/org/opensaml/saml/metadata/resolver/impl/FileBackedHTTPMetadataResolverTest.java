@@ -224,6 +224,13 @@ public class FileBackedHTTPMetadataResolverTest extends XMLObjectBaseTestCase {
         metadataProvider.initialize();
         
         Assert.assertNotNull(metadataProvider.resolveSingle(criteriaSet), "Metadata retrieved from backing file was null");
+        
+        Thread.sleep(1000);
+        
+        // Manually do a refresh here, for testing via log examination that backing file not loaded due to existing cached metadata
+        metadataProvider.refresh();
+        
+        Assert.assertNotNull(metadataProvider.resolveSingle(criteriaSet), "Metadata retrieved from cached metadata was null");
     }
     
     @Test
