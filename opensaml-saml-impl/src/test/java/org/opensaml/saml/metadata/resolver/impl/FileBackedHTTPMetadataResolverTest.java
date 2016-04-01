@@ -217,11 +217,11 @@ public class FileBackedHTTPMetadataResolverTest extends XMLObjectBaseTestCase {
         Assert.assertTrue(backupFile.exists(), "Backup file was not created");
         Assert.assertTrue(backupFile.length() > 0, "Backup file contains no data");
         
-        // Now do a new provider to simulate a restart (have to set fail-fast=false).
+        // Now do a new provider to simulate a restart.
         // Verify that can use the data from backing file.
         FileBackedHTTPMetadataResolver badProvider = new FileBackedHTTPMetadataResolver(httpClientBuilder.buildClient(), badMDURL, backupFilePath);
         badProvider.setParserPool(parserPool);
-        badProvider.setFailFastInitialization(false);
+        badProvider.setFailFastInitialization(true);
         badProvider.setId("bad");
         badProvider.initialize();
         
