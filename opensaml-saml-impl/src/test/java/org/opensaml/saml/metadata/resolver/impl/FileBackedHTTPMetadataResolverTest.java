@@ -78,7 +78,7 @@ public class FileBackedHTTPMetadataResolverTest extends XMLObjectBaseTestCase {
         httpMDURL = "http://svn.shibboleth.net/view/java-opensaml/trunk/opensaml-saml-impl/src/test/resources/org/opensaml/saml/metadata/resolver/impl/08ced64cddc9f1578598b2cf71ae747b11d11472.xml?view=co";
         
         entityID = "https://www.example.org/sp";
-        badMDURL = "http://www.google.com/";
+        badMDURL = "http://www.opensaml.org/foo/bar/baz/samlmd";
         backupFilePath = System.getProperty("java.io.tmpdir") + System.getProperty("file.separator") 
                 + "filebacked-http-metadata.xml";
         
@@ -225,7 +225,7 @@ public class FileBackedHTTPMetadataResolverTest extends XMLObjectBaseTestCase {
         badProvider.setId("bad");
         badProvider.initialize();
         
-        Assert.assertNotNull(metadataProvider.resolveSingle(criteriaSet), "Metadata retrieved from backing file was null");
+        Assert.assertNotNull(badProvider.resolveSingle(criteriaSet), "Metadata retrieved from backing file was null");
     }
     
     @Test
