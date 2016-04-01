@@ -18,17 +18,12 @@
 package org.opensaml.saml.metadata.resolver.impl;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.net.URISyntaxException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Collections;
 import java.util.Set;
-
-import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
-import net.shibboleth.utilities.java.support.httpclient.HttpClientBuilder;
-import net.shibboleth.utilities.java.support.httpclient.HttpClientSupport;
-import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
-import net.shibboleth.utilities.java.support.resolver.ResolverException;
 
 import org.apache.http.conn.socket.LayeredConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
@@ -53,6 +48,15 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import com.google.common.io.Resources;
+
+import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
+import net.shibboleth.utilities.java.support.httpclient.HttpClientBuilder;
+import net.shibboleth.utilities.java.support.httpclient.HttpClientSupport;
+import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
+import net.shibboleth.utilities.java.support.resolver.ResolverException;
+
+
 /**
  * Test case for {@link FileBackedHTTPMetadataResolver}.
  */
@@ -62,6 +66,7 @@ public class FileBackedHTTPMetadataResolverTest extends XMLObjectBaseTestCase {
     
     private HttpClientBuilder httpClientBuilder;
 
+    private String relativeMDResource;
     private String httpsMDURL;
     private String httpMDURL;
     private String badMDURL;
@@ -74,8 +79,9 @@ public class FileBackedHTTPMetadataResolverTest extends XMLObjectBaseTestCase {
     protected void setUp() throws Exception {
         httpClientBuilder = new HttpClientBuilder();
         
-        httpsMDURL = "https://svn.shibboleth.net/java-opensaml/trunk/opensaml-saml-impl/src/test/resources/org/opensaml/saml/metadata/resolver/impl/08ced64cddc9f1578598b2cf71ae747b11d11472.xml";
-        httpMDURL = "http://svn.shibboleth.net/view/java-opensaml/trunk/opensaml-saml-impl/src/test/resources/org/opensaml/saml/metadata/resolver/impl/08ced64cddc9f1578598b2cf71ae747b11d11472.xml?view=co";
+        relativeMDResource = "org/opensaml/saml/metadata/resolver/impl/08ced64cddc9f1578598b2cf71ae747b11d11472.xml";
+        httpsMDURL = String.format("https://svn.shibboleth.net/java-opensaml/trunk/opensaml-saml-impl/src/test/resources/%s", relativeMDResource);
+        httpMDURL = String.format("http://svn.shibboleth.net/view/java-opensaml/trunk/opensaml-saml-impl/src/test/resources/%s?view=co", relativeMDResource);
         
         entityID = "https://www.example.org/sp";
         badMDURL = "http://www.opensaml.org/foo/bar/baz/samlmd";
@@ -205,27 +211,19 @@ public class FileBackedHTTPMetadataResolverTest extends XMLObjectBaseTestCase {
      */
     @Test
     public void testBackupFileOnRestart() throws Exception {
-        // Do a setup here to get a good backup file
-        metadataProvider = new FileBackedHTTPMetadataResolver(httpClientBuilder.buildClient(), httpMDURL, backupFilePath);
-        metadataProvider.setParserPool(parserPool);
-        metadataProvider.setId("test");        
-        metadataProvider.initialize();
-        
-        Assert.assertNotNull(metadataProvider.resolveSingle(criteriaSet), "Retrieved metadata was null");
-
         File backupFile = new File(backupFilePath);
+        Resources.copy(Resources.getResource(relativeMDResource), new FileOutputStream(backupFile));
+        
         Assert.assertTrue(backupFile.exists(), "Backup file was not created");
         Assert.assertTrue(backupFile.length() > 0, "Backup file contains no data");
         
-        // Now do a new provider to simulate a restart.
-        // Verify that can use the data from backing file.
-        FileBackedHTTPMetadataResolver badProvider = new FileBackedHTTPMetadataResolver(httpClientBuilder.buildClient(), badMDURL, backupFilePath);
-        badProvider.setParserPool(parserPool);
-        badProvider.setFailFastInitialization(true);
-        badProvider.setId("bad");
-        badProvider.initialize();
+        metadataProvider = new FileBackedHTTPMetadataResolver(httpClientBuilder.buildClient(), badMDURL, backupFilePath);
+        metadataProvider.setParserPool(parserPool);
+        metadataProvider.setFailFastInitialization(true);
+        metadataProvider.setId("bad");
+        metadataProvider.initialize();
         
-        Assert.assertNotNull(badProvider.resolveSingle(criteriaSet), "Metadata retrieved from backing file was null");
+        Assert.assertNotNull(metadataProvider.resolveSingle(criteriaSet), "Metadata retrieved from backing file was null");
     }
     
     @Test

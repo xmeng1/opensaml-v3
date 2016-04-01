@@ -8,6 +8,10 @@
         </encoder>
     </appender>
     
+    <logger name="org.opensaml.saml.metadata">
+        <level value="TRACE"/>
+    </logger>
+    
     <logger name="org.opensaml.saml.saml2.assertion">
         <level value="TRACE"/>
     </logger>
