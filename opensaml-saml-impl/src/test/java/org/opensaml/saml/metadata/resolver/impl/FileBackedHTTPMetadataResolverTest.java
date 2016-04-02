@@ -27,6 +27,7 @@ import java.util.Set;
 
 import org.apache.http.conn.socket.LayeredConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.joda.time.DateTime;
 import org.opensaml.core.criterion.EntityIdCriterion;
 import org.opensaml.core.xml.XMLObjectBaseTestCase;
 import org.opensaml.saml.saml2.metadata.EntityDescriptor;
@@ -108,6 +109,8 @@ public class FileBackedHTTPMetadataResolverTest extends XMLObjectBaseTestCase {
         metadataProvider.setParserPool(parserPool);
         metadataProvider.setId("test");
         metadataProvider.initialize();
+        
+        Assert.assertFalse(metadataProvider.isInitializedFromBackupFile());
         
         EntityDescriptor descriptor = metadataProvider.resolveSingle(criteriaSet);
         Assert.assertNotNull(descriptor, "Retrieved entity descriptor was null");
@@ -196,11 +199,49 @@ public class FileBackedHTTPMetadataResolverTest extends XMLObjectBaseTestCase {
         
         try {
             metadataProvider.initialize();
+            Assert.assertFalse(metadataProvider.isInitializedFromBackupFile());
         } catch (ComponentInitializationException e) {
             Assert.fail("Provider failed init with bad backup file, fail-fast=false");
         }
         
         Assert.assertNotNull(metadataProvider.resolveSingle(criteriaSet), "Metadata retrieved from backing file was null");
+    }
+    
+    /**
+     * Tests initialization from backup file, followed shortly by real refresh via HTTP.
+     * @throws ComponentInitializationException 
+     * 
+     * @throws ResolverException, ComponentInitializationException
+     */
+    @Test
+    public void testInitFromBackupFile() throws Exception {
+        File backupFile = new File(backupFilePath);
+        Resources.copy(Resources.getResource(relativeMDResource), new FileOutputStream(backupFile));
+        
+        Assert.assertTrue(backupFile.exists(), "Backup file was not created");
+        Assert.assertTrue(backupFile.length() > 0, "Backup file contains no data");
+        
+        metadataProvider = new FileBackedHTTPMetadataResolver(httpClientBuilder.buildClient(), httpMDURL, backupFilePath);
+        metadataProvider.setParserPool(parserPool);
+        metadataProvider.setFailFastInitialization(true);
+        metadataProvider.setId("test");
+        metadataProvider.setBackupFileInitNextRefreshDelay(1000);
+        metadataProvider.initialize();
+        
+        Assert.assertTrue(metadataProvider.isInitializedFromBackupFile());
+        
+        DateTime initRefresh = metadataProvider.getLastRefresh();
+        DateTime initUpdate = metadataProvider.getLastUpdate();
+        
+        Assert.assertNotNull(metadataProvider.resolveSingle(criteriaSet), "Metadata inited from backing file was null");
+        
+        // Sleep past the artificial next refresh delay on init from backup file.
+        Thread.sleep(metadataProvider.getBackupFileInitNextRefreshDelay() + 1000);
+        
+        Assert.assertTrue(initRefresh.isBefore(metadataProvider.getLastRefresh()));
+        Assert.assertTrue(initUpdate.isBefore(metadataProvider.getLastUpdate()));
+        
+        Assert.assertNotNull(metadataProvider.resolveSingle(criteriaSet), "Metadata retrieved from HTTP refreshed metadata was null");
     }
     
     /**
@@ -220,8 +261,13 @@ public class FileBackedHTTPMetadataResolverTest extends XMLObjectBaseTestCase {
         metadataProvider = new FileBackedHTTPMetadataResolver(httpClientBuilder.buildClient(), badMDURL, backupFilePath);
         metadataProvider.setParserPool(parserPool);
         metadataProvider.setFailFastInitialization(true);
-        metadataProvider.setId("bad");
+        metadataProvider.setId("test");
         metadataProvider.initialize();
+        
+        Assert.assertTrue(metadataProvider.isInitializedFromBackupFile());
+        
+        DateTime initRefresh = metadataProvider.getLastRefresh();
+        DateTime initUpdate = metadataProvider.getLastUpdate();
         
         Assert.assertNotNull(metadataProvider.resolveSingle(criteriaSet), "Metadata retrieved from backing file was null");
         
@@ -229,6 +275,10 @@ public class FileBackedHTTPMetadataResolverTest extends XMLObjectBaseTestCase {
         
         // Manually do a refresh here, for testing via log examination that backing file not loaded due to existing cached metadata
         metadataProvider.refresh();
+        
+        // We should see refresh attempt, but no update.
+        Assert.assertTrue(initRefresh.isBefore(metadataProvider.getLastRefresh()));
+        Assert.assertEquals(initUpdate, metadataProvider.getLastUpdate());
         
         Assert.assertNotNull(metadataProvider.resolveSingle(criteriaSet), "Metadata retrieved from cached metadata was null");
     }
