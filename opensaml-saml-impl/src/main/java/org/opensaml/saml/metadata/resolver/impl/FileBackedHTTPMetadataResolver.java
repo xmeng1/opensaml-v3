@@ -113,6 +113,8 @@ public class FileBackedHTTPMetadataResolver extends HTTPMetadataResolver {
      * Get the flag indicating whether initialization should first attempt to load metadata from backup file,
      * if it exists.
      * 
+     * <p>Defaults to: true.</p>
+     * 
      * @return true if should initialize from backup file, false otherwise
      */
     public boolean isInitializeFromBackupFile() {
@@ -122,6 +124,8 @@ public class FileBackedHTTPMetadataResolver extends HTTPMetadataResolver {
     /**
      * Set the flag indicating whether initialization should first attempt to load metadata from backup file,
      * if it exists.
+     * 
+     * <p>Defaults to: true.</p>
      * 
      * @param flag true if should initialize from backup file, false otherwise
      */
