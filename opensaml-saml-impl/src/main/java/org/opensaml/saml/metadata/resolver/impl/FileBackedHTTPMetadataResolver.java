@@ -41,12 +41,22 @@ import org.w3c.dom.Document;
 import com.google.common.io.Files;
 
 /**
- * A URL metadata provider that caches a copy of the retrieved metadata to disk so that, in the event that the metadata
- * may not be pulled from the URL it may be pulled from disk using the last fetched data. If the backing file does not
- * already exist it will be created.
+ * An HTTP metadata provider that caches a copy of the retrieved metadata to disk so that, in the event that the metadata
+ * may not be pulled from the URL, it may be pulled from disk using the most recently fetched data.
  * 
- * It is the responsibility of the caller to re-initialize, via {@link #initialize()}, if any properties of this
- * provider are changed.
+ * <p>
+ * If the backup file does not already exist, it will be created by saving the byte[] retrieved in the HTTP fetch.
+ * </p>
+ * 
+ * <p>
+ * If {@link #isInitializeFromBackupFile()} is true, then initialization will attempt to load metadata first
+ * from the backup file on disk, if it exists.  If successful then the next refresh after initialization, which 
+ * will attempt the full HTTP fetch, will be scheduled for the interval indicated by 
+ * {@link #getBackupFileInitNextRefreshDelay()}. This can help prevent large metadata batches from slowing down
+ * the synchronous resolver start up process, deferring the more expensive HTTP fetch operation to the asynchronous
+ * background refresh thread.
+ * </p>
+ * 
  */
 public class FileBackedHTTPMetadataResolver extends HTTPMetadataResolver {
 
@@ -218,20 +228,20 @@ public class FileBackedHTTPMetadataResolver extends HTTPMetadataResolver {
     protected void validateBackupFile(File backupFile) throws ResolverException {
         if (!backupFile.exists()) {
             try {
-                log.debug("Testing creation of backing file");
+                log.debug("Testing creation of backup file");
                 backupFile.createNewFile();
             } catch (final IOException e) {
-                final String msg = "Unable to create backing file " + backupFile.getAbsolutePath();
+                final String msg = "Unable to create backup file " + backupFile.getAbsolutePath();
                 log.error(msg, e);
                 throw new ResolverException(msg, e);
             } finally {
                 // Don't leave the empty test file lying around if it didin't originally exist.
                 // On init, if not valid metadata, this will muck with attempting to first load 
-                // from backing file instead of http.
+                // from backup file instead of http.
                 if (backupFile.exists()) {
                     boolean deleted = backupFile.delete();
                     if (!deleted) {
-                        log.debug("Deletion of test backing file failed");
+                        log.debug("Deletion of test backup file failed");
                     }
                 }
             }
@@ -240,7 +250,7 @@ public class FileBackedHTTPMetadataResolver extends HTTPMetadataResolver {
         if (backupFile.exists()) {
             if (backupFile.isDirectory()) {
                 throw new ResolverException("Filepath " + backupFile.getAbsolutePath()
-                + " is a directory and may not be used as a backing metadata file");
+                + " is a directory and may not be used as a backup metadata file");
             }
 
             if (!backupFile.canRead()) {
@@ -266,7 +276,7 @@ public class FileBackedHTTPMetadataResolver extends HTTPMetadataResolver {
                 initializedFromBackupFile = true;
                 return backingData;
             } catch (final IOException e) {
-                log.warn("Error initializing from backing file, continuing with normal HTTP fetch", e);
+                log.warn("Error initializing from backup file, continuing with normal HTTP fetch", e);
             }
         }
         
