@@ -19,7 +19,11 @@ package org.opensaml.saml.metadata.resolver.impl;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Collections;
@@ -93,9 +97,9 @@ public class FileBackedHTTPMetadataResolverTest extends XMLObjectBaseTestCase {
     }
 
     @AfterMethod
-    protected void tearDown() {
-        File backupFile = new File(backupFilePath);
-        backupFile.delete();
+    protected void tearDown() throws IOException {
+        Path nioBackupFilePath = Paths.get(backupFilePath);
+        Files.deleteIfExists(nioBackupFilePath);
     }
     
     /**
@@ -216,7 +220,9 @@ public class FileBackedHTTPMetadataResolverTest extends XMLObjectBaseTestCase {
     @Test
     public void testInitFromBackupFile() throws Exception {
         File backupFile = new File(backupFilePath);
-        Resources.copy(Resources.getResource(relativeMDResource), new FileOutputStream(backupFile));
+        try (FileOutputStream backupFileOutputStream = new FileOutputStream(backupFile)) {
+            Resources.copy(Resources.getResource(relativeMDResource), backupFileOutputStream);
+        }
         
         Assert.assertTrue(backupFile.exists(), "Backup file was not created");
         Assert.assertTrue(backupFile.length() > 0, "Backup file contains no data");
@@ -253,7 +259,9 @@ public class FileBackedHTTPMetadataResolverTest extends XMLObjectBaseTestCase {
     @Test
     public void testNoBackupFileLoadWhenMetadataCached() throws Exception {
         File backupFile = new File(backupFilePath);
-        Resources.copy(Resources.getResource(relativeMDResource), new FileOutputStream(backupFile));
+        try (FileOutputStream backupFileOutputStream = new FileOutputStream(backupFile)) {
+            Resources.copy(Resources.getResource(relativeMDResource), backupFileOutputStream);
+        }
         
         Assert.assertTrue(backupFile.exists(), "Backup file was not created");
         Assert.assertTrue(backupFile.length() > 0, "Backup file contains no data");
