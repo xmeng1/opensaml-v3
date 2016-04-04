@@ -17,7 +17,13 @@
 
 package org.opensaml.profile.action.impl;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.opensaml.profile.action.AbstractProfileAction;
 import org.opensaml.profile.context.EventContext;
@@ -28,8 +34,10 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Function;
 
+import net.shibboleth.utilities.java.support.annotation.constraint.NotEmpty;
 import net.shibboleth.utilities.java.support.component.ComponentSupport;
 import net.shibboleth.utilities.java.support.logic.Constraint;
+import net.shibboleth.utilities.java.support.primitive.StringSupport;
 
 
 /**
@@ -47,10 +55,14 @@ public class LogEvent<Input,Output> extends AbstractProfileAction<Input,Output> 
 
     /** Strategy function for access to {@link EventContext} to check. */
     @Nonnull private Function<ProfileRequestContext,EventContext> eventContextLookupStrategy;
+
+    /** Set of events to ignore for logging purposes. */
+    @Nonnull @NotEmpty private Set<String> suppressedEvents;
     
     /** Constructor. */
     public LogEvent() {
         eventContextLookupStrategy = new CurrentOrPreviousEventLookup();
+        suppressedEvents = Collections.emptySet();
     }
 
     /**
@@ -64,6 +76,21 @@ public class LogEvent<Input,Output> extends AbstractProfileAction<Input,Output> 
         eventContextLookupStrategy = Constraint.isNotNull(strategy, "EventContext lookup strategy cannot be null");
     }
     
+    /**
+     * Set a collection of events to ignore for logging purposes. 
+     * 
+     * @param events events to ignore
+     */
+    public void setSuppressedEvents(@Nullable @NotEmpty final Collection<String> events) {
+        ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
+        
+        if (events != null) {
+            suppressedEvents = new HashSet<>(StringSupport.normalizeStringCollection(events));
+        } else {
+            suppressedEvents = Collections.emptySet();
+        }
+    }
+    
     /** {@inheritDoc} */
     @Override
     protected void doExecute(@Nonnull final ProfileRequestContext<Input,Output> profileRequestContext) {
@@ -73,7 +100,10 @@ public class LogEvent<Input,Output> extends AbstractProfileAction<Input,Output> 
             return;
         }
         
-        log.warn("An error event occurred while processing the request: {}", eventCtx.getEvent().toString());
+        final String eventString = eventCtx.getEvent().toString();
+        if (!suppressedEvents.contains(eventString)) {
+            log.warn("An non-proceed event occurred while processing the request: {}", eventString);
+        }
     }
     
 }
