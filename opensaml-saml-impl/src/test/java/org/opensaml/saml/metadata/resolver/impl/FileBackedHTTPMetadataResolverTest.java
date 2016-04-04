@@ -242,7 +242,7 @@ public class FileBackedHTTPMetadataResolverTest extends XMLObjectBaseTestCase {
         Assert.assertNotNull(metadataProvider.resolveSingle(criteriaSet), "Metadata inited from backing file was null");
         
         // Sleep past the artificial next refresh delay on init from backup file.
-        Thread.sleep(metadataProvider.getBackupFileInitNextRefreshDelay() + 1000);
+        Thread.sleep(metadataProvider.getBackupFileInitNextRefreshDelay() + 5000);
         
         Assert.assertTrue(initRefresh.isBefore(metadataProvider.getLastRefresh()));
         Assert.assertTrue(initUpdate.isBefore(metadataProvider.getLastUpdate()));
