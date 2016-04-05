@@ -26,7 +26,7 @@ import org.testng.Assert;
 import javax.xml.namespace.QName;
 
 import org.opensaml.core.xml.schema.XSString;
-import org.opensaml.core.xml.schema.impl.XSStringBuilder;
+import org.opensaml.core.xml.XMLObjectBuilder;
 import org.opensaml.core.xml.XMLObjectProviderBaseTestCase;
 import org.opensaml.saml.common.xml.SAMLConstants;
 import org.opensaml.saml.saml1.core.Attribute;
@@ -108,7 +108,7 @@ public class AttributeTest extends XMLObjectProviderBaseTestCase {
     public void testChildElementsMarshall(){
         Attribute attribute = (Attribute) buildXMLObject(qname);
 
-        XSStringBuilder attributeValueBuilder = (XSStringBuilder) builderFactory.getBuilder(XSString.TYPE_NAME);
+        final XMLObjectBuilder<XSString> attributeValueBuilder = builderFactory.getBuilderOrThrow(XSString.TYPE_NAME);
         
         attribute.getAttributeValues().add(attributeValueBuilder.buildObject(AttributeValue.DEFAULT_ELEMENT_NAME, XSString.TYPE_NAME)); 
         attribute.getAttributeValues().add(attributeValueBuilder.buildObject(AttributeValue.DEFAULT_ELEMENT_NAME, XSString.TYPE_NAME)); 

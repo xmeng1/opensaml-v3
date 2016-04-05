@@ -27,8 +27,10 @@ import net.shibboleth.ext.spring.resource.ResourceHelper;
 import net.shibboleth.utilities.java.support.resource.Resource;
 
 import org.opensaml.core.xml.XMLObject;
+import org.opensaml.core.xml.XMLObjectBaseTestCase;
+import org.opensaml.core.xml.config.XMLObjectProviderRegistrySupport;
 import org.opensaml.saml.common.SAMLObjectBuilder;
-import org.opensaml.saml.saml2.metadata.impl.EntityDescriptorBuilder;
+import org.opensaml.saml.saml2.metadata.EntityDescriptor;
 import org.springframework.core.io.ClassPathResource;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -36,15 +38,13 @@ import org.testng.annotations.Test;
 /**
  *
  */
-public class ScriptedFunctionTest {
+public class ScriptedFunctionTest extends XMLObjectBaseTestCase {
     
     static final String SCRIPT_7 = "s = new java.lang.String(\"String\");set = new java.util.HashSet();set.add(s);set";
     static final String SCRIPT_8 = "JavaString=Java.type(\"java.lang.String\"); JavaSet = Java.type(\"java.util.HashSet\");set = new JavaSet();set.add(new JavaString(\"String\"));set";
     static final String FILE_7 = "/org/opensaml/saml/metadata/resolver/filter/impl/script.js";
     static final String FILE_8 = "/org/opensaml/saml/metadata/resolver/filter/impl/script8.js";
-    
-    private final SAMLObjectBuilder builder = new EntityDescriptorBuilder();
-    
+        
     private boolean isV8() {
         final String ver = System.getProperty("java.version");
         return ver.startsWith("1.8");
@@ -65,6 +65,9 @@ public class ScriptedFunctionTest {
     }
     
     private XMLObject makeObject() {
+        final SAMLObjectBuilder<EntityDescriptor> builder = (SAMLObjectBuilder<EntityDescriptor>)
+                XMLObjectProviderRegistrySupport.getBuilderFactory().<EntityDescriptor>getBuilderOrThrow(
+                        EntityDescriptor.DEFAULT_ELEMENT_NAME);
         return builder.buildObject();
     }
     

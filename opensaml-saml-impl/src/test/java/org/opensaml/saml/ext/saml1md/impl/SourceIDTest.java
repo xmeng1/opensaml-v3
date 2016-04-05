@@ -21,9 +21,8 @@ import org.testng.annotations.Test;
 import org.testng.annotations.BeforeMethod;
 import org.testng.Assert;
 import org.opensaml.core.xml.XMLObjectProviderBaseTestCase;
+import org.opensaml.saml.common.SAMLObjectBuilder;
 import org.opensaml.saml.ext.saml1md.SourceID;
-import org.opensaml.saml.ext.saml1md.impl.SourceIDBuilder;
-import org.opensaml.saml.ext.saml1md.impl.SourceIDImpl;
 
 /**
  * Tests {@link SourceIDImpl}
@@ -46,7 +45,8 @@ public class SourceIDTest extends XMLObjectProviderBaseTestCase {
     /** {@inheritDoc} */
     @Test
     public void testSingleElementMarshall() {
-        SourceIDBuilder builder = (SourceIDBuilder) builderFactory.getBuilder(SourceID.DEFAULT_ELEMENT_NAME);
+        SAMLObjectBuilder<SourceID> builder = (SAMLObjectBuilder<SourceID>)
+                builderFactory.<SourceID>getBuilderOrThrow(SourceID.DEFAULT_ELEMENT_NAME);
 
         SourceID sourceID = builder.buildObject();
         sourceID.setValue(expectedValue);

@@ -27,12 +27,12 @@ import net.shibboleth.utilities.java.support.xml.XMLParserException;
 import org.joda.time.DateTime;
 import org.joda.time.chrono.ISOChronology;
 import org.opensaml.core.xml.XMLObjectBaseTestCase;
+import org.opensaml.core.xml.XMLObjectBuilder;
 import org.opensaml.core.xml.io.Marshaller;
 import org.opensaml.core.xml.io.MarshallingException;
 import org.opensaml.core.xml.io.Unmarshaller;
 import org.opensaml.core.xml.io.UnmarshallingException;
 import org.opensaml.core.xml.schema.XSDateTime;
-import org.opensaml.core.xml.schema.impl.XSDateTimeBuilder;
 import org.w3c.dom.Document;
 
 /**
@@ -59,7 +59,7 @@ public class XSDateTimeTest extends XMLObjectBaseTestCase {
     public void testMarshall() throws MarshallingException, XMLParserException{
         String testDocumentLocation = "/org/opensaml/core/xml/schema/xsDateTime-basic.xml";
         
-        XSDateTimeBuilder xsdtBuilder = (XSDateTimeBuilder) builderFactory.getBuilder(XSDateTime.TYPE_NAME);
+        XMLObjectBuilder<XSDateTime> xsdtBuilder = builderFactory.getBuilderOrThrow(XSDateTime.TYPE_NAME);
         XSDateTime xsDateTime = xsdtBuilder.buildObject(expectedXMLObjectQName, XSDateTime.TYPE_NAME);
         xsDateTime.setValue(expectedValue);
         

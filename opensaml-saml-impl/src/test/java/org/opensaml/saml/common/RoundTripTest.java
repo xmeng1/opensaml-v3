@@ -32,10 +32,6 @@ import org.opensaml.saml.saml2.metadata.Organization;
 import org.opensaml.saml.saml2.metadata.OrganizationDisplayName;
 import org.opensaml.saml.saml2.metadata.OrganizationName;
 import org.opensaml.saml.saml2.metadata.OrganizationURL;
-import org.opensaml.saml.saml2.metadata.impl.OrganizationBuilder;
-import org.opensaml.saml.saml2.metadata.impl.OrganizationDisplayNameBuilder;
-import org.opensaml.saml.saml2.metadata.impl.OrganizationNameBuilder;
-import org.opensaml.saml.saml2.metadata.impl.OrganizationURLBuilder;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.w3c.dom.Element;
@@ -56,22 +52,30 @@ public class RoundTripTest extends XMLObjectBaseTestCase {
     
     @BeforeMethod
     protected void setUp() throws Exception {
-        OrganizationBuilder orgBuilder = (OrganizationBuilder) XMLObjectProviderRegistrySupport.getBuilderFactory().getBuilder(Organization.TYPE_NAME);
+        SAMLObjectBuilder<Organization> orgBuilder = (SAMLObjectBuilder<Organization>)
+                XMLObjectProviderRegistrySupport.getBuilderFactory().<Organization>getBuilderOrThrow(
+                        Organization.DEFAULT_ELEMENT_NAME);
         organization = orgBuilder.buildObject();            
 
-        OrganizationNameBuilder orgNameBuilder = (OrganizationNameBuilder) XMLObjectProviderRegistrySupport.getBuilderFactory().getBuilder(OrganizationName.DEFAULT_ELEMENT_NAME);     
+        SAMLObjectBuilder<OrganizationName> orgNameBuilder = (SAMLObjectBuilder<OrganizationName>)
+                XMLObjectProviderRegistrySupport.getBuilderFactory().<OrganizationName>getBuilderOrThrow(
+                        OrganizationName.DEFAULT_ELEMENT_NAME);
         OrganizationName newOrgName = orgNameBuilder.buildObject();
         newOrgName.setValue("OrgFullName");
         newOrgName.setXMLLang("en");
         organization.getOrganizationNames().add(newOrgName);
 
-        OrganizationDisplayNameBuilder orgDisplayNameBuilder = (OrganizationDisplayNameBuilder) XMLObjectProviderRegistrySupport.getBuilderFactory().getBuilder(OrganizationDisplayName.DEFAULT_ELEMENT_NAME); 
+        SAMLObjectBuilder<OrganizationDisplayName> orgDisplayNameBuilder = (SAMLObjectBuilder<OrganizationDisplayName>)
+                XMLObjectProviderRegistrySupport.getBuilderFactory().<OrganizationDisplayName>getBuilderOrThrow(
+                        OrganizationDisplayName.DEFAULT_ELEMENT_NAME);
         OrganizationDisplayName newOrgDisplayName = orgDisplayNameBuilder.buildObject();
         newOrgDisplayName.setValue("OrgDisplayName");
         newOrgDisplayName.setXMLLang("en");
         organization.getDisplayNames().add(newOrgDisplayName);
 
-        OrganizationURLBuilder orgURLBuilder = (OrganizationURLBuilder) XMLObjectProviderRegistrySupport.getBuilderFactory().getBuilder(OrganizationURL.DEFAULT_ELEMENT_NAME);     
+        SAMLObjectBuilder<OrganizationURL> orgURLBuilder = (SAMLObjectBuilder<OrganizationURL>)
+                XMLObjectProviderRegistrySupport.getBuilderFactory().<OrganizationURL>getBuilderOrThrow(
+                        OrganizationURL.DEFAULT_ELEMENT_NAME);
         OrganizationURL newOrgURL = orgURLBuilder.buildObject();    
         newOrgURL.setValue("http://org.url.edu");
         newOrgURL.setXMLLang("en");

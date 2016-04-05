@@ -25,12 +25,12 @@ import javax.xml.namespace.QName;
 import net.shibboleth.utilities.java.support.xml.XMLParserException;
 
 import org.opensaml.core.xml.XMLObjectBaseTestCase;
+import org.opensaml.core.xml.XMLObjectBuilder;
 import org.opensaml.core.xml.io.Marshaller;
 import org.opensaml.core.xml.io.MarshallingException;
 import org.opensaml.core.xml.io.Unmarshaller;
 import org.opensaml.core.xml.io.UnmarshallingException;
 import org.opensaml.core.xml.schema.XSBase64Binary;
-import org.opensaml.core.xml.schema.impl.XSBase64BinaryBuilder;
 import org.w3c.dom.Document;
 
 /**
@@ -56,7 +56,7 @@ public class XSBase64BinaryTest extends XMLObjectBaseTestCase {
      */
     @Test
     public void testMarshall() throws MarshallingException, XMLParserException{
-        XSBase64BinaryBuilder xsb64bBuilder = (XSBase64BinaryBuilder) builderFactory.getBuilder(XSBase64Binary.TYPE_NAME);
+        XMLObjectBuilder<XSBase64Binary> xsb64bBuilder = builderFactory.getBuilderOrThrow(XSBase64Binary.TYPE_NAME);
         XSBase64Binary xsb64b = xsb64bBuilder.buildObject(expectedXMLObjectQName, XSBase64Binary.TYPE_NAME);
         xsb64b.setValue(expectedValue);
         

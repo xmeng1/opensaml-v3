@@ -24,11 +24,13 @@ import javax.xml.namespace.QName;
 import org.joda.time.DateTime;
 import org.joda.time.chrono.ISOChronology;
 import org.opensaml.core.xml.XMLObjectProviderBaseTestCase;
+import org.opensaml.core.xml.config.XMLObjectProviderRegistrySupport;
 import org.opensaml.core.xml.schema.XSBooleanValue;
 import org.opensaml.core.xml.util.AttributeMap;
+import org.opensaml.saml.common.SAMLObjectBuilder;
 import org.opensaml.saml.common.xml.SAMLConstants;
 import org.opensaml.saml.saml2.metadata.Extensions;
-import org.opensaml.saml.saml2.core.impl.AttributeBuilder;
+import org.opensaml.saml.saml2.core.Attribute;
 import org.opensaml.saml.saml2.metadata.ArtifactResolutionService;
 import org.opensaml.saml.saml2.metadata.AssertionIDRequestService;
 import org.opensaml.saml.saml2.metadata.AttributeProfile;
@@ -269,7 +271,11 @@ public class IDPSSODescriptorTest extends XMLObjectProviderBaseTestCase {
         for (int i = 0; i < 3; i++) {
             descriptor.getAttributeProfiles().add((AttributeProfile) buildXMLObject(attributeProlfileQName));
         }
-        descriptor.getAttributes().add((new AttributeBuilder()).buildObject());
+
+        final SAMLObjectBuilder<Attribute> builder = (SAMLObjectBuilder<Attribute>)
+                XMLObjectProviderRegistrySupport.getBuilderFactory().<Attribute>getBuilderOrThrow(
+                        Attribute.DEFAULT_ELEMENT_NAME);
+        descriptor.getAttributes().add(builder.buildObject());
         assertXMLEquals(expectedChildElementsDOM, descriptor);
     }
 

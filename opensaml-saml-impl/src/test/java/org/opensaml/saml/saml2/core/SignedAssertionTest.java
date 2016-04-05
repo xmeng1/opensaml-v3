@@ -32,14 +32,13 @@ import org.opensaml.core.xml.io.Marshaller;
 import org.opensaml.core.xml.io.MarshallingException;
 import org.opensaml.core.xml.io.UnmarshallingException;
 import org.opensaml.core.xml.XMLObjectBaseTestCase;
+import org.opensaml.core.xml.XMLObjectBuilder;
+import org.opensaml.saml.common.SAMLObjectBuilder;
 import org.opensaml.saml.common.SAMLTestSupport;
 import org.opensaml.saml.common.SAMLVersion;
 import org.opensaml.saml.saml2.core.Assertion;
 import org.opensaml.saml.saml2.core.AuthnStatement;
 import org.opensaml.saml.saml2.core.Issuer;
-import org.opensaml.saml.saml2.core.impl.AssertionBuilder;
-import org.opensaml.saml.saml2.core.impl.AuthnStatementBuilder;
-import org.opensaml.saml.saml2.core.impl.IssuerBuilder;
 import org.opensaml.security.SecurityException;
 import org.opensaml.security.credential.BasicCredential;
 import org.opensaml.security.credential.CredentialSupport;
@@ -47,7 +46,6 @@ import org.opensaml.security.credential.impl.StaticCredentialResolver;
 import org.opensaml.security.crypto.KeySupport;
 import org.opensaml.xmlsec.keyinfo.KeyInfoCredentialResolver;
 import org.opensaml.xmlsec.signature.Signature;
-import org.opensaml.xmlsec.signature.impl.SignatureBuilder;
 import org.opensaml.xmlsec.signature.support.SignatureConstants;
 import org.opensaml.xmlsec.signature.support.SignatureException;
 import org.opensaml.xmlsec.signature.support.Signer;
@@ -64,16 +62,16 @@ public class SignedAssertionTest extends XMLObjectBaseTestCase {
     private BasicCredential goodCredential;
 
     /** Builder of Assertions. */
-    private AssertionBuilder assertionBuilder;
+    private SAMLObjectBuilder<Assertion> assertionBuilder;
     
     /** Builder of Issuers. */
-    private IssuerBuilder issuerBuilder;
+    private SAMLObjectBuilder<Issuer> issuerBuilder;
     
     /** Builder of AuthnStatements. */
-    private AuthnStatementBuilder authnStatementBuilder;
+    private SAMLObjectBuilder<AuthnStatement> authnStatementBuilder;
     
-    /** Builder of AuthnStatements. */
-    private SignatureBuilder signatureBuilder;
+    /** Builder of Signatures. */
+    private XMLObjectBuilder<Signature> signatureBuilder;
     
     /** Generator of element IDs. */
     private RandomIdentifierGenerationStrategy idGenerator;
@@ -86,10 +84,11 @@ public class SignedAssertionTest extends XMLObjectBaseTestCase {
         keyPair = KeySupport.generateKeyPair("RSA", 1024, null);
         CredentialSupport.getSimpleCredential(keyPair.getPublic(), null);
         
-        assertionBuilder = (AssertionBuilder) builderFactory.getBuilder(Assertion.DEFAULT_ELEMENT_NAME);
-        issuerBuilder = (IssuerBuilder) builderFactory.getBuilder(Issuer.DEFAULT_ELEMENT_NAME);
-        authnStatementBuilder = (AuthnStatementBuilder) builderFactory.getBuilder(AuthnStatement.DEFAULT_ELEMENT_NAME);
-        signatureBuilder = (SignatureBuilder) builderFactory.getBuilder(Signature.DEFAULT_ELEMENT_NAME);
+        assertionBuilder = (SAMLObjectBuilder<Assertion>) builderFactory.<Assertion>getBuilderOrThrow(Assertion.DEFAULT_ELEMENT_NAME);
+        issuerBuilder = (SAMLObjectBuilder<Issuer>) builderFactory.<Issuer>getBuilderOrThrow(Issuer.DEFAULT_ELEMENT_NAME);
+        authnStatementBuilder = (SAMLObjectBuilder<AuthnStatement>) builderFactory.<AuthnStatement>getBuilderOrThrow(
+                AuthnStatement.DEFAULT_ELEMENT_NAME);
+        signatureBuilder = builderFactory.getBuilderOrThrow(Signature.DEFAULT_ELEMENT_NAME);
         
         idGenerator = new RandomIdentifierGenerationStrategy();
     }
@@ -121,7 +120,7 @@ public class SignedAssertionTest extends XMLObjectBaseTestCase {
         authnStmt.setAuthnInstant(now);
         assertion.getAuthnStatements().add(authnStmt);
         
-        Signature signature = signatureBuilder.buildObject();
+        Signature signature = signatureBuilder.buildObject(Signature.DEFAULT_ELEMENT_NAME);
         signature.setSigningCredential(goodCredential);
         signature.setCanonicalizationAlgorithm(SignatureConstants.ALGO_ID_C14N_EXCL_OMIT_COMMENTS);
         signature.setSignatureAlgorithm(SignatureConstants.ALGO_ID_SIGNATURE_RSA);

@@ -25,12 +25,12 @@ import javax.xml.namespace.QName;
 import net.shibboleth.utilities.java.support.xml.XMLParserException;
 
 import org.opensaml.core.xml.XMLObjectBaseTestCase;
+import org.opensaml.core.xml.XMLObjectBuilder;
 import org.opensaml.core.xml.io.Marshaller;
 import org.opensaml.core.xml.io.MarshallingException;
 import org.opensaml.core.xml.io.Unmarshaller;
 import org.opensaml.core.xml.io.UnmarshallingException;
 import org.opensaml.core.xml.schema.XSURI;
-import org.opensaml.core.xml.schema.impl.XSURIBuilder;
 import org.w3c.dom.Document;
 
 /**
@@ -56,7 +56,7 @@ public class XSURITest extends XMLObjectBaseTestCase {
      */
     @Test
     public void testMarshall() throws MarshallingException, XMLParserException{
-        XSURIBuilder uriBuilder = (XSURIBuilder) builderFactory.getBuilder(XSURI.TYPE_NAME);
+        XMLObjectBuilder<XSURI> uriBuilder = builderFactory.getBuilderOrThrow(XSURI.TYPE_NAME);
         XSURI xsURI = uriBuilder.buildObject(expectedXMLObjectQName, XSURI.TYPE_NAME);
         xsURI.setValue(expectedValue);
         

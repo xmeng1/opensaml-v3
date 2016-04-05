@@ -25,12 +25,12 @@ import javax.xml.namespace.QName;
 import net.shibboleth.utilities.java.support.xml.XMLParserException;
 
 import org.opensaml.core.xml.XMLObjectBaseTestCase;
+import org.opensaml.core.xml.XMLObjectBuilder;
 import org.opensaml.core.xml.io.Marshaller;
 import org.opensaml.core.xml.io.MarshallingException;
 import org.opensaml.core.xml.io.Unmarshaller;
 import org.opensaml.core.xml.io.UnmarshallingException;
 import org.opensaml.core.xml.schema.XSInteger;
-import org.opensaml.core.xml.schema.impl.XSIntegerBuilder;
 import org.w3c.dom.Document;
 
 /**
@@ -56,7 +56,7 @@ public class XSIntegerTest extends XMLObjectBaseTestCase {
      */
     @Test
     public void testMarshall() throws MarshallingException, XMLParserException{
-        XSIntegerBuilder xsintBuilder = (XSIntegerBuilder) builderFactory.getBuilder(XSInteger.TYPE_NAME);
+        XMLObjectBuilder<XSInteger> xsintBuilder = builderFactory.getBuilderOrThrow(XSInteger.TYPE_NAME);
         XSInteger xsInteger = xsintBuilder.buildObject(expectedXMLObjectQName, XSInteger.TYPE_NAME);
         xsInteger.setValue(expectedValue);
         

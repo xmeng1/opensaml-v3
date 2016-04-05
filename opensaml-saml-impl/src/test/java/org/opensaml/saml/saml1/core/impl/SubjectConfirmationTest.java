@@ -26,13 +26,13 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.Assert;
 import javax.xml.namespace.QName;
 
-import org.opensaml.core.xml.schema.impl.XSAnyBuilder;
+import org.opensaml.core.xml.XMLObjectBuilder;
 import org.opensaml.core.xml.XMLObjectProviderBaseTestCase;
+import org.opensaml.core.xml.schema.XSAny;
 import org.opensaml.saml.common.xml.SAMLConstants;
 import org.opensaml.saml.saml1.core.ConfirmationMethod;
 import org.opensaml.saml.saml1.core.SubjectConfirmation;
 import org.opensaml.saml.saml1.core.SubjectConfirmationData;
-import org.opensaml.saml.saml1.core.impl.SubjectConfirmationImpl;
 import org.w3c.dom.Document;
 
 /**
@@ -114,7 +114,7 @@ public class SubjectConfirmationTest extends XMLObjectProviderBaseTestCase {
         subjectConfirmation.getConfirmationMethods().add((ConfirmationMethod) buildXMLObject(oqname));
         subjectConfirmation.getConfirmationMethods().add((ConfirmationMethod) buildXMLObject(oqname));
         
-        XSAnyBuilder proxyBuilder = new XSAnyBuilder();
+        final XMLObjectBuilder<XSAny> proxyBuilder = builderFactory.getBuilderOrThrow(XSAny.TYPE_NAME);
         oqname = new QName(SAMLConstants.SAML1_NS, SubjectConfirmationData.DEFAULT_ELEMENT_LOCAL_NAME, SAMLConstants.SAML1_PREFIX);
         subjectConfirmation.setSubjectConfirmationData(proxyBuilder.buildObject(oqname));
 

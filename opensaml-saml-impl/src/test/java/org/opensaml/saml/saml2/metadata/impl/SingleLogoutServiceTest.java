@@ -24,7 +24,7 @@ import javax.xml.namespace.QName;
 
 import org.opensaml.core.xml.XMLObject;
 import org.opensaml.core.xml.XMLObjectProviderBaseTestCase;
-import org.opensaml.core.xml.schema.impl.XSAnyBuilder;
+import org.opensaml.core.xml.schema.XSAny;
 import org.opensaml.core.xml.util.AttributeMap;
 import org.opensaml.saml.saml2.metadata.SingleLogoutService;
 import org.testng.Assert;
@@ -141,7 +141,7 @@ public class SingleLogoutServiceTest extends XMLObjectProviderBaseTestCase {
         service.setLocation(expectedLocation);
 
 
-        XMLObject obj = new XSAnyBuilder().buildObject(new QName("http://example.org/", "bar", "foo"));
+        XMLObject obj = builderFactory.getBuilderOrThrow(XSAny.TYPE_NAME).buildObject(new QName("http://example.org/", "bar", "foo"));
         
         service.getUnknownXMLObjects().add(obj);
 
