@@ -25,6 +25,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.opensaml.core.xml.XMLObject;
+import org.opensaml.core.xml.XMLObjectBuilder;
 import org.opensaml.core.xml.config.XMLObjectProviderRegistrySupport;
 import org.opensaml.security.SecurityException;
 import org.opensaml.security.credential.Credential;
@@ -32,7 +33,6 @@ import org.opensaml.xmlsec.keyinfo.KeyInfoGenerator;
 import org.opensaml.xmlsec.keyinfo.KeyInfoGeneratorFactory;
 import org.opensaml.xmlsec.keyinfo.KeyInfoSupport;
 import org.opensaml.xmlsec.signature.KeyInfo;
-import org.opensaml.xmlsec.signature.impl.KeyInfoBuilder;
 
 import com.google.common.base.Strings;
 
@@ -178,7 +178,7 @@ public class BasicKeyInfoGeneratorFactory implements KeyInfoGeneratorFactory {
         private final BasicOptions options;
        
         /** Builder for KeyInfo objects. */
-        private final KeyInfoBuilder keyInfoBuilder;
+        private final XMLObjectBuilder<KeyInfo> keyInfoBuilder;
        
         /**
          * Constructor.
@@ -187,7 +187,7 @@ public class BasicKeyInfoGeneratorFactory implements KeyInfoGeneratorFactory {
          */
         protected BasicKeyInfoGenerator(@Nonnull final BasicOptions newOptions) {
             options = newOptions;
-            keyInfoBuilder = (KeyInfoBuilder) XMLObjectProviderRegistrySupport.getBuilderFactory().getBuilder(
+            keyInfoBuilder = XMLObjectProviderRegistrySupport.getBuilderFactory().getBuilderOrThrow(
                     KeyInfo.DEFAULT_ELEMENT_NAME);
         }
 
@@ -197,7 +197,7 @@ public class BasicKeyInfoGeneratorFactory implements KeyInfoGeneratorFactory {
                 return null;
             }
             
-            KeyInfo keyInfo = keyInfoBuilder.buildObject();
+            KeyInfo keyInfo = keyInfoBuilder.buildObject(KeyInfo.DEFAULT_ELEMENT_NAME);
             
             processKeyNames(keyInfo, credential);
             processEntityID(keyInfo, credential);

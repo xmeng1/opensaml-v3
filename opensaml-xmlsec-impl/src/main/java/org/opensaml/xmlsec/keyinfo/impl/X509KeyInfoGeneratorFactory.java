@@ -30,6 +30,7 @@ import net.shibboleth.utilities.java.support.collection.LazySet;
 import net.shibboleth.utilities.java.support.logic.Constraint;
 
 import org.opensaml.core.xml.XMLObject;
+import org.opensaml.core.xml.XMLObjectBuilder;
 import org.opensaml.core.xml.config.XMLObjectProviderRegistrySupport;
 import org.opensaml.security.SecurityException;
 import org.opensaml.security.credential.Credential;
@@ -45,8 +46,6 @@ import org.opensaml.xmlsec.signature.X509CRL;
 import org.opensaml.xmlsec.signature.X509Certificate;
 import org.opensaml.xmlsec.signature.X509Data;
 import org.opensaml.xmlsec.signature.X509SKI;
-import org.opensaml.xmlsec.signature.impl.KeyInfoBuilder;
-import org.opensaml.xmlsec.signature.impl.X509DataBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -398,10 +397,10 @@ public class X509KeyInfoGeneratorFactory extends BasicKeyInfoGeneratorFactory {
         private X509Options options;
        
         /** Builder for KeyInfo objects. */
-        private final KeyInfoBuilder keyInfoBuilder;
+        private final XMLObjectBuilder<KeyInfo> keyInfoBuilder;
         
         /** Builder for X509Data objects. */
-        private final X509DataBuilder x509DataBuilder;
+        private final XMLObjectBuilder<X509Data> x509DataBuilder;
        
         /**
          * Constructor.
@@ -412,9 +411,9 @@ public class X509KeyInfoGeneratorFactory extends BasicKeyInfoGeneratorFactory {
             super(newOptions);
             options = newOptions;
             
-            keyInfoBuilder = (KeyInfoBuilder) XMLObjectProviderRegistrySupport.getBuilderFactory().getBuilder(
+            keyInfoBuilder = XMLObjectProviderRegistrySupport.getBuilderFactory().getBuilderOrThrow(
                     KeyInfo.DEFAULT_ELEMENT_NAME);
-            x509DataBuilder =  (X509DataBuilder) XMLObjectProviderRegistrySupport.getBuilderFactory().getBuilder(
+            x509DataBuilder = XMLObjectProviderRegistrySupport.getBuilderFactory().getBuilderOrThrow(
                     X509Data.DEFAULT_ELEMENT_NAME);
         }
 
@@ -432,9 +431,9 @@ public class X509KeyInfoGeneratorFactory extends BasicKeyInfoGeneratorFactory {
             
             KeyInfo keyInfo =  super.generate(credential);
             if (keyInfo == null) {
-                keyInfo = keyInfoBuilder.buildObject();
+                keyInfo = keyInfoBuilder.buildObject(KeyInfo.DEFAULT_ELEMENT_NAME);
             }
-            X509Data x509Data = x509DataBuilder.buildObject();
+            X509Data x509Data = x509DataBuilder.buildObject(X509Data.DEFAULT_ELEMENT_NAME);
             
             processEntityCertificate(keyInfo, x509Data, x509Credential);
             processEntityCertificateChain(keyInfo, x509Data, x509Credential);

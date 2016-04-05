@@ -34,6 +34,7 @@ import net.shibboleth.utilities.java.support.xml.XMLParserException;
 import org.apache.xml.security.signature.SignedInfo;
 import org.apache.xml.security.signature.XMLSignature;
 import org.opensaml.core.xml.XMLObjectBaseTestCase;
+import org.opensaml.core.xml.XMLObjectBuilder;
 import org.opensaml.core.xml.config.XMLObjectProviderRegistrySupport;
 import org.opensaml.core.xml.io.Marshaller;
 import org.opensaml.core.xml.io.MarshallingException;
@@ -48,8 +49,6 @@ import org.opensaml.xmlsec.mock.SignableSimpleXMLObjectBuilder;
 import org.opensaml.xmlsec.signature.KeyInfo;
 import org.opensaml.xmlsec.signature.KeyName;
 import org.opensaml.xmlsec.signature.Signature;
-import org.opensaml.xmlsec.signature.impl.KeyInfoBuilder;
-import org.opensaml.xmlsec.signature.impl.SignatureBuilder;
 import org.opensaml.xmlsec.signature.impl.SignatureImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,10 +73,10 @@ public class HMACSignatureTest extends XMLObjectBaseTestCase {
     private SignableSimpleXMLObjectBuilder sxoBuilder;
 
     /** Builder of Signature XML objects. */
-    private SignatureBuilder sigBuilder;
+    private XMLObjectBuilder<Signature> sigBuilder;
     
     /** Build of KeyInfo objects. */
-    private KeyInfoBuilder keyInfoBuilder;
+    private XMLObjectBuilder<KeyInfo> keyInfoBuilder;
     
     /** Value of HMACOutputLength element child of SignatureMethod. */
     private Integer hmacOutputLength;
@@ -100,8 +99,10 @@ public class HMACSignatureTest extends XMLObjectBaseTestCase {
         badCredential = CredentialSupport.getSimpleCredential(key);
 
         sxoBuilder = new SignableSimpleXMLObjectBuilder();
-        sigBuilder = new SignatureBuilder();
-        keyInfoBuilder = new KeyInfoBuilder();
+        sigBuilder = XMLObjectProviderRegistrySupport.getBuilderFactory().<Signature>getBuilderOrThrow(
+                Signature.DEFAULT_ELEMENT_NAME);
+        keyInfoBuilder = XMLObjectProviderRegistrySupport.getBuilderFactory().<KeyInfo>getBuilderOrThrow(
+                KeyInfo.DEFAULT_ELEMENT_NAME);
     }
 
     /**
@@ -294,7 +295,7 @@ public class HMACSignatureTest extends XMLObjectBaseTestCase {
         SignableSimpleXMLObject sxo = sxoBuilder.buildObject();
         sxo.setId("FOO");
 
-        Signature sig = sigBuilder.buildObject();
+        Signature sig = sigBuilder.buildObject(Signature.DEFAULT_ELEMENT_NAME);
         sig.setSigningCredential(goodCredential);
         sig.setCanonicalizationAlgorithm(SignatureConstants.ALGO_ID_C14N_EXCL_OMIT_COMMENTS);
         sig.setSignatureAlgorithm(algoURI);
@@ -308,7 +309,7 @@ public class HMACSignatureTest extends XMLObjectBaseTestCase {
         contentReference.setDigestAlgorithm(SignatureConstants.ALGO_ID_DIGEST_SHA1);
         sig.getContentReferences().add(contentReference);
         
-        KeyInfo keyInfo = keyInfoBuilder.buildObject();
+        KeyInfo keyInfo = keyInfoBuilder.buildObject(KeyInfo.DEFAULT_ELEMENT_NAME);
         KeyInfoSupport.addKeyName(keyInfo, expectedKeyName);
         sig.setKeyInfo(keyInfo);
 

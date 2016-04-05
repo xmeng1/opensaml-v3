@@ -28,6 +28,7 @@ import net.shibboleth.utilities.java.support.xml.BasicParserPool;
 import net.shibboleth.utilities.java.support.xml.SerializeSupport;
 
 import org.opensaml.core.xml.XMLObjectBaseTestCase;
+import org.opensaml.core.xml.XMLObjectBuilder;
 import org.opensaml.core.xml.config.XMLObjectProviderRegistrySupport;
 import org.opensaml.core.xml.io.Marshaller;
 import org.opensaml.core.xml.io.MarshallingException;
@@ -39,7 +40,6 @@ import org.opensaml.security.crypto.KeySupport;
 import org.opensaml.xmlsec.mock.SignableSimpleXMLObject;
 import org.opensaml.xmlsec.mock.SignableSimpleXMLObjectBuilder;
 import org.opensaml.xmlsec.signature.Signature;
-import org.opensaml.xmlsec.signature.impl.SignatureBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
@@ -59,7 +59,7 @@ public class DetachedSignatureTest extends XMLObjectBaseTestCase {
     private SignableSimpleXMLObjectBuilder sxoBuilder;
 
     /** Builder of Signature XML objects. */
-    private SignatureBuilder sigBuilder;
+    private XMLObjectBuilder<Signature> sigBuilder;
 
     /** Parser pool used to parse example config files. */
     private BasicParserPool parserPool;
@@ -76,7 +76,8 @@ public class DetachedSignatureTest extends XMLObjectBaseTestCase {
         badCredential = CredentialSupport.getSimpleCredential(keyPair.getPublic(), null);
 
         sxoBuilder = new SignableSimpleXMLObjectBuilder();
-        sigBuilder = new SignatureBuilder();
+        sigBuilder = XMLObjectProviderRegistrySupport.getBuilderFactory().<Signature>getBuilderOrThrow(
+                Signature.DEFAULT_ELEMENT_NAME);
 
         parserPool = new BasicParserPool();
         parserPool.setNamespaceAware(true);
@@ -128,7 +129,7 @@ public class DetachedSignatureTest extends XMLObjectBaseTestCase {
      */
     @Test
     public void testExternalSignatureAndVerification() throws MarshallingException, SignatureException {
-        Signature signature = sigBuilder.buildObject();
+        Signature signature = sigBuilder.buildObject(Signature.DEFAULT_ELEMENT_NAME);
         signature.setSigningCredential(goodCredential);
         signature.setCanonicalizationAlgorithm(SignatureConstants.ALGO_ID_C14N_EXCL_OMIT_COMMENTS);
         signature.setSignatureAlgorithm(SignatureConstants.ALGO_ID_SIGNATURE_RSA);
@@ -193,7 +194,7 @@ public class DetachedSignatureTest extends XMLObjectBaseTestCase {
         childSXO.setId("FOO");
         rootSXO.getSimpleXMLObjects().add(childSXO);
 
-        Signature sig = sigBuilder.buildObject();
+        Signature sig = sigBuilder.buildObject(Signature.DEFAULT_ELEMENT_NAME);
         sig.setSigningCredential(goodCredential);
         sig.setCanonicalizationAlgorithm(SignatureConstants.ALGO_ID_C14N_EXCL_OMIT_COMMENTS);
         sig.setSignatureAlgorithm(algoURI);

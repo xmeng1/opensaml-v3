@@ -28,6 +28,7 @@ import net.shibboleth.utilities.java.support.xml.SerializeSupport;
 import net.shibboleth.utilities.java.support.xml.XMLParserException;
 
 import org.opensaml.core.xml.XMLObjectBaseTestCase;
+import org.opensaml.core.xml.XMLObjectBuilder;
 import org.opensaml.core.xml.config.XMLObjectProviderRegistrySupport;
 import org.opensaml.core.xml.io.Marshaller;
 import org.opensaml.core.xml.io.MarshallingException;
@@ -41,7 +42,6 @@ import org.opensaml.xmlsec.mock.SignableSimpleXMLObject;
 import org.opensaml.xmlsec.mock.SignableSimpleXMLObjectBuilder;
 import org.opensaml.xmlsec.signature.KeyInfo;
 import org.opensaml.xmlsec.signature.Signature;
-import org.opensaml.xmlsec.signature.impl.SignatureBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -68,7 +68,7 @@ public class EnvelopedSignatureTest extends XMLObjectBaseTestCase {
     private SignableSimpleXMLObjectBuilder sxoBuilder;
 
     /** Builder of Signature XML objects. */
-    private SignatureBuilder sigBuilder;
+    private XMLObjectBuilder<Signature> sigBuilder;
     
     /** Signature algorithm URI. */
     private String algoURI = SignatureConstants.ALGO_ID_SIGNATURE_RSA_SHA1;
@@ -82,7 +82,8 @@ public class EnvelopedSignatureTest extends XMLObjectBaseTestCase {
         badCredential = CredentialSupport.getSimpleCredential(keyPair.getPublic(), null);
 
         sxoBuilder = new SignableSimpleXMLObjectBuilder();
-        sigBuilder = new SignatureBuilder();
+        sigBuilder = XMLObjectProviderRegistrySupport.getBuilderFactory().<Signature>getBuilderOrThrow(
+                Signature.DEFAULT_ELEMENT_NAME);
     }
 
     /**
@@ -154,7 +155,7 @@ public class EnvelopedSignatureTest extends XMLObjectBaseTestCase {
         SignableSimpleXMLObject sxo = sxoBuilder.buildObject();
         sxo.setId("FOO");
 
-        Signature sig = sigBuilder.buildObject();
+        Signature sig = sigBuilder.buildObject(Signature.DEFAULT_ELEMENT_NAME);
         sig.setSigningCredential(goodCredential);
         sig.setCanonicalizationAlgorithm(SignatureConstants.ALGO_ID_C14N_EXCL_OMIT_COMMENTS);
         sig.setSignatureAlgorithm(algoURI);

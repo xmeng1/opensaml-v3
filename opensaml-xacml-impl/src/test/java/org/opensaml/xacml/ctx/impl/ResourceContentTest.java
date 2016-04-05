@@ -22,7 +22,6 @@ import javax.xml.namespace.QName;
 import org.opensaml.core.xml.XMLObjectProviderBaseTestCase;
 import org.opensaml.xacml.XACMLConstants;
 import org.opensaml.xacml.ctx.ResourceContentType;
-import org.opensaml.xacml.ctx.impl.ResourceContentTypeImplBuilder;
 import org.opensaml.xacml.policy.ActionType;
 import org.opensaml.xacml.policy.ApplyType;
 import org.testng.Assert;
