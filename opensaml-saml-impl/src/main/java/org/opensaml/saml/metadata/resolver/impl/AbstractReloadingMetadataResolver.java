@@ -354,7 +354,7 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
      */
     protected void processCachedMetadata(String metadataIdentifier, DateTime refreshStart)
             throws ResolverException {
-        log.debug("Computing new expiration time for cached metadata from '{}", metadataIdentifier);
+        log.debug("Computing new expiration time for cached metadata from '{}'", metadataIdentifier);
         DateTime metadataExpirationTime = 
                 SAML2Support.getEarliestExpiration(getBackingStore().getCachedOriginalMetadata(),
                 refreshStart.plus(getMaxRefreshDelay()), refreshStart);
