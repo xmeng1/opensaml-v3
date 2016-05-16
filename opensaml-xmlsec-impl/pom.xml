@@ -12,6 +12,7 @@
     </parent>
 
     <name>OpenSAML :: XML Security Implementation</name>
+    <description>XML Security Implementation</description>
     <artifactId>opensaml-xmlsec-impl</artifactId>
     <packaging>jar</packaging>
 
@@ -51,5 +52,12 @@
         </dependency>
 
     </dependencies>
+
+    <distributionManagement>
+        <site>
+            <id>site</id>
+            <url>dav:${opensaml-module.site.url}</url>
+        </site>
+    </distributionManagement>
 
 </project>

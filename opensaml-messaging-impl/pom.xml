@@ -12,7 +12,8 @@
 	</parent>
 
 	<name>OpenSAML :: Messaging Implementations</name>
-	<artifactId>opensaml-messaging-impl</artifactId>
+    <description>Messaging Implementations</description>
+    <artifactId>opensaml-messaging-impl</artifactId>
 	<packaging>jar</packaging>
 
 	<dependencies>
@@ -63,5 +64,12 @@
         </dependency>
 
 	</dependencies>
+
+    <distributionManagement>
+        <site>
+            <id>site</id>
+            <url>dav:${opensaml-module.site.url}</url>
+        </site>
+    </distributionManagement>
 
 </project>

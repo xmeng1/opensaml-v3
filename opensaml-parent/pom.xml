@@ -46,10 +46,12 @@
     </modules>
 
     <properties>
-        <svn.relative.location>java-opensaml</svn.relative.location>
+        <svn.relative.location>java-opensaml/trunk</svn.relative.location>
         <java-support.version>7.3.0-SNAPSHOT</java-support.version>
         <spring-extensions.version>5.3.0-SNAPSHOT</spring-extensions.version>
         <checkstyle.configLocation>${project.basedir}/../opensaml-parent/resources/checkstyle/checkstyle.xml</checkstyle.configLocation>
+        <opensaml-parent.site.url>${shibboleth.site.url}java-opensaml/${project.version}/</opensaml-parent.site.url>
+        <opensaml-module.site.url>${opensaml-parent.site.url}${project.artifactId}</opensaml-module.site.url>
     </properties>
 
     <repositories>
@@ -133,5 +135,32 @@
 
         </dependencies>
     </dependencyManagement>
-    
+
+    <distributionManagement>
+        <site>
+            <id>site</id>
+            <url>dav:${opensaml-parent.site.url}</url>
+        </site>
+    </distributionManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-descriptor</id>
+                        <goals>
+                            <goal>attach-descriptor</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <siteDirectory>../opensaml-parent/src/site</siteDirectory>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>

@@ -12,6 +12,7 @@
     </parent>
 
     <name>OpenSAML :: Profile API</name>
+    <description>Profile API</description>
     <artifactId>opensaml-profile-api</artifactId>
     <packaging>jar</packaging>
 
@@ -53,4 +54,11 @@
         <!-- Managed Dependencies -->
     </dependencies>
     
+    <distributionManagement>
+        <site>
+            <id>site</id>
+            <url>dav:${opensaml-module.site.url}</url>
+        </site>
+    </distributionManagement>
+
 </project>

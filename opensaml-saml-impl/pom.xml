@@ -12,6 +12,7 @@
     </parent>
 
     <name>OpenSAML :: SAML Provider Implementations</name>
+    <description>SAML Provider Implementations</description>
     <artifactId>opensaml-saml-impl</artifactId>
     <packaging>jar</packaging>
 
@@ -142,5 +143,12 @@
         </dependency>
         
     </dependencies>
+
+    <distributionManagement>
+        <site>
+            <id>site</id>
+            <url>dav:${opensaml-module.site.url}</url>
+        </site>
+    </distributionManagement>
 
 </project>

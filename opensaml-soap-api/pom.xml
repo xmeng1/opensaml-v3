@@ -12,6 +12,7 @@
     </parent>
 
     <name>OpenSAML :: SOAP Provider API</name>
+    <description>SOAP Provider API</description>
     <artifactId>opensaml-soap-api</artifactId>
     <packaging>jar</packaging>
 
@@ -40,4 +41,11 @@
         </dependency>
     </dependencies>
     
+    <distributionManagement>
+        <site>
+            <id>site</id>
+            <url>dav:${opensaml-module.site.url}</url>
+        </site>
+    </distributionManagement>
+
 </project>

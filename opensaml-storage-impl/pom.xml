@@ -12,6 +12,7 @@
     </parent>
 
     <name>OpenSAML :: Storage Implementation</name>
+    <description>Storage Implementation</description>
     <artifactId>opensaml-storage-impl</artifactId>
     <packaging>jar</packaging>
 
@@ -183,4 +184,11 @@
         </profile>
     </profiles>
     
+    <distributionManagement>
+        <site>
+            <id>site</id>
+            <url>dav:${opensaml-module.site.url}</url>
+        </site>
+    </distributionManagement>
+
 </project>

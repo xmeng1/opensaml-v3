@@ -12,6 +12,7 @@
     </parent>
 
     <name>OpenSAML :: Core</name>
+    <description>Core</description>
     <artifactId>opensaml-core</artifactId>
     <packaging>jar</packaging>
 
@@ -55,5 +56,12 @@
             </plugin>
         </plugins>
     </build>
+
+    <distributionManagement>
+        <site>
+            <id>site</id>
+            <url>dav:${opensaml-module.site.url}</url>
+        </site>
+    </distributionManagement>
 
 </project>

@@ -12,6 +12,7 @@
     </parent>
 
     <name>OpenSAML :: Security API</name>
+    <description>Security API</description>
     <artifactId>opensaml-security-api</artifactId>
     <packaging>jar</packaging>
 
@@ -63,4 +64,11 @@
 
     </dependencies>
     
+    <distributionManagement>
+        <site>
+            <id>site</id>
+            <url>dav:${opensaml-module.site.url}</url>
+        </site>
+    </distributionManagement>
+
 </project>

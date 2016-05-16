@@ -12,6 +12,7 @@
     </parent>
 
     <name>OpenSAML :: SAML XACML Profile Implementation</name>
+    <description>SAML XACML Profile Implementation</description>
     <artifactId>opensaml-xacml-saml-impl</artifactId>
     <packaging>jar</packaging>
 
@@ -44,4 +45,11 @@
         
     </dependencies>
     
+    <distributionManagement>
+        <site>
+            <id>site</id>
+            <url>dav:${opensaml-module.site.url}</url>
+        </site>
+    </distributionManagement>
+
 </project>
