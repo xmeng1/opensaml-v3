@@ -19,6 +19,8 @@ package org.opensaml.saml.common.binding;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -36,10 +38,13 @@ import org.opensaml.saml.common.messaging.context.SAMLBindingContext;
 import org.opensaml.saml.common.messaging.context.SAMLEndpointContext;
 import org.opensaml.saml.common.messaging.context.SAMLPeerEntityContext;
 import org.opensaml.saml.saml2.metadata.Endpoint;
+import org.opensaml.saml.saml2.metadata.IndexedEndpoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Strings;
+import com.google.common.primitives.UnsignedBytes;
+import com.google.common.primitives.UnsignedInts;
 
 /** A support class for SAML binding operations. */
 public final class SAMLBindingSupport {
@@ -299,6 +304,27 @@ public final class SAMLBindingSupport {
         Constraint.isNotNull(request, "HttpServletRequest cannot be null");
         
         return request.getRequestURL().toString();
+    }
+    
+    /**
+     * Convert a 2-byte artifact endpoint index byte[] as typically used by SAML 2 artifact types to an integer,
+     * appropriate for use with {@link IndexedEndpoint} impls.
+     * 
+     * <p>
+     * The max input value supported is 0x7FFF (32767), which is the largest possible unsigned 16 bit value.
+     * This should be more than sufficient for typical SAML cases.
+     * </p>
+     * 
+     * @param artifactEndpointIndex the endpoint index byte array, must have length == 2, and big endian byte order.
+     * @return the convert integer value
+     */
+    @Nonnull public static int convertSAML2ArtifactEndpointIndex(@Nonnull byte[] artifactEndpointIndex) {
+        Constraint.isNotNull(artifactEndpointIndex, "Artifact endpoint index cannot be null");
+        Constraint.isTrue(artifactEndpointIndex.length == 2, "Artifact endpoint index length was not 2, was: "
+                + artifactEndpointIndex.length);
+        short value = ByteBuffer.wrap(artifactEndpointIndex).order(ByteOrder.BIG_ENDIAN).getShort();
+        return (int) Constraint.isGreaterThanOrEqual(0, value, 
+                "Input value was too large, resulting in a negative 16-bit short");
     }
 
 }
