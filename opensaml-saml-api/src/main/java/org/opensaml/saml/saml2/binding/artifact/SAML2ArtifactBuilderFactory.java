@@ -84,6 +84,9 @@ public class SAML2ArtifactBuilderFactory {
         type[1] = artifact[1];
 
         SAML2ArtifactBuilder<?> artifactBuilder = getArtifactBuilder(type);
+        if (artifactBuilder == null) {
+            throw new IllegalArgumentException("Saw unsupported artifact type: " + new String(type));
+        }
         return artifactBuilder.buildArtifact(artifact);
     }
 }
