@@ -21,21 +21,42 @@ package org.opensaml.saml.saml2.binding.decoding.impl;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.namespace.QName;
 
-import net.shibboleth.utilities.java.support.annotation.constraint.NotEmpty;
-import net.shibboleth.utilities.java.support.primitive.StringSupport;
-
+import org.opensaml.core.xml.util.XMLObjectSupport;
 import org.opensaml.messaging.context.MessageContext;
 import org.opensaml.messaging.decoder.MessageDecodingException;
 import org.opensaml.messaging.decoder.servlet.BaseHttpServletRequestXMLMessageDecoder;
 import org.opensaml.saml.common.SAMLObject;
 import org.opensaml.saml.common.binding.BindingDescriptor;
+import org.opensaml.saml.common.binding.EndpointResolver;
 import org.opensaml.saml.common.binding.SAMLBindingSupport;
 import org.opensaml.saml.common.binding.decoding.SAMLMessageDecoder;
+import org.opensaml.saml.common.binding.impl.DefaultEndpointResolver;
 import org.opensaml.saml.common.messaging.context.SAMLBindingContext;
 import org.opensaml.saml.common.xml.SAMLConstants;
+import org.opensaml.saml.config.SAMLConfigurationSupport;
+import org.opensaml.saml.criterion.ArtifactSourceIDCriterion;
+import org.opensaml.saml.criterion.EndpointCriterion;
+import org.opensaml.saml.criterion.EntityRoleCriterion;
+import org.opensaml.saml.criterion.ProtocolCriterion;
+import org.opensaml.saml.criterion.RoleDescriptorCriterion;
+import org.opensaml.saml.metadata.resolver.RoleDescriptorResolver;
+import org.opensaml.saml.saml2.binding.artifact.AbstractSAML2Artifact;
+import org.opensaml.saml.saml2.binding.artifact.SAML2ArtifactBuilderFactory;
+import org.opensaml.saml.saml2.binding.artifact.SAML2ArtifactType0004;
+import org.opensaml.saml.saml2.metadata.ArtifactResolutionService;
+import org.opensaml.saml.saml2.metadata.RoleDescriptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import net.shibboleth.utilities.java.support.annotation.constraint.NonnullAfterInit;
+import net.shibboleth.utilities.java.support.annotation.constraint.NotEmpty;
+import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
+import net.shibboleth.utilities.java.support.component.ComponentSupport;
+import net.shibboleth.utilities.java.support.primitive.StringSupport;
+import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
+import net.shibboleth.utilities.java.support.resolver.ResolverException;
 
 /** 
  * SAML 2 Artifact Binding decoder, support both HTTP GET and POST.
@@ -50,6 +71,140 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
 
     /** Optional {@link BindingDescriptor} to inject into {@link SAMLBindingContext} created. */
     @Nullable private BindingDescriptor bindingDescriptor;
+    
+    /** SAML 2 artifact builder factory. */
+    @NonnullAfterInit private SAML2ArtifactBuilderFactory artifactBuilderFactory;
+    
+    /** Resolver for ArtifactResolutionService endpoints. **/
+    @NonnullAfterInit private EndpointResolver<ArtifactResolutionService> artifactEndpointResolver;
+    
+    /** Role descriptor resolver. */
+    @NonnullAfterInit private RoleDescriptorResolver roleDescriptorResolver;
+    
+    /** The peer entity role QName. */
+    @NonnullAfterInit private QName peerEntityRole;
+
+    /** {@inheritDoc} */
+    protected void doInitialize() throws ComponentInitializationException {
+        super.doInitialize();
+        if (artifactBuilderFactory == null) {
+            artifactBuilderFactory = SAMLConfigurationSupport.getSAML2ArtifactBuilderFactory();
+            if (artifactBuilderFactory == null) {
+                throw new ComponentInitializationException("Could not obtain a required instance " 
+                        + "of SAML2ArtifactBuilderFactory");
+            }
+        }
+        
+        if (artifactEndpointResolver == null) {
+            artifactEndpointResolver = new DefaultEndpointResolver<>();
+        }
+        
+        if (roleDescriptorResolver == null) {
+            //TODO default this?  Need new impl that doesn't require EntityIdCriterion
+        }
+        
+        if (peerEntityRole == null) {
+            throw new ComponentInitializationException("Peer entity role cannot be null");
+        }
+    }
+    
+    /** {@inheritDoc} */
+    protected void doDestroy() {
+        super.doDestroy();
+        bindingDescriptor = null;
+        artifactBuilderFactory = null;
+        artifactEndpointResolver = null;
+        roleDescriptorResolver = null;
+        peerEntityRole = null;
+    }
+
+    /**
+     * Get the peer entity role {@link QName}.
+     * 
+     * @return the peer entity role
+     */
+    @NonnullAfterInit public QName getPeerEntityRole() {
+        return peerEntityRole;
+    }
+
+    /**
+     * Set the peer entity role {@link QName}.
+     * 
+     * @param role  the peer entity role
+     */
+    public void setPeerEntityRole(@Nonnull final QName role) {
+        ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
+        ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
+        peerEntityRole = role;
+    }
+
+    /**
+     * Get the artifact endpoint resolver.
+     * 
+     * @return the endpoint resolver
+     */
+    @NonnullAfterInit public EndpointResolver<ArtifactResolutionService> getArtifactEndpointResolver() {
+        return artifactEndpointResolver;
+    }
+
+    /**
+     * Set the artifact endpoint resolver.
+     * 
+     * @param resolver the new resolver
+     */
+    public void setArtifactEndpointResolver(@Nullable final EndpointResolver<ArtifactResolutionService> resolver) {
+        ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
+        ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
+        artifactEndpointResolver = resolver;
+    }
+
+    /**
+     * Get the role descriptor resolver.
+     * 
+     * <p>
+     * Must be capable of resolving descriptors based on {@link ArtifactSourceIDCriterion}.
+     * </p>
+     * 
+     * @return the role descriptor resolver
+     */
+    @NonnullAfterInit public RoleDescriptorResolver getRoleDescriptorResolver() {
+        return roleDescriptorResolver;
+    }
+
+    /**
+     * Set the role descriptor resolver.
+     * 
+     * <p>
+     * Must be capable of resolving descriptors based on {@link ArtifactSourceIDCriterion}.
+     * </p>
+     * 
+     * @param resolver the role descriptor resolver
+     */
+    public void setRoleDescriptorResolver(@Nullable final RoleDescriptorResolver resolver) {
+        ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
+        ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
+        roleDescriptorResolver = resolver;
+    }
+
+    /**
+     * Get the SAML 2 artifact builder factory.
+     * 
+     * @return the artifact builder factory in use
+     */
+    @NonnullAfterInit public SAML2ArtifactBuilderFactory getArtifactBuilderFactory() {
+        return artifactBuilderFactory;
+    }
+
+    /**
+     * Set the SAML 2 artifact builder factory.
+     * 
+     * @param factory the artifact builder factory
+     */
+    public void setArtifactBuilderFactory(@Nullable final SAML2ArtifactBuilderFactory factory) {
+        ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
+        ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
+        artifactBuilderFactory = factory;
+    }
 
     /** {@inheritDoc} */
     @Nonnull @NotEmpty public String getBindingURI() {
@@ -104,13 +259,101 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
         String encodedArtifact = StringSupport.trimOrNull(request.getParameter("SAMLart"));
         if (encodedArtifact == null) {
             log.error("URL SAMLart parameter was missing or did not contain a value.");
-            throw new MessageDecodingException("URL TARGET parameter was missing or did not contain a value.");
+            throw new MessageDecodingException("URL SAMLart parameter was missing or did not contain a value.");
         }
         
-        // TODO decode artifact; resolve issuer resolution endpoint; dereference using ArtifactResolve
-        // over synchronous backchannel binding; store resultant protocol message as the inbound SAML message.
+        try {
+            AbstractSAML2Artifact artifact = parseArtifact(encodedArtifact);
+
+            ArtifactResolutionService ars = resolveArtifactEndpoint(artifact);
+
+            SAMLObject inboundMessage = dereferenceArtifact(artifact, ars);
+
+            messageContext.setMessage(inboundMessage);
+        } catch (MessageDecodingException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new MessageDecodingException("Fatal error decoding or resolving inbound artifact", e);
+        }
     }
     
+    /**
+     * @param artifact
+     * @param artifactResolveEndpointURL
+     * @return
+     */
+    protected SAMLObject dereferenceArtifact(AbstractSAML2Artifact artifact, ArtifactResolutionService ars) 
+            throws MessageDecodingException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /**
+     * @param artifact
+     * @return
+     */
+    protected ArtifactResolutionService resolveArtifactEndpoint(AbstractSAML2Artifact artifact) throws MessageDecodingException {
+        try {
+            RoleDescriptor roleDescriptor = resolveRoleDescriptor(artifact);
+            if (roleDescriptor == null) {
+                throw new MessageDecodingException("Failed to resolve peer RoleDescriptor based on inbound artifact");
+            }
+            RoleDescriptorCriterion roleDescriptorCriterion = new RoleDescriptorCriterion(roleDescriptor);
+            
+            ArtifactResolutionService arsTemplate = 
+                    (ArtifactResolutionService) XMLObjectSupport.buildXMLObject(
+                            ArtifactResolutionService.DEFAULT_ELEMENT_NAME);
+            Integer endpointIndex = SAMLBindingSupport.convertSAML2ArtifactEndpointIndex(artifact.getEndpointIndex());
+            arsTemplate.setIndex(endpointIndex);
+            arsTemplate.setBinding(SAMLConstants.SAML2_SOAP11_BINDING_URI);
+            EndpointCriterion<ArtifactResolutionService> endpointCriterion = 
+                    new EndpointCriterion<>(arsTemplate, false);
+
+            CriteriaSet criteriaSet = new CriteriaSet(roleDescriptorCriterion, endpointCriterion);
+
+            ArtifactResolutionService ars = artifactEndpointResolver.resolveSingle(criteriaSet);
+            if (ars != null) {
+                return ars;
+            } else {
+                throw new MessageDecodingException("Unable to resolve ArtifactResolutionService endpoint");
+            }
+        } catch (ResolverException e) {
+            throw new MessageDecodingException("Error resolving ArtifactResolutionService to use", e);
+        }
+    }
+
+    /**
+     * @param artifact
+     * @return
+     */
+    protected RoleDescriptor resolveRoleDescriptor(AbstractSAML2Artifact artifact) throws MessageDecodingException {
+        //TODO move check and casting up to higher level?
+        //TODO move to more extensible model than hardcoded support for type 4?
+        if (artifact instanceof SAML2ArtifactType0004) {
+            SAML2ArtifactType0004 type4Artifact = (SAML2ArtifactType0004) artifact;
+            ArtifactSourceIDCriterion sourceIDCriterion = new ArtifactSourceIDCriterion(type4Artifact.getSourceID());
+            
+            CriteriaSet criteriaSet = new CriteriaSet(sourceIDCriterion,
+                    new ProtocolCriterion(SAMLConstants.SAML20P_NS),
+                    new EntityRoleCriterion(getPeerEntityRole()));
+            try {
+                return roleDescriptorResolver.resolveSingle(criteriaSet);
+            } catch (ResolverException e) {
+                throw new MessageDecodingException("Error resolving peer entity RoleDescriptor", e);
+            }
+        } else {
+            throw new MessageDecodingException("Saw unsupported artifact type: " + artifact.getClass().getName());
+        }
+    }
+
+    /**
+     * @param encodedArtifact
+     * @return
+     */
+    protected AbstractSAML2Artifact parseArtifact(String encodedArtifact) throws MessageDecodingException {
+        return artifactBuilderFactory.buildArtifact(encodedArtifact);
+    }
+
     /**
      * Populate the context which carries information specific to this binding.
      * 
