@@ -102,7 +102,7 @@ public class LogEvent<Input,Output> extends AbstractProfileAction<Input,Output> 
         
         final String eventString = eventCtx.getEvent().toString();
         if (!suppressedEvents.contains(eventString)) {
-            log.warn("An non-proceed event occurred while processing the request: {}", eventString);
+            log.warn("A non-proceed event occurred while processing the request: {}", eventString);
         }
     }
     
