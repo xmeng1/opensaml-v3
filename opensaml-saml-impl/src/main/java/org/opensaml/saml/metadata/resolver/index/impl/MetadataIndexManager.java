@@ -17,6 +17,7 @@
 
 package org.opensaml.saml.metadata.resolver.index.impl;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -28,6 +29,7 @@ import javax.annotation.Nullable;
 import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
 import net.shibboleth.utilities.java.support.annotation.constraint.NotLive;
 import net.shibboleth.utilities.java.support.annotation.constraint.Unmodifiable;
+import net.shibboleth.utilities.java.support.collection.LazySet;
 import net.shibboleth.utilities.java.support.logic.Constraint;
 import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
 
@@ -101,10 +103,22 @@ public class MetadataIndexManager {
         HashSet<EntityDescriptor> descriptors = new HashSet<>();
         for (MetadataIndex index : indexes.keySet()) {
             Set<MetadataIndexKey> keys = index.generateKeys(criteria);
-            if (keys != null) {
+            if (keys != null && !keys.isEmpty()) {
+                LazySet<EntityDescriptor> indexResult = new LazySet<>();
                 MetadataIndexStore indexStore = indexes.get(index);
                 for (MetadataIndexKey key : keys) {
-                    descriptors.addAll(indexStore.lookup(key));
+                    indexResult.addAll(indexStore.lookup(key));
+                }
+                log.trace("MetadataIndex '{}' produced results: {}", index, indexResult);
+                if (indexResult.isEmpty()) {
+                    log.trace("MetadataIndex '{}' produced empty results, " 
+                            + "terminating early and returning empty result set", index);
+                    return Collections.emptySet();
+                }
+                if (descriptors.isEmpty()) {
+                    descriptors.addAll(indexResult);
+                } else {
+                    descriptors.retainAll(indexResult);
                 }
             }
         }
@@ -119,9 +133,11 @@ public class MetadataIndexManager {
     public void indexEntityDescriptor(@Nonnull final EntityDescriptor descriptor) {
         for (MetadataIndex index : indexes.keySet()) {
             Set<MetadataIndexKey> keys = index.generateKeys(descriptor);
-            if (keys != null) {
+            if (keys != null && !keys.isEmpty()) {
                 MetadataIndexStore store = indexes.get(index);
                 for (MetadataIndexKey key : keys) {
+                    log.trace("Indexing metadata: index '{}', key '{}', entity descriptor '{}'", 
+                            index, key, descriptor);
                     store.add(key, descriptor);
                 }
             }
