@@ -27,12 +27,6 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.shibboleth.utilities.java.support.annotation.constraint.NotEmpty;
-import net.shibboleth.utilities.java.support.codec.Base64Support;
-import net.shibboleth.utilities.java.support.logic.Constraint;
-import net.shibboleth.utilities.java.support.primitive.StringSupport;
-import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
-
 import org.opensaml.saml.criterion.ArtifactSourceIDCriterion;
 import org.opensaml.saml.metadata.resolver.index.MetadataIndex;
 import org.opensaml.saml.metadata.resolver.index.MetadataIndexKey;
@@ -41,7 +35,14 @@ import org.opensaml.security.crypto.JCAConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Function;
 import com.google.common.base.MoreObjects;
+
+import net.shibboleth.utilities.java.support.annotation.constraint.NotEmpty;
+import net.shibboleth.utilities.java.support.codec.Base64Support;
+import net.shibboleth.utilities.java.support.logic.Constraint;
+import net.shibboleth.utilities.java.support.primitive.StringSupport;
+import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
 
 /**
  * An implementation of {@link MetadataIndex} which indexes entities by their artifact SourceID values.
@@ -51,32 +52,33 @@ public class ArtifactSourceIDMetadataIndex implements MetadataIndex {
     /** Logger. */
     private Logger log = LoggerFactory.getLogger(ArtifactSourceIDMetadataIndex.class);
     
+    /** Indexing function instance to use. */
+    private Function<EntityDescriptor, Set<MetadataIndexKey>> indexingFunction;
+    
+    /**
+     * Constructor.
+     * 
+     * <p>As the descriptor indexing function uses the default impl 
+     * {@link SHA1SourceIDEntityDescriptorIndexingFunction}.</p>
+     */
+    public ArtifactSourceIDMetadataIndex() {
+        this(new SHA1SourceIDEntityDescriptorIndexingFunction());
+    }
+    
+    /**
+     * Constructor.
+     *
+     * @param descriptorIndexingFunction the function used to produce index keys from an entity descriptor
+     */
+    public ArtifactSourceIDMetadataIndex(Function<EntityDescriptor, Set<MetadataIndexKey>> descriptorIndexingFunction) {
+        indexingFunction = Constraint.isNotNull(descriptorIndexingFunction, 
+                "EntityDescriptor indexing function may not be null");
+    }
+
     /** {@inheritDoc} */
     @Nullable public Set<MetadataIndexKey> generateKeys(@Nonnull EntityDescriptor descriptor) {
         Constraint.isNotNull(descriptor, "EntityDescriptor was null");
-        String entityID = StringSupport.trimOrNull(descriptor.getEntityID());
-        if (entityID == null) {
-            return null;
-        }
-        
-        try {
-            MessageDigest sha1Digester = MessageDigest.getInstance(JCAConstants.DIGEST_SHA1);
-            byte[] sourceID = sha1Digester.digest(entityID.getBytes("UTF-8"));
-            if (log.isTraceEnabled()) {
-                log.trace("For entityID '{}' produced artifact SourceID index value '{}'", 
-                        entityID, Base64Support.encode(sourceID, false));
-            }
-            return Collections.<MetadataIndexKey>singleton(new ArtifactSourceIDMetadataIndexKey(sourceID));
-        } catch (NoSuchAlgorithmException e) {
-            // SHA-1 should be supported in every JVM, so this should never happen.
-            log.error("Digest algorithm '{}' was invalid for encoding artifact SourceID", JCAConstants.DIGEST_SHA1, e);
-            return null;
-        } catch (UnsupportedEncodingException e) {
-            // UTF-8 should be supported in every JVM, this should never happen.
-            log.error("UTF-8 was unsupported for encoding artifact SourceID!");
-            return null;
-        }
-        
+        return indexingFunction.apply(descriptor);
     }
 
     /** {@inheritDoc} */
@@ -89,6 +91,46 @@ public class ArtifactSourceIDMetadataIndex implements MetadataIndex {
         } else {
             return null;
         }
+    }
+    
+    /**
+     * The default implementation of the descriptor indexing function which produces a single 
+     * {@link ArtifactSourceIDMetadataIndexKey} based on the SHA-1 digest of the UTF-8 encoding
+     * of the value of {@link EntityDescriptor#getEntityID()}.
+     */
+    public static class SHA1SourceIDEntityDescriptorIndexingFunction 
+        implements Function<EntityDescriptor, Set<MetadataIndexKey>> {
+        
+        /** Logger. */
+        private Logger log = LoggerFactory.getLogger(SHA1SourceIDEntityDescriptorIndexingFunction.class);
+
+        /** {@inheritDoc} */
+        public Set<MetadataIndexKey> apply(@Nonnull final EntityDescriptor descriptor) {
+            String entityID = StringSupport.trimOrNull(descriptor.getEntityID());
+            if (entityID == null) {
+                return null;
+            }
+            
+            try {
+                MessageDigest sha1Digester = MessageDigest.getInstance(JCAConstants.DIGEST_SHA1);
+                byte[] sourceID = sha1Digester.digest(entityID.getBytes("UTF-8"));
+                if (log.isTraceEnabled()) {
+                    log.trace("For entityID '{}' produced artifact SourceID index value '{}'", 
+                            entityID, Base64Support.encode(sourceID, false));
+                }
+                return Collections.<MetadataIndexKey>singleton(new ArtifactSourceIDMetadataIndexKey(sourceID));
+            } catch (NoSuchAlgorithmException e) {
+                // SHA-1 should be supported in every JVM, so this should never happen.
+                log.error("Digest algorithm '{}' was invalid for encoding artifact SourceID", 
+                        JCAConstants.DIGEST_SHA1, e);
+                return null;
+            } catch (UnsupportedEncodingException e) {
+                // UTF-8 should be supported in every JVM, this should never happen.
+                log.error("UTF-8 was unsupported for encoding artifact SourceID!");
+                return null;
+            }
+        }
+        
     }
     
     /**
