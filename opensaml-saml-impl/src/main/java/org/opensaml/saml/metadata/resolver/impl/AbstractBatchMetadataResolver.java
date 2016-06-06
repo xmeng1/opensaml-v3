@@ -25,14 +25,6 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
-import net.shibboleth.utilities.java.support.annotation.constraint.NotLive;
-import net.shibboleth.utilities.java.support.annotation.constraint.Unmodifiable;
-import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
-import net.shibboleth.utilities.java.support.component.ComponentSupport;
-import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
-import net.shibboleth.utilities.java.support.resolver.ResolverException;
-
 import org.opensaml.core.criterion.EntityIdCriterion;
 import org.opensaml.core.xml.XMLObject;
 import org.opensaml.saml.metadata.IterableMetadataSource;
@@ -45,9 +37,19 @@ import org.opensaml.saml.saml2.metadata.EntityDescriptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Optional;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
+
+import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
+import net.shibboleth.utilities.java.support.annotation.constraint.NotLive;
+import net.shibboleth.utilities.java.support.annotation.constraint.Unmodifiable;
+import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
+import net.shibboleth.utilities.java.support.component.ComponentSupport;
+import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
+import net.shibboleth.utilities.java.support.resolver.ResolverException;
 
 /**
  * Abstract subclass for metadata resolvers that process and resolve metadata at a given point 
@@ -64,6 +66,10 @@ public abstract class AbstractBatchMetadataResolver extends AbstractMetadataReso
     
     /** The set of indexes configured. */
     private Set<MetadataIndex> indexes;
+    
+    /** Flag indicating whether resolution may be performed solely by applying predicates to the
+     * entire metadata collection. Defaults to false. */
+    private boolean resolveViaPredicatesOnly;
     
     /** Constructor. */
     public AbstractBatchMetadataResolver() {
@@ -124,19 +130,60 @@ public abstract class AbstractBatchMetadataResolver extends AbstractMetadataReso
         }
     }
 
+    /**
+     * Get the flag indicating whether resolution may be performed solely 
+     * by applying predicates to the entire metadata collection.
+     * 
+     * @return true if resolution may be attempted solely via predicates, false if not
+     */
+    public boolean isResolveViaPredicatesOnly() {
+        return resolveViaPredicatesOnly;
+    }
+
+    /**
+     * Set the flag indicating whether resolution may be performed solely 
+     * by applying predicates to the entire metadata collection.
+     * 
+     * @param flag true if resolution may be attempted solely via predicates, false if not
+     */
+    public void setResolveViaPredicatesOnly(boolean flag) {
+        ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
+        resolveViaPredicatesOnly = flag;
+    }
+
     /** {@inheritDoc} */
     @Override
     @Nonnull public Iterable<EntityDescriptor> resolve(CriteriaSet criteria) throws ResolverException {
         ComponentSupport.ifNotInitializedThrowUninitializedComponentException(this);
         
-        //TODO add filtering for entity role, protocol? maybe
-        //TODO add filtering for binding? probably not, belongs better in RoleDescriptorResolver
-        
         EntityIdCriterion entityIdCriterion = criteria.get(EntityIdCriterion.class);
         if (entityIdCriterion != null) {
-            return lookupEntityID(entityIdCriterion.getEntityId());
+            Iterable<EntityDescriptor> entityIdcandidates = lookupEntityID(entityIdCriterion.getEntityId());
+            if (log.isDebugEnabled()) {
+                log.debug("Resolved {} candidates via EntityIdCriterion", 
+                        Iterables.size(entityIdcandidates), entityIdCriterion);
+            }
+            return predicateFilterCandidates(entityIdcandidates, criteria, false);
+        }
+        
+        Optional<Set<EntityDescriptor>> indexedCandidates = lookupByIndexes(criteria);
+        if (log.isDebugEnabled()) {
+            if (indexedCandidates.isPresent()) {
+                log.debug("Resolved {} candidates via secondary index lookup", Iterables.size(indexedCandidates.get()));
+            } else {
+                log.debug("Resolved no candidates via secondary index lookup (Optional indicated result was absent)");
+            }
+        }
+        
+        if (indexedCandidates.isPresent()) {
+            log.debug("Performing predicate filtering of resolved secondary indexed candidates");
+            return predicateFilterCandidates(indexedCandidates.get(), criteria, false);
+        } else if (isResolveViaPredicatesOnly()) {
+            log.debug("Performing predicate filtering of entire metadata collection");
+            return predicateFilterCandidates(this, criteria, true);
         } else {
-            return lookupByIndexes(criteria);
+            log.debug("Resolved no secondary indexed candidates, returning empty result");
+            return Collections.emptySet();
         }
         
     }
@@ -146,10 +193,14 @@ public abstract class AbstractBatchMetadataResolver extends AbstractMetadataReso
      * 
      * @param criteria the criteria set to process
      * 
-     * @return descriptors resolved via indexes, and based on the input criteria set. May be empty.
+     * @return an {@link Optional} instance containing the descriptors resolved via indexes, 
+     *          and based on the input criteria set. If the Optional instance indicates 'absent',
+     *          there were either no indexes configured, or no criteria were applicable/understood
+     *          by any indexes.  If 'present' is indicated, then there were applicable/understood criteria,
+     *          and the wrapped set contains the indexed data, which may be empty.
      */
     @Nonnull @NonnullElements 
-    protected Set<EntityDescriptor> lookupByIndexes(@Nonnull final CriteriaSet criteria) {
+    protected Optional<Set<EntityDescriptor>> lookupByIndexes(@Nonnull final CriteriaSet criteria) {
         return getBackingStore().getSecondaryIndexManager().lookupEntityDescriptors(criteria);
     }
     

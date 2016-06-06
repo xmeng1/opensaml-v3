@@ -24,11 +24,13 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import net.shibboleth.utilities.java.support.annotation.constraint.NonnullAfterInit;
 import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
 import net.shibboleth.utilities.java.support.annotation.constraint.NotEmpty;
 import net.shibboleth.utilities.java.support.component.AbstractIdentifiableInitializableComponent;
@@ -37,15 +39,20 @@ import net.shibboleth.utilities.java.support.component.ComponentSupport;
 import net.shibboleth.utilities.java.support.logic.Constraint;
 import net.shibboleth.utilities.java.support.primitive.StringSupport;
 import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
+import net.shibboleth.utilities.java.support.resolver.CriterionPredicateRegistry;
 import net.shibboleth.utilities.java.support.resolver.ResolverException;
+import net.shibboleth.utilities.java.support.resolver.ResolverSupport;
 import net.shibboleth.utilities.java.support.xml.ParserPool;
 import net.shibboleth.utilities.java.support.xml.QNameSupport;
 
+import org.opensaml.core.criterion.SatisfyAnyCriterion;
 import org.opensaml.core.xml.XMLObject;
 import org.opensaml.core.xml.config.XMLObjectProviderRegistrySupport;
 import org.opensaml.core.xml.io.Unmarshaller;
 import org.opensaml.core.xml.io.UnmarshallerFactory;
 import org.opensaml.core.xml.io.UnmarshallingException;
+import org.opensaml.saml.metadata.criteria.entity.EvaluableEntityDescriptorCriterion;
+import org.opensaml.saml.metadata.criteria.entity.impl.EntityDescriptorCriterionPredicateRegistry;
 import org.opensaml.saml.metadata.resolver.MetadataResolver;
 import org.opensaml.saml.metadata.resolver.filter.FilterException;
 import org.opensaml.saml.metadata.resolver.filter.MetadataFilter;
@@ -56,6 +63,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 
+import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 
 /** An abstract, base, implementation of a metadata provider. */
@@ -73,7 +81,7 @@ public abstract class AbstractMetadataResolver extends AbstractIdentifiableIniti
 
     /** Filter applied to all metadata. */
     private MetadataFilter mdFilter;
-
+    
     /**
      * Whether problems during initialization should cause the provider to fail or go on without metadata. The
      * assumption being that in most cases a provider will recover at some point in the future. Default: true.
@@ -85,12 +93,24 @@ public abstract class AbstractMetadataResolver extends AbstractIdentifiableIniti
 
     /** Pool of parsers used to process XML. */
     private ParserPool parser;
-
+    
+    /** Flag which determines whether predicates used in filtering are connected by 
+     * a logical 'OR' (true) or by logical 'AND' (false). Defaults to false. */
+    private boolean satisfyAnyPredicates;
+    
+    /** Registry used in resolving predicates from criteria. */
+    private CriterionPredicateRegistry<EntityDescriptor> criterionPredicateRegistry;
+    
+    /** Flag which determines whether the default predicate registry will be used if no one is supplied explicitly.
+     * Defaults to true. */
+    private boolean useDefaultPredicateRegistry;
+    
     /** Constructor. */
     public AbstractMetadataResolver() {
         failFastInitialization = true;
         requireValidMetadata = true;
         unmarshallerFactory = XMLObjectProviderRegistrySupport.getUnmarshallerFactory();
+        useDefaultPredicateRegistry = true;
     }
 
     /** {@inheritDoc} */
@@ -159,6 +179,78 @@ public abstract class AbstractMetadataResolver extends AbstractIdentifiableIniti
         parser = Constraint.isNotNull(pool, "ParserPool may not be null");
     }
 
+    /**
+     * Get the flag indicating whether resolved credentials may satisfy any predicates 
+     * (i.e. connected by logical 'OR') or all predicates (connected by logical 'AND').
+     * 
+     * <p>Defaults to false.</p>
+     * 
+     * @return true if must satisfy all, false otherwise
+     */
+    public boolean isSatisfyAnyPredicates() {
+        return satisfyAnyPredicates;
+    }
+
+    /**
+     * Set the flag indicating whether resolved credentials may satisfy any predicates 
+     * (i.e. connected by logical 'OR') or all predicates (connected by logical 'AND').
+     * 
+     * <p>Defaults to false.</p>
+     * 
+     * @param flag true if must satisfy all, false otherwise
+     */
+    public void setSatisfyAnyPredicates(final boolean flag) {
+        ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
+        ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
+        satisfyAnyPredicates = flag;
+    }
+
+    /**
+     * Get the registry used in resolving predicates from criteria.
+     * 
+     * @return the effective registry instance used
+     */
+    @NonnullAfterInit public CriterionPredicateRegistry<EntityDescriptor> getCriterionPredicateRegistry() {
+        return criterionPredicateRegistry;
+    }
+
+    /**
+     * Set the registry used in resolving predicates from criteria.
+     * 
+     * @param registry the registry instance to use
+     */
+    public void setCriterionPredicateRegistry(@Nullable final CriterionPredicateRegistry<EntityDescriptor> registry) {
+        ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
+        ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
+        criterionPredicateRegistry = registry;
+    }
+
+    /**
+     * Get the flag which determines whether the default predicate registry will be used 
+     * if one is not supplied explicitly.
+     * 
+     * <p>Defaults to true.</p>
+     * 
+     * @return true if should use default registry, false otherwise
+     */
+    public boolean isUseDefaultPredicateRegistry() {
+        return useDefaultPredicateRegistry;
+    }
+
+    /**
+     * Set the flag which determines whether the default predicate registry will be used 
+     * if one is not supplied explicitly.
+     * 
+     * <p>Defaults to true.</p>
+     * 
+     * @param flag true if should use default registry, false otherwise
+     */
+    public void setUseDefaultPredicateRegistry(boolean flag) {
+        ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
+        ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
+        useDefaultPredicateRegistry = flag;
+    }
+
     /** {@inheritDoc} */
     @Override @Nullable public EntityDescriptor resolveSingle(CriteriaSet criteria) throws ResolverException {
         ComponentSupport.ifNotInitializedThrowUninitializedComponentException(this);
@@ -173,7 +265,7 @@ public abstract class AbstractMetadataResolver extends AbstractIdentifiableIniti
         }
         return null;
     }
-
+    
     /**
      * Get the XMLObject unmarshaller factory to use.
      * 
@@ -206,6 +298,7 @@ public abstract class AbstractMetadataResolver extends AbstractIdentifiableIniti
         mdFilter = null;
         entityBackingStore = null;
         parser = null;
+        criterionPredicateRegistry = null;
 
         super.doDestroy();
     }
@@ -217,7 +310,9 @@ public abstract class AbstractMetadataResolver extends AbstractIdentifiableIniti
      * @throws ComponentInitializationException thrown if there is a problem initializing the provider
      */
     protected void initMetadataResolver() throws ComponentInitializationException {
-
+        if (getCriterionPredicateRegistry() == null && isUseDefaultPredicateRegistry()) {
+            setCriterionPredicateRegistry(new EntityDescriptorCriterionPredicateRegistry());
+        }
     }
 
     /**
@@ -462,6 +557,50 @@ public abstract class AbstractMetadataResolver extends AbstractIdentifiableIniti
                 preProcessEntitiesDescriptor((EntitiesDescriptor) child, backingStore);
             }
         }
+    }
+    
+    /**
+     * Filter the supplied candidates by resolving predicates from the supplied criteria and applying
+     * the predicates to return a filtered {@link Iterable}.
+     * 
+     * @param candidates the candidates to evaluate
+     * @param criteria the criteria set to evaluate
+     * @param onEmptyPredicatesReturnEmpty if true and no predicates are supplied, then return an empty iterable;
+     *          otherwise return the original input candidates
+     * 
+     * @return an iterable of the candidates filtered by the resolved predicates
+     * 
+     * @throws ResolverException if there is a fatal error during resolution
+     */
+    protected Iterable<EntityDescriptor> predicateFilterCandidates(@Nonnull final Iterable<EntityDescriptor> candidates,
+            @Nonnull final CriteriaSet criteria, final boolean onEmptyPredicatesReturnEmpty)
+                    throws ResolverException {
+        
+        if (!candidates.iterator().hasNext()) {
+            log.debug("Candidates iteration was empty, nothing to filter via predicates");
+            return Collections.emptySet();
+        }
+        
+        log.debug("Attempting to filter candidate EntityDescriptors via resolved Predicates");
+        
+        final Set<Predicate<EntityDescriptor>> predicates = ResolverSupport.getPredicates(criteria, 
+                EvaluableEntityDescriptorCriterion.class, getCriterionPredicateRegistry());
+        
+        log.trace("Resolved {} Predicates: {}", predicates.size(), predicates);
+        
+        boolean satisfyAny;
+        final SatisfyAnyCriterion satisfyAnyCriterion = criteria.get(SatisfyAnyCriterion.class);
+        if (satisfyAnyCriterion  != null) {
+            log.trace("CriteriaSet contained SatisfyAnyCriterion");
+            satisfyAny = satisfyAnyCriterion.isSatisfyAny();
+        } else {
+            log.trace("CriteriaSet did NOT contain SatisfyAnyCriterion");
+            satisfyAny = isSatisfyAnyPredicates();
+        }
+        
+        log.trace("Effective satisyAny value: {}", satisfyAny);
+        
+        return ResolverSupport.getFilteredIterable(candidates, predicates, satisfyAny, onEmptyPredicatesReturnEmpty);
     }
 
     /**

@@ -18,6 +18,7 @@
 package org.opensaml.saml.metadata.resolver.impl;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -281,8 +282,8 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
         
         EntityIdCriterion entityIdCriterion = criteria.get(EntityIdCriterion.class);
         if (entityIdCriterion == null || Strings.isNullOrEmpty(entityIdCriterion.getEntityId())) {
-            //TODO throw or just log?
-            throw new ResolverException("Entity Id was not supplied in criteria set");
+            log.info("Entity Id was not supplied in criteria set, skipping resolution");
+            return Collections.emptySet();
         }
         
         String entityID = StringSupport.trimOrNull(criteria.get(EntityIdCriterion.class).getEntityId());
@@ -290,14 +291,15 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
         
         EntityManagementData mgmtData = getBackingStore().getManagementData(entityID);
         Lock readLock = mgmtData.getReadWriteLock().readLock();
+        Iterable<EntityDescriptor> candidates;
         try {
             readLock.lock();
             
             if (!shouldAttemptRefresh(mgmtData)) {
                 List<EntityDescriptor> descriptors = lookupEntityID(entityID);
                 if (!descriptors.isEmpty()) {
-                    log.debug("Found requested metadata in backing store, returning");
-                    return descriptors;
+                    log.debug("Found requested metadata in backing store");
+                    candidates = descriptors;
                 } else {
                     log.debug("Did not find requested metadata in backing store, will attempt to resolve dynamically");
                 }
@@ -309,7 +311,9 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
             readLock.unlock();
         }
         
-        return resolveFromOriginSource(criteria);
+        candidates = resolveFromOriginSource(criteria);
+        
+        return predicateFilterCandidates(candidates, criteria, false);
     }
     
     /**

@@ -26,20 +26,21 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
-import net.shibboleth.utilities.java.support.annotation.constraint.NotLive;
-import net.shibboleth.utilities.java.support.annotation.constraint.Unmodifiable;
-import net.shibboleth.utilities.java.support.collection.LazySet;
-import net.shibboleth.utilities.java.support.logic.Constraint;
-import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
-
 import org.opensaml.saml.metadata.resolver.index.MetadataIndex;
 import org.opensaml.saml.metadata.resolver.index.MetadataIndexKey;
 import org.opensaml.saml.saml2.metadata.EntityDescriptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
+
+import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
+import net.shibboleth.utilities.java.support.annotation.constraint.NotLive;
+import net.shibboleth.utilities.java.support.annotation.constraint.Unmodifiable;
+import net.shibboleth.utilities.java.support.collection.LazySet;
+import net.shibboleth.utilities.java.support.logic.Constraint;
+import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
 
 /**
  * High-level component which handles index and lookup of {@link EntityDescriptor} instances,
@@ -96,11 +97,15 @@ public class MetadataIndexManager {
      * 
      * @param criteria the criteria set to process
      * 
-     * @return descriptors resolved via indexes, and based on the input criteria set. May be empty.
+     * @return an {@link Optional} instance containing the descriptors resolved via indexes, 
+     *          and based on the input criteria set. If the Optional instance indicates 'absent',
+     *          there were either no indexes configured, or no criteria were applicable/understood
+     *          by any indexes.  If 'present' is indicated, then there were applicable/understood criteria,
+     *          and the wrapped set contains the indexed data, which may be empty.
      */
     @Nonnull @NonnullElements
-    public Set<EntityDescriptor> lookupEntityDescriptors(@Nonnull final CriteriaSet criteria) {
-        HashSet<EntityDescriptor> descriptors = new HashSet<>();
+    public Optional<Set<EntityDescriptor>> lookupEntityDescriptors(@Nonnull final CriteriaSet criteria) {
+        Set<EntityDescriptor> descriptors = new HashSet<>();
         for (MetadataIndex index : indexes.keySet()) {
             Set<MetadataIndexKey> keys = index.generateKeys(criteria);
             if (keys != null && !keys.isEmpty()) {
@@ -110,19 +115,31 @@ public class MetadataIndexManager {
                     indexResult.addAll(indexStore.lookup(key));
                 }
                 log.trace("MetadataIndex '{}' produced results: {}", index, indexResult);
-                if (indexResult.isEmpty()) {
-                    log.trace("MetadataIndex '{}' produced empty results, " 
-                            + "terminating early and returning empty result set", index);
-                    return Collections.emptySet();
-                }
                 if (descriptors.isEmpty()) {
                     descriptors.addAll(indexResult);
                 } else {
                     descriptors.retainAll(indexResult);
                 }
+                if (descriptors.isEmpty()) {
+                    log.trace("Accumulator intersected with MetadataIndex '{}' result produced empty result, " 
+                            + "terminating early and returning empty result set", index);
+                    // Return present+empty here to indicate there were applicable indexes for the criteria,
+                    // but no indexed data.
+                    return Optional.of(Collections.<EntityDescriptor>emptySet());
+                }
             }
         }
-        return descriptors;
+        
+        if (descriptors.isEmpty()) {
+            // Because of the handling above, if we reach here it was because either:
+            //   1) no indexes are configured
+            //   2) no criteria was supplied applicable for any indexes 
+            //      (i.e. no MetadataIndexKeys were generated for any criteria)
+            // Returning absent here allows to distinguish these cases from the empty set case above.
+            return Optional.absent();
+        } else {
+            return Optional.of(descriptors);
+        }
     }
     
     /**

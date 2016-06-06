@@ -20,6 +20,7 @@ package org.opensaml.saml.metadata.resolver.index.impl;
 import java.util.Collections;
 import java.util.Set;
 
+import org.opensaml.core.criterion.EntityIdCriterion;
 import org.opensaml.core.xml.XMLObjectBaseTestCase;
 import org.opensaml.core.xml.util.XMLObjectSupport;
 import org.opensaml.saml.criterion.EntityRoleCriterion;
@@ -32,6 +33,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import com.google.common.base.Optional;
 import com.google.common.collect.Sets;
 
 import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
@@ -48,7 +50,7 @@ public class MetadataIndexManagerTest extends XMLObjectBaseTestCase {
     
     private CriteriaSet criteriaSet;
     
-    private Set<EntityDescriptor> result;
+    private Optional<Set<EntityDescriptor>> result;
     
     @BeforeMethod
     public void setUp() {
@@ -82,17 +84,20 @@ public class MetadataIndexManagerTest extends XMLObjectBaseTestCase {
         criteriaSet.clear();
         criteriaSet.add(critAEntity);
         result = manager.lookupEntityDescriptors(criteriaSet);
-        Assert.assertTrue(result.isEmpty());
+        Assert.assertTrue(result.isPresent());
+        Assert.assertTrue(result.get().isEmpty());
         
         criteriaSet.clear();
         criteriaSet.add(critBEntity);
         result = manager.lookupEntityDescriptors(criteriaSet);
-        Assert.assertTrue(result.isEmpty());
+        Assert.assertTrue(result.isPresent());
+        Assert.assertTrue(result.get().isEmpty());
         
         criteriaSet.clear();
         criteriaSet.add(critCEntity);
         result = manager.lookupEntityDescriptors(criteriaSet);
-        Assert.assertTrue(result.isEmpty());
+        Assert.assertTrue(result.isPresent());
+        Assert.assertTrue(result.get().isEmpty());
         
         manager.indexEntityDescriptor(a);
         manager.indexEntityDescriptor(b);
@@ -101,23 +106,26 @@ public class MetadataIndexManagerTest extends XMLObjectBaseTestCase {
         criteriaSet.clear();
         criteriaSet.add(critAEntity);
         result = manager.lookupEntityDescriptors(criteriaSet);
-        Assert.assertFalse(result.isEmpty());
-        Assert.assertEquals(result.size(), 1);
-        Assert.assertTrue(result.contains(a));
+        Assert.assertTrue(result.isPresent());
+        Assert.assertFalse(result.get().isEmpty());
+        Assert.assertEquals(result.get().size(), 1);
+        Assert.assertTrue(result.get().contains(a));
         
         criteriaSet.clear();
         criteriaSet.add(critBEntity);
         result = manager.lookupEntityDescriptors(criteriaSet);
-        Assert.assertFalse(result.isEmpty());
-        Assert.assertEquals(result.size(), 1);
-        Assert.assertTrue(result.contains(b));
+        Assert.assertTrue(result.isPresent());
+        Assert.assertFalse(result.get().isEmpty());
+        Assert.assertEquals(result.get().size(), 1);
+        Assert.assertTrue(result.get().contains(b));
         
         criteriaSet.clear();
         criteriaSet.add(critCEntity);
         result = manager.lookupEntityDescriptors(criteriaSet);
-        Assert.assertFalse(result.isEmpty());
-        Assert.assertEquals(result.size(), 1);
-        Assert.assertTrue(result.contains(c));
+        Assert.assertTrue(result.isPresent());
+        Assert.assertFalse(result.get().isEmpty());
+        Assert.assertEquals(result.get().size(), 1);
+        Assert.assertTrue(result.get().contains(c));
     }
     
     @Test
@@ -135,7 +143,8 @@ public class MetadataIndexManagerTest extends XMLObjectBaseTestCase {
         criteriaSet.clear();
         criteriaSet.add(new SimpleStringCriterion("foobar"));
         result = manager.lookupEntityDescriptors(criteriaSet);
-        Assert.assertTrue(result.isEmpty());
+        Assert.assertTrue(result.isPresent());
+        Assert.assertTrue(result.get().isEmpty());
     }
     
     @Test
@@ -151,18 +160,20 @@ public class MetadataIndexManagerTest extends XMLObjectBaseTestCase {
         criteriaSet.clear();
         criteriaSet.add(roleCritSP);
         result = manager.lookupEntityDescriptors(criteriaSet);
-        Assert.assertFalse(result.isEmpty());
-        Assert.assertEquals(result.size(), 2);
-        Assert.assertTrue(result.contains(a));
-        Assert.assertTrue(result.contains(b));
+        Assert.assertTrue(result.isPresent());
+        Assert.assertFalse(result.get().isEmpty());
+        Assert.assertEquals(result.get().size(), 2);
+        Assert.assertTrue(result.get().contains(a));
+        Assert.assertTrue(result.get().contains(b));
         
         criteriaSet.clear();
         criteriaSet.add(roleCritIDP);
         result = manager.lookupEntityDescriptors(criteriaSet);
-        Assert.assertFalse(result.isEmpty());
-        Assert.assertEquals(result.size(), 2);
-        Assert.assertTrue(result.contains(b));
-        Assert.assertTrue(result.contains(c));
+        Assert.assertTrue(result.isPresent());
+        Assert.assertFalse(result.get().isEmpty());
+        Assert.assertEquals(result.get().size(), 2);
+        Assert.assertTrue(result.get().contains(b));
+        Assert.assertTrue(result.get().contains(c));
         
     }
 
@@ -184,9 +195,10 @@ public class MetadataIndexManagerTest extends XMLObjectBaseTestCase {
         criteriaSet.add(roleCritSP);
         criteriaSet.add(critBEntity);
         result = manager.lookupEntityDescriptors(criteriaSet);
-        Assert.assertFalse(result.isEmpty());
-        Assert.assertEquals(result.size(), 1);
-        Assert.assertTrue(result.contains(b));
+        Assert.assertTrue(result.isPresent());
+        Assert.assertFalse(result.get().isEmpty());
+        Assert.assertEquals(result.get().size(), 1);
+        Assert.assertTrue(result.get().contains(b));
     }
 
     @Test
@@ -207,7 +219,8 @@ public class MetadataIndexManagerTest extends XMLObjectBaseTestCase {
         criteriaSet.add(roleCritSP);
         criteriaSet.add(new SimpleStringCriterion("foobar"));
         result = manager.lookupEntityDescriptors(criteriaSet);
-        Assert.assertTrue(result.isEmpty());
+        Assert.assertTrue(result.isPresent());
+        Assert.assertTrue(result.get().isEmpty());
     }
 
     @Test
@@ -228,19 +241,51 @@ public class MetadataIndexManagerTest extends XMLObjectBaseTestCase {
         criteriaSet.clear();
         criteriaSet.add(new SimpleStringCriterion("All"));
         result = manager.lookupEntityDescriptors(criteriaSet);
-        Assert.assertFalse(result.isEmpty());
-        Assert.assertEquals(result.size(), 3);
-        Assert.assertTrue(result.contains(a));
-        Assert.assertTrue(result.contains(b));
-        Assert.assertTrue(result.contains(c));
+        Assert.assertTrue(result.isPresent());
+        Assert.assertFalse(result.get().isEmpty());
+        Assert.assertEquals(result.get().size(), 3);
+        Assert.assertTrue(result.get().contains(a));
+        Assert.assertTrue(result.get().contains(b));
+        Assert.assertTrue(result.get().contains(c));
         
         criteriaSet.clear();
         criteriaSet.add(roleCritIDP);
         criteriaSet.add(new SimpleStringCriterion("All"));
         result = manager.lookupEntityDescriptors(criteriaSet);
-        Assert.assertFalse(result.isEmpty());
-        Assert.assertEquals(result.size(), 2);
-        Assert.assertTrue(result.contains(b));
-        Assert.assertTrue(result.contains(c));
+        Assert.assertTrue(result.isPresent());
+        Assert.assertFalse(result.get().isEmpty());
+        Assert.assertEquals(result.get().size(), 2);
+        Assert.assertTrue(result.get().contains(b));
+        Assert.assertTrue(result.get().contains(c));
     }
+    
+    @Test
+    public void testNoIndexes() {
+        MetadataIndexManager manager = new MetadataIndexManager(Sets.<MetadataIndex>newHashSet());
+        
+        manager.indexEntityDescriptor(a);
+        
+        criteriaSet.clear();
+        criteriaSet.add(critAEntity);
+        result = manager.lookupEntityDescriptors(criteriaSet);
+        Assert.assertFalse(result.isPresent());
+    }
+    
+    @Test
+    public void testNoApplicableCriteria() {
+        FunctionDrivenMetadataIndex functionIndex = 
+                new FunctionDrivenMetadataIndex(new UppercaseEntityIdDescriptorFunction(), 
+                        new SimpleStringCriteriaFunction());
+        
+        MetadataIndexManager manager = new MetadataIndexManager(Collections.<MetadataIndex>singleton(functionIndex));
+        
+        manager.indexEntityDescriptor(a);
+        
+        criteriaSet.clear();
+        // This criterion isn't understood by the configured index
+        criteriaSet.add(new EntityIdCriterion("urn:test:a"));
+        result = manager.lookupEntityDescriptors(criteriaSet);
+        Assert.assertFalse(result.isPresent());
+    }
+    
 }
