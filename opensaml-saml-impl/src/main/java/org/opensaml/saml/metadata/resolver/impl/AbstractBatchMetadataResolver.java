@@ -160,7 +160,7 @@ public abstract class AbstractBatchMetadataResolver extends AbstractMetadataReso
         if (entityIdCriterion != null) {
             Iterable<EntityDescriptor> entityIdcandidates = lookupEntityID(entityIdCriterion.getEntityId());
             if (log.isDebugEnabled()) {
-                log.debug("Resolved {} candidates via EntityIdCriterion", 
+                log.debug("Resolved {} candidates via EntityIdCriterion: {}", 
                         Iterables.size(entityIdcandidates), entityIdCriterion);
             }
             return predicateFilterCandidates(entityIdcandidates, criteria, false);
