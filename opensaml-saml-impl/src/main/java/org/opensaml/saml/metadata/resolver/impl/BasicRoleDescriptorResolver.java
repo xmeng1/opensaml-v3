@@ -52,7 +52,10 @@ import com.google.common.base.Strings;
  * Simple impl of {@link RoleDescriptorResolver} which wraps an instance of {@link MetadataResolver} to
  * support basic EntityDescriptor resolution, and then performs further role-related filtering over the
  * returned EntityDescriptor.
+ * 
+ * @deprecated use {@link PredicateRoleDescriptorResolver}
  */
+@Deprecated
 public class BasicRoleDescriptorResolver extends AbstractIdentifiedInitializableComponent 
         implements RoleDescriptorResolver {
     
