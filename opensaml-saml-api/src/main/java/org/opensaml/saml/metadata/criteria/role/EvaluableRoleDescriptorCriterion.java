@@ -17,7 +17,6 @@
 
 package org.opensaml.saml.metadata.criteria.role;
 
-import org.opensaml.saml.criterion.RoleDescriptorCriterion;
 import org.opensaml.saml.saml2.metadata.RoleDescriptor;
 
 import com.google.common.base.Predicate;
@@ -27,6 +26,6 @@ import net.shibboleth.utilities.java.support.resolver.Criterion;
 /**
  * Marker interface for evaluable {@link RoleDescriptor} criteria.
  */
-public interface EvaluableRoleDescriptorCriterion extends Predicate<RoleDescriptorCriterion>, Criterion {
+public interface EvaluableRoleDescriptorCriterion extends Predicate<RoleDescriptor>, Criterion {
 
 }
