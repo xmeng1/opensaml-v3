@@ -390,7 +390,12 @@ public class PredicateRoleDescriptorResolver extends AbstractIdentifiedInitializ
         
         log.trace("Effective satisyAny value: {}", satisfyAny);
         
-        return ResolverSupport.getFilteredIterable(candidates, predicates, satisfyAny, onEmptyPredicatesReturnEmpty);
+        Iterable<RoleDescriptor> result = 
+                ResolverSupport.getFilteredIterable(candidates, predicates, satisfyAny, onEmptyPredicatesReturnEmpty);
+        if (log.isDebugEnabled()) {
+            log.debug("After predicate filtering {} RoleDescriptors remain", Iterables.size(result));
+        }
+        return result;
     }
 
 }
