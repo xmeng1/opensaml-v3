@@ -21,10 +21,6 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
-import net.shibboleth.utilities.java.support.logic.ConstraintViolationException;
-import net.shibboleth.utilities.java.support.resolver.ResolverException;
-
 import org.opensaml.core.xml.XMLObjectBaseTestCase;
 import org.opensaml.messaging.context.MessageContext;
 import org.opensaml.messaging.handler.MessageHandlerException;
@@ -34,8 +30,8 @@ import org.opensaml.saml.common.messaging.context.SAMLPeerEntityContext;
 import org.opensaml.saml.common.messaging.context.SAMLPresenterEntityContext;
 import org.opensaml.saml.common.messaging.context.SAMLProtocolContext;
 import org.opensaml.saml.common.xml.SAMLConstants;
-import org.opensaml.saml.metadata.resolver.impl.BasicRoleDescriptorResolver;
 import org.opensaml.saml.metadata.resolver.impl.FilesystemMetadataResolver;
+import org.opensaml.saml.metadata.resolver.impl.PredicateRoleDescriptorResolver;
 import org.opensaml.saml.saml1.core.AttributeQuery;
 import org.opensaml.saml.saml1.core.Request;
 import org.opensaml.saml.saml1.profile.SAML1ActionTestingSupport;
@@ -48,12 +44,16 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
+import net.shibboleth.utilities.java.support.logic.ConstraintViolationException;
+import net.shibboleth.utilities.java.support.resolver.ResolverException;
+
 /**
  * Test for {@link SAMLMetadataLookupHandler}.
  */
 public class SAMLMetadataLookupHandlerTest extends XMLObjectBaseTestCase {
 
-    private BasicRoleDescriptorResolver roleResolver;
+    private PredicateRoleDescriptorResolver roleResolver;
     private SAMLMetadataLookupHandler handler;
     private MessageContext<SAMLObject> messageContext;
     
@@ -68,7 +68,7 @@ public class SAMLMetadataLookupHandlerTest extends XMLObjectBaseTestCase {
         metadataProvider.setId("test");
         metadataProvider.initialize();
         
-        roleResolver = new BasicRoleDescriptorResolver(metadataProvider);
+        roleResolver = new PredicateRoleDescriptorResolver(metadataProvider);
         roleResolver.initialize();
     }
     
