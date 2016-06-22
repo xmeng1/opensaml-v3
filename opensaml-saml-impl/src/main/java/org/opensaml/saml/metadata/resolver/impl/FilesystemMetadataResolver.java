@@ -117,7 +117,7 @@ public class FilesystemMetadataResolver extends AbstractReloadingMetadataResolve
         try {
             validateMetadataFile(metadataFile);
             DateTime metadataUpdateTime = new DateTime(metadataFile.lastModified(), ISOChronology.getInstanceUTC());
-            if (getLastRefresh() == null || getLastUpdate() == null || metadataUpdateTime.isAfter(getLastRefresh())) {
+            if (getLastRefresh() == null || getLastUpdate() == null || metadataUpdateTime.isAfter(getLastUpdate())) {
                 return inputstreamToByteArray(new FileInputStream(metadataFile));
             }
 
