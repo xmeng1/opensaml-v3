@@ -84,6 +84,10 @@ public class HTTPRedirectDeflateDecoder extends BaseHttpServletRequestXMLMessage
     protected void doDecode() throws MessageDecodingException {
         MessageContext<SAMLObject> messageContext = new MessageContext<>();
         HttpServletRequest request = getHttpServletRequest();
+        
+        if (!"GET".equalsIgnoreCase(request.getMethod())) {
+            throw new MessageDecodingException("This message decoder only supports the HTTP GET method");
+        }
 
         String relayState = request.getParameter("RelayState");
         log.debug("Decoded RelayState: {}", relayState);
