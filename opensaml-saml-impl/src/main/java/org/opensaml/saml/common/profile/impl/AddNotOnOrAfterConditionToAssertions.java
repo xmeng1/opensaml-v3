@@ -20,12 +20,6 @@ package org.opensaml.saml.common.profile.impl;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.opensaml.profile.action.AbstractConditionalProfileAction;
-import org.opensaml.profile.action.ActionSupport;
-import org.opensaml.profile.action.EventIds;
-import org.opensaml.profile.context.ProfileRequestContext;
-import org.opensaml.profile.context.navigate.OutboundMessageContextLookup;
-
 import net.shibboleth.utilities.java.support.annotation.Duration;
 import net.shibboleth.utilities.java.support.annotation.constraint.NonNegative;
 import net.shibboleth.utilities.java.support.component.ComponentSupport;
@@ -33,6 +27,11 @@ import net.shibboleth.utilities.java.support.logic.Constraint;
 
 import org.joda.time.DateTime;
 import org.opensaml.messaging.context.navigate.MessageLookup;
+import org.opensaml.profile.action.AbstractConditionalProfileAction;
+import org.opensaml.profile.action.ActionSupport;
+import org.opensaml.profile.action.EventIds;
+import org.opensaml.profile.context.ProfileRequestContext;
+import org.opensaml.profile.context.navigate.OutboundMessageContextLookup;
 import org.opensaml.saml.common.SAMLObject;
 import org.opensaml.saml.saml1.profile.SAML1ActionSupport;
 import org.opensaml.saml.saml2.profile.SAML2ActionSupport;
@@ -101,7 +100,7 @@ public class AddNotOnOrAfterConditionToAssertions extends AbstractConditionalPro
      * 
      * @param lifetime  default lifetime in milliseconds
      */
-    public void setDefaultAssertionLifetime(@Duration @NonNegative final long lifetime) {
+    @Duration public void setDefaultAssertionLifetime(@Duration @NonNegative final long lifetime) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         
         defaultAssertionLifetime = Constraint.isGreaterThanOrEqual(0, lifetime,

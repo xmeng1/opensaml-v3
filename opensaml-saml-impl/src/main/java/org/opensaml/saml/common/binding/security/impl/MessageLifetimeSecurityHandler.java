@@ -65,7 +65,7 @@ public class MessageLifetimeSecurityHandler extends AbstractMessageHandler {
      * 
      * @return the clock skew
      */
-    @NonNegative public long getClockSkew() {
+    @NonNegative @Duration public long getClockSkew() {
         return clockSkew;
     }
 
@@ -74,7 +74,7 @@ public class MessageLifetimeSecurityHandler extends AbstractMessageHandler {
      * 
      * @param skew clock skew to set
      */
-    public void setClockSkew(@Duration @NonNegative final long skew) {
+    @Duration public void setClockSkew(@Duration @NonNegative final long skew) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         
         clockSkew = Constraint.isGreaterThanOrEqual(0, skew, "Clock skew must be greater than or equal to 0");
@@ -85,7 +85,7 @@ public class MessageLifetimeSecurityHandler extends AbstractMessageHandler {
      * 
      * @return amount of time, in milliseconds, for which a message is valid
      */
-    @NonNegative public long getMessageLifetime() {
+    @NonNegative @Duration public long getMessageLifetime() {
         return messageLifetime;
     }
 
@@ -94,7 +94,7 @@ public class MessageLifetimeSecurityHandler extends AbstractMessageHandler {
      * 
      * @param lifetime amount of time, in milliseconds, for which a message is valid
      */
-    public synchronized void setMessageLifetime(@Duration @NonNegative final long lifetime) {
+    @Duration public synchronized void setMessageLifetime(@Duration @NonNegative final long lifetime) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         
         messageLifetime = Constraint.isGreaterThanOrEqual(0, lifetime,

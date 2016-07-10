@@ -92,7 +92,7 @@ public class StorageServiceSAMLArtifactMap extends AbstractInitializableComponen
      * 
      * @return the artifact entry lifetime in milliseconds
      */
-    @Positive public long getArtifactLifetime() {
+    @Duration @Positive public long getArtifactLifetime() {
         return artifactLifetime;
     }
 
@@ -119,7 +119,7 @@ public class StorageServiceSAMLArtifactMap extends AbstractInitializableComponen
      * 
      * @param lifetime artifact entry lifetime in milliseconds
      */
-    public void setArtifactLifetime(@Duration @Positive final long lifetime) {
+    @Duration public void setArtifactLifetime(@Duration @Positive final long lifetime) {
         artifactLifetime = Constraint.isGreaterThan(0, lifetime, "Artifact lifetime must be greater than zero");
     }
 

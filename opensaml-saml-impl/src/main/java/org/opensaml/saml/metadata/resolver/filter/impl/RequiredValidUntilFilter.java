@@ -69,7 +69,7 @@ public class RequiredValidUntilFilter implements MetadataFilter {
      * 
      * @return maximum interval, in milliseconds, between now and the <code>validUntil</code> date
      */
-    public long getMaxValidityInterval() {
+    @Duration public long getMaxValidityInterval() {
         return maxValidityInterval;
     }
     
@@ -79,7 +79,7 @@ public class RequiredValidUntilFilter implements MetadataFilter {
      * 
      * @param validity time in milliseconds between now and the <code>validUntil</code> date
      */
-    public void setMaxValidityInterval(@Duration final long validity) {
+    @Duration public void setMaxValidityInterval(@Duration final long validity) {
         maxValidityInterval = validity;
     }
 

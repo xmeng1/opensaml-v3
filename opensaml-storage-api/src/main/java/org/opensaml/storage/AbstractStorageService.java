@@ -74,7 +74,7 @@ public abstract class AbstractStorageService extends AbstractIdentifiableInitial
      * 
      * @return number of milliseconds between one cleanup and another
      */
-    @NonNegative public long getCleanupInterval() {
+    @NonNegative @Duration public long getCleanupInterval() {
         return cleanupInterval;
     }
 
@@ -86,7 +86,7 @@ public abstract class AbstractStorageService extends AbstractIdentifiableInitial
      * 
      * @param interval number of milliseconds between one cleanup and another
      */
-    public void setCleanupInterval(@Duration @NonNegative final long interval) {
+    @Duration public void setCleanupInterval(@Duration @NonNegative final long interval) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
 
         cleanupInterval =

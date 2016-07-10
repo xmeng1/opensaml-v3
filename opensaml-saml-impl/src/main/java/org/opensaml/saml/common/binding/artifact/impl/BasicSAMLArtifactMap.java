@@ -122,7 +122,7 @@ public class BasicSAMLArtifactMap extends AbstractInitializableComponent impleme
      * 
      * @param lifetime artifact entry lifetime in milliseconds
      */
-    public void setArtifactLifetime(@Duration @Positive final long lifetime) {
+    @Duration public void setArtifactLifetime(@Duration @Positive final long lifetime) {
         artifactLifetime = Constraint.isGreaterThan(0, lifetime, "Artifact lifetime must be greater than zero");
     }
 
@@ -131,7 +131,7 @@ public class BasicSAMLArtifactMap extends AbstractInitializableComponent impleme
      * 
      * @param interval  cleanup interval in milliseconds
      */
-    public void setCleanupInterval(@Duration @NonNegative final long interval) {
+    @Duration public void setCleanupInterval(@Duration @NonNegative final long interval) {
         cleanupInterval = Constraint.isGreaterThanOrEqual(0, interval, "Cleanup interval must be non-negative");
     }
     
@@ -152,7 +152,7 @@ public class BasicSAMLArtifactMap extends AbstractInitializableComponent impleme
     /** {@inheritDoc} */
     @Override @Nullable public SAMLArtifactMapEntry get(@Nonnull @NotEmpty final String artifact) throws IOException {
         log.debug("Attempting to retrieve entry for artifact: {}", artifact);
-        ExpiringSAMLArtifactMapEntry entry = artifactStore.get(artifact);
+        final ExpiringSAMLArtifactMapEntry entry = artifactStore.get(artifact);
 
         if (entry == null) {
             log.debug("No entry found for artifact: {}", artifact);
@@ -173,7 +173,7 @@ public class BasicSAMLArtifactMap extends AbstractInitializableComponent impleme
     @Override public void put(@Nonnull @NotEmpty final String artifact, @Nonnull @NotEmpty final String relyingPartyId,
             @Nonnull @NotEmpty final String issuerId, @Nonnull final SAMLObject samlMessage) throws IOException {
 
-        ExpiringSAMLArtifactMapEntry artifactEntry =
+        final ExpiringSAMLArtifactMapEntry artifactEntry =
                 (ExpiringSAMLArtifactMapEntry) entryFactory.newEntry(artifact, issuerId, relyingPartyId, samlMessage);
         artifactEntry.setExpiration(System.currentTimeMillis() + getArtifactLifetime());
 
@@ -203,7 +203,7 @@ public class BasicSAMLArtifactMap extends AbstractInitializableComponent impleme
 
             final Long now = System.currentTimeMillis();
 
-            Iterator<Map.Entry<String, ExpiringSAMLArtifactMapEntry>> i = artifactStore.entrySet().iterator();
+            final Iterator<Map.Entry<String, ExpiringSAMLArtifactMapEntry>> i = artifactStore.entrySet().iterator();
             while (i.hasNext()) {
                 final Map.Entry<String, ExpiringSAMLArtifactMapEntry> entry = i.next();
                 if (!entry.getValue().isValid(now)) {

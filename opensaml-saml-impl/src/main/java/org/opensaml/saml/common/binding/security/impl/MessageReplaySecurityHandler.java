@@ -97,7 +97,7 @@ public class MessageReplaySecurityHandler extends AbstractMessageHandler {
      * 
      * @return lifetime in milliseconds of entries
      */
-    @NonNegative public long getExpires() {
+    @Duration @NonNegative public long getExpires() {
         return expires;
     }
 
@@ -106,7 +106,7 @@ public class MessageReplaySecurityHandler extends AbstractMessageHandler {
      * 
      * @param exp lifetime in seconds of entries
      */
-    public void setExpires(@Duration @NonNegative final long exp) {
+    @Duration public void setExpires(@Duration @NonNegative final long exp) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         
         expires = Constraint.isGreaterThanOrEqual(0, exp, "Expiration must be greater than or equal to 0");
