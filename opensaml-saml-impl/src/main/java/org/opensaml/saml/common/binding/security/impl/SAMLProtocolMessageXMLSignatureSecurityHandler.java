@@ -131,7 +131,7 @@ public class SAMLProtocolMessageXMLSignatureSecurityHandler extends BaseSAMLXMLS
                     getLogPrefix(), msgType);
             
             if (evaluate(signature, contextEntityID, messageContext)) {
-                log.info("{} Validation of protocol message signature succeeded, message type: {}",
+                log.debug("{} Validation of protocol message signature succeeded, message type: {}",
                         getLogPrefix(), msgType);
                 if (!peerContext.isAuthenticated()) {
                     log.debug("{} Authentication via protocol message signature succeeded for "
