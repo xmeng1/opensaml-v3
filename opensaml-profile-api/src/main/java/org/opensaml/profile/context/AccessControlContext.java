@@ -24,38 +24,59 @@ import org.opensaml.messaging.context.BaseContext;
 
 
 /**
- * A context component which holds the result of a profile action that produces an "event".
+ * A context component which holds state for making an access control decision using
+ * the {@link net.shibboleth.utilities.java.support.security.AccessControl} interface.
  * 
- * <p>Actions that operate on contexts and want to signal the result in the form of an "event" to
- * a sibling or parent component can create or modify an EventContext. The context contains a
- * generic type that represents an event of meaning to a surrounding processing model, such as
- * a workflow.</p>
- *
- * @param <EventType> the event type of the context 
+ * @since 3.3.0
  */
-public class EventContext<EventType> extends BaseContext {
+public class AccessControlContext extends BaseContext {
 
-    /** The event represented. */
-    private EventType event;
+    /** The operation. */
+    @Nullable private String operation;
+
+    /** The resource. */
+    @Nullable private String resource;
 
     /**
-     * Get the event represented by the context.
+     * Get the operation being performed.
      * 
-     * @return the event
+     * @return the operation
      */
-    @Nullable public EventType getEvent() {
-        return event;
+    @Nullable public String getOperation() {
+        return operation;
     }
 
     /**
-     * Set the event represented by the context.
+     * Set the operation being performed.
      * 
-     * @param newEvent the event
+     * @param op the operation
      * 
      * @return this context
      */
-    @Nonnull public EventContext setEvent(@Nullable final EventType newEvent) {
-        event = newEvent;
+    @Nonnull public AccessControlContext setOperation(@Nullable final String op) {
+        operation = op;
+        
+        return this;
+    }
+
+    /**
+     * Get the resource being operated on.
+     * 
+     * @return the resource
+     */
+    @Nullable public String getResource() {
+        return resource;
+    }
+
+    /**
+     * Set the resource being operated on.
+     * 
+     * @param res the resource
+     * 
+     * @return this context
+     */
+    @Nonnull public AccessControlContext setResource(@Nullable final String res) {
+        resource = res;
         
         return this;
     }
