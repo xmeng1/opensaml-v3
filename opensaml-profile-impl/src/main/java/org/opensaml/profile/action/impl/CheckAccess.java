@@ -26,14 +26,18 @@ import org.opensaml.profile.action.EventIds;
 import org.opensaml.profile.context.ProfileRequestContext;
 
 import net.shibboleth.utilities.java.support.annotation.constraint.NonnullAfterInit;
+import net.shibboleth.utilities.java.support.annotation.constraint.NotEmpty;
 import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
 import net.shibboleth.utilities.java.support.component.ComponentSupport;
 import net.shibboleth.utilities.java.support.logic.Constraint;
+import net.shibboleth.utilities.java.support.logic.FunctionSupport;
 import net.shibboleth.utilities.java.support.primitive.StringSupport;
 import net.shibboleth.utilities.java.support.security.AccessControlService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.common.base.Function;
 
 /**
  * This action validates that a request comes from an authorized client, based on an injected service
@@ -50,14 +54,19 @@ public class CheckAccess extends AbstractProfileAction {
     /** Access control service. */
     @NonnullAfterInit private AccessControlService service;
     
-    /** Policy name. */
-    @NonnullAfterInit private String policyName;
+    /** Lookup strategy for policy to apply. */
+    @Nonnull private Function<ProfileRequestContext,String> policyNameLookupStrategy;
     
     /** Operation. */
     @Nullable private String operation;
 
     /** Resource. */
     @Nullable private String resource;
+    
+    /** Constructor. */
+    public CheckAccess() {
+        policyNameLookupStrategy = FunctionSupport.constant(null);
+    }
 
     /**
      * Set the service to use.
@@ -69,16 +78,30 @@ public class CheckAccess extends AbstractProfileAction {
         
         service = Constraint.isNotNull(acs, "AccessControlService cannot be null");
     }
+    
+    /**
+     * Set a lookup strategy to use to obtain the policy name to apply.
+     * 
+     * @param strategy  lookup strategy
+     * 
+     * @since 3.3.0
+     */
+    public void setPolicyNameLookupStrategy(@Nonnull final Function<ProfileRequestContext,String> strategy) {
+        ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
+        
+        policyNameLookupStrategy = Constraint.isNotNull(strategy, "Policy lookup strategy cannot be null");
+    }
 
     /**
-     * Set policy name.
+     * Set an explicit policy name to apply.
      * 
      * @param name  policy name
      */
-    public void setPolicyName(@Nonnull final String name) {
+    public void setPolicyName(@Nonnull @NotEmpty final String name) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         
-        policyName = Constraint.isNotNull(StringSupport.trimOrNull(name), "Policy name cannot be null or empty");
+        policyNameLookupStrategy = FunctionSupport.constant(
+                Constraint.isNotNull(StringSupport.trimOrNull(name), "Policy name cannot be null or empty"));
     }
 
     /**
@@ -108,8 +131,8 @@ public class CheckAccess extends AbstractProfileAction {
     protected void doInitialize() throws ComponentInitializationException {
         super.doInitialize();
         
-        if (service == null || policyName == null) {
-            throw new ComponentInitializationException("AccessControlService and policy name cannot be null");
+        if (service == null) {
+            throw new ComponentInitializationException("AccessControlService cannot be null");
         }
     }
     
@@ -132,7 +155,11 @@ public class CheckAccess extends AbstractProfileAction {
     @Override
     public void doExecute(@Nonnull final ProfileRequestContext profileRequestContext) {
 
-        if (!service.getInstance(policyName).checkAccess(getHttpServletRequest(), operation, resource)) {
+        final String policyName = policyNameLookupStrategy.apply(profileRequestContext);
+        if (policyName == null) {
+            log.warn("{} No policy name returned by lookup strategy, disallowing access", getLogPrefix());
+            ActionSupport.buildEvent(profileRequestContext, EventIds.ACCESS_DENIED);
+        } else if (!service.getInstance(policyName).checkAccess(getHttpServletRequest(), operation, resource)) {
             ActionSupport.buildEvent(profileRequestContext, EventIds.ACCESS_DENIED);
         }
     }
