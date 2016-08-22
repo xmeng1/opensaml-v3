@@ -56,16 +56,18 @@ public class CheckAccess extends AbstractProfileAction {
     
     /** Lookup strategy for policy to apply. */
     @Nonnull private Function<ProfileRequestContext,String> policyNameLookupStrategy;
-    
-    /** Operation. */
-    @Nullable private String operation;
 
-    /** Resource. */
-    @Nullable private String resource;
+    /** Lookup strategy for operation. */
+    @Nonnull private Function<ProfileRequestContext,String> operationLookupStrategy;
+    
+    /** Lookup strategy for resource. */
+    @Nonnull private Function<ProfileRequestContext,String> resourceLookupStrategy;
     
     /** Constructor. */
     public CheckAccess() {
         policyNameLookupStrategy = FunctionSupport.constant(null);
+        operationLookupStrategy = FunctionSupport.constant(null);
+        resourceLookupStrategy = FunctionSupport.constant(null);
     }
 
     /**
@@ -105,25 +107,51 @@ public class CheckAccess extends AbstractProfileAction {
     }
 
     /**
+     * Set a lookup strategy to use to obtain the operation.
+     * 
+     * @param strategy  lookup strategy
+     * 
+     * @since 3.3.0
+     */
+    public void setOperationLookupStrategy(@Nonnull final Function<ProfileRequestContext,String> strategy) {
+        ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
+        
+        operationLookupStrategy = Constraint.isNotNull(strategy, "Policy lookup strategy cannot be null");
+    }
+    
+    /**
      * Set operation.
      * 
      * @param op operation
      */
-    public void setOperation(@Nonnull final String op) {
+    public void setOperation(@Nullable final String op) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         
-        operation = StringSupport.trimOrNull(op);
+        operationLookupStrategy = FunctionSupport.constant(StringSupport.trimOrNull(op));
     }
 
+    /**
+     * Set a lookup strategy to use to obtain the resource.
+     * 
+     * @param strategy  lookup strategy
+     * 
+     * @since 3.3.0
+     */
+    public void setResourceLookupStrategy(@Nonnull final Function<ProfileRequestContext,String> strategy) {
+        ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
+        
+        resourceLookupStrategy = Constraint.isNotNull(strategy, "Policy lookup strategy cannot be null");
+    }
+    
     /**
      * Set resource.
      * 
      * @param res resource
      */
-    public void setResource(@Nonnull final String res) {
+    public void setResource(@Nullable final String res) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         
-        resource = StringSupport.trimOrNull(res);
+        resourceLookupStrategy = FunctionSupport.constant(StringSupport.trimOrNull(res));
     }
     
     /** {@inheritDoc} */
@@ -159,7 +187,9 @@ public class CheckAccess extends AbstractProfileAction {
         if (policyName == null) {
             log.warn("{} No policy name returned by lookup strategy, disallowing access", getLogPrefix());
             ActionSupport.buildEvent(profileRequestContext, EventIds.ACCESS_DENIED);
-        } else if (!service.getInstance(policyName).checkAccess(getHttpServletRequest(), operation, resource)) {
+        } else if (!service.getInstance(policyName).checkAccess(
+                getHttpServletRequest(), operationLookupStrategy.apply(profileRequestContext),
+                resourceLookupStrategy.apply(profileRequestContext))) {
             ActionSupport.buildEvent(profileRequestContext, EventIds.ACCESS_DENIED);
         }
     }
