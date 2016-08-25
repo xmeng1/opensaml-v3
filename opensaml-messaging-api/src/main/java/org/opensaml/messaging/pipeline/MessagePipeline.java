@@ -35,14 +35,14 @@ public interface MessagePipeline<InboundMessageType, OutboundMessageType> {
     /**
      * Get the message encoder instance.
      * 
-     * @return the messasge encoder
+     * @return the message encoder
      */
     @Nonnull public MessageEncoder<OutboundMessageType> getEncoder();
     
     /**
      * Get the message decoder instance.
      * 
-     * @return the messasge decoder
+     * @return the message decoder
      */
     @Nonnull public MessageDecoder<InboundMessageType> getDecoder();
     
