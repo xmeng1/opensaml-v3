@@ -53,7 +53,7 @@ import org.slf4j.LoggerFactory;
 /**
  * SAML 2.0 HTTP Redirect encoder using the DEFLATE encoding method.
  * 
- * This encoder only supports DEFLATE compression and DSA-SHA1 and RSA-SHA1 signatures.
+ * This encoder only supports DEFLATE compression.
  */
 public class HTTPRedirectDeflateEncoder extends BaseSAML2MessageEncoder {
 
