@@ -34,7 +34,6 @@ import org.opensaml.saml.common.messaging.context.SAMLBindingContext;
 import org.opensaml.saml.common.messaging.context.SAMLEndpointContext;
 import org.opensaml.saml.common.messaging.context.SAMLPeerEntityContext;
 import org.opensaml.saml.saml2.metadata.Endpoint;
-import org.opensaml.saml.saml2.metadata.IndexedEndpoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -306,7 +305,7 @@ public final class SAMLBindingSupport {
     
     /**
      * Convert a 2-byte artifact endpoint index byte[] as typically used by SAML 2 artifact types to an integer,
-     * appropriate for use with {@link IndexedEndpoint} impls.
+     * appropriate for use with {@link org.opensaml.saml.saml2.metadata.IndexedEndpoint} impls.
      * 
      * <p>
      * The max input value supported is 0x7FFF (32767), which is the largest possible unsigned 16 bit value.

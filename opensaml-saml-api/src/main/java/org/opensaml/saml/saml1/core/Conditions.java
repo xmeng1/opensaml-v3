@@ -50,37 +50,61 @@ public interface Conditions extends SAMLObject {
     /** Name for the NotBefore attribute. */
     public static final String NOTONORAFTER_ATTRIB_NAME = "NotOnOrAfter";
 
-    /** Return the value of the NotBefore attribute. */
+    /**
+     * Get the "not before" condition.
+     * 
+     * @return the "not before" condition 
+     */
     public DateTime getNotBefore();
 
-    /** List the value of the NotBefore attribute. */
+    /**
+     * Set the "not before" condition.
+     * 
+     * @param notBefore the "not before" condition 
+     */
     public void setNotBefore(DateTime notBefore);
 
-    /** Return the value of the NotOnOrAfter attribute. */
+    /**
+     * Get the "not on or after" condition.
+     * 
+     * @return the "not on or after" condition 
+     */
     public DateTime getNotOnOrAfter();
 
-    /** List the value of the NotOnOrAfter attribute. */
+    /**
+     * Set the "not on or after" condition.
+     * 
+     * @param notOnOrAfter the "not on or after" condition 
+     */
     public void setNotOnOrAfter(DateTime notOnOrAfter);
     
     /**
-     * Return the List representing all the <code> Condition </code> sub elements.
+     * Get the conditions.
+     * 
+     * @return the conditions
      */
     public List<Condition> getConditions();
     
     /**
-     * Return the List representing all the <code>Condition</code>s with the given schema type or element name.
+     * Get the conditions with the given schema type or element name.
      * 
      * @param typeOrName the schema type or element name
+     * 
+     * @return the matching conditions
      */
     public List<Condition> getConditions(QName typeOrName);
 
     /**
-     * Return the List representing all the <code> AudienceRestrictionCondition </code> sub elements.
+     * Get the audience restriction conditions.
+     * 
+     * @return the audience restriction conditions
      */
     public List<AudienceRestrictionCondition> getAudienceRestrictionConditions();
 
     /**
-     * Return the List representing all the <code> DoNotCacheCondition </code> sub elements.
+     * Get the "do not cache" conditions.
+     * 
+     * @return the "do not cache" conditions
      */
     public List<DoNotCacheCondition> getDoNotCacheConditions();
 }

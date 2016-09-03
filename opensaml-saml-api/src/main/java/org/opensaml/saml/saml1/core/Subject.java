@@ -43,16 +43,32 @@ public interface Subject extends SAMLObject {
     public static final QName TYPE_NAME =
             new QName(SAMLConstants.SAML1_NS, TYPE_LOCAL_NAME, SAMLConstants.SAML1_PREFIX);
     
-    /** Gets the NameIdentifier of this Subject. */
+    /**
+     * Get the name identifier.
+     * 
+     * @return the name identifier
+     */
     public NameIdentifier getNameIdentifier();
     
-    /** Sets the NameIdentifier of this Subject. */
+    /**
+     * Set the name identifier.
+     * 
+     * @param nameIdentifier the name identifier
+     */
     public void setNameIdentifier(NameIdentifier nameIdentifier);
     
-    /** Gets the SubjectConfirmation of this Subject. */
+    /**
+     * Get the subject confirmation.
+     * 
+     * @return the subject confirmation
+     */
     public SubjectConfirmation getSubjectConfirmation();
     
-    /** Sets the SubjectConfirmation of this Subject. */
+    /**
+     * Set the subject confirmation.
+     * 
+     * @param subjectConfirmation the subject confirmation
+     */
     public void setSubjectConfirmation(SubjectConfirmation subjectConfirmation);
     
 }

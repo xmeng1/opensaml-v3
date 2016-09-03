@@ -40,9 +40,17 @@ public interface SubjectQuery extends Query {
     public static final QName TYPE_NAME =
             new QName(SAMLConstants.SAML10P_NS, TYPE_LOCAL_NAME, SAMLConstants.SAML1P_PREFIX);
 
-    /** Get Subject child element. */
+    /**
+     * Get the subject.
+     * 
+     * @return the subject
+     */
     public Subject getSubject();
     
-    /** Set Subject child element. */
+    /**
+     * Set the subject.
+     * 
+     * @param subject the subject
+     */
     public void setSubject(Subject subject);
 }

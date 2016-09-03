@@ -31,43 +31,74 @@ import org.opensaml.saml.common.xml.SAMLConstants;
 public interface AuthorizationDecisionStatement extends SAMLObject, SubjectStatement {
 
     /** Element name, no namespace. */
-    public final static String DEFAULT_ELEMENT_LOCAL_NAME = "AuthorizationDecisionStatement";
+    public static final String DEFAULT_ELEMENT_LOCAL_NAME = "AuthorizationDecisionStatement";
     
-    /** Default element name */
-    public final static QName DEFAULT_ELEMENT_NAME = new QName(SAMLConstants.SAML1_NS, DEFAULT_ELEMENT_LOCAL_NAME, SAMLConstants.SAML1_PREFIX);
+    /** Default element name. */
+    public static final QName DEFAULT_ELEMENT_NAME =
+            new QName(SAMLConstants.SAML1_NS, DEFAULT_ELEMENT_LOCAL_NAME, SAMLConstants.SAML1_PREFIX);
     
-    /** Local name of the XSI type */
-    public final static String TYPE_LOCAL_NAME = "AuthorizationDecisionStatementType"; 
+    /** Local name of the XSI type. */
+    public static final String TYPE_LOCAL_NAME = "AuthorizationDecisionStatementType"; 
         
-    /** QName of the XSI type */
-    public final static QName TYPE_NAME = new QName(SAMLConstants.SAML1_NS, TYPE_LOCAL_NAME, SAMLConstants.SAML1_PREFIX);
+    /** QName of the XSI type. */
+    public static final QName TYPE_NAME =
+            new QName(SAMLConstants.SAML1_NS, TYPE_LOCAL_NAME, SAMLConstants.SAML1_PREFIX);
 
-    /** Name for Resource attribute */
-    public final static String RESOURCE_ATTRIB_NAME = "Resource";
+    /** Name for Resource attribute. */
+    public static final String RESOURCE_ATTRIB_NAME = "Resource";
     
-    /** Name for Decision attribute */
-    public final static String DECISION_ATTRIB_NAME = "Decision";
+    /** Name for Decision attribute. */
+    public static final String DECISION_ATTRIB_NAME = "Decision";
     
-    /** Return the contents of the Resource attribute */
+    /**
+     * Get the resource.
+     * 
+     * @return the resource
+     */
     public String getResource();
     
-    /** Set the contents of the Resource attribute */
+    /**
+     * Set the resource.
+     * 
+     * @param resource the resource
+     */
     public void setResource(String resource);
-    
-    /** Return the contents of the Decision attribute */
+
+    /**
+     * Get the decision.
+     * 
+     * @return the decision.
+     */
     public DecisionTypeEnumeration getDecision();
-    
-    /** Set the contents of the Decision attribute */
+
+    /**
+     * Set the decision.
+     * 
+     * @param decision the decision.
+     */
     public void setDecision(DecisionTypeEnumeration decision);
-    
-    /** Get the Action Elements */
+
+    /**
+     * Get the actions.
+     * 
+     * @return the actions.
+     */
     public List<Action> getActions();
-    
-    /** Return the Evidence element */
+
+    /**
+     * Get the evidence.
+     * 
+     * @return the evidence
+     */
     public Evidence getEvidence();
-    
-    /** Set the Evidence element 
-     * @throws IllegalArgumentException */
+
+    /**
+     * Set the evidence.
+     * 
+     * @param evidence the evidence
+     * 
+     * @throws IllegalArgumentException if an error occurs
+     */
     public void setEvidence(Evidence evidence) throws IllegalArgumentException;
    
 }
