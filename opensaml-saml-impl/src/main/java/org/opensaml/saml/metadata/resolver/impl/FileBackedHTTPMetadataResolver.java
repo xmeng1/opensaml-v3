@@ -41,8 +41,8 @@ import org.w3c.dom.Document;
 import com.google.common.io.Files;
 
 /**
- * An HTTP metadata provider that caches a copy of the retrieved metadata to disk so that, in the event that the metadata
- * may not be pulled from the URL, it may be pulled from disk using the most recently fetched data.
+ * An HTTP metadata provider that caches a copy of the retrieved metadata to disk so that, in the event that
+ * the metadata may not be pulled from the URL, it may be pulled from disk using the most recently fetched data.
  * 
  * <p>
  * If the backup file does not already exist, it will be created by saving the byte[] retrieved in the HTTP fetch.

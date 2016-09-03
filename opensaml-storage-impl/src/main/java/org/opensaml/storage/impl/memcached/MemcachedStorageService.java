@@ -1,5 +1,18 @@
 /*
- * See LICENSE for licensing and NOTICE for copyright.
+ * Licensed to the University Corporation for Advanced Internet Development, 
+ * Inc. (UCAID) under one or more contributor license agreements.  See the 
+ * NOTICE file distributed with this work for additional information regarding
+ * copyright ownership. The UCAID licenses this file to You under the Apache 
+ * License, Version 2.0 (the "License"); you may not use this file except in 
+ * compliance with the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.opensaml.storage.impl.memcached;
@@ -18,7 +31,11 @@ import net.spy.memcached.transcoders.Transcoder;
 import org.cryptacular.util.ByteUtil;
 import org.cryptacular.util.CodecUtil;
 import org.cryptacular.util.HashUtil;
-import org.opensaml.storage.*;
+import org.opensaml.storage.StorageCapabilities;
+import org.opensaml.storage.StorageRecord;
+import org.opensaml.storage.StorageSerializer;
+import org.opensaml.storage.StorageService;
+import org.opensaml.storage.VersionMismatchException;
 import org.opensaml.storage.annotation.AnnotationSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +43,11 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -108,40 +129,36 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
     /**
      * Creates a new instance.
      *
-     * @param client Memcached client object. The client MUST be configured to use the binary memcached protocol,
+     * @param c Memcached client object. The client MUST be configured to use the binary memcached protocol,
      *               i.e. {@link net.spy.memcached.BinaryConnectionFactory}, in order for
      *               {@link #deleteWithVersion(long, String, String)} and {@link #deleteWithVersion(long, Object)}
      *               to work correctly. The binary protocol is recommended for efficiency as well.
-     * @param timeout Memcached operation timeout in seconds.
+     * @param t Memcached operation timeout in seconds.
      */
-    public MemcachedStorageService(@Nonnull final MemcachedClient client, @Positive final int timeout) {
-        this(client, timeout, false);
+    public MemcachedStorageService(@Nonnull final MemcachedClient c, @Positive final int t) {
+        this(c, t, false);
     }
 
 
     /**
      * Creates a new instance with optional context key tracking.
      *
-     * @param client Memcached client object. The client MUST be configured to use the binary memcached protocol,
+     * @param c Memcached client object. The client MUST be configured to use the binary memcached protocol,
      *               i.e. {@link net.spy.memcached.BinaryConnectionFactory}, in order for
      *               {@link #deleteWithVersion(long, String, String)} and {@link #deleteWithVersion(long, Object)}
      *               to work correctly. The binary protocol is recommended for efficiency as well.
-     * @param timeout Memcached operation timeout in seconds.
+     * @param t Memcached operation timeout in seconds.
      * @param enableContextKeyTracking True to enable context key tracking, false otherwise. <strong>NOTE</strong>
      *                                 this flag must be set to <code>true</code> in order for
      *                                 {@link #updateContextExpiration(String, Long)} to work. If that capability is
      *                                 not needed, the flag should be set to <code>false</code> for better
      *                                 performance. The feature is disabled by default.
      */
-    public MemcachedStorageService(
-            @Nonnull final MemcachedClient client,
-            @Positive final int timeout,
+    public MemcachedStorageService(@Nonnull final MemcachedClient c, @Positive final int t,
             final boolean enableContextKeyTracking) {
-        Constraint.isNotNull(client, "Client cannot be null");
-        Constraint.isGreaterThan(0, timeout, "Operation timeout must be positive");
-        this.client = client;
-        this.timeout = timeout;
-        this.trackContextKeys = enableContextKeyTracking;
+        client = Constraint.isNotNull(c, "Client cannot be null");
+        timeout = (int) Constraint.isGreaterThan(0, t, "Operation timeout must be positive");
+        trackContextKeys = enableContextKeyTracking;
     }
 
     @Override
@@ -155,11 +172,10 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
      * the {@link edu.vt.middleware.idp.storage.MemcachedStorageCapabilities#valueSize} should be set equal to the
      * chosen slab size.
      *
-     * @param capabilities Memcached storage capabilities.
+     * @param caps Memcached storage capabilities.
      */
-    public void setCapabilities(@Nonnull final MemcachedStorageCapabilities capabilities) {
-        Constraint.isNotNull(capabilities, "Storage capabilities cannot be null");
-        this.capabilities = capabilities;
+    public void setCapabilities(@Nonnull final MemcachedStorageCapabilities caps) {
+        capabilities = Constraint.isNotNull(caps, "Storage capabilities cannot be null");
     }
 
     @Override
@@ -341,6 +357,7 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
         return newVersion;
     }
 
+// Checkstyle: ParameterNumber OFF
     @Override
     public Long updateWithVersion(@Positive final long version,
                                   @Nonnull @NotEmpty final String context,
@@ -353,6 +370,7 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
         Constraint.isNotNull(serializer, "Serializer cannot be null");
         return updateWithVersion(version, context, key, serializer.serialize(value), expiration);
     }
+// Checkstyle: ParameterNumber ON
 
     @Override
     public Long updateWithVersion(@Positive final long version, @Nonnull final Object value)
@@ -600,6 +618,14 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
         return key;
     }
 
+    /**
+     * Handle asynchronous result.
+     * 
+     * @param <T> the data type
+     * @param result the result
+     * @return the data
+     * @throws IOException if an error occurs
+     */
     private <T> T handleAsyncResult(final OperationFuture<T> result) throws IOException {
         try {
             return result.get(timeout, TimeUnit.SECONDS);
@@ -612,6 +638,16 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
         }
     }
 
+    /**
+     * Update the list of context keys.
+     * 
+     * @param suffix the suffix
+     * @param namespace the namespace
+     * @param key the key
+     * 
+     * @return true iff successful 
+     * @throws IOException if an error occurs
+     */
     private boolean updateContextKeyList(final String suffix, final String namespace, final String key)
             throws IOException {
         final String listKey = namespace + suffix;
@@ -623,4 +659,5 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
         }
         return success;
     }
+    
 }

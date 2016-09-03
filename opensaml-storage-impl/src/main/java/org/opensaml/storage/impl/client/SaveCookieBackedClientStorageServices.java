@@ -35,11 +35,12 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
+import com.google.common.escape.Escaper;
+import com.google.common.net.UrlEscapers;
 
 import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
 import net.shibboleth.utilities.java.support.component.ComponentSupport;
 import net.shibboleth.utilities.java.support.logic.Constraint;
-import net.shibboleth.utilities.java.support.net.URISupport;
 
 /**
  * An action that performs any number of {@link ClientStorageOperation} instances sourced from
@@ -66,9 +67,13 @@ public class SaveCookieBackedClientStorageServices<InboundMessageType, OutboundM
     /** Context to drive storage save. */
     @Nullable private ClientStorageSaveContext clientStorageSaveCtx;
     
+    /** URL encoder. */
+    @Nonnull private Escaper escaper;
+    
     /** Constructor. */
     public SaveCookieBackedClientStorageServices() {
         storageServices = Collections.emptyMap();
+        escaper = UrlEscapers.urlFormParameterEscaper();
     }
     
     /**
@@ -131,7 +136,7 @@ public class SaveCookieBackedClientStorageServices<InboundMessageType, OutboundM
                 log.debug("{} Saving data for ClientStorageService '{}' to cookie named '{}'", getLogPrefix(),
                         operation.getStorageServiceID(), operation.getKey());
                 storageService.getCookieManager().addCookie(operation.getKey(),
-                        URISupport.doURLEncode(operation.getValue()));
+                        escaper.escape(operation.getValue()));
             } else {
                 log.debug("{} Clearing data for ClientStorageService '{}' from cookie named '{}'", getLogPrefix(),
                         operation.getStorageServiceID(), operation.getKey());

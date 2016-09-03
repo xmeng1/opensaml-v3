@@ -373,8 +373,8 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
      * 
      * @throws ResolverException thrown if there is a problem unmarshalling or filtering the new metadata
      */
-    protected void processNewMetadata(final String metadataIdentifier, final DateTime refreshStart, final byte[] metadataBytes)
-            throws ResolverException {
+    protected void processNewMetadata(final String metadataIdentifier, final DateTime refreshStart,
+            final byte[] metadataBytes) throws ResolverException {
         log.debug("Unmarshalling metadata from '{}'", metadataIdentifier);
         final XMLObject metadata = unmarshallMetadata(metadataBytes);
 
@@ -395,8 +395,8 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
      * @param metadataBytes raw bytes of the new metadata document
      * @param metadata new metadata document unmarshalled
      */
-    protected void processPreExpiredMetadata(final String metadataIdentifier, final DateTime refreshStart, final byte[] metadataBytes,
-            final XMLObject metadata) {
+    protected void processPreExpiredMetadata(final String metadataIdentifier, final DateTime refreshStart,
+            final byte[] metadataBytes, final XMLObject metadata) {
         log.warn("Entire metadata document from '{}' was expired at time of loading, existing metadata retained",
                 metadataIdentifier);
 
@@ -414,8 +414,8 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
      * 
      * @throws ResolverException thrown if there s a problem processing the metadata
      */
-    protected void processNonExpiredMetadata(final String metadataIdentifier, final DateTime refreshStart, final byte[] metadataBytes,
-            final XMLObject metadata) throws ResolverException {
+    protected void processNonExpiredMetadata(final String metadataIdentifier, final DateTime refreshStart,
+            final byte[] metadataBytes, final XMLObject metadata) throws ResolverException {
         final Document metadataDom = metadata.getDOM().getOwnerDocument();
 
         log.debug("Preprocessing metadata from '{}'", metadataIdentifier);
@@ -477,8 +477,8 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
      * 
      * @throws ResolverException thrown if there is a problem with the provided data
      */
-    protected void postProcessMetadata(final byte[] metadataBytes, final Document metadataDom, final XMLObject originalMetadata,
-            final XMLObject filteredMetadata) throws ResolverException {
+    protected void postProcessMetadata(final byte[] metadataBytes, final Document metadataDom,
+            final XMLObject originalMetadata, final XMLObject filteredMetadata) throws ResolverException {
 
     }
 

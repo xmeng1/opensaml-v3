@@ -49,9 +49,6 @@ import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
  */
 public class ArtifactSourceIDMetadataIndex implements MetadataIndex {
     
-    /** Logger. */
-    private Logger log = LoggerFactory.getLogger(ArtifactSourceIDMetadataIndex.class);
-    
     /** Indexing function instance to use. */
     private Function<EntityDescriptor, Set<MetadataIndexKey>> indexingFunction;
     

@@ -24,8 +24,6 @@ import javax.xml.namespace.QName;
 import org.opensaml.saml.criterion.EntityRoleCriterion;
 import org.opensaml.saml.metadata.criteria.entity.EvaluableEntityDescriptorCriterion;
 import org.opensaml.saml.saml2.metadata.EntityDescriptor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.base.MoreObjects;
 
@@ -36,9 +34,6 @@ import net.shibboleth.utilities.java.support.logic.Constraint;
  * contains a certain role.
  */
 public class EvaluableEntityRoleEntityDescriptorCriterion implements EvaluableEntityDescriptorCriterion {
-    
-    /** Logger. */
-    private final Logger log = LoggerFactory.getLogger(EvaluableEntityRoleEntityDescriptorCriterion.class);
     
     /** Entity role. */
     private QName role;

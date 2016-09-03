@@ -220,7 +220,7 @@ public final class SOAPMessagingSupport {
      * 
      * @param messageContext the message context being processed
      * @param headerBlock the header block to check
-     * @param mustUnderstand true if header must be understood, false if not
+     * @param targetNode the node to add
      */
     public static void addTargetNode(@Nonnull final MessageContext messageContext,
             @Nonnull final XMLObject headerBlock, @Nullable String targetNode) {

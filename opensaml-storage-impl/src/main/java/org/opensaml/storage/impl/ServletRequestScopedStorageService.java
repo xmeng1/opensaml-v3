@@ -77,11 +77,14 @@ import org.slf4j.LoggerFactory;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
+import com.google.common.escape.Escaper;
+import com.google.common.net.UrlEscapers;
 
 /**
  * Implementation of {@link RequestScopedStorageService} that stores data in-memory in a servlet request attribute,
  * and reads and writes the data with a secured string form using JSON as the underlying format.
  */
+@SuppressWarnings("deprecation")
 public class ServletRequestScopedStorageService extends AbstractMapBackedStorageService
     implements RequestScopedStorageService, Filter {
 
@@ -122,11 +125,15 @@ public class ServletRequestScopedStorageService extends AbstractMapBackedStorage
 
     /** KeyStrategy enabling us to detect whether data has been sealed with an older key. */
     @Nullable private DataSealerKeyStrategy keyStrategy;
+    
+    /** URL encoder. */
+    @Nonnull private Escaper escaper;
 
     /** Constructor. */
     public ServletRequestScopedStorageService() {
         cookieName = DEFAULT_COOKIE_NAME;
         capabilitySize = 4096;
+        escaper = UrlEscapers.urlFormParameterEscaper();
     }
 
     /** {@inheritDoc} */
@@ -421,7 +428,7 @@ public class ServletRequestScopedStorageService extends AbstractMapBackedStorage
             try {
                 final String wrapped = dataSealer.wrap(toEncrypt, exp > 0 ? exp : now + 24 * 60 * 60 * 1000);
                 log.trace("Size of data after encryption is {}", wrapped.length());
-                cookieManager.addCookie(cookieName, URISupport.doURLEncode(wrapped));
+                cookieManager.addCookie(cookieName, escaper.escape(wrapped));
                 setDirty(false);
             } catch (final DataSealerException e) {
                 throw new IOException(e);

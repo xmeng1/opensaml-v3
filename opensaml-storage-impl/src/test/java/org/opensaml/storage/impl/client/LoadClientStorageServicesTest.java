@@ -37,11 +37,12 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import com.google.common.net.UrlEscapers;
+
 import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
 import net.shibboleth.utilities.java.support.logic.ConstraintViolationException;
 import net.shibboleth.utilities.java.support.net.HttpServletRequestResponseContext;
 import net.shibboleth.utilities.java.support.net.ThreadLocalHttpServletRequestProxy;
-import net.shibboleth.utilities.java.support.net.URISupport;
 
 /** Unit test for {@link LoadClientStorageServices}. */
 public class LoadClientStorageServicesTest extends AbstractBaseClientStorageServiceTest {
@@ -156,7 +157,7 @@ public class LoadClientStorageServicesTest extends AbstractBaseClientStorageServ
 
         Assert.assertFalse(ss.isLoaded());
         
-        final Cookie cookie = new Cookie("foo", URISupport.doURLEncode(saved.getValue()));
+        final Cookie cookie = new Cookie("foo", UrlEscapers.urlFormParameterEscaper().escape(saved.getValue()));
         ((MockHttpServletRequest) HttpServletRequestResponseContext.getRequest()).setCookies(cookie);
 
         action.setUseLocalStorage(true);

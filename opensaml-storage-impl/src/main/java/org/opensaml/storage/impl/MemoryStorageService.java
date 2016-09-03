@@ -83,6 +83,7 @@ public class MemoryStorageService extends AbstractMapBackedStorageService {
         return lock;
     }
     
+// Checkstyle: AnonInnerLength OFF
     /** {@inheritDoc} */
     @Override
     @Nullable protected TimerTask getCleanupTask() {
@@ -124,5 +125,6 @@ public class MemoryStorageService extends AbstractMapBackedStorageService {
             }
         };
     }
-    
+// Checkstyle: AnonInnerLength ON
+
 }
