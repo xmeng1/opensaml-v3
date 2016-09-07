@@ -113,15 +113,15 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
 
     /** Invariant storage capabilities. */
     @Nonnull
-    private MemcachedStorageCapabilities capabilities = new MemcachedStorageCapabilities();
+    private MemcachedStorageCapabilities storageCapabilities;
 
     /** Memcached client instance. */
     @Nonnull
-    private final MemcachedClient client;
+    private final MemcachedClient memcacheClient;
 
     /** Memcached asynchronous operation timeout in seconds. */
     @Positive
-    private int timeout;
+    private int operationTimeout;
 
     /** Flag that controls context key tracking. */
     private boolean trackContextKeys;
@@ -129,42 +129,48 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
     /**
      * Creates a new instance.
      *
-     * @param c Memcached client object. The client MUST be configured to use the binary memcached protocol,
+     * @param client Memcached client object. The client MUST be configured to use the binary memcached protocol,
      *               i.e. {@link net.spy.memcached.BinaryConnectionFactory}, in order for
      *               {@link #deleteWithVersion(long, String, String)} and {@link #deleteWithVersion(long, Object)}
      *               to work correctly. The binary protocol is recommended for efficiency as well.
-     * @param t Memcached operation timeout in seconds.
+     * @param timeout Memcached operation timeout in seconds.
      */
-    public MemcachedStorageService(@Nonnull final MemcachedClient c, @Positive final int t) {
-        this(c, t, false);
+    public MemcachedStorageService(@Nonnull final MemcachedClient client, @Positive final int timeout) {
+        this(client, timeout, false);
     }
 
 
     /**
      * Creates a new instance with optional context key tracking.
      *
-     * @param c Memcached client object. The client MUST be configured to use the binary memcached protocol,
+     * @param client Memcached client object. The client MUST be configured to use the binary memcached protocol,
      *               i.e. {@link net.spy.memcached.BinaryConnectionFactory}, in order for
      *               {@link #deleteWithVersion(long, String, String)} and {@link #deleteWithVersion(long, Object)}
      *               to work correctly. The binary protocol is recommended for efficiency as well.
-     * @param t Memcached operation timeout in seconds.
+     * @param timeout Memcached operation timeout in seconds.
      * @param enableContextKeyTracking True to enable context key tracking, false otherwise. <strong>NOTE</strong>
      *                                 this flag must be set to <code>true</code> in order for
      *                                 {@link #updateContextExpiration(String, Long)} to work. If that capability is
      *                                 not needed, the flag should be set to <code>false</code> for better
      *                                 performance. The feature is disabled by default.
      */
-    public MemcachedStorageService(@Nonnull final MemcachedClient c, @Positive final int t,
+    public MemcachedStorageService(
+            @Nonnull final MemcachedClient client,
+            @Positive final int timeout,
             final boolean enableContextKeyTracking) {
-        client = Constraint.isNotNull(c, "Client cannot be null");
-        timeout = (int) Constraint.isGreaterThan(0, t, "Operation timeout must be positive");
+        Constraint.isNotNull(client, "Client cannot be null");
+        Constraint.isGreaterThan(0, timeout, "Operation timeout must be positive");
+        memcacheClient = client;
+        operationTimeout = timeout;
         trackContextKeys = enableContextKeyTracking;
+        storageCapabilities = new MemcachedStorageCapabilities();
     }
 
+    /** {@inheritDoc} */
     @Override
     @Nonnull
     public StorageCapabilities getCapabilities() {
-        return capabilities;
+        return storageCapabilities;
     }
 
     /**
@@ -172,12 +178,14 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
      * the {@link edu.vt.middleware.idp.storage.MemcachedStorageCapabilities#valueSize} should be set equal to the
      * chosen slab size.
      *
-     * @param caps Memcached storage capabilities.
+     * @param capabilities Memcached storage capabilities.
      */
-    public void setCapabilities(@Nonnull final MemcachedStorageCapabilities caps) {
-        capabilities = Constraint.isNotNull(caps, "Storage capabilities cannot be null");
+    public void setCapabilities(@Nonnull final MemcachedStorageCapabilities capabilities) {
+        Constraint.isNotNull(capabilities, "Storage capabilities cannot be null");
+        storageCapabilities = capabilities;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean create(@Nonnull @NotEmpty final String context,
                           @Nonnull @NotEmpty final String key,
@@ -194,8 +202,9 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
             namespace = createNamespace(context);
         }
         final String cacheKey = memcachedKey(namespace, key);
-        this.logger.debug("Creating new entry at {} for context={}, key={}, exp={}", cacheKey, context, key, expiry);
-        final boolean success = handleAsyncResult(this.client.add(cacheKey, expiry, record, storageRecordTranscoder));
+        logger.debug("Creating new entry at {} for context={}, key={}, exp={}", cacheKey, context, key, expiry);
+        final boolean success =
+                handleAsyncResult(memcacheClient.add(cacheKey, expiry, record, storageRecordTranscoder));
         if (success && trackContextKeys) {
             logger.debug("Tracking key {} for context {}", cacheKey, context);
             final boolean result = updateContextKeyList(CTX_KEY_LIST_SUFFIX, namespace, cacheKey);
@@ -203,13 +212,14 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
                 logger.debug("Failed appending {} to list of keys for context {}", cacheKey, context);
                 // Try to clean up record we just created
                 // Cache entry expiration will clean it up regardless
-                handleAsyncResult(this.client.delete(cacheKey));
+                handleAsyncResult(memcacheClient.delete(cacheKey));
             }
             return result;
         }
         return success;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean create(@Nonnull @NotEmpty final String context,
                           @Nonnull @NotEmpty final String key,
@@ -220,6 +230,7 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
         return create(context, key, serializer.serialize(value), expiration);
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean create(@Nonnull Object value) throws IOException {
         Constraint.isNotNull(value, "Value cannot be null");
@@ -230,6 +241,7 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
                 AnnotationSupport.getExpiration(value));
     }
 
+    /** {@inheritDoc} */
     @Override
     public StorageRecord read(@Nonnull @NotEmpty final String context,
                               @Nonnull @NotEmpty final String key) throws IOException {
@@ -237,14 +249,14 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
         Constraint.isNotNull(StringSupport.trimOrNull(key), "Key cannot be null or empty");
         final String namespace = lookupNamespace(context);
         if (namespace == null) {
-            this.logger.debug("Namespace for context {} does not exist", context);
+            logger.debug("Namespace for context {} does not exist", context);
             return null;
         }
         final String cacheKey = memcachedKey(namespace, key);
-        this.logger.debug("Reading entry at {} for context={}, key={}", cacheKey, context, key);
+        logger.debug("Reading entry at {} for context={}, key={}", cacheKey, context, key);
         final CASValue<MemcachedStorageRecord> record;
         try {
-            record = handleAsyncResult(this.client.asyncGets(cacheKey, storageRecordTranscoder));
+            record = handleAsyncResult(memcacheClient.asyncGets(cacheKey, storageRecordTranscoder));
         } catch (RuntimeException e) {
             throw new IOException("Memcached operation failed", e);
         }
@@ -255,12 +267,14 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
         return record.getValue();
     }
 
+    /** {@inheritDoc} */
     @Override
     public Object read(@Nonnull final Object value) throws IOException {
         Constraint.isNotNull(value, "Value cannot be null");
         return read(AnnotationSupport.getContext(value), AnnotationSupport.getKey(value));
     }
 
+    /** {@inheritDoc} */
     @Override
     public Pair<Long, StorageRecord> read(@Nonnull @NotEmpty final String context,
                                            @Nonnull @NotEmpty final String key,
@@ -278,6 +292,7 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
         return result;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean update(@Nonnull @NotEmpty final String context,
                           @Nonnull @NotEmpty final String key,
@@ -291,14 +306,15 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
         Constraint.isGreaterThan(-1, expiry, "Expiration must be null or positive");
         final String namespace = lookupNamespace(context);
         if (namespace == null) {
-            this.logger.debug("Namespace for context {} does not exist", context);
+            logger.debug("Namespace for context {} does not exist", context);
             return false;
         }
         final String cacheKey = memcachedKey(namespace, key);
-        this.logger.debug("Updating entry at {} for context={}, key={}, exp={}", cacheKey, context, key, expiry);
-        return handleAsyncResult(this.client.replace(cacheKey, expiry, record, storageRecordTranscoder));
+        logger.debug("Updating entry at {} for context={}, key={}, exp={}", cacheKey, context, key, expiry);
+        return handleAsyncResult(memcacheClient.replace(cacheKey, expiry, record, storageRecordTranscoder));
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean update(@Nonnull @NotEmpty final String context,
                           @Nonnull @NotEmpty final String key,
@@ -309,6 +325,7 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
         return update(context, key, serializer.serialize(value), expiration);
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean update(@Nonnull Object value) throws IOException {
         Constraint.isNotNull(value, "Value cannot be null");
@@ -319,6 +336,7 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
                 AnnotationSupport.getExpiration(value));
     }
 
+    /** {@inheritDoc} */
     @Override
     public Long updateWithVersion(@Positive final long version,
                                   @Nonnull @NotEmpty final String context,
@@ -336,18 +354,18 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
         Constraint.isGreaterThan(-1, expiry, "Expiration must be null or positive");
         final String namespace = lookupNamespace(context);
         if (namespace == null) {
-            this.logger.debug("Namespace for context {} does not exist", context);
+            logger.debug("Namespace for context {} does not exist", context);
             return null;
         }
         final String cacheKey = memcachedKey(namespace, key);
-        this.logger.debug("Updating entry at {} for context={}, key={}, version={}, exp={}",
+        logger.debug("Updating entry at {} for context={}, key={}, version={}, exp={}",
                 cacheKey, context, key, version, expiry);
         final CASResponse response = handleAsyncResult(
-                this.client.asyncCAS(cacheKey, version, expiry, record, storageRecordTranscoder));
+                memcacheClient.asyncCAS(cacheKey, version, expiry, record, storageRecordTranscoder));
         Long newVersion = null;
         if (CASResponse.OK == response) {
             final CASValue<MemcachedStorageRecord> newRecord = handleAsyncResult(
-                    this.client.asyncGets(cacheKey, storageRecordTranscoder));
+                    memcacheClient.asyncGets(cacheKey, storageRecordTranscoder));
             if (newRecord != null) {
                 newVersion = newRecord.getCas();
             }
@@ -357,7 +375,7 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
         return newVersion;
     }
 
-// Checkstyle: ParameterNumber OFF
+    /** {@inheritDoc} */
     @Override
     public Long updateWithVersion(@Positive final long version,
                                   @Nonnull @NotEmpty final String context,
@@ -370,8 +388,8 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
         Constraint.isNotNull(serializer, "Serializer cannot be null");
         return updateWithVersion(version, context, key, serializer.serialize(value), expiration);
     }
-// Checkstyle: ParameterNumber ON
 
+    /** {@inheritDoc} */
     @Override
     public Long updateWithVersion(@Positive final long version, @Nonnull final Object value)
             throws IOException, VersionMismatchException {
@@ -385,6 +403,7 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
                 AnnotationSupport.getExpiration(value));
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean updateExpiration(@Nonnull @NotEmpty final String context,
                                     @Nonnull @NotEmpty final String key,
@@ -395,14 +414,15 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
         Constraint.isGreaterThan(-1, expiry, "Expiration must be null or positive");
         final String namespace = lookupNamespace(context);
         if (namespace == null) {
-            this.logger.debug("Namespace for context {} does not exist", context);
+            logger.debug("Namespace for context {} does not exist", context);
             return false;
         }
         final String cacheKey = memcachedKey(namespace, key);
-        this.logger.debug("Updating expiration for entry at {} for context={}, key={}", cacheKey, context, key);
-        return handleAsyncResult(this.client.touch(cacheKey, expiry));
+        logger.debug("Updating expiration for entry at {} for context={}, key={}", cacheKey, context, key);
+        return handleAsyncResult(memcacheClient.touch(cacheKey, expiry));
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean updateExpiration(@Nonnull final Object value) throws IOException {
         Constraint.isNotNull(value, "Value cannot be null");
@@ -412,6 +432,7 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
                 AnnotationSupport.getExpiration(value));
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean delete(@Nonnull @NotEmpty final String context, @Nonnull @NotEmpty final String key)
             throws IOException {
@@ -420,12 +441,12 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
         Constraint.isNotNull(StringSupport.trimOrNull(key), "Key cannot be null or empty");
         final String namespace = lookupNamespace(context);
         if (namespace == null) {
-            this.logger.debug("Namespace for context {} does not exist", context);
+            logger.debug("Namespace for context {} does not exist", context);
             return false;
         }
         final String cacheKey = memcachedKey(namespace, key);
-        this.logger.debug("Deleting entry at {} for context={}, key={}", cacheKey, context, key);
-        final boolean success = handleAsyncResult(this.client.delete(cacheKey));
+        logger.debug("Deleting entry at {} for context={}, key={}", cacheKey, context, key);
+        final boolean success = handleAsyncResult(memcacheClient.delete(cacheKey));
         if (success && trackContextKeys) {
             logger.debug("Blacklisting key {} for context {}", cacheKey, context);
             if (!updateContextKeyList(CTX_KEY_BLACKLIST_SUFFIX, namespace, cacheKey)) {
@@ -435,6 +456,7 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
         return success;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean delete(@Nonnull final Object value) throws IOException {
         Constraint.isNotNull(value, "Value cannot be null");
@@ -443,6 +465,7 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
                 AnnotationSupport.getKey(value));
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean deleteWithVersion(@Positive final long version,
                                      @Nonnull @NotEmpty final String context,
@@ -452,12 +475,12 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
         Constraint.isNotNull(StringSupport.trimOrNull(key), "Key cannot be null or empty");
         final String namespace = lookupNamespace(context);
         if (namespace == null) {
-            this.logger.debug("Namespace for context {} does not exist", context);
+            logger.debug("Namespace for context {} does not exist", context);
             return false;
         }
         final String cacheKey = memcachedKey(namespace, key);
-        this.logger.debug("Deleting entry at {} for context={}, key={}, version={}", cacheKey, context, key, version);
-        final boolean success = handleAsyncResult(this.client.delete(cacheKey, version));
+        logger.debug("Deleting entry at {} for context={}, key={}, version={}", cacheKey, context, key, version);
+        final boolean success = handleAsyncResult(memcacheClient.delete(cacheKey, version));
         if (success && trackContextKeys) {
             logger.debug("Blacklisting key {} for context {}", cacheKey, context);
             if (!updateContextKeyList(CTX_KEY_BLACKLIST_SUFFIX, namespace, cacheKey)) {
@@ -467,6 +490,7 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
         return success;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean deleteWithVersion(@Positive final long version, @Nonnull final Object value)
             throws IOException, VersionMismatchException {
@@ -478,11 +502,13 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
                 AnnotationSupport.getKey(value));
     }
 
+    /** {@inheritDoc} */
     @Override
     public void reap(@Nonnull @NotEmpty final String context) throws IOException {
         return;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void updateContextExpiration(@Nonnull @NotEmpty final String context, @Nullable final Long expiration)
             throws IOException {
@@ -498,40 +524,41 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
             return;
         }
         final CASValue<String> keys = handleAsyncResult(
-                this.client.asyncGets(namespace + CTX_KEY_LIST_SUFFIX, stringTranscoder));
+                memcacheClient.asyncGets(namespace + CTX_KEY_LIST_SUFFIX, stringTranscoder));
         if (keys == null) {
             logger.debug("No context keys found to update expiration");
             return;
         }
         final Set<String> keySet = new HashSet<>(Arrays.asList(keys.getValue().split(CTX_KEY_LIST_DELIMITER)));
         final CASValue<String> blacklistKeys = handleAsyncResult(
-                this.client.asyncGets(namespace + CTX_KEY_BLACKLIST_SUFFIX, stringTranscoder));
+                memcacheClient.asyncGets(namespace + CTX_KEY_BLACKLIST_SUFFIX, stringTranscoder));
         if (blacklistKeys != null) {
             keySet.removeAll(Arrays.asList(blacklistKeys.getValue().split(CTX_KEY_LIST_DELIMITER)));
         }
         final List<OperationFuture<Boolean>> results = new ArrayList<>(keySet.size());
         for (String key : keySet) {
             logger.debug("Updating expiration of key {} to {}", key, expiry);
-            results.add(this.client.touch(key, expiry));
+            results.add(memcacheClient.touch(key, expiry));
         }
         for (OperationFuture<Boolean> result : results) {
             handleAsyncResult(result);
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public void deleteContext(@Nonnull @NotEmpty final String context) throws IOException {
         Constraint.isNotNull(StringSupport.trimOrNull(context), "Context cannot be null or empty");
         final String namespace = lookupNamespace(context);
         if (namespace == null) {
-            this.logger.debug("Namespace for context {} does not exist. Context values effectively deleted.", context);
+            logger.debug("Namespace for context {} does not exist. Context values effectively deleted.", context);
             return;
         }
-        final OperationFuture<Boolean> ctxResult = this.client.delete(context);
-        final OperationFuture<Boolean> nsResult = this.client.delete(namespace);
+        final OperationFuture<Boolean> ctxResult = memcacheClient.delete(context);
+        final OperationFuture<Boolean> nsResult = memcacheClient.delete(namespace);
         if (trackContextKeys) {
-            final OperationFuture<Boolean> keyListResult = this.client.delete(namespace + CTX_KEY_LIST_SUFFIX);
-            final OperationFuture<Boolean> blackListResult = this.client.delete(namespace + CTX_KEY_BLACKLIST_SUFFIX);
+            final OperationFuture<Boolean> keyListResult = memcacheClient.delete(namespace + CTX_KEY_LIST_SUFFIX);
+            final OperationFuture<Boolean> blackListResult = memcacheClient.delete(namespace + CTX_KEY_BLACKLIST_SUFFIX);
             handleAsyncResult(keyListResult);
             handleAsyncResult(blackListResult);
         }
@@ -539,9 +566,10 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
         handleAsyncResult(nsResult);
     }
 
+    /** {@inheritDoc} */
     @Override
     protected void doDestroy() {
-        client.shutdown();
+        memcacheClient.shutdown();
     }
 
 
@@ -557,7 +585,7 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
     protected String lookupNamespace(final String context) throws IOException {
         try {
             final CASValue<String> result = handleAsyncResult(
-                    this.client.asyncGets(memcachedKey(context), stringTranscoder));
+                    memcacheClient.asyncGets(memcachedKey(context), stringTranscoder));
             return result == null ? null : result.getValue();
         } catch (RuntimeException e) {
             throw new IOException("Memcached operation failed", e);
@@ -581,10 +609,10 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
         while (!success) {
             namespace = CodecUtil.hex(ByteUtil.toBytes(System.currentTimeMillis()));
             // Namespace values are safe for memcached keys
-            success = handleAsyncResult(this.client.add(namespace, 0, context, stringTranscoder));
+            success = handleAsyncResult(memcacheClient.add(namespace, 0, context, stringTranscoder));
         }
         // Create the reverse mapping to support looking up namespace by context name
-        if (!handleAsyncResult(this.client.add(memcachedKey(context), 0, namespace, stringTranscoder))) {
+        if (!handleAsyncResult(memcacheClient.add(memcachedKey(context), 0, namespace, stringTranscoder))) {
             throw new IllegalStateException(context + " already exists");
         }
         return namespace;
@@ -618,46 +646,27 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
         return key;
     }
 
-    /**
-     * Handle asynchronous result.
-     * 
-     * @param <T> the data type
-     * @param result the result
-     * @return the data
-     * @throws IOException if an error occurs
-     */
     private <T> T handleAsyncResult(final OperationFuture<T> result) throws IOException {
         try {
-            return result.get(timeout, TimeUnit.SECONDS);
+            return result.get(operationTimeout, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             throw new IOException("Memcached operation interrupted");
         } catch (TimeoutException e) {
-            throw new IOException("Memcached operation did not complete in time (" + timeout + "s)");
+            throw new IOException("Memcached operation did not complete in time (" + operationTimeout + "s)");
         } catch (ExecutionException e) {
             throw new IOException("Memcached operation error", e);
         }
     }
 
-    /**
-     * Update the list of context keys.
-     * 
-     * @param suffix the suffix
-     * @param namespace the namespace
-     * @param key the key
-     * 
-     * @return true iff successful 
-     * @throws IOException if an error occurs
-     */
     private boolean updateContextKeyList(final String suffix, final String namespace, final String key)
             throws IOException {
         final String listKey = namespace + suffix;
         final String newItem = key + CTX_KEY_LIST_DELIMITER;
-        final boolean success = handleAsyncResult(this.client.append(listKey, newItem, stringTranscoder));
+        final boolean success = handleAsyncResult(memcacheClient.append(listKey, newItem, stringTranscoder));
         if (!success) {
             // Assume list does not exist and create it
-            return handleAsyncResult(this.client.add(listKey, 0, newItem, stringTranscoder));
+            return handleAsyncResult(memcacheClient.add(listKey, 0, newItem, stringTranscoder));
         }
         return success;
     }
-    
 }
