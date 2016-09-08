@@ -632,9 +632,10 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
          */
         protected EntityManagementData(@Nonnull final String id) {
             entityID = Constraint.isNotNull(id, "Entity ID was null");
-            expirationTime = new DateTime(ISOChronology.getInstanceUTC()).plus(getMaxCacheDuration());
-            refreshTriggerTime = new DateTime(ISOChronology.getInstanceUTC()).plus(getMaxCacheDuration());
-            lastAccessedTime = new DateTime(ISOChronology.getInstanceUTC());
+            DateTime now = new DateTime(ISOChronology.getInstanceUTC());
+            expirationTime = now.plus(getMaxCacheDuration());
+            refreshTriggerTime = now.plus(getMaxCacheDuration());
+            lastAccessedTime = now;
             readWriteLock = new ReentrantReadWriteLock(true);
         }
         
