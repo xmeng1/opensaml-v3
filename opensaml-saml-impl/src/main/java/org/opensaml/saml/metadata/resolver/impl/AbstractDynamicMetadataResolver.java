@@ -291,7 +291,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
         
         EntityManagementData mgmtData = getBackingStore().getManagementData(entityID);
         Lock readLock = mgmtData.getReadWriteLock().readLock();
-        Iterable<EntityDescriptor> candidates;
+        Iterable<EntityDescriptor> candidates = null;
         try {
             readLock.lock();
             
@@ -311,7 +311,9 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
             readLock.unlock();
         }
         
-        candidates = resolveFromOriginSource(criteria);
+        if (candidates == null) {
+            candidates = resolveFromOriginSource(criteria);
+        }
         
         return predicateFilterCandidates(candidates, criteria, false);
     }
