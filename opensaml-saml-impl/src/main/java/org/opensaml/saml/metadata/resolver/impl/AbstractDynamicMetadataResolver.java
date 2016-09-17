@@ -18,6 +18,7 @@
 package org.opensaml.saml.metadata.resolver.impl;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -32,29 +33,37 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import org.joda.time.DateTime;
+import org.joda.time.chrono.ISOChronology;
+import org.opensaml.core.criterion.EntityIdCriterion;
+import org.opensaml.core.xml.XMLObject;
+import org.opensaml.core.xml.persist.XMLObjectLoadSaveManager;
+import org.opensaml.saml.metadata.resolver.DynamicMetadataResolver;
+import org.opensaml.saml.metadata.resolver.filter.FilterException;
+import org.opensaml.saml.saml2.common.SAML2Support;
+import org.opensaml.saml.saml2.metadata.EntityDescriptor;
+import org.opensaml.security.crypto.JCAConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.common.base.Function;
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
+import com.google.common.base.Strings;
+
 import net.shibboleth.utilities.java.support.annotation.Duration;
 import net.shibboleth.utilities.java.support.annotation.constraint.NonnullAfterInit;
 import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
 import net.shibboleth.utilities.java.support.annotation.constraint.Positive;
+import net.shibboleth.utilities.java.support.codec.StringDigester;
+import net.shibboleth.utilities.java.support.codec.StringDigester.OutputFormat;
+import net.shibboleth.utilities.java.support.collection.Pair;
 import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
 import net.shibboleth.utilities.java.support.component.ComponentSupport;
 import net.shibboleth.utilities.java.support.logic.Constraint;
 import net.shibboleth.utilities.java.support.primitive.StringSupport;
 import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
 import net.shibboleth.utilities.java.support.resolver.ResolverException;
-
-import org.joda.time.DateTime;
-import org.joda.time.chrono.ISOChronology;
-import org.opensaml.core.criterion.EntityIdCriterion;
-import org.opensaml.core.xml.XMLObject;
-import org.opensaml.saml.metadata.resolver.DynamicMetadataResolver;
-import org.opensaml.saml.metadata.resolver.filter.FilterException;
-import org.opensaml.saml.saml2.common.SAML2Support;
-import org.opensaml.saml.saml2.metadata.EntityDescriptor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.common.base.Strings;
 
 /**
  * Abstract subclass for metadata resolvers that resolve metadata dynamically, as needed and on demand.
@@ -93,6 +102,19 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
     /** The backing store cleanup sweeper background task. */
     private BackingStoreCleanupSweeper cleanupTask;
     
+    /** The manager for the persistent cache store for resolved metadata. */
+    private XMLObjectLoadSaveManager<EntityDescriptor> persistentCacheManager;
+    
+    /** Function for generating the String key used with the cache manager. */
+    private Function<EntityDescriptor, String> persistentCacheKeyGenerator;
+    
+    /** Predicate which determines whether a given entity should be loaded from the persistent cache
+     * at resolver initialization time. */
+    private Predicate<EntityDescriptor> initializationFromCachePredicate;
+    
+    /** Flag used to track state of whether currently initializing or not. */
+    private boolean initializing;
+    
     /**
      * Constructor.
      *
@@ -126,6 +148,77 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
         removeIdleEntityData = true;
     }
     
+    /**
+     * Get the manager for the persistent cache store for resolved metadata.
+     * 
+     * @return the cache manager if configured, or null
+     */
+    @Nullable protected XMLObjectLoadSaveManager<EntityDescriptor> getPersistentCacheManager() {
+        return persistentCacheManager;
+    }
+
+    /**
+     * Set the manager for the persistent cache store for resolved metadata.
+     * 
+     * @param manager the cache manager, may be null
+     */
+    public void setPersistentCacheManager(@Nullable final XMLObjectLoadSaveManager<EntityDescriptor> manager) {
+        ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
+        ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
+        persistentCacheManager = manager;
+    }
+    
+    /**
+     * Get the flag indicating whether persistent caching of the resolved metadata is enabled.
+     * 
+     * @return true if enabled, false otherwise
+     */
+    public boolean isPersistentCachingEnabled() {
+        return getPersistentCacheManager() != null;
+    }
+
+    /**
+     * Get the function for generating the String key used with the persistent cache manager. 
+     * 
+     * @return the key generator or null
+     */
+    @NonnullAfterInit public Function<EntityDescriptor, String> getPersistentCacheKeyGenerator() {
+        return persistentCacheKeyGenerator;
+    }
+
+    /**
+     * Set the function for generating the String key used with the persistent cache manager. 
+     * 
+     * @param generator the new generator to set, may be null
+     */
+    public void setPersistentCacheKeyGenerator(@Nullable final Function<EntityDescriptor, String> generator) {
+        ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
+        ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
+        persistentCacheKeyGenerator = generator;
+    }
+
+    /**
+     * Get the predicate which determines whether a given entity should be loaded from the persistent cache
+     * at resolver initialization time.
+     * 
+     * @return the cache initialization predicate
+     */
+    @NonnullAfterInit public Predicate<EntityDescriptor> getInitializationFromCachePredicate() {
+        return initializationFromCachePredicate;
+    }
+
+    /**
+     * Set the predicate which determines whether a given entity should be loaded from the persistent cache
+     * at resolver initialization time.
+     * 
+     * @param predicate the cache initialization predicate
+     */
+    public void setInitializationFromCachePredicate(@Nullable final Predicate<EntityDescriptor> predicate) {
+        ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
+        ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
+        initializationFromCachePredicate = predicate;
+    }
+
     /**
      *  Get the minimum cache duration for metadata.
      *  
@@ -421,7 +514,28 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
                         entityDescriptor.getEntityID(), expectedEntityID);
                return; 
             }
+            
             preProcessEntityDescriptor(entityDescriptor, getBackingStore());
+            
+            // Note: we store in the cache the original input XMLObject, not the filtered one
+            if (isPersistentCachingEnabled() && !initializing && (root instanceof EntityDescriptor)) {
+                EntityDescriptor origDescriptor = (EntityDescriptor) root;
+                String key = getPersistentCacheKeyGenerator().apply(origDescriptor);
+                log.trace("Storing resolved EntityDescriptor '{}' in persistent cache with key '{}'", 
+                        origDescriptor.getEntityID(), key);
+                if (key == null) {
+                    log.warn("Could not generate cache storage key for input EntityDescriptor '{}', skipping caching", 
+                            origDescriptor.getEntityID());
+                } else {
+                    try {
+                        getPersistentCacheManager().save(key, origDescriptor, true);
+                    } catch (IOException e) {
+                        log.warn("Error saving EntityDescriptor '{}' to cache store with key {}'", 
+                                origDescriptor.getEntityID(), key);
+                    }
+                }
+            }
+            
         } else {
             log.warn("Document root was not an EntityDescriptor: {}", root.getClass().getName());
         }
@@ -527,17 +641,117 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
     
     /** {@inheritDoc} */
     protected void initMetadataResolver() throws ComponentInitializationException {
-        super.initMetadataResolver();
-        setBackingStore(createNewBackingStore());
-        
-        cleanupTask = new BackingStoreCleanupSweeper();
-        // Start with a delay of 1 minute, run at the user-specified interval
-        taskTimer.schedule(cleanupTask, 1*60*1000, getCleanupTaskInterval());
+        try {
+            initializing = true;
+            
+            super.initMetadataResolver();
+            
+            setBackingStore(createNewBackingStore());
+            
+            if (getPersistentCacheKeyGenerator() == null) {
+                setPersistentCacheKeyGenerator(new DefaultCacheKeyGenerator());
+            }
+            
+            if (getInitializationFromCachePredicate() == null) {
+                setInitializationFromCachePredicate(Predicates.<EntityDescriptor>alwaysTrue());
+            }
+            
+            if (isPersistentCachingEnabled()) {
+                initializeFromPersistentCache();
+            }
+            
+            cleanupTask = new BackingStoreCleanupSweeper();
+            // Start with a delay of 1 minute, run at the user-specified interval
+            taskTimer.schedule(cleanupTask, 1*60*1000, getCleanupTaskInterval());
+
+        } finally {
+            initializing = false;
+        }
     }
     
-   /** {@inheritDoc} */
+    /**
+     * Initialize the resolver with data from the cache manager, if enabled.
+     */
+    protected void initializeFromPersistentCache() {
+        if (!isPersistentCachingEnabled()) {
+            return;
+        }
+        
+        try {
+            for (Pair<String, EntityDescriptor> cacheEntry: getPersistentCacheManager().listAll()) {
+                EntityDescriptor descriptor = cacheEntry.getSecond();
+                String currentKey = cacheEntry.getFirst();
+                log.trace("Loaded EntityDescriptor from cache store with entityID '{}' and storage key '{}'", 
+                        descriptor.getEntityID(), currentKey);
+                if (isValid(descriptor)) {
+                    if (getInitializationFromCachePredicate().apply(descriptor)) {
+                        String expectedKey = getPersistentCacheKeyGenerator().apply(descriptor);
+                        try {
+                            processNewMetadata(descriptor, descriptor.getEntityID());
+                            log.trace("Successfully processed EntityDescriptor with entityID '{}' from cache", 
+                                    descriptor.getEntityID());
+
+                            // Update storage key if necessary, e.g. if cache key generator impl has changed.
+                            if (!Objects.equals(currentKey, expectedKey)) {
+                                log.trace("Current cache storage key '{}' differs from expected key '{}', updating",
+                                        currentKey, expectedKey);
+                                getPersistentCacheManager().updateKey(currentKey, expectedKey);
+                                log.trace("Successfully updated cache storage key '{}' to '{}'", 
+                                        currentKey, expectedKey);
+                            }
+
+                        } catch (FilterException e) {
+                            log.warn("Error processing EntityDescriptor '{}' from cache with storage key '{}'", 
+                                    descriptor.getEntityID(), currentKey, e);
+                        } catch (IOException e) {
+                            log.warn("Error updating cache storage key '{}' to '{}'", currentKey, expectedKey, e);
+                        }
+                    } else {
+                        log.trace("Cache initialization predicate indicated to not process EntityDescriptor " 
+                                + "with entityID '{}' and cache storage key '{}'",
+                                descriptor.getEntityID(), currentKey);
+                    }
+                } else {
+                    log.trace("EntityDescriptor with entityID '{}' and storaage key '{}' in cache was " 
+                            + "not valid, skipping and removing", descriptor.getEntityID(), currentKey);
+                    try {
+                        getPersistentCacheManager().remove(currentKey);
+                    } catch (IOException e) {
+                        log.warn("Error removing invalid EntityDescriptor '{}' from persistent cache with key '{}'",
+                                descriptor.getEntityID(), currentKey);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            log.warn("Error loading EntityDescriptors from cache", e);
+        }
+    }
+
+    /** {@inheritDoc} */
+    protected void removeByEntityID(String entityID, EntityBackingStore backingStore) {
+        if (isPersistentCachingEnabled()) {
+            List<EntityDescriptor> descriptors = backingStore.getIndexedDescriptors().get(entityID);
+            if (descriptors != null) {
+                for (EntityDescriptor descriptor : descriptors) {
+                    String key = getPersistentCacheKeyGenerator().apply(descriptor);
+                    try {
+                        getPersistentCacheManager().remove(key);
+                    } catch (IOException e) {
+                        log.warn("Error removing EntityDescriptor '{}' from cache store with key '{}'", 
+                                descriptor.getEntityID(), key);
+                    }
+                }
+            }
+        }
+        
+        super.removeByEntityID(entityID, backingStore);
+    }
+
+    /** {@inheritDoc} */
     protected void doDestroy() {
-        cleanupTask.cancel();
+        if (cleanupTask != null) {
+            cleanupTask.cancel();
+        }
         if (createdOwnTaskTimer) {
             taskTimer.cancel();
         }
@@ -799,6 +1013,40 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
             } else {
                 return false;
             }
+        }
+        
+    }
+    
+    /**
+     * Default function for generating a cache key for loading and saving an {@link EntityDescriptor}
+     * using a {@link XMLObjectLoadSaveManager}.
+     */
+    public static class DefaultCacheKeyGenerator implements Function<EntityDescriptor, String> {
+        
+        /** String digester for the EntityDescriptor's entityID. */
+        private StringDigester digester;
+        
+        /** Constructor. */
+        public DefaultCacheKeyGenerator() {
+            try {
+                digester = new StringDigester(JCAConstants.DIGEST_SHA1, OutputFormat.HEX_LOWER);
+            } catch (NoSuchAlgorithmException e) {
+                // this can't really happen b/c SHA-1 is required to be supported on all JREs.
+            }
+        }
+
+        /** {@inheritDoc} */
+        public String apply(EntityDescriptor input) {
+            if (input == null) {
+                return null;
+            }
+            
+            String entityID = StringSupport.trimOrNull(input.getEntityID());
+            if (entityID == null) {
+                return null;
+            }
+            
+            return digester.apply(entityID);
         }
         
     }
