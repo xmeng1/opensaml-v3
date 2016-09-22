@@ -82,7 +82,7 @@ public class FilesystemLoadSaveManager<T extends XMLObject> implements XMLObject
     /**
      * Constructor.
      *
-     * @param baseDir the base directory
+     * @param baseDir the base directory, must be an absolute path
      */
     public FilesystemLoadSaveManager(@Nonnull final String baseDir) {
         this(new File(Constraint.isNotNull(StringSupport.trimOrNull(baseDir), 
@@ -93,7 +93,7 @@ public class FilesystemLoadSaveManager<T extends XMLObject> implements XMLObject
     /**
      * Constructor.
      *
-     * @param baseDir the base directory
+     * @param baseDir the base directory, must be an absolute path
      */
     public FilesystemLoadSaveManager(@Nonnull final File baseDir) {
         this(baseDir, null);
@@ -102,7 +102,7 @@ public class FilesystemLoadSaveManager<T extends XMLObject> implements XMLObject
     /**
      * Constructor.
      *
-     * @param baseDir the base directory
+     * @param baseDir the base directory, must be an absolute path
      * @param pp the parser pool instance to use
      */
     public FilesystemLoadSaveManager(@Nonnull final String baseDir, @Nullable final ParserPool pp) {
@@ -114,16 +114,24 @@ public class FilesystemLoadSaveManager<T extends XMLObject> implements XMLObject
     /**
      * Constructor.
      *
-     * @param baseDir the base directory
+     * @param baseDir the base directory, must be an absolute path
      * @param pp the parser pool instance to use
      */
     public FilesystemLoadSaveManager(@Nonnull final File baseDir, @Nullable final ParserPool pp) {
         baseDirectory = Constraint.isNotNull(baseDir, "Base directory File instance was null");
+        Constraint.isTrue(baseDirectory.isAbsolute(), "Base directory specified was not an absolute path");
+        if (baseDirectory.exists()) {
+            Constraint.isTrue(baseDirectory.isDirectory(), "Existing base directory path was not a directory");
+        } else {
+            Constraint.isTrue(baseDirectory.mkdirs(), "Base directory did not exist and could not be created");
+        }
+        
         parserPool = pp;
         if (parserPool == null) {
             parserPool = Constraint.isNotNull(XMLObjectProviderRegistrySupport.getParserPool(),
                     "Specified ParserPool was null and global ParserPool was not available");
         }
+        
         fileFilter = new DefaultFileFilter();
     }
 
@@ -150,6 +158,10 @@ public class FilesystemLoadSaveManager<T extends XMLObject> implements XMLObject
     /** {@inheritDoc} */
     public T load(String key) throws IOException {
         File file = buildFile(key);
+        if (!file.exists()) {
+            log.debug("Target file with key '{}' does not exist, path: {}", key, file.getAbsolutePath());
+            return null;
+        }
         try (FileInputStream fis = new FileInputStream(file)) {
             try {
                 XMLObject xmlObject = XMLObjectSupport.unmarshallFromInputStream(parserPool, fis);
@@ -205,10 +217,12 @@ public class FilesystemLoadSaveManager<T extends XMLObject> implements XMLObject
     /** {@inheritDoc} */
     public boolean updateKey(String currentKey, String newKey) throws IOException {
         File currentFile = buildFile(currentKey);
-        File newFile = buildFile(newKey);
         if (!currentFile.exists()) {
             return false;
-        } else if (newFile.exists()) {
+        }
+        
+        File newFile = buildFile(newKey);
+        if (newFile.exists()) {
             throw new IOException(String.format("Specified new key already exists: %s", newKey));
         } else {
             Files.move(currentFile, newFile);
@@ -339,10 +353,15 @@ public class FilesystemLoadSaveManager<T extends XMLObject> implements XMLObject
                 String key = keysIter.next();
                 try {
                     T xmlObject = load(key);
-                    return new Pair<>(key, xmlObject);
+                    if (xmlObject != null) {
+                        // This is to defensively guard against files being removed after files/keys are enumerated.
+                        // Don't fail, just skip
+                        return new Pair<>(key, xmlObject);
+                    } else {
+                        log.warn("Target file with key '{}' was removed since iterator creation, skipping", key);
+                    }
                 } catch (IOException e) {
                     log.warn("Error loading target file with key '{}'", key, e);
-                    //TODO should swallow the error, or throw out as unchecked?
                 }
             }
             return null;

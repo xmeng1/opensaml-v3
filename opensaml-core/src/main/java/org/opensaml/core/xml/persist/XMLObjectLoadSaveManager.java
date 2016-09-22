@@ -27,6 +27,8 @@ import org.opensaml.core.xml.XMLObject;
 
 import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
 import net.shibboleth.utilities.java.support.annotation.constraint.NotEmpty;
+import net.shibboleth.utilities.java.support.annotation.constraint.NotLive;
+import net.shibboleth.utilities.java.support.annotation.constraint.Unmodifiable;
 import net.shibboleth.utilities.java.support.collection.Pair;
 
 /**
@@ -48,7 +50,7 @@ public interface XMLObjectLoadSaveManager<T extends XMLObject> {
      * 
      * @throws IOException if there is a fatal error obtaining the keys
      */
-    @Nonnull @NonnullElements
+    @Nonnull @NonnullElements @NotLive @Unmodifiable
     public Set<String> listKeys() throws IOException;
 
     /**
