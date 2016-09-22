@@ -48,7 +48,7 @@ public class FilesystemLoadSaveManagerTest extends XMLObjectBaseTestCase {
     
     @BeforeMethod
     public void setUp() throws IOException {
-        baseDir = new File(System.getProperty("java.io.tmpdir") + "load-save-manager-test");
+        baseDir = new File(System.getProperty("java.io.tmpdir"), "load-save-manager-test");
         baseDir.deleteOnExit();
         log.debug("Using base directory: {}", baseDir.getAbsolutePath());
         resetBaseDir();
