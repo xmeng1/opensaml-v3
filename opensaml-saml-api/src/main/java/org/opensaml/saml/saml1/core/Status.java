@@ -41,22 +41,45 @@ public interface Status extends SAMLObject {
     public static final QName TYPE_NAME =
             new QName(SAMLConstants.SAML10P_NS, TYPE_LOCAL_NAME, SAMLConstants.SAML1P_PREFIX);
 
-    /** Return the object representing the <code>StatusMessage</code> (element). */
+    /**
+     * Get the object representing the <code>StatusMessage</code> (element).
+     * 
+     * @return object representing the <code>StatusMessage</code> (element)
+     */
     public StatusMessage getStatusMessage();
 
-    /** Set the object representing the <code>StatusMessage</code> (element). */
+    /**
+     * Set the object representing the <code>StatusMessage</code> (element).
+     * 
+     * @param statusMessage object representing the <code>StatusMessage</code> (element)
+     */
     public void setStatusMessage(StatusMessage statusMessage);
 
-    /** Return the object representing the <code>StatusCode</code> (element). */
+    /**
+     * Get the object representing the <code>StatusCode</code> (element).
+     * 
+     * @return object representing the <code>StatusCode</code> (element)
+     */
     public StatusCode getStatusCode();
 
-    /** Set the object representing the <code>StatusCode</code> (element). */
+    /**
+     * Set the object representing the <code>StatusCode</code> (element).
+     * 
+     * @param statusCode object representing the <code>StatusCode</code> (element)
+     */
     public void setStatusCode(StatusCode statusCode);
 
-    /** Return the object representing the <code>StatusDetail</code> (element). */
-
+    /**
+     * Get the object representing the <code>StatusDetail</code> (element).
+     * 
+     * @return object representing the <code>StatusDetail</code> (element)
+     */
     public StatusDetail getStatusDetail();
 
-    /** Set the object representing the <code>StatusDetail</code> (element). */
+    /**
+     * Set the object representing the <code>StatusDetail</code> (element).
+     * 
+     * @param statusDetail object representing the <code>StatusDetail</code> (element)
+     */
     public void setStatusDetail(StatusDetail statusDetail);
 }

@@ -45,28 +45,60 @@ public interface Request extends RequestAbstractType {
     /* 
      * A bit odd this, it s a choice so only one of these will return any value
      */
-    
-    /** Get the request Query, SubjectQuery, AuthenticationQuery, AttributeQuery, or AuthorizationDecisionQuery. */ 
+
+    /**
+     * Get the request Query, SubjectQuery, AuthenticationQuery, AttributeQuery, or AuthorizationDecisionQuery.
+     * 
+     * @return request Query, SubjectQuery, AuthenticationQuery, AttributeQuery, or AuthorizationDecisionQuery
+     */
     public Query getQuery();
     
-    /** Get the request SubjectQuery, AuthenticationQuery, AttributeQuery, or AuthorizationDecisionQuery. */ 
+    /**
+     * Get the request SubjectQuery, AuthenticationQuery, AttributeQuery, or AuthorizationDecisionQuery.
+     *
+     * @return request SubjectQuery, AuthenticationQuery, AttributeQuery, or AuthorizationDecisionQuery
+     */
     public SubjectQuery getSubjectQuery();
     
-    /** Get the query AuthenticationQuery. */ 
+    /**
+     * Get the request AuthenticationQuery.
+     * 
+     * @return request AuthenticationQuery
+     */ 
     public AuthenticationQuery getAuthenticationQuery();
     
-    /** Get the request AttributeQuery. */ 
+    /**
+     * Get the request AttributeQuery.
+     * 
+     * @return request AttributeQuery
+     */
     public AttributeQuery getAttributeQuery();
     
-    /** Get the request AuthorizationDecisionQuery. */ 
+    /**
+     * Get the request AuthorizationDecisionQuery.
+     * 
+     * @return request AuthorizationDecisionQuery
+     */ 
     public AuthorizationDecisionQuery getAuthorizationDecisionQuery();
     
-    /** Set the query (Query, SubjectQuery, AuthenticationQuery, AttributeQuery, AuthorizationDecisioonQuery. */ 
+    /**
+     * Set the request query (Query, SubjectQuery, AuthenticationQuery, AttributeQuery, AuthorizationDecisioonQuery).
+     * 
+     * @param query Query, SubjectQuery, AuthenticationQuery, AttributeQuery, AuthorizationDecisioonQuery
+     */ 
     public void setQuery(Query query);
     
-    /** Get the list of AssertionIDReferences. */
+    /**
+     * Get the list of AssertionIDReferences.
+     * 
+     * @return list of AssertionIDReferences
+     */
     public List <AssertionIDReference> getAssertionIDReferences();
     
-    /** Get the list of artifacts. */
+    /**
+     * Get the list of artifacts.
+     * 
+     * @return list of artifacts
+     */
     public List <AssertionArtifact> getAssertionArtifacts();
 }
