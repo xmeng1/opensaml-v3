@@ -646,6 +646,14 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
         return key;
     }
 
+    /**
+     * Handle async result.
+     * 
+     * @param result the result 
+     * @param <T> type of result
+     * @return the result
+     * @throws IOException if an error occurs
+     */
     private <T> T handleAsyncResult(final OperationFuture<T> result) throws IOException {
         try {
             return result.get(operationTimeout, TimeUnit.SECONDS);
@@ -658,6 +666,15 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
         }
     }
 
+    /**
+     * Update context key list.
+     * 
+     * @param suffix the suffix
+     * @param namespace the namespace
+     * @param key the storage key
+     * @return whether the update was a success
+     * @throws IOException if an error occurs
+     */
     private boolean updateContextKeyList(final String suffix, final String namespace, final String key)
             throws IOException {
         final String listKey = namespace + suffix;

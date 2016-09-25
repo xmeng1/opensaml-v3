@@ -51,7 +51,7 @@ public class LocalDynamicMetadataResolver extends AbstractDynamicMetadataResolve
     /**
      * Constructor.
      *
-     * @param backgroundTaskTimer
+     * @param manager load save manager
      */
     public LocalDynamicMetadataResolver(@Nonnull final XMLObjectLoadSaveManager<XMLObject> manager) {
         this(manager, null, null);
@@ -60,9 +60,9 @@ public class LocalDynamicMetadataResolver extends AbstractDynamicMetadataResolve
     /**
      * Constructor.
      *
-     * @param manager
-     * @param keyGenerator
-     * @param backgroundTaskTimer
+     * @param manager load save manager
+     * @param keyGenerator key generator function
+     * @param backgroundTaskTimer timer for management of background tasks
      */
     public LocalDynamicMetadataResolver(@Nonnull final XMLObjectLoadSaveManager<XMLObject> manager, 
             @Nullable final Function<CriteriaSet, String> keyGenerator,

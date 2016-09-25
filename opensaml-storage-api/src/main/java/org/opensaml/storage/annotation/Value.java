@@ -32,6 +32,8 @@ public @interface Value {
     
     /**
      * Get the value of this annotation.
+     * 
+     * @return value of this annotation
      */
     public String value();
 }
