@@ -118,7 +118,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
     /**
      * Constructor.
      *
-     * @param backgroundTaskTimer the {@link Timer} instance used to run resolver background managment tasks
+     * @param backgroundTaskTimer the {@link Timer} instance used to run resolver background management tasks
      */
     public AbstractDynamicMetadataResolver(@Nullable final Timer backgroundTaskTimer) {
         super();
