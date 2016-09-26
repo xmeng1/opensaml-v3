@@ -539,8 +539,8 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
     private class RefreshMetadataTask extends TimerTask {
 
         /** {@inheritDoc} */
-        @Override
-        public void run() {
+        //CheckStyle: ReturnCount OFF
+        @Override public void run() {
             try {
                 if (!isInitialized()) {
                     // just in case the metadata provider was destroyed before this task runs
@@ -553,5 +553,6 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
                 return;
             }
         }
+        //CheckStyle: ReturnCount ON
     }
 }

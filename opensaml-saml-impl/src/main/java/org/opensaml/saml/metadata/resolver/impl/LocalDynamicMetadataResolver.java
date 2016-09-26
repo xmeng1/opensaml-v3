@@ -23,15 +23,15 @@ import java.util.Timer;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import net.shibboleth.utilities.java.support.logic.Constraint;
+import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
+
 import org.opensaml.core.xml.XMLObject;
 import org.opensaml.core.xml.persist.XMLObjectLoadSaveManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Function;
-
-import net.shibboleth.utilities.java.support.logic.Constraint;
-import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
 
 /**
  * Resolver which dynamically resolves metadata from a local source managed by an instance
@@ -79,11 +79,12 @@ public class LocalDynamicMetadataResolver extends AbstractDynamicMetadataResolve
     }
 
     /** {@inheritDoc} */
-    protected XMLObject fetchFromOriginSource(CriteriaSet criteria) throws IOException {
-        String key = sourceKeyGenerator.apply(criteria);
+    @Override
+    protected XMLObject fetchFromOriginSource(final CriteriaSet criteria) throws IOException {
+        final String key = sourceKeyGenerator.apply(criteria);
         if (key != null) {
             log.trace("Attempting to load from local source manager with generated key '{}'", key);
-            XMLObject result = sourceManager.load(key);
+            final XMLObject result = sourceManager.load(key);
             if (result != null) {
                 log.trace("Successfully loaded target from local source manager source with key '{}' of type: ",
                         key, result.getElementQName());
@@ -103,7 +104,8 @@ public class LocalDynamicMetadataResolver extends AbstractDynamicMetadataResolve
     public static class DefaultSourceKeyGenerator implements Function<CriteriaSet, String> {
 
         /** {@inheritDoc} */
-        public String apply(CriteriaSet input) {
+        @Override
+        public String apply(final CriteriaSet input) {
             // TODO Auto-generated method stub
             return null;
         }

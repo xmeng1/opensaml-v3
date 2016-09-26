@@ -30,6 +30,21 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import net.shibboleth.utilities.java.support.annotation.constraint.NonnullAfterInit;
+import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
+import net.shibboleth.utilities.java.support.annotation.constraint.NotEmpty;
+import net.shibboleth.utilities.java.support.component.AbstractIdentifiableInitializableComponent;
+import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
+import net.shibboleth.utilities.java.support.component.ComponentSupport;
+import net.shibboleth.utilities.java.support.logic.Constraint;
+import net.shibboleth.utilities.java.support.primitive.StringSupport;
+import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
+import net.shibboleth.utilities.java.support.resolver.CriterionPredicateRegistry;
+import net.shibboleth.utilities.java.support.resolver.ResolverException;
+import net.shibboleth.utilities.java.support.resolver.ResolverSupport;
+import net.shibboleth.utilities.java.support.xml.ParserPool;
+import net.shibboleth.utilities.java.support.xml.QNameSupport;
+
 import org.opensaml.core.criterion.SatisfyAnyCriterion;
 import org.opensaml.core.xml.XMLObject;
 import org.opensaml.core.xml.config.XMLObjectProviderRegistrySupport;
@@ -51,21 +66,6 @@ import org.w3c.dom.Document;
 import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
-
-import net.shibboleth.utilities.java.support.annotation.constraint.NonnullAfterInit;
-import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
-import net.shibboleth.utilities.java.support.annotation.constraint.NotEmpty;
-import net.shibboleth.utilities.java.support.component.AbstractIdentifiableInitializableComponent;
-import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
-import net.shibboleth.utilities.java.support.component.ComponentSupport;
-import net.shibboleth.utilities.java.support.logic.Constraint;
-import net.shibboleth.utilities.java.support.primitive.StringSupport;
-import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
-import net.shibboleth.utilities.java.support.resolver.CriterionPredicateRegistry;
-import net.shibboleth.utilities.java.support.resolver.ResolverException;
-import net.shibboleth.utilities.java.support.resolver.ResolverSupport;
-import net.shibboleth.utilities.java.support.xml.ParserPool;
-import net.shibboleth.utilities.java.support.xml.QNameSupport;
 
 /** An abstract, base, implementation of a metadata provider. */
 public abstract class AbstractMetadataResolver extends AbstractIdentifiableInitializableComponent implements
@@ -120,7 +120,7 @@ public abstract class AbstractMetadataResolver extends AbstractIdentifiableIniti
     }
 
     /** {@inheritDoc} */
-    @Override public void setRequireValidMetadata(boolean require) {
+    @Override public void setRequireValidMetadata(final boolean require) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
         requireValidMetadata = require;
@@ -132,7 +132,7 @@ public abstract class AbstractMetadataResolver extends AbstractIdentifiableIniti
     }
 
     /** {@inheritDoc} */
-    @Override public void setMetadataFilter(@Nullable MetadataFilter newFilter) {
+    @Override public void setMetadataFilter(@Nullable final MetadataFilter newFilter) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
         mdFilter = newFilter;
@@ -154,7 +154,7 @@ public abstract class AbstractMetadataResolver extends AbstractIdentifiableIniti
      * 
      * @param failFast whether problems during initialization should cause the provider to fail
      */
-    public void setFailFastInitialization(boolean failFast) {
+    public void setFailFastInitialization(final boolean failFast) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
         failFastInitialization = failFast;
@@ -246,20 +246,20 @@ public abstract class AbstractMetadataResolver extends AbstractIdentifiableIniti
      * 
      * @param flag true if should use default registry, false otherwise
      */
-    public void setUseDefaultPredicateRegistry(boolean flag) {
+    public void setUseDefaultPredicateRegistry(final boolean flag) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
         useDefaultPredicateRegistry = flag;
     }
 
     /** {@inheritDoc} */
-    @Override @Nullable public EntityDescriptor resolveSingle(CriteriaSet criteria) throws ResolverException {
+    @Override @Nullable public EntityDescriptor resolveSingle(final CriteriaSet criteria) throws ResolverException {
         ComponentSupport.ifNotInitializedThrowUninitializedComponentException(this);
         ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
 
-        Iterable<EntityDescriptor> iterable = resolve(criteria);
+        final Iterable<EntityDescriptor> iterable = resolve(criteria);
         if (iterable != null) {
-            Iterator<EntityDescriptor> iterator = iterable.iterator();
+            final Iterator<EntityDescriptor> iterator = iterable.iterator();
             if (iterator != null && iterator.hasNext()) {
                 return iterator.next();
             }
@@ -282,7 +282,7 @@ public abstract class AbstractMetadataResolver extends AbstractIdentifiableIniti
 
         try {
             initMetadataResolver();
-        } catch (ComponentInitializationException e) {
+        } catch (final ComponentInitializationException e) {
             if (failFastInitialization) {
                 log.error("Metadata provider failed to properly initialize, fail-fast=true, halting", e);
                 throw e;
@@ -334,25 +334,25 @@ public abstract class AbstractMetadataResolver extends AbstractIdentifiableIniti
                 throw new UnmarshallingException("ParserPool is null, can't parse input stream");
             }
             log.trace("Parsing retrieved metadata into a DOM object");
-            Document mdDocument = parser.parse(metadataInput);
+            final Document mdDocument = parser.parse(metadataInput);
 
             log.trace("Unmarshalling and caching metadata DOM");
-            Unmarshaller unmarshaller = getUnmarshallerFactory().getUnmarshaller(mdDocument.getDocumentElement());
+            final Unmarshaller unmarshaller = getUnmarshallerFactory().getUnmarshaller(mdDocument.getDocumentElement());
             if (unmarshaller == null) {
-                String msg =
+                final String msg =
                         "No unmarshaller registered for document element "
                                 + QNameSupport.getNodeQName(mdDocument.getDocumentElement());
                 log.error(msg);
                 throw new UnmarshallingException(msg);
             }
-            XMLObject metadata = unmarshaller.unmarshall(mdDocument.getDocumentElement());
+            final XMLObject metadata = unmarshaller.unmarshall(mdDocument.getDocumentElement());
             return metadata;
-        } catch (Exception e) {
+        } catch (final Exception e) {
             throw new UnmarshallingException(e);
         } finally {
             try {
                 metadataInput.close();
-            } catch (IOException e2) {
+            } catch (final IOException e2) {
                 log.debug("Failed to close input: {}", e2);
             }
         }
@@ -425,15 +425,15 @@ public abstract class AbstractMetadataResolver extends AbstractIdentifiableIniti
             return Collections.emptyList();
         }
 
-        List<EntityDescriptor> descriptors = lookupIndexedEntityID(entityID);
+        final List<EntityDescriptor> descriptors = lookupIndexedEntityID(entityID);
         if (descriptors.isEmpty()) {
             log.debug("Metadata backing store does not contain any EntityDescriptors with the ID: {}", entityID);
             return descriptors;
         }
 
-        Iterator<EntityDescriptor> entitiesIter = descriptors.iterator();
+        final Iterator<EntityDescriptor> entitiesIter = descriptors.iterator();
         while (entitiesIter.hasNext()) {
-            EntityDescriptor descriptor = entitiesIter.next();
+            final EntityDescriptor descriptor = entitiesIter.next();
             if (!isValid(descriptor)) {
                 log.debug("Metadata backing store contained an EntityDescriptor with the ID: {}, " 
                         + " but it was no longer valid", entityID);
@@ -454,7 +454,7 @@ public abstract class AbstractMetadataResolver extends AbstractIdentifiableIniti
      */
     @Nonnull @NonnullElements protected List<EntityDescriptor> lookupIndexedEntityID(
             @Nonnull @NotEmpty final String entityID) {
-        List<EntityDescriptor> descriptors = getBackingStore().getIndexedDescriptors().get(entityID);
+        final List<EntityDescriptor> descriptors = getBackingStore().getIndexedDescriptors().get(entityID);
         if (descriptors != null) {
             return new ArrayList<>(descriptors);
         } else {
@@ -488,7 +488,7 @@ public abstract class AbstractMetadataResolver extends AbstractIdentifiableIniti
      * 
      * @param newBackingStore the new entity backing store
      */
-    protected void setBackingStore(@Nonnull EntityBackingStore newBackingStore) {
+    protected void setBackingStore(@Nonnull final EntityBackingStore newBackingStore) {
         entityBackingStore = Constraint.isNotNull(newBackingStore, "EntityBackingStore may not be null");
     }
 
@@ -512,8 +512,8 @@ public abstract class AbstractMetadataResolver extends AbstractIdentifiableIniti
      * @param backingStore the backing store instance to update
      */
     protected void removeByEntityID(@Nonnull final String entityID, @Nonnull final EntityBackingStore backingStore) {
-        Map<String, List<EntityDescriptor>> indexedDescriptors = backingStore.getIndexedDescriptors();
-        List<EntityDescriptor> descriptors = indexedDescriptors.get(entityID);
+        final Map<String, List<EntityDescriptor>> indexedDescriptors = backingStore.getIndexedDescriptors();
+        final List<EntityDescriptor> descriptors = indexedDescriptors.get(entityID);
         if (descriptors != null) {
             backingStore.getOrderedDescriptors().removeAll(descriptors);
         }
@@ -529,7 +529,7 @@ public abstract class AbstractMetadataResolver extends AbstractIdentifiableIniti
     protected void indexEntityDescriptor(@Nonnull final EntityDescriptor entityDescriptor,
             @Nonnull final EntityBackingStore backingStore) {
 
-        String entityID = StringSupport.trimOrNull(entityDescriptor.getEntityID());
+        final String entityID = StringSupport.trimOrNull(entityDescriptor.getEntityID());
         if (entityID != null) {
             List<EntityDescriptor> entities = backingStore.getIndexedDescriptors().get(entityID);
             if (entities == null) {
@@ -549,9 +549,9 @@ public abstract class AbstractMetadataResolver extends AbstractIdentifiableIniti
      * @param backingStore the backing store instance to update
      */
     protected void preProcessEntitiesDescriptor(@Nonnull final EntitiesDescriptor entitiesDescriptor,
-            EntityBackingStore backingStore) {
+            final EntityBackingStore backingStore) {
 
-        for (XMLObject child : entitiesDescriptor.getOrderedChildren()) {
+        for (final XMLObject child : entitiesDescriptor.getOrderedChildren()) {
             if (child instanceof EntityDescriptor) {
                 preProcessEntityDescriptor((EntityDescriptor) child, backingStore);
             } else if (child instanceof EntitiesDescriptor) {
@@ -601,7 +601,7 @@ public abstract class AbstractMetadataResolver extends AbstractIdentifiableIniti
         
         log.trace("Effective satisyAny value: {}", satisfyAny);
         
-        Iterable<EntityDescriptor> result = 
+        final Iterable<EntityDescriptor> result = 
                 ResolverSupport.getFilteredIterable(candidates, predicates, satisfyAny, onEmptyPredicatesReturnEmpty);
         if (log.isDebugEnabled()) {
             log.debug("After predicate filtering {} EntityDescriptors remain", Iterables.size(result));

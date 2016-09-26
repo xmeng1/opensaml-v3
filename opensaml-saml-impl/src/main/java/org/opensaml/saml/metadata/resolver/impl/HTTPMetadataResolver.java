@@ -92,7 +92,7 @@ public class HTTPMetadataResolver extends AbstractReloadingMetadataResolver {
      * 
      * @throws ResolverException thrown if the HTTP client is null or the metadata URL provided is invalid
      */
-    public HTTPMetadataResolver(HttpClient client, String metadataURL) throws ResolverException {
+    public HTTPMetadataResolver(final HttpClient client, final String metadataURL) throws ResolverException {
         this(null, client, metadataURL);
     }
 
@@ -105,7 +105,7 @@ public class HTTPMetadataResolver extends AbstractReloadingMetadataResolver {
      * 
      * @throws ResolverException thrown if the HTTP client is null or the metadata URL provided is invalid
      */
-    public HTTPMetadataResolver(Timer backgroundTaskTimer, HttpClient client, String metadataURL)
+    public HTTPMetadataResolver(final Timer backgroundTaskTimer, final HttpClient client, final String metadataURL)
             throws ResolverException {
         super(backgroundTaskTimer);
 
@@ -116,7 +116,7 @@ public class HTTPMetadataResolver extends AbstractReloadingMetadataResolver {
 
         try {
             metadataURI = new URI(metadataURL);
-        } catch (URISyntaxException e) {
+        } catch (final URISyntaxException e) {
             throw new ResolverException("Illegal URL syntax", e);
         }
     }
@@ -181,7 +181,7 @@ public class HTTPMetadataResolver extends AbstractReloadingMetadataResolver {
             if (authScope == null) {
                 authScope = new AuthScope(metadataURI.getHost(), metadataURI.getPort());
             }
-            BasicCredentialsProvider provider = new BasicCredentialsProvider();
+            final BasicCredentialsProvider provider = new BasicCredentialsProvider();
             provider.setCredentials(authScope, credentials);
             credentialsProvider = provider;
         } else {
@@ -271,7 +271,7 @@ public class HTTPMetadataResolver extends AbstractReloadingMetadataResolver {
      * @deprecated use {@link HttpClientSecuritySupport#checkTLSCredentialEvaluated(HttpClientContext, String)}
      */
     @Deprecated
-    protected void checkTLSCredentialTrusted(HttpClientContext context) throws SSLPeerUnverifiedException {
+    protected void checkTLSCredentialTrusted(final HttpClientContext context) throws SSLPeerUnverifiedException {
         HttpClientSecuritySupport.checkTLSCredentialEvaluated(context, metadataURI.getScheme());
     }
 
@@ -316,7 +316,7 @@ public class HTTPMetadataResolver extends AbstractReloadingMetadataResolver {
      * 
      * @param response GetMethod containing a valid HTTP response
      */
-    protected void processConditionalRetrievalHeaders(HttpResponse response) {
+    protected void processConditionalRetrievalHeaders(final HttpResponse response) {
         Header httpHeader = response.getFirstHeader("ETag");
         if (httpHeader != null) {
             cachedMetadataETag = httpHeader.getValue();
@@ -337,7 +337,7 @@ public class HTTPMetadataResolver extends AbstractReloadingMetadataResolver {
      * 
      * @throws ResolverException thrown if there is a problem getting the raw metadata bytes from the response
      */
-    protected byte[] getMetadataBytesFromResponse(HttpResponse response) throws ResolverException {
+    protected byte[] getMetadataBytesFromResponse(final HttpResponse response) throws ResolverException {
         log.debug("Attempting to extract metadata from response to request for metadata from '{}'", getMetadataURI());
         try {
             final InputStream ins = response.getEntity().getContent();

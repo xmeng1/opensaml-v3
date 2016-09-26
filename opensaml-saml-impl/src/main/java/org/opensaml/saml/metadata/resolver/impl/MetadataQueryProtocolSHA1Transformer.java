@@ -43,15 +43,15 @@ public class MetadataQueryProtocolSHA1Transformer implements Function<String, St
     public MetadataQueryProtocolSHA1Transformer() {
         try {
             digester = new StringDigester("SHA-1", OutputFormat.HEX_LOWER);
-        } catch (NoSuchAlgorithmException e) {
+        } catch (final NoSuchAlgorithmException e) {
             // this can't really happen b/c SHA-1 is required to be supported on all JREs.
         }
     }
 
     /** {@inheritDoc} */
-    @Nullable public String apply(@Nullable String input) {
-        String entityID = Constraint.isNotNull(StringSupport.trimOrNull(input), "Entity ID was null or empty");
-        String digested = digester.apply(entityID);
+    @Override @Nullable public String apply(@Nullable final String input) {
+        final String entityID = Constraint.isNotNull(StringSupport.trimOrNull(input), "Entity ID was null or empty");
+        final String digested = digester.apply(entityID);
         if (digested == null) {
             return null;
         }

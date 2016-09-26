@@ -73,7 +73,7 @@ public class BasicRoleDescriptorResolver extends AbstractIdentifiedInitializable
      *
      * @param mdResolver the resolver of EntityDescriptors
      */
-    public BasicRoleDescriptorResolver(@Nonnull MetadataResolver mdResolver) {
+    public BasicRoleDescriptorResolver(@Nonnull final MetadataResolver mdResolver) {
         entityDescriptorResolver = Constraint.isNotNull(mdResolver, "Resolver for EntityDescriptors may not be null");
         setId(UUID.randomUUID().toString()); 
     }
@@ -86,7 +86,7 @@ public class BasicRoleDescriptorResolver extends AbstractIdentifiedInitializable
 
     /** {@inheritDoc} */
     @Override
-    public void setRequireValidMetadata(boolean require) {
+    public void setRequireValidMetadata(final boolean require) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
 
@@ -95,12 +95,12 @@ public class BasicRoleDescriptorResolver extends AbstractIdentifiedInitializable
     
     /** {@inheritDoc} */
     @Override
-    @Nullable public RoleDescriptor resolveSingle(CriteriaSet criteria) throws ResolverException {
+    @Nullable public RoleDescriptor resolveSingle(final CriteriaSet criteria) throws ResolverException {
         ComponentSupport.ifNotInitializedThrowUninitializedComponentException(this);
         
-        Iterable<RoleDescriptor> iterable = resolve(criteria);
+        final Iterable<RoleDescriptor> iterable = resolve(criteria);
         if (iterable != null) {
-            Iterator<RoleDescriptor> iterator = iterable.iterator();
+            final Iterator<RoleDescriptor> iterator = iterable.iterator();
             if (iterator != null && iterator.hasNext()) {
                 return iterator.next();
             }
@@ -110,12 +110,12 @@ public class BasicRoleDescriptorResolver extends AbstractIdentifiedInitializable
 
     /** {@inheritDoc} */
     @Override
-    @Nonnull public Iterable<RoleDescriptor> resolve(CriteriaSet criteria) throws ResolverException {
+    @Nonnull public Iterable<RoleDescriptor> resolve(final CriteriaSet criteria) throws ResolverException {
         ComponentSupport.ifNotInitializedThrowUninitializedComponentException(this);
         
-        EntityIdCriterion entityIdCriterion = criteria.get(EntityIdCriterion.class);
-        EntityRoleCriterion entityRoleCriterion = criteria.get(EntityRoleCriterion.class);
-        ProtocolCriterion protocolCriterion = criteria.get(ProtocolCriterion.class);
+        final EntityIdCriterion entityIdCriterion = criteria.get(EntityIdCriterion.class);
+        final EntityRoleCriterion entityRoleCriterion = criteria.get(EntityRoleCriterion.class);
+        final ProtocolCriterion protocolCriterion = criteria.get(ProtocolCriterion.class);
         // TODO support BindingCriterion
         
         if (entityIdCriterion == null || Strings.isNullOrEmpty(entityIdCriterion.getEntityId())) {
@@ -129,7 +129,7 @@ public class BasicRoleDescriptorResolver extends AbstractIdentifiedInitializable
         }
         
         if (protocolCriterion != null) {
-            RoleDescriptor role = getRole(entityIdCriterion.getEntityId(), entityRoleCriterion.getRole(), 
+            final RoleDescriptor role = getRole(entityIdCriterion.getEntityId(), entityRoleCriterion.getRole(), 
                     protocolCriterion.getProtocol());
             if (role != null) {
                 return Collections.singletonList(role);
@@ -162,13 +162,13 @@ public class BasicRoleDescriptorResolver extends AbstractIdentifiedInitializable
             return Collections.emptyList();
         }
 
-        List<RoleDescriptor> roleDescriptors = doGetRole(entityID, roleName);
+        final List<RoleDescriptor> roleDescriptors = doGetRole(entityID, roleName);
         if (roleDescriptors == null || roleDescriptors.isEmpty()) {
             log.debug("Entity descriptor {} did not contain any {} roles", entityID, roleName);
             return Collections.emptyList();
         }
 
-        Iterator<RoleDescriptor> roleDescItr = roleDescriptors.iterator();
+        final Iterator<RoleDescriptor> roleDescItr = roleDescriptors.iterator();
         while (roleDescItr.hasNext()) {
             if (!isValid(roleDescItr.next())) {
                 log.debug("Metadata document contained a role of type {} for entity {}, but it was invalid", roleName,
@@ -196,13 +196,13 @@ public class BasicRoleDescriptorResolver extends AbstractIdentifiedInitializable
      */
     @Nonnull @NonnullElements protected List<RoleDescriptor> doGetRole(@Nullable final String entityID,
             @Nullable final QName roleName) throws ResolverException {
-        EntityDescriptor entity = doGetEntityDescriptor(entityID);
+        final EntityDescriptor entity = doGetEntityDescriptor(entityID);
         if (entity == null) {
             log.debug("Metadata document did not contain a descriptor for entity {}", entityID);
             return Collections.emptyList();
         }
 
-        List<RoleDescriptor> descriptors = entity.getRoleDescriptors(roleName);
+        final List<RoleDescriptor> descriptors = entity.getRoleDescriptors(roleName);
         if (descriptors != null && !descriptors.isEmpty()) {
             return new ArrayList<>(descriptors);
         }
@@ -217,7 +217,7 @@ public class BasicRoleDescriptorResolver extends AbstractIdentifiedInitializable
      * @return the resolved EntityDescriptor, or null if not found
      * @throws ResolverException  if there is a problem resolving the EntityDescriptor
      */
-    protected EntityDescriptor doGetEntityDescriptor(String entityID) throws ResolverException {
+    protected EntityDescriptor doGetEntityDescriptor(final String entityID) throws ResolverException {
         //TODO should perhaps pass through the entire original CriteriaSet
         return entityDescriptorResolver.resolveSingle(new CriteriaSet(new EntityIdCriterion(entityID)));
     }
@@ -250,7 +250,7 @@ public class BasicRoleDescriptorResolver extends AbstractIdentifiedInitializable
             return null;
         }
 
-        RoleDescriptor role = doGetRole(entityID, roleName, supportedProtocol);
+        final RoleDescriptor role = doGetRole(entityID, roleName, supportedProtocol);
         if (role == null) {
             log.debug("Metadata document does not contain a role of type {} supporting protocol {} for entity {}",
                     new Object[] { roleName, supportedProtocol, entityID });
@@ -277,16 +277,16 @@ public class BasicRoleDescriptorResolver extends AbstractIdentifiedInitializable
      * 
      * @throws ResolverException thrown if there is a problem search for the roles
      */
-    protected RoleDescriptor doGetRole(String entityID, QName roleName, String supportedProtocol) 
+    protected RoleDescriptor doGetRole(final String entityID, final QName roleName, final String supportedProtocol) 
             throws ResolverException {
-        List<RoleDescriptor> roles = doGetRole(entityID, roleName);
+        final List<RoleDescriptor> roles = doGetRole(entityID, roleName);
         if (roles == null || roles.isEmpty()) {
             log.debug("Metadata document did not contain any role descriptors of type {} for entity {}", roleName,
                     entityID);
             return null;
         }
 
-        Iterator<RoleDescriptor> rolesItr = roles.iterator();
+        final Iterator<RoleDescriptor> rolesItr = roles.iterator();
         RoleDescriptor role = null;
         while (rolesItr.hasNext()) {
             role = rolesItr.next();
@@ -305,7 +305,7 @@ public class BasicRoleDescriptorResolver extends AbstractIdentifiedInitializable
      * 
      * @return true if valid metadata is not required or the given descriptor is valid, false otherwise
      */
-    protected boolean isValid(XMLObject descriptor) {
+    protected boolean isValid(final XMLObject descriptor) {
         if (descriptor == null) {
             return false;
         }

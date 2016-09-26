@@ -191,7 +191,7 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
             if (authScope == null) {
                 authScope = new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT);
             }
-            BasicCredentialsProvider provider = new BasicCredentialsProvider();
+            final BasicCredentialsProvider provider = new BasicCredentialsProvider();
             provider.setCredentials(authScope, credentials);
             credentialsProvider = provider;
         } else {
@@ -226,7 +226,8 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
             supportedContentTypes = new ArrayList<>(Collections2.transform(
                     StringSupport.normalizeStringCollection(types),
                     new Function<String,String>() {
-                        @Nullable public String apply(@Nullable String input) {
+                        @Override
+                        @Nullable public String apply(@Nullable final String input) {
                             return input == null ? null : input.toLowerCase();
                         }
                     }
@@ -235,6 +236,7 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
     }
     
     /** {@inheritDoc} */
+    @Override
     protected void initMetadataResolver() throws ComponentInitializationException {
         super.initMetadataResolver();
         setBackingStore(createNewBackingStore());
@@ -251,6 +253,7 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
     }
     
    /** {@inheritDoc} */
+    @Override
     protected void doDestroy() {
         httpClient = null;
         credentialsProvider = null;
@@ -262,18 +265,19 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
     }
     
     /** {@inheritDoc} */
+    @Override
     @Nullable protected XMLObject fetchFromOriginSource(@Nonnull final CriteriaSet criteria) 
             throws IOException {
             
-        HttpUriRequest request = buildHttpRequest(criteria);
+        final HttpUriRequest request = buildHttpRequest(criteria);
         if (request == null) {
             log.debug("Could not build request based on input criteria, unable to query");
             return null;
         }
         
-        HttpClientContext context = buildHttpClientContext();
+        final HttpClientContext context = buildHttpClientContext();
         
-        XMLObject result = httpClient.execute(request, responseHandler, context);
+        final XMLObject result = httpClient.execute(request, responseHandler, context);
         HttpClientSecuritySupport.checkTLSCredentialEvaluated(context, request.getURI().getScheme());
         return result;
     }
@@ -288,7 +292,7 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
      * @deprecated use {@link HttpClientSecuritySupport#checkTLSCredentialEvaluated(HttpClientContext, String)}
      */
     @Deprecated
-    protected void checkTLSCredentialTrusted(HttpClientContext context, HttpUriRequest request) 
+    protected void checkTLSCredentialTrusted(final HttpClientContext context, final HttpUriRequest request) 
             throws SSLPeerUnverifiedException {
         HttpClientSecuritySupport.checkTLSCredentialEvaluated(context, request.getURI().getScheme());
     }
@@ -300,7 +304,7 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
      * @return the newly constructed request, or null if it can not be built from the supplied criteria
      */
     @Nullable protected HttpUriRequest buildHttpRequest(@Nonnull final CriteriaSet criteria) {
-        String url = buildRequestURL(criteria);
+        final String url = buildRequestURL(criteria);
         log.debug("Built request URL of: {}", url);
         
         if (url == null) {
@@ -308,7 +312,7 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
             return null;
         }
             
-        HttpGet getMethod = new HttpGet(url);
+        final HttpGet getMethod = new HttpGet(url);
         
         if (!Strings.isNullOrEmpty(supportedContentTypesValue)) {
             getMethod.addHeader("Accept", supportedContentTypesValue);
@@ -352,7 +356,7 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
         @Override
         public XMLObject handleResponse(@Nonnull final HttpResponse response) throws IOException {
             
-            int httpStatusCode = response.getStatusLine().getStatusCode();
+            final int httpStatusCode = response.getStatusLine().getStatusCode();
             
             // TODO should we be seeing/doing this? Probably not if we don't do conditional GET.
             // But we will if we do pre-emptive refreshing of metadata in background thread.
@@ -368,13 +372,13 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
             
             try {
                 validateHttpResponse(response);
-            } catch (ResolverException e) {
+            } catch (final ResolverException e) {
                 log.error("Problem validating dynamic metadata HTTP response", e);
                 return null;
             }
             
             try {
-                InputStream ins = response.getEntity().getContent();
+                final InputStream ins = response.getEntity().getContent();
                 return unmarshallMetadata(ins);
             } catch (IOException | UnmarshallingException e) {
                 log.error("Error unmarshalling HTTP response stream", e);
@@ -392,10 +396,10 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
         protected void validateHttpResponse(@Nonnull final HttpResponse response) throws ResolverException {
             
             if (!getSupportedContentTypes().isEmpty()) {
-                Header contentType = response.getEntity().getContentType();
+                final Header contentType = response.getEntity().getContentType();
                 if (contentType != null && contentType.getValue() != null) {
                     log.debug("Saw raw Content-Type from response header '{}'", contentType.getValue());
-                    String mimeType = getContentTypeMIMEType(contentType.getValue());
+                    final String mimeType = getContentTypeMIMEType(contentType.getValue());
                     log.debug("Extracted Content-Type MIME type to evaluate '{}'", mimeType);
                     if (!getSupportedContentTypes().contains(mimeType)) { 
                         throw new ResolverException("HTTP response specified an unsupported Content-Type MIME type: " 
@@ -412,15 +416,15 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
          * @param value the raw Content-Type value header
          * @return the effective value to evaluate
          */
-        private String getContentTypeMIMEType(String value) {
-            String trimmed = StringSupport.trimOrNull(value);
+        private String getContentTypeMIMEType(final String value) {
+            final String trimmed = StringSupport.trimOrNull(value);
             if (trimmed == null) {
                 return null;
             }
             if (!trimmed.contains(";")) {
                 return trimmed.toLowerCase();
             }
-            String typeSubtype = trimmed.split(";")[0];
+            final String typeSubtype = trimmed.split(";")[0];
             return StringSupport.trim(typeSubtype).toLowerCase();
         }
         

@@ -23,12 +23,12 @@ import java.util.regex.Pattern;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import net.shibboleth.utilities.java.support.annotation.constraint.NotEmpty;
 import net.shibboleth.utilities.java.support.logic.Constraint;
 import net.shibboleth.utilities.java.support.primitive.StringSupport;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Function;
 
@@ -80,7 +80,7 @@ public class RegexRequestURLBuilder implements Function<String, String> {
     
     /** The replacement template. */
     private String template;
-    
+   
     /**
      * Constructor.
      *
@@ -88,7 +88,7 @@ public class RegexRequestURLBuilder implements Function<String, String> {
      * @param replacement the replacement template string.
      */
     public RegexRequestURLBuilder(@Nonnull @NotEmpty final String regex, @Nonnull @NotEmpty final String replacement) {
-        String regexTemp = Constraint.isNotNull(StringSupport.trimOrNull(regex), "Regex was null or empty");
+        final String regexTemp = Constraint.isNotNull(StringSupport.trimOrNull(regex), "Regex was null or empty");
         /*
         // TODO: Defensively add start and end anchors if not supplied?
         if (!regexTemp.startsWith("^")) {
@@ -105,13 +105,14 @@ public class RegexRequestURLBuilder implements Function<String, String> {
     }
 
     /** {@inheritDoc} */
-    @Nullable public String apply(@Nonnull String entityID) {
+    @Override
+    @Nullable public String apply(@Nonnull final String entityID) {
         Constraint.isNotNull(entityID, "Entity ID was null");
         
         try {
-            Matcher matcher = pattern.matcher(entityID);
+            final Matcher matcher = pattern.matcher(entityID);
             if (matcher.matches()) {
-                String result = matcher.replaceAll(template);
+                final String result = matcher.replaceAll(template);
                 log.debug("Regular expression '{}' matched successfully against entity ID '{}', returning '{}'", 
                         pattern.pattern(), entityID, result);
                 return result;
@@ -120,7 +121,7 @@ public class RegexRequestURLBuilder implements Function<String, String> {
                         pattern.pattern(), entityID);
                 return null;
             }
-        } catch (Throwable t) {
+        } catch (final Throwable t) {
             log.warn("Error evaluating regular expression '{}' against entity ID '{}'", pattern.pattern(), entityID, t);
             return null;
         }

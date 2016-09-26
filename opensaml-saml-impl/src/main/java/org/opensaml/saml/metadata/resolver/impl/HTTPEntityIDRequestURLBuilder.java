@@ -37,7 +37,7 @@ public class HTTPEntityIDRequestURLBuilder implements Function<String, String> {
     private final Logger log = LoggerFactory.getLogger(HTTPEntityIDRequestURLBuilder.class);
 
     /** {@inheritDoc} */
-    @Nullable public String apply(@Nonnull String entityID) {
+    @Override @Nullable public String apply(@Nonnull final String entityID) {
         Constraint.isNotNull(entityID, "Entity ID was null");
         
         if (entityID.toLowerCase().startsWith("http:") || entityID.toLowerCase().startsWith("https:")) {

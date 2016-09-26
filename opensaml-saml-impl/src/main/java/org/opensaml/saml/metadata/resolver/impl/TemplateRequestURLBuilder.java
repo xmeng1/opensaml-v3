@@ -51,7 +51,7 @@ import com.google.common.base.Function;
  * 
  */
 public class TemplateRequestURLBuilder implements Function<String, String> {
-    
+
     /** The Velocity context variable name for the entity ID. */
     public static final String CONTEXT_KEY_ENTITY_ID = "entityID";
     
@@ -114,7 +114,7 @@ public class TemplateRequestURLBuilder implements Function<String, String> {
         
         Constraint.isNotNull(engine, "VelocityEngine was null");
         
-        String trimmedTemplate = StringSupport.trimOrNull(templateString);
+        final String trimmedTemplate = StringSupport.trimOrNull(templateString);
         templateText = Constraint.isNotNull(trimmedTemplate, "Template string was null or empty");
         
         transformer = transform;
@@ -129,7 +129,8 @@ public class TemplateRequestURLBuilder implements Function<String, String> {
     }
 
     /** {@inheritDoc} */
-    @Nullable public String apply(@Nonnull String input) {
+    @Override
+    @Nullable public String apply(@Nonnull final String input) {
         String entityID = Constraint.isNotNull(input, "Entity ID was null");
         
         log.debug("Saw input entityID '{}'", entityID);
@@ -142,8 +143,8 @@ public class TemplateRequestURLBuilder implements Function<String, String> {
                 return null;
             }
         }
-        
-        VelocityContext context = new VelocityContext();
+
+        final VelocityContext context = new VelocityContext();
         if (encodeEntityID) {
             context.put(CONTEXT_KEY_ENTITY_ID, URISupport.doURLEncode(entityID));
         } else {
@@ -151,11 +152,11 @@ public class TemplateRequestURLBuilder implements Function<String, String> {
         }
         
         try {
-            String result = template.merge(context);
+            final String result = template.merge(context);
             log.debug("From entityID '{}' and template text '{}', built request URL: {}", 
                     entityID, templateText, result);
             return result;
-        } catch (Throwable t) {
+        } catch (final Throwable t) {
             log.error("Encountered fatal error attempting to build request URL", t);
             return null;
         }

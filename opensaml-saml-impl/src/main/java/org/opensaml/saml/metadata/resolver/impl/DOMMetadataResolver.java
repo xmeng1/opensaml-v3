@@ -47,34 +47,34 @@ public class DOMMetadataResolver extends AbstractBatchMetadataResolver {
      * 
      * @param mdElement the metadata element
      */
-    public DOMMetadataResolver(Element mdElement) {
+    public DOMMetadataResolver(final Element mdElement) {
         super();
         metadataElement = mdElement;
     }
 
     /** {@inheritDoc} */
-    protected void doDestroy() {
+    @Override protected void doDestroy() {
         metadataElement = null;
    
         super.doDestroy();
-    }    
+    }
     
     /** {@inheritDoc} */
-    protected void initMetadataResolver() throws ComponentInitializationException {
+    @Override protected void initMetadataResolver() throws ComponentInitializationException {
         super.initMetadataResolver();
         
         try {
-            Unmarshaller unmarshaller = getUnmarshallerFactory().getUnmarshaller(metadataElement);
-            XMLObject metadataTemp = unmarshaller.unmarshall(metadataElement);
-            BatchEntityBackingStore newBackingStore = preProcessNewMetadata(metadataTemp);
+            final Unmarshaller unmarshaller = getUnmarshallerFactory().getUnmarshaller(metadataElement);
+            final XMLObject metadataTemp = unmarshaller.unmarshall(metadataElement);
+            final BatchEntityBackingStore newBackingStore = preProcessNewMetadata(metadataTemp);
             releaseMetadataDOM(metadataTemp);
             setBackingStore(newBackingStore);
-        } catch (UnmarshallingException e) {
-            String errorMsg = "Unable to unmarshall metadata element";
+        } catch (final UnmarshallingException e) {
+            final String errorMsg = "Unable to unmarshall metadata element";
             log.error(errorMsg, e);
             throw new ComponentInitializationException(errorMsg, e);
-        } catch (FilterException e) {
-            String errorMsg = "Unable to filter metadata";
+        } catch (final FilterException e) {
+            final String errorMsg = "Unable to filter metadata";
             log.error(errorMsg, e);
             throw new ComponentInitializationException(errorMsg, e);
         }

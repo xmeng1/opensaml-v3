@@ -81,7 +81,8 @@ public class CompositeMetadataResolver extends AbstractIdentifiedInitializableCo
      * 
      * @throws ResolverException thrown if there is a problem adding the metadata provider
      */
-    public void setResolvers(@Nonnull @NonnullElements List<MetadataResolver> newResolvers) throws ResolverException {
+    public void setResolvers(@Nonnull @NonnullElements final List<MetadataResolver> newResolvers) 
+            throws ResolverException {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
 
@@ -279,7 +280,7 @@ public class CompositeMetadataResolver extends AbstractIdentifiedInitializableCo
                             return;
                         }
                     }
-                } catch (ResolverException e) {
+                } catch (final ResolverException e) {
                     log.debug("Error encountered attempting to fetch results from resolver", e);
                 }
             }

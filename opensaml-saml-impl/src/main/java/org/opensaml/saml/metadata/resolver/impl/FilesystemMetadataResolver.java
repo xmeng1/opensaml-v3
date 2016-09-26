@@ -116,14 +116,15 @@ public class FilesystemMetadataResolver extends AbstractReloadingMetadataResolve
     protected byte[] fetchMetadata() throws ResolverException {
         try {
             validateMetadataFile(metadataFile);
-            DateTime metadataUpdateTime = new DateTime(metadataFile.lastModified(), ISOChronology.getInstanceUTC());
+            final DateTime metadataUpdateTime =
+                     new DateTime(metadataFile.lastModified(), ISOChronology.getInstanceUTC());
             if (getLastRefresh() == null || getLastUpdate() == null || metadataUpdateTime.isAfter(getLastUpdate())) {
                 return inputstreamToByteArray(new FileInputStream(metadataFile));
             }
 
             return null;
-        } catch (IOException e) {
-            String errMsg = "Unable to read metadata file " + metadataFile.getAbsolutePath();
+        } catch (final IOException e) {
+            final String errMsg = "Unable to read metadata file " + metadataFile.getAbsolutePath();
             log.error(errMsg, e);
             throw new ResolverException(errMsg, e);
         }

@@ -88,7 +88,8 @@ public class FileBackedHTTPMetadataResolver extends HTTPMetadataResolver {
      * @throws ResolverException thrown if the URL is not a valid URL, the metadata can not be retrieved from
      *             the URL
      */
-    public FileBackedHTTPMetadataResolver(HttpClient client, String metadataURL, String backupFilePath) 
+    public FileBackedHTTPMetadataResolver(final HttpClient client, 
+                                          final String metadataURL, final String backupFilePath) 
             throws ResolverException {
         this(null, client, metadataURL, backupFilePath);
     }
@@ -104,8 +105,9 @@ public class FileBackedHTTPMetadataResolver extends HTTPMetadataResolver {
      * @throws ResolverException thrown if the URL is not a valid URL, the metadata can not be retrieved from
      *             the URL
      */
-    public FileBackedHTTPMetadataResolver(Timer backgroundTaskTimer, HttpClient client, String metadataURL,
-            String backupFilePath) throws ResolverException {
+    public FileBackedHTTPMetadataResolver(final Timer backgroundTaskTimer, 
+                                          final HttpClient client, final String metadataURL,
+            final String backupFilePath) throws ResolverException {
         super(backgroundTaskTimer, client, metadataURL);
         setBackupFile(backupFilePath);
     }
@@ -139,7 +141,7 @@ public class FileBackedHTTPMetadataResolver extends HTTPMetadataResolver {
      * 
      * @param flag true if should initialize from backup file, false otherwise
      */
-    public void setInitializeFromBackupFile(boolean flag) {
+    public void setInitializeFromBackupFile(final boolean flag) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
         
@@ -164,7 +166,7 @@ public class FileBackedHTTPMetadataResolver extends HTTPMetadataResolver {
      * 
      * @param delay the next refresh delay, in milliseconds
      */
-    public void setBackupFileInitNextRefreshDelay(long delay) {
+    public void setBackupFileInitNextRefreshDelay(final long delay) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
         
@@ -175,6 +177,7 @@ public class FileBackedHTTPMetadataResolver extends HTTPMetadataResolver {
     }
 
     /** {@inheritDoc} */
+    @Override
     protected void doDestroy() {
         metadataBackupFile = null;
 
@@ -182,6 +185,7 @@ public class FileBackedHTTPMetadataResolver extends HTTPMetadataResolver {
     }
 
     /** {@inheritDoc} */
+    @Override
     protected void initMetadataResolver() throws ComponentInitializationException {
         try {
             validateBackupFile(metadataBackupFile);
@@ -210,7 +214,7 @@ public class FileBackedHTTPMetadataResolver extends HTTPMetadataResolver {
      * 
      * @throws ResolverException thrown if the backup file is not read/writable or creatable
      */
-    protected void setBackupFile(String backupFilePath) throws ResolverException {
+    protected void setBackupFile(final String backupFilePath) throws ResolverException {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
 
@@ -225,7 +229,7 @@ public class FileBackedHTTPMetadataResolver extends HTTPMetadataResolver {
      * @param backupFile the file to evaluate
      * @throws ResolverException if file does not pass basic properties required of a metadata backup file
      */
-    protected void validateBackupFile(File backupFile) throws ResolverException {
+    protected void validateBackupFile(final File backupFile) throws ResolverException {
         if (!backupFile.exists()) {
             try {
                 log.debug("Testing creation of backup file");
@@ -239,7 +243,7 @@ public class FileBackedHTTPMetadataResolver extends HTTPMetadataResolver {
                 // On init, if not valid metadata, this will muck with attempting to first load 
                 // from backup file instead of http.
                 if (backupFile.exists()) {
-                    boolean deleted = backupFile.delete();
+                    final boolean deleted = backupFile.delete();
                     if (!deleted) {
                         log.debug("Deletion of test backup file failed");
                     }
@@ -266,12 +270,13 @@ public class FileBackedHTTPMetadataResolver extends HTTPMetadataResolver {
     }
 
     /** {@inheritDoc} */
+    @Override
     protected byte[] fetchMetadata() throws ResolverException {
         if (initializing && initializeFromBackupFile && metadataBackupFile.exists()) {
             log.debug("On initialization, detected existing backup file, attempting load from that: {}",
                         metadataBackupFile.getAbsolutePath());
             try {
-                byte[] backingData = Files.toByteArray(metadataBackupFile);
+                final byte[] backingData = Files.toByteArray(metadataBackupFile);
                 log.debug("Successfully initialized from backup file: {}", metadataBackupFile.getAbsolutePath());
                 initializedFromBackupFile = true;
                 return backingData;
@@ -282,7 +287,7 @@ public class FileBackedHTTPMetadataResolver extends HTTPMetadataResolver {
         
         try {
             return super.fetchMetadata();
-        } catch (ResolverException e) {
+        } catch (final ResolverException e) {
             if (getCachedOriginalMetadata() != null) {
                 log.warn("Problem reading metadata from remote source; " 
                         + "detected existing cached metadata, skipping load of backup file");
@@ -308,7 +313,8 @@ public class FileBackedHTTPMetadataResolver extends HTTPMetadataResolver {
     }
 
     /** {@inheritDoc} */
-    protected long computeNextRefreshDelay(DateTime expectedExpiration) {
+    @Override
+    protected long computeNextRefreshDelay(final DateTime expectedExpiration) {
         if (initializing && initializedFromBackupFile) {
             log.debug("Detected initialization from backup file, scheduling next refresh from HTTP in {}ms", 
                     getBackupFileInitNextRefreshDelay());
@@ -319,8 +325,10 @@ public class FileBackedHTTPMetadataResolver extends HTTPMetadataResolver {
     }
 
     /** {@inheritDoc} */
-    protected void postProcessMetadata(byte[] metadataBytes, Document metadataDom, XMLObject originalMetadata, 
-            XMLObject filteredMetadata) throws ResolverException {
+    @Override
+    protected void postProcessMetadata(final byte[] metadataBytes, 
+                                       final Document metadataDom, final XMLObject originalMetadata, 
+            final XMLObject filteredMetadata) throws ResolverException {
         try {
             validateBackupFile(metadataBackupFile);
             try (final FileOutputStream out = new FileOutputStream(metadataBackupFile)) {

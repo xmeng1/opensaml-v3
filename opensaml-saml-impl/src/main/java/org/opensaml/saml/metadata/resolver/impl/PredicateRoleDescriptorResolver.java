@@ -26,6 +26,16 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import net.shibboleth.utilities.java.support.annotation.constraint.NonnullAfterInit;
+import net.shibboleth.utilities.java.support.component.AbstractIdentifiedInitializableComponent;
+import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
+import net.shibboleth.utilities.java.support.component.ComponentSupport;
+import net.shibboleth.utilities.java.support.logic.Constraint;
+import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
+import net.shibboleth.utilities.java.support.resolver.CriterionPredicateRegistry;
+import net.shibboleth.utilities.java.support.resolver.ResolverException;
+import net.shibboleth.utilities.java.support.resolver.ResolverSupport;
+
 import org.opensaml.core.criterion.SatisfyAnyCriterion;
 import org.opensaml.core.xml.XMLObject;
 import org.opensaml.saml.criterion.EntityRoleCriterion;
@@ -43,16 +53,6 @@ import org.slf4j.LoggerFactory;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Iterables;
-
-import net.shibboleth.utilities.java.support.annotation.constraint.NonnullAfterInit;
-import net.shibboleth.utilities.java.support.component.AbstractIdentifiedInitializableComponent;
-import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
-import net.shibboleth.utilities.java.support.component.ComponentSupport;
-import net.shibboleth.utilities.java.support.logic.Constraint;
-import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
-import net.shibboleth.utilities.java.support.resolver.CriterionPredicateRegistry;
-import net.shibboleth.utilities.java.support.resolver.ResolverException;
-import net.shibboleth.utilities.java.support.resolver.ResolverSupport;
 
 /**
  * Implementation of {@link RoleDescriptorResolver} which wraps an instance of {@link MetadataResolver} to
@@ -80,7 +80,7 @@ public class PredicateRoleDescriptorResolver extends AbstractIdentifiedInitializ
     
     /** Whether metadata is required to be valid. */
     private boolean requireValidMetadata;
-    
+ 
     /** Resolver of EntityDescriptors. */
     private MetadataResolver entityDescriptorResolver;
     
@@ -104,7 +104,7 @@ public class PredicateRoleDescriptorResolver extends AbstractIdentifiedInitializ
      *
      * @param mdResolver the resolver of EntityDescriptors
      */
-    public PredicateRoleDescriptorResolver(@Nonnull MetadataResolver mdResolver) {
+    public PredicateRoleDescriptorResolver(@Nonnull final MetadataResolver mdResolver) {
         entityDescriptorResolver = Constraint.isNotNull(mdResolver, "Resolver for EntityDescriptors may not be null");
         setId(UUID.randomUUID().toString()); 
         requireValidMetadata = true;
@@ -119,7 +119,7 @@ public class PredicateRoleDescriptorResolver extends AbstractIdentifiedInitializ
 
     /** {@inheritDoc} */
     @Override
-    public void setRequireValidMetadata(boolean require) {
+    public void setRequireValidMetadata(final boolean require) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
 
@@ -192,7 +192,7 @@ public class PredicateRoleDescriptorResolver extends AbstractIdentifiedInitializ
      * 
      * @param flag true if should use default registry, false otherwise
      */
-    public void setUseDefaultPredicateRegistry(boolean flag) {
+    public void setUseDefaultPredicateRegistry(final boolean flag) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
         useDefaultPredicateRegistry = flag;
@@ -215,7 +215,7 @@ public class PredicateRoleDescriptorResolver extends AbstractIdentifiedInitializ
      * 
      * @param flag true if resolution may be attempted solely via predicates, false if not
      */
-    public void setResolveViaPredicatesOnly(boolean flag) {
+    public void setResolveViaPredicatesOnly(final boolean flag) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         resolveViaPredicatesOnly = flag;
     }
@@ -226,6 +226,7 @@ public class PredicateRoleDescriptorResolver extends AbstractIdentifiedInitializ
      * 
      * @throws ComponentInitializationException thrown if there is a problem initializing the provider
      */
+    @Override
     protected void doInitialize() throws ComponentInitializationException {
         super.doInitialize();
         
@@ -236,12 +237,12 @@ public class PredicateRoleDescriptorResolver extends AbstractIdentifiedInitializ
     
     /** {@inheritDoc} */
     @Override
-    @Nullable public RoleDescriptor resolveSingle(CriteriaSet criteria) throws ResolverException {
+    @Nullable public RoleDescriptor resolveSingle(final CriteriaSet criteria) throws ResolverException {
         ComponentSupport.ifNotInitializedThrowUninitializedComponentException(this);
         
-        Iterable<RoleDescriptor> iterable = resolve(criteria);
+        final Iterable<RoleDescriptor> iterable = resolve(criteria);
         if (iterable != null) {
-            Iterator<RoleDescriptor> iterator = iterable.iterator();
+            final Iterator<RoleDescriptor> iterator = iterable.iterator();
             if (iterator != null && iterator.hasNext()) {
                 return iterator.next();
             }
@@ -251,10 +252,10 @@ public class PredicateRoleDescriptorResolver extends AbstractIdentifiedInitializ
 
     /** {@inheritDoc} */
     @Override
-    @Nonnull public Iterable<RoleDescriptor> resolve(CriteriaSet criteria) throws ResolverException {
+    @Nonnull public Iterable<RoleDescriptor> resolve(final CriteriaSet criteria) throws ResolverException {
         ComponentSupport.ifNotInitializedThrowUninitializedComponentException(this);
         
-        Iterable<EntityDescriptor> entityDescriptorsSource = entityDescriptorResolver.resolve(criteria);
+        final Iterable<EntityDescriptor> entityDescriptorsSource = entityDescriptorResolver.resolve(criteria);
         if (!entityDescriptorsSource.iterator().hasNext()) {
             log.debug("Resolved no EntityDescriptors via underlying MetadataResolver, returning empty collection");
             return Collections.emptySet();
@@ -264,18 +265,19 @@ public class PredicateRoleDescriptorResolver extends AbstractIdentifiedInitializ
             }
         }
         
-        Predicate<? super RoleDescriptor> predicate = isRequireValidMetadata() ? IS_VALID_PREDICATE 
+        final Predicate<? super RoleDescriptor> predicate = isRequireValidMetadata() ? IS_VALID_PREDICATE 
                 : Predicates.<XMLObject>alwaysTrue();
             
         if (haveRoleCriteria(criteria)) {
-            Iterable<RoleDescriptor> candidates = getCandidatesByRoleAndProtocol(entityDescriptorsSource, criteria);
+            final Iterable<RoleDescriptor> candidates =
+                    getCandidatesByRoleAndProtocol(entityDescriptorsSource, criteria);
             if (log.isDebugEnabled()) {
                 log.debug("Resolved {} RoleDescriptor candidates via role criteria, performing predicate filtering", 
                         Iterables.size(candidates));
             }
             return predicateFilterCandidates(Iterables.filter(candidates, predicate), criteria, false);
         } else if (isResolveViaPredicatesOnly()) {
-            Iterable<RoleDescriptor> candidates = getAllCandidates(entityDescriptorsSource);
+            final Iterable<RoleDescriptor> candidates = getAllCandidates(entityDescriptorsSource);
             if (log.isDebugEnabled()) {
                 log.debug("Resolved {} RoleDescriptor total candidates for predicate-only resolution", 
                         Iterables.size(candidates));
@@ -315,13 +317,13 @@ public class PredicateRoleDescriptorResolver extends AbstractIdentifiedInitializ
     protected Iterable<RoleDescriptor> getCandidatesByRoleAndProtocol(
             @Nonnull final Iterable<EntityDescriptor> entityDescriptors, @Nonnull final CriteriaSet criteria) {
         
-        EntityRoleCriterion roleCriterion = Constraint.isNotNull(criteria.get(EntityRoleCriterion.class), 
+        final EntityRoleCriterion roleCriterion = Constraint.isNotNull(criteria.get(EntityRoleCriterion.class), 
                 "EntityRoleCriterion was not supplied");
         
-        ProtocolCriterion protocolCriterion = criteria.get(ProtocolCriterion.class);
+        final ProtocolCriterion protocolCriterion = criteria.get(ProtocolCriterion.class);
         
-        ArrayList<Iterable<RoleDescriptor>> aggregate = new ArrayList<>();
-        for (EntityDescriptor entityDescriptor : entityDescriptors) {
+        final ArrayList<Iterable<RoleDescriptor>> aggregate = new ArrayList<>();
+        for (final EntityDescriptor entityDescriptor : entityDescriptors) {
             if (protocolCriterion != null) {
                 aggregate.add(entityDescriptor.getRoleDescriptors(roleCriterion.getRole(), 
                         protocolCriterion.getProtocol()));
@@ -342,8 +344,8 @@ public class PredicateRoleDescriptorResolver extends AbstractIdentifiedInitializ
     protected Iterable<RoleDescriptor> getAllCandidates(
             @Nonnull final Iterable<EntityDescriptor> entityDescriptors) {
         
-        ArrayList<Iterable<RoleDescriptor>> aggregate = new ArrayList<>();
-        for (EntityDescriptor entityDescriptor : entityDescriptors) {
+        final ArrayList<Iterable<RoleDescriptor>> aggregate = new ArrayList<>();
+        for (final EntityDescriptor entityDescriptor : entityDescriptors) {
             aggregate.add(entityDescriptor.getRoleDescriptors());
         }
         return Iterables.concat(aggregate);
@@ -390,7 +392,7 @@ public class PredicateRoleDescriptorResolver extends AbstractIdentifiedInitializ
         
         log.trace("Effective satisyAny value: {}", satisfyAny);
         
-        Iterable<RoleDescriptor> result = 
+        final Iterable<RoleDescriptor> result = 
                 ResolverSupport.getFilteredIterable(candidates, predicates, satisfyAny, onEmptyPredicatesReturnEmpty);
         if (log.isDebugEnabled()) {
             log.debug("After predicate filtering {} RoleDescriptors remain", Iterables.size(result));

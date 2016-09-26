@@ -74,7 +74,7 @@ public class MetadataQueryProtocolRequestURLBuilder implements Function<String, 
     }
 
     /** {@inheritDoc} */
-    @Nullable public String apply(@Nonnull String input) {
+    @Override @Nullable public String apply(@Nonnull final String input) {
         String entityID = Constraint.isNotNull(input, "Entity ID was null");
         
         if (transformer != null) {
@@ -87,11 +87,11 @@ public class MetadataQueryProtocolRequestURLBuilder implements Function<String, 
         }
         
         try {
-            String result = base +  "entities/" + URISupport.doURLEncode(entityID);
+            final String result = base +  "entities/" + URISupport.doURLEncode(entityID);
             log.debug("From entityID '{}' and base URL '{}', built request URL: {}", 
                     entityID, base, result);
             return result;
-        } catch (Throwable t) {
+        } catch (final Throwable t) {
             log.error("Encountered fatal error attempting to build request URL", t);
             return null;
         }

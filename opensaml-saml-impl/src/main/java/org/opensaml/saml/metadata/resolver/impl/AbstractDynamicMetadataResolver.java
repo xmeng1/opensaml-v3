@@ -33,6 +33,20 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import net.shibboleth.utilities.java.support.annotation.Duration;
+import net.shibboleth.utilities.java.support.annotation.constraint.NonnullAfterInit;
+import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
+import net.shibboleth.utilities.java.support.annotation.constraint.Positive;
+import net.shibboleth.utilities.java.support.codec.StringDigester;
+import net.shibboleth.utilities.java.support.codec.StringDigester.OutputFormat;
+import net.shibboleth.utilities.java.support.collection.Pair;
+import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
+import net.shibboleth.utilities.java.support.component.ComponentSupport;
+import net.shibboleth.utilities.java.support.logic.Constraint;
+import net.shibboleth.utilities.java.support.primitive.StringSupport;
+import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
+import net.shibboleth.utilities.java.support.resolver.ResolverException;
+
 import org.joda.time.DateTime;
 import org.joda.time.chrono.ISOChronology;
 import org.opensaml.core.criterion.EntityIdCriterion;
@@ -50,20 +64,6 @@ import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.base.Strings;
-
-import net.shibboleth.utilities.java.support.annotation.Duration;
-import net.shibboleth.utilities.java.support.annotation.constraint.NonnullAfterInit;
-import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
-import net.shibboleth.utilities.java.support.annotation.constraint.Positive;
-import net.shibboleth.utilities.java.support.codec.StringDigester;
-import net.shibboleth.utilities.java.support.codec.StringDigester.OutputFormat;
-import net.shibboleth.utilities.java.support.collection.Pair;
-import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
-import net.shibboleth.utilities.java.support.component.ComponentSupport;
-import net.shibboleth.utilities.java.support.logic.Constraint;
-import net.shibboleth.utilities.java.support.primitive.StringSupport;
-import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
-import net.shibboleth.utilities.java.support.resolver.ResolverException;
 
 /**
  * Abstract subclass for metadata resolvers that resolve metadata dynamically, as needed and on demand.
@@ -285,7 +285,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
      * 
      * @param factor delay factor used to compute the next refresh time
      */
-    public void setRefreshDelayFactor(Float factor) {
+    public void setRefreshDelayFactor(final Float factor) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
 
@@ -310,7 +310,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
      * 
      * @param flag true if idle entity data should be removed, false otherwise
      */
-    public void setRemoveIdleEntityData(boolean flag) {
+    public void setRemoveIdleEntityData(final boolean flag) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
         removeIdleEntityData = flag;
@@ -369,27 +369,28 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
 
 
     /** {@inheritDoc} */
+    @Override
     @Nonnull public Iterable<EntityDescriptor> resolve(@Nonnull final CriteriaSet criteria) throws ResolverException {
         ComponentSupport.ifNotInitializedThrowUninitializedComponentException(this);
         ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
         
-        EntityIdCriterion entityIdCriterion = criteria.get(EntityIdCriterion.class);
+        final EntityIdCriterion entityIdCriterion = criteria.get(EntityIdCriterion.class);
         if (entityIdCriterion == null || Strings.isNullOrEmpty(entityIdCriterion.getEntityId())) {
             log.info("Entity Id was not supplied in criteria set, skipping resolution");
             return Collections.emptySet();
         }
         
-        String entityID = StringSupport.trimOrNull(criteria.get(EntityIdCriterion.class).getEntityId());
+        final String entityID = StringSupport.trimOrNull(criteria.get(EntityIdCriterion.class).getEntityId());
         log.debug("Attempting to resolve metadata for entityID: {}", entityID);
         
-        EntityManagementData mgmtData = getBackingStore().getManagementData(entityID);
-        Lock readLock = mgmtData.getReadWriteLock().readLock();
+        final EntityManagementData mgmtData = getBackingStore().getManagementData(entityID);
+        final Lock readLock = mgmtData.getReadWriteLock().readLock();
         Iterable<EntityDescriptor> candidates = null;
         try {
             readLock.lock();
             
             if (!shouldAttemptRefresh(mgmtData)) {
-                List<EntityDescriptor> descriptors = lookupEntityID(entityID);
+                final List<EntityDescriptor> descriptors = lookupEntityID(entityID);
                 if (!descriptors.isEmpty()) {
                     log.debug("Found requested metadata in backing store");
                     candidates = descriptors;
@@ -422,9 +423,9 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
     @Nonnull @NonnullElements protected Iterable<EntityDescriptor> resolveFromOriginSource(
             @Nonnull final CriteriaSet criteria) throws ResolverException {
         
-        String entityID = StringSupport.trimOrNull(criteria.get(EntityIdCriterion.class).getEntityId());
-        EntityManagementData mgmtData = getBackingStore().getManagementData(entityID);
-        Lock writeLock = mgmtData.getReadWriteLock().writeLock(); 
+        final String entityID = StringSupport.trimOrNull(criteria.get(EntityIdCriterion.class).getEntityId());
+        final EntityManagementData mgmtData = getBackingStore().getManagementData(entityID);
+        final Lock writeLock = mgmtData.getReadWriteLock().writeLock(); 
         
         try {
             writeLock.lock();
@@ -433,7 +434,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
             // This check should ensure that only 1 actually successfully does it, b/c the refresh
             // trigger time will be updated as seen by the subsequent ones. 
             if (!shouldAttemptRefresh(mgmtData)) {
-                List<EntityDescriptor> descriptors = lookupEntityID(entityID);
+                final List<EntityDescriptor> descriptors = lookupEntityID(entityID);
                 if (!descriptors.isEmpty()) {
                     log.debug("Metadata was resolved and stored by another thread " 
                             + "while this thread was waiting on the write lock");
@@ -443,20 +444,20 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
             
             log.debug("Resolving metadata dynamically for entity ID: {}", entityID);
             
-            XMLObject root = fetchFromOriginSource(criteria);
+            final XMLObject root = fetchFromOriginSource(criteria);
             if (root == null) {
                 log.debug("No metadata was fetched from the origin source");
             } else {
                 try {
                     processNewMetadata(root, entityID);
-                } catch (FilterException e) {
+                } catch (final FilterException e) {
                     log.error("Metadata filtering problem processing new metadata", e);
                 }
             }
             
             return lookupEntityID(entityID);
             
-        } catch (IOException e) {
+        } catch (final IOException e) {
             log.error("Error fetching metadata from origin source", e);
             return lookupEntityID(entityID);
         } finally {
@@ -476,7 +477,8 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
             throws IOException;
 
     /** {@inheritDoc} */
-    @Nonnull @NonnullElements protected List<EntityDescriptor> lookupEntityID(@Nonnull String entityID) 
+    @Override
+    @Nonnull @NonnullElements protected List<EntityDescriptor> lookupEntityID(@Nonnull final String entityID) 
             throws ResolverException {
         getBackingStore().getManagementData(entityID).recordEntityAccess();
         return super.lookupEntityID(entityID);
@@ -497,10 +499,11 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
      * 
      * @throws FilterException if there is a problem filtering the metadata
      */
+    //CheckStyle: ReturnCount OFF
     @Nonnull protected void processNewMetadata(@Nonnull final XMLObject root, @Nonnull final String expectedEntityID) 
             throws FilterException {
         
-        XMLObject filteredMetadata = filterMetadata(root);
+        final XMLObject filteredMetadata = filterMetadata(root);
         
         if (filteredMetadata == null) {
             log.info("Metadata filtering process produced a null document, resulting in an empty data set");
@@ -508,7 +511,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
         }
         
         if (filteredMetadata instanceof EntityDescriptor) {
-            EntityDescriptor entityDescriptor = (EntityDescriptor) filteredMetadata;
+            final EntityDescriptor entityDescriptor = (EntityDescriptor) filteredMetadata;
             if (!Objects.equals(entityDescriptor.getEntityID(), expectedEntityID)) {
                 log.warn("New metadata's entityID '{}' does not match expected entityID '{}', will not process", 
                         entityDescriptor.getEntityID(), expectedEntityID);
@@ -519,8 +522,8 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
             
             // Note: we store in the cache the original input XMLObject, not the filtered one
             if (isPersistentCachingEnabled() && !initializing && (root instanceof EntityDescriptor)) {
-                EntityDescriptor origDescriptor = (EntityDescriptor) root;
-                String key = getPersistentCacheKeyGenerator().apply(origDescriptor);
+                final EntityDescriptor origDescriptor = (EntityDescriptor) root;
+                final String key = getPersistentCacheKeyGenerator().apply(origDescriptor);
                 log.trace("Storing resolved EntityDescriptor '{}' in persistent cache with key '{}'", 
                         origDescriptor.getEntityID(), key);
                 if (key == null) {
@@ -529,7 +532,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
                 } else {
                     try {
                         getPersistentCacheManager().save(key, origDescriptor, true);
-                    } catch (IOException e) {
+                    } catch (final IOException e) {
                         log.warn("Error saving EntityDescriptor '{}' to cache store with key {}'", 
                                 origDescriptor.getEntityID(), key);
                     }
@@ -541,21 +544,23 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
         }
     
     }
+    //CheckStyle: ReturnCount ON
     
     /** {@inheritDoc} */
-    protected void preProcessEntityDescriptor(@Nonnull EntityDescriptor entityDescriptor, 
-            @Nonnull EntityBackingStore backingStore) {
+    @Override
+    protected void preProcessEntityDescriptor(@Nonnull final EntityDescriptor entityDescriptor, 
+            @Nonnull final EntityBackingStore backingStore) {
         
-        String entityID = StringSupport.trimOrNull(entityDescriptor.getEntityID());
+        final String entityID = StringSupport.trimOrNull(entityDescriptor.getEntityID());
         
         removeByEntityID(entityID, backingStore);
         
         super.preProcessEntityDescriptor(entityDescriptor, backingStore);
         
-        DynamicEntityBackingStore dynamicBackingStore = (DynamicEntityBackingStore) backingStore;
-        EntityManagementData mgmtData = dynamicBackingStore.getManagementData(entityID);
+        final DynamicEntityBackingStore dynamicBackingStore = (DynamicEntityBackingStore) backingStore;
+        final EntityManagementData mgmtData = dynamicBackingStore.getManagementData(entityID);
         
-        DateTime now = new DateTime(ISOChronology.getInstanceUTC());
+        final DateTime now = new DateTime(ISOChronology.getInstanceUTC());
         log.debug("For metadata expiration and refresh computation, 'now' is : {}", now);
         
         mgmtData.setLastUpdateTime(now);
@@ -577,7 +582,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
     @Nonnull protected DateTime computeExpirationTime(@Nonnull final EntityDescriptor entityDescriptor,
             @Nonnull final DateTime now) {
         
-        DateTime lowerBound = now.toDateTime(ISOChronology.getInstanceUTC()).plus(getMinCacheDuration());
+        final DateTime lowerBound = now.toDateTime(ISOChronology.getInstanceUTC()).plus(getMinCacheDuration());
         
         DateTime expiration = SAML2Support.getEarliestExpiration(entityDescriptor, 
                 now.plus(getMaxCacheDuration()), now);
@@ -599,8 +604,8 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
     @Nonnull protected DateTime computeRefreshTriggerTime(@Nullable final DateTime expirationTime,
             @Nonnull final DateTime nowDateTime) {
         
-        DateTime nowDateTimeUTC = nowDateTime.toDateTime(ISOChronology.getInstanceUTC());
-        long now = nowDateTimeUTC.getMillis();
+        final DateTime nowDateTimeUTC = nowDateTime.toDateTime(ISOChronology.getInstanceUTC());
+        final long now = nowDateTimeUTC.getMillis();
 
         long expireInstant = 0;
         if (expirationTime != null) {
@@ -624,22 +629,25 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
      * @return true if should attempt refresh, false otherwise
      */
     protected boolean shouldAttemptRefresh(@Nonnull final EntityManagementData mgmtData) {
-        DateTime now = new DateTime(ISOChronology.getInstanceUTC());
+        final DateTime now = new DateTime(ISOChronology.getInstanceUTC());
         return now.isAfter(mgmtData.getRefreshTriggerTime());
         
     }
 
     /** {@inheritDoc} */
+    @Override
     @Nonnull protected DynamicEntityBackingStore createNewBackingStore() {
         return new DynamicEntityBackingStore();
     }
     
     /** {@inheritDoc} */
+    @Override
     @NonnullAfterInit protected DynamicEntityBackingStore getBackingStore() {
         return (DynamicEntityBackingStore) super.getBackingStore();
     }
     
     /** {@inheritDoc} */
+    @Override
     protected void initMetadataResolver() throws ComponentInitializationException {
         try {
             initializing = true;
@@ -678,14 +686,14 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
         }
         
         try {
-            for (Pair<String, EntityDescriptor> cacheEntry: getPersistentCacheManager().listAll()) {
-                EntityDescriptor descriptor = cacheEntry.getSecond();
-                String currentKey = cacheEntry.getFirst();
+            for (final Pair<String, EntityDescriptor> cacheEntry: getPersistentCacheManager().listAll()) {
+                final EntityDescriptor descriptor = cacheEntry.getSecond();
+                final String currentKey = cacheEntry.getFirst();
                 log.trace("Loaded EntityDescriptor from cache store with entityID '{}' and storage key '{}'", 
                         descriptor.getEntityID(), currentKey);
                 if (isValid(descriptor)) {
                     if (getInitializationFromCachePredicate().apply(descriptor)) {
-                        String expectedKey = getPersistentCacheKeyGenerator().apply(descriptor);
+                        final String expectedKey = getPersistentCacheKeyGenerator().apply(descriptor);
                         try {
                             processNewMetadata(descriptor, descriptor.getEntityID());
                             log.trace("Successfully processed EntityDescriptor with entityID '{}' from cache", 
@@ -700,10 +708,10 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
                                         currentKey, expectedKey);
                             }
 
-                        } catch (FilterException e) {
+                        } catch (final FilterException e) {
                             log.warn("Error processing EntityDescriptor '{}' from cache with storage key '{}'", 
                                     descriptor.getEntityID(), currentKey, e);
-                        } catch (IOException e) {
+                        } catch (final IOException e) {
                             log.warn("Error updating cache storage key '{}' to '{}'", currentKey, expectedKey, e);
                         }
                     } else {
@@ -716,27 +724,28 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
                             + "not valid, skipping and removing", descriptor.getEntityID(), currentKey);
                     try {
                         getPersistentCacheManager().remove(currentKey);
-                    } catch (IOException e) {
+                    } catch (final IOException e) {
                         log.warn("Error removing invalid EntityDescriptor '{}' from persistent cache with key '{}'",
                                 descriptor.getEntityID(), currentKey);
                     }
                 }
             }
-        } catch (IOException e) {
+        } catch (final IOException e) {
             log.warn("Error loading EntityDescriptors from cache", e);
         }
     }
 
     /** {@inheritDoc} */
-    protected void removeByEntityID(String entityID, EntityBackingStore backingStore) {
+    @Override
+    protected void removeByEntityID(final String entityID, final EntityBackingStore backingStore) {
         if (isPersistentCachingEnabled()) {
-            List<EntityDescriptor> descriptors = backingStore.getIndexedDescriptors().get(entityID);
+            final List<EntityDescriptor> descriptors = backingStore.getIndexedDescriptors().get(entityID);
             if (descriptors != null) {
-                for (EntityDescriptor descriptor : descriptors) {
-                    String key = getPersistentCacheKeyGenerator().apply(descriptor);
+                for (final EntityDescriptor descriptor : descriptors) {
+                    final String key = getPersistentCacheKeyGenerator().apply(descriptor);
                     try {
                         getPersistentCacheManager().remove(key);
-                    } catch (IOException e) {
+                    } catch (final IOException e) {
                         log.warn("Error removing EntityDescriptor '{}' from cache store with key '{}'", 
                                 descriptor.getEntityID(), key);
                     }
@@ -748,6 +757,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
     }
 
     /** {@inheritDoc} */
+    @Override
     protected void doDestroy() {
         if (cleanupTask != null) {
             cleanupTask.cancel();
@@ -846,7 +856,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
          */
         protected EntityManagementData(@Nonnull final String id) {
             entityID = Constraint.isNotNull(id, "Entity ID was null");
-            DateTime now = new DateTime(ISOChronology.getInstanceUTC());
+            final DateTime now = new DateTime(ISOChronology.getInstanceUTC());
             expirationTime = now.plus(getMaxCacheDuration());
             refreshTriggerTime = now.plus(getMaxCacheDuration());
             lastAccessedTime = now;
@@ -953,6 +963,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
         private final Logger log = LoggerFactory.getLogger(BackingStoreCleanupSweeper.class);
 
         /** {@inheritDoc} */
+        @Override
         public void run() {
             if (isDestroyed() || !isInitialized()) {
                 // just in case the metadata resolver was destroyed before this task runs, 
@@ -970,15 +981,15 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
          *  which hasn't been accessed within the last {@link #getMaxIdleEntityData()} milliseconds.
          */
         private void removeExpiredAndIdleMetadata() {
-            DateTime now = new DateTime(ISOChronology.getInstanceUTC());
-            DateTime earliestValidLastAccessed = now.minus(getMaxIdleEntityData());
+            final DateTime now = new DateTime(ISOChronology.getInstanceUTC());
+            final DateTime earliestValidLastAccessed = now.minus(getMaxIdleEntityData());
             
-            DynamicEntityBackingStore backingStore = getBackingStore();
-            Map<String, List<EntityDescriptor>> indexedDescriptors = backingStore.getIndexedDescriptors();
+            final DynamicEntityBackingStore backingStore = getBackingStore();
+            final Map<String, List<EntityDescriptor>> indexedDescriptors = backingStore.getIndexedDescriptors();
             
-            for (String entityID : indexedDescriptors.keySet()) {
-                EntityManagementData mgmtData = backingStore.getManagementData(entityID);
-                Lock writeLock = mgmtData.getReadWriteLock().writeLock();
+            for (final String entityID : indexedDescriptors.keySet()) {
+                final EntityManagementData mgmtData = backingStore.getManagementData(entityID);
+                final Lock writeLock = mgmtData.getReadWriteLock().writeLock();
                 try {
                     writeLock.lock();
                     
@@ -1003,7 +1014,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
          * 
          * @return true if the entity is expired or exceeds the max idle time, false otherwise
          */
-        private boolean isRemoveData(EntityManagementData mgmtData, DateTime now, DateTime earliestValidLastAccessed) {
+        private boolean isRemoveData(final EntityManagementData mgmtData, final DateTime now, final DateTime earliestValidLastAccessed) {
             if (isRemoveIdleEntityData() && mgmtData.getLastAccessedTime().isBefore(earliestValidLastAccessed)) {
                 log.debug("Entity metadata exceeds maximum idle time, removing: {}", mgmtData.getEntityID());
                 return true;
@@ -1030,18 +1041,19 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
         public DefaultCacheKeyGenerator() {
             try {
                 digester = new StringDigester(JCAConstants.DIGEST_SHA1, OutputFormat.HEX_LOWER);
-            } catch (NoSuchAlgorithmException e) {
+            } catch (final NoSuchAlgorithmException e) {
                 // this can't really happen b/c SHA-1 is required to be supported on all JREs.
             }
         }
 
         /** {@inheritDoc} */
-        public String apply(EntityDescriptor input) {
+        @Override
+        public String apply(final EntityDescriptor input) {
             if (input == null) {
                 return null;
             }
             
-            String entityID = StringSupport.trimOrNull(input.getEntityID());
+            final String entityID = StringSupport.trimOrNull(input.getEntityID());
             if (entityID == null) {
                 return null;
             }

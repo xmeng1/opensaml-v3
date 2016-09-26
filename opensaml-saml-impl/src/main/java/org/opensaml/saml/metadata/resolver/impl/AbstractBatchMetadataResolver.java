@@ -25,6 +25,14 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
+import net.shibboleth.utilities.java.support.annotation.constraint.NotLive;
+import net.shibboleth.utilities.java.support.annotation.constraint.Unmodifiable;
+import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
+import net.shibboleth.utilities.java.support.component.ComponentSupport;
+import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
+import net.shibboleth.utilities.java.support.resolver.ResolverException;
+
 import org.opensaml.core.criterion.EntityIdCriterion;
 import org.opensaml.core.xml.XMLObject;
 import org.opensaml.saml.metadata.IterableMetadataSource;
@@ -42,14 +50,6 @@ import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
-
-import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
-import net.shibboleth.utilities.java.support.annotation.constraint.NotLive;
-import net.shibboleth.utilities.java.support.annotation.constraint.Unmodifiable;
-import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
-import net.shibboleth.utilities.java.support.component.ComponentSupport;
-import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
-import net.shibboleth.utilities.java.support.resolver.ResolverException;
 
 /**
  * Abstract subclass for metadata resolvers that process and resolve metadata at a given point 
@@ -81,8 +81,7 @@ public abstract class AbstractBatchMetadataResolver extends AbstractMetadataReso
     }
     
     /** {@inheritDoc} */
-    @Override
-    public Iterator<EntityDescriptor> iterator() {
+    @Override public Iterator<EntityDescriptor> iterator() {
         ComponentSupport.ifNotInitializedThrowUninitializedComponentException(this);
         return Collections.unmodifiableList(getBackingStore().getOrderedDescriptors()).iterator();
     }
@@ -101,7 +100,7 @@ public abstract class AbstractBatchMetadataResolver extends AbstractMetadataReso
      * 
      * @param flag true if source should be cached, false otherwise
      */
-    protected void setCacheSourceMetadata(boolean flag) {
+    protected void setCacheSourceMetadata(final boolean flag) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
         cacheSourceMetadata = flag; 
@@ -146,19 +145,18 @@ public abstract class AbstractBatchMetadataResolver extends AbstractMetadataReso
      * 
      * @param flag true if resolution may be attempted solely via predicates, false if not
      */
-    public void setResolveViaPredicatesOnly(boolean flag) {
+    public void setResolveViaPredicatesOnly(final boolean flag) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         resolveViaPredicatesOnly = flag;
     }
 
     /** {@inheritDoc} */
-    @Override
-    @Nonnull public Iterable<EntityDescriptor> resolve(CriteriaSet criteria) throws ResolverException {
+    @Override @Nonnull public Iterable<EntityDescriptor> resolve(final CriteriaSet criteria) throws ResolverException {
         ComponentSupport.ifNotInitializedThrowUninitializedComponentException(this);
         
-        EntityIdCriterion entityIdCriterion = criteria.get(EntityIdCriterion.class);
+        final EntityIdCriterion entityIdCriterion = criteria.get(EntityIdCriterion.class);
         if (entityIdCriterion != null) {
-            Iterable<EntityDescriptor> entityIdcandidates = lookupEntityID(entityIdCriterion.getEntityId());
+            final Iterable<EntityDescriptor> entityIdcandidates = lookupEntityID(entityIdCriterion.getEntityId());
             if (log.isDebugEnabled()) {
                 log.debug("Resolved {} candidates via EntityIdCriterion: {}", 
                         Iterables.size(entityIdcandidates), entityIdCriterion);
@@ -166,7 +164,7 @@ public abstract class AbstractBatchMetadataResolver extends AbstractMetadataReso
             return predicateFilterCandidates(entityIdcandidates, criteria, false);
         }
         
-        Optional<Set<EntityDescriptor>> indexedCandidates = lookupByIndexes(criteria);
+        final Optional<Set<EntityDescriptor>> indexedCandidates = lookupByIndexes(criteria);
         if (log.isDebugEnabled()) {
             if (indexedCandidates.isPresent()) {
                 log.debug("Resolved {} candidates via secondary index lookup", Iterables.size(indexedCandidates.get()));
@@ -205,8 +203,7 @@ public abstract class AbstractBatchMetadataResolver extends AbstractMetadataReso
     }
     
     /** {@inheritDoc} */
-    @Override
-    protected void indexEntityDescriptor(@Nonnull final EntityDescriptor entityDescriptor, 
+    @Override protected void indexEntityDescriptor(@Nonnull final EntityDescriptor entityDescriptor, 
             @Nonnull final EntityBackingStore backingStore) {
         super.indexEntityDescriptor(entityDescriptor, backingStore);
         
@@ -214,20 +211,17 @@ public abstract class AbstractBatchMetadataResolver extends AbstractMetadataReso
     }
 
     /** {@inheritDoc} */
-    @Override
-    @Nonnull protected BatchEntityBackingStore createNewBackingStore() {
+    @Override @Nonnull protected BatchEntityBackingStore createNewBackingStore() {
         return new BatchEntityBackingStore(getIndexes());
     }
     
     /** {@inheritDoc} */
-    @Override
-    @Nonnull protected BatchEntityBackingStore getBackingStore() {
+    @Override @Nonnull protected BatchEntityBackingStore getBackingStore() {
         return (BatchEntityBackingStore) super.getBackingStore();
     }
     
     /** {@inheritDoc} */
-    @Override
-    protected void initMetadataResolver() throws ComponentInitializationException {
+    @Override protected void initMetadataResolver() throws ComponentInitializationException {
         super.initMetadataResolver();
         // Init this to an empty instance to ensure we always have a non-null instance,
         // even if initialization in the subclass fails for whatever reason.
@@ -276,9 +270,9 @@ public abstract class AbstractBatchMetadataResolver extends AbstractMetadataReso
     @Nonnull protected BatchEntityBackingStore preProcessNewMetadata(@Nonnull final XMLObject root) 
             throws FilterException {
         
-        BatchEntityBackingStore newBackingStore = createNewBackingStore();
+        final BatchEntityBackingStore newBackingStore = createNewBackingStore();
         
-        XMLObject filteredMetadata = filterMetadata(root);
+        final XMLObject filteredMetadata = filterMetadata(root);
         
         if (isCacheSourceMetadata()) {
             newBackingStore.setCachedOriginalMetadata(root);
@@ -330,7 +324,7 @@ public abstract class AbstractBatchMetadataResolver extends AbstractMetadataReso
          * @param initIndexes secondary indexes for which to initialize storage
          */
         protected BatchEntityBackingStore(
-                @Nullable @NonnullElements @Unmodifiable @NotLive Set<MetadataIndex> initIndexes) {
+                @Nullable @NonnullElements @Unmodifiable @NotLive final Set<MetadataIndex> initIndexes) {
             super();
             secondaryIndexManager = new MetadataIndexManager(initIndexes);
         }
@@ -349,7 +343,7 @@ public abstract class AbstractBatchMetadataResolver extends AbstractMetadataReso
          * 
          * @param metadata The new cached metadata
          */
-        public void setCachedOriginalMetadata(XMLObject metadata) {
+        public void setCachedOriginalMetadata(final XMLObject metadata) {
             cachedOriginalMetadata = metadata;
         }
         
@@ -367,7 +361,7 @@ public abstract class AbstractBatchMetadataResolver extends AbstractMetadataReso
          * 
          * @param metadata The new cached metadata
          */
-        public void setCachedFilteredMetadata(XMLObject metadata) {
+        public void setCachedFilteredMetadata(final XMLObject metadata) {
             cachedFilteredMetadata = metadata;
         }
         

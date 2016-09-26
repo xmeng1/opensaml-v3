@@ -48,7 +48,7 @@ public class ResourceBackedMetadataResolver extends AbstractReloadingMetadataRes
      * 
      * @throws IOException thrown if there is a problem retrieving information about the resource
      */
-    public ResourceBackedMetadataResolver(Timer timer, Resource resource) throws IOException {
+    public ResourceBackedMetadataResolver(final Timer timer, final Resource resource) throws IOException {
         super(timer);
 
         if (!resource.exists()) {
@@ -64,7 +64,7 @@ public class ResourceBackedMetadataResolver extends AbstractReloadingMetadataRes
      * 
      * @throws IOException thrown if there is a problem retrieving information about the resource
      */
-    public ResourceBackedMetadataResolver(Resource resource) throws IOException {
+    public ResourceBackedMetadataResolver(final Resource resource) throws IOException {
 
         if (!resource.exists()) {
             throw new IOException("Resource " + resource.getDescription() + " does not exist.");
@@ -73,6 +73,7 @@ public class ResourceBackedMetadataResolver extends AbstractReloadingMetadataRes
     }
 
     /** {@inheritDoc} */
+    @Override
     protected void doDestroy() {
         metadataResource = null;
         
@@ -80,22 +81,24 @@ public class ResourceBackedMetadataResolver extends AbstractReloadingMetadataRes
     }
     
     /** {@inheritDoc} */
+    @Override
     protected String getMetadataIdentifier() {
         return metadataResource.getDescription();
     }
 
     /** {@inheritDoc} */
+    @Override
     protected byte[] fetchMetadata() throws ResolverException {
         try {
-            DateTime metadataUpdateTime = new DateTime(metadataResource.lastModified());
+            final DateTime metadataUpdateTime = new DateTime(metadataResource.lastModified());
             log.debug("resource {} was last modified {}", metadataResource.getDescription(), metadataUpdateTime);
             if (getLastRefresh() == null || metadataUpdateTime.isAfter(getLastRefresh())) {
                 return inputstreamToByteArray(metadataResource.getInputStream());
             }
 
             return null;
-        } catch (IOException e) {
-            String errorMsg = "Unable to read metadata file";
+        } catch (final IOException e) {
+            final String errorMsg = "Unable to read metadata file";
             log.error(errorMsg, e);
             throw new ResolverException(errorMsg, e);
         }
