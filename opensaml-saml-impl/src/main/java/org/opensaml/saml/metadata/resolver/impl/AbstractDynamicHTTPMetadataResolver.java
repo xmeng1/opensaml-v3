@@ -29,16 +29,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.net.ssl.SSLPeerUnverifiedException;
 
-import net.shibboleth.utilities.java.support.annotation.constraint.NonnullAfterInit;
-import net.shibboleth.utilities.java.support.annotation.constraint.NotLive;
-import net.shibboleth.utilities.java.support.annotation.constraint.Unmodifiable;
-import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
-import net.shibboleth.utilities.java.support.component.ComponentSupport;
-import net.shibboleth.utilities.java.support.logic.Constraint;
-import net.shibboleth.utilities.java.support.primitive.StringSupport;
-import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
-import net.shibboleth.utilities.java.support.resolver.ResolverException;
-
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -59,10 +49,21 @@ import org.opensaml.security.trust.TrustEngine;
 import org.opensaml.security.x509.X509Credential;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 
 import com.google.common.base.Function;
 import com.google.common.base.Strings;
 import com.google.common.collect.Collections2;
+
+import net.shibboleth.utilities.java.support.annotation.constraint.NonnullAfterInit;
+import net.shibboleth.utilities.java.support.annotation.constraint.NotLive;
+import net.shibboleth.utilities.java.support.annotation.constraint.Unmodifiable;
+import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
+import net.shibboleth.utilities.java.support.component.ComponentSupport;
+import net.shibboleth.utilities.java.support.logic.Constraint;
+import net.shibboleth.utilities.java.support.primitive.StringSupport;
+import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
+import net.shibboleth.utilities.java.support.resolver.ResolverException;
 
 /**
  * Abstract subclass for dynamic metadata resolvers that implement metadata resolution based on HTTP requests.
@@ -72,6 +73,11 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
     /** Default list of supported content MIME types. */
     public static final String[] DEFAULT_CONTENT_TYPES = 
             new String[] {"application/samlmetadata+xml", "application/xml", "text/xml"};
+    
+    /** MDC attribute representing the current request URI. Will be available during the execution of the 
+     * configured {@link ResponseHandler}. */
+    public static final String MDC_ATTRIB_CURRENT_REQUEST_URI = 
+            AbstractDynamicHTTPMetadataResolver.class.getName() + ".currentRequestURI";
     
     /** Class logger. */
     @Nonnull private final Logger log = LoggerFactory.getLogger(AbstractDynamicHTTPMetadataResolver.class);
@@ -277,9 +283,14 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
         
         final HttpClientContext context = buildHttpClientContext();
         
-        final XMLObject result = httpClient.execute(request, responseHandler, context);
-        HttpClientSecuritySupport.checkTLSCredentialEvaluated(context, request.getURI().getScheme());
-        return result;
+        try {
+            MDC.put(MDC_ATTRIB_CURRENT_REQUEST_URI, request.getURI().toString());
+            final XMLObject result = httpClient.execute(request, responseHandler, context);
+            HttpClientSecuritySupport.checkTLSCredentialEvaluated(context, request.getURI().getScheme());
+            return result;
+        } finally {
+            MDC.remove(MDC_ATTRIB_CURRENT_REQUEST_URI);
+        }
     }
     
     /**
@@ -358,15 +369,18 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
             
             final int httpStatusCode = response.getStatusLine().getStatusCode();
             
+            final String currentRequestURI = MDC.get(MDC_ATTRIB_CURRENT_REQUEST_URI);
+            
             // TODO should we be seeing/doing this? Probably not if we don't do conditional GET.
             // But we will if we do pre-emptive refreshing of metadata in background thread.
             if (httpStatusCode == HttpStatus.SC_NOT_MODIFIED) {
-                log.debug("Metadata document from '{}' has not changed since last retrieval" );
+                log.debug("Metadata document from '{}' has not changed since last retrieval", currentRequestURI);
                 return null;
             }
 
             if (httpStatusCode != HttpStatus.SC_OK) {
-                log.warn("Non-ok status code '{}' returned from remote metadata source: {}", httpStatusCode);
+                log.warn("Non-ok status code '{}' returned from remote metadata source: {}", 
+                        httpStatusCode, currentRequestURI);
                 return null;
             }
             
