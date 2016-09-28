@@ -19,11 +19,13 @@ package org.opensaml.saml.saml2.binding.artifact;
 
 import java.util.Arrays;
 
+import org.opensaml.saml.common.binding.artifact.SAMLSourceIDArtifact;
+
 /**
  * SAML 2 Type 0x004 Artifact. SAML 2, type 4, artifacts contains a 2 byte type code with a value of 4 follwed by a 2
  * byte endpoint index followed by a 20 byte source ID followed by a 20 byte message handle.
  */
-public class SAML2ArtifactType0004 extends AbstractSAML2Artifact {
+public class SAML2ArtifactType0004 extends AbstractSAML2Artifact implements SAMLSourceIDArtifact {
 
     /** SAML 2 artifact type code (0x0004). */
     public static final byte[] TYPE_CODE = { 0, 4 };

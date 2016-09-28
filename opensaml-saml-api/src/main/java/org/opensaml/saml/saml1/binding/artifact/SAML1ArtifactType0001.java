@@ -19,11 +19,13 @@ package org.opensaml.saml.saml1.binding.artifact;
 
 import java.util.Arrays;
 
+import org.opensaml.saml.common.binding.artifact.SAMLSourceIDArtifact;
+
 /**
  * SAML 1.X Type 0x0001 Artifact. SAML 1, type 1, artifacts contains a 2 byte type code with a value of 1 followed by a
  * 20 byte source ID followed by a 20 byte assertion handle.
  */
-public class SAML1ArtifactType0001 extends AbstractSAML1Artifact {
+public class SAML1ArtifactType0001 extends AbstractSAML1Artifact implements SAMLSourceIDArtifact {
 
     /** Artifact type code (0x0001). */
     public static final byte[] TYPE_CODE = { 0, 1 };

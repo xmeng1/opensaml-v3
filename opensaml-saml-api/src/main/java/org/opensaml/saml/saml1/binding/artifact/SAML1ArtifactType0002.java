@@ -19,13 +19,15 @@ package org.opensaml.saml.saml1.binding.artifact;
 
 import java.util.Arrays;
 
+import org.opensaml.saml.common.binding.artifact.SAMLSourceLocationArtifact;
+
 import net.shibboleth.utilities.java.support.primitive.StringSupport;
 
 /**
  * SAML 1 Type 0x0002 Artifact. SAML 1, type 2, artifacts contains a 2 byte type code with a value of 1 followed by a 20
  * byte assertion handle followed by an unspecified number of bytes which are a UTF-8 encoded source location string.
  */
-public class SAML1ArtifactType0002 extends AbstractSAML1Artifact {
+public class SAML1ArtifactType0002 extends AbstractSAML1Artifact implements SAMLSourceLocationArtifact {
 
     /** Artifact type code (0x0002). */
     public static final byte[] TYPE_CODE = { 0, 2 };
