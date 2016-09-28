@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:p="http://www.springframework.org/schema/p" 
+    xmlns:c="http://www.springframework.org/schema/c"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd                           
+                       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">   
+
+    <bean id="theee" class="org.opensaml.profile.logic.IPRangePredicate">
+        <property name="addressRanges">
+            <list>
+                <bean class="net.shibboleth.utilities.java.support.net.IPRange"  factory-method="parseCIDRBlock" c:cidrBlock="192.168.1.0/24"/>
+                <bean class="net.shibboleth.utilities.java.support.net.IPRange"  factory-method="parseCIDRBlock" c:cidrBlock="192.168.2.0/28"/>
+            </list>
+         </property>
+    </bean>
+
+    <!-- Multiple address ranges with a list bean
+         This fails because Spring cannot cast an ArrayList<String> to an Iterable<IPRAnge> (its too late for the converter to fire)
+    -->
+         <bean id="four" class="org.opensaml.profile.logic.IPRangePredicate">
+        <property name="addressRanges">
+            <list>
+               <value>192.168.1.0/24</value>
+               <value>192.168.2.0/28</value>
+            </list>
+         </property>
+    </bean>
+    
+</beans>
