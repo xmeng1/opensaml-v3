@@ -17,19 +17,11 @@
 
 package org.opensaml.saml.saml1.binding.artifact;
 
-import org.opensaml.saml.common.binding.artifact.AbstractSAMLArtifact;
+import org.opensaml.saml.common.binding.artifact.SAMLArtifact;
 
 /**
- * SAML 1 Artifact marker.
+ * Interface marker for SAML 1 artifacts.
  */
-public abstract class AbstractSAML1Artifact extends AbstractSAMLArtifact implements SAML1Artifact {
+public interface SAML1Artifact extends SAMLArtifact {
 
-    /**
-     * Constructor.
-     * 
-     * @param typeCode artifact type code
-     */
-    protected AbstractSAML1Artifact(byte[] typeCode) {
-        super(typeCode);
-    }
 }

@@ -17,13 +17,15 @@
 
 package org.opensaml.saml.saml2.binding.artifact;
 
+import javax.annotation.Nonnull;
+
 import org.opensaml.saml.common.binding.artifact.AbstractSAMLArtifact;
 
 /**
  * SAML 2 Artifact base class. SAML 2 artifacts contains a 2 byte type code followed by a 2 byte endpoint index followed
  * by remaining artifact data.
  */
-public abstract class AbstractSAML2Artifact extends AbstractSAMLArtifact {
+public abstract class AbstractSAML2Artifact extends AbstractSAMLArtifact implements SAML2Artifact {
 
     /** 2 byte artifact endpoint index. */
     private byte[] endpointIndex;
@@ -67,12 +69,8 @@ public abstract class AbstractSAML2Artifact extends AbstractSAMLArtifact {
         return artifact;
     }
 
-    /**
-     * Gets the 2 byte endpoint index for this artifact.
-     * 
-     * @return 2 byte endpoint index for this artifact
-     */
-    public byte[] getEndpointIndex() {
+    /** {@inheritDoc} */
+    @Nonnull public byte[] getEndpointIndex() {
         return endpointIndex;
     }
 

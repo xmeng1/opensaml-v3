@@ -15,21 +15,22 @@
  * limitations under the License.
  */
 
-package org.opensaml.saml.saml1.binding.artifact;
+package org.opensaml.saml.saml2.binding.artifact;
 
-import org.opensaml.saml.common.binding.artifact.AbstractSAMLArtifact;
+import javax.annotation.Nonnull;
+
+import org.opensaml.saml.common.binding.artifact.SAMLArtifact;
 
 /**
- * SAML 1 Artifact marker.
+ * Interface for SAML 2 artifacts.
  */
-public abstract class AbstractSAML1Artifact extends AbstractSAMLArtifact implements SAML1Artifact {
+public interface SAML2Artifact extends SAMLArtifact {
 
     /**
-     * Constructor.
+     * Gets the 2 byte endpoint index for this artifact.
      * 
-     * @param typeCode artifact type code
+     * @return 2 byte endpoint index for this artifact
      */
-    protected AbstractSAML1Artifact(byte[] typeCode) {
-        super(typeCode);
-    }
+    @Nonnull public byte[] getEndpointIndex();
+
 }

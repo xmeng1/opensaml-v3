@@ -30,7 +30,7 @@ import org.apache.commons.codec.binary.Hex;
 /**
  * Base class for SAML artifacts.
  */
-public abstract class AbstractSAMLArtifact {
+public abstract class AbstractSAMLArtifact implements SAMLArtifact {
 
     /** 2 byte artifact type code. */
     private byte[] typeCode;
@@ -49,11 +49,7 @@ public abstract class AbstractSAMLArtifact {
         typeCode = code;
     }
 
-    /**
-     * Gets the bytes for the artifact.
-     * 
-     * @return the bytes for the artifact
-     */
+    /** {@inheritDoc} */
     @Nonnull public byte[] getArtifactBytes() {
         final byte[] remainingArtifact = getRemainingArtifact();
         final byte[] artifact = new byte[2 + remainingArtifact.length];
@@ -64,11 +60,7 @@ public abstract class AbstractSAMLArtifact {
         return artifact;
     }
 
-    /**
-     * Gets the 2 byte type code for this artifact.
-     * 
-     * @return the type code for this artifact
-     */
+    /** {@inheritDoc} */
     @Nonnull public byte[] getTypeCode() {
         return typeCode;
     }
@@ -81,7 +73,7 @@ public abstract class AbstractSAMLArtifact {
     protected void setTypeCode(@Nonnull final byte[] newTypeCode) {
         typeCode = Constraint.isNotNull(newTypeCode, "Type code cannot be null");
     }
-
+ 
     /**
      * Gets the artifact bytes minus the type code.
      * 
