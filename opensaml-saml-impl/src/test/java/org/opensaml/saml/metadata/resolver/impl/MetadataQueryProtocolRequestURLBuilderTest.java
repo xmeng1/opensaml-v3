@@ -30,14 +30,14 @@ public class MetadataQueryProtocolRequestURLBuilderTest {
     public void testWithoutTrailingSlash() {
         function = new MetadataQueryProtocolRequestURLBuilder("http://metadata.example.org/service");
         
-        Assert.assertEquals(function.apply("http://example.org/idp"), "http://metadata.example.org/service/entities/http%3A%2F%2Fexample.org%2Fidp");
+        Assert.assertEquals(function.apply("http://example.org/idp"), "http://metadata.example.org/service/entities/http:%2F%2Fexample.org%2Fidp");
     }
 
     @Test
     public void testWithTrailingSlash() {
         function = new MetadataQueryProtocolRequestURLBuilder("http://metadata.example.org/service/");
         
-        Assert.assertEquals(function.apply("http://example.org/idp"), "http://metadata.example.org/service/entities/http%3A%2F%2Fexample.org%2Fidp");
+        Assert.assertEquals(function.apply("http://example.org/idp"), "http://metadata.example.org/service/entities/http:%2F%2Fexample.org%2Fidp");
     }
     
     @Test

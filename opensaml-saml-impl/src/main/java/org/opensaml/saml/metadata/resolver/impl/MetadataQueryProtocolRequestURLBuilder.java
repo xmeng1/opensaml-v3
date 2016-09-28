@@ -20,15 +20,16 @@ package org.opensaml.saml.metadata.resolver.impl;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.shibboleth.utilities.java.support.annotation.constraint.NotEmpty;
-import net.shibboleth.utilities.java.support.logic.Constraint;
-import net.shibboleth.utilities.java.support.net.URISupport;
-import net.shibboleth.utilities.java.support.primitive.StringSupport;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Function;
+import com.google.common.escape.Escaper;
+import com.google.common.net.UrlEscapers;
+
+import net.shibboleth.utilities.java.support.annotation.constraint.NotEmpty;
+import net.shibboleth.utilities.java.support.logic.Constraint;
+import net.shibboleth.utilities.java.support.primitive.StringSupport;
 
 //TODO reference to protocol spec pending in Javadoc.
 
@@ -45,6 +46,9 @@ public class MetadataQueryProtocolRequestURLBuilder implements Function<String, 
     
     /** Function which transforms the entityID prior to substitution into the URL. */
     private Function<String, String> transformer;
+    
+    /** Path escaper for escaping the input value inserted into the URL path. */
+    private Escaper pathEscaper = UrlEscapers.urlPathSegmentEscaper();
     
     /**
      * Constructor.
@@ -87,7 +91,7 @@ public class MetadataQueryProtocolRequestURLBuilder implements Function<String, 
         }
         
         try {
-            final String result = base +  "entities/" + URISupport.doURLEncode(entityID);
+            final String result = base +  "entities/" + pathEscaper.escape(entityID);
             log.debug("From entityID '{}' and base URL '{}', built request URL: {}", 
                     entityID, base, result);
             return result;
