@@ -245,7 +245,6 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
     @Override
     protected void initMetadataResolver() throws ComponentInitializationException {
         super.initMetadataResolver();
-        setBackingStore(createNewBackingStore());
         
         if (getSupportedContentTypes() == null) {
             setSupportedContentTypes(Arrays.asList(DEFAULT_CONTENT_TYPES));
