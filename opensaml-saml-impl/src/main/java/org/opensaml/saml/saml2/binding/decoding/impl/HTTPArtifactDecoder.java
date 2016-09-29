@@ -36,15 +36,14 @@ import org.opensaml.saml.common.binding.impl.DefaultEndpointResolver;
 import org.opensaml.saml.common.messaging.context.SAMLBindingContext;
 import org.opensaml.saml.common.xml.SAMLConstants;
 import org.opensaml.saml.config.SAMLConfigurationSupport;
-import org.opensaml.saml.criterion.ArtifactSourceIDCriterion;
+import org.opensaml.saml.criterion.ArtifactCriterion;
 import org.opensaml.saml.criterion.EndpointCriterion;
 import org.opensaml.saml.criterion.EntityRoleCriterion;
 import org.opensaml.saml.criterion.ProtocolCriterion;
 import org.opensaml.saml.criterion.RoleDescriptorCriterion;
 import org.opensaml.saml.metadata.resolver.RoleDescriptorResolver;
-import org.opensaml.saml.saml2.binding.artifact.AbstractSAML2Artifact;
+import org.opensaml.saml.saml2.binding.artifact.SAML2Artifact;
 import org.opensaml.saml.saml2.binding.artifact.SAML2ArtifactBuilderFactory;
-import org.opensaml.saml.saml2.binding.artifact.SAML2ArtifactType0004;
 import org.opensaml.saml.saml2.metadata.ArtifactResolutionService;
 import org.opensaml.saml.saml2.metadata.RoleDescriptor;
 import org.slf4j.Logger;
@@ -162,7 +161,7 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
      * Get the role descriptor resolver.
      * 
      * <p>
-     * Must be capable of resolving descriptors based on {@link ArtifactSourceIDCriterion}.
+     * Must be capable of resolving descriptors based on {@link ArtifactCriterion}.
      * </p>
      * 
      * @return the role descriptor resolver
@@ -175,7 +174,7 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
      * Set the role descriptor resolver.
      * 
      * <p>
-     * Must be capable of resolving descriptors based on {@link ArtifactSourceIDCriterion}.
+     * Must be capable of resolving descriptors based on {@link ArtifactCriterion}.
      * </p>
      * 
      * @param resolver the role descriptor resolver
@@ -263,7 +262,7 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
         }
         
         try {
-            AbstractSAML2Artifact artifact = parseArtifact(encodedArtifact);
+            SAML2Artifact artifact = parseArtifact(encodedArtifact);
 
             ArtifactResolutionService ars = resolveArtifactEndpoint(artifact);
 
@@ -282,7 +281,7 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
      * @param artifactResolveEndpointURL
      * @return
      */
-    protected SAMLObject dereferenceArtifact(AbstractSAML2Artifact artifact, ArtifactResolutionService ars) 
+    protected SAMLObject dereferenceArtifact(SAML2Artifact artifact, ArtifactResolutionService ars) 
             throws MessageDecodingException {
         // TODO Auto-generated method stub
         return null;
@@ -292,7 +291,7 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
      * @param artifact
      * @return
      */
-    protected ArtifactResolutionService resolveArtifactEndpoint(AbstractSAML2Artifact artifact) throws MessageDecodingException {
+    protected ArtifactResolutionService resolveArtifactEndpoint(SAML2Artifact artifact) throws MessageDecodingException {
         try {
             RoleDescriptor roleDescriptor = resolveRoleDescriptor(artifact);
             if (roleDescriptor == null) {
@@ -326,23 +325,16 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
      * @param artifact
      * @return
      */
-    protected RoleDescriptor resolveRoleDescriptor(AbstractSAML2Artifact artifact) throws MessageDecodingException {
-        //TODO move check and casting up to higher level?
-        //TODO move to more extensible model than hardcoded support for type 4?
-        if (artifact instanceof SAML2ArtifactType0004) {
-            SAML2ArtifactType0004 type4Artifact = (SAML2ArtifactType0004) artifact;
-            ArtifactSourceIDCriterion sourceIDCriterion = new ArtifactSourceIDCriterion(type4Artifact.getSourceID());
-            
-            CriteriaSet criteriaSet = new CriteriaSet(sourceIDCriterion,
-                    new ProtocolCriterion(SAMLConstants.SAML20P_NS),
-                    new EntityRoleCriterion(getPeerEntityRole()));
-            try {
-                return roleDescriptorResolver.resolveSingle(criteriaSet);
-            } catch (ResolverException e) {
-                throw new MessageDecodingException("Error resolving peer entity RoleDescriptor", e);
-            }
-        } else {
-            throw new MessageDecodingException("Saw unsupported artifact type: " + artifact.getClass().getName());
+    protected RoleDescriptor resolveRoleDescriptor(SAML2Artifact artifact) throws MessageDecodingException {
+
+        CriteriaSet criteriaSet = new CriteriaSet(
+                new ArtifactCriterion(artifact),
+                new ProtocolCriterion(SAMLConstants.SAML20P_NS),
+                new EntityRoleCriterion(getPeerEntityRole()));
+        try {
+            return roleDescriptorResolver.resolveSingle(criteriaSet);
+        } catch (ResolverException e) {
+            throw new MessageDecodingException("Error resolving peer entity RoleDescriptor", e);
         }
     }
 
@@ -350,7 +342,7 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
      * @param encodedArtifact
      * @return
      */
-    protected AbstractSAML2Artifact parseArtifact(String encodedArtifact) throws MessageDecodingException {
+    protected SAML2Artifact parseArtifact(String encodedArtifact) throws MessageDecodingException {
         return artifactBuilderFactory.buildArtifact(encodedArtifact);
     }
 

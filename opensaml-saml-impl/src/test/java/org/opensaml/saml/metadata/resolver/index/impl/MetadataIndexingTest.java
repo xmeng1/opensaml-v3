@@ -20,18 +20,18 @@ package org.opensaml.saml.metadata.resolver.index.impl;
 import java.io.File;
 import java.net.URL;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.HashSet;
 
-import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
-import net.shibboleth.utilities.java.support.resolver.ResolverException;
-
 import org.opensaml.core.xml.XMLObjectBaseTestCase;
-import org.opensaml.saml.criterion.ArtifactSourceIDCriterion;
+import org.opensaml.saml.criterion.ArtifactCriterion;
 import org.opensaml.saml.criterion.EntityRoleCriterion;
 import org.opensaml.saml.metadata.resolver.impl.AbstractBatchMetadataResolver;
 import org.opensaml.saml.metadata.resolver.impl.FilesystemMetadataResolver;
 import org.opensaml.saml.metadata.resolver.impl.FilesystemMetadataResolverTest;
 import org.opensaml.saml.metadata.resolver.index.MetadataIndex;
+import org.opensaml.saml.saml2.binding.artifact.SAML2ArtifactType0004;
 import org.opensaml.saml.saml2.metadata.EntityDescriptor;
 import org.opensaml.saml.saml2.metadata.IDPSSODescriptor;
 import org.opensaml.saml.saml2.metadata.SPSSODescriptor;
@@ -39,6 +39,9 @@ import org.opensaml.security.crypto.JCAConstants;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
+import net.shibboleth.utilities.java.support.resolver.ResolverException;
 
 /**
  * Test metadata indexing implemented in {@link AbstractBatchMetadataResolver}, using
@@ -67,7 +70,7 @@ public class MetadataIndexingTest extends XMLObjectBaseTestCase {
         HashSet<MetadataIndex> indexes = new HashSet<>();
         indexes.add(new FunctionDrivenMetadataIndex(new UppercaseEntityIdDescriptorFunction(), new SimpleStringCriteriaFunction()));
         indexes.add(new RoleMetadataIndex());
-        indexes.add(new ArtifactSourceIDMetadataIndex());
+        indexes.add(new SAMLArtifactMetadataIndex());
 
         URL mdURL = FilesystemMetadataResolverTest.class
                 .getResource("/org/opensaml/saml/saml2/metadata/InCommon-metadata.xml");
@@ -83,7 +86,11 @@ public class MetadataIndexingTest extends XMLObjectBaseTestCase {
     }
     
     @Test
-    public void testResolveByArtifactSourceID() throws ResolverException {
+    public void testResolveByArtifactSourceID() throws ResolverException, NoSuchAlgorithmException {
+        SecureRandom secureRandom = SecureRandom.getInstance("SHA1PRNG");
+        byte[] messageHandle = new byte[20];
+        secureRandom.nextBytes(messageHandle);
+        
         //Empty criteria set.  Not an error, just no result.
         criteriaSet.clear();
         EntityDescriptor descriptor = metadataProvider.resolveSingle(criteriaSet);
@@ -91,13 +98,13 @@ public class MetadataIndexingTest extends XMLObjectBaseTestCase {
         
         //Criteria with non-matching criterion value. Not an error, just no result.
         criteriaSet.clear();
-        criteriaSet.add(new ArtifactSourceIDCriterion(otherSourceID));
+        criteriaSet.add(new ArtifactCriterion(new SAML2ArtifactType0004(new byte[] {0, 0} , otherSourceID, messageHandle)));
         descriptor = metadataProvider.resolveSingle(criteriaSet);
         Assert.assertNull(descriptor);
         
         //Criteria with matching criterion value. This should be resolved from the index.
         criteriaSet.clear();
-        criteriaSet.add(new ArtifactSourceIDCriterion(artifactSourceID));
+        criteriaSet.add(new ArtifactCriterion(new SAML2ArtifactType0004(new byte[] {0, 0} , artifactSourceID, messageHandle)));
         descriptor = metadataProvider.resolveSingle(criteriaSet);
         Assert.assertNotNull(descriptor, "Retrieved entity descriptor was null");
         Assert.assertEquals(descriptor.getEntityID(), entityID, "Entity's ID does not match requested ID");

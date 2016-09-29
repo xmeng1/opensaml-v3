@@ -17,46 +17,46 @@
 
 package org.opensaml.saml.criterion;
 
-import java.util.Arrays;
+import java.util.Objects;
 
 import javax.annotation.Nonnull;
 
-import net.shibboleth.utilities.java.support.annotation.constraint.NotEmpty;
-import net.shibboleth.utilities.java.support.codec.Base64Support;
+import org.apache.commons.codec.binary.Hex;
+import org.opensaml.saml.common.binding.artifact.SAMLArtifact;
+
 import net.shibboleth.utilities.java.support.logic.Constraint;
 import net.shibboleth.utilities.java.support.resolver.Criterion;
 
-/** {@link Criterion} representing a SAML artifact SourceID. */
-public final class ArtifactSourceIDCriterion implements Criterion {
+/** {@link Criterion} representing a {@link SAMLArtifact}. */
+public final class ArtifactCriterion implements Criterion {
 
     /** The SourceID value. */
-    @Nonnull @NotEmpty private final byte[] sourceID;
+    @Nonnull private final SAMLArtifact artifact;
 
     /**
      * Constructor.
      * 
-     * @param newSourceID the artifact SourceID value
+     * @param newArtifact the artifact value
      */
-    public ArtifactSourceIDCriterion(@Nonnull @NotEmpty final byte[] newSourceID) {
-        sourceID = Constraint.isNotNull(newSourceID, "SourceID cannot be null");
-        Constraint.isGreaterThan(0, sourceID.length, "SourceID length must be greater than zero");
+    public ArtifactCriterion(@Nonnull final SAMLArtifact newArtifact) {
+        artifact = Constraint.isNotNull(newArtifact, "SAMLArtifact cannot be null");
     }
 
     /**
-     * Get the SourceID value.
+     * Get the SAML artifact.
      * 
-     * @return the SourceID value
+     * @return the SAML artifact
      */
-    @Nonnull @NotEmpty public byte[] getSourceID() {
-        return sourceID;
+    @Nonnull public SAMLArtifact getArtifact() {
+        return artifact;
     }
 
     /** {@inheritDoc} */
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("ArtifactSourceIDCriterion [value=");
-        builder.append(Base64Support.encode(sourceID, false));
+        builder.append("ArtifactCriterion [artifact=");
+        builder.append(Hex.encodeHex(artifact.getArtifactBytes(), true));
         builder.append("]");
         return builder.toString();
     }
@@ -64,7 +64,7 @@ public final class ArtifactSourceIDCriterion implements Criterion {
     /** {@inheritDoc} */
     @Override
     public int hashCode() {
-        return Arrays.hashCode(sourceID);
+        return artifact.hashCode();
     }
 
     /** {@inheritDoc} */
@@ -78,8 +78,8 @@ public final class ArtifactSourceIDCriterion implements Criterion {
             return false;
         }
 
-        if (obj instanceof ArtifactSourceIDCriterion) {
-            return Arrays.equals(sourceID, ((ArtifactSourceIDCriterion) obj).getSourceID());
+        if (obj instanceof ArtifactCriterion) {
+            return Objects.equals(artifact, ((ArtifactCriterion)obj).artifact);
         }
 
         return false;
