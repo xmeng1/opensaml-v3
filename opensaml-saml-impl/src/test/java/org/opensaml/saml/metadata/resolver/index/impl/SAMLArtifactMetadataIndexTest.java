@@ -178,7 +178,7 @@ public class SAMLArtifactMetadataIndexTest extends XMLObjectBaseTestCase {
         Assert.assertTrue(keys.contains(entityIDSourceIDKey));
     }
     
-    /*
+    /* TODO
     @Test
     public void testGenerateSourceLocationKeysFromCriteria() {
         CriteriaSet criteriaSet = new CriteriaSet();
@@ -193,7 +193,7 @@ public class SAMLArtifactMetadataIndexTest extends XMLObjectBaseTestCase {
     */
     
     @Test
-    public void testKey() throws UnsupportedEncodingException, NoSuchAlgorithmException {
+    public void testSourceIDKey() throws UnsupportedEncodingException, NoSuchAlgorithmException {
         MessageDigest sha1Digester = MessageDigest.getInstance(JCAConstants.DIGEST_SHA1);
         
         MetadataIndexKey keySame = new SAMLArtifactMetadataIndex.ArtifactSourceIDMetadataIndexKey(
