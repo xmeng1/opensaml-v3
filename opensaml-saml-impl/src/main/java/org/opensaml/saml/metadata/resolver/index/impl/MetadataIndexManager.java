@@ -102,7 +102,7 @@ public class MetadataIndexManager<T> {
      * @return the index store for the index, may be null if index was not initialized 
      *         for this manager instance
      */
-    @Nullable public MetadataIndexStore getStore(@Nonnull MetadataIndex index) {
+    @Nullable protected MetadataIndexStore<T> getStore(@Nonnull MetadataIndex index) {
         Constraint.isNotNull(index, "MetadataIndex was null");
         return indexes.get(index);
     }
@@ -125,7 +125,7 @@ public class MetadataIndexManager<T> {
             Set<MetadataIndexKey> keys = index.generateKeys(criteria);
             if (keys != null && !keys.isEmpty()) {
                 LazySet<T> indexResult = new LazySet<>();
-                MetadataIndexStore<T> indexStore = indexes.get(index);
+                MetadataIndexStore<T> indexStore = getStore(index);
                 for (MetadataIndexKey key : keys) {
                     indexResult.addAll(indexStore.lookup(key));
                 }
@@ -168,7 +168,7 @@ public class MetadataIndexManager<T> {
             if (keys != null && !keys.isEmpty()) {
                 T item = entityDescriptorFunction.apply(descriptor);
                 if (item != null) {
-                    MetadataIndexStore<T> store = indexes.get(index);
+                    MetadataIndexStore<T> store = getStore(index);
                     for (MetadataIndexKey key : keys) {
                         log.trace("Indexing metadata: index '{}', key '{}', data item '{}'", 
                                 index, key, item);
