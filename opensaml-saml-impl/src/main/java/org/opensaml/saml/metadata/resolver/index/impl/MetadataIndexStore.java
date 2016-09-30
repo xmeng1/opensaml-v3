@@ -25,24 +25,26 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.Nonnull;
 
+import org.opensaml.saml.metadata.resolver.index.MetadataIndexKey;
+
+import com.google.common.collect.ImmutableSet;
+
 import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
 import net.shibboleth.utilities.java.support.annotation.constraint.NotLive;
 import net.shibboleth.utilities.java.support.annotation.constraint.Unmodifiable;
 import net.shibboleth.utilities.java.support.logic.Constraint;
 
-import org.opensaml.saml.metadata.resolver.index.MetadataIndexKey;
-import org.opensaml.saml.saml2.metadata.EntityDescriptor;
-
-import com.google.common.collect.ImmutableSet;
-
 /**
- * Component which stores indexed instances of {@link EntityDescriptor} under one or more instances
- * of {@link MetadataIndexKey}.
+ * Component which stores indexed instances of a particular type of data, 
+ * for example {@link org.opensaml.saml.saml2.metadata.EntityDescriptor},
+ * under one or more instances of {@link MetadataIndexKey}.
+ * 
+ * @param <T> the type of data being indexed
  */
-public class MetadataIndexStore {
+public class MetadataIndexStore<T> {
     
-    /** The indexed storage of entity descriptors. */
-    @Nonnull private Map<MetadataIndexKey, Set<EntityDescriptor>> index;
+    /** The indexed storage of data. */
+    @Nonnull private Map<MetadataIndexKey, Set<T>> index;
     
     /**
      * Constructor.
@@ -62,57 +64,57 @@ public class MetadataIndexStore {
     }
     
     /**
-     * Lookup the instances of {@link EntityDescriptor} indexed under the supplied {@link MetadataIndexKey}.
+     * Lookup the instances of data indexed under the supplied {@link MetadataIndexKey}.
      * 
      * @param key the index key to lookup
-     * @return the set of descriptors indexed under that key
+     * @return the set of data items indexed under that key
      */
     @Nonnull @NonnullElements @Unmodifiable @NotLive 
-    public Set<EntityDescriptor> lookup(@Nonnull final MetadataIndexKey key) {
+    public Set<T> lookup(@Nonnull final MetadataIndexKey key) {
         Constraint.isNotNull(key, "IndexKey was null");
-        Set<EntityDescriptor> entities = index.get(key);
-        if (entities == null) {
+        Set<T> items = index.get(key);
+        if (items == null) {
             return Collections.emptySet();
         } else {
-            return ImmutableSet.copyOf(entities);
+            return ImmutableSet.copyOf(items);
         }
     }
     
     /**
-     * Add the supplied {@link EntityDescriptor} to the index under the supplied {@link MetadataIndexKey}.
+     * Add the supplied data item to the index under the supplied {@link MetadataIndexKey}.
      * 
      * @param key the index key
-     * @param descriptor the descriptor to index
+     * @param item the data item to index
      */
-    public void add(MetadataIndexKey key, EntityDescriptor descriptor) {
+    public void add(MetadataIndexKey key, T item) {
         Constraint.isNotNull(key, "IndexKey was null");
-        Constraint.isNotNull(descriptor, "EntityDescriptor was null");
-        Set<EntityDescriptor> entities = index.get(key);
-        if (entities == null) {
-            entities = new HashSet<>();
-            index.put(key, entities);
+        Constraint.isNotNull(item, "The indexed data element was null");
+        Set<T> items = index.get(key);
+        if (items == null) {
+            items = new HashSet<>();
+            index.put(key, items);
         }
-        entities.add(descriptor);
+        items.add(item);
     }
     
     /**
-     * Remove the supplied {@link EntityDescriptor} from the index under the supplied {@link MetadataIndexKey}.
+     * Remove the supplied data item from the index under the supplied {@link MetadataIndexKey}.
      * 
      * @param key the index key
-     * @param descriptor the descriptor to index
+     * @param item the data item to index
      */
-    public void remove(MetadataIndexKey key, EntityDescriptor descriptor) {
+    public void remove(MetadataIndexKey key, T item) {
         Constraint.isNotNull(key, "IndexKey was null");
-        Constraint.isNotNull(descriptor, "EntityDescriptor was null");
-        Set<EntityDescriptor> entities = index.get(key);
-        if (entities == null) {
+        Constraint.isNotNull(item, "The indexed data element was null");
+        Set<T> items = index.get(key);
+        if (items == null) {
             return;
         }
-        entities.remove(descriptor);
+        items.remove(item);
     }
     
     /**
-     * Clear all indexed descriptors under the supplied {@link MetadataIndexKey}.
+     * Clear all data items indexed under the supplied {@link MetadataIndexKey}.
      * 
      * @param key the index key
      */
@@ -122,7 +124,7 @@ public class MetadataIndexStore {
     }
     
     /**
-     * Clear all indexed descriptors from the store.
+     * Clear all indexed data items from the store.
      */
     public void clear() {
         index.clear();

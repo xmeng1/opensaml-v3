@@ -34,7 +34,7 @@ import org.testng.annotations.Test;
  */
 public class MetadataIndexStoreTest extends OpenSAMLInitBaseTestCase {
     
-    private MetadataIndexStore store;
+    private MetadataIndexStore<EntityDescriptor> store;
     
     private MetadataIndexKey key1, key2;
     private EntityDescriptor a, b, c;

@@ -32,6 +32,7 @@ import org.opensaml.saml.saml2.metadata.EntityDescriptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 
@@ -40,27 +41,41 @@ import net.shibboleth.utilities.java.support.annotation.constraint.NotLive;
 import net.shibboleth.utilities.java.support.annotation.constraint.Unmodifiable;
 import net.shibboleth.utilities.java.support.collection.LazySet;
 import net.shibboleth.utilities.java.support.logic.Constraint;
+import net.shibboleth.utilities.java.support.primitive.StringSupport;
 import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
 
 /**
- * High-level component which handles index and lookup of {@link EntityDescriptor} instances,
+ * High-level component which handles index and lookup of instances of particular type of data item,
+ * for example {@link org.opensaml.saml.saml2.metadata.EntityDescriptor},
  * based on a set of {@link MetadataIndex} instances currently held.
+ * 
+ * @param <T> the type of data being indexed
  */
-public class MetadataIndexManager {
+public class MetadataIndexManager<T> {
     
     /** Logger. */
     private Logger log = LoggerFactory.getLogger(MetadataIndexManager.class);
     
     /** Storage for secondary indexes. */
-    private Map<MetadataIndex, MetadataIndexStore> indexes;
+    private Map<MetadataIndex, MetadataIndexStore<T>> indexes;
+    
+    /** Function to extract the data item to be indexed from an EntityDescriptor. */
+    private Function<EntityDescriptor, T> entityDescriptorFunction;
     
     /**
      * Constructor.
      *
      * @param initIndexes indexes for which to initialize storage
+     * @param extractionFunction function to extract the indexed data item from an EntityDescriptor
      */
     public MetadataIndexManager(
-            @Nullable @NonnullElements @Unmodifiable @NotLive Set<MetadataIndex> initIndexes) {
+            @Nullable @NonnullElements @Unmodifiable @NotLive Set<MetadataIndex> initIndexes,
+            @Nonnull final Function<EntityDescriptor, T> extractionFunction
+            ) {
+        
+        entityDescriptorFunction = Constraint.isNotNull(extractionFunction, 
+                "EntityDescriptor extraction function was null");
+        
         indexes = new ConcurrentHashMap<>();
         if (initIndexes != null) {
             for (MetadataIndex index : initIndexes) {
@@ -93,44 +108,44 @@ public class MetadataIndexManager {
     }
     
     /**
-     * Resolve the set of descriptors based on the indexes currently held.
+     * Resolve the set of indexed data items based on the indexes currently held.
      * 
      * @param criteria the criteria set to process
      * 
-     * @return an {@link Optional} instance containing the descriptors resolved via indexes, 
+     * @return an {@link Optional} instance containing the indexed data items resolved via indexes, 
      *          and based on the input criteria set. If the Optional instance indicates 'absent',
      *          there were either no indexes configured, or no criteria were applicable/understood
      *          by any indexes.  If 'present' is indicated, then there were applicable/understood criteria,
      *          and the wrapped set contains the indexed data, which may be empty.
      */
     @Nonnull @NonnullElements
-    public Optional<Set<EntityDescriptor>> lookupEntityDescriptors(@Nonnull final CriteriaSet criteria) {
-        Set<EntityDescriptor> descriptors = new HashSet<>();
+    public Optional<Set<T>> lookupIndexedItems(@Nonnull final CriteriaSet criteria) {
+        Set<T> items = new HashSet<>();
         for (MetadataIndex index : indexes.keySet()) {
             Set<MetadataIndexKey> keys = index.generateKeys(criteria);
             if (keys != null && !keys.isEmpty()) {
-                LazySet<EntityDescriptor> indexResult = new LazySet<>();
-                MetadataIndexStore indexStore = indexes.get(index);
+                LazySet<T> indexResult = new LazySet<>();
+                MetadataIndexStore<T> indexStore = indexes.get(index);
                 for (MetadataIndexKey key : keys) {
                     indexResult.addAll(indexStore.lookup(key));
                 }
                 log.trace("MetadataIndex '{}' produced results: {}", index, indexResult);
-                if (descriptors.isEmpty()) {
-                    descriptors.addAll(indexResult);
+                if (items.isEmpty()) {
+                    items.addAll(indexResult);
                 } else {
-                    descriptors.retainAll(indexResult);
+                    items.retainAll(indexResult);
                 }
-                if (descriptors.isEmpty()) {
+                if (items.isEmpty()) {
                     log.trace("Accumulator intersected with MetadataIndex '{}' result produced empty result, " 
                             + "terminating early and returning empty result set", index);
                     // Return present+empty here to indicate there were applicable indexes for the criteria,
                     // but no indexed data.
-                    return Optional.of(Collections.<EntityDescriptor>emptySet());
+                    return Optional.of(Collections.<T>emptySet());
                 }
             }
         }
         
-        if (descriptors.isEmpty()) {
+        if (items.isEmpty()) {
             // Because of the handling above, if we reach here it was because either:
             //   1) no indexes are configured
             //   2) no criteria was supplied applicable for any indexes 
@@ -138,12 +153,12 @@ public class MetadataIndexManager {
             // Returning absent here allows to distinguish these cases from the empty set case above.
             return Optional.absent();
         } else {
-            return Optional.of(descriptors);
+            return Optional.of(items);
         }
     }
     
     /**
-     * Index the specified descriptor based on the indexes currently held.
+     * Index the specified {@link EntityDescriptor} based on the indexes currently held.
      * 
      * @param descriptor the entity descriptor to index
      */
@@ -151,14 +166,43 @@ public class MetadataIndexManager {
         for (MetadataIndex index : indexes.keySet()) {
             Set<MetadataIndexKey> keys = index.generateKeys(descriptor);
             if (keys != null && !keys.isEmpty()) {
-                MetadataIndexStore store = indexes.get(index);
-                for (MetadataIndexKey key : keys) {
-                    log.trace("Indexing metadata: index '{}', key '{}', entity descriptor '{}'", 
-                            index, key, descriptor);
-                    store.add(key, descriptor);
+                T item = entityDescriptorFunction.apply(descriptor);
+                if (item != null) {
+                    MetadataIndexStore<T> store = indexes.get(index);
+                    for (MetadataIndexKey key : keys) {
+                        log.trace("Indexing metadata: index '{}', key '{}', data item '{}'", 
+                                index, key, item);
+                        store.add(key, item);
+                    }
+                } else {
+                    log.trace("Unable to extract indexed data item from EntityDescriptor");
                 }
             }
         }
+    }
+    
+    
+    /** Extraction function which simply returns the input {@link EntityDescriptor}. */
+    public static class IdentityExtractionFunction implements Function<EntityDescriptor, EntityDescriptor> {
+
+        /** {@inheritDoc} */
+        public EntityDescriptor apply(EntityDescriptor input) {
+            return input;
+        }
+        
+    }
+    
+    /** Extraction function which returns the entityID of the input {@link EntityDescriptor}. */
+    public static class EntityIDExtractionFunction implements Function<EntityDescriptor, String> {
+
+        /** {@inheritDoc} */
+        public String apply(EntityDescriptor input) {
+            if (input == null) {
+                return null;
+            }
+            return StringSupport.trimOrNull(input.getEntityID());
+        }
+        
     }
 
 }

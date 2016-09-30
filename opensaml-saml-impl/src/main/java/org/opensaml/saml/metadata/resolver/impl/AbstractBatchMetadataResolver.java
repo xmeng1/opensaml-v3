@@ -199,7 +199,7 @@ public abstract class AbstractBatchMetadataResolver extends AbstractMetadataReso
      */
     @Nonnull @NonnullElements 
     protected Optional<Set<EntityDescriptor>> lookupByIndexes(@Nonnull final CriteriaSet criteria) {
-        return getBackingStore().getSecondaryIndexManager().lookupEntityDescriptors(criteria);
+        return getBackingStore().getSecondaryIndexManager().lookupIndexedItems(criteria);
     }
     
     /** {@inheritDoc} */
@@ -316,7 +316,7 @@ public abstract class AbstractBatchMetadataResolver extends AbstractMetadataReso
         private XMLObject cachedFilteredMetadata;
         
         /** Manager for secondary indexes. */
-        private MetadataIndexManager secondaryIndexManager;
+        private MetadataIndexManager<EntityDescriptor> secondaryIndexManager;
         
         /**
          * Constructor.
@@ -326,7 +326,8 @@ public abstract class AbstractBatchMetadataResolver extends AbstractMetadataReso
         protected BatchEntityBackingStore(
                 @Nullable @NonnullElements @Unmodifiable @NotLive final Set<MetadataIndex> initIndexes) {
             super();
-            secondaryIndexManager = new MetadataIndexManager(initIndexes);
+            secondaryIndexManager = new MetadataIndexManager(initIndexes, 
+                    new MetadataIndexManager.IdentityExtractionFunction());
         }
 
         /**
@@ -370,7 +371,7 @@ public abstract class AbstractBatchMetadataResolver extends AbstractMetadataReso
          * 
          * @return the manager for secondary indexes
          */
-        public MetadataIndexManager getSecondaryIndexManager() {
+        public MetadataIndexManager<EntityDescriptor> getSecondaryIndexManager() {
             return secondaryIndexManager;
         }
         
