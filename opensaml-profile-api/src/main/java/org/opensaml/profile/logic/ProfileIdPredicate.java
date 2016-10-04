@@ -20,6 +20,7 @@ package org.opensaml.profile.logic;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import net.shibboleth.utilities.java.support.annotation.ParameterName;
 import net.shibboleth.utilities.java.support.annotation.constraint.NotEmpty;
 import net.shibboleth.utilities.java.support.logic.Constraint;
 import net.shibboleth.utilities.java.support.primitive.StringSupport;
@@ -41,7 +42,7 @@ public class ProfileIdPredicate implements Predicate<ProfileRequestContext> {
      *
      * @param id profile ID to test for
      */
-    public ProfileIdPredicate(@Nonnull @NotEmpty final String id) {
+    public ProfileIdPredicate(@Nonnull @NotEmpty @ParameterName(name = "id") final String id) {
         profileId = Constraint.isNotNull(StringSupport.trimOrNull(id), "Profile ID cannot be null or empty");
     }
     

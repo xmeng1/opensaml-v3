@@ -21,6 +21,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.servlet.ServletRequest;
 
+import net.shibboleth.utilities.java.support.annotation.ParameterName;
 import net.shibboleth.utilities.java.support.component.AbstractIdentifiableInitializableComponent;
 import net.shibboleth.utilities.java.support.logic.Constraint;
 import net.shibboleth.utilities.java.support.security.AccessControl;
@@ -51,7 +52,8 @@ public class PredicateAccessControl extends AbstractIdentifiableInitializableCom
      *
      * @param condition the predicate to use
      */
-    public PredicateAccessControl(@Nonnull final Predicate<ProfileRequestContext> condition) {
+    public PredicateAccessControl(@Nonnull @ParameterName(name="condition")
+                                   final Predicate<ProfileRequestContext> condition) {
         predicate = Constraint.isNotNull(condition, "Predicate cannot be null");
     }
     

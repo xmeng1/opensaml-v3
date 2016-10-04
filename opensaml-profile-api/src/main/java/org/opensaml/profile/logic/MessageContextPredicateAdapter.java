@@ -20,6 +20,7 @@ package org.opensaml.profile.logic;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import net.shibboleth.utilities.java.support.annotation.ParameterName;
 import net.shibboleth.utilities.java.support.logic.Constraint;
 
 import org.opensaml.messaging.context.MessageContext;
@@ -64,7 +65,8 @@ public class MessageContextPredicateAdapter implements Predicate<MessageContext>
      *
      * @param prcPredicate the adapted predicate
      */
-    public MessageContextPredicateAdapter(@Nonnull final Predicate<ProfileRequestContext> prcPredicate) {
+    public MessageContextPredicateAdapter(
+                @Nonnull @ParameterName(name = "prcPredicate") final Predicate<ProfileRequestContext> prcPredicate) {
         this(prcPredicate, false);
     }
     
@@ -74,20 +76,22 @@ public class MessageContextPredicateAdapter implements Predicate<MessageContext>
      * @param prcPredicate the adapted predicate
      * @param unresolvedSatisfies whether failure to resolve a parent ProfileRequestContext satisfies the predicate
      */
-    public MessageContextPredicateAdapter(@Nonnull final Predicate<ProfileRequestContext> prcPredicate,
-            boolean unresolvedSatisfies) {
+    public MessageContextPredicateAdapter(
+                @Nonnull @ParameterName(name = "prcPredicate") final Predicate<ProfileRequestContext> prcPredicate,
+                @ParameterName(name = "unresolvedSatisfies") final boolean unresolvedSatisfies) {
         adapted = Constraint.isNotNull(prcPredicate, "The adapted predicate may not be null");
         noPRCSatisfies = unresolvedSatisfies;
         prcLookup = new RecursiveTypedParentContextLookup<>(ProfileRequestContext.class);
     }
 
     /** {@inheritDoc} */
-    public boolean apply(@Nullable MessageContext input) {
+    @Override
+    public boolean apply(@Nullable final MessageContext input) {
         if (input == null) {
             return false;
         }
         
-        ProfileRequestContext prc = prcLookup.apply(input);
+        final ProfileRequestContext prc = prcLookup.apply(input);
         if (prc == null) {
             return noPRCSatisfies;
         }
