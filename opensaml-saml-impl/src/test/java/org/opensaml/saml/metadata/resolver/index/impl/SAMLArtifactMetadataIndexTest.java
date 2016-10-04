@@ -28,17 +28,20 @@ import org.opensaml.core.xml.XMLObjectBaseTestCase;
 import org.opensaml.core.xml.util.XMLObjectSupport;
 import org.opensaml.saml.common.binding.artifact.SAMLSourceIDArtifact;
 import org.opensaml.saml.common.binding.artifact.SAMLSourceLocationArtifact;
+import org.opensaml.saml.common.xml.SAMLConstants;
 import org.opensaml.saml.criterion.ArtifactCriterion;
 import org.opensaml.saml.ext.saml1md.SourceID;
 import org.opensaml.saml.metadata.resolver.index.MetadataIndexKey;
 import org.opensaml.saml.metadata.resolver.index.impl.SAMLArtifactMetadataIndex.ArtifactSourceIDMetadataIndexKey;
 import org.opensaml.saml.saml1.binding.artifact.SAML1ArtifactType0002;
 import org.opensaml.saml.saml2.binding.artifact.SAML2ArtifactType0004;
+import org.opensaml.saml.saml2.metadata.ArtifactResolutionService;
 import org.opensaml.saml.saml2.metadata.EntityDescriptor;
 import org.opensaml.saml.saml2.metadata.Extensions;
 import org.opensaml.saml.saml2.metadata.IDPSSODescriptor;
 import org.opensaml.saml.saml2.metadata.RoleDescriptor;
 import org.opensaml.saml.saml2.metadata.SPSSODescriptor;
+import org.opensaml.saml.saml2.metadata.SSODescriptor;
 import org.opensaml.security.crypto.JCAConstants;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -56,16 +59,17 @@ public class SAMLArtifactMetadataIndexTest extends XMLObjectBaseTestCase {
     
     private String entityID = "https://www.example.com/saml";
     private byte[] entityIDSourceID;
-    private String sourceLocation = "https://www.example.com/sp/artifactResolve";
+    private String sourceLocation1 = "https://www.example.com/saml/artifactResolve1";
+    private String sourceLocation2 = "https://www.example.com/saml/artifactResolve2";
             
     private EntityDescriptor descriptor;
     
     private SourceID extSourceID1a, extSourceID1b, extSourceID2;
     
-    private MetadataIndexKey entityIDSourceIDKey, extSourceIDKey1a, extSourceIDKey1b, extSourceIDKey2, sourceLocationKey;
+    private MetadataIndexKey entityIDSourceIDKey, extSourceIDKey1a, extSourceIDKey1b, extSourceIDKey2, sourceLocationKey1, sourceLocationKey2;
     
     private SAMLSourceIDArtifact sourceIDArtifact;
-    private SAMLSourceLocationArtifact sourceLocationArtifact;
+    private SAMLSourceLocationArtifact sourceLocationArtifact1;
     
     
     @BeforeMethod
@@ -84,13 +88,13 @@ public class SAMLArtifactMetadataIndexTest extends XMLObjectBaseTestCase {
         
         entityIDSourceIDKey = new SAMLArtifactMetadataIndex.ArtifactSourceIDMetadataIndexKey(entityIDSourceID);
         
-        sourceLocationArtifact = new SAML1ArtifactType0002(messageHandle, sourceLocation);
+        sourceLocationArtifact1 = new SAML1ArtifactType0002(messageHandle, sourceLocation1);
         
         descriptor = (EntityDescriptor) XMLObjectSupport.buildXMLObject(EntityDescriptor.DEFAULT_ELEMENT_NAME);
         descriptor.setEntityID(entityID);
         
-        //TODO control source location endpoint key
-        //sourceLocationKey = TODO
+        sourceLocationKey1 = new SAMLArtifactMetadataIndex.ArtifactSourceLocationMetadataIndexKey(sourceLocation1);
+        sourceLocationKey2 = new SAMLArtifactMetadataIndex.ArtifactSourceLocationMetadataIndexKey(sourceLocation2);
         
         byte[] secondarySourceID;
         
@@ -114,9 +118,7 @@ public class SAMLArtifactMetadataIndexTest extends XMLObjectBaseTestCase {
     }
     
     @Test
-    public void testGenerateKeysFromDescriptor() {
-        //TODO update test for generated source location key when done.
-        
+    public void testGenerateKeysFromDescriptorEntityIDOnly() {
         Set<MetadataIndexKey> keys = metadataIndex.generateKeys(descriptor);
         
         Assert.assertEquals(keys.size(), 1);
@@ -124,9 +126,47 @@ public class SAMLArtifactMetadataIndexTest extends XMLObjectBaseTestCase {
     }
     
     @Test
-    public void testGenerateKeysFromDescriptorWithOneExtension() {
-        //TODO update test for generated source location key when done.
+    public void testGenerateKeysFromDescriptorWithOneARS() {
+        SSODescriptor roleDescriptor1 = buildXMLObject(SPSSODescriptor.DEFAULT_ELEMENT_NAME);
+        ArtifactResolutionService ars1 = buildXMLObject(ArtifactResolutionService.DEFAULT_ELEMENT_NAME);
+        ars1.setLocation(sourceLocation1);
+        ars1.setBinding(SAMLConstants.SAML2_SOAP11_BINDING_URI);
+        roleDescriptor1.getArtifactResolutionServices().add(ars1);
+        descriptor.getRoleDescriptors().add(roleDescriptor1);
         
+        Set<MetadataIndexKey> keys = metadataIndex.generateKeys(descriptor);
+        
+        Assert.assertEquals(keys.size(), 2);
+        Assert.assertTrue(keys.contains(entityIDSourceIDKey));
+        Assert.assertTrue(keys.contains(sourceLocationKey1));
+    }
+    
+    @Test
+    public void testGenerateKeysFromDescriptorWithMultipleARS() {
+        SSODescriptor roleDescriptor1 = buildXMLObject(SPSSODescriptor.DEFAULT_ELEMENT_NAME);
+        ArtifactResolutionService ars1 = buildXMLObject(ArtifactResolutionService.DEFAULT_ELEMENT_NAME);
+        ars1.setLocation(sourceLocation1);
+        ars1.setBinding(SAMLConstants.SAML2_SOAP11_BINDING_URI);
+        roleDescriptor1.getArtifactResolutionServices().add(ars1);
+        descriptor.getRoleDescriptors().add(roleDescriptor1);
+        
+        SSODescriptor roleDescriptor2 = buildXMLObject(IDPSSODescriptor.DEFAULT_ELEMENT_NAME);
+        ArtifactResolutionService ars2 = buildXMLObject(ArtifactResolutionService.DEFAULT_ELEMENT_NAME);
+        ars2.setLocation(sourceLocation2);
+        ars2.setBinding(SAMLConstants.SAML2_SOAP11_BINDING_URI);
+        roleDescriptor2.getArtifactResolutionServices().add(ars2);
+        descriptor.getRoleDescriptors().add(roleDescriptor2);
+        
+        Set<MetadataIndexKey> keys = metadataIndex.generateKeys(descriptor);
+        
+        Assert.assertEquals(keys.size(), 3);
+        Assert.assertTrue(keys.contains(entityIDSourceIDKey));
+        Assert.assertTrue(keys.contains(sourceLocationKey1));
+        Assert.assertTrue(keys.contains(sourceLocationKey2));
+    }
+    
+    @Test
+    public void testGenerateKeysFromDescriptorWithOneExtension() {
         RoleDescriptor roleDescriptor1 = buildXMLObject(SPSSODescriptor.DEFAULT_ELEMENT_NAME);
         Extensions extensions1 = buildXMLObject(Extensions.DEFAULT_ELEMENT_NAME);
         extensions1.getUnknownXMLObjects().add(extSourceID1a);
@@ -142,8 +182,6 @@ public class SAMLArtifactMetadataIndexTest extends XMLObjectBaseTestCase {
     
     @Test
     public void testGenerateKeysFromDescriptorWithMultipleExtensions() {
-        //TODO update test for generated source location key when done.
-        
         RoleDescriptor roleDescriptor1 = buildXMLObject(SPSSODescriptor.DEFAULT_ELEMENT_NAME);
         Extensions extensions1 = buildXMLObject(Extensions.DEFAULT_ELEMENT_NAME);
         extensions1.getUnknownXMLObjects().add(extSourceID1a);
@@ -167,6 +205,28 @@ public class SAMLArtifactMetadataIndexTest extends XMLObjectBaseTestCase {
     }
     
     @Test
+    public void testGenerateKeysFromDescriptorWithExtensionAndARS() {
+        SSODescriptor roleDescriptor1 = buildXMLObject(SPSSODescriptor.DEFAULT_ELEMENT_NAME);
+        Extensions extensions1 = buildXMLObject(Extensions.DEFAULT_ELEMENT_NAME);
+        extensions1.getUnknownXMLObjects().add(extSourceID1a);
+        roleDescriptor1.setExtensions(extensions1);
+        
+        ArtifactResolutionService ars1 = buildXMLObject(ArtifactResolutionService.DEFAULT_ELEMENT_NAME);
+        ars1.setLocation(sourceLocation1);
+        ars1.setBinding(SAMLConstants.SAML2_SOAP11_BINDING_URI);
+        roleDescriptor1.getArtifactResolutionServices().add(ars1);
+        
+        descriptor.getRoleDescriptors().add(roleDescriptor1);
+        
+        Set<MetadataIndexKey> keys = metadataIndex.generateKeys(descriptor);
+        
+        Assert.assertEquals(keys.size(), 3);
+        Assert.assertTrue(keys.contains(entityIDSourceIDKey));
+        Assert.assertTrue(keys.contains(extSourceIDKey1a));
+        Assert.assertTrue(keys.contains(sourceLocationKey1));
+    }
+    
+    @Test
     public void testGenerateSourceIDKeysFromCriteria() {
         CriteriaSet criteriaSet = new CriteriaSet();
         
@@ -178,19 +238,17 @@ public class SAMLArtifactMetadataIndexTest extends XMLObjectBaseTestCase {
         Assert.assertTrue(keys.contains(entityIDSourceIDKey));
     }
     
-    /* TODO
     @Test
     public void testGenerateSourceLocationKeysFromCriteria() {
         CriteriaSet criteriaSet = new CriteriaSet();
         
-        criteriaSet.add(new ArtifactCriterion(sourceLocationArtifact));
+        criteriaSet.add(new ArtifactCriterion(sourceLocationArtifact1));
         
         Set<MetadataIndexKey> keys = metadataIndex.generateKeys(criteriaSet);
         
         Assert.assertEquals(keys.size(), 1);
-        Assert.assertTrue(keys.contains(sourceLocationKey));
+        Assert.assertTrue(keys.contains(sourceLocationKey1));
     }
-    */
     
     @Test
     public void testSourceIDKey() throws UnsupportedEncodingException, NoSuchAlgorithmException {
@@ -207,6 +265,21 @@ public class SAMLArtifactMetadataIndexTest extends XMLObjectBaseTestCase {
         Assert.assertTrue(entityIDSourceIDKey.hashCode() == keySame.hashCode());
         
         Assert.assertNotEquals(entityIDSourceIDKey, keyDifferent);
+    }
+
+    @Test
+    public void testSourceLocationKey() throws UnsupportedEncodingException, NoSuchAlgorithmException {
+        MetadataIndexKey keySame = 
+                new SAMLArtifactMetadataIndex.ArtifactSourceLocationMetadataIndexKey(sourceLocation1);
+                
+        MetadataIndexKey keyDifferent = 
+                new SAMLArtifactMetadataIndex.ArtifactSourceLocationMetadataIndexKey("https://bogus.example.org/sp");
+                
+        
+        Assert.assertEquals(sourceLocationKey1, keySame);
+        Assert.assertTrue(sourceLocation1.hashCode() == keySame.hashCode());
+        
+        Assert.assertNotEquals(sourceLocationKey1, keyDifferent);
     }
 
 }

@@ -18,8 +18,10 @@
 package org.opensaml.saml.metadata.resolver.index.impl;
 
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -40,20 +42,25 @@ import org.opensaml.saml.criterion.ArtifactCriterion;
 import org.opensaml.saml.ext.saml1md.SourceID;
 import org.opensaml.saml.metadata.resolver.index.MetadataIndex;
 import org.opensaml.saml.metadata.resolver.index.MetadataIndexKey;
+import org.opensaml.saml.saml2.metadata.ArtifactResolutionService;
 import org.opensaml.saml.saml2.metadata.EntityDescriptor;
 import org.opensaml.saml.saml2.metadata.Extensions;
 import org.opensaml.saml.saml2.metadata.RoleDescriptor;
+import org.opensaml.saml.saml2.metadata.SSODescriptor;
 import org.opensaml.security.crypto.JCAConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Function;
 import com.google.common.base.MoreObjects;
+import com.google.common.base.Predicates;
+import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 
 import net.shibboleth.utilities.java.support.annotation.constraint.NotEmpty;
 import net.shibboleth.utilities.java.support.collection.LazySet;
 import net.shibboleth.utilities.java.support.logic.Constraint;
+import net.shibboleth.utilities.java.support.net.SimpleURLCanonicalizer;
 import net.shibboleth.utilities.java.support.primitive.StringSupport;
 import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
 
@@ -73,14 +80,15 @@ public class SAMLArtifactMetadataIndex implements MetadataIndex {
      * <ul>
      *   <li>{@link EntityIDToSHA1SourceIDIndexingFunction}</li>
      *   <li>{@link SourceIDExtensionIndexingFunction}</li>
+     *   <li>{@link SourceLocationIndexingFunction}</li>
      * </ul>
      * </p>
      */
     public SAMLArtifactMetadataIndex() {
         this(Lists.<Function<EntityDescriptor, Set<MetadataIndexKey>>>newArrayList(
                 new EntityIDToSHA1SourceIDIndexingFunction(),
-                new SourceIDExtensionIndexingFunction()
-                //TODO add source location indexing function when implemented
+                new SourceIDExtensionIndexingFunction(),
+                new SourceLocationIndexingFunction()
                 ));
     }
     
@@ -91,8 +99,11 @@ public class SAMLArtifactMetadataIndex implements MetadataIndex {
      */
     public SAMLArtifactMetadataIndex(
             @Nonnull final List<Function<EntityDescriptor, Set<MetadataIndexKey>>> descriptorIndexingFunctions) {
-        indexingFunctions = Constraint.isNotNull(descriptorIndexingFunctions, 
-                "EntityDescriptor indexing functions list may not be null");
+        indexingFunctions = new ArrayList<>(Collections2.filter(
+                Constraint.isNotNull(descriptorIndexingFunctions, 
+                        "EntityDescriptor indexing functions list may not be null"),
+                Predicates.notNull()));
+        Constraint.isNotEmpty(indexingFunctions, "EntityDescriptor indexing functions list may not be empty");
     }
 
     /** {@inheritDoc} */
@@ -122,7 +133,8 @@ public class SAMLArtifactMetadataIndex implements MetadataIndex {
             }
             
             if (artifact instanceof SAMLSourceLocationArtifact) {
-                //TODO can reuse Endpoint index key from EndpointMetadataIndex, or need new key type?
+                results.add(new ArtifactSourceLocationMetadataIndexKey(
+                        ((SAMLSourceLocationArtifact)artifact).getSourceLocation()));
             }
             
             return results;
@@ -155,11 +167,9 @@ public class SAMLArtifactMetadataIndex implements MetadataIndex {
             try {
                 MessageDigest sha1Digester = MessageDigest.getInstance(JCAConstants.DIGEST_SHA1);
                 byte[] sourceID = sha1Digester.digest(entityID.getBytes("UTF-8"));
-                if (log.isTraceEnabled()) {
-                    log.trace("For entityID '{}' produced artifact SourceID index value '{}'", 
-                            entityID, Hex.encodeHex(sourceID, true));
-                }
-                return Collections.<MetadataIndexKey>singleton(new ArtifactSourceIDMetadataIndexKey(sourceID));
+                ArtifactSourceIDMetadataIndexKey key = new ArtifactSourceIDMetadataIndexKey(sourceID);
+                log.trace("For entityID '{}' produced artifact SourceID index key: {}", entityID, key);
+                return Collections.<MetadataIndexKey>singleton(key);
             } catch (NoSuchAlgorithmException e) {
                 // SHA-1 should be supported in every JVM, so this should never happen.
                 log.error("Digest algorithm '{}' was invalid for encoding artifact SourceID", 
@@ -197,9 +207,9 @@ public class SAMLArtifactMetadataIndex implements MetadataIndex {
                 Extensions extensions = roleDescriptor.getExtensions();
                 if (extensions != null) {
                     List<XMLObject> children = extensions.getUnknownXMLObjects(SourceID.DEFAULT_ELEMENT_NAME);
-                    if (children != null) {
-                        QName role = descriptor.getSchemaType() != null ? descriptor.getSchemaType() 
-                                : descriptor.getElementQName();
+                    if (children != null && !children.isEmpty()) {
+                        QName role = descriptor.getSchemaType() != null ? roleDescriptor.getSchemaType() 
+                                : roleDescriptor.getElementQName();
                         log.trace("Processing SourceID extensions for entityID '{}' with role '{}'", 
                                 descriptor.getEntityID(), role);
                         
@@ -209,11 +219,11 @@ public class SAMLArtifactMetadataIndex implements MetadataIndex {
                             if (extSourceIDHex != null) {
                                 try {
                                     byte[] sourceID = Hex.decodeHex(extSourceIDHex.toCharArray());
-                                    if (log.isTraceEnabled()) {
-                                        log.trace("For SourceID extension value '{}' produced indexed value '{}'", 
-                                                extSourceIDHex, Hex.encodeHex(sourceID, true));
-                                    }
-                                    results.add(new ArtifactSourceIDMetadataIndexKey(sourceID));
+                                    ArtifactSourceIDMetadataIndexKey key = 
+                                            new ArtifactSourceIDMetadataIndexKey(sourceID);
+                                    log.trace("For SourceID extension value '{}' produced index key: {}", 
+                                            extSourceIDHex, key);
+                                    results.add(key);
                                 } catch (DecoderException e) {
                                     log.warn("Error decoding hexidecimal SourceID extension value '{}' for indexing", 
                                             extSourceIDHex, e);
@@ -224,6 +234,50 @@ public class SAMLArtifactMetadataIndex implements MetadataIndex {
                 }
             }
             
+            
+            return results;
+        }
+        
+    }
+    
+    /**
+     * Descriptor indexing function which produces 0 to many {@link ArtifactSourceLocationMetadataIndexKey} instances
+     * based on the location values of all {@link ArtifactResolutionService} elements present in the descriptor's
+     * {@link RoleDescriptor}s.
+     */
+    public static class SourceLocationIndexingFunction implements Function<EntityDescriptor, Set<MetadataIndexKey>> {
+        
+        /** Logger. */
+        private Logger log = LoggerFactory.getLogger(SourceLocationIndexingFunction.class);
+
+        /** {@inheritDoc} */
+        public Set<MetadataIndexKey> apply(@Nonnull final EntityDescriptor descriptor) {
+            if (descriptor == null) {
+                return null;
+            }
+            
+            LazySet<MetadataIndexKey> results = new LazySet<>();
+            
+            for (RoleDescriptor roleDescriptor : descriptor.getRoleDescriptors()) {
+                if (roleDescriptor instanceof SSODescriptor) {
+                    List<ArtifactResolutionService> arsList = 
+                            ((SSODescriptor)roleDescriptor).getArtifactResolutionServices();
+                    if (arsList != null && !arsList.isEmpty()) {
+                        QName role = descriptor.getSchemaType() != null ? roleDescriptor.getSchemaType() 
+                                : roleDescriptor.getElementQName();
+                        log.trace("Processing ArtifactResolutionService locations for entityID '{}' with role '{}'", 
+                                descriptor.getEntityID(), role);
+                        
+                        for (ArtifactResolutionService ars : arsList) {
+                            ArtifactSourceLocationMetadataIndexKey key = 
+                                    new ArtifactSourceLocationMetadataIndexKey(ars.getLocation());
+                            log.trace("For entityID '{}' produced artifact source location index key: {}",
+                                    descriptor.getEntityID(), key);
+                            results.add(key);
+                        }
+                    }
+                }
+            }
             
             return results;
         }
@@ -261,7 +315,7 @@ public class SAMLArtifactMetadataIndex implements MetadataIndex {
         @Override
         public String toString() {
             return MoreObjects.toStringHelper(this)
-                    .add("sourceID", Hex.encodeHex(sourceID, true))
+                    .add("sourceID", new String(Hex.encodeHex(sourceID, true)))
                     .toString();
         }
 
@@ -280,6 +334,103 @@ public class SAMLArtifactMetadataIndex implements MetadataIndex {
 
             if (obj instanceof ArtifactSourceIDMetadataIndexKey) {
                 return Arrays.equals(sourceID, ((ArtifactSourceIDMetadataIndexKey) obj).getSourceID());
+            }
+
+            return false;
+        }
+        
+    }
+    
+    /**
+     * An implementation of {@link MetadataIndexKey} representing a SAML artifact source location value.
+     */
+    protected static class ArtifactSourceLocationMetadataIndexKey implements MetadataIndexKey {
+        
+        /** Logger. */
+        private Logger log = LoggerFactory.getLogger(ArtifactSourceLocationMetadataIndexKey.class);
+        
+        /** The location. */
+        @Nonnull private final String location;
+        
+        /** The location. */
+        @Nonnull private String canonicalizedLocation;
+        
+        /** Flag indicating whether canonicalized location is the simple lower case fallback strategy. */
+        private boolean isCanonicalizedLowerCase;
+        
+        /**
+         * Constructor.
+         * 
+         * @param sourceLocation the source location
+         */
+        public ArtifactSourceLocationMetadataIndexKey(@Nonnull @NotEmpty final String sourceLocation) {
+            location = Constraint.isNotNull(StringSupport.trimOrNull(sourceLocation),
+                    "SAML artifact source location cannot be null or empty");
+            try {
+                canonicalizedLocation = SimpleURLCanonicalizer.canonicalize(location);
+            } catch (MalformedURLException e) {
+                // This is unlikely to happen on realistic real world inputs. If it does, don't be fatal, 
+                // just switch to alternate strategy.
+                log.warn("Input source location '{}' was a malformed URL, switching to lower case strategy", 
+                        location, e);
+                canonicalizedLocation = location.toLowerCase();
+                isCanonicalizedLowerCase = true;
+            }
+        }
+
+        /**
+         * Gets the location.
+         * 
+         * @return the location
+         */
+        @Nonnull public String getLocation() {
+            return location;
+        }
+        
+        /**
+         * Get the canonicalized representation of the location, primarily for use in
+         * {@link #hashCode()} and {@link #equals(Object)}.
+         * 
+         * @return the canonicalized source location
+         */
+        @Nonnull public String getCanonicalizedLocation() {
+            return canonicalizedLocation;
+        }
+        
+        /** {@inheritDoc} */
+        @Override
+        public String toString() {
+            return MoreObjects.toStringHelper(this)
+                    .add("location", location)
+                    .add("canonicalizedLocation", canonicalizedLocation)
+                    .add("isCanonicalizedLowerCase", isCanonicalizedLowerCase)
+                    .toString();
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public int hashCode() {
+            return canonicalizedLocation.hashCode();
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+
+            if (obj instanceof ArtifactSourceLocationMetadataIndexKey) {
+                ArtifactSourceLocationMetadataIndexKey other = (ArtifactSourceLocationMetadataIndexKey) obj;
+                if (this.isCanonicalizedLowerCase == other.isCanonicalizedLowerCase) {
+                    return this.canonicalizedLocation.equals(other.canonicalizedLocation);
+                } else {
+                    if (this.isCanonicalizedLowerCase) {
+                        return this.canonicalizedLocation.equals(other.location.toLowerCase());
+                    } else {
+                        return other.canonicalizedLocation.equals(this.location.toLowerCase());
+                    }
+                }
             }
 
             return false;
