@@ -163,21 +163,21 @@ public class MetadataIndexManager<T> {
      * @param descriptor the entity descriptor to index
      */
     public void indexEntityDescriptor(@Nonnull final EntityDescriptor descriptor) {
-        for (MetadataIndex index : indexes.keySet()) {
-            Set<MetadataIndexKey> keys = index.generateKeys(descriptor);
-            if (keys != null && !keys.isEmpty()) {
-                T item = entityDescriptorFunction.apply(descriptor);
-                if (item != null) {
+        T item = entityDescriptorFunction.apply(descriptor);
+        if (item != null) {
+            for (MetadataIndex index : indexes.keySet()) {
+                Set<MetadataIndexKey> keys = index.generateKeys(descriptor);
+                if (keys != null && !keys.isEmpty()) {
                     MetadataIndexStore<T> store = getStore(index);
                     for (MetadataIndexKey key : keys) {
                         log.trace("Indexing metadata: index '{}', key '{}', data item '{}'", 
                                 index, key, item);
                         store.add(key, item);
                     }
-                } else {
-                    log.trace("Unable to extract indexed data item from EntityDescriptor");
                 }
             }
+        } else {
+            log.trace("Unable to extract indexed data item from EntityDescriptor");
         }
     }
     
