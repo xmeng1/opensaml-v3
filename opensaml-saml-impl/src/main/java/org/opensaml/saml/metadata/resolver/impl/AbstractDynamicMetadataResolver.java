@@ -432,16 +432,14 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
             // It's possible that multiple threads fall into here and attempt to preemptively refresh. 
             // This check should ensure that only 1 actually successfully does it, b/c the refresh
             // trigger time will be updated as seen by the subsequent ones. 
-            if (!shouldAttemptRefresh(mgmtData)) {
-                final List<EntityDescriptor> descriptors = lookupEntityID(entityID);
-                if (!descriptors.isEmpty()) {
-                    log.debug("Metadata was resolved and stored by another thread " 
-                            + "while this thread was waiting on the write lock");
-                    return descriptors;
-                }
+            final List<EntityDescriptor> descriptors = lookupEntityID(entityID);
+            if (!descriptors.isEmpty() && !shouldAttemptRefresh(mgmtData)) {
+                log.debug("Metadata was resolved and stored by another thread " 
+                        + "while this thread was waiting on the write lock");
+                return descriptors;
+            } else {
+                log.debug("Resolving metadata dynamically for entity ID: {}", entityID);
             }
-            
-            log.debug("Resolving metadata dynamically for entity ID: {}", entityID);
             
             final XMLObject root = fetchFromOriginSource(criteria);
             if (root == null) {
