@@ -272,12 +272,18 @@ public class SAMLArtifactMetadataIndexTest extends XMLObjectBaseTestCase {
         MetadataIndexKey keySame = 
                 new SAMLArtifactMetadataIndex.ArtifactSourceLocationMetadataIndexKey(sourceLocation1);
                 
+        MetadataIndexKey keySameCanonicalized = 
+                new SAMLArtifactMetadataIndex.ArtifactSourceLocationMetadataIndexKey("HTTPS://WWW.EXAMPLE.COM:443/saml/artifactResolve1?foo=x&bar=y#someFragment");
+                
         MetadataIndexKey keyDifferent = 
                 new SAMLArtifactMetadataIndex.ArtifactSourceLocationMetadataIndexKey("https://bogus.example.org/sp");
                 
         
         Assert.assertEquals(sourceLocationKey1, keySame);
         Assert.assertTrue(sourceLocationKey1.hashCode() == keySame.hashCode());
+        
+        Assert.assertEquals(sourceLocationKey1, keySameCanonicalized);
+        Assert.assertTrue(sourceLocationKey1.hashCode() == keySameCanonicalized.hashCode());
         
         Assert.assertNotEquals(sourceLocationKey1, keyDifferent);
     }
