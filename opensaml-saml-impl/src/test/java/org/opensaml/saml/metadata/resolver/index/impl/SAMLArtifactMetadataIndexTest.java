@@ -277,7 +277,7 @@ public class SAMLArtifactMetadataIndexTest extends XMLObjectBaseTestCase {
                 
         
         Assert.assertEquals(sourceLocationKey1, keySame);
-        Assert.assertTrue(sourceLocation1.hashCode() == keySame.hashCode());
+        Assert.assertTrue(sourceLocationKey1.hashCode() == keySame.hashCode());
         
         Assert.assertNotEquals(sourceLocationKey1, keyDifferent);
     }
