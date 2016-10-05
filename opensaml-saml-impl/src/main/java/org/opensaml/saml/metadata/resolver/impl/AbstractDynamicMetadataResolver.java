@@ -389,17 +389,16 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
         try {
             readLock.lock();
             
-            if (!shouldAttemptRefresh(mgmtData)) {
-                final List<EntityDescriptor> descriptors = lookupEntityID(entityID);
-                if (!descriptors.isEmpty()) {
+            final List<EntityDescriptor> descriptors = lookupEntityID(entityID);
+            if (descriptors.isEmpty()) {
+                log.debug("Did not find requested metadata in backing store, will attempt to resolve dynamically");
+            } else {
+                if (shouldAttemptRefresh(mgmtData)) {
+                    log.debug("Metadata was indicated to be refreshed based on refresh trigger time");
+                } else {
                     log.debug("Found requested metadata in backing store");
                     candidates = descriptors;
-                } else {
-                    log.debug("Did not find requested metadata in backing store, will attempt to resolve dynamically");
                 }
-        
-            } else {
-                log.debug("Metadata was indicated to be refreshed based on refresh trigger time");
             }
         } finally {
             readLock.unlock();
