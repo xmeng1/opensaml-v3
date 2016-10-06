@@ -29,6 +29,9 @@ import javax.xml.namespace.QName;
 import org.opensaml.core.xml.XMLObjectBaseTestCase;
 import org.opensaml.core.xml.util.XMLObjectSupport;
 import org.opensaml.saml.common.xml.SAMLConstants;
+import org.opensaml.saml.criterion.EndpointCriterion;
+import org.opensaml.saml.criterion.EntityRoleCriterion;
+import org.opensaml.saml.criterion.StartsWithLocationCriterion;
 import org.opensaml.saml.metadata.resolver.index.MetadataIndexKey;
 import org.opensaml.saml.saml2.metadata.ArtifactResolutionService;
 import org.opensaml.saml.saml2.metadata.AssertionConsumerService;
@@ -44,6 +47,8 @@ import org.testng.annotations.Test;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Sets;
+
+import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
 
 /**
  *
@@ -97,6 +102,69 @@ public class EndpointMetadataIndexTest extends XMLObjectBaseTestCase {
         endpointKey2 = new EndpointMetadataIndex.EndpointMetadataIndexKey(SPSSODescriptor.DEFAULT_ELEMENT_NAME, ArtifactResolutionService.DEFAULT_ELEMENT_NAME, location2, false);
         idpEndpointKey = new EndpointMetadataIndex.EndpointMetadataIndexKey(IDPSSODescriptor.DEFAULT_ELEMENT_NAME, ArtifactResolutionService.DEFAULT_ELEMENT_NAME, idpLocation, false);
         responseEndpointKey1 = new EndpointMetadataIndex.EndpointMetadataIndexKey(SPSSODescriptor.DEFAULT_ELEMENT_NAME, AssertionConsumerService.DEFAULT_ELEMENT_NAME, responseLocation1, true);
+    }
+    
+    @Test
+    public void testGenerateKeysFromCriteria() {
+        EndpointMetadataIndex metadataIndex = new EndpointMetadataIndex();
+        CriteriaSet criteriaSet = new CriteriaSet();
+        Set<MetadataIndexKey> keys = null;
+        Endpoint endpoint = null;
+        
+        // Insufficient input
+        criteriaSet.clear();
+        criteriaSet.add(new EntityRoleCriterion(SPSSODescriptor.DEFAULT_ELEMENT_NAME));
+        keys = metadataIndex.generateKeys(criteriaSet);
+        Assert.assertNull(keys);
+        
+        // Location only
+        criteriaSet.clear();
+        criteriaSet.add(new EntityRoleCriterion(SPSSODescriptor.DEFAULT_ELEMENT_NAME));
+        endpoint = buildXMLObject(AssertionConsumerService.DEFAULT_ELEMENT_NAME);
+        endpoint.setLocation(location1);
+        criteriaSet.add(new EndpointCriterion<Endpoint>(endpoint));
+        keys = metadataIndex.generateKeys(criteriaSet);
+        Assert.assertNotNull(keys);
+        Assert.assertEquals(keys.size(), 1);
+        Assert.assertTrue(keys.contains(endpointKey1));
+        
+        // Location + response location
+        criteriaSet.clear();
+        criteriaSet.add(new EntityRoleCriterion(SPSSODescriptor.DEFAULT_ELEMENT_NAME));
+        endpoint = buildXMLObject(AssertionConsumerService.DEFAULT_ELEMENT_NAME);
+        endpoint.setLocation(location1);
+        endpoint.setResponseLocation(responseLocation1);
+        criteriaSet.add(new EndpointCriterion<Endpoint>(endpoint));
+        keys = metadataIndex.generateKeys(criteriaSet);
+        Assert.assertNotNull(keys);
+        Assert.assertEquals(keys.size(), 2);
+        Assert.assertTrue(keys.contains(endpointKey1));
+        Assert.assertTrue(keys.contains(responseEndpointKey1));
+        
+        // This tests the generation of path trimmed variants, i.e. the CAS use case.
+        criteriaSet.clear();
+        criteriaSet.add(new EntityRoleCriterion(SPSSODescriptor.DEFAULT_ELEMENT_NAME));
+        endpoint = buildXMLObject(AssertionConsumerService.DEFAULT_ELEMENT_NAME);
+        endpoint.setLocation("https://www.example.com/cas/someEndpoint1/foo/bar/");
+        criteriaSet.add(new EndpointCriterion<Endpoint>(endpoint));
+        criteriaSet.add(new StartsWithLocationCriterion());
+        keys = metadataIndex.generateKeys(criteriaSet);
+        Assert.assertNotNull(keys);
+        Assert.assertEquals(keys.size(), 7);
+        Assert.assertTrue(keys.contains(new EndpointMetadataIndex.EndpointMetadataIndexKey(SPSSODescriptor.DEFAULT_ELEMENT_NAME, AssertionConsumerService.DEFAULT_ELEMENT_NAME, 
+                "https://www.example.com/cas/someEndpoint1/foo/bar/", false)));
+        Assert.assertTrue(keys.contains(new EndpointMetadataIndex.EndpointMetadataIndexKey(SPSSODescriptor.DEFAULT_ELEMENT_NAME, AssertionConsumerService.DEFAULT_ELEMENT_NAME, 
+                "https://www.example.com/cas/someEndpoint1/foo/bar", false)));
+        Assert.assertTrue(keys.contains(new EndpointMetadataIndex.EndpointMetadataIndexKey(SPSSODescriptor.DEFAULT_ELEMENT_NAME, AssertionConsumerService.DEFAULT_ELEMENT_NAME, 
+                "https://www.example.com/cas/someEndpoint1/foo", false)));
+        Assert.assertTrue(keys.contains(new EndpointMetadataIndex.EndpointMetadataIndexKey(SPSSODescriptor.DEFAULT_ELEMENT_NAME, AssertionConsumerService.DEFAULT_ELEMENT_NAME, 
+                "https://www.example.com/cas/someEndpoint1", false)));
+        Assert.assertTrue(keys.contains(new EndpointMetadataIndex.EndpointMetadataIndexKey(SPSSODescriptor.DEFAULT_ELEMENT_NAME, AssertionConsumerService.DEFAULT_ELEMENT_NAME, 
+                "https://www.example.com/cas", false)));
+        Assert.assertTrue(keys.contains(new EndpointMetadataIndex.EndpointMetadataIndexKey(SPSSODescriptor.DEFAULT_ELEMENT_NAME, AssertionConsumerService.DEFAULT_ELEMENT_NAME, 
+                "https://www.example.com/", false)));
+        Assert.assertTrue(keys.contains(new EndpointMetadataIndex.EndpointMetadataIndexKey(SPSSODescriptor.DEFAULT_ELEMENT_NAME, AssertionConsumerService.DEFAULT_ELEMENT_NAME, 
+                "https://www.example.com", false)));
     }
     
     @Test

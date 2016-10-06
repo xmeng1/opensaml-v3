@@ -28,6 +28,9 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.xml.namespace.QName;
 
+import org.opensaml.saml.criterion.EndpointCriterion;
+import org.opensaml.saml.criterion.EntityRoleCriterion;
+import org.opensaml.saml.criterion.StartsWithLocationCriterion;
 import org.opensaml.saml.metadata.resolver.index.MetadataIndex;
 import org.opensaml.saml.metadata.resolver.index.MetadataIndexKey;
 import org.opensaml.saml.saml2.metadata.Endpoint;
@@ -45,7 +48,6 @@ import net.shibboleth.utilities.java.support.annotation.constraint.NotEmpty;
 import net.shibboleth.utilities.java.support.annotation.constraint.NotLive;
 import net.shibboleth.utilities.java.support.annotation.constraint.Unmodifiable;
 import net.shibboleth.utilities.java.support.logic.Constraint;
-import net.shibboleth.utilities.java.support.net.SimpleURLCanonicalizer;
 import net.shibboleth.utilities.java.support.net.URLBuilder;
 import net.shibboleth.utilities.java.support.primitive.StringSupport;
 import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
@@ -127,10 +129,96 @@ public class EndpointMetadataIndex implements MetadataIndex {
     /** {@inheritDoc} */
     @Nullable @NonnullElements @Unmodifiable @NotLive
     public Set<MetadataIndexKey> generateKeys(@Nonnull final CriteriaSet criteriaSet) {
-        // TODO Auto-generated method stub
-        return null;
+        Constraint.isNotNull(criteriaSet, "CriteriaSet was null");
+        EntityRoleCriterion roleCrit = criteriaSet.get(EntityRoleCriterion.class);
+        EndpointCriterion<Endpoint> endpointCrit = criteriaSet.get(EndpointCriterion.class);
+        if (roleCrit != null && endpointCrit != null) {
+            HashSet<MetadataIndexKey> result = new HashSet<>();
+            result.addAll(processCriteria(criteriaSet, roleCrit.getRole(), endpointCrit.getEndpoint()));
+            return result;
+        } else {
+            return null;
+        }
     }
     
+    /**
+     * Process the specified role and endpoint.
+     * 
+     * @param criteriaSet  the criteria being processed
+     * @param roleType the type of role containing the endpoint
+     * @param endpoint the endpoint to process
+     * @return the set of metadata index keys for the endpoint
+     */
+    @Nonnull private Set<MetadataIndexKey> processCriteria(@Nonnull final CriteriaSet criteriaSet, 
+            @Nonnull final QName roleType, @Nonnull final Endpoint endpoint) {
+        
+        final HashSet<MetadataIndexKey> result = new HashSet<>();
+        
+        QName endpointType = endpoint.getSchemaType();
+        if (endpointType == null) {
+            endpointType = endpoint.getElementQName();
+        }
+        
+        final String location = StringSupport.trimOrNull(endpoint.getLocation());
+        if (location != null) {
+            for (final String variant : processLocation(criteriaSet, location)) {
+                result.add(new EndpointMetadataIndexKey(roleType, endpointType, variant, false));
+            }
+        }
+        final String responseLocation = StringSupport.trimOrNull(endpoint.getResponseLocation());
+        if (responseLocation != null) {
+            for (final String variant : processLocation(criteriaSet, responseLocation)) {
+                result.add(new EndpointMetadataIndexKey(roleType, endpointType, variant, true));
+            }
+        }
+        
+        return result;
+    }
+
+    /**
+     * Process the specified location.
+     * 
+     * @param criteriaSet the criteria being processed
+     * @param location the location to process
+     * @return the variants of the location to be indexed 
+     */
+    @Nonnull private Set<String> processLocation(@Nonnull CriteriaSet criteriaSet, @Nonnull final String location) {
+        boolean generateStartsWithVariants = false;
+        StartsWithLocationCriterion startsWithCrit = criteriaSet.get(StartsWithLocationCriterion.class);
+        if (startsWithCrit != null) {
+            generateStartsWithVariants = startsWithCrit.isMatchStartsWith();
+        }
+        if (generateStartsWithVariants) {
+            log.trace("Saw indication to produce path-trimmed key variants for startsWith eval from '{}'", location);
+            HashSet<String> result = new HashSet<>();
+            result.add(location);
+            log.trace("Produced value '{}'", location);
+            try {
+                String currentURL = null;
+                URLBuilder urlBuilder = new URLBuilder(location);
+                String currentPath = MetadataIndexSupport.trimURLPathSegment(urlBuilder.getPath());
+                while (currentPath != null) {
+                    urlBuilder.setPath(currentPath);
+                    currentURL = urlBuilder.buildURL();
+                    result.add(currentURL);
+                    log.trace("Produced value '{}'", currentURL);
+                    currentPath = MetadataIndexSupport.trimURLPathSegment(urlBuilder.getPath());
+                }
+                urlBuilder.setPath(null);
+                currentURL = urlBuilder.buildURL();
+                result.add(currentURL);
+                log.trace("Produced value '{}'", currentURL);
+            } catch (MalformedURLException e) {
+                log.warn("Could not parse URL '{}', will not generate path segment variants", location, e);
+            }
+            return result;
+        } else {
+            return Collections.singleton(location);
+        }
+    }
+
+
+
     /**
      * The default endpoint selection predicate, which evaluates an {@link Endpoint} using
      * a map of {@link QName} endpoint types, indexed by role type.
@@ -232,7 +320,7 @@ public class EndpointMetadataIndex implements MetadataIndex {
             response = isResponse;
             
             try {
-                canonicalizedLocation = canonicalizeLocation(location);
+                canonicalizedLocation = MetadataIndexSupport.canonicalizeLocationURI(location);
             } catch (MalformedURLException e) {
                 // This is unlikely to happen on realistic real world inputs. If it does, don't be fatal, 
                 // just switch to alternate strategy.
@@ -333,22 +421,6 @@ public class EndpointMetadataIndex implements MetadataIndex {
             }
 
             return false;
-        }
-        
-        /**
-         * Canonicalize the location to be indexed.
-         * 
-         * @param url the location
-         * @return the canonicalized location value to index
-         * @throws MalformedURLException if URL can not be canonicalized
-         */
-        private String canonicalizeLocation(String url) throws MalformedURLException {
-            final URLBuilder urlBuilder = new URLBuilder(url);
-            urlBuilder.setUsername(null);
-            urlBuilder.setPassword(null);
-            urlBuilder.getQueryParams().clear();
-            urlBuilder.setFragment(null);
-            return SimpleURLCanonicalizer.canonicalize(urlBuilder.buildURL());
         }
 
     }

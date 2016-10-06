@@ -23,6 +23,7 @@ import javax.annotation.Nonnull;
 
 import net.shibboleth.utilities.java.support.net.SimpleURLCanonicalizer;
 import net.shibboleth.utilities.java.support.net.URLBuilder;
+import net.shibboleth.utilities.java.support.primitive.StringSupport;
 
 /**
  * Support methods for metadata indexing.
@@ -40,17 +41,47 @@ public final class MetadataIndexSupport {
      * is performed as implemented by {@link SimpleURLCanonicalizer}.
      * </p>
      * 
-     * @param uri the location
+     * @param input the location
      * @return the canonicalized location value to index
      * @throws MalformedURLException if URL can not be canonicalized
      */
-    public static String canonicalizeLocationURI(@Nonnull final String uri) throws MalformedURLException {
+    @Nonnull public static String canonicalizeLocationURI(@Nonnull final String input) throws MalformedURLException {
+        String uri = StringSupport.trimOrNull(input);
+        if (uri == null) {
+            throw new MalformedURLException("URL input was null or empty");
+        }
         final URLBuilder urlBuilder = new URLBuilder(uri);
         urlBuilder.setUsername(null);
         urlBuilder.setPassword(null);
         urlBuilder.getQueryParams().clear();
         urlBuilder.setFragment(null);
         return SimpleURLCanonicalizer.canonicalize(urlBuilder.buildURL());
+    }
+    
+    /**
+     * Trim the right-most segment from the specified URL path.
+     * 
+     * <p>
+     * The input should be the path only, with no query or fragment.
+     * </p>
+     * 
+     * @param input the path to evaluate
+     * @return the trimmed path
+     */
+    public static String trimURLPathSegment(String input) {
+        String path = StringSupport.trimOrNull(input);
+        if (path == null || "/".equals(path)) {
+            return null;
+        } else {
+           int idx = path.lastIndexOf("/");
+           if (idx > 0) {
+               return path.substring(0, idx);
+           } else if (idx == 0) {
+               return "/";
+           } else {
+               return null;
+           }
+        }
     }
 
 }
