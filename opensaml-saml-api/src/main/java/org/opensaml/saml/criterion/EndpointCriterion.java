@@ -38,7 +38,20 @@ public final class EndpointCriterion<EndpointType extends Endpoint> implements C
     
     /** The endpoint. */
     @Nonnull private final EndpointType endpoint;
-
+    
+    /**
+     * Constructor.
+     * 
+     * <p>
+     * Endpoint is not implicitly trusted.
+     * </p>
+     * 
+     * @param ep the endpoint
+     */
+    public EndpointCriterion(@Nonnull final EndpointType ep) {
+        this(ep, false);
+    }
+    
     /**
      * Constructor.
      * 
