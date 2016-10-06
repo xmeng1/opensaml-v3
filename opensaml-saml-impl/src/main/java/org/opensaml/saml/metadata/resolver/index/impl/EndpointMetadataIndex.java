@@ -17,8 +17,8 @@
 
 package org.opensaml.saml.metadata.resolver.index.impl;
 
+import java.net.MalformedURLException;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
@@ -27,14 +27,6 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.xml.namespace.QName;
-
-import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
-import net.shibboleth.utilities.java.support.annotation.constraint.NotEmpty;
-import net.shibboleth.utilities.java.support.annotation.constraint.NotLive;
-import net.shibboleth.utilities.java.support.annotation.constraint.Unmodifiable;
-import net.shibboleth.utilities.java.support.logic.Constraint;
-import net.shibboleth.utilities.java.support.primitive.StringSupport;
-import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
 
 import org.opensaml.saml.metadata.resolver.index.MetadataIndex;
 import org.opensaml.saml.metadata.resolver.index.MetadataIndexKey;
@@ -45,6 +37,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
+
+import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
+import net.shibboleth.utilities.java.support.annotation.constraint.NotEmpty;
+import net.shibboleth.utilities.java.support.annotation.constraint.NotLive;
+import net.shibboleth.utilities.java.support.annotation.constraint.Unmodifiable;
+import net.shibboleth.utilities.java.support.logic.Constraint;
+import net.shibboleth.utilities.java.support.net.SimpleURLCanonicalizer;
+import net.shibboleth.utilities.java.support.net.URLBuilder;
+import net.shibboleth.utilities.java.support.primitive.StringSupport;
+import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
 
 /**
  * An implementation of {@link MetadataIndex} which indexes entities by their role endpoint locations.
@@ -60,27 +64,28 @@ public class EndpointMetadataIndex implements MetadataIndex {
     /** Logger. */
     private Logger log = LoggerFactory.getLogger(EndpointMetadataIndex.class);
     
-    /** The indexable endpoint types. */
-    private Map<QName, Set<QName>> endpointTypes;
+    /** The predicate which selects which endpoints to index. */
+    private Predicate<Endpoint> endpointSelectionPredicate;
     
     /**
      * Constructor.
      * 
      * <p>
-     * All endpoints in all roles will be indexed.
+     * All entity descriptor endpoints will be indexed.
      * </p>
      */
     public EndpointMetadataIndex() {
-        endpointTypes = Collections.emptyMap();
+        endpointSelectionPredicate = Predicates.alwaysTrue();
     }
     
     /**
      * Constructor.
      *
-     * @param indexableTypes the map of indexable endpoint types, keyed by role descriptor type
+     * @param endpointPredicate the predicate which selects which endpoints to index
      */
-    public EndpointMetadataIndex(Map<QName, Set<QName>> indexableTypes) {
-        endpointTypes = new HashMap<>(Constraint.isNotNull(indexableTypes, "Map of indexable types may not be null"));
+    public EndpointMetadataIndex(Predicate<Endpoint> endpointPredicate) {
+        endpointSelectionPredicate = Constraint.isNotNull(endpointPredicate, 
+                "Endpoint selection predicate may not be null");
     }
 
     /** {@inheritDoc} */
@@ -93,21 +98,23 @@ public class EndpointMetadataIndex implements MetadataIndex {
             if (roleType == null) {
                 roleType = role.getElementQName();
             }
+            
             for (Endpoint endpoint : role.getEndpoints()) {
                 QName endpointType = endpoint.getSchemaType();
                 if (endpointType == null) {
                     endpointType = endpoint.getElementQName();
                 }
-                if (shouldIndex(roleType, endpointType)) {
+                
+                if (endpointSelectionPredicate.apply(endpoint)) {
                     String location = StringSupport.trimOrNull(endpoint.getLocation());
                     if (location != null) {
-                        log.trace("Indexing endpoint - role '{}', endpoint type '{}', location '{}'", 
+                        log.trace("Indexing Endpoint: role '{}', endpoint type '{}', location '{}'", 
                                 roleType, endpointType, location);
                         result.add(new EndpointMetadataIndexKey(roleType, endpointType, location, false));
                     }
                     String responseLocation = StringSupport.trimOrNull(endpoint.getResponseLocation());
                     if (responseLocation != null) {
-                        log.trace("Indexing response endpoint - role '{}', endpoint type '{}', response location '{}'", 
+                        log.trace("Indexing response Endpoint - role '{}', endpoint type '{}', response location '{}'", 
                                 roleType, endpointType, responseLocation);
                         result.add(new EndpointMetadataIndexKey(roleType, endpointType, responseLocation, true));
                     }
@@ -115,25 +122,6 @@ public class EndpointMetadataIndex implements MetadataIndex {
             }
         }
         return result;
-    }
-
-    /**
-     * Determine whether endpoints of the specified role and endpoint type should be indexed.
-     * 
-     * @param roleType the role descriptor type
-     * @param endpointType the endpoint type
-     * @return true if endpoint should be indexed, false otherwise
-     */
-    private boolean shouldIndex(QName roleType, QName endpointType) {
-        if (endpointTypes.isEmpty()) {
-            //TODO is this the right default for an empty config?
-            return true; 
-        }
-        Set<QName> indexableEndpoints = endpointTypes.get(roleType);
-        if (indexableEndpoints != null && indexableEndpoints.contains(endpointType)) {
-            return true;
-        }
-        return false;
     }
 
     /** {@inheritDoc} */
@@ -144,9 +132,68 @@ public class EndpointMetadataIndex implements MetadataIndex {
     }
     
     /**
+     * The default endpoint selection predicate, which evaluates an {@link Endpoint} using
+     * a map of {@link QName} endpoint types, indexed by role type.
+     */
+    public static class DefaultEndpointSelectionPredicate implements Predicate<Endpoint> {
+        
+        /** The indexable endpoint types. */
+        private Map<QName, Set<QName>> endpointTypes;
+        
+        /**
+         * Constructor.
+         */
+        public DefaultEndpointSelectionPredicate() {
+            endpointTypes = Collections.emptyMap();
+        }
+        
+        /**
+         * Constructor.
+         *
+         * @param indexableTypes a map controlling the types of endpoints to index
+         */
+        public DefaultEndpointSelectionPredicate(Map<QName, Set<QName>> indexableTypes) {
+            endpointTypes = Constraint.isNotNull(indexableTypes, "Indexable endpoint types map was null");
+        }
+
+        /** {@inheritDoc} */
+        public boolean apply(Endpoint endpoint) {
+            if (endpoint == null) {
+                return false;
+            }
+            
+            RoleDescriptor role = (RoleDescriptor) endpoint.getParent();
+            if (role == null) {
+                return false;
+            }
+            
+            QName roleType = role.getSchemaType();
+            if (roleType == null) {
+                roleType = role.getElementQName();
+            }
+            
+            QName endpointType = endpoint.getSchemaType();
+            if (endpointType == null) {
+                endpointType = endpoint.getElementQName();
+            }
+            
+            Set<QName> indexableEndpoints = endpointTypes.get(roleType);
+            if (indexableEndpoints != null && indexableEndpoints.contains(endpointType)) {
+                return true;
+            }
+            
+            return false;
+        }
+        
+    }
+    
+    /**
      * An implementation of {@link MetadataIndexKey} representing a single SAML metadata endpoint.
      */
     protected static class EndpointMetadataIndexKey implements MetadataIndexKey {
+        
+        /** Logger. */
+        private final Logger log = LoggerFactory.getLogger(EndpointMetadataIndexKey.class);
         
         /** The role type. */
         @Nonnull private final QName role;
@@ -160,6 +207,12 @@ public class EndpointMetadataIndex implements MetadataIndex {
         /** Respone location flag. */
         private final boolean response;
 
+        /** The canonicalized location. */
+        @Nonnull private String canonicalizedLocation;
+        
+        /** Flag indicating whether canonicalized location is the simple lower case fallback strategy. */
+        private boolean isCanonicalizedLowerCase;
+        
         /**
          * Constructor.
          * 
@@ -177,6 +230,17 @@ public class EndpointMetadataIndex implements MetadataIndex {
             location = Constraint.isNotNull(StringSupport.trimOrNull(endpointLocation),
                     "SAML role cannot be null or empty");
             response = isResponse;
+            
+            try {
+                canonicalizedLocation = canonicalizeLocation(location);
+            } catch (MalformedURLException e) {
+                // This is unlikely to happen on realistic real world inputs. If it does, don't be fatal, 
+                // just switch to alternate strategy.
+                log.warn("Input location '{}' was a malformed URL, switching to lower case strategy", 
+                        location, e);
+                canonicalizedLocation = location.toLowerCase();
+                isCanonicalizedLowerCase = true;
+            }
         }
 
         /**
@@ -214,6 +278,16 @@ public class EndpointMetadataIndex implements MetadataIndex {
         public boolean isResponse() {
             return response;
         }
+        
+        /**
+         * Get the canonicalized representation of the location, primarily for use in
+         * {@link #hashCode()} and {@link #equals(Object)}.
+         * 
+         * @return the canonicalized source location
+         */
+        @Nonnull public String getCanonicalizedLocation() {
+            return canonicalizedLocation;
+        }
 
         /** {@inheritDoc} */
         @Override
@@ -223,13 +297,15 @@ public class EndpointMetadataIndex implements MetadataIndex {
                     .add("endpoint", endpoint)
                     .add("location", location)
                     .add("isResponse", response)
+                    .add("canonicalizedLocation", canonicalizedLocation)
+                    .add("isCanonicalizedLowerCase", isCanonicalizedLowerCase)
                     .toString();
         }
 
         /** {@inheritDoc} */
         @Override
         public int hashCode() {
-            return Objects.hash(getRoleType(), getEndpointType(), getLocation(), isResponse());
+            return Objects.hash(getRoleType(), getEndpointType(), getCanonicalizedLocation(), isResponse());
         }
 
         /** {@inheritDoc} */
@@ -241,15 +317,40 @@ public class EndpointMetadataIndex implements MetadataIndex {
 
             if (obj instanceof EndpointMetadataIndexKey) {
                 EndpointMetadataIndexKey other = (EndpointMetadataIndexKey) obj;
+                String thisLocation = this.canonicalizedLocation;
+                String otherLocation = other.canonicalizedLocation;
+                if (this.isCanonicalizedLowerCase != other.isCanonicalizedLowerCase) {
+                    if (this.isCanonicalizedLowerCase) {
+                        otherLocation = other.location.toLowerCase();
+                    } else {
+                        thisLocation = this.location.toLowerCase();
+                    }
+                }
                 return this.role.equals(other.role) 
                         && this.endpoint.equals(other.endpoint) 
-                        && this.location.equals(other.location) 
+                        && thisLocation.equals(otherLocation) 
                         && this.response == other.response;
             }
 
             return false;
         }
-    }
+        
+        /**
+         * Canonicalize the location to be indexed.
+         * 
+         * @param url the location
+         * @return the canonicalized location value to index
+         * @throws MalformedURLException if URL can not be canonicalized
+         */
+        private String canonicalizeLocation(String url) throws MalformedURLException {
+            URLBuilder urlBuilder = new URLBuilder(url);
+            urlBuilder.setUsername(null);
+            urlBuilder.setPassword(null);
+            urlBuilder.getQueryParams().clear();
+            urlBuilder.setFragment(null);
+            return SimpleURLCanonicalizer.canonicalize(urlBuilder.buildURL());
+        }
 
+    }
 
 }
