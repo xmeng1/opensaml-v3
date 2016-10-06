@@ -60,8 +60,6 @@ import com.google.common.collect.Lists;
 import net.shibboleth.utilities.java.support.annotation.constraint.NotEmpty;
 import net.shibboleth.utilities.java.support.collection.LazySet;
 import net.shibboleth.utilities.java.support.logic.Constraint;
-import net.shibboleth.utilities.java.support.net.SimpleURLCanonicalizer;
-import net.shibboleth.utilities.java.support.net.URLBuilder;
 import net.shibboleth.utilities.java.support.primitive.StringSupport;
 import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
 
@@ -368,7 +366,7 @@ public class SAMLArtifactMetadataIndex implements MetadataIndex {
             location = Constraint.isNotNull(StringSupport.trimOrNull(sourceLocation),
                     "SAML artifact source location cannot be null or empty");
             try {
-                canonicalizedLocation = canonicalizeLocation(location);
+                canonicalizedLocation = MetadataIndexSupport.canonicalizeLocationURI(location);
             } catch (MalformedURLException e) {
                 // This is unlikely to happen on realistic real world inputs. If it does, don't be fatal, 
                 // just switch to alternate strategy.
@@ -435,22 +433,6 @@ public class SAMLArtifactMetadataIndex implements MetadataIndex {
             }
 
             return false;
-        }
-        
-        /**
-         * Canonicalize the location to be indexed.
-         * 
-         * @param url the location
-         * @return the canonicalized location value to index
-         * @throws MalformedURLException if URL can not be canonicalized
-         */
-        private String canonicalizeLocation(String url) throws MalformedURLException {
-            URLBuilder urlBuilder = new URLBuilder(url);
-            urlBuilder.setUsername(null);
-            urlBuilder.setPassword(null);
-            urlBuilder.getQueryParams().clear();
-            urlBuilder.setFragment(null);
-            return SimpleURLCanonicalizer.canonicalize(urlBuilder.buildURL());
         }
         
     }
