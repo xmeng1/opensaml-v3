@@ -65,7 +65,7 @@ public class EndpointMetadataIndex implements MetadataIndex {
     private Logger log = LoggerFactory.getLogger(EndpointMetadataIndex.class);
     
     /** The predicate which selects which endpoints to index. */
-    private Predicate<Endpoint> endpointSelectionPredicate;
+    @Nonnull private Predicate<Endpoint> endpointSelectionPredicate;
     
     /**
      * Constructor.
@@ -83,36 +83,36 @@ public class EndpointMetadataIndex implements MetadataIndex {
      *
      * @param endpointPredicate the predicate which selects which endpoints to index
      */
-    public EndpointMetadataIndex(Predicate<Endpoint> endpointPredicate) {
+    public EndpointMetadataIndex(@Nonnull final Predicate<Endpoint> endpointPredicate) {
         endpointSelectionPredicate = Constraint.isNotNull(endpointPredicate, 
                 "Endpoint selection predicate may not be null");
     }
 
     /** {@inheritDoc} */
     @Nullable @NonnullElements @Unmodifiable @NotLive
-    public Set<MetadataIndexKey> generateKeys(@Nonnull EntityDescriptor descriptor) {
+    public Set<MetadataIndexKey> generateKeys(@Nonnull final EntityDescriptor descriptor) {
         Constraint.isNotNull(descriptor, "EntityDescriptor was null");
-        HashSet<MetadataIndexKey> result = new HashSet<>();
-        for (RoleDescriptor role : descriptor.getRoleDescriptors()) {
+        final HashSet<MetadataIndexKey> result = new HashSet<>();
+        for (final RoleDescriptor role : descriptor.getRoleDescriptors()) {
             QName roleType = role.getSchemaType();
             if (roleType == null) {
                 roleType = role.getElementQName();
             }
             
-            for (Endpoint endpoint : role.getEndpoints()) {
+            for (final Endpoint endpoint : role.getEndpoints()) {
                 QName endpointType = endpoint.getSchemaType();
                 if (endpointType == null) {
                     endpointType = endpoint.getElementQName();
                 }
                 
                 if (endpointSelectionPredicate.apply(endpoint)) {
-                    String location = StringSupport.trimOrNull(endpoint.getLocation());
+                    final String location = StringSupport.trimOrNull(endpoint.getLocation());
                     if (location != null) {
                         log.trace("Indexing Endpoint: role '{}', endpoint type '{}', location '{}'", 
                                 roleType, endpointType, location);
                         result.add(new EndpointMetadataIndexKey(roleType, endpointType, location, false));
                     }
-                    String responseLocation = StringSupport.trimOrNull(endpoint.getResponseLocation());
+                    final String responseLocation = StringSupport.trimOrNull(endpoint.getResponseLocation());
                     if (responseLocation != null) {
                         log.trace("Indexing response Endpoint - role '{}', endpoint type '{}', response location '{}'", 
                                 roleType, endpointType, responseLocation);
@@ -126,7 +126,7 @@ public class EndpointMetadataIndex implements MetadataIndex {
 
     /** {@inheritDoc} */
     @Nullable @NonnullElements @Unmodifiable @NotLive
-    public Set<MetadataIndexKey> generateKeys(@Nonnull CriteriaSet criteriaSet) {
+    public Set<MetadataIndexKey> generateKeys(@Nonnull final CriteriaSet criteriaSet) {
         // TODO Auto-generated method stub
         return null;
     }
@@ -138,7 +138,7 @@ public class EndpointMetadataIndex implements MetadataIndex {
     public static class DefaultEndpointSelectionPredicate implements Predicate<Endpoint> {
         
         /** The indexable endpoint types. */
-        private Map<QName, Set<QName>> endpointTypes;
+        @Nonnull private Map<QName, Set<QName>> endpointTypes;
         
         /**
          * Constructor.
@@ -152,17 +152,17 @@ public class EndpointMetadataIndex implements MetadataIndex {
          *
          * @param indexableTypes a map controlling the types of endpoints to index
          */
-        public DefaultEndpointSelectionPredicate(Map<QName, Set<QName>> indexableTypes) {
+        public DefaultEndpointSelectionPredicate(@Nonnull final Map<QName, Set<QName>> indexableTypes) {
             endpointTypes = Constraint.isNotNull(indexableTypes, "Indexable endpoint types map was null");
         }
 
         /** {@inheritDoc} */
-        public boolean apply(Endpoint endpoint) {
+        public boolean apply(@Nullable final Endpoint endpoint) {
             if (endpoint == null) {
                 return false;
             }
             
-            RoleDescriptor role = (RoleDescriptor) endpoint.getParent();
+            final RoleDescriptor role = (RoleDescriptor) endpoint.getParent();
             if (role == null) {
                 return false;
             }
@@ -177,7 +177,7 @@ public class EndpointMetadataIndex implements MetadataIndex {
                 endpointType = endpoint.getElementQName();
             }
             
-            Set<QName> indexableEndpoints = endpointTypes.get(roleType);
+            final Set<QName> indexableEndpoints = endpointTypes.get(roleType);
             if (indexableEndpoints != null && indexableEndpoints.contains(endpointType)) {
                 return true;
             }
@@ -316,7 +316,7 @@ public class EndpointMetadataIndex implements MetadataIndex {
             }
 
             if (obj instanceof EndpointMetadataIndexKey) {
-                EndpointMetadataIndexKey other = (EndpointMetadataIndexKey) obj;
+                final EndpointMetadataIndexKey other = (EndpointMetadataIndexKey) obj;
                 String thisLocation = this.canonicalizedLocation;
                 String otherLocation = other.canonicalizedLocation;
                 if (this.isCanonicalizedLowerCase != other.isCanonicalizedLowerCase) {
@@ -343,7 +343,7 @@ public class EndpointMetadataIndex implements MetadataIndex {
          * @throws MalformedURLException if URL can not be canonicalized
          */
         private String canonicalizeLocation(String url) throws MalformedURLException {
-            URLBuilder urlBuilder = new URLBuilder(url);
+            final URLBuilder urlBuilder = new URLBuilder(url);
             urlBuilder.setUsername(null);
             urlBuilder.setPassword(null);
             urlBuilder.getQueryParams().clear();
