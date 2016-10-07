@@ -28,11 +28,10 @@ import net.shibboleth.utilities.java.support.component.AbstractInitializableComp
 import net.shibboleth.utilities.java.support.component.ComponentSupport;
 
 import org.opensaml.profile.context.EventContext;
+import org.opensaml.profile.context.MetricContext;
 import org.opensaml.profile.context.PreviousEventContext;
 import org.opensaml.profile.context.ProfileRequestContext;
 import org.slf4j.LoggerFactory;
-
-//TODO perf metrics
 
 /**
  * Base class for profile actions.
@@ -155,6 +154,12 @@ public abstract class AbstractProfileAction<InboundMessageType, OutboundMessageT
      */
     protected boolean doPreExecute(
             @Nonnull final ProfileRequestContext<InboundMessageType, OutboundMessageType> profileRequestContext) {
+
+        final MetricContext metricCtx = profileRequestContext.getSubcontext(MetricContext.class);
+        if (metricCtx != null) {
+            metricCtx.start(getClass().getSimpleName());
+        }
+        
         return true;
     }
 
@@ -181,6 +186,13 @@ public abstract class AbstractProfileAction<InboundMessageType, OutboundMessageT
      */
     protected void doPostExecute(
             @Nonnull final ProfileRequestContext<InboundMessageType, OutboundMessageType> profileRequestContext) {
+
+        final MetricContext metricCtx = profileRequestContext.getSubcontext(MetricContext.class);
+        if (metricCtx != null) {
+            final String name = getClass().getSimpleName();
+            metricCtx.stop(name);
+            metricCtx.inc(name);
+        }
     }
 
     /**
