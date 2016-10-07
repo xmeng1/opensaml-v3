@@ -20,6 +20,7 @@ package org.opensaml.saml.metadata.resolver.index.impl;
 import java.net.MalformedURLException;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import net.shibboleth.utilities.java.support.net.SimpleURLCanonicalizer;
 import net.shibboleth.utilities.java.support.net.URLBuilder;
@@ -65,22 +66,33 @@ public final class MetadataIndexSupport {
      * The input should be the path only, with no query or fragment.
      * </p>
      * 
+     * <p>
+     * Paths ending in "/" return the input with the trailing slash omitted, except for the
+     * special case of input == "/", which returns null.
+     * Paths not ending in "/" return the input with the right-most
+     * segment removed, and including a trailing slash.
+     * </p>
+     * 
      * @param input the path to evaluate
-     * @return the trimmed path
+     * @return the trimmed path, or null
      */
-    public static String trimURLPathSegment(String input) {
+    @Nullable public static String trimURLPathSegment(@Nullable final String input) {
         String path = StringSupport.trimOrNull(input);
         if (path == null || "/".equals(path)) {
             return null;
         } else {
-           int idx = path.lastIndexOf("/");
-           if (idx > 0) {
-               return path.substring(0, idx);
-           } else if (idx == 0) {
-               return "/";
-           } else {
-               return null;
-           }
+            int idx = path.lastIndexOf("/");
+            if (idx > 0) {
+                if (path.endsWith("/")) {
+                    return path.substring(0, idx);
+                } else {
+                    return path.substring(0, idx+1);
+                }
+            } else if (idx == 0) {
+                return "/";
+            } else {
+                return null;
+            }
         }
     }
 

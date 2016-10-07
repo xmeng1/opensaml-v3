@@ -150,15 +150,21 @@ public class EndpointMetadataIndexTest extends XMLObjectBaseTestCase {
         criteriaSet.add(new StartsWithLocationCriterion());
         keys = metadataIndex.generateKeys(criteriaSet);
         Assert.assertNotNull(keys);
-        Assert.assertEquals(keys.size(), 7);
+        Assert.assertEquals(keys.size(), 10);
         Assert.assertTrue(keys.contains(new EndpointMetadataIndex.EndpointMetadataIndexKey(SPSSODescriptor.DEFAULT_ELEMENT_NAME, AssertionConsumerService.DEFAULT_ELEMENT_NAME, 
                 "https://www.example.com/cas/someEndpoint1/foo/bar/", false)));
         Assert.assertTrue(keys.contains(new EndpointMetadataIndex.EndpointMetadataIndexKey(SPSSODescriptor.DEFAULT_ELEMENT_NAME, AssertionConsumerService.DEFAULT_ELEMENT_NAME, 
                 "https://www.example.com/cas/someEndpoint1/foo/bar", false)));
         Assert.assertTrue(keys.contains(new EndpointMetadataIndex.EndpointMetadataIndexKey(SPSSODescriptor.DEFAULT_ELEMENT_NAME, AssertionConsumerService.DEFAULT_ELEMENT_NAME, 
+                "https://www.example.com/cas/someEndpoint1/foo/", false)));
+        Assert.assertTrue(keys.contains(new EndpointMetadataIndex.EndpointMetadataIndexKey(SPSSODescriptor.DEFAULT_ELEMENT_NAME, AssertionConsumerService.DEFAULT_ELEMENT_NAME, 
                 "https://www.example.com/cas/someEndpoint1/foo", false)));
         Assert.assertTrue(keys.contains(new EndpointMetadataIndex.EndpointMetadataIndexKey(SPSSODescriptor.DEFAULT_ELEMENT_NAME, AssertionConsumerService.DEFAULT_ELEMENT_NAME, 
+                "https://www.example.com/cas/someEndpoint1/", false)));
+        Assert.assertTrue(keys.contains(new EndpointMetadataIndex.EndpointMetadataIndexKey(SPSSODescriptor.DEFAULT_ELEMENT_NAME, AssertionConsumerService.DEFAULT_ELEMENT_NAME, 
                 "https://www.example.com/cas/someEndpoint1", false)));
+        Assert.assertTrue(keys.contains(new EndpointMetadataIndex.EndpointMetadataIndexKey(SPSSODescriptor.DEFAULT_ELEMENT_NAME, AssertionConsumerService.DEFAULT_ELEMENT_NAME, 
+                "https://www.example.com/cas/", false)));
         Assert.assertTrue(keys.contains(new EndpointMetadataIndex.EndpointMetadataIndexKey(SPSSODescriptor.DEFAULT_ELEMENT_NAME, AssertionConsumerService.DEFAULT_ELEMENT_NAME, 
                 "https://www.example.com/cas", false)));
         Assert.assertTrue(keys.contains(new EndpointMetadataIndex.EndpointMetadataIndexKey(SPSSODescriptor.DEFAULT_ELEMENT_NAME, AssertionConsumerService.DEFAULT_ELEMENT_NAME, 

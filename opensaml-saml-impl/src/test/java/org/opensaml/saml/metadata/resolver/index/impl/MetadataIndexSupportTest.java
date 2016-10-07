@@ -57,8 +57,10 @@ public class MetadataIndexSupportTest {
         Assert.assertNull(MetadataIndexSupport.trimURLPathSegment("foo"));
         
         Assert.assertEquals(MetadataIndexSupport.trimURLPathSegment("/foo/bar/baz/"), "/foo/bar/baz");
-        Assert.assertEquals(MetadataIndexSupport.trimURLPathSegment("/foo/bar/baz"), "/foo/bar");
-        Assert.assertEquals(MetadataIndexSupport.trimURLPathSegment("/foo/bar"), "/foo");
+        Assert.assertEquals(MetadataIndexSupport.trimURLPathSegment("/foo/bar/baz"), "/foo/bar/");
+        Assert.assertEquals(MetadataIndexSupport.trimURLPathSegment("/foo/bar/"), "/foo/bar");
+        Assert.assertEquals(MetadataIndexSupport.trimURLPathSegment("/foo/bar"), "/foo/");
+        Assert.assertEquals(MetadataIndexSupport.trimURLPathSegment("/foo/"), "/foo");
         Assert.assertEquals(MetadataIndexSupport.trimURLPathSegment("/foo"), "/");
         Assert.assertNull(MetadataIndexSupport.trimURLPathSegment("/"));
     }
