@@ -59,7 +59,7 @@ public class SignAssertionsTest extends OpenSAMLInitBaseTestCase {
         ActionTestingSupport.assertEvent(prc, EventIds.INVALID_MSG_CTX);
     }
 
-    @Test public void testNoResponse() throws Exception {
+    @Test public void testNoMessage() throws Exception {
         prc.getOutboundMessageContext().setMessage(null);
         
         action.execute(prc);
@@ -70,7 +70,7 @@ public class SignAssertionsTest extends OpenSAMLInitBaseTestCase {
         prc.getOutboundMessageContext().setMessage(SAML1ActionTestingSupport.buildAttributeQueryRequest(null));
         
         action.execute(prc);
-        ActionTestingSupport.assertEvent(prc, EventIds.INVALID_MSG_CTX);
+        ActionTestingSupport.assertProceedEvent(prc);
     }
     
     @Test public void testNoSecurityParametersContext() throws Exception {

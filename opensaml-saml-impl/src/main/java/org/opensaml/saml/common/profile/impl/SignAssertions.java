@@ -109,6 +109,10 @@ public class SignAssertions extends AbstractProfileAction {
     @Override
     protected boolean doPreExecute(@Nonnull final ProfileRequestContext profileRequestContext) {
 
+        if (!super.doPreExecute(profileRequestContext)) {
+            return false;
+        }
+        
         response = responseLookupStrategy.apply(profileRequestContext);
         if (response == null) {
             log.debug("{} No SAML Response located in current profile request context", getLogPrefix());
@@ -118,6 +122,7 @@ public class SignAssertions extends AbstractProfileAction {
 
         // Step down into ArtifactResponses.
         if (response instanceof ArtifactResponse) {
+            log.debug("{} Found ArtifactResponse, stepping down into enclosed message", getLogPrefix());
             response = ((ArtifactResponse) response).getMessage();
         }
         
@@ -133,7 +138,6 @@ public class SignAssertions extends AbstractProfileAction {
             }
         } else {
             log.debug("{} Message returned by lookup strategy was not a SAML Response", getLogPrefix());
-            ActionSupport.buildEvent(profileRequestContext, EventIds.INVALID_MSG_CTX);
             return false;
         }
 
@@ -150,7 +154,7 @@ public class SignAssertions extends AbstractProfileAction {
             return false;
         }
         
-        return super.doPreExecute(profileRequestContext);
+        return true;
     }
 
     /** {@inheritDoc} */
