@@ -7,8 +7,8 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd                           
                        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">   
 
-    <bean id="theee" class="org.opensaml.profile.logic.IPRangePredicate">
-        <property name="addressRanges">
+    <bean id="three" class="org.opensaml.profile.logic.IPRangePredicate">
+        <property name="ranges">
             <list>
                 <bean class="net.shibboleth.utilities.java.support.net.IPRange"  factory-method="parseCIDRBlock" c:cidrBlock="192.168.1.0/24"/>
                 <bean class="net.shibboleth.utilities.java.support.net.IPRange"  factory-method="parseCIDRBlock" c:cidrBlock="192.168.2.0/28"/>
@@ -19,8 +19,8 @@
     <!-- Multiple address ranges with a list bean
          This fails because Spring cannot cast an ArrayList<String> to an Iterable<IPRAnge> (its too late for the converter to fire)
     -->
-         <bean id="four" class="org.opensaml.profile.logic.IPRangePredicate">
-        <property name="addressRanges">
+    <bean id="four" class="org.opensaml.profile.logic.IPRangePredicate">
+        <property name="ranges">
             <list>
                <value>192.168.1.0/24</value>
                <value>192.168.2.0/28</value>

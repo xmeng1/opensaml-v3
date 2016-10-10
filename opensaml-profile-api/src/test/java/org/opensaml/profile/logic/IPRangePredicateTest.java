@@ -37,7 +37,7 @@ import org.testng.annotations.Test;
  */
 public class IPRangePredicateTest {
 
-    @Test(enabled=false) public void testRanges() {
+    @Test public void testRanges() {
        final GenericApplicationContext ctx = SpringSupport.newContext("IpRange", Collections.singletonList((Resource)new ClassPathResource("iprange.xml")),
                 Collections.<BeanFactoryPostProcessor> emptyList(),
                 Collections.<BeanPostProcessor> singletonList(new IdentifiableBeanPostProcessor()),

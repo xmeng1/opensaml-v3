@@ -33,6 +33,7 @@ import org.opensaml.messaging.context.BaseContext;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
+import com.google.common.collect.Collections2;
 import com.google.common.collect.Iterables;
 import com.google.common.net.InetAddresses;
 
@@ -55,7 +56,12 @@ public class IPRangePredicate implements Predicate<BaseContext> {
     /**
      * Set the address ranges to check against.
      * 
+     * <p>This version is deprecated because Spring doesn't handle converting strings
+     * to Iterable.</p>
+     * 
      * @param ranges    address ranges to check against
+     * 
+     * @deprecated
      */
     public void setAddressRanges(@Nonnull @NonnullElements Iterable<IPRange> ranges) {
         Constraint.isNotNull(ranges, "Address range collection cannot be null");
@@ -64,6 +70,19 @@ public class IPRangePredicate implements Predicate<BaseContext> {
         for (final IPRange range : Iterables.filter(ranges, Predicates.notNull())) {
             addressRanges.add(range);
         }
+    }
+    
+    /**
+     * Set the address ranges to check against.
+     * 
+     * @param ranges    address ranges to check against
+     * 
+     * @since 3.3.0
+     */
+    public void setRanges(@Nonnull @NonnullElements Collection<IPRange> ranges) {
+        Constraint.isNotNull(ranges, "Address range collection cannot be null");
+        
+        addressRanges = new ArrayList<>(Collections2.filter(ranges, Predicates.notNull()));
     }
     
     /**
@@ -76,14 +95,13 @@ public class IPRangePredicate implements Predicate<BaseContext> {
     }
 
     /** {@inheritDoc} */
-    @Override
     public boolean apply(@Nullable final BaseContext input) {
-        String address = httpRequest != null ? httpRequest.getRemoteAddr() : null;
+        final String address = httpRequest != null ? httpRequest.getRemoteAddr() : null;
         if (address == null || !InetAddresses.isInetAddress(address)) {
             return false;
         }
         
-        for (IPRange range : addressRanges) {
+        for (final IPRange range : addressRanges) {
             if (range.contains(InetAddresses.forString(address))) {
                 return true;
             }
