@@ -15,15 +15,13 @@
  * limitations under the License.
  */
 
-package org.opensaml.core.xml.persist;
+package org.opensaml.core.xml;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import javax.xml.namespace.QName;
 
-import org.opensaml.core.xml.AbstractXMLObject;
-import org.opensaml.core.xml.XMLObjectBaseTestCase;
 import org.opensaml.core.xml.io.MarshallingException;
 import org.opensaml.core.xml.mock.SimpleXMLObject;
 import org.opensaml.core.xml.util.XMLObjectSource;
