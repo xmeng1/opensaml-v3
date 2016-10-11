@@ -33,6 +33,28 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import org.joda.time.DateTime;
+import org.joda.time.chrono.ISOChronology;
+import org.opensaml.core.criterion.EntityIdCriterion;
+import org.opensaml.core.xml.XMLObject;
+import org.opensaml.core.xml.io.MarshallingException;
+import org.opensaml.core.xml.io.UnmarshallingException;
+import org.opensaml.core.xml.persist.XMLObjectLoadSaveManager;
+import org.opensaml.core.xml.util.XMLObjectSupport;
+import org.opensaml.core.xml.util.XMLObjectSupport.CloneOutputOption;
+import org.opensaml.saml.metadata.resolver.DynamicMetadataResolver;
+import org.opensaml.saml.metadata.resolver.filter.FilterException;
+import org.opensaml.saml.saml2.common.SAML2Support;
+import org.opensaml.saml.saml2.metadata.EntityDescriptor;
+import org.opensaml.security.crypto.JCAConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.common.base.Function;
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
+import com.google.common.base.Strings;
+
 import net.shibboleth.utilities.java.support.annotation.Duration;
 import net.shibboleth.utilities.java.support.annotation.constraint.NonnullAfterInit;
 import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
@@ -46,24 +68,6 @@ import net.shibboleth.utilities.java.support.logic.Constraint;
 import net.shibboleth.utilities.java.support.primitive.StringSupport;
 import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
 import net.shibboleth.utilities.java.support.resolver.ResolverException;
-
-import org.joda.time.DateTime;
-import org.joda.time.chrono.ISOChronology;
-import org.opensaml.core.criterion.EntityIdCriterion;
-import org.opensaml.core.xml.XMLObject;
-import org.opensaml.core.xml.persist.XMLObjectLoadSaveManager;
-import org.opensaml.saml.metadata.resolver.DynamicMetadataResolver;
-import org.opensaml.saml.metadata.resolver.filter.FilterException;
-import org.opensaml.saml.saml2.common.SAML2Support;
-import org.opensaml.saml.saml2.metadata.EntityDescriptor;
-import org.opensaml.security.crypto.JCAConstants;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.common.base.Function;
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
-import com.google.common.base.Strings;
 
 /**
  * Abstract subclass for metadata resolvers that resolve metadata dynamically, as needed and on demand.
@@ -500,7 +504,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
     @Nonnull protected void processNewMetadata(@Nonnull final XMLObject root, @Nonnull final String expectedEntityID) 
             throws FilterException {
         
-        final XMLObject filteredMetadata = filterMetadata(root);
+        final XMLObject filteredMetadata = filterMetadata(prepareForFiltering(root));
         
         if (filteredMetadata == null) {
             log.info("Metadata filtering process produced a null document, resulting in an empty data set");
@@ -546,6 +550,30 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
     
     }
     //CheckStyle: ReturnCount ON
+    
+    /**
+     * Prepare the object for filtering:  If persistent caching is enabled, return a clone of the object
+     * in case the configured filter mutates the object.
+     * 
+     * @param input the XMLObject on which to operate
+     * @return the XMLObject instance to be filtered
+     */
+    @Nonnull protected XMLObject prepareForFiltering(@Nonnull final XMLObject input) {
+        if (getMetadataFilter() != null && isPersistentCachingEnabled()) {
+            // For this case, we want to filter a clone of the input root object, since filters can mutate
+            // the XMLObject and this will cause DOM to be dropped. This will muck with the persistent cache if
+            //   1) the root doesn't expose its source byte[] via object metadata, and
+            //   2) the object can't be successfully round-tripped (e.g signatures).
+            try {
+                return XMLObjectSupport.cloneXMLObject(input, CloneOutputOption.DropDOM);
+            } catch (MarshallingException | UnmarshallingException e) {
+                log.warn("Error cloning XMLObject, will use input root object as filter target", e);
+                return input;
+            }
+        } else {
+            return input;
+        }
+    }
     
     /** {@inheritDoc} */
     @Override
