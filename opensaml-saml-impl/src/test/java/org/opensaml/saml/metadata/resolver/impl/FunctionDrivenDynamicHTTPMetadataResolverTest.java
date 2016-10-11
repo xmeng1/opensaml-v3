@@ -99,6 +99,7 @@ public class FunctionDrivenDynamicHTTPMetadataResolverTest extends XMLObjectBase
         EntityDescriptor ed = resolver.resolveSingle(criteriaSet);
         Assert.assertNotNull(ed);
         Assert.assertEquals(ed.getEntityID(), entityID);
+        Assert.assertNull(ed.getDOM());
     }
    
     @Test
@@ -126,6 +127,7 @@ public class FunctionDrivenDynamicHTTPMetadataResolverTest extends XMLObjectBase
         EntityDescriptor ed = resolver.resolveSingle(criteriaSet);
         Assert.assertNotNull(ed);
         Assert.assertEquals(ed.getEntityID(), entityID);
+        Assert.assertNull(ed.getDOM());
     }
     
     @Test
@@ -217,6 +219,7 @@ public class FunctionDrivenDynamicHTTPMetadataResolverTest extends XMLObjectBase
         EntityDescriptor ed = resolver.resolveSingle(criteriaSet);
         Assert.assertNotNull(ed);
         Assert.assertEquals(ed.getEntityID(), entityID);
+        Assert.assertNull(ed.getDOM());
     }
     
     @Test
@@ -237,6 +240,7 @@ public class FunctionDrivenDynamicHTTPMetadataResolverTest extends XMLObjectBase
         EntityDescriptor ed = resolver.resolveSingle(criteriaSet);
         Assert.assertNotNull(ed);
         Assert.assertEquals(ed.getEntityID(), entityID);
+        Assert.assertNull(ed.getDOM());
     }
     
     @Test
@@ -264,6 +268,7 @@ public class FunctionDrivenDynamicHTTPMetadataResolverTest extends XMLObjectBase
         EntityDescriptor ed = resolver.resolveSingle(criteriaSet);
         Assert.assertNotNull(ed);
         Assert.assertEquals(ed.getEntityID(), entityID);
+        Assert.assertNull(ed.getDOM());
     }
     
     @Test
@@ -292,6 +297,7 @@ public class FunctionDrivenDynamicHTTPMetadataResolverTest extends XMLObjectBase
         EntityDescriptor ed = resolver.resolveSingle(criteriaSet);
         Assert.assertNotNull(ed);
         Assert.assertEquals(ed.getEntityID(), entityID);
+        Assert.assertNull(ed.getDOM());
     }
     
     @Test
@@ -319,6 +325,7 @@ public class FunctionDrivenDynamicHTTPMetadataResolverTest extends XMLObjectBase
         EntityDescriptor ed = resolver.resolveSingle(criteriaSet);
         Assert.assertNotNull(ed);
         Assert.assertEquals(ed.getEntityID(), entityID);
+        Assert.assertNull(ed.getDOM());
     }
     
     @Test
@@ -347,6 +354,7 @@ public class FunctionDrivenDynamicHTTPMetadataResolverTest extends XMLObjectBase
         EntityDescriptor ed = resolver.resolveSingle(criteriaSet);
         Assert.assertNotNull(ed);
         Assert.assertEquals(ed.getEntityID(), entityID);
+        Assert.assertNull(ed.getDOM());
     }
     
     @Test
@@ -402,6 +410,7 @@ public class FunctionDrivenDynamicHTTPMetadataResolverTest extends XMLObjectBase
         EntityDescriptor ed = resolver.resolveSingle(criteriaSet);
         Assert.assertNotNull(ed);
         Assert.assertEquals(ed.getEntityID(), entityID);
+        Assert.assertNull(ed.getDOM());
     }
     
     @Test
@@ -430,6 +439,7 @@ public class FunctionDrivenDynamicHTTPMetadataResolverTest extends XMLObjectBase
         EntityDescriptor ed = resolver.resolveSingle(criteriaSet);
         Assert.assertNotNull(ed);
         Assert.assertEquals(ed.getEntityID(), entityID);
+        Assert.assertNull(ed.getDOM());
     }
     
     @Test

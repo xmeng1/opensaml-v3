@@ -504,6 +504,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
         
         if (filteredMetadata == null) {
             log.info("Metadata filtering process produced a null document, resulting in an empty data set");
+            releaseMetadataDOM(root);
             return;
         }
         
@@ -539,6 +540,9 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
         } else {
             log.warn("Document root was not an EntityDescriptor: {}", root.getClass().getName());
         }
+        
+        releaseMetadataDOM(filteredMetadata);
+        releaseMetadataDOM(root);
     
     }
     //CheckStyle: ReturnCount ON

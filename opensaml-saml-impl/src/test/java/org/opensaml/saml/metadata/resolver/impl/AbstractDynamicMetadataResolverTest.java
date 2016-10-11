@@ -17,6 +17,7 @@
 
 package org.opensaml.saml.metadata.resolver.impl;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,19 +27,21 @@ import org.opensaml.core.criterion.EntityIdCriterion;
 import org.opensaml.core.xml.XMLObject;
 import org.opensaml.core.xml.XMLObjectBaseTestCase;
 import org.opensaml.core.xml.config.XMLObjectProviderRegistrySupport;
+import org.opensaml.core.xml.io.MarshallingException;
 import org.opensaml.core.xml.persist.MapLoadSaveManager;
 import org.opensaml.core.xml.persist.XMLObjectLoadSaveManager;
+import org.opensaml.core.xml.util.XMLObjectSupport;
 import org.opensaml.saml.metadata.resolver.impl.AbstractDynamicMetadataResolver.DynamicEntityBackingStore;
 import org.opensaml.saml.saml2.metadata.EntityDescriptor;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import com.google.common.base.Predicate;
+import com.google.common.collect.Lists;
 
 import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
 import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
@@ -57,19 +60,36 @@ public class AbstractDynamicMetadataResolverTest extends XMLObjectBaseTestCase {
     private String id1, id2, id3;
     private EntityDescriptor ed1, ed2, ed3;
     
-    @BeforeClass
-    protected void setUpEntityData() {
+    @BeforeMethod
+    protected void setUpEntityData() throws MarshallingException, IOException {
+        ByteArrayOutputStream baos = null;
+        
         id1 = "urn:test:entity:1";
         ed1 = buildXMLObject(EntityDescriptor.DEFAULT_ELEMENT_NAME);
         ed1.setEntityID(id1);
+        baos = new ByteArrayOutputStream();
+        XMLObjectSupport.marshallToOutputStream(ed1, baos);
+        baos.flush();
+        baos.close();
+        Assert.assertNotNull(ed1.getDOM());
         
         id2 = "urn:test:entity:2";
         ed2 = buildXMLObject(EntityDescriptor.DEFAULT_ELEMENT_NAME);
         ed2.setEntityID(id2);
+        baos = new ByteArrayOutputStream();
+        XMLObjectSupport.marshallToOutputStream(ed2, baos);
+        baos.flush();
+        baos.close();
+        Assert.assertNotNull(ed2.getDOM());
         
         id3 = "urn:test:entity:3";
         ed3 = buildXMLObject(EntityDescriptor.DEFAULT_ELEMENT_NAME);
         ed3.setEntityID(id3);
+        baos = new ByteArrayOutputStream();
+        XMLObjectSupport.marshallToOutputStream(ed3, baos);
+        baos.flush();
+        baos.close();
+        Assert.assertNotNull(ed3.getDOM());
         
     }
     
@@ -124,6 +144,18 @@ public class AbstractDynamicMetadataResolverTest extends XMLObjectBaseTestCase {
         
         Assert.assertTrue(backingStore.getIndexedDescriptors().containsKey(id3));
         Assert.assertEquals(backingStore.getIndexedDescriptors().get(id3).size(), 1);
+    }
+    
+    @Test
+    public void testDOMDropFromFetch() throws ComponentInitializationException, ResolverException {
+        sourceMap.put(id1, ed1);
+        
+        resolver.initialize();
+        
+        EntityDescriptor result = resolver.resolveSingle(new CriteriaSet(new EntityIdCriterion(id1)));
+        
+        Assert.assertNotNull(result);
+        Assert.assertNull(result.getDOM());
     }
     
     @Test
@@ -187,9 +219,12 @@ public class AbstractDynamicMetadataResolverTest extends XMLObjectBaseTestCase {
         Assert.assertEquals(backingStore.getIndexedDescriptors().get(id3).size(), 1);
         
         Assert.assertTrue(sourceMap.isEmpty());
-        Assert.assertNotNull(resolver.resolveSingle(new CriteriaSet(new EntityIdCriterion(id1))));
-        Assert.assertNotNull(resolver.resolveSingle(new CriteriaSet(new EntityIdCriterion(id2))));
-        Assert.assertNotNull(resolver.resolveSingle(new CriteriaSet(new EntityIdCriterion(id3))));
+        
+        for (String entityID : Lists.newArrayList(id1, id2, id3)) {
+            EntityDescriptor ed = resolver.resolveSingle(new CriteriaSet(new EntityIdCriterion(entityID)));
+            Assert.assertNotNull(ed);
+            Assert.assertNull(ed.getDOM());
+        }
     }
     
     @Test
