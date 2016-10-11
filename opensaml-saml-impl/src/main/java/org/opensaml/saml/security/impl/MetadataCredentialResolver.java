@@ -191,10 +191,10 @@ public class MetadataCredentialResolver extends AbstractCriteriaFilteringCredent
         ComponentSupport.ifNotInitializedThrowUninitializedComponentException(this);
         Constraint.isNotNull(criteriaSet, "CriteriaSet was null");
 
-        UsageType usage = getEffectiveUsageInput(criteriaSet);
+        final UsageType usage = getEffectiveUsageInput(criteriaSet);
         
         if (criteriaSet.contains(RoleDescriptorCriterion.class)) {
-            RoleDescriptor roleDescriptor = criteriaSet.get(RoleDescriptorCriterion.class).getRole();
+            final RoleDescriptor roleDescriptor = criteriaSet.get(RoleDescriptorCriterion.class).getRole();
             return resolveFromRoleDescriptor(criteriaSet, roleDescriptor, usage);
         } else if (criteriaSet.contains(EntityIdCriterion.class) && criteriaSet.contains(EntityRoleCriterion.class)) {
             if (getRoleDescriptorResolver() == null) {
@@ -202,11 +202,11 @@ public class MetadataCredentialResolver extends AbstractCriteriaFilteringCredent
                         + "but no RoleDescriptorResolver is configured");
             }
             
-            String entityID = criteriaSet.get(EntityIdCriterion.class).getEntityId();
-            QName role = criteriaSet.get(EntityRoleCriterion.class).getRole();
+            final String entityID = criteriaSet.get(EntityIdCriterion.class).getEntityId();
+            final QName role = criteriaSet.get(EntityRoleCriterion.class).getRole();
             
             String protocol = null;
-            ProtocolCriterion protocolCriteria = criteriaSet.get(ProtocolCriterion.class);
+            final ProtocolCriterion protocolCriteria = criteriaSet.get(ProtocolCriterion.class);
             if (protocolCriteria != null) {
                 protocol = protocolCriteria.getProtocol();
             }
@@ -227,7 +227,7 @@ public class MetadataCredentialResolver extends AbstractCriteriaFilteringCredent
      * @return the effective usage value
      */
     @Nonnull protected UsageType getEffectiveUsageInput(@Nonnull final CriteriaSet criteriaSet) {
-        UsageCriterion usageCriteria = criteriaSet.get(UsageCriterion.class);
+        final UsageCriterion usageCriteria = criteriaSet.get(UsageCriterion.class);
         if (usageCriteria != null) {
             return usageCriteria.getUsage();
         } else {
@@ -258,7 +258,7 @@ public class MetadataCredentialResolver extends AbstractCriteriaFilteringCredent
         
         log.debug("Resolving credentials from supplied RoleDescriptor using usage: {}.  Effective entityID was: {}", 
                 usage, entityID);
-        HashSet<Credential> credentials = new HashSet<>(3);
+        final HashSet<Credential> credentials = new HashSet<>(3);
         
         processRoleDescriptor(credentials, roleDescriptor, entityID, usage);
         
@@ -285,11 +285,11 @@ public class MetadataCredentialResolver extends AbstractCriteriaFilteringCredent
 
         log.debug("Resolving credentials from metadata using entityID: {}, role: {}, protocol: {}, usage: {}", 
                 entityID, role, protocol, usage);
-        HashSet<Credential> credentials = new HashSet<>(3);
+        final HashSet<Credential> credentials = new HashSet<>(3);
 
-        Iterable<RoleDescriptor> roleDescriptors = getRoleDescriptors(criteriaSet, entityID, role, protocol);
+        final Iterable<RoleDescriptor> roleDescriptors = getRoleDescriptors(criteriaSet, entityID, role, protocol);
             
-        for (RoleDescriptor roleDescriptor : roleDescriptors) {
+        for (final RoleDescriptor roleDescriptor : roleDescriptors) {
             processRoleDescriptor(credentials, roleDescriptor, entityID, usage);
         }
 
@@ -310,8 +310,8 @@ public class MetadataCredentialResolver extends AbstractCriteriaFilteringCredent
             @Nonnull final RoleDescriptor roleDescriptor, @Nullable final String entityID, 
             @Nonnull final UsageType usage) throws ResolverException {
         
-        List<KeyDescriptor> keyDescriptors = roleDescriptor.getKeyDescriptors();
-        for (KeyDescriptor keyDescriptor : keyDescriptors) {
+        final List<KeyDescriptor> keyDescriptors = roleDescriptor.getKeyDescriptors();
+        for (final KeyDescriptor keyDescriptor : keyDescriptors) {
             UsageType mdUsage = keyDescriptor.getUse();
             if (mdUsage == null) {
                 mdUsage = UsageType.UNSPECIFIED;
@@ -336,16 +336,17 @@ public class MetadataCredentialResolver extends AbstractCriteriaFilteringCredent
      * 
      * @throws ResolverException if there is a problem resolving credentials from the KeyDescriptor's KeyInfo element
      */
+    //CheckStyle: ReturnCount OFF
     protected void extractCredentials(@Nonnull final HashSet<Credential> accumulator, 
             @Nonnull final KeyDescriptor keyDescriptor, @Nullable final String entityID, 
             @Nonnull final UsageType mdUsage) throws ResolverException {
         
-        LockableClassToInstanceMultiMap<Object> keyDescriptorObjectMetadata = keyDescriptor.getObjectMetadata();
-        ReadWriteLock rwlock = keyDescriptorObjectMetadata.getReadWriteLock();
+        final LockableClassToInstanceMultiMap<Object> keyDescriptorObjectMetadata = keyDescriptor.getObjectMetadata();
+        final ReadWriteLock rwlock = keyDescriptorObjectMetadata.getReadWriteLock();
         
         try {
             rwlock.readLock().lock();
-            List<Credential> cachedCreds = keyDescriptorObjectMetadata.get(Credential.class);
+            final List<Credential> cachedCreds = keyDescriptorObjectMetadata.get(Credential.class);
             if (!cachedCreds.isEmpty()) {
                 log.debug("Resolved cached credentials from KeyDescriptor object metadata");
                 accumulator.addAll(cachedCreds);
@@ -363,7 +364,7 @@ public class MetadataCredentialResolver extends AbstractCriteriaFilteringCredent
             rwlock.writeLock().lock();
             
             // Need to check again in case another waiting writer beat us in acquiring the write lock
-            List<Credential> cachedCreds = keyDescriptorObjectMetadata.get(Credential.class);
+            final List<Credential> cachedCreds = keyDescriptorObjectMetadata.get(Credential.class);
             if (!cachedCreds.isEmpty()) {
                 log.debug("Credentials were resolved and cached by another thread "
                         + "while this thread was waiting on the write lock");
@@ -371,15 +372,15 @@ public class MetadataCredentialResolver extends AbstractCriteriaFilteringCredent
                 return;
             }
             
-            List<Credential> newCreds = new ArrayList<>();
+            final List<Credential> newCreds = new ArrayList<>();
             
-            CriteriaSet critSet = new CriteriaSet();
+            final CriteriaSet critSet = new CriteriaSet();
             critSet.add(new KeyInfoCriterion(keyDescriptor.getKeyInfo()));
             
-            Iterable<Credential> resolvedCreds = getKeyInfoCredentialResolver().resolve(critSet);
-            for (Credential cred : resolvedCreds) {
+            final Iterable<Credential> resolvedCreds = getKeyInfoCredentialResolver().resolve(critSet);
+            for (final Credential cred : resolvedCreds) {
                 if (cred instanceof MutableCredential) {
-                    MutableCredential mutableCred = (MutableCredential) cred;
+                    final MutableCredential mutableCred = (MutableCredential) cred;
                     mutableCred.setEntityId(entityID);
                     mutableCred.setUsageType(mdUsage);
                 }
@@ -394,8 +395,8 @@ public class MetadataCredentialResolver extends AbstractCriteriaFilteringCredent
         } finally {
             rwlock.writeLock().unlock();
         }
-        
     }
+    //CheckStyle: ReturnCount ON
 
     /**
      * Match usage enum type values from entityDescriptorResolver KeyDescriptor and from credential criteria.
@@ -437,14 +438,15 @@ public class MetadataCredentialResolver extends AbstractCriteriaFilteringCredent
             }
             
             // Construct a new criteria set with just the specific criteria we want considered.
-            CriteriaSet criteria = new CriteriaSet(new EntityIdCriterion(entityID), new EntityRoleCriterion(role));
+            final CriteriaSet criteria = new CriteriaSet(new EntityIdCriterion(entityID), 
+                                                         new EntityRoleCriterion(role));
             if (protocol != null) {
                 criteria.add(new ProtocolCriterion(protocol));
             }
             
             return getRoleDescriptorResolver().resolve(criteria);
 
-        } catch (ResolverException e) {
+        } catch (final ResolverException e) {
             log.error("Unable to resolve information from metadata", e);
             throw new ResolverException("Unable to resolve information from metadata", e);
         }

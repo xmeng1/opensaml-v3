@@ -25,6 +25,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.xml.namespace.QName;
 
+import net.shibboleth.utilities.java.support.annotation.ParameterName;
 import net.shibboleth.utilities.java.support.logic.Constraint;
 import net.shibboleth.utilities.java.support.primitive.StringSupport;
 import net.shibboleth.utilities.java.support.xml.AttributeSupport;
@@ -80,7 +81,7 @@ public class SignatureAlgorithmValidator {
      *
      * @param params signature validation parameters containing the whitelist and blacklist
      */
-    public SignatureAlgorithmValidator(@Nonnull final SignatureValidationParameters params) {
+    public SignatureAlgorithmValidator(@Nonnull @ParameterName(name="params") final SignatureValidationParameters params) {
         Constraint.isNotNull(params, "SignatureValidationParameters may not be null");
         whitelistedAlgorithmURIs = params.getWhitelistedAlgorithms();
         blacklistedAlgorithmURIs = params.getBlacklistedAlgorithms();
@@ -92,8 +93,8 @@ public class SignatureAlgorithmValidator {
      * @param whitelistAlgos the algorithm whitelist
      * @param blacklistAlgos the algorithm blacklist
      */
-    public SignatureAlgorithmValidator(@Nullable final Collection<String> whitelistAlgos,
-            @Nullable final Collection<String> blacklistAlgos) {
+    public SignatureAlgorithmValidator(@Nullable @ParameterName(name="whitelistAlgos") final Collection<String> whitelistAlgos,
+            @Nullable @ParameterName(name="blacklistAlgos") final Collection<String> blacklistAlgos) {
         whitelistedAlgorithmURIs = whitelistAlgos;
         blacklistedAlgorithmURIs = blacklistAlgos;
     }
@@ -109,12 +110,12 @@ public class SignatureAlgorithmValidator {
         Constraint.isNotNull(signature, "Signature was null");
         checkDOM(signature);
         
-        String signatureAlgorithm = getSignatureAlgorithm(signature);
+        final String signatureAlgorithm = getSignatureAlgorithm(signature);
         log.debug("Validating SignedInfo/SignatureMethod/@Algorithm against whitelist/blacklist: {}", 
                 signatureAlgorithm);
         validateAlgorithmURI(signatureAlgorithm);
         
-        for (String digestMethod : getDigestMethods(signature)) {
+        for (final String digestMethod : getDigestMethods(signature)) {
             log.debug("Validating SignedInfo/Reference/DigestMethod/@Algorithm against whitelist/blacklist: {}", 
                     digestMethod);
             validateAlgorithmURI(digestMethod);
@@ -142,10 +143,10 @@ public class SignatureAlgorithmValidator {
      */
     @Nonnull protected String getSignatureAlgorithm(@Nonnull final Signature signatureXMLObject) 
             throws SignatureException {
-        Element signature = signatureXMLObject.getDOM();
-        Element signedInfo = ElementSupport.getFirstChildElement(signature, ELEMENT_NAME_SIGNED_INFO);
-        Element signatureMethod = ElementSupport.getFirstChildElement(signedInfo, ELEMENT_NAME_SIGNATURE_METHOD);
-        String signatureMethodAlgorithm = StringSupport.trimOrNull(
+        final Element signature = signatureXMLObject.getDOM();
+        final Element signedInfo = ElementSupport.getFirstChildElement(signature, ELEMENT_NAME_SIGNED_INFO);
+        final Element signatureMethod = ElementSupport.getFirstChildElement(signedInfo, ELEMENT_NAME_SIGNATURE_METHOD);
+        final String signatureMethodAlgorithm = StringSupport.trimOrNull(
                 AttributeSupport.getAttributeValue(signatureMethod, null, ATTR_NAME_ALGORTHM));
         if (signatureMethodAlgorithm != null) {
             return signatureMethodAlgorithm;
@@ -162,16 +163,16 @@ public class SignatureAlgorithmValidator {
      * @return list of algorithm URIs
      * @throws SignatureException if a DigestMethod is found to have a null or empty Algorithm attribute
      */
-    @Nonnull protected List<String> getDigestMethods(@Nonnull Signature signatureXMLObject) throws SignatureException {
-        ArrayList<String> digestMethodAlgorithms = new ArrayList<>();
+    @Nonnull protected List<String> getDigestMethods(@Nonnull final Signature signatureXMLObject) throws SignatureException {
+        final ArrayList<String> digestMethodAlgorithms = new ArrayList<>();
         
-        Element signature = signatureXMLObject.getDOM();
+        final Element signature = signatureXMLObject.getDOM();
         
-        Element signedInfo = ElementSupport.getFirstChildElement(signature, ELEMENT_NAME_SIGNED_INFO);
+        final Element signedInfo = ElementSupport.getFirstChildElement(signature, ELEMENT_NAME_SIGNED_INFO);
         
-        for (Element reference : ElementSupport.getChildElements(signedInfo, ELEMENT_NAME_REFERENCE)) {
-            Element digestMethod = ElementSupport.getFirstChildElement(reference, ELEMENT_NAME_DIGEST_METHOD);
-            String digestMethodAlgorithm = StringSupport.trimOrNull(
+        for (final Element reference : ElementSupport.getChildElements(signedInfo, ELEMENT_NAME_REFERENCE)) {
+            final Element digestMethod = ElementSupport.getFirstChildElement(reference, ELEMENT_NAME_DIGEST_METHOD);
+            final String digestMethodAlgorithm = StringSupport.trimOrNull(
                     AttributeSupport.getAttributeValue(digestMethod, null, ATTR_NAME_ALGORTHM));
             if (digestMethodAlgorithm != null) {
                 digestMethodAlgorithms.add(digestMethodAlgorithm);

@@ -24,6 +24,7 @@ import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
 import javax.xml.validation.Schema;
 
+import net.shibboleth.utilities.java.support.annotation.ParameterName;
 import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
 import net.shibboleth.utilities.java.support.annotation.constraint.NotEmpty;
 import net.shibboleth.utilities.java.support.logic.Constraint;
@@ -157,7 +158,7 @@ public class SAMLSchemaBuilder {
      * 
      * @param ver   the SAML 1.x version to use
      */
-    public SAMLSchemaBuilder(@Nonnull final SAML1Version ver) {
+    public SAMLSchemaBuilder(@Nonnull @ParameterName(name="ver") final SAML1Version ver) {
         unresolvedSchemaFatal = true;
         if (ver == SAML1Version.SAML_11) {
             saml1xSchemas = saml11Schemas;
@@ -173,7 +174,7 @@ public class SAMLSchemaBuilder {
      * 
      * @param flag true if should be fatal, false if not
      */
-    public void setUnresolvedSchemaFatal(boolean flag) {
+    public void setUnresolvedSchemaFatal(final boolean flag) {
         unresolvedSchemaFatal = flag;
     }
     
@@ -202,7 +203,7 @@ public class SAMLSchemaBuilder {
                     schemaBuilder = new SchemaBuilder();
                     schemaBuilder.setResourceResolver(new ClasspathResolver());
                     configureBuilder();
-                } catch (RuntimeException e) {
+                } catch (final RuntimeException e) {
                     schemaBuilder = null;
                     throw e;
                 }

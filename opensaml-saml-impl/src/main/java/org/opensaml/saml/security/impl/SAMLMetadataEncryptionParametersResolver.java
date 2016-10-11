@@ -23,6 +23,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import net.shibboleth.utilities.java.support.annotation.ParameterName;
 import net.shibboleth.utilities.java.support.annotation.constraint.NotEmpty;
 import net.shibboleth.utilities.java.support.collection.Pair;
 import net.shibboleth.utilities.java.support.logic.Constraint;
@@ -87,7 +88,8 @@ public class SAMLMetadataEncryptionParametersResolver extends BasicEncryptionPar
      *
      * @param resolver the metadata credential resolver instance to use to resolve encryption credentials
      */
-    public SAMLMetadataEncryptionParametersResolver(@Nonnull final MetadataCredentialResolver resolver) {
+    public SAMLMetadataEncryptionParametersResolver(
+            @Nonnull @ParameterName(name="resolver") final MetadataCredentialResolver resolver) {
         credentialResolver = Constraint.isNotNull(resolver, "MetadataCredentialResoler may not be null");
     }
     
@@ -113,7 +115,7 @@ public class SAMLMetadataEncryptionParametersResolver extends BasicEncryptionPar
      * 
      * @param flag true if should merge metadata parameters with configuration, false otherwise
      */
-    public void setMergeMetadataRSAOAEPParametersWithConfig(boolean flag) {
+    public void setMergeMetadataRSAOAEPParametersWithConfig(final boolean flag) {
         mergeMetadataRSAOAEPParametersWithConfig = flag;
     }
 
@@ -127,12 +129,13 @@ public class SAMLMetadataEncryptionParametersResolver extends BasicEncryptionPar
     }
 
     /** {@inheritDoc} */
+    @Override
     protected void resolveAndPopulateCredentialsAndAlgorithms(@Nonnull final EncryptionParameters params,
             @Nonnull final CriteriaSet criteria, @Nonnull final Predicate<String> whitelistBlacklistPredicate) {
         
         // Create a new CriteriaSet for input to the metadata credential resolver, explicitly 
         // setting/forcing an encryption usage criterion.
-        CriteriaSet mdCredResolverCriteria = new CriteriaSet();
+        final CriteriaSet mdCredResolverCriteria = new CriteriaSet();
         mdCredResolverCriteria.addAll(criteria);
         mdCredResolverCriteria.add(new UsageCriterion(UsageType.ENCRYPTION), true);
         
@@ -140,21 +143,22 @@ public class SAMLMetadataEncryptionParametersResolver extends BasicEncryptionPar
         // Even if it's a symmetric key credential (via a key agreement protocol, or resolved from a KeyName, etc),
         // it ought to be used for symmetric key wrap, not direct data encryption.
         try {
-            for (Credential keyTransportCredential : getMetadataCredentialResolver().resolve(mdCredResolverCriteria)) {
+            for (final Credential keyTransportCredential :
+                            getMetadataCredentialResolver().resolve(mdCredResolverCriteria)) {
                 
                 if (log.isTraceEnabled()) {
-                    Key key = CredentialSupport.extractEncryptionKey(keyTransportCredential);
+                    final Key key = CredentialSupport.extractEncryptionKey(keyTransportCredential);
                     log.trace("Evaluating key transport encryption credential from SAML metadata of type: {}", 
                             key != null ? key.getAlgorithm() : "n/a");
                 }
                 
-                SAMLMDCredentialContext metadataCredContext = 
+                final SAMLMDCredentialContext metadataCredContext = 
                         keyTransportCredential.getCredentialContextSet().get(SAMLMDCredentialContext.class);
                 
-                Pair<String,EncryptionMethod> dataEncryptionAlgorithmAndMethod = resolveDataEncryptionAlgorithm(
+                final Pair<String,EncryptionMethod> dataEncryptionAlgorithmAndMethod = resolveDataEncryptionAlgorithm(
                         criteria, whitelistBlacklistPredicate, metadataCredContext);
                 
-                Pair<String,EncryptionMethod> keyTransportAlgorithmAndMethod = resolveKeyTransportAlgorithm(
+                final Pair<String,EncryptionMethod> keyTransportAlgorithmAndMethod = resolveKeyTransportAlgorithm(
                         keyTransportCredential, criteria, whitelistBlacklistPredicate, 
                         dataEncryptionAlgorithmAndMethod.getFirst(), metadataCredContext);
                 if (keyTransportAlgorithmAndMethod.getFirst() == null) {
@@ -175,7 +179,7 @@ public class SAMLMetadataEncryptionParametersResolver extends BasicEncryptionPar
                 
                 return;
             }
-        } catch (ResolverException e) {
+        } catch (final ResolverException e) {
             log.warn("Problem resolving credentials from metadata, falling back to local configuration", e);
         }
         
@@ -205,6 +209,7 @@ public class SAMLMetadataEncryptionParametersResolver extends BasicEncryptionPar
      * @param encryptionMethod the method encryption method that was resolved along with the key transport 
      *          encryption algorithm URI, if any.  May be null.
      */
+     //CheckStyle: ReturnCount OFF
      protected void resolveAndPopulateRSAOAEPParams(@Nonnull final EncryptionParameters params, 
              @Nonnull final CriteriaSet criteria, 
              @Nonnull final Predicate<String> whitelistBlacklistPredicate, 
@@ -236,6 +241,7 @@ public class SAMLMetadataEncryptionParametersResolver extends BasicEncryptionPar
              }
          }
     }
+    //CheckStyle: ReturnCount ON
 
     /**
      * Extract {@link DigestMethod}, {@link MGF} and {@link OAEPparams} data present on the supplied
@@ -257,12 +263,12 @@ public class SAMLMetadataEncryptionParametersResolver extends BasicEncryptionPar
             @Nonnull final EncryptionMethod encryptionMethod, 
             @Nonnull final Predicate<String> whitelistBlacklistPredicate) {
         
-        Predicate<String> algoSupportPredicate = getAlgorithmRuntimeSupportedPredicate();
+        final Predicate<String> algoSupportPredicate = getAlgorithmRuntimeSupportedPredicate();
         
-        List<XMLObject> digestMethods = encryptionMethod.getUnknownXMLObjects(DigestMethod.DEFAULT_ELEMENT_NAME);
+        final List<XMLObject> digestMethods = encryptionMethod.getUnknownXMLObjects(DigestMethod.DEFAULT_ELEMENT_NAME);
         if (digestMethods.size() > 0) {
-            DigestMethod digestMethod = (DigestMethod) digestMethods.get(0);
-            String digestAlgorithm = StringSupport.trimOrNull(digestMethod.getAlgorithm());
+            final DigestMethod digestMethod = (DigestMethod) digestMethods.get(0);
+            final String digestAlgorithm = StringSupport.trimOrNull(digestMethod.getAlgorithm());
             if (digestAlgorithm != null && whitelistBlacklistPredicate.apply(digestAlgorithm)
                     && algoSupportPredicate.apply(digestAlgorithm)) {
                 params.setDigestMethod(digestAlgorithm);
@@ -270,19 +276,19 @@ public class SAMLMetadataEncryptionParametersResolver extends BasicEncryptionPar
         }
         
         if (EncryptionConstants.ALGO_ID_KEYTRANSPORT_RSAOAEP11.equals(encryptionMethod.getAlgorithm())) {
-            List<XMLObject> mgfs = encryptionMethod.getUnknownXMLObjects(MGF.DEFAULT_ELEMENT_NAME);
+            final List<XMLObject> mgfs = encryptionMethod.getUnknownXMLObjects(MGF.DEFAULT_ELEMENT_NAME);
             if (mgfs.size() > 0) {
-                MGF mgf = (MGF) mgfs.get(0);
-                String mgfAlgorithm = StringSupport.trimOrNull(mgf.getAlgorithm());
+                final MGF mgf = (MGF) mgfs.get(0);
+                final String mgfAlgorithm = StringSupport.trimOrNull(mgf.getAlgorithm());
                 if (mgfAlgorithm != null && whitelistBlacklistPredicate.apply(mgfAlgorithm)) {
                     params.setMaskGenerationFunction(mgfAlgorithm);
                 }
             }
         }
         
-        OAEPparams oaepParams = encryptionMethod.getOAEPparams();
+        final OAEPparams oaepParams = encryptionMethod.getOAEPparams();
         if (oaepParams != null) {
-            String value = StringSupport.trimOrNull(oaepParams.getValue());
+            final String value = StringSupport.trimOrNull(oaepParams.getValue());
             if (value != null) {
                 params.setOAEPparams(value);
             }
@@ -315,9 +321,10 @@ public class SAMLMetadataEncryptionParametersResolver extends BasicEncryptionPar
             @Nullable final SAMLMDCredentialContext metadataCredContext) {
         
         if (metadataCredContext != null) {
-            KeyTransportAlgorithmPredicate keyTransportPredicate = resolveKeyTransportAlgorithmPredicate(criteria);
-            for (EncryptionMethod encryptionMethod : metadataCredContext.getEncryptionMethods()) {
-                String algorithm = encryptionMethod.getAlgorithm();
+            final KeyTransportAlgorithmPredicate keyTransportPredicate =
+                        resolveKeyTransportAlgorithmPredicate(criteria);
+            for (final EncryptionMethod encryptionMethod : metadataCredContext.getEncryptionMethods()) {
+                final String algorithm = encryptionMethod.getAlgorithm();
                 log.trace("Evaluating SAML metadata EncryptionMethod algorithm for key transport: {}", algorithm);
                 if (isKeyTransportAlgorithm(algorithm) 
                         && whitelistBlacklistPredicate.apply(algorithm) 
@@ -371,8 +378,8 @@ public class SAMLMetadataEncryptionParametersResolver extends BasicEncryptionPar
             @Nullable final SAMLMDCredentialContext metadataCredContext) {
         
         if (metadataCredContext != null) {
-            for (EncryptionMethod encryptionMethod : metadataCredContext.getEncryptionMethods()) {
-                String algorithm = encryptionMethod.getAlgorithm();
+            for (final EncryptionMethod encryptionMethod : metadataCredContext.getEncryptionMethods()) {
+                final String algorithm = encryptionMethod.getAlgorithm();
                 log.trace("Evaluating SAML metadata EncryptionMethod algorithm for data encryption: {}", algorithm);
                 if (isDataEncryptionAlgorithm(algorithm) 
                         && whitelistBlacklistPredicate.apply(algorithm)
@@ -433,12 +440,12 @@ public class SAMLMetadataEncryptionParametersResolver extends BasicEncryptionPar
     protected boolean evaluateRSAOAEPChildren(@Nonnull final EncryptionMethod encryptionMethod, 
             @Nonnull final CriteriaSet criteria, @Nonnull final Predicate<String> whitelistBlacklistPredicate) {
         
-        Predicate<String> algoSupportPredicate = getAlgorithmRuntimeSupportedPredicate();
+        final Predicate<String> algoSupportPredicate = getAlgorithmRuntimeSupportedPredicate();
         
-        List<XMLObject> digestMethods = encryptionMethod.getUnknownXMLObjects(DigestMethod.DEFAULT_ELEMENT_NAME);
+        final List<XMLObject> digestMethods = encryptionMethod.getUnknownXMLObjects(DigestMethod.DEFAULT_ELEMENT_NAME);
         if (digestMethods.size() > 0) {
-            DigestMethod digestMethod = (DigestMethod) digestMethods.get(0);
-            String digestAlgorithm = StringSupport.trimOrNull(digestMethod.getAlgorithm());
+            final DigestMethod digestMethod = (DigestMethod) digestMethods.get(0);
+            final String digestAlgorithm = StringSupport.trimOrNull(digestMethod.getAlgorithm());
             if (digestAlgorithm != null) {
                 if (!whitelistBlacklistPredicate.apply(digestAlgorithm) 
                         || !algoSupportPredicate.apply(digestAlgorithm)) {
@@ -450,10 +457,10 @@ public class SAMLMetadataEncryptionParametersResolver extends BasicEncryptionPar
         }
         
         if (EncryptionConstants.ALGO_ID_KEYTRANSPORT_RSAOAEP11.equals(encryptionMethod.getAlgorithm())) {
-            List<XMLObject> mgfs = encryptionMethod.getUnknownXMLObjects(MGF.DEFAULT_ELEMENT_NAME);
+            final List<XMLObject> mgfs = encryptionMethod.getUnknownXMLObjects(MGF.DEFAULT_ELEMENT_NAME);
             if (mgfs.size() > 0) {
-                MGF mgf = (MGF) mgfs.get(0);
-                String mgfAlgorithm = StringSupport.trimOrNull(mgf.getAlgorithm());
+                final MGF mgf = (MGF) mgfs.get(0);
+                final String mgfAlgorithm = StringSupport.trimOrNull(mgf.getAlgorithm());
                 if (mgfAlgorithm != null) {
                     if (!whitelistBlacklistPredicate.apply(mgfAlgorithm)) {
                         log.debug("Rejecting RSA OAEP EncryptionMethod due to disallowed MGF: {}", mgfAlgorithm);
@@ -480,13 +487,13 @@ public class SAMLMetadataEncryptionParametersResolver extends BasicEncryptionPar
         }
         
         if (encryptionMethod.getKeySize() != null && encryptionMethod.getKeySize().getValue() != null) {
-            Key encryptionKey = CredentialSupport.extractEncryptionKey(credential);
+            final Key encryptionKey = CredentialSupport.extractEncryptionKey(credential);
             if (encryptionKey == null) {
                 log.warn("Could not extract encryption key from credential. Failing evaluation");
                 return false;
             }
             
-            Integer keyLength = KeySupport.getKeyLength(encryptionKey);
+            final Integer keyLength = KeySupport.getKeyLength(encryptionKey);
             if (keyLength == null) {
                 log.warn("Could not determine key length of candidate encryption credential. Failing evaluation");
                 return false;

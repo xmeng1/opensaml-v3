@@ -22,6 +22,7 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import net.shibboleth.utilities.java.support.annotation.ParameterName;
 import net.shibboleth.utilities.java.support.collection.Pair;
 import net.shibboleth.utilities.java.support.logic.Constraint;
 import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
@@ -87,8 +88,9 @@ public class PKIXSignatureTrustEngine extends
      * @param keyInfoResolver KeyInfo credential resolver used to obtain the (advisory) signing credential from a
      *            Signature's KeyInfo element.
      */
-    public PKIXSignatureTrustEngine(@Nonnull final PKIXValidationInformationResolver resolver,
-            @Nonnull final KeyInfoCredentialResolver keyInfoResolver) {
+    public PKIXSignatureTrustEngine(
+            @Nonnull @ParameterName(name="resolver") final PKIXValidationInformationResolver resolver,
+            @Nonnull @ParameterName(name="keyInfoResolver") final KeyInfoCredentialResolver keyInfoResolver) {
 
         super(keyInfoResolver);
 
@@ -106,9 +108,11 @@ public class PKIXSignatureTrustEngine extends
      * @param pkixEvaluator the PKIX trust evaluator to use
      * @param nameEvaluator the X.509 credential name evaluator to use (may be null)
      */
-    public PKIXSignatureTrustEngine(@Nonnull final PKIXValidationInformationResolver resolver,
-            @Nonnull final KeyInfoCredentialResolver keyInfoResolver, @Nonnull final PKIXTrustEvaluator pkixEvaluator,
-            @Nullable final X509CredentialNameEvaluator nameEvaluator) {
+    public PKIXSignatureTrustEngine(
+            @Nonnull @ParameterName(name="resolver") final PKIXValidationInformationResolver resolver,
+            @Nonnull @ParameterName(name="keyInfoResolver") final KeyInfoCredentialResolver keyInfoResolver,
+            @Nonnull @ParameterName(name="pkixEvaluator") final PKIXTrustEvaluator pkixEvaluator,
+            @Nullable @ParameterName(name="nameEvaluator") final X509CredentialNameEvaluator nameEvaluator) {
 
         super(keyInfoResolver);
 
@@ -152,7 +156,7 @@ public class PKIXSignatureTrustEngine extends
     @Override protected boolean doValidate(@Nonnull final Signature signature,
             @Nullable final CriteriaSet trustBasisCriteria) throws SecurityException {
 
-        Pair<Set<String>, Iterable<PKIXValidationInformation>> validationPair =
+        final Pair<Set<String>, Iterable<PKIXValidationInformation>> validationPair =
                 resolveValidationInfo(trustBasisCriteria);
 
         if (validate(signature, validationPair)) {
@@ -174,7 +178,7 @@ public class PKIXSignatureTrustEngine extends
             return false;
         }
 
-        Pair<Set<String>, Iterable<PKIXValidationInformation>> validationPair =
+        final Pair<Set<String>, Iterable<PKIXValidationInformation>> validationPair =
                 resolveValidationInfo(trustBasisCriteria);
 
         try {
@@ -190,7 +194,7 @@ public class PKIXSignatureTrustEngine extends
             } else {
                 log.debug("Cryptographic verification of raw signature failed with candidate credential");
             }
-        } catch (SecurityException e) {
+        } catch (final SecurityException e) {
             // Java 7 now throws this exception under conditions such as mismatched key sizes.
             // Swallow this, it's logged by the verifyWithURI method already.
         }
@@ -209,10 +213,10 @@ public class PKIXSignatureTrustEngine extends
             log.debug("Can not evaluate trust of non-X509Credential");
             return false;
         }
-        X509Credential untrustedX509Credential = (X509Credential) untrustedCredential;
+        final X509Credential untrustedX509Credential = (X509Credential) untrustedCredential;
 
-        Set<String> trustedNames = validationPair.getFirst();
-        Iterable<PKIXValidationInformation> validationInfoSet = validationPair.getSecond();
+        final Set<String> trustedNames = validationPair.getFirst();
+        final Iterable<PKIXValidationInformation> validationInfoSet = validationPair.getSecond();
         if (validationInfoSet == null) {
             log.debug("PKIX validation information not available. Aborting PKIX validation");
             return false;
@@ -223,13 +227,13 @@ public class PKIXSignatureTrustEngine extends
             return false;
         }
 
-        for (PKIXValidationInformation validationInfo : validationInfoSet) {
+        for (final PKIXValidationInformation validationInfo : validationInfoSet) {
             try {
                 if (pkixTrustEvaluator.validate(validationInfo, untrustedX509Credential)) {
                     log.debug("Signature trust established via PKIX validation of signing credential");
                     return true;
                 }
-            } catch (SecurityException e) {
+            } catch (final SecurityException e) {
                 // log the operational error, but allow other validation info sets to be tried
                 log.debug("Error performing PKIX validation on untrusted credential", e);
             }
@@ -255,9 +259,9 @@ public class PKIXSignatureTrustEngine extends
         if (pkixResolver.supportsTrustedNameResolution()) {
             try {
                 trustedNames = pkixResolver.resolveTrustedNames(trustBasisCriteria);
-            } catch (UnsupportedOperationException e) {
+            } catch (final UnsupportedOperationException e) {
                 throw new SecurityException("Error resolving trusted names", e);
-            } catch (ResolverException e) {
+            } catch (final ResolverException e) {
                 throw new SecurityException("Error resolving trusted names", e);
             }
         } else {
@@ -266,7 +270,7 @@ public class PKIXSignatureTrustEngine extends
         Iterable<PKIXValidationInformation> validationInfoSet;
         try {
             validationInfoSet = pkixResolver.resolve(trustBasisCriteria);
-        } catch (ResolverException e) {
+        } catch (final ResolverException e) {
             throw new SecurityException("Error resolving trusted PKIX validation information", e);
         }
 

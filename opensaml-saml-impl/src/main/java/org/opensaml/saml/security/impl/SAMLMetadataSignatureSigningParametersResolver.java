@@ -31,8 +31,8 @@ import org.opensaml.core.xml.XMLObject;
 import org.opensaml.saml.criterion.RoleDescriptorCriterion;
 import org.opensaml.saml.ext.saml2alg.DigestMethod;
 import org.opensaml.saml.ext.saml2alg.SigningMethod;
-import org.opensaml.saml.saml2.metadata.Extensions;
 import org.opensaml.saml.saml2.metadata.EntityDescriptor;
+import org.opensaml.saml.saml2.metadata.Extensions;
 import org.opensaml.saml.saml2.metadata.RoleDescriptor;
 import org.opensaml.security.credential.Credential;
 import org.opensaml.security.credential.CredentialSupport;
@@ -61,7 +61,7 @@ public class SAMLMetadataSignatureSigningParametersResolver extends BasicSignatu
     /** Logger. */
     @Nonnull private Logger log = LoggerFactory.getLogger(SAMLMetadataSignatureSigningParametersResolver.class);
 
-// Checkstyle: CyclomaticComplexity OFF
+// Checkstyle: CyclomaticComplexity|ReturnCount OFF
     /** {@inheritDoc} */
     @Override
     protected void resolveAndPopulateCredentialAndSignatureAlgorithm(@Nonnull final SignatureSigningParameters params, 
@@ -121,7 +121,7 @@ public class SAMLMetadataSignatureSigningParametersResolver extends BasicSignatu
         
         super.resolveAndPopulateCredentialAndSignatureAlgorithm(params, criteria, whitelistBlacklistPredicate);
     }
-// Checkstyle: CyclomaticComplexity ON
+// Checkstyle: ReturnCount|CyclomaticComplexity ON
 
     /**
      * Evaluate whether the specified credential is supported for use with the specified {@link SigningMethod}.

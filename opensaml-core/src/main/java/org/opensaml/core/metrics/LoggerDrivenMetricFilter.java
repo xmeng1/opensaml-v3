@@ -24,16 +24,17 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import net.shibboleth.utilities.java.support.annotation.ParameterName;
+import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
+import net.shibboleth.utilities.java.support.annotation.constraint.NotEmpty;
+import net.shibboleth.utilities.java.support.logic.Constraint;
+import net.shibboleth.utilities.java.support.primitive.StringSupport;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.codahale.metrics.Metric;
 import com.codahale.metrics.MetricFilter;
-
-import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
-import net.shibboleth.utilities.java.support.annotation.constraint.NotEmpty;
-import net.shibboleth.utilities.java.support.logic.Constraint;
-import net.shibboleth.utilities.java.support.primitive.StringSupport;
 
 /**
  * {@link MetricFilter} that evaluates a metric by prefixing the name and then evaluating
@@ -73,7 +74,7 @@ public class LoggerDrivenMetricFilter implements MetricFilter {
      *
      * @param prefix prefix to attach to metric name before evaluating
      */
-    public LoggerDrivenMetricFilter(@Nonnull @NotEmpty final String prefix) {
+    public LoggerDrivenMetricFilter(@Nonnull @NotEmpty @ParameterName(name="prefix") final String prefix) {
         this(prefix, Collections.<String,Level>emptyMap());
     }
     
@@ -83,8 +84,8 @@ public class LoggerDrivenMetricFilter implements MetricFilter {
      * @param prefix prefix to attach to metric name before evaluating
      * @param map map of metric names to logging levels
      */
-    public LoggerDrivenMetricFilter(@Nonnull @NotEmpty final String prefix,
-            @Nullable @NonnullElements final Map<String,Level> map) {
+    public LoggerDrivenMetricFilter(@Nonnull @NotEmpty @ParameterName(name="prefix") final String prefix,
+            @Nullable @NonnullElements @ParameterName(name="map") final Map<String,Level> map) {
         loggerPrefix = Constraint.isNotNull(StringSupport.trimOrNull(prefix), "Prefix cannot be null or empty.");
         
         if (map == null || map.isEmpty()) {
@@ -101,6 +102,7 @@ public class LoggerDrivenMetricFilter implements MetricFilter {
     }
     
     /** {@inheritDoc} */
+    @Override
     public boolean matches(final String name, final Metric metric) {
         final Logger logger = LoggerFactory.getLogger(loggerPrefix + name);
         final Level level = levelMap.get(logger.getName());

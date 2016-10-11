@@ -23,6 +23,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import net.shibboleth.utilities.java.support.annotation.ParameterName;
 import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
 import net.shibboleth.utilities.java.support.annotation.constraint.NotLive;
 import net.shibboleth.utilities.java.support.annotation.constraint.Unmodifiable;
@@ -58,7 +59,8 @@ public class ChainingSignatureTrustEngine implements SignatureTrustEngine {
      *  
      *  @param chain the list of trust engines in the chain
      */
-    public ChainingSignatureTrustEngine(@Nonnull @NonnullElements final List<SignatureTrustEngine> chain) {
+    public ChainingSignatureTrustEngine(@Nonnull @NonnullElements @ParameterName(name="chain") 
+                                                      final List<SignatureTrustEngine> chain) {
         Constraint.isNotNull(chain, "SignatureTrustEngine list cannot be null");
         engines = new ArrayList<>(Collections2.filter(chain, Predicates.notNull()));
     }

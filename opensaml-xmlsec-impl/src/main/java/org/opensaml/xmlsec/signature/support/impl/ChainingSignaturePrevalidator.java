@@ -22,6 +22,7 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import net.shibboleth.utilities.java.support.annotation.ParameterName;
 import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
 import net.shibboleth.utilities.java.support.logic.Constraint;
 
@@ -50,7 +51,8 @@ public class ChainingSignaturePrevalidator implements SignaturePrevalidator {
      *
      * @param validatorChain the chain of SignaturePrevalidator instances to execute
      */
-    public ChainingSignaturePrevalidator(@Nonnull @NonnullElements final List<SignaturePrevalidator> validatorChain) {
+    public ChainingSignaturePrevalidator(@Nonnull @NonnullElements @ParameterName(name="validatorChain") 
+                                                      final List<SignaturePrevalidator> validatorChain) {
         Constraint.isNotNull(validatorChain, "SignaturePrevalidator list cannot be null");
         validators = new ArrayList<>(Collections2.filter(validatorChain, Predicates.notNull()));
     }
