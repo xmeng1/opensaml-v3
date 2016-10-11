@@ -25,18 +25,19 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.xml.namespace.QName;
 
+import org.opensaml.core.xml.schema.XSBooleanValue;
+import org.opensaml.core.xml.util.IDIndex;
+import org.opensaml.core.xml.util.XMLObjectSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.Element;
+
 import net.shibboleth.utilities.java.support.annotation.constraint.NotEmpty;
 import net.shibboleth.utilities.java.support.collection.LockableClassToInstanceMultiMap;
 import net.shibboleth.utilities.java.support.logic.Constraint;
 import net.shibboleth.utilities.java.support.primitive.StringSupport;
 import net.shibboleth.utilities.java.support.xml.QNameSupport;
 import net.shibboleth.utilities.java.support.xml.XMLConstants;
-
-import org.opensaml.core.xml.schema.XSBooleanValue;
-import org.opensaml.core.xml.util.IDIndex;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3c.dom.Element;
 
 /**
  * An abstract implementation of XMLObject.
@@ -408,6 +409,10 @@ public abstract class AbstractXMLObject implements XMLObject {
     public void releaseDOM() {
         log.trace("Releasing cached DOM reprsentation for {}", getElementQName());
         setDOM(null);
+        if (getObjectMetadata().containsKey(XMLObjectSource.class)) {
+            log.trace("Releasing cached XMLObjectSource for {}", getElementQName());
+            getObjectMetadata().remove(XMLObjectSource.class);
+        }
     }
 
     /** {@inheritDoc} */
