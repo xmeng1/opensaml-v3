@@ -19,7 +19,7 @@ package org.opensaml.storage.impl.memcached;
 
 import net.shibboleth.utilities.java.support.annotation.constraint.Positive;
 import net.shibboleth.utilities.java.support.logic.Constraint;
-import org.opensaml.storage.StorageCapabilities;
+import org.opensaml.storage.StorageCapabilitiesEx;
 
 /**
  * Provides a description of memcached capabilities. Note that only value size is configurable since memcached supports
@@ -28,7 +28,7 @@ import org.opensaml.storage.StorageCapabilities;
  *
  * @author Marvin S. Addison
  */
-public class MemcachedStorageCapabilities implements StorageCapabilities {
+public class MemcachedStorageCapabilities implements StorageCapabilitiesEx {
 
     /** Memcached supports 1M slabs (i.e. values) by default and issues warning on increase. */
     private static long defaultMaxValue = 1024 * 1024;
@@ -53,18 +53,29 @@ public class MemcachedStorageCapabilities implements StorageCapabilities {
         valueSize = maxValueSize;
     }
 
-    @Override
+    /** {@inheritDoc} */
     public int getContextSize(){
         return Integer.MAX_VALUE;
     }
 
-    @Override
+    /** {@inheritDoc} */
     public int getKeySize() {
         return Integer.MAX_VALUE;
     }
 
-    @Override
+    /** {@inheritDoc} */
     public long getValueSize() {
         return valueSize;
     }
+
+    /** {@inheritDoc} */
+    public boolean isServerSide() {
+        return true;
+    }
+
+    /** {@inheritDoc} */
+    public boolean isClustered() {
+        return true;
+    }
+    
 }

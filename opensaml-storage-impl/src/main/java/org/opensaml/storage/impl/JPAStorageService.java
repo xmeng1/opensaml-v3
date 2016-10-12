@@ -43,6 +43,7 @@ import net.shibboleth.utilities.java.support.component.ComponentSupport;
 import net.shibboleth.utilities.java.support.logic.Constraint;
 
 import org.opensaml.storage.AbstractStorageService;
+import org.opensaml.storage.StorageCapabilitiesEx;
 import org.opensaml.storage.StorageRecord;
 import org.opensaml.storage.VersionMismatchException;
 import org.slf4j.Logger;
@@ -51,7 +52,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Implementation of {@link org.opensaml.storage.StorageService} that uses JPA to persist to a database.
  */
-public class JPAStorageService extends AbstractStorageService {
+public class JPAStorageService extends AbstractStorageService implements StorageCapabilitiesEx {
 
     /** Class logger. */
     @Nonnull private final Logger log = LoggerFactory.getLogger(JPAStorageService.class);
@@ -96,6 +97,16 @@ public class JPAStorageService extends AbstractStorageService {
                         "Transaction retry must be greater than or equal to zero");
     }
 
+    /** {@inheritDoc} */
+    public boolean isServerSide() {
+        return true;
+    }
+
+    /** {@inheritDoc} */
+    public boolean isClustered() {
+        return true;
+    }
+    
     /** {@inheritDoc} */
     @Override protected void doDestroy() {
         if (entityManagerFactory.isOpen()) {

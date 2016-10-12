@@ -62,6 +62,7 @@ import net.shibboleth.utilities.java.support.security.DataSealerKeyStrategy;
 
 import org.opensaml.storage.AbstractMapBackedStorageService;
 import org.opensaml.storage.MutableStorageRecord;
+import org.opensaml.storage.StorageCapabilitiesEx;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -73,7 +74,7 @@ import org.slf4j.LoggerFactory;
  * load/store of the data to/from that object is driven via companion classes. The serialization
  * of data via JSON is inside the storage object class, but the encryption/decryption is here.</p>
  */
-public class ClientStorageService extends AbstractMapBackedStorageService implements Filter {
+public class ClientStorageService extends AbstractMapBackedStorageService implements Filter, StorageCapabilitiesEx {
 
     /** Name of session attribute for session lock. */
     @Nonnull protected static final String LOCK_ATTRIBUTE =
@@ -150,6 +151,22 @@ public class ClientStorageService extends AbstractMapBackedStorageService implem
         }
     }
     
+    /** {@inheritDoc} */
+    // Checkstyle: CyclomaticComplexity ON
+    
+    /** {@inheritDoc} */
+    public boolean isServerSide() {
+        return false;
+    }
+    
+    /** {@inheritDoc} */
+
+    /** {@inheritDoc} */
+    public boolean isClustered() {
+        return true;
+    }
+    
+
     /**
      * Set the servlet request in which to manage per-request data.
      * 
@@ -256,6 +273,8 @@ public class ClientStorageService extends AbstractMapBackedStorageService implem
         return capabilityMap.get(getSource());
     }
 
+    // Checkstyle: CyclomaticComplexity ON
+    
     /** {@inheritDoc} */
     @Override
     protected void doInitialize() throws ComponentInitializationException {

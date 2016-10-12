@@ -36,6 +36,7 @@ import net.shibboleth.utilities.java.support.component.ComponentInitializationEx
 
 import org.opensaml.storage.AbstractMapBackedStorageService;
 import org.opensaml.storage.MutableStorageRecord;
+import org.opensaml.storage.StorageCapabilitiesEx;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,7 +44,7 @@ import org.slf4j.LoggerFactory;
  * Implementation of {@link AbstractMapBackedStorageService} that stores data in-memory in a shared data structure 
  * with no persistence.
  */
-public class MemoryStorageService extends AbstractMapBackedStorageService {
+public class MemoryStorageService extends AbstractMapBackedStorageService implements StorageCapabilitiesEx {
 
     /** Class logger. */
     @Nonnull private final Logger log = LoggerFactory.getLogger(MemoryStorageService.class);
@@ -54,6 +55,16 @@ public class MemoryStorageService extends AbstractMapBackedStorageService {
     /** A shared lock to synchronize access. */
     @NonnullAfterInit private ReadWriteLock lock;
 
+    /** {@inheritDoc} */
+    public boolean isServerSide() {
+        return true;
+    }
+
+    /** {@inheritDoc} */
+    public boolean isClustered() {
+        return false;
+    }
+    
     /** {@inheritDoc} */
     @Override
     protected void doInitialize() throws ComponentInitializationException {

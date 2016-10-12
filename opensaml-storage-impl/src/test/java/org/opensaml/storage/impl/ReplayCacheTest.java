@@ -18,6 +18,7 @@
 package org.opensaml.storage.impl;
 
 import org.opensaml.storage.ReplayCache;
+import org.opensaml.storage.impl.client.ClientStorageService;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeMethod;
@@ -60,6 +61,22 @@ public class ReplayCacheTest {
         
         storageService.destroy();
         storageService = null;
+    }
+    
+    @Test
+    public void testInit() {
+        replayCache = new ReplayCache();
+        try {
+            replayCache.setStorage(null);
+            Assert.fail("Null StorageService should have caused constraint violation");
+        } catch (Exception e) {
+        }
+
+        try {
+            replayCache.setStorage(new ClientStorageService());
+            Assert.fail("ClientStorageService should have caused constraint violation");
+        } catch (Exception e) {
+        }
     }
 
     /**

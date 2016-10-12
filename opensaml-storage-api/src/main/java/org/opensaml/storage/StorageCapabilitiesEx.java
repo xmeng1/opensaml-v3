@@ -19,30 +19,22 @@ package org.opensaml.storage;
 
 /**
  * Exposes capabilities of a {@link StorageService} implementation.
- * 
- * <p>Deprecated in favor of {@link StorageServiceEx}.
  */
-public interface StorageCapabilities {
+@SuppressWarnings("deprecation")
+public interface StorageCapabilitiesEx extends StorageCapabilities {
     
     /**
-     * Gets max size of context labels in characters.
+     * Returns true iff the storage implementation manages data independent of the client.
      * 
-     * @return  max size of context labels in characters
+     * @return  true iff the storage implementation manages data independent of the client
      */
-    int getContextSize();
+    boolean isServerSide();
 
     /**
-     * Gets max size of keys in characters.
+     * Returns true iff the storage implementation manages data independent of a single server node.
      * 
-     * @return  max size of keys in characters
+     * @return true iff the storage implementation manages data independent of a single server node
      */
-    int getKeySize();
-    
-    /**
-     * Gets max size of values in characters.
-     * 
-     * @return  max size of values in characters
-     */
-    long getValueSize();
+    boolean isClustered();
 
 }

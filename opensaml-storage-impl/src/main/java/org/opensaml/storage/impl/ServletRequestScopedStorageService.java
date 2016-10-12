@@ -70,6 +70,7 @@ import net.shibboleth.utilities.java.support.security.DataSealerKeyStrategy;
 import org.opensaml.storage.AbstractMapBackedStorageService;
 import org.opensaml.storage.MutableStorageRecord;
 import org.opensaml.storage.RequestScopedStorageService;
+import org.opensaml.storage.StorageCapabilitiesEx;
 import org.opensaml.storage.VersionMismatchException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -86,7 +87,7 @@ import com.google.common.net.UrlEscapers;
  */
 @SuppressWarnings("deprecation")
 public class ServletRequestScopedStorageService extends AbstractMapBackedStorageService
-    implements RequestScopedStorageService, Filter {
+    implements RequestScopedStorageService, Filter, StorageCapabilitiesEx {
 
     /** Name of request attribute for context map. */
     @Nonnull protected static final String CONTEXT_MAP_ATTRIBUTE = 
@@ -232,6 +233,21 @@ public class ServletRequestScopedStorageService extends AbstractMapBackedStorage
         keyStrategy = strategy;
     }
 
+    /** {@inheritDoc} */
+    // Checkstyle: CyclomaticComplexity ON
+    
+    /** {@inheritDoc} */
+    public boolean isServerSide() {
+        return false;
+    }
+    
+    /** {@inheritDoc} */
+
+    /** {@inheritDoc} */
+    public boolean isClustered() {
+        return true;
+    }
+    
     /** {@inheritDoc} */
     @Override
     protected void doInitialize() throws ComponentInitializationException {

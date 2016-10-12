@@ -26,6 +26,8 @@ import net.shibboleth.utilities.java.support.annotation.constraint.NotEmpty;
 import net.shibboleth.utilities.java.support.annotation.constraint.ThreadSafeAfterInit;
 import net.shibboleth.utilities.java.support.component.AbstractIdentifiableInitializableComponent;
 import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
+import net.shibboleth.utilities.java.support.component.ComponentSupport;
+import net.shibboleth.utilities.java.support.logic.Constraint;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
@@ -65,7 +67,13 @@ public class ReplayCache extends AbstractIdentifiableInitializableComponent {
      * @param storageService backing store to use
      */
     public void setStorage(@Nonnull final StorageService storageService) {
-        storage = storageService;
+        ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
+        
+        storage = Constraint.isNotNull(storageService, "StorageService cannot be null");
+        final StorageCapabilities caps = storage.getCapabilities();
+        if (caps instanceof StorageCapabilitiesEx) {
+            Constraint.isTrue(((StorageCapabilitiesEx) caps).isServerSide(), "StorageService cannot be client-side");
+        }
     }
     
 
@@ -83,7 +91,9 @@ public class ReplayCache extends AbstractIdentifiableInitializableComponent {
      * 
      * @param flag true iff we should treat storage failures as a replay
      */
-    public void setStrict(boolean flag) {
+    public void setStrict(final boolean flag) {
+        ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
+        
         strict = flag;
     }
 
