@@ -17,6 +17,7 @@
 
 package org.opensaml.core.xml.persist;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
@@ -26,6 +27,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
@@ -37,12 +39,14 @@ import org.opensaml.core.xml.XMLObject;
 import org.opensaml.core.xml.config.XMLObjectProviderRegistrySupport;
 import org.opensaml.core.xml.io.MarshallingException;
 import org.opensaml.core.xml.io.UnmarshallingException;
+import org.opensaml.core.xml.util.XMLObjectSource;
 import org.opensaml.core.xml.util.XMLObjectSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
+import com.google.common.io.ByteStreams;
 import com.google.common.io.Files;
 
 import net.shibboleth.utilities.java.support.collection.Pair;
@@ -163,8 +167,10 @@ public class FilesystemLoadSaveManager<T extends XMLObject> implements XMLObject
             return null;
         }
         try (FileInputStream fis = new FileInputStream(file)) {
-            try {
-                XMLObject xmlObject = XMLObjectSupport.unmarshallFromInputStream(parserPool, fis);
+            byte[] source = ByteStreams.toByteArray(fis);
+            try (ByteArrayInputStream bais = new ByteArrayInputStream(source)) {
+                XMLObject xmlObject = XMLObjectSupport.unmarshallFromInputStream(parserPool, bais);
+                xmlObject.getObjectMetadata().put(new XMLObjectSource(source));
                 //TODO via ctor, etc, does caller need to supply a Class so we can can test and throw an IOException, 
                 // rather than an unchecked ClassCastException?
                 return (T) xmlObject;
@@ -186,15 +192,23 @@ public class FilesystemLoadSaveManager<T extends XMLObject> implements XMLObject
                     String.format("Target file already exists for key '%s' and overwrite not indicated", key));
         }
         
-        //TODO possibly look at objectMetadata for source byte[] and write that rather than marshall+serialize?
-        
         File file = buildFile(key);
         try (FileOutputStream fos = new FileOutputStream(file)) {
-            try {
-                XMLObjectSupport.marshallToOutputStream(xmlObject, fos);
-            } catch (MarshallingException e) {
-                throw new IOException(String.format("Error saving target file: %s", file.getAbsolutePath()), e);
-            }
+            List<XMLObjectSource> sources = xmlObject.getObjectMetadata().get(XMLObjectSource.class);
+            if (sources.size() == 1) {
+                log.debug("XMLObject contained 1 XMLObjectSource instance, persisting existing byte[]");
+                XMLObjectSource source = sources.get(0);
+                fos.write(source.getObjectSource());
+            } else {
+                log.debug("XMLObject contained {} XMLObjectSource instances, persisting marshalled object", 
+                        sources.size());
+                try {
+                    XMLObjectSupport.marshallToOutputStream(xmlObject, fos);
+                } catch (MarshallingException e) {
+                    throw new IOException(String.format("Error saving target file: %s", file.getAbsolutePath()), e);
+                }
+            } 
+            fos.flush();
         }
         
     }

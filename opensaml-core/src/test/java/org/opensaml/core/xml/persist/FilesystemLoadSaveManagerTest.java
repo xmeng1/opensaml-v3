@@ -17,6 +17,7 @@
 
 package org.opensaml.core.xml.persist;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -24,13 +25,21 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
+import javax.xml.namespace.QName;
+
+import org.opensaml.core.xml.XMLObject;
 import org.opensaml.core.xml.XMLObjectBaseTestCase;
+import org.opensaml.core.xml.XMLRuntimeException;
+import org.opensaml.core.xml.io.MarshallingException;
 import org.opensaml.core.xml.mock.SimpleXMLObject;
+import org.opensaml.core.xml.util.XMLObjectSource;
+import org.opensaml.core.xml.util.XMLObjectSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.google.common.collect.Sets;
@@ -67,26 +76,34 @@ public class FilesystemLoadSaveManagerTest extends XMLObjectBaseTestCase {
         testState(Sets.<String>newHashSet());
     }
     
-    @Test
-    public void saveLoadUpdateRemove() throws IOException {
+    @DataProvider
+    public Object[][] saveLoadUpdateRemoveParams() {
+        return new Object[][] {
+                new Object[] { Boolean.FALSE},
+                new Object[] { Boolean.TRUE },
+        };
+    }
+    
+    @Test(dataProvider="saveLoadUpdateRemoveParams")
+    public void saveLoadUpdateRemove(Boolean buildWithObjectSourceByteArray) throws IOException {
         testState(Sets.<String>newHashSet());
         
         Assert.assertNull(manager.load("bogus"));
         
-        manager.save("foo", (SimpleXMLObject) buildXMLObject(SimpleXMLObject.ELEMENT_NAME));
+        manager.save("foo", (SimpleXMLObject) buildXMLObject(SimpleXMLObject.ELEMENT_NAME, buildWithObjectSourceByteArray));
         testState(Sets.newHashSet("foo"));
         
-        manager.save("bar", (SimpleXMLObject) buildXMLObject(SimpleXMLObject.ELEMENT_NAME));
-        manager.save("baz", (SimpleXMLObject) buildXMLObject(SimpleXMLObject.ELEMENT_NAME));
+        manager.save("bar", (SimpleXMLObject) buildXMLObject(SimpleXMLObject.ELEMENT_NAME, buildWithObjectSourceByteArray));
+        manager.save("baz", (SimpleXMLObject) buildXMLObject(SimpleXMLObject.ELEMENT_NAME, buildWithObjectSourceByteArray));
         testState(Sets.newHashSet("foo", "bar", "baz"));
         
         // Duplicate with overwrite
-        manager.save("bar", (SimpleXMLObject) buildXMLObject(SimpleXMLObject.ELEMENT_NAME), true);
+        manager.save("bar", (SimpleXMLObject) buildXMLObject(SimpleXMLObject.ELEMENT_NAME, buildWithObjectSourceByteArray), true);
         testState(Sets.newHashSet("foo", "bar", "baz"));
         
         // Duplicate without overwrite
         try {
-            manager.save("bar", (SimpleXMLObject) buildXMLObject(SimpleXMLObject.ELEMENT_NAME), false);
+            manager.save("bar", (SimpleXMLObject) buildXMLObject(SimpleXMLObject.ELEMENT_NAME, buildWithObjectSourceByteArray), false);
             Assert.fail("Should have failed on duplicate save without overwrite");
         } catch (IOException e) {
             // expected, do nothing
@@ -120,7 +137,7 @@ public class FilesystemLoadSaveManagerTest extends XMLObjectBaseTestCase {
         Assert.assertTrue(manager.remove("baz"));
         testState(Sets.<String>newHashSet());
     }
-    
+
     @Test
     public void buildTargetFileFromKey() throws IOException {
         File target = manager.buildFile("abc");
@@ -277,7 +294,9 @@ public class FilesystemLoadSaveManagerTest extends XMLObjectBaseTestCase {
         Assert.assertEquals(manager.listKeys(), expectedKeys);
         for (String expectedKey : expectedKeys) {
             Assert.assertTrue(manager.exists(expectedKey));
-            Assert.assertNotNull(manager.load(expectedKey));
+            SimpleXMLObject sxo = manager.load(expectedKey);
+            Assert.assertNotNull(sxo);
+            Assert.assertEquals(sxo.getObjectMetadata().get(XMLObjectSource.class).size(), 1);
         }
         
         Assert.assertEquals(manager.listAll().iterator().hasNext(), expectedKeys.isEmpty() ? false: true);
@@ -301,5 +320,21 @@ public class FilesystemLoadSaveManagerTest extends XMLObjectBaseTestCase {
             Files.delete(baseDir.toPath());
         }
     }
+    
+    // It's hard to actually test that we're writing the existing byte[], but by doing this
+    // we can at least visually inspect the logs for save() ops and see that it logs as expected.
+    protected <T extends XMLObject> T buildXMLObject(QName name, boolean withObjectSource) {
+        T xmlObject = super.buildXMLObject(name);
+        if (withObjectSource) {
+            try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+                XMLObjectSupport.marshallToOutputStream(xmlObject, baos);
+                xmlObject.getObjectMetadata().put(new XMLObjectSource(baos.toByteArray()));
+            } catch (MarshallingException | IOException e) {
+                throw new XMLRuntimeException("Error marshalling XMLObject", e);
+            }
+        }
+        return xmlObject;
+    }
+
     
 }
