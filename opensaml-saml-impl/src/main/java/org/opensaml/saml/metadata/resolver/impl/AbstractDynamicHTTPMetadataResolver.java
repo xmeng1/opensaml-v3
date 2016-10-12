@@ -17,6 +17,7 @@
 
 package org.opensaml.saml.metadata.resolver.impl;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -43,6 +44,7 @@ import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.opensaml.core.xml.XMLObject;
 import org.opensaml.core.xml.io.UnmarshallingException;
+import org.opensaml.core.xml.util.XMLObjectSource;
 import org.opensaml.security.httpclient.HttpClientSecurityConstants;
 import org.opensaml.security.httpclient.HttpClientSecuritySupport;
 import org.opensaml.security.trust.TrustEngine;
@@ -54,6 +56,7 @@ import org.slf4j.MDC;
 import com.google.common.base.Function;
 import com.google.common.base.Strings;
 import com.google.common.collect.Collections2;
+import com.google.common.io.ByteStreams;
 
 import net.shibboleth.utilities.java.support.annotation.constraint.NonnullAfterInit;
 import net.shibboleth.utilities.java.support.annotation.constraint.NotLive;
@@ -392,7 +395,12 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
             
             try {
                 final InputStream ins = response.getEntity().getContent();
-                return unmarshallMetadata(ins);
+                byte[] source = ByteStreams.toByteArray(ins);
+                try (ByteArrayInputStream bais = new ByteArrayInputStream(source)) {
+                    XMLObject xmlObject = unmarshallMetadata(bais);
+                    xmlObject.getObjectMetadata().put(new XMLObjectSource(source));
+                    return xmlObject;
+                }
             } catch (IOException | UnmarshallingException e) {
                 log.error("Error unmarshalling HTTP response stream", e);
                 return null;
