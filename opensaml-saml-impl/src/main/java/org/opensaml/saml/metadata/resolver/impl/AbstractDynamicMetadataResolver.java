@@ -1043,7 +1043,8 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
          * 
          * @return true if the entity is expired or exceeds the max idle time, false otherwise
          */
-        private boolean isRemoveData(final EntityManagementData mgmtData, final DateTime now, final DateTime earliestValidLastAccessed) {
+        private boolean isRemoveData(@Nonnull final EntityManagementData mgmtData, 
+                @Nonnull final DateTime now, @Nonnull final DateTime earliestValidLastAccessed) {
             if (isRemoveIdleEntityData() && mgmtData.getLastAccessedTime().isBefore(earliestValidLastAccessed)) {
                 log.debug("Entity metadata exceeds maximum idle time, removing: {}", mgmtData.getEntityID());
                 return true;
