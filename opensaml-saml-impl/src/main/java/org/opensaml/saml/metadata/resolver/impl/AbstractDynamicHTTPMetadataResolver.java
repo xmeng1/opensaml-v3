@@ -426,6 +426,8 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
                         throw new ResolverException("HTTP response specified an unsupported Content-Type MIME type: " 
                                 + mimeType);
                     }
+                } else {
+                    log.debug("HTTP response contained no Content-Type response header");
                 }
             }
             
