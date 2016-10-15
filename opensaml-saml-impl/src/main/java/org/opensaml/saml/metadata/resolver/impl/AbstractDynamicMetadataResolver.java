@@ -112,6 +112,12 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
     /** Function for generating the String key used with the cache manager. */
     private Function<EntityDescriptor, String> persistentCacheKeyGenerator;
     
+    /** Flag indicating whether should initialize from the persistent cache in the background. */
+    private boolean initializeFromPersistentCacheInBackground;
+    
+    /** The delay in milliseconds after which to schedule the background initialization from the persistent cache. */
+    @Duration @Positive private Long backgroundInitializatonFromCacheDelay;
+    
     /** Predicate which determines whether a given entity should be loaded from the persistent cache
      * at resolver initialization time. */
     private Predicate<EntityDescriptor> initializationFromCachePredicate;
@@ -150,8 +156,62 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
         
         // Default to removing idle metadata
         removeIdleEntityData = true;
+        
+        // Default to initializing from the the persistent cache in the background
+        initializeFromPersistentCacheInBackground = true;
+        
+        // Default to 2 seconds.
+        backgroundInitializatonFromCacheDelay = 2*1000L;
     }
     
+    /**
+     * Get the flag indicating whether should initialize from the persistent cache in the background.
+     * 
+     * <p>Defaults to: true.</p>
+     * 
+     * @return true if should init from the cache in background, false otherwise
+     */
+    public boolean isInitializeFromPersistentCacheInBackground() {
+        return initializeFromPersistentCacheInBackground;
+    }
+
+    /**
+     * Set the flag indicating whether should initialize from the persistent cache in the background.
+     * 
+     * <p>Defaults to: true.</p>
+     * 
+     * @param flag true if should init from the cache in the background, false otherwise
+     */
+    public void setInitializeFromPersistentCacheInBackground(boolean flag) {
+        ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
+        ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
+        initializeFromPersistentCacheInBackground = flag;
+    }
+
+    /**
+     * Get the delay in milliseconds after which to schedule the background initialization from the persistent cache.
+     * 
+     * <p>Defaults to: 2 seconds.</p>
+     * 
+     * @return the delay in milliseconds
+     */
+    @Nonnull public Long getBackgroundInitializatonFromCacheDelay() {
+        return backgroundInitializatonFromCacheDelay;
+    }
+
+    /**
+     * Set the delay in milliseconds after which to schedule the background initialization from the persistent cache.
+     * 
+     * <p>Defaults to: 2 seconds.</p>
+     * 
+     * @param delay the delay in milliseconds
+     */
+    public void setBackgroundInitializatonFromCacheDelay(@Nonnull final Long delay) {
+        ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
+        ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
+        backgroundInitializatonFromCacheDelay = delay;
+    }
+
     /**
      * Get the manager for the persistent cache store for resolved metadata.
      * 
@@ -490,9 +550,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
      * processed metadata in the backing store.
      * 
      * <p>
-     * In order to be processed successfully, the metadata (after filtering) must be an instance of
-     * {@link EntityDescriptor} and its <code>entityID</code> value must match the value supplied
-     * as the required <code>expectedEntityID</code> argument.
+     * Equivalent to {@link #processNewMetadata(XMLObject, String, false)}.
      * </p>
      * 
      * @param root the root of the new metadata document being processed
@@ -500,9 +558,30 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
      * 
      * @throws FilterException if there is a problem filtering the metadata
      */
-    //CheckStyle: ReturnCount OFF
     @Nonnull protected void processNewMetadata(@Nonnull final XMLObject root, @Nonnull final String expectedEntityID) 
             throws FilterException {
+        processNewMetadata(root, expectedEntityID, false);
+    }
+    
+    /**
+     * Process the specified new metadata document, including metadata filtering, and store the 
+     * processed metadata in the backing store.
+     * 
+     * <p>
+     * In order to be processed successfully, the metadata (after filtering) must be an instance of
+     * {@link EntityDescriptor} and its <code>entityID</code> value must match the value supplied
+     * as the required <code>expectedEntityID</code> argument.
+     * </p>
+     * 
+     * @param root the root of the new metadata document being processed
+     * @param expectedEntityID the expected entityID of the resolved metadata
+     * @param fromPersistentCache whether the entity data was loaded from the persistent cache
+     * 
+     * @throws FilterException if there is a problem filtering the metadata
+     */
+    //CheckStyle: ReturnCount OFF
+    @Nonnull protected void processNewMetadata(@Nonnull final XMLObject root, @Nonnull final String expectedEntityID,
+            final boolean fromPersistentCache) throws FilterException {
         
         final XMLObject filteredMetadata = filterMetadata(prepareForFiltering(root));
         
@@ -523,7 +602,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
             preProcessEntityDescriptor(entityDescriptor, getBackingStore());
             
             // Note: we store in the cache the original input XMLObject, not the filtered one
-            if (isPersistentCachingEnabled() && !initializing && (root instanceof EntityDescriptor)) {
+            if (isPersistentCachingEnabled() && !fromPersistentCache && (root instanceof EntityDescriptor)) {
                 final EntityDescriptor origDescriptor = (EntityDescriptor) root;
                 final String key = getPersistentCacheKeyGenerator().apply(origDescriptor);
                 log.trace("Storing resolved EntityDescriptor '{}' in persistent cache with key '{}'", 
@@ -694,7 +773,19 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
             }
             
             if (isPersistentCachingEnabled()) {
-                initializeFromPersistentCache();
+                if (isInitializeFromPersistentCacheInBackground()) {
+                    log.debug("Initializing from the persistent cache in the background in {} ms", 
+                            getBackgroundInitializatonFromCacheDelay());
+                    TimerTask initTask = new TimerTask() {
+                        public void run() {
+                            initializeFromPersistentCache();
+                        }
+                    };
+                    taskTimer.schedule(initTask, getBackgroundInitializatonFromCacheDelay());
+                } else {
+                    log.debug("Initializing from the persistent cache in the foreground");
+                    initializeFromPersistentCache();
+                }
             }
             
             cleanupTask = new BackingStoreCleanupSweeper();
@@ -707,11 +798,14 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
     }
     
     /**
-     * Initialize the resolver with data from the cache manager, if enabled.
+     * Initialize the resolver with data from the persistent cache manager, if enabled.
      */
     protected void initializeFromPersistentCache() {
         if (!isPersistentCachingEnabled()) {
+            log.trace("Persistent caching is not enabled, skipping init from cache");
             return;
+        } else {
+            log.trace("Attempting to load and process entities from the persistent cache");
         }
         
         try {
@@ -720,47 +814,79 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
                 final String currentKey = cacheEntry.getFirst();
                 log.trace("Loaded EntityDescriptor from cache store with entityID '{}' and storage key '{}'", 
                         descriptor.getEntityID(), currentKey);
-                if (isValid(descriptor)) {
-                    if (getInitializationFromCachePredicate().apply(descriptor)) {
-                        final String expectedKey = getPersistentCacheKeyGenerator().apply(descriptor);
-                        try {
-                            processNewMetadata(descriptor, descriptor.getEntityID());
-                            log.trace("Successfully processed EntityDescriptor with entityID '{}' from cache", 
-                                    descriptor.getEntityID());
-
-                            // Update storage key if necessary, e.g. if cache key generator impl has changed.
-                            if (!Objects.equals(currentKey, expectedKey)) {
-                                log.trace("Current cache storage key '{}' differs from expected key '{}', updating",
-                                        currentKey, expectedKey);
-                                getPersistentCacheManager().updateKey(currentKey, expectedKey);
-                                log.trace("Successfully updated cache storage key '{}' to '{}'", 
-                                        currentKey, expectedKey);
-                            }
-
-                        } catch (final FilterException e) {
-                            log.warn("Error processing EntityDescriptor '{}' from cache with storage key '{}'", 
-                                    descriptor.getEntityID(), currentKey, e);
-                        } catch (final IOException e) {
-                            log.warn("Error updating cache storage key '{}' to '{}'", currentKey, expectedKey, e);
-                        }
-                    } else {
-                        log.trace("Cache initialization predicate indicated to not process EntityDescriptor " 
-                                + "with entityID '{}' and cache storage key '{}'",
-                                descriptor.getEntityID(), currentKey);
+                
+                final String entityID = StringSupport.trimOrNull(descriptor.getEntityID());
+                final EntityManagementData mgmtData = getBackingStore().getManagementData(entityID);
+                final Lock writeLock = mgmtData.getReadWriteLock().writeLock(); 
+                
+                try {
+                    writeLock.lock();
+                    
+                    // This can happen if we init from the persistent cache in a background thread,
+                    // and metadata for this entityID was resolved before we hit this cache entry.
+                    if (!lookupIndexedEntityID(entityID).isEmpty()) {
+                        log.trace("Metadata for entityID '{}' found in persistent cache was already live, " 
+                                + "ignoring cached entry", entityID);
+                        continue;
                     }
-                } else {
-                    log.trace("EntityDescriptor with entityID '{}' and storaage key '{}' in cache was " 
-                            + "not valid, skipping and removing", descriptor.getEntityID(), currentKey);
-                    try {
-                        getPersistentCacheManager().remove(currentKey);
-                    } catch (final IOException e) {
-                        log.warn("Error removing invalid EntityDescriptor '{}' from persistent cache with key '{}'",
-                                descriptor.getEntityID(), currentKey);
-                    }
+                
+                    processPersistentCacheEntry(currentKey, descriptor);
+                    
+                } finally {
+                    writeLock.unlock();
                 }
             }
         } catch (final IOException e) {
             log.warn("Error loading EntityDescriptors from cache", e);
+        }
+    }
+
+    /**
+     * Process an entry loaded from the persistent cache.
+     * 
+     * @param currentKey the current persistent cache key
+     * @param descriptor the entity descriptor to process
+     */
+    protected void processPersistentCacheEntry(@Nonnull final String currentKey, 
+            @Nonnull final EntityDescriptor descriptor) {
+        
+        if (isValid(descriptor)) {
+            if (getInitializationFromCachePredicate().apply(descriptor)) {
+                final String expectedKey = getPersistentCacheKeyGenerator().apply(descriptor);
+                try {
+                    processNewMetadata(descriptor, descriptor.getEntityID(), true);
+                    log.trace("Successfully processed EntityDescriptor with entityID '{}' from cache", 
+                            descriptor.getEntityID());
+
+                    // Update storage key if necessary, e.g. if cache key generator impl has changed.
+                    if (!Objects.equals(currentKey, expectedKey)) {
+                        log.trace("Current cache storage key '{}' differs from expected key '{}', updating",
+                                currentKey, expectedKey);
+                        getPersistentCacheManager().updateKey(currentKey, expectedKey);
+                        log.trace("Successfully updated cache storage key '{}' to '{}'", 
+                                currentKey, expectedKey);
+                    }
+
+                } catch (final FilterException e) {
+                    log.warn("Error processing EntityDescriptor '{}' from cache with storage key '{}'", 
+                            descriptor.getEntityID(), currentKey, e);
+                } catch (final IOException e) {
+                    log.warn("Error updating cache storage key '{}' to '{}'", currentKey, expectedKey, e);
+                }
+            } else {
+                log.trace("Cache initialization predicate indicated to not process EntityDescriptor " 
+                        + "with entityID '{}' and cache storage key '{}'",
+                        descriptor.getEntityID(), currentKey);
+            }
+        } else {
+            log.trace("EntityDescriptor with entityID '{}' and storaage key '{}' in cache was " 
+                    + "not valid, skipping and removing", descriptor.getEntityID(), currentKey);
+            try {
+                getPersistentCacheManager().remove(currentKey);
+            } catch (final IOException e) {
+                log.warn("Error removing invalid EntityDescriptor '{}' from persistent cache with key '{}'",
+                        descriptor.getEntityID(), currentKey);
+            }
         }
     }
 

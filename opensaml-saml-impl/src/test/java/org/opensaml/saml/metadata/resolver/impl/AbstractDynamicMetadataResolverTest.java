@@ -203,6 +203,7 @@ public class AbstractDynamicMetadataResolverTest extends XMLObjectBaseTestCase {
         
         resolver.setPersistentCacheManager(persistentCacheManager);
         resolver.setPersistentCacheKeyGenerator(persistentCacheKeyGenerator);
+        resolver.setInitializeFromPersistentCacheInBackground(false);
         
         resolver.initialize();
         
@@ -236,6 +237,7 @@ public class AbstractDynamicMetadataResolverTest extends XMLObjectBaseTestCase {
         
         resolver.setPersistentCacheManager(persistentCacheManager);
         resolver.setPersistentCacheKeyGenerator(persistentCacheKeyGenerator);
+        resolver.setInitializeFromPersistentCacheInBackground(false);
         
         // Only load id1 from the cache
         resolver.setInitializationFromCachePredicate(
@@ -276,6 +278,7 @@ public class AbstractDynamicMetadataResolverTest extends XMLObjectBaseTestCase {
         
         resolver.setPersistentCacheManager(persistentCacheManager);
         resolver.setPersistentCacheKeyGenerator(persistentCacheKeyGenerator);
+        resolver.setInitializeFromPersistentCacheInBackground(false);
         
         resolver.initialize();
         
