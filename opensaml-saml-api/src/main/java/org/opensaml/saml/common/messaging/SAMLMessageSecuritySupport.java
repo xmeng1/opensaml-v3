@@ -22,6 +22,7 @@ import javax.annotation.Nullable;
 
 import net.shibboleth.utilities.java.support.annotation.constraint.NotEmpty;
 import net.shibboleth.utilities.java.support.logic.Constraint;
+import net.shibboleth.utilities.java.support.primitive.StringSupport;
 
 import org.opensaml.core.xml.io.MarshallingException;
 import org.opensaml.messaging.context.MessageContext;
@@ -92,7 +93,12 @@ public final class SAMLMessageSecuritySupport {
      * @return true if allowed, otherwise false
      */
     public static boolean checkURLScheme(@Nonnull @NotEmpty String scheme) {
-        return SAMLConfigurationSupport.getAllowedBindingURLSchemes().contains(scheme);
+        String normalized = StringSupport.trimOrNull(scheme);
+        if (normalized == null) {
+            return false;
+        } else {
+            return SAMLConfigurationSupport.getAllowedBindingURLSchemes().contains(normalized.toLowerCase());
+        }
     }
 
 }

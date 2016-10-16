@@ -18,14 +18,27 @@
 package org.opensaml.saml.config;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.joda.time.chrono.ISOChronology;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.opensaml.saml.saml1.binding.artifact.SAML1ArtifactBuilderFactory;
 import org.opensaml.saml.saml2.binding.artifact.SAML2ArtifactBuilderFactory;
+
+import com.google.common.base.Function;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Lists;
+
+import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
+import net.shibboleth.utilities.java.support.annotation.constraint.NotLive;
+import net.shibboleth.utilities.java.support.annotation.constraint.Unmodifiable;
+import net.shibboleth.utilities.java.support.primitive.StringSupport;
 
 /**
  * SAML-related configuration information.
@@ -37,6 +50,9 @@ import org.opensaml.saml.saml2.binding.artifact.SAML2ArtifactBuilderFactory;
  * 
  */
 public class SAMLConfiguration {
+    
+    /** Lowercase string function. */
+    private static Function<String, String> lowercaseFunction = new LowercaseFunction();
 
     /** Date format in SAML object, default is yyyy-MM-dd'T'HH:mm:ss.SSS'Z'. */
     private static String defaultDateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
@@ -60,10 +76,7 @@ public class SAMLConfiguration {
      *
      */
     public SAMLConfiguration() {
-        ArrayList<String> schemes = new ArrayList<>();
-        schemes.add("http");
-        schemes.add("https");
-        setAllowedBindingURLSchemes(schemes);
+        setAllowedBindingURLSchemes(Lists.newArrayList("http", "https"));
     }
 
     /**
@@ -132,17 +145,29 @@ public class SAMLConfiguration {
 
     /**
      * Gets the unmodifiable list of schemes allowed to appear in binding URLs when encoding a message. 
+     * 
+     * <p>
+     * All scheme values returned will be lowercased.
+     * </p>
+     * 
+     * <p>
      * Defaults to 'http' and 'https'.
+     * </p>
      * 
      * @return list of URL schemes allowed to appear in a message
      */
+    @Nonnull @NonnullElements @Unmodifiable @NotLive
     public List<String> getAllowedBindingURLSchemes() {
         return Collections.unmodifiableList(allowedBindingURLSchemes);
     }
 
     /**
      * Sets the list of schemes allowed to appear in binding URLs when encoding a message. 
-     * The list will be copied.
+     * 
+     * <p>
+     * The supplied list will be copied.  Values will be normalized: 1) strings will be trimmed, 
+     * 2) nulls will be removed, and 3) all values will be lowercased.
+     * </>
      * 
      * <p>Note, the appearance of schemes such as 'javascript' may open the system up to attacks 
      * (e.g. cross-site scripting attacks).
@@ -150,11 +175,29 @@ public class SAMLConfiguration {
      * 
      * @param schemes URL schemes allowed to appear in a message
      */
-    public void setAllowedBindingURLSchemes(List<String> schemes) {
+    public void setAllowedBindingURLSchemes(@Nullable final List<String> schemes) {
         if (schemes == null || schemes.isEmpty()) {
             allowedBindingURLSchemes = Collections.emptyList();
         } else {
-            allowedBindingURLSchemes = new ArrayList<>(schemes);
+            Collection<String> normalized = Collections2.transform(
+                    StringSupport.normalizeStringCollection(schemes), lowercaseFunction);
+            allowedBindingURLSchemes = new ArrayList<>(normalized);
         }
+    }
+    
+    /**
+     * Function to lowercase a string input.
+     */
+    private static class LowercaseFunction implements Function<String, String> {
+
+        /** {@inheritDoc} */
+        public String apply(String input) {
+            if (input == null) {
+                return null;
+            } else {
+                return input.toLowerCase();
+            }
+        }
+        
     }
 }
