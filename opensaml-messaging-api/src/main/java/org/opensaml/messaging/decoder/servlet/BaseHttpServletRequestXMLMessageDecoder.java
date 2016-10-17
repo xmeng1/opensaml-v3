@@ -63,6 +63,8 @@ public abstract class BaseHttpServletRequestXMLMessageDecoder<MessageType extend
     public void decode() throws MessageDecodingException {
         log.debug("Beginning to decode message from HttpServletRequest");
         
+        log.debug("HttpServletRequest indicated Content-Type: {}", getHttpServletRequest().getContentType());
+        
         super.decode();
         
         logDecodedMessage();
