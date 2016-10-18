@@ -24,6 +24,7 @@ import org.opensaml.messaging.context.MessageContext;
 import org.opensaml.saml.common.SAMLObject;
 import org.opensaml.saml.saml1.core.NameIdentifier;
 import org.opensaml.saml.saml1.core.Request;
+import org.opensaml.saml.saml2.core.LogoutRequest;
 import org.opensaml.saml.saml2.core.NameID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -157,6 +158,8 @@ public class SAMLSubjectNameIdentifierContext extends BaseContext {
             } else {
                 return null;
             }
+        } else if (samlMessage instanceof LogoutRequest) {
+            log.debug("Ignoring LogoutRequest, Subject does not require processing");
         } else {
             log.debug("Message in resolved parent message context was not a supported instance of SAMLObject: {}", 
                     samlMessage.getClass().getName());
