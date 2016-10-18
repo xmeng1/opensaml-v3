@@ -68,7 +68,12 @@ public abstract class AbstractMapBackedStorageService extends AbstractStorageSer
         try {
             writeLock.lock();
             
-            final Map<String,Map<String,MutableStorageRecord>> contextMap = getContextMap();
+            final Map<String,Map<String,MutableStorageRecord>> contextMap;
+            try {
+                contextMap = getContextMap();
+            } catch (final Exception e) {
+                throw new IOException(e);
+            }
             
             // Create new context if necessary.
             Map<String, MutableStorageRecord> dataMap = contextMap.get(context);
@@ -172,7 +177,12 @@ public abstract class AbstractMapBackedStorageService extends AbstractStorageSer
         try {
             writeLock.lock();
             
-            final Map<String,Map<String,MutableStorageRecord>> contextMap = getContextMap();
+            final Map<String,Map<String,MutableStorageRecord>> contextMap;
+            try {
+                contextMap = getContextMap();
+            } catch (final Exception e) {
+                throw new IOException(e);
+            }
 
             final Map<String, MutableStorageRecord> dataMap = contextMap.get(context);
             if (dataMap != null) {    
@@ -200,7 +210,11 @@ public abstract class AbstractMapBackedStorageService extends AbstractStorageSer
         try {
             writeLock.lock();
             setDirty();
-            getContextMap().remove(context);
+            try {
+                getContextMap().remove(context);
+            } catch (final Exception e) {
+                throw new IOException(e);
+            }
         } finally {
             writeLock.unlock();
         }
@@ -217,7 +231,13 @@ public abstract class AbstractMapBackedStorageService extends AbstractStorageSer
         try {
             writeLock.lock();
             
-            final Map<String,Map<String,MutableStorageRecord>> contextMap = getContextMap();
+            final Map<String,Map<String,MutableStorageRecord>> contextMap;
+            
+            try {
+                contextMap = getContextMap();
+            } catch (final Exception e) {
+                throw new IOException(e);
+            }
             
             final Map<String, MutableStorageRecord> dataMap = contextMap.get(context);
             if (dataMap != null) {
@@ -245,6 +265,9 @@ public abstract class AbstractMapBackedStorageService extends AbstractStorageSer
      * Get the map of contexts to manipulate during operations.
      * 
      * <p>This method is guaranteed to be called under cover the lock returned by {{@link #getLock()}.</p>
+     * 
+     * TODO: this method needs to be able to throw IOException to deal with unexpected scenarios without
+     * raising unchecked exceptions.
      * 
      * @return map of contexts to manipulate
      */
@@ -276,7 +299,13 @@ public abstract class AbstractMapBackedStorageService extends AbstractStorageSer
         try {
             readLock.lock();
             
-            final Map<String,Map<String,MutableStorageRecord>> contextMap = getContextMap();
+            final Map<String,Map<String,MutableStorageRecord>> contextMap;
+            
+            try {
+                contextMap = getContextMap();
+            } catch (final Exception e) {
+                throw new IOException(e);
+            }
             
             final Map<String, MutableStorageRecord> dataMap = contextMap.get(context);
             if (dataMap == null) {
@@ -330,7 +359,12 @@ public abstract class AbstractMapBackedStorageService extends AbstractStorageSer
         try {
             writeLock.lock();
             
-            final Map<String,Map<String,MutableStorageRecord>> contextMap = getContextMap();
+            final Map<String,Map<String,MutableStorageRecord>> contextMap;
+            try {
+                contextMap = getContextMap();
+            } catch (final Exception e) {
+                throw new IOException(e);
+            }
 
             final Map<String, MutableStorageRecord> dataMap = contextMap.get(context);
             if (dataMap == null) {
@@ -393,7 +427,12 @@ public abstract class AbstractMapBackedStorageService extends AbstractStorageSer
         try {
             writeLock.lock();
 
-            final Map<String,Map<String,MutableStorageRecord>> contextMap = getContextMap();
+            final Map<String,Map<String,MutableStorageRecord>> contextMap;
+            try {
+                contextMap = getContextMap();
+            } catch (final Exception e) {
+                throw new IOException(e);
+            }
             
             final Map<String, MutableStorageRecord> dataMap = contextMap.get(context);
             if (dataMap == null) {
