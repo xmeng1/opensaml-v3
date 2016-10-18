@@ -416,7 +416,6 @@ public class SignatureValidationFilter implements MetadataFilter {
         try {
             if (getSignatureTrustEngine().validate(signature, criteriaSet)) {
                 log.trace("Signature trust establishment succeeded for metadata entry {}", metadataEntryName);
-                return;
             } else {
                 log.error("Signature trust establishment failed for metadata entry {}", metadataEntryName);
                 throw new FilterException("Signature trust establishment failed for metadata entry");
