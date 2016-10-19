@@ -217,7 +217,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
      * 
      * @return the cache manager if configured, or null
      */
-    @Nullable protected XMLObjectLoadSaveManager<EntityDescriptor> getPersistentCacheManager() {
+    @Nullable public XMLObjectLoadSaveManager<EntityDescriptor> getPersistentCacheManager() {
         return persistentCacheManager;
     }
 
