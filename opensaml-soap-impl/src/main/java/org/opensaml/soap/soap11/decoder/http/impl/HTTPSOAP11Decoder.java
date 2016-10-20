@@ -18,10 +18,9 @@
 package org.opensaml.soap.soap11.decoder.http.impl;
 
 import java.io.IOException;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
-
-import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
 
 import org.opensaml.core.xml.XMLObject;
 import org.opensaml.messaging.context.MessageContext;
@@ -33,6 +32,12 @@ import org.opensaml.soap.messaging.context.SOAP11Context;
 import org.opensaml.soap.soap11.Envelope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.common.collect.Sets;
+import com.google.common.net.MediaType;
+
+import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
+import net.shibboleth.utilities.java.support.net.HttpServletSupport;
 
 /**
  * Basic SOAP 1.1 decoder for HTTP transport.
@@ -53,6 +58,9 @@ import org.slf4j.LoggerFactory;
 public class HTTPSOAP11Decoder<MessageType extends XMLObject> 
     extends BaseHttpServletRequestXMLMessageDecoder<MessageType> {
 
+    /** Valid Content-Type media types. */
+    private static final Set<MediaType> SUPPORTED_MEDIA_TYPES = Sets.newHashSet(MediaType.create("text", "xml"));
+    
     /** Class logger. */
     private final Logger log = LoggerFactory.getLogger(HTTPSOAP11Decoder.class);
     
@@ -127,6 +135,19 @@ public class HTTPSOAP11Decoder<MessageType extends XMLObject>
     @Override
     protected XMLObject getMessageToLog() {
         return getMessageContext().getSubcontext(SOAP11Context.class, true).getEnvelope();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected void validateHttpRequest(HttpServletRequest request) throws MessageDecodingException {
+        super.validateHttpRequest(request);
+        
+        if (!HttpServletSupport.validateContentType(request, SUPPORTED_MEDIA_TYPES, true, false)) {
+            log.warn("Saw unsupported request Content-Type: {}", request.getContentType());
+            throw new MessageDecodingException(
+                    String.format("Content-Type '%s' was not a supported media type", request.getContentType()));
+        }
+ 
     }
 
 }

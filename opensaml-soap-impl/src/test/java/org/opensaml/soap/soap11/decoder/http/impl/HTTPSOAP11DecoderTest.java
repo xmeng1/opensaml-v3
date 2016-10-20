@@ -19,8 +19,6 @@ package org.opensaml.soap.soap11.decoder.http.impl;
 
 import java.io.IOException;
 
-import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
-
 import org.opensaml.core.xml.XMLObject;
 import org.opensaml.core.xml.XMLObjectBaseTestCase;
 import org.opensaml.core.xml.schema.XSAny;
@@ -31,13 +29,14 @@ import org.opensaml.messaging.handler.MessageHandlerException;
 import org.opensaml.security.SecurityException;
 import org.opensaml.soap.messaging.context.SOAP11Context;
 import org.opensaml.soap.soap11.Envelope;
-import org.opensaml.soap.soap11.decoder.http.impl.HTTPSOAP11Decoder;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.google.common.io.Resources;
+
+import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
 
 /**
  * Test basic SOAP 1.1 message decoding.
@@ -52,6 +51,7 @@ public class HTTPSOAP11DecoderTest extends XMLObjectBaseTestCase {
     protected void setUp() throws Exception {
         httpRequest = new MockHttpServletRequest();
         httpRequest.setMethod("POST");
+        httpRequest.setContentType("text/xml; charset=utf-8");
         
         decoder = new HTTPSOAP11Decoder();
         decoder.setParserPool(parserPool);
@@ -105,6 +105,26 @@ public class HTTPSOAP11DecoderTest extends XMLObjectBaseTestCase {
         Assert.assertNotNull(msg);
         
         Assert.assertTrue(msg instanceof XSAny);
+    }
+    
+    /**
+     * Test invalid content type.
+     * 
+     * @throws ComponentInitializationException 
+     * @throws MessageDecodingException
+     * @throws IOException 
+     * @throws SecurityException
+     */
+    @Test(expectedExceptions=MessageDecodingException.class)
+    public void testInvalidContentType() throws ComponentInitializationException, MessageDecodingException, IOException {
+        httpRequest.setContent(getServletRequestContent("/org/opensaml/soap/soap11/SOAPNoHeaders.xml"));
+        
+        httpRequest.setContentType("application/x-www-form-urlencoded");
+        
+        decoder.setBodyHandler(new TestEnvelopeBodyHandler());
+        decoder.initialize();
+        
+        decoder.decode();
     }
     
     //

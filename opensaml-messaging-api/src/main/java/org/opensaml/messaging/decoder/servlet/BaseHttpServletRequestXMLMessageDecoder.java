@@ -20,6 +20,7 @@ package org.opensaml.messaging.decoder.servlet;
 import java.io.InputStream;
 
 import javax.annotation.Nonnull;
+import javax.servlet.http.HttpServletRequest;
 
 import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
 import net.shibboleth.utilities.java.support.logic.Constraint;
@@ -32,6 +33,7 @@ import org.opensaml.core.xml.config.XMLObjectProviderRegistrySupport;
 import org.opensaml.core.xml.io.MarshallingException;
 import org.opensaml.core.xml.io.UnmarshallingException;
 import org.opensaml.core.xml.util.XMLObjectSupport;
+import org.opensaml.messaging.decoder.MessageDecoder;
 import org.opensaml.messaging.decoder.MessageDecodingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,6 +66,8 @@ public abstract class BaseHttpServletRequestXMLMessageDecoder<MessageType extend
         log.debug("Beginning to decode message from HttpServletRequest");
         
         log.debug("HttpServletRequest indicated Content-Type: {}", getHttpServletRequest().getContentType());
+        
+        validateHttpRequest(getHttpServletRequest());
         
         super.decode();
         
@@ -156,6 +160,23 @@ public abstract class BaseHttpServletRequestXMLMessageDecoder<MessageType extend
             log.error("Error unmarshalling message from input stream", e);
             throw new MessageDecodingException("Error unmarshalling message from input stream", e);
         }
+    }
+    
+    /**
+     * Perform optional validation of the inbound {@link HttpServletRequest}.
+     * 
+     * <p>
+     * This method is called before the main {@link MessageDecoder#decode()} logic}.
+     * </p>
+     * 
+     * <p>
+     * The default behavior is a no-op.  Subclasses may override with specific constraints.
+     * </p>
+     * 
+     * @param request
+     */
+    protected void validateHttpRequest(HttpServletRequest request) throws MessageDecodingException {
+        // Default is no-op
     }
 
 }
