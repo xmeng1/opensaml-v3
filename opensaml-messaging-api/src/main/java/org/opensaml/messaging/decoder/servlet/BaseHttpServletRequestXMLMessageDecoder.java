@@ -173,9 +173,11 @@ public abstract class BaseHttpServletRequestXMLMessageDecoder<MessageType extend
      * The default behavior is a no-op.  Subclasses may override with specific constraints.
      * </p>
      * 
-     * @param request
+     * @param request the HTTP request being validate
+     * 
+     * @throws MessageDecodingException if request is not considered valid
      */
-    protected void validateHttpRequest(HttpServletRequest request) throws MessageDecodingException {
+    protected void validateHttpRequest(final HttpServletRequest request) throws MessageDecodingException {
         // Default is no-op
     }
 
