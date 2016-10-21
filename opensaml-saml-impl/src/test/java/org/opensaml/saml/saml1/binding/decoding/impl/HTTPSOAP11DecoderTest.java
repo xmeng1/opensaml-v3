@@ -45,6 +45,7 @@ public class HTTPSOAP11DecoderTest extends XMLObjectBaseTestCase {
     protected void setUp() throws Exception {
         httpRequest = new MockHttpServletRequest();
         httpRequest.setMethod("POST");
+        httpRequest.setContentType("text/xml; charset=utf-8");
         
         decoder = new HTTPSOAP11Decoder();
         decoder.setParserPool(parserPool);

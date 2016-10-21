@@ -142,7 +142,7 @@ public class HTTPSOAP11Decoder<MessageType extends XMLObject>
     protected void validateHttpRequest(HttpServletRequest request) throws MessageDecodingException {
         super.validateHttpRequest(request);
         
-        if (!HttpServletSupport.validateContentType(request, SUPPORTED_MEDIA_TYPES, true, false)) {
+        if (!HttpServletSupport.validateContentType(request, SUPPORTED_MEDIA_TYPES, false, false)) {
             log.warn("Saw unsupported request Content-Type: {}", request.getContentType());
             throw new MessageDecodingException(
                     String.format("Content-Type '%s' was not a supported media type", request.getContentType()));

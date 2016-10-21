@@ -108,6 +108,26 @@ public class HTTPSOAP11DecoderTest extends XMLObjectBaseTestCase {
     }
     
     /**
+     * Test missing content type.
+     * 
+     * @throws ComponentInitializationException 
+     * @throws MessageDecodingException
+     * @throws IOException 
+     * @throws SecurityException
+     */
+    @Test(expectedExceptions=MessageDecodingException.class)
+    public void testmissingContentType() throws ComponentInitializationException, MessageDecodingException, IOException {
+        httpRequest.setContent(getServletRequestContent("/org/opensaml/soap/soap11/SOAPNoHeaders.xml"));
+        
+        httpRequest.setContentType(null);
+        
+        decoder.setBodyHandler(new TestEnvelopeBodyHandler());
+        decoder.initialize();
+        
+        decoder.decode();
+    }
+    
+    /**
      * Test invalid content type.
      * 
      * @throws ComponentInitializationException 
