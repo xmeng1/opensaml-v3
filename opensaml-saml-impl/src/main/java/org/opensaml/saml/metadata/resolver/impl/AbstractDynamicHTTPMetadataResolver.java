@@ -47,6 +47,7 @@ import org.opensaml.core.xml.XMLObject;
 import org.opensaml.core.xml.io.UnmarshallingException;
 import org.opensaml.core.xml.util.XMLObjectSource;
 import org.opensaml.security.httpclient.HttpClientSecurityConstants;
+import org.opensaml.security.httpclient.HttpClientSecurityParameters;
 import org.opensaml.security.httpclient.HttpClientSecuritySupport;
 import org.opensaml.security.trust.TrustEngine;
 import org.opensaml.security.x509.X509Credential;
@@ -105,11 +106,18 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
     /** HttpClient ResponseHandler instance to use. */
     @Nonnull private ResponseHandler<XMLObject> responseHandler;
     
-    /** HttpClient credentials provider. */
+    /** HttpClient credentials provider. 
+     * @deprecated use {@link #httpClientSecurityParameters}.
+     * */
     @Nullable private CredentialsProvider credentialsProvider;
     
-    /** Optional trust engine used in evaluating server TLS credentials. */
+    /** Optional trust engine used in evaluating server TLS credentials.
+     * @deprecated use {@link #httpClientSecurityParameters}.
+     *  */
     @Nullable private TrustEngine<? super X509Credential> tlsTrustEngine;
+    
+    /** Optional HttpClient security parameters.*/
+    @Nullable private HttpClientSecurityParameters httpClientSecurityParameters;
     
     /**
      * Constructor.
@@ -140,14 +148,13 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
      * Sets the optional trust engine used in evaluating server TLS credentials.
      * 
      * <p>
-     * Must be used in conjunction with an HttpClient instance which is configured with either a 
-     * {@link org.opensaml.security.httpclient.impl.SecurityEnhancedTLSSocketFactory} or the (deprecated)
-     * {@link org.opensaml.security.httpclient.impl.TrustEngineTLSSocketFactory}. If such a socket
-     * factory is not configured, then this will result in no TLS trust evaluation being performed
-     * and a {@link ResolverException} will ultimately be thrown.
+     * See TLS socket factory requirements documented for 
+     * {@link #setHttpClientSecurityParameters(HttpClientSecurityParameters)}.
      * </p>
      * 
      * @param engine the trust engine instance to use
+     * 
+     * @deprecated use {@link #setHttpClientSecurityParameters(HttpClientSecurityParameters)}
      */
     public void setTLSTrustEngine(@Nullable final TrustEngine<? super X509Credential> engine) {
         tlsTrustEngine = engine;
@@ -157,6 +164,8 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
      * Set an instance of {@link CredentialsProvider} used for authentication by the HttpClient instance.
      * 
      * @param provider the credentials provider
+     * 
+     * @deprecated use {@link #setHttpClientSecurityParameters(HttpClientSecurityParameters)}
      */
     public void setCredentialsProvider(@Nullable final CredentialsProvider provider) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
@@ -177,6 +186,8 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
      * provide an instance of {@link CredentialsProvider} via {@link #setCredentialsProvider(CredentialsProvider)}.</p>
      * 
      * @param credentials the username and password credentials
+     * 
+     * @deprecated use {@link #setHttpClientSecurityParameters(HttpClientSecurityParameters)}
      */
     public void setBasicCredentials(@Nullable final UsernamePasswordCredentials credentials) {
         setBasicCredentialsWithScope(credentials, null);
@@ -196,6 +207,8 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
      * 
      * @param credentials the username and password credentials
      * @param scope the HTTP client auth scope with which to scope the credentials, may be null
+     * 
+     * @deprecated use {@link #setHttpClientSecurityParameters(HttpClientSecurityParameters)}
      */
     public void setBasicCredentialsWithScope(@Nullable final UsernamePasswordCredentials credentials,
             @Nullable final AuthScope scope) {
@@ -215,6 +228,50 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
             credentialsProvider = null;
         }
 
+    }
+    
+    /**
+     * Get the instance of {@link HttpClientSecurityParameters} which provides various parameters to influence
+     * the security behavior of the HttpClient instance.
+     * 
+     * @return the parameters instance, or null
+     */
+    @Nullable protected HttpClientSecurityParameters getHttpClientSecurityParameters() {
+        return httpClientSecurityParameters;
+    }
+    
+    /**
+     * Set an instance of {@link HttpClientSecurityParameters} which provides various parameters to influence
+     * the security behavior of the HttpClient instance.
+     * 
+     * <p>
+     * For all TLS-related parameters, must be used in conjunction with an HttpClient instance 
+     * which is configured with either a:
+     * <ul>
+     * <li>
+     * a {@link net.shibboleth.utilities.java.support.httpclient.TLSSocketFactory}
+     * </li>
+     * <li>
+     * {@link org.opensaml.security.httpclient.impl.SecurityEnhancedTLSSocketFactory} which wraps
+     * an instance of {@link net.shibboleth.utilities.java.support.httpclient.TLSSocketFactory}, with
+     * the latter likely configured in a "no trust" configuration.  This variant is required if either a
+     * trust engine or a client TLS credential is to be used.
+     * </li>
+     * For convenience methods for building a 
+     * {@link net.shibboleth.utilities.java.support.httpclient.TLSSocketFactory}, 
+     * see {@link net.shibboleth.utilities.java.support.httpclient.HttpClientSupport}.
+     * </ul>
+     * If the appropriate TLS socket factory is not configured and a trust engine is specified,
+     * then this will result in no TLS trust evaluation being performed and a 
+     * {@link ResolverException} will ultimately be thrown.
+     * </p>
+     * @param params the security parameters
+     */
+    public void setHttpClientSecurityParameters(@Nullable final HttpClientSecurityParameters params) {
+        ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
+        ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
+
+        httpClientSecurityParameters = params;
     }
     
     /**
@@ -294,9 +351,12 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
     protected void doDestroy() {
         httpClient = null;
         credentialsProvider = null;
+        tlsTrustEngine = null;
+        httpClientSecurityParameters = null;
         
         supportedContentTypes = null;
         supportedContentTypesValue = null;
+        supportedMediaTypes = null;
         
         super.doDestroy();
     }
@@ -380,6 +440,10 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
      */
     protected HttpClientContext buildHttpClientContext() {
         final HttpClientContext context = HttpClientContext.create();
+        
+        HttpClientSecuritySupport.marshalSecurityParameters(context, httpClientSecurityParameters, true);
+        
+        // If these legacy values are present, let them override the above params instance values unconditionally
         if (credentialsProvider != null) {
             context.setCredentialsProvider(credentialsProvider);
         }
