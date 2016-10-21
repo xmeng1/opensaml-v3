@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.Timer;
 
 import javax.annotation.Nonnull;
@@ -57,13 +58,16 @@ import com.google.common.base.Function;
 import com.google.common.base.Strings;
 import com.google.common.collect.Collections2;
 import com.google.common.io.ByteStreams;
+import com.google.common.net.MediaType;
 
 import net.shibboleth.utilities.java.support.annotation.constraint.NonnullAfterInit;
 import net.shibboleth.utilities.java.support.annotation.constraint.NotLive;
 import net.shibboleth.utilities.java.support.annotation.constraint.Unmodifiable;
+import net.shibboleth.utilities.java.support.collection.LazySet;
 import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
 import net.shibboleth.utilities.java.support.component.ComponentSupport;
 import net.shibboleth.utilities.java.support.logic.Constraint;
+import net.shibboleth.utilities.java.support.net.MediaTypeSupport;
 import net.shibboleth.utilities.java.support.primitive.StringSupport;
 import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
 import net.shibboleth.utilities.java.support.resolver.ResolverException;
@@ -90,19 +94,22 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
     
     /** List of supported MIME types for use in Accept request header and validation of 
      * response Content-Type header.*/
-    private List<String> supportedContentTypes;
+    @NonnullAfterInit private List<String> supportedContentTypes;
     
     /** Generated Accept request header value. */
-    private String supportedContentTypesValue;
+    @NonnullAfterInit private String supportedContentTypesValue;
+    
+    /**Supported {@link MediaType} instances, constructed from the {@link #supportedContentTypes} list. */
+    @NonnullAfterInit private Set<MediaType> supportedMediaTypes;
     
     /** HttpClient ResponseHandler instance to use. */
-    private ResponseHandler<XMLObject> responseHandler;
+    @Nonnull private ResponseHandler<XMLObject> responseHandler;
     
     /** HttpClient credentials provider. */
-    private CredentialsProvider credentialsProvider;
+    @Nullable private CredentialsProvider credentialsProvider;
     
     /** Optional trust engine used in evaluating server TLS credentials. */
-    private TrustEngine<? super X509Credential> tlsTrustEngine;
+    @Nullable private TrustEngine<? super X509Credential> tlsTrustEngine;
     
     /**
      * Constructor.
@@ -211,12 +218,28 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
     }
     
     /**
+     * Get the list of supported MIME {@link MediaType} instances used in validation of 
+     * the response Content-Type header.
+     * 
+     * <p>
+     * Is generated at init time from {@link #getSupportedContentTypes()}.
+     * </p>
+     * 
+     * @return the supported content types
+     */
+    @NonnullAfterInit @NotLive @Unmodifiable
+    protected Set<MediaType> getSupportedMediaTypes() {
+        return supportedMediaTypes;
+    }
+
+    /**
      * Get the list of supported MIME types for use in Accept request header and validation of 
      * response Content-Type header.
      * 
      * @return the supported content types
      */
-    @NonnullAfterInit @NotLive @Unmodifiable public List<String> getSupportedContentTypes() {
+    @NonnullAfterInit @NotLive @Unmodifiable
+    public List<String> getSupportedContentTypes() {
         return supportedContentTypes;
     }
 
@@ -255,7 +278,13 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
         
         if (! getSupportedContentTypes().isEmpty()) {
             supportedContentTypesValue = StringSupport.listToStringValue(getSupportedContentTypes(), ", ");
-        } 
+            supportedMediaTypes = new LazySet<>();
+            for (String contentType : getSupportedContentTypes()) {
+                supportedMediaTypes.add(MediaType.parse(contentType));
+            }
+        } else {
+            supportedMediaTypes = Collections.emptySet();
+        }
         
         log.debug("Supported content types are: {}", getSupportedContentTypes());
     }
@@ -415,42 +444,21 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
          * @throws ResolverException if the response was not valid, or if there is a fatal error validating the response
          */
         protected void validateHttpResponse(@Nonnull final HttpResponse response) throws ResolverException {
-            
-            if (!getSupportedContentTypes().isEmpty()) {
+            if (!getSupportedMediaTypes().isEmpty()) {
+                String contentTypeValue = null;
                 final Header contentType = response.getEntity().getContentType();
                 if (contentType != null && contentType.getValue() != null) {
-                    log.debug("Saw raw Content-Type from response header '{}'", contentType.getValue());
-                    final String mimeType = getContentTypeMIMEType(contentType.getValue());
-                    log.debug("Extracted Content-Type MIME type to evaluate '{}'", mimeType);
-                    if (!getSupportedContentTypes().contains(mimeType)) { 
-                        throw new ResolverException("HTTP response specified an unsupported Content-Type MIME type: " 
-                                + mimeType);
-                    }
-                } else {
-                    log.debug("HTTP response contained no Content-Type response header");
+                    contentTypeValue = StringSupport.trimOrNull(contentType.getValue());
+                }
+                log.debug("Saw raw Content-Type from response header '{}'", contentTypeValue);
+                
+                if (!MediaTypeSupport.validateContentType(contentTypeValue, getSupportedMediaTypes(), true, false)) {
+                    throw new ResolverException("HTTP response specified an unsupported Content-Type MIME type: " 
+                            + contentTypeValue);
                 }
             }
+        }
             
-        }
-
-        /**
-         * Get the effective Content-Type value to evaluate against the supported types.
-         * 
-         * @param value the raw Content-Type value header
-         * @return the effective value to evaluate
-         */
-        private String getContentTypeMIMEType(final String value) {
-            final String trimmed = StringSupport.trimOrNull(value);
-            if (trimmed == null) {
-                return null;
-            }
-            if (!trimmed.contains(";")) {
-                return trimmed.toLowerCase();
-            }
-            final String typeSubtype = trimmed.split(";")[0];
-            return StringSupport.trim(typeSubtype).toLowerCase();
-        }
-        
     }
 
 }
