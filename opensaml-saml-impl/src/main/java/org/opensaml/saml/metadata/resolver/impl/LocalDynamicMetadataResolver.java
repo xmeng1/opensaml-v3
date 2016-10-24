@@ -23,15 +23,15 @@ import java.util.Timer;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.shibboleth.utilities.java.support.logic.Constraint;
-import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
-
 import org.opensaml.core.xml.XMLObject;
 import org.opensaml.core.xml.persist.XMLObjectLoadSaveManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Function;
+
+import net.shibboleth.utilities.java.support.logic.Constraint;
+import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
 
 /**
  * Resolver which dynamically resolves metadata from a local source managed by an instance
@@ -50,6 +50,11 @@ public class LocalDynamicMetadataResolver extends AbstractDynamicMetadataResolve
 
     /**
      * Constructor.
+     * 
+     * <p>
+     * Source key generator will be an internal instance of {@link EntityIDDigestGenerator},
+     * with all default parameters.
+     * </p>
      *
      * @param manager load save manager
      */
@@ -60,6 +65,11 @@ public class LocalDynamicMetadataResolver extends AbstractDynamicMetadataResolve
     /**
      * Constructor.
      *
+     * <p>
+     * If supplied source key generator is null, an internal instance of {@link EntityIDDigestGenerator} will be used,
+     * with all default parameters.
+     * </p>
+     * 
      * @param manager load save manager
      * @param keyGenerator key generator function
      * @param backgroundTaskTimer timer for management of background tasks
@@ -74,7 +84,7 @@ public class LocalDynamicMetadataResolver extends AbstractDynamicMetadataResolve
         
         sourceKeyGenerator = keyGenerator;
         if (sourceKeyGenerator == null) {
-            sourceKeyGenerator = new DefaultSourceKeyGenerator();
+            sourceKeyGenerator = new EntityIDDigestGenerator();
         }
     }
 
@@ -96,20 +106,6 @@ public class LocalDynamicMetadataResolver extends AbstractDynamicMetadataResolve
             log.trace("Could not generate source key from criteria, can not resolve");
             return null;
         }
-    }
-    
-    /**
-     * Default strategy for generating source keys from input criteria.
-     */
-    public static class DefaultSourceKeyGenerator implements Function<CriteriaSet, String> {
-
-        /** {@inheritDoc} */
-        @Override
-        public String apply(final CriteriaSet input) {
-            // TODO Auto-generated method stub
-            return null;
-        }
-        
     }
     
 }
