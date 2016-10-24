@@ -27,11 +27,6 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.shibboleth.utilities.java.support.annotation.constraint.NotEmpty;
-import net.shibboleth.utilities.java.support.logic.Constraint;
-import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
-import net.shibboleth.utilities.java.support.resolver.ResolverException;
-
 import org.opensaml.security.credential.Credential;
 import org.opensaml.security.credential.CredentialSupport;
 import org.opensaml.xmlsec.EncryptionConfiguration;
@@ -41,6 +36,7 @@ import org.opensaml.xmlsec.KeyTransportAlgorithmPredicate;
 import org.opensaml.xmlsec.algorithm.AlgorithmRegistry;
 import org.opensaml.xmlsec.algorithm.AlgorithmSupport;
 import org.opensaml.xmlsec.criterion.EncryptionConfigurationCriterion;
+import org.opensaml.xmlsec.criterion.EncryptionOptionalCriterion;
 import org.opensaml.xmlsec.criterion.KeyInfoGenerationProfileCriterion;
 import org.opensaml.xmlsec.encryption.support.RSAOAEPParameters;
 import org.opensaml.xmlsec.keyinfo.KeyInfoGenerator;
@@ -51,6 +47,11 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
 
+import net.shibboleth.utilities.java.support.annotation.constraint.NotEmpty;
+import net.shibboleth.utilities.java.support.logic.Constraint;
+import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
+import net.shibboleth.utilities.java.support.resolver.ResolverException;
+
 /**
  * Basic implementation of {@link EncryptionParametersResolver}.
  * 
@@ -59,6 +60,7 @@ import com.google.common.collect.Collections2;
  * <ul>
  * <li>{@link EncryptionConfigurationCriterion} - required</li> 
  * <li>{@link KeyInfoGenerationProfileCriterion} - optional</li> 
+ * <li>{@link EncryptionOptionalCriterion} - optional</li> 
  * </ul>
  * </p>
  */
@@ -155,7 +157,13 @@ public class BasicEncryptionParametersResolver extends AbstractSecurityParameter
                     params.getKeyTransportEncryptionCredential()));
         }
         
-        if (validate(params)) {
+        boolean encryptionOptional = false;
+        EncryptionOptionalCriterion encryptionOptionalCrit = criteria.get(EncryptionOptionalCriterion.class);
+        if (encryptionOptionalCrit != null) {
+            encryptionOptional = encryptionOptionalCrit.isEncryptionOptional();
+        }
+        
+        if (validate(params, encryptionOptional)) {
             logResult(params);
             return params;
         } else {
@@ -211,31 +219,66 @@ public class BasicEncryptionParametersResolver extends AbstractSecurityParameter
     /**
      * Validate that the {@link EncryptionParameters} instance has all the required properties populated.
      * 
+     * <p>Equivalent to: {@link #validate(EncryptionParameters, false)} </p>
+     * 
+     * @param params the parameters instance to evaluate
+     * 
+     * @return true if parameters instance passes validation, false otherwise
+     * 
+     * @deprecated use {@link #validate(EncryptionParameters, boolean)}.
+     */
+    protected boolean validate(@Nonnull final EncryptionParameters params) {
+        return validate(params, false);
+    }
+    
+    /**
+     * Validate that the {@link EncryptionParameters} instance has all the required properties populated.
+     * 
      * @param params the parameters instance to evaluate
      * 
      * @return true if parameters instance passes validation, false otherwise
      */
-    protected boolean validate(@Nonnull final EncryptionParameters params) {
+    protected boolean validate(@Nonnull final EncryptionParameters params, final boolean encryptionOptional) {
         if (params.getKeyTransportEncryptionCredential() == null 
                 && params.getDataEncryptionCredential() == null) {
-            log.warn("Validation failure: Failed to resolve both a data and a key encryption credential");
+            String msg = "Validation failure: Failed to resolve both a data and a key encryption credential";
+            if (encryptionOptional) {
+                log.debug(msg);
+            } else {
+                log.warn(msg);
+            }
             return false;
         }
         if (params.getKeyTransportEncryptionCredential() != null 
                 && params.getKeyTransportEncryptionAlgorithm() == null) {
-            log.warn("Validation failure: Unable to resolve key encryption algorithm URI for credential");
+            String msg = "Validation failure: Unable to resolve key encryption algorithm URI for credential";
+            if (encryptionOptional) {
+                log.debug(msg);
+            } else {
+                log.warn(msg);
+            }
             return false;
         }
         if (params.getDataEncryptionCredential() != null 
                 && params.getDataEncryptionAlgorithm() == null) {
-            log.warn("Validation failure: Unable to resolve data encryption algorithm URI for credential");
+            String msg = "Validation failure: Unable to resolve data encryption algorithm URI for credential";
+            if (encryptionOptional) {
+                log.debug(msg);
+            } else {
+                log.warn(msg);
+            }
             return false;
         }
         if (params.getKeyTransportEncryptionCredential() != null 
                 && params.getDataEncryptionCredential() == null
                 && params.getDataEncryptionAlgorithm() == null) {
-            log.warn("Validation failure: Unable to resolve a data encryption algorithm URI " 
-                + "for auto-generation of data encryption key");
+            String msg = "Validation failure: Unable to resolve a data encryption algorithm URI " 
+                + "for auto-generation of data encryption key";
+            if (encryptionOptional) {
+                log.debug(msg);
+            } else {
+                log.warn(msg);
+            }
             return false;
         }
         
