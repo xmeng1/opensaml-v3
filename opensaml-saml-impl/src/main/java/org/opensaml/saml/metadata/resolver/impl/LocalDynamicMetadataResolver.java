@@ -43,10 +43,10 @@ public class LocalDynamicMetadataResolver extends AbstractDynamicMetadataResolve
     private Logger log = LoggerFactory.getLogger(LocalDynamicMetadataResolver.class);
     
     /** The manager for the local store of metadata. */
-    private XMLObjectLoadSaveManager<XMLObject> sourceManager;
+    @Nonnull private XMLObjectLoadSaveManager<XMLObject> sourceManager;
     
-    /** Function for generating the String key used with the cache manager. */
-    private Function<CriteriaSet, String> sourceKeyGenerator;
+    /** Function for generating the String key used with the source manager. */
+    @Nonnull private Function<CriteriaSet, String> sourceKeyGenerator;
 
     /**
      * Constructor.
@@ -66,12 +66,12 @@ public class LocalDynamicMetadataResolver extends AbstractDynamicMetadataResolve
      * Constructor.
      *
      * <p>
-     * If supplied source key generator is null, an internal instance of {@link EntityIDDigestGenerator} will be used,
-     * with all default parameters.
+     * If the supplied source key generator is null, an internal instance of {@link EntityIDDigestGenerator}
+     * will be used, with all default parameters.
      * </p>
      * 
-     * @param manager load save manager
-     * @param keyGenerator key generator function
+     * @param manager the manager for the local source of metadata
+     * @param keyGenerator the source key generator function
      * @param backgroundTaskTimer timer for management of background tasks
      */
     public LocalDynamicMetadataResolver(@Nonnull final XMLObjectLoadSaveManager<XMLObject> manager, 
