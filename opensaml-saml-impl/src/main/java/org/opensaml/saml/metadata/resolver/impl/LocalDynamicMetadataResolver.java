@@ -56,10 +56,21 @@ public class LocalDynamicMetadataResolver extends AbstractDynamicMetadataResolve
      * with all default parameters.
      * </p>
      *
-     * @param manager load save manager
+     * @param manager the manager for the local source of metadata
      */
     public LocalDynamicMetadataResolver(@Nonnull final XMLObjectLoadSaveManager<XMLObject> manager) {
-        this(manager, null, null);
+        this(null, manager, null);
+    }
+    
+    /**
+     * Constructor.
+     *
+     * @param manager the manager for the local source of metadata
+     * @param keyGenerator  the source key generator function
+     */
+    public LocalDynamicMetadataResolver(@Nonnull final XMLObjectLoadSaveManager<XMLObject> manager,
+            @Nullable final Function<CriteriaSet, String> keyGenerator) {
+        this(null, manager, keyGenerator);
     }
     
     /**
@@ -69,14 +80,13 @@ public class LocalDynamicMetadataResolver extends AbstractDynamicMetadataResolve
      * If the supplied source key generator is null, an internal instance of {@link EntityIDDigestGenerator}
      * will be used, with all default parameters.
      * </p>
-     * 
+     * @param backgroundTaskTimer timer for management of background tasks
      * @param manager the manager for the local source of metadata
      * @param keyGenerator the source key generator function
-     * @param backgroundTaskTimer timer for management of background tasks
      */
-    public LocalDynamicMetadataResolver(@Nonnull final XMLObjectLoadSaveManager<XMLObject> manager, 
-            @Nullable final Function<CriteriaSet, String> keyGenerator,
-            @Nullable final Timer backgroundTaskTimer) {
+    public LocalDynamicMetadataResolver(@Nullable final Timer backgroundTaskTimer, 
+            @Nonnull final XMLObjectLoadSaveManager<XMLObject> manager,
+            @Nullable final Function<CriteriaSet, String> keyGenerator) {
         
         super(backgroundTaskTimer);
         
@@ -87,7 +97,7 @@ public class LocalDynamicMetadataResolver extends AbstractDynamicMetadataResolve
             sourceKeyGenerator = new EntityIDDigestGenerator();
         }
     }
-
+    
     /** {@inheritDoc} */
     @Override
     protected XMLObject fetchFromOriginSource(final CriteriaSet criteria) throws IOException {

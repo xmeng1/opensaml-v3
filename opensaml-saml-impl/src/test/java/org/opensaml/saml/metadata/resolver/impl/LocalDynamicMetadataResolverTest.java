@@ -106,7 +106,7 @@ public class LocalDynamicMetadataResolverTest extends XMLObjectBaseTestCase {
     
     @Test
     public void testCtorSourceKeyGenerator() throws ComponentInitializationException, IOException, ResolverException {
-        resolver = new LocalDynamicMetadataResolver(sourceManager, new IdentityEntityIDGenerator(), null);
+        resolver = new LocalDynamicMetadataResolver(null, sourceManager, new IdentityEntityIDGenerator());
         resolver.setId("abc123");
         resolver.setParserPool(parserPool);
         resolver.initialize();
