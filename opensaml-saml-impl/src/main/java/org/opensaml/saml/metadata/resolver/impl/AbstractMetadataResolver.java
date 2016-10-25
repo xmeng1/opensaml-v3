@@ -102,7 +102,7 @@ public abstract class AbstractMetadataResolver extends AbstractIdentifiableIniti
     /** Registry used in resolving predicates from criteria. */
     private CriterionPredicateRegistry<EntityDescriptor> criterionPredicateRegistry;
     
-    /** Flag which determines whether the default predicate registry will be used if no one is supplied explicitly.
+    /** Flag which determines whether the default predicate registry will be used if one is not supplied explicitly.
      * Defaults to true. */
     private boolean useDefaultPredicateRegistry;
     
