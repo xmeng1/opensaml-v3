@@ -353,6 +353,8 @@ public abstract class AbstractPipelineHttpSOAPClient<OutboundMessageType, Inboun
             }
         }
         
+        HttpClientSecuritySupport.addDefaultTLSTrustEngineCriteria(clientContext, request);
+        
         return clientContext;
     }
     

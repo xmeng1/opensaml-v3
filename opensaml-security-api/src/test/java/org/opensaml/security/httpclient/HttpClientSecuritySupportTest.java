@@ -40,12 +40,16 @@ import net.shibboleth.utilities.java.support.logic.ConstraintViolationException;
 import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
 
 import org.apache.http.client.CredentialsProvider;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.conn.ssl.StrictHostnameVerifier;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.opensaml.security.SecurityException;
+import org.opensaml.security.credential.UsageType;
+import org.opensaml.security.criteria.UsageCriterion;
 import org.opensaml.security.trust.TrustEngine;
 import org.opensaml.security.x509.BasicX509Credential;
+import org.opensaml.security.x509.TrustedNamesCriterion;
 import org.opensaml.security.x509.X509Credential;
 import org.opensaml.security.x509.X509Support;
 import org.testng.Assert;
@@ -282,6 +286,40 @@ public class HttpClientSecuritySupportTest {
                 // expected
             }
         }
+    }
+    
+    @Test
+    public void testAddDefaultTLSTrustEngineCriteria() {
+        HttpGet request = new HttpGet("https://www.example.com/foobar");
+        HttpClientContext context = new HttpClientContext();
+        context.setAttribute(CONTEXT_KEY_TRUST_ENGINE, new MockTrustEngine());
+        
+        HttpClientSecuritySupport.addDefaultTLSTrustEngineCriteria(context, request);
+        
+        CriteriaSet criteria = (CriteriaSet) context.getAttribute(CONTEXT_KEY_CRITERIA_SET);
+        Assert.assertNotNull(criteria);
+        
+        UsageCriterion usage = criteria.get(UsageCriterion.class);
+        Assert.assertNotNull(usage);
+        Assert.assertEquals(usage.getUsage(), UsageType.SIGNING);
+        
+        TrustedNamesCriterion trustedNames = criteria.get(TrustedNamesCriterion.class);
+        Assert.assertNotNull(trustedNames);
+        Assert.assertEquals(trustedNames.getTrustedNames().size(), 1);
+        Assert.assertTrue(trustedNames.getTrustedNames().contains("www.example.com"));
+        
+        // Not https
+        request = new HttpGet("http://www.example.com/foobar");
+        context = new HttpClientContext();
+        context.setAttribute(CONTEXT_KEY_TRUST_ENGINE, new MockTrustEngine());
+        HttpClientSecuritySupport.addDefaultTLSTrustEngineCriteria(context, request);
+        Assert.assertNull(context.getAttribute(CONTEXT_KEY_CRITERIA_SET));
+        
+        // No trust engine
+        request = new HttpGet("https://www.example.com/foobar");
+        context = new HttpClientContext();
+        HttpClientSecuritySupport.addDefaultTLSTrustEngineCriteria(context, request);
+        Assert.assertNull(context.getAttribute(CONTEXT_KEY_CRITERIA_SET));
     }
     
     

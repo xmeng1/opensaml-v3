@@ -23,6 +23,7 @@ import java.net.Socket;
 import java.security.cert.Certificate;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -43,6 +44,7 @@ import org.opensaml.security.criteria.UsageCriterion;
 import org.opensaml.security.httpclient.HttpClientSecurityConstants;
 import org.opensaml.security.trust.TrustEngine;
 import org.opensaml.security.x509.BasicX509Credential;
+import org.opensaml.security.x509.TrustedNamesCriterion;
 import org.opensaml.security.x509.X509Credential;
 import org.opensaml.security.x509.tls.impl.ThreadLocalX509CredentialContext;
 import org.slf4j.Logger;
@@ -144,6 +146,7 @@ public class SecurityEnhancedTLSSocketFactory implements LayeredConnectionSocket
     }
 
     /** {@inheritDoc} */
+    // CheckStyle: ParameterNumber OFF
     public Socket connectSocket(int connectTimeout, Socket sock, HttpHost host,
             InetSocketAddress remoteAddress, InetSocketAddress localAddress,
             HttpContext context) throws IOException {
@@ -153,13 +156,14 @@ public class SecurityEnhancedTLSSocketFactory implements LayeredConnectionSocket
             setup(context);
             Socket socket = 
                     wrappedFactory.connectSocket(connectTimeout, sock, host, remoteAddress, localAddress, context);
-            performTrustEval(socket, context);
+            performTrustEval(socket, host.getHostName(), context);
             performHostnameVerification(socket, host.getHostName(), context);
             return socket;
         } finally {
             teardown(context);
         }
     }
+    // CheckStyle: ParameterNumber ON
 
     /** {@inheritDoc} */
     public Socket createLayeredSocket(Socket socket, String target, int port, HttpContext context) throws IOException {
@@ -167,7 +171,7 @@ public class SecurityEnhancedTLSSocketFactory implements LayeredConnectionSocket
         try {
             setup(context);
             Socket layeredSocket = wrappedFactory.createLayeredSocket(socket, target, port, context);
-            performTrustEval(layeredSocket, context);
+            performTrustEval(layeredSocket, target, context);
             performHostnameVerification(layeredSocket, target, context);
             return layeredSocket;
         } finally {
@@ -185,9 +189,31 @@ public class SecurityEnhancedTLSSocketFactory implements LayeredConnectionSocket
      * 
      * @throws IOException if the server TLS credential is untrusted, or if there is a fatal error
      *           attempting trust evaluation.
+     *           
+     * @deprecated use {@link #performTrustEval(Socket, String, HttpContext)}
      */
     protected void performTrustEval(@Nonnull final Socket socket, @Nonnull final HttpContext context) 
             throws IOException {
+        //TODO when we remove this deprecated method, change called method to @Nonnull for hostname
+        performTrustEval(socket, null, context);
+    }
+    
+    /**
+     * Perform trust evaluation by extracting the server TLS {@link X509Credential} from the 
+     * {@link SSLSession} and evaluating it via a {@link TrustEngine<Credential>} 
+     * and {@link CriteriaSet} supplied by the caller via the {@link HttpContext}.
+     * 
+     * @param socket the socket instance being processed
+     * @param hostname the hostname being processed
+     * @param context the HttpClient context being processed
+     * 
+     * @throws IOException if the server TLS credential is untrusted, or if there is a fatal error
+     *           attempting trust evaluation.
+     */
+    protected void performTrustEval(@Nonnull final Socket socket, @Nullable final String hostname, 
+            @Nonnull final HttpContext context) throws IOException {
+        //TODO Really hostname should be @Nonnull, change when we remove deprecated performTrustEval(...)
+        
         if (!(socket instanceof SSLSocket)) {
             log.debug("Socket was not an instance of SSLSocket, skipping trust eval");
             return;
@@ -209,8 +235,12 @@ public class SecurityEnhancedTLSSocketFactory implements LayeredConnectionSocket
         CriteriaSet criteriaSet = (CriteriaSet) context.getAttribute(
                 HttpClientSecurityConstants.CONTEXT_KEY_CRITERIA_SET);
         if (criteriaSet == null) {
-            log.debug("No criteria set supplied by caller, building new criteria set with signing criteria");
+            log.debug("No criteria set supplied by caller, building new criteria set with signing " 
+                    + "and trusted names criteria");
             criteriaSet = new CriteriaSet(new UsageCriterion(UsageType.SIGNING));
+            if (hostname != null) {
+                criteriaSet.add(new TrustedNamesCriterion(Collections.singleton(hostname)));
+            }
         } else {
             log.trace("Saw CriteriaSet: {}", criteriaSet);
         }

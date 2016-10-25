@@ -372,7 +372,7 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
             return null;
         }
         
-        final HttpClientContext context = buildHttpClientContext();
+        final HttpClientContext context = buildHttpClientContext(request);
         
         try {
             MDC.put(MDC_ATTRIB_CURRENT_REQUEST_URI, request.getURI().toString());
@@ -437,8 +437,23 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
      * Build the {@link HttpClientContext} instance which will be used to invoke the {@link HttpClient} request.
      * 
      * @return a new instance of {@link HttpClientContext}
+     * 
+     * @deprecated use {@link #buildHttpClientContext(HttpUriRequest)}
      */
     protected HttpClientContext buildHttpClientContext() {
+        //TODO when we remove this deprecated method, change called method to @Nonnull for request
+        return buildHttpClientContext(null);
+    }
+    
+    /**
+     * Build the {@link HttpClientContext} instance which will be used to invoke the {@link HttpClient} request.
+     * 
+     * @param request the current HTTP request
+     * 
+     * @return a new instance of {@link HttpClientContext}
+     */
+    protected HttpClientContext buildHttpClientContext(@Nullable final HttpUriRequest request) {
+        // TODO Really request should be @Nonnull, change when we remove deprecated buildHttpClientContext()
         final HttpClientContext context = HttpClientContext.create();
         
         HttpClientSecuritySupport.marshalSecurityParameters(context, httpClientSecurityParameters, true);
@@ -450,6 +465,11 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
         if (tlsTrustEngine != null) {
             context.setAttribute(HttpClientSecurityConstants.CONTEXT_KEY_TRUST_ENGINE, tlsTrustEngine);
         }
+        
+        if (request != null) {
+            HttpClientSecuritySupport.addDefaultTLSTrustEngineCriteria(context, request);
+        }
+        
         return context;
     }
     

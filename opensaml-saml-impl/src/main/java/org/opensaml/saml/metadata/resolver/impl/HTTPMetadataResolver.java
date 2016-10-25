@@ -23,6 +23,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Timer;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.net.ssl.SSLPeerUnverifiedException;
 
@@ -37,6 +38,7 @@ import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.util.EntityUtils;
@@ -277,7 +279,7 @@ public class HTTPMetadataResolver extends AbstractReloadingMetadataResolver {
     @Override
     protected byte[] fetchMetadata() throws ResolverException {
         final HttpGet httpGet = buildHttpGet();
-        final HttpClientContext context = buildHttpClientContext();
+        final HttpClientContext context = buildHttpClientContext(httpGet);
         HttpResponse response = null;
 
         try {
@@ -356,8 +358,23 @@ public class HTTPMetadataResolver extends AbstractReloadingMetadataResolver {
      * Build the {@link HttpClientContext} instance which will be used to invoke the {@link HttpClient} request.
      * 
      * @return a new instance of {@link HttpClientContext}
+     * 
+     * @deprecated use {@link #buildHttpClientContext(HttpUriRequest)}
      */
     protected HttpClientContext buildHttpClientContext() {
+        //TODO when we remove this deprecated method, change called method to @Nonnull for request
+        return buildHttpClientContext(null);
+    }
+    
+    /**
+     * Build the {@link HttpClientContext} instance which will be used to invoke the {@link HttpClient} request.
+     * 
+     * @param request the current HTTP request
+     * 
+     * @return a new instance of {@link HttpClientContext}
+     */
+    protected HttpClientContext buildHttpClientContext(@Nullable final HttpUriRequest request) {
+        // TODO Really request should be @Nonnull, change when we remove deprecated buildHttpClientContext()
         final HttpClientContext context = HttpClientContext.create();
         
         HttpClientSecuritySupport.marshalSecurityParameters(context, httpClientSecurityParameters, true);
@@ -369,6 +386,11 @@ public class HTTPMetadataResolver extends AbstractReloadingMetadataResolver {
         if (tlsTrustEngine != null) {
             context.setAttribute(HttpClientSecurityConstants.CONTEXT_KEY_TRUST_ENGINE, tlsTrustEngine);
         }
+        
+        if (request != null) {
+            HttpClientSecuritySupport.addDefaultTLSTrustEngineCriteria(context, request);
+        }
+        
         return context;
     }
 
