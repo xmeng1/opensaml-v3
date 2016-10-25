@@ -8,6 +8,10 @@
         </encoder>
     </appender>
     
+    <logger name="org.opensaml.xmlsec.algorithm">
+        <level value="DEBUG"/>
+    </logger>
+    
     <logger name="org.opensaml">
         <level value="WARN"/>
     </logger>

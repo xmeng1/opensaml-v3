@@ -245,6 +245,7 @@ public class AlgorithmRegistry {
      * 
      * @return true if runtime supports the algorithm, false otherwise
      */
+    // Checkstyle: CyclomaticComplexity OFF
     private boolean checkRuntimeSupports(AlgorithmDescriptor descriptor) {
         
         try {
@@ -253,6 +254,9 @@ public class AlgorithmRegistry {
                 case KeyTransport:
                 case SymmetricKeyWrap:
                     Cipher.getInstance(descriptor.getJCAAlgorithmID());
+                    if (!checkCipherSupportedKeyLength(descriptor)) {
+                        return false;
+                    }
                     break;
                     
                 case Signature:
@@ -283,6 +287,28 @@ public class AlgorithmRegistry {
             return false;
         }
         
+        return true;
+    }
+    // Checkstyle: CyclomaticComplexity ON
+    
+    /**
+     * Check if the key length of the specified {@link Cipher}-based algorithm, if known, is 
+     * supported by the current runtime.
+     * 
+     * @param descriptor the algorithm
+     * @return true if key length supported, false otherwise
+     * @throws NoSuchAlgorithmException if the associated JCA algorithm is not supported by the runtime
+     */
+    private boolean checkCipherSupportedKeyLength(AlgorithmDescriptor descriptor) throws NoSuchAlgorithmException {
+        if (descriptor instanceof KeyLengthSpecifiedAlgorithm) {
+            int algoLength = ((KeyLengthSpecifiedAlgorithm)descriptor).getKeyLength();
+            int cipherMaxLength = Cipher.getMaxAllowedKeyLength(descriptor.getJCAAlgorithmID());
+            if (algoLength > cipherMaxLength) {
+                log.info("Cipher algorithm '{}' is not supported, its key length {} exceeds Cipher max key length {}",
+                        descriptor.getURI(), algoLength, cipherMaxLength);
+                return false;
+            }
+        }
         return true;
     }
     
