@@ -550,7 +550,9 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
             try {
                 root = fetchFromOriginSource(criteria);
             } finally {
-                fetchContext.stop();
+                if (fetchContext != null) {
+                    fetchContext.stop();
+                }
             }
             
             if (root == null) {
