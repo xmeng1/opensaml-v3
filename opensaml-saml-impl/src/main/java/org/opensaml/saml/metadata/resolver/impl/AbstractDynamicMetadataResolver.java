@@ -36,6 +36,7 @@ import javax.annotation.Nullable;
 import org.joda.time.DateTime;
 import org.joda.time.chrono.ISOChronology;
 import org.opensaml.core.criterion.EntityIdCriterion;
+import org.opensaml.core.metrics.MetricsSupport;
 import org.opensaml.core.xml.XMLObject;
 import org.opensaml.core.xml.io.MarshallingException;
 import org.opensaml.core.xml.io.UnmarshallingException;
@@ -50,6 +51,7 @@ import org.opensaml.security.crypto.JCAConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.codahale.metrics.MetricRegistry;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
@@ -75,8 +77,20 @@ import net.shibboleth.utilities.java.support.resolver.ResolverException;
 public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataResolver 
         implements DynamicMetadataResolver {
     
+    /** Metric name for timer on fetch from origin source. */
+    public static final String METRIC_TIMER_FETCH_FROM_ORIGIN_SOURCE = "fetchFromOriginSourceTimer";
+    
+    /** Metric name for counter on number of fetches from origin source. */
+    public static final String METRIC_COUNTER_FETCHES_FROM_ORIGIN_SOURCE = "fetchesFromOriginSource";
+    
+    /** Metric name for counter on number of fetches from origin source. */
+    public static final String METRIC_COUNTER_RESOLVE_REQUESTS = "resolveRequests";
+    
     /** Class logger. */
     private final Logger log = LoggerFactory.getLogger(AbstractDynamicMetadataResolver.class);
+    
+    /** Base name for Metrics instrumentation names. */
+    @NonnullAfterInit private String metricsBaseName;
     
     /** Timer used to schedule background metadata update tasks. */
     private Timer taskTimer;
@@ -430,7 +444,25 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
         cleanupTaskInterval = Constraint.isNotNull(interval, "Cleanup task interval may not be null");
     }
 
-
+    /**
+     * Get the base name for Metrics instrumentation.
+     * 
+     * @return the Metrics base name
+     */
+    @NonnullAfterInit public String getMetricsBaseName() {
+        return metricsBaseName;
+    }
+    
+    /**
+     * Set the base name for Metrics instrumentation.
+     * 
+     * @param baseName the Metrics base name
+     */
+    public void setMetricsBaseName(@Nullable final String baseName) {
+        ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
+        ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
+        metricsBaseName = StringSupport.trimOrNull(baseName);
+    }
 
     /** {@inheritDoc} */
     @Override
@@ -446,6 +478,9 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
         
         final String entityID = StringSupport.trimOrNull(criteria.get(EntityIdCriterion.class).getEntityId());
         log.debug("Attempting to resolve metadata for entityID: {}", entityID);
+        
+        MetricsSupport.getMetricRegistry().counter(MetricRegistry.name(getMetricsBaseName(), 
+                METRIC_COUNTER_RESOLVE_REQUESTS)).inc();
         
         final EntityManagementData mgmtData = getBackingStore().getManagementData(entityID);
         final Lock readLock = mgmtData.getReadWriteLock().readLock();
@@ -505,7 +540,19 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
                 log.debug("Resolving metadata dynamically for entity ID: {}", entityID);
             }
             
-            final XMLObject root = fetchFromOriginSource(criteria);
+            final MetricRegistry metricRegistry = MetricsSupport.getMetricRegistry();
+            metricRegistry.counter(MetricRegistry.name(getMetricsBaseName(), 
+                    METRIC_COUNTER_FETCHES_FROM_ORIGIN_SOURCE)).inc();
+            final com.codahale.metrics.Timer fetchTimer = metricRegistry.timer(
+                    MetricRegistry.name(getMetricsBaseName(), METRIC_TIMER_FETCH_FROM_ORIGIN_SOURCE));
+            final com.codahale.metrics.Timer.Context fetchContext = fetchTimer.time();
+            XMLObject root = null;
+            try {
+                root = fetchFromOriginSource(criteria);
+            } finally {
+                fetchContext.stop();
+            }
+            
             if (root == null) {
                 log.debug("No metadata was fetched from the origin source");
             } else {
@@ -761,6 +808,10 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
             initializing = true;
             
             super.initMetadataResolver();
+            
+            if (getMetricsBaseName() == null) {
+                setMetricsBaseName(MetricRegistry.name(this.getClass(), getId()));
+            }
             
             setBackingStore(createNewBackingStore());
             
