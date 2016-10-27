@@ -831,7 +831,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
                     new RatioGauge() {
                         protected Ratio getRatio() {
                             return Ratio.of(timerFetchFromOriginSource.getCount(), 
-                                    timerFetchFromOriginSource.getCount());
+                                    timerResolve.getCount());
                         }
                     });
             
