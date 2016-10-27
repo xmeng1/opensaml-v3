@@ -77,20 +77,23 @@ import net.shibboleth.utilities.java.support.resolver.ResolverException;
 public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataResolver 
         implements DynamicMetadataResolver {
     
-    /** Metric name for timer on fetch from origin source. */
-    public static final String METRIC_TIMER_FETCH_FROM_ORIGIN_SOURCE = "fetchFromOriginSourceTimer";
+    /** Metric name for the timer for {@link #fetchFromOriginSource(CriteriaSet)}. */
+    public static final String METRIC_TIMER_FETCH_FROM_ORIGIN_SOURCE = "timer.fetchFromOriginSource";
     
-    /** Metric name for counter on number of fetches from origin source. */
-    public static final String METRIC_COUNTER_FETCHES_FROM_ORIGIN_SOURCE = "fetchesFromOriginSource";
-    
-    /** Metric name for counter on number of fetches from origin source. */
-    public static final String METRIC_COUNTER_RESOLVE_REQUESTS = "resolveRequests";
+    /** Metric name for the timer for {@link #resolve(CriteriaSet)}. */
+    public static final String METRIC_TIMER_RESOLVE = "timer.resolve";
     
     /** Class logger. */
     private final Logger log = LoggerFactory.getLogger(AbstractDynamicMetadataResolver.class);
     
     /** Base name for Metrics instrumentation names. */
     @NonnullAfterInit private String metricsBaseName;
+    
+    /** Metrics Timer for {@link #resolve(CriteriaSet)}. */
+    @NonnullAfterInit private com.codahale.metrics.Timer timerResolve;
+    
+    /** Metrics Timer for {@link #fetchFromOriginSource(CriteriaSet)}. */
+    @NonnullAfterInit private com.codahale.metrics.Timer timerFetchFromOriginSource;
     
     /** Timer used to schedule background metadata update tasks. */
     private Timer taskTimer;
@@ -470,44 +473,48 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
         ComponentSupport.ifNotInitializedThrowUninitializedComponentException(this);
         ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
         
-        final EntityIdCriterion entityIdCriterion = criteria.get(EntityIdCriterion.class);
-        if (entityIdCriterion == null || Strings.isNullOrEmpty(entityIdCriterion.getEntityId())) {
-            log.info("Entity Id was not supplied in criteria set, skipping resolution");
-            return Collections.emptySet();
-        }
-        
-        final String entityID = StringSupport.trimOrNull(criteria.get(EntityIdCriterion.class).getEntityId());
-        log.debug("Attempting to resolve metadata for entityID: {}", entityID);
-        
-        MetricsSupport.getMetricRegistry().counter(MetricRegistry.name(getMetricsBaseName(), 
-                METRIC_COUNTER_RESOLVE_REQUESTS)).inc();
-        
-        final EntityManagementData mgmtData = getBackingStore().getManagementData(entityID);
-        final Lock readLock = mgmtData.getReadWriteLock().readLock();
-        Iterable<EntityDescriptor> candidates = null;
+        com.codahale.metrics.Timer.Context contextResolve = timerResolve.time();
         try {
-            readLock.lock();
-            
-            final List<EntityDescriptor> descriptors = lookupEntityID(entityID);
-            if (descriptors.isEmpty()) {
-                log.debug("Did not find requested metadata in backing store, will attempt to resolve dynamically");
-            } else {
-                if (shouldAttemptRefresh(mgmtData)) {
-                    log.debug("Metadata was indicated to be refreshed based on refresh trigger time");
-                } else {
-                    log.debug("Found requested metadata in backing store");
-                    candidates = descriptors;
-                }
+            final EntityIdCriterion entityIdCriterion = criteria.get(EntityIdCriterion.class);
+            if (entityIdCriterion == null || Strings.isNullOrEmpty(entityIdCriterion.getEntityId())) {
+                log.info("Entity Id was not supplied in criteria set, skipping resolution");
+                return Collections.emptySet();
             }
+
+            final String entityID = StringSupport.trimOrNull(criteria.get(EntityIdCriterion.class).getEntityId());
+            log.debug("Attempting to resolve metadata for entityID: {}", entityID);
+
+            final EntityManagementData mgmtData = getBackingStore().getManagementData(entityID);
+            final Lock readLock = mgmtData.getReadWriteLock().readLock();
+            Iterable<EntityDescriptor> candidates = null;
+            try {
+                readLock.lock();
+
+                final List<EntityDescriptor> descriptors = lookupEntityID(entityID);
+                if (descriptors.isEmpty()) {
+                    log.debug("Did not find requested metadata in backing store, will attempt to resolve dynamically");
+                } else {
+                    if (shouldAttemptRefresh(mgmtData)) {
+                        log.debug("Metadata was indicated to be refreshed based on refresh trigger time");
+                    } else {
+                        log.debug("Found requested metadata in backing store");
+                        candidates = descriptors;
+                    }
+                }
+            } finally {
+                readLock.unlock();
+            }
+
+            if (candidates == null) {
+                candidates = resolveFromOriginSource(criteria);
+            }
+
+            return predicateFilterCandidates(candidates, criteria, false);
         } finally {
-            readLock.unlock();
+            if (contextResolve != null) {
+                contextResolve.stop();
+            }
         }
-        
-        if (candidates == null) {
-            candidates = resolveFromOriginSource(criteria);
-        }
-        
-        return predicateFilterCandidates(candidates, criteria, false);
     }
     
     /**
@@ -540,18 +547,13 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
                 log.debug("Resolving metadata dynamically for entity ID: {}", entityID);
             }
             
-            final MetricRegistry metricRegistry = MetricsSupport.getMetricRegistry();
-            metricRegistry.counter(MetricRegistry.name(getMetricsBaseName(), 
-                    METRIC_COUNTER_FETCHES_FROM_ORIGIN_SOURCE)).inc();
-            final com.codahale.metrics.Timer fetchTimer = metricRegistry.timer(
-                    MetricRegistry.name(getMetricsBaseName(), METRIC_TIMER_FETCH_FROM_ORIGIN_SOURCE));
-            final com.codahale.metrics.Timer.Context fetchContext = fetchTimer.time();
+            final com.codahale.metrics.Timer.Context contextFetchFromOriginSource = timerFetchFromOriginSource.time();
             XMLObject root = null;
             try {
                 root = fetchFromOriginSource(criteria);
             } finally {
-                if (fetchContext != null) {
-                    fetchContext.stop();
+                if (contextFetchFromOriginSource != null) {
+                    contextFetchFromOriginSource.stop();
                 }
             }
             
@@ -814,6 +816,12 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
             if (getMetricsBaseName() == null) {
                 setMetricsBaseName(MetricRegistry.name(this.getClass(), getId()));
             }
+            
+            final MetricRegistry metricRegistry = MetricsSupport.getMetricRegistry();
+            timerResolve = metricRegistry.timer(
+                    MetricRegistry.name(getMetricsBaseName(), METRIC_TIMER_RESOLVE));
+            timerFetchFromOriginSource = metricRegistry.timer(
+                    MetricRegistry.name(getMetricsBaseName(), METRIC_TIMER_FETCH_FROM_ORIGIN_SOURCE));
             
             setBackingStore(createNewBackingStore());
             
