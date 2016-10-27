@@ -52,6 +52,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.RatioGauge;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
@@ -82,6 +83,9 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
     
     /** Metric name for the timer for {@link #resolve(CriteriaSet)}. */
     public static final String METRIC_TIMER_RESOLVE = "timer.resolve";
+    
+    /** Metric name for the ratio gauge of fetches to resolve requests. */
+    public static final String METRIC_RATIOGAUGE_FETCH_TO_RESOLVE = "ratioGauge.fetchToResolve";
     
     /** Class logger. */
     private final Logger log = LoggerFactory.getLogger(AbstractDynamicMetadataResolver.class);
@@ -822,6 +826,14 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
                     MetricRegistry.name(getMetricsBaseName(), METRIC_TIMER_RESOLVE));
             timerFetchFromOriginSource = metricRegistry.timer(
                     MetricRegistry.name(getMetricsBaseName(), METRIC_TIMER_FETCH_FROM_ORIGIN_SOURCE));
+            metricRegistry.register(
+                    MetricRegistry.name(getMetricsBaseName(), METRIC_RATIOGAUGE_FETCH_TO_RESOLVE), 
+                    new RatioGauge() {
+                        protected Ratio getRatio() {
+                            return Ratio.of(timerFetchFromOriginSource.getCount(), 
+                                    timerFetchFromOriginSource.getCount());
+                        }
+                    });
             
             setBackingStore(createNewBackingStore());
             
@@ -983,6 +995,11 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
         }
         cleanupTask = null;
         taskTimer = null;
+        
+        MetricRegistry metricRegistry = MetricsSupport.getMetricRegistry();
+        metricRegistry.remove(MetricRegistry.name(getMetricsBaseName(), METRIC_RATIOGAUGE_FETCH_TO_RESOLVE));
+        metricRegistry.remove(MetricRegistry.name(getMetricsBaseName(), METRIC_TIMER_FETCH_FROM_ORIGIN_SOURCE));
+        metricRegistry.remove(MetricRegistry.name(getMetricsBaseName(), METRIC_TIMER_RESOLVE));
         
         super.doDestroy();
     }

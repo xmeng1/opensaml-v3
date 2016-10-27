@@ -27,6 +27,7 @@ import org.opensaml.core.xml.XMLObjectBaseTestCase;
 import org.opensaml.core.xml.persist.MapLoadSaveManager;
 import org.opensaml.saml.saml2.metadata.EntityDescriptor;
 import org.opensaml.security.crypto.JCAConstants;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -72,6 +73,13 @@ public class LocalDynamicMetadataResolverTest extends XMLObjectBaseTestCase {
         resolver.initialize();
     }
     
+    @AfterMethod
+    public void tearDown() {
+        if (resolver != null) {
+            resolver.destroy();
+        }
+    }
+    
     @Test
     public void testEmptySource() throws ResolverException {
         Assert.assertNull(resolver.resolveSingle(new CriteriaSet(new EntityIdCriterion(entityID1))));
@@ -106,6 +114,8 @@ public class LocalDynamicMetadataResolverTest extends XMLObjectBaseTestCase {
     
     @Test
     public void testCtorSourceKeyGenerator() throws ComponentInitializationException, IOException, ResolverException {
+        resolver.destroy();
+        
         resolver = new LocalDynamicMetadataResolver(null, sourceManager, new IdentityEntityIDGenerator());
         resolver.setId("abc123");
         resolver.setParserPool(parserPool);
