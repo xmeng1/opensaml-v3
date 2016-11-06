@@ -95,13 +95,13 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
     @NonnullAfterInit private String metricsBaseName;
     
     /** Metrics Timer for {@link #resolve(CriteriaSet)}. */
-    @NonnullAfterInit private com.codahale.metrics.Timer timerResolve;
+    @Nullable private com.codahale.metrics.Timer timerResolve;
     
     /** Metrics Timer for {@link #fetchFromOriginSource(CriteriaSet)}. */
-    @NonnullAfterInit private com.codahale.metrics.Timer timerFetchFromOriginSource;
+    @Nullable private com.codahale.metrics.Timer timerFetchFromOriginSource;
     
     /** Metrics RatioGauge for count of origin fetches to resolves.*/
-    @NonnullAfterInit private RatioGauge ratioGaugeFetchToResolve;
+    @Nullable private RatioGauge ratioGaugeFetchToResolve;
     
     /** Timer used to schedule background metadata update tasks. */
     private Timer taskTimer;
