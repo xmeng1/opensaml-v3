@@ -53,6 +53,7 @@ import org.slf4j.LoggerFactory;
 
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.RatioGauge;
+import com.codahale.metrics.Timer.Context;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
@@ -480,7 +481,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
         ComponentSupport.ifNotInitializedThrowUninitializedComponentException(this);
         ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
         
-        com.codahale.metrics.Timer.Context contextResolve = timerResolve.time();
+        Context contextResolve = MetricsSupport.startTimer(timerResolve);
         try {
             final EntityIdCriterion entityIdCriterion = criteria.get(EntityIdCriterion.class);
             if (entityIdCriterion == null || Strings.isNullOrEmpty(entityIdCriterion.getEntityId())) {
@@ -518,9 +519,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
 
             return predicateFilterCandidates(candidates, criteria, false);
         } finally {
-            if (contextResolve != null) {
-                contextResolve.stop();
-            }
+            MetricsSupport.stopTimer(contextResolve);
         }
     }
     
@@ -554,14 +553,12 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
                 log.debug("Resolving metadata dynamically for entity ID: {}", entityID);
             }
             
-            final com.codahale.metrics.Timer.Context contextFetchFromOriginSource = timerFetchFromOriginSource.time();
+            Context contextFetchFromOriginSource = MetricsSupport.startTimer(timerFetchFromOriginSource);
             XMLObject root = null;
             try {
                 root = fetchFromOriginSource(criteria);
             } finally {
-                if (contextFetchFromOriginSource != null) {
-                    contextFetchFromOriginSource.stop();
-                }
+                MetricsSupport.stopTimer(contextFetchFromOriginSource);
             }
             
             if (root == null) {
@@ -866,21 +863,23 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
         }
         
         final MetricRegistry metricRegistry = MetricsSupport.getMetricRegistry();
-        timerResolve = metricRegistry.timer(
-                MetricRegistry.name(getMetricsBaseName(), METRIC_TIMER_RESOLVE));
-        timerFetchFromOriginSource = metricRegistry.timer(
-                MetricRegistry.name(getMetricsBaseName(), METRIC_TIMER_FETCH_FROM_ORIGIN_SOURCE));
-        
-        // Note that this gauge must use the support method to register in a synchronized fashion,
-        // and also must store off the instance for later use in destroy.
-        ratioGaugeFetchToResolve = MetricsSupport.register(
-                MetricRegistry.name(getMetricsBaseName(), METRIC_RATIOGAUGE_FETCH_TO_RESOLVE), 
-                new RatioGauge() {
-                    protected Ratio getRatio() {
-                        return Ratio.of(timerFetchFromOriginSource.getCount(), 
-                                timerResolve.getCount());
-                    }},
-                true);
+        if (metricRegistry != null) {
+            timerResolve = metricRegistry.timer(
+                    MetricRegistry.name(getMetricsBaseName(), METRIC_TIMER_RESOLVE));
+            timerFetchFromOriginSource = metricRegistry.timer(
+                    MetricRegistry.name(getMetricsBaseName(), METRIC_TIMER_FETCH_FROM_ORIGIN_SOURCE));
+
+            // Note that this gauge must use the support method to register in a synchronized fashion,
+            // and also must store off the instance for later use in destroy.
+            ratioGaugeFetchToResolve = MetricsSupport.register(
+                    MetricRegistry.name(getMetricsBaseName(), METRIC_RATIOGAUGE_FETCH_TO_RESOLVE), 
+                    new RatioGauge() {
+                        protected Ratio getRatio() {
+                            return Ratio.of(timerFetchFromOriginSource.getCount(), 
+                                    timerResolve.getCount());
+                        }},
+                    true);
+        }
     }
     
     /**

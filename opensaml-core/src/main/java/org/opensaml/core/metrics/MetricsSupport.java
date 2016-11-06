@@ -24,6 +24,8 @@ import org.opensaml.core.config.ConfigurationService;
 
 import com.codahale.metrics.Metric;
 import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.Timer;
+import com.codahale.metrics.Timer.Context;
 
 import net.shibboleth.utilities.java.support.logic.Constraint;
 
@@ -64,7 +66,7 @@ public final class MetricsSupport {
      * 
      * @param <T> the type of metric being registered
      */
-    public static <T extends Metric> T register(@Nonnull final String name, @Nonnull final T metric) {
+    @Nullable public static <T extends Metric> T register(@Nonnull final String name, @Nonnull final T metric) {
         return register(name, metric, true, null);
     }
             
@@ -82,7 +84,7 @@ public final class MetricsSupport {
      * 
      * @param <T> the type of metric being registered
      */
-    public static <T extends Metric> T register(@Nonnull final String name, @Nonnull final T metric, 
+    @Nullable public static <T extends Metric> T register(@Nonnull final String name, @Nonnull final T metric, 
             final boolean replaceExisting) {
         return register(name, metric, replaceExisting, null);
     }
@@ -99,7 +101,7 @@ public final class MetricsSupport {
      * 
      * @param <T> the type of metric being registered
      */
-    public static <T extends Metric> T register(@Nonnull final String name, @Nonnull final T metric, 
+    @Nullable public static <T extends Metric> T register(@Nonnull final String name, @Nonnull final T metric, 
             final boolean replaceExisting, @Nullable final MetricRegistry registry) { 
         
         Constraint.isNotNull(name, "Metric name was null");
@@ -225,5 +227,35 @@ public final class MetricsSupport {
         
         Metric registeredMetric = registry.getMetrics().get(name);
         return metric == registeredMetric;
+    }
+    
+    /**
+     * Start the specified timer.
+     * 
+     * @param timer the timer to start, may be null
+     * 
+     * @return the timer context, or null if the input timer was null
+     */
+    @Nullable public static Context startTimer(@Nullable final Timer timer) {
+        if (timer != null) {
+            return timer.time();
+        } else {
+            return null;
+        }
+    }
+    
+    /**
+     * Stop the timer represented by the specified timer context instance.
+     * 
+     * @param context the timer context to stop, may be null
+     * 
+     * @return the elapsed time in nanoseconds, or null if the input context was null
+     */
+    @Nullable public static Long stopTimer(@Nullable final Context context) {
+        if (context != null) {
+            return context.stop();
+        } else {
+            return null;
+        }
     }
 }
