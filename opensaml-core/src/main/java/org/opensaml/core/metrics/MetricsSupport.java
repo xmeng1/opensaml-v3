@@ -17,11 +17,15 @@
 
 package org.opensaml.core.metrics;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.opensaml.core.config.ConfigurationService;
 
+import com.codahale.metrics.Metric;
 import com.codahale.metrics.MetricRegistry;
+
+import net.shibboleth.utilities.java.support.logic.Constraint;
 
 /**
  * Support code for use of metrics.
@@ -46,4 +50,180 @@ public final class MetricsSupport {
         return ConfigurationService.get(MetricRegistry.class);
     }
     
+    /**
+     * Register a metric instance under the given name.
+     * 
+     * <p>
+     * Any existing instance registered under the given name will be replaced. 
+     * The {@link MetricRegistry} on which to operate will be obtained via {@link #getMetricRegistry()}.
+     * </p>
+     * 
+     * @param name the name under which to register the metric
+     * @param metric the metric instance to register
+     * @return the metric instance which was registered
+     * 
+     * @param <T> the type of metric being registered
+     */
+    public static <T extends Metric> T register(@Nonnull final String name, @Nonnull final T metric) {
+        return register(name, metric, true, null);
+    }
+            
+    /**
+     * Register a metric instance under the given name.
+     * 
+     * <p>
+     * The {@link MetricRegistry} on which to operate will be obtained via {@link #getMetricRegistry()}.
+     * </p>
+     * 
+     * @param name the name under which to register the metric
+     * @param metric the metric instance to register
+     * @param replaceExisting whether or not to replace the existing metric registered under that name
+     * @return the metric instance which was registered
+     * 
+     * @param <T> the type of metric being registered
+     */
+    public static <T extends Metric> T register(@Nonnull final String name, @Nonnull final T metric, 
+            final boolean replaceExisting) {
+        return register(name, metric, replaceExisting, null);
+    }
+    
+    /**
+     * Register a metric instance under the given name.
+     * 
+     * @param name the name under which to register the metric
+     * @param metric the metric instance to register
+     * @param replaceExisting whether or not to replace the existing metric registered under that name
+     * @param registry the metric registry on which to operate. 
+     *          If null, will be obtained via {@link #getMetricRegistry()}.
+     * @return the metric instance which was registered
+     * 
+     * @param <T> the type of metric being registered
+     */
+    public static <T extends Metric> T register(@Nonnull final String name, @Nonnull final T metric, 
+            final boolean replaceExisting, @Nullable final MetricRegistry registry) { 
+        
+        Constraint.isNotNull(name, "Metric name was null");
+        Constraint.isNotNull(metric, "Metric was null");
+        
+        MetricRegistry metricRegistry = registry;
+        if (metricRegistry == null) {
+            metricRegistry = getMetricRegistry();
+        }
+        if (metricRegistry == null) {
+            return null;
+        }
+        
+        synchronized (metricRegistry) {
+            try {
+                if (replaceExisting) {
+                    metricRegistry.remove(name);
+                }
+                return metricRegistry.register(name, metric);
+            } catch (final IllegalArgumentException e) {
+                // Catch this and try again, just in case something not using this synchronized
+                // method added since we removed above.
+                if (replaceExisting) {
+                    metricRegistry.remove(name);
+                    return metricRegistry.register(name, metric);
+                } else {
+                    throw e;
+                }
+            }
+        }
+        
+    }
+    
+    /**
+     * Remove a metric instance registered under the given name.
+     * 
+     * @param name the name under which to deregister the metric
+     *          
+     * @return whether or not the metric was actually removed
+     */
+    public static boolean remove(@Nonnull final String name) {
+        return remove(name, null, null);
+    }
+    
+    /**
+     * Remove a metric instance registered under the given name.
+     * 
+     * <p>
+     * If a non-null metric instance is supplied, the metric instance registered under the given name will only
+     * be removed if it is the same instance as supplied, as determined by 
+     * {@link #isMetricInstanceRegisteredUnderName(String, Metric, MetricRegistry)}
+     * </p>
+     * 
+     * <p>
+     * The {@link MetricRegistry} on which to operate will be obtained via {@link #getMetricRegistry()}.
+     * </p>
+     * 
+     * @param name the name under which to deregister the metric
+     * @param metric the metric instance to remove
+     *          
+     * @return whether or not the metric was actually removed
+     */
+    public static boolean remove(@Nonnull final String name, @Nullable final Metric metric) {
+        return remove(name, metric, null);
+    }
+    
+    /**
+     * Remove a metric instance registered under the given name.
+     * 
+     * <p>
+     * If a non-null metric instance is supplied, the metric instance registered under the given name will only
+     * be removed if it is the same instance as supplied, as determined by 
+     * {@link #isMetricInstanceRegisteredUnderName(String, Metric, MetricRegistry)}
+     * </p>
+     * 
+     * <p>
+     * The {@link MetricRegistry} on which to operate will be obtained via {@link #getMetricRegistry()}.
+     * </p>
+     * 
+     * @param name the name under which to deregister the metric
+     * @param metric the metric instance to remove
+     * @param registry the metric registry on which to operate. 
+     *          If null, will be obtained via {@link #getMetricRegistry()}.
+     *          
+     * @return whether or not the metric was actually removed
+     */
+    public static boolean remove(@Nonnull final String name, @Nullable final Metric metric, 
+            @Nullable final MetricRegistry registry) {
+        
+        Constraint.isNotNull(name, "Metric name was null");
+        
+        MetricRegistry metricRegistry = registry;
+        if (metricRegistry == null) {
+            metricRegistry = getMetricRegistry();
+        }
+        if (metricRegistry == null) {
+            return false;
+        }
+        
+        synchronized (metricRegistry) {
+            if (metric != null && !isMetricInstanceRegisteredUnderName(name, metric, metricRegistry)) {
+                return false;
+            }
+            return metricRegistry.remove(name);
+        }
+    }
+    
+    /**
+     * Determine whether the given metric instance is registered under the given name.
+     * 
+     * @param name the name under which to deregister the metric
+     * @param metric the metric instance to remove
+     * @param registry the metric registry on which to operate. 
+     * 
+     * @return true if the given metric instance is registered under the given name, false if not
+     */
+    public static boolean isMetricInstanceRegisteredUnderName(@Nonnull final String name, @Nonnull final Metric metric,
+            @Nonnull final MetricRegistry registry) {
+        
+        Constraint.isNotNull(registry, "MetricRegistry was null");
+        Constraint.isNotNull(name, "Metric name was null");
+        Constraint.isNotNull(metric, "Metric was null");
+        
+        Metric registeredMetric = registry.getMetrics().get(name);
+        return metric == registeredMetric;
+    }
 }

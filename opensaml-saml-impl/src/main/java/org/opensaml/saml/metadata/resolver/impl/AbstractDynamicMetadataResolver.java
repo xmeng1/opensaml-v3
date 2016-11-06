@@ -99,6 +99,9 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
     /** Metrics Timer for {@link #fetchFromOriginSource(CriteriaSet)}. */
     @NonnullAfterInit private com.codahale.metrics.Timer timerFetchFromOriginSource;
     
+    /** Metrics RatioGauge for count of origin fetches to resolves.*/
+    @NonnullAfterInit private RatioGauge ratioGaugeFetchToResolve;
+    
     /** Timer used to schedule background metadata update tasks. */
     private Timer taskTimer;
     
@@ -817,23 +820,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
             
             super.initMetadataResolver();
             
-            if (getMetricsBaseName() == null) {
-                setMetricsBaseName(MetricRegistry.name(this.getClass(), getId()));
-            }
-            
-            final MetricRegistry metricRegistry = MetricsSupport.getMetricRegistry();
-            timerResolve = metricRegistry.timer(
-                    MetricRegistry.name(getMetricsBaseName(), METRIC_TIMER_RESOLVE));
-            timerFetchFromOriginSource = metricRegistry.timer(
-                    MetricRegistry.name(getMetricsBaseName(), METRIC_TIMER_FETCH_FROM_ORIGIN_SOURCE));
-            metricRegistry.register(
-                    MetricRegistry.name(getMetricsBaseName(), METRIC_RATIOGAUGE_FETCH_TO_RESOLVE), 
-                    new RatioGauge() {
-                        protected Ratio getRatio() {
-                            return Ratio.of(timerFetchFromOriginSource.getCount(), 
-                                    timerResolve.getCount());
-                        }
-                    });
+            initializeMetricsInstrumentation();
             
             setBackingStore(createNewBackingStore());
             
@@ -868,6 +855,32 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
         } finally {
             initializing = false;
         }
+    }
+
+    /**
+     * Initialize the Metrics-based instrumentation.
+     */
+    private void initializeMetricsInstrumentation() {
+        if (getMetricsBaseName() == null) {
+            setMetricsBaseName(MetricRegistry.name(this.getClass(), getId()));
+        }
+        
+        final MetricRegistry metricRegistry = MetricsSupport.getMetricRegistry();
+        timerResolve = metricRegistry.timer(
+                MetricRegistry.name(getMetricsBaseName(), METRIC_TIMER_RESOLVE));
+        timerFetchFromOriginSource = metricRegistry.timer(
+                MetricRegistry.name(getMetricsBaseName(), METRIC_TIMER_FETCH_FROM_ORIGIN_SOURCE));
+        
+        // Note that this gauge must use the support method to register in a synchronized fashion,
+        // and also must store off the instance for later use in destroy.
+        ratioGaugeFetchToResolve = MetricsSupport.register(
+                MetricRegistry.name(getMetricsBaseName(), METRIC_RATIOGAUGE_FETCH_TO_RESOLVE), 
+                new RatioGauge() {
+                    protected Ratio getRatio() {
+                        return Ratio.of(timerFetchFromOriginSource.getCount(), 
+                                timerResolve.getCount());
+                    }},
+                true);
     }
     
     /**
@@ -996,10 +1009,13 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
         cleanupTask = null;
         taskTimer = null;
         
-        MetricRegistry metricRegistry = MetricsSupport.getMetricRegistry();
-        metricRegistry.remove(MetricRegistry.name(getMetricsBaseName(), METRIC_RATIOGAUGE_FETCH_TO_RESOLVE));
-        metricRegistry.remove(MetricRegistry.name(getMetricsBaseName(), METRIC_TIMER_FETCH_FROM_ORIGIN_SOURCE));
-        metricRegistry.remove(MetricRegistry.name(getMetricsBaseName(), METRIC_TIMER_RESOLVE));
+        if (ratioGaugeFetchToResolve != null) {
+            MetricsSupport.remove(MetricRegistry.name(getMetricsBaseName(), METRIC_RATIOGAUGE_FETCH_TO_RESOLVE), 
+                    ratioGaugeFetchToResolve);
+        }
+        ratioGaugeFetchToResolve = null;
+        timerFetchFromOriginSource = null;
+        timerResolve = null;
         
         super.doDestroy();
     }
