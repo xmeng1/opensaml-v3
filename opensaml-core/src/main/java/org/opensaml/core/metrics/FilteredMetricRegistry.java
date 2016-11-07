@@ -137,15 +137,5 @@ public class FilteredMetricRegistry extends MetricRegistry {
             registerAll(set);
         }
     }
-    
-    /** {@inheritDoc} */
-    @Override public <T extends Metric> T register(String name, T metric) throws IllegalArgumentException {
-        if (!(metric instanceof Gauge)) {
-            return super.register(name, metric);
-        } else if (metricFilter != null && metricFilter.matches(name, metric)) {
-            return super.register(name, metric);
-        }
-        return metric;
-    }
 
 }
