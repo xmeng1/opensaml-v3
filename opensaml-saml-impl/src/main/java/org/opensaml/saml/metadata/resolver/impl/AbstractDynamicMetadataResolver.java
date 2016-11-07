@@ -56,6 +56,7 @@ import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.RatioGauge;
 import com.codahale.metrics.Timer.Context;
 import com.google.common.base.Function;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.base.Strings;
@@ -92,6 +93,9 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
     /** Metric name for the gauge of the number of live entityIDs. */
     public static final String METRIC_GAUGE_NUM_LIVE_ENTITYIDS = "gauge.numLiveEntityIDs";
     
+    /** Metric name for the gauge of the persistent cache initialization metrics. */
+    public static final String METRIC_GAUGE_PERSISTENT_CACHE_INIT = "gauge.persistentCacheInitialization";
+    
     /** Class logger. */
     private final Logger log = LoggerFactory.getLogger(AbstractDynamicMetadataResolver.class);
     
@@ -109,6 +113,9 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
     
     /** Metrics Gauge for the number of live entityIDs.*/
     @Nullable private Gauge<Integer> gaugeNumLiveEntityIDs;
+    
+    /** Metrics Gauge for the persistent cache initialization.*/
+    @Nullable private Gauge<PersistentCacheInitializationMetrics> gaugePersistentCacheInit;
     
     /** Timer used to schedule background metadata update tasks. */
     private Timer taskTimer;
@@ -153,6 +160,9 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
     /** Predicate which determines whether a given entity should be loaded from the persistent cache
      * at resolver initialization time. */
     private Predicate<EntityDescriptor> initializationFromCachePredicate;
+    
+    /** Object tracking metrics related to the persistent cache initialization. */
+    @NonnullAfterInit private PersistentCacheInitializationMetrics persistentCacheInitMetrics;
     
     /** Flag used to track state of whether currently initializing or not. */
     private boolean initializing;
@@ -836,7 +846,9 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
                 setInitializationFromCachePredicate(Predicates.<EntityDescriptor>alwaysTrue());
             }
             
+            persistentCacheInitMetrics = new PersistentCacheInitializationMetrics();
             if (isPersistentCachingEnabled()) {
+                persistentCacheInitMetrics.enabled = true;
                 if (isInitializeFromPersistentCacheInBackground()) {
                     log.debug("Initializing from the persistent cache in the background in {} ms", 
                             getBackgroundInitializatonFromCacheDelay());
@@ -894,6 +906,14 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
                             return getBackingStore().getIndexedDescriptors().keySet().size();
                         }},
                     true);
+            
+            gaugePersistentCacheInit = MetricsSupport.register(
+                    MetricRegistry.name(getMetricsBaseName(), METRIC_GAUGE_PERSISTENT_CACHE_INIT),
+                    new Gauge<PersistentCacheInitializationMetrics>() {
+                        public PersistentCacheInitializationMetrics getValue() {
+                            return persistentCacheInitMetrics;
+                        }},
+                    true);
         }
     }
     
@@ -908,8 +928,10 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
             log.trace("Attempting to load and process entities from the persistent cache");
         }
         
+        long start = System.nanoTime();
         try {
             for (final Pair<String, EntityDescriptor> cacheEntry: getPersistentCacheManager().listAll()) {
+                persistentCacheInitMetrics.entriesTotal++;
                 final EntityDescriptor descriptor = cacheEntry.getSecond();
                 final String currentKey = cacheEntry.getFirst();
                 log.trace("Loaded EntityDescriptor from cache store with entityID '{}' and storage key '{}'", 
@@ -927,6 +949,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
                     if (!lookupIndexedEntityID(entityID).isEmpty()) {
                         log.trace("Metadata for entityID '{}' found in persistent cache was already live, " 
                                 + "ignoring cached entry", entityID);
+                        persistentCacheInitMetrics.entriesSkippedAlreadyLive++;
                         continue;
                     }
                 
@@ -938,6 +961,9 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
             }
         } catch (final IOException e) {
             log.warn("Error loading EntityDescriptors from cache", e);
+        } finally {
+            persistentCacheInitMetrics.processingTime = System.nanoTime() - start; 
+            log.debug("Persistent cache initialization metrics: {}", persistentCacheInitMetrics);
         }
     }
 
@@ -957,6 +983,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
                     processNewMetadata(descriptor, descriptor.getEntityID(), true);
                     log.trace("Successfully processed EntityDescriptor with entityID '{}' from cache", 
                             descriptor.getEntityID());
+                    persistentCacheInitMetrics.entriesLoaded++;
 
                     // Update storage key if necessary, e.g. if cache key generator impl has changed.
                     if (!Objects.equals(currentKey, expectedKey)) {
@@ -970,6 +997,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
                 } catch (final FilterException e) {
                     log.warn("Error processing EntityDescriptor '{}' from cache with storage key '{}'", 
                             descriptor.getEntityID(), currentKey, e);
+                    persistentCacheInitMetrics.entriesSkippedProcessingException++;
                 } catch (final IOException e) {
                     log.warn("Error updating cache storage key '{}' to '{}'", currentKey, expectedKey, e);
                 }
@@ -977,10 +1005,12 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
                 log.trace("Cache initialization predicate indicated to not process EntityDescriptor " 
                         + "with entityID '{}' and cache storage key '{}'",
                         descriptor.getEntityID(), currentKey);
+                persistentCacheInitMetrics.entriesSkippedFailedPredicate++;
             }
         } else {
             log.trace("EntityDescriptor with entityID '{}' and storaage key '{}' in cache was " 
                     + "not valid, skipping and removing", descriptor.getEntityID(), currentKey);
+            persistentCacheInitMetrics.entriesSkippedInvalid++;
             try {
                 getPersistentCacheManager().remove(currentKey);
             } catch (final IOException e) {
@@ -1031,8 +1061,13 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
             MetricsSupport.remove(MetricRegistry.name(getMetricsBaseName(), METRIC_GAUGE_NUM_LIVE_ENTITYIDS), 
                     gaugeNumLiveEntityIDs);
         }
+        if (gaugePersistentCacheInit != null) {
+            MetricsSupport.remove(MetricRegistry.name(getMetricsBaseName(), METRIC_GAUGE_PERSISTENT_CACHE_INIT), 
+                    gaugePersistentCacheInit);
+        }
         ratioGaugeFetchToResolve = null;
         gaugeNumLiveEntityIDs = null;
+        gaugePersistentCacheInit = null;
         timerFetchFromOriginSource = null;
         timerResolve = null;
         
@@ -1328,6 +1363,117 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
             }
             
             return digester.apply(entityID);
+        }
+        
+    }
+    
+    /**
+     * Class used to track metrics related to the initialization from the persistent cache.
+     */
+    public static class PersistentCacheInitializationMetrics {
+        
+        /** Whether or not persistent caching was enabled. */
+        private boolean enabled;
+        
+        /** Total processing time for the persistent cache, in nanoseconds. */
+        private long processingTime;
+        
+        /** Total entries seen in the persistent cache. */
+        private int entriesTotal;
+        
+        /** Entries which were successfully loaded and made live. */
+        private int entriesLoaded;
+        
+        /** Entries which were skipped because they were already live by the time they were processed, 
+         * generally only seen when initializing from the persistent cache in a background thread. */
+        private int entriesSkippedAlreadyLive;
+        
+        /** Entries which were skipped because they were determined to be invalid. */
+        private int entriesSkippedInvalid;
+        
+        /** Entries which were skipped because they failed the persistent cache predicate evaluation. */
+        private int entriesSkippedFailedPredicate;
+        
+        /** Entries which were skipped due to a processing exception. */
+        private int entriesSkippedProcessingException;
+        
+        /**
+         * Get whether or not persistent caching was enabled. 
+         * @return Returns the enabled.
+         */
+        public boolean isEnabled() {
+            return enabled;
+        }
+
+        /**
+         * Get total processing time for the persistent cache, in nanoseconds.
+         * @return Returns the processingTime.
+         */
+        public long getProcessingTime() {
+            return processingTime;
+        }
+
+        /**
+         * Get total entries seen in the persistent cache.
+         * @return Returns the entriesTotal.
+         */
+        public int getEntriesTotal() {
+            return entriesTotal;
+        }
+
+        /**
+         * Get entries which were successfully loaded and made live. 
+         * @return Returns the entriesLoaded.
+         */
+        public int getEntriesLoaded() {
+            return entriesLoaded;
+        }
+
+        /**
+         * Get entries which were skipped because they were already live by the time they were processed, 
+         * generally only seen when initializing from the persistent cache in a background thread. 
+         * @return Returns the entriesSkippedAlreadyLive.
+         */
+        public int getEntriesSkippedAlreadyLive() {
+            return entriesSkippedAlreadyLive;
+        }
+
+        /**
+         * Get entries which were skipped because they were determined to be invalid.
+         * @return Returns the entriesSkippedInvalid.
+         */
+        public int getEntriesSkippedInvalid() {
+            return entriesSkippedInvalid;
+        }
+
+        /**
+         * Get entries which were skipped because they failed the persistent cache predicate evaluation.
+         * @return Returns the entriesSkippedFailedPredicate.
+         */
+        public int getEntriesSkippedFailedPredicate() {
+            return entriesSkippedFailedPredicate;
+        }
+
+        /**
+         * Get entries which were skipped due to a processing exception. 
+         * @return Returns the entriesSkippedProcessingException.
+         */
+        public int getEntriesSkippedProcessingException() {
+            return entriesSkippedProcessingException;
+        }
+
+        /** {@inheritDoc} */
+        public String toString() {
+            return MoreObjects.toStringHelper(this)
+                    .add("enabled", enabled)
+                    .add("processingTime", processingTime)
+                    .add("entriesTotal", entriesTotal)
+                    .add("entriesLoaded", entriesLoaded)
+                    .add("entriesSkippedAlreadyLive", entriesSkippedAlreadyLive)
+                    .add("entriesSkippedInvalid", entriesSkippedInvalid)
+                    .add("entriesSkippedFailedPredicate", entriesSkippedFailedPredicate)
+                    .add("entriesSkippedProcessingException", entriesSkippedProcessingException)
+                    .toString();
         }
         
     }
