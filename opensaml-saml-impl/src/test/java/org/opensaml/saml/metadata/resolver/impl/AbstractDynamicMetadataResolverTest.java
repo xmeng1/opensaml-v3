@@ -19,6 +19,9 @@ package org.opensaml.saml.metadata.resolver.impl;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.security.KeyPair;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
@@ -31,10 +34,25 @@ import org.opensaml.core.xml.io.MarshallingException;
 import org.opensaml.core.xml.persist.MapLoadSaveManager;
 import org.opensaml.core.xml.persist.XMLObjectLoadSaveManager;
 import org.opensaml.core.xml.util.XMLObjectSupport;
+import org.opensaml.saml.metadata.resolver.filter.impl.SignatureValidationFilter;
 import org.opensaml.saml.metadata.resolver.impl.AbstractDynamicMetadataResolver.DynamicEntityBackingStore;
 import org.opensaml.saml.saml2.metadata.EntityDescriptor;
+import org.opensaml.security.SecurityException;
+import org.opensaml.security.credential.Credential;
+import org.opensaml.security.credential.CredentialSupport;
+import org.opensaml.security.credential.impl.StaticCredentialResolver;
+import org.opensaml.security.crypto.JCAConstants;
+import org.opensaml.security.crypto.KeySupport;
+import org.opensaml.xmlsec.SignatureSigningParameters;
+import org.opensaml.xmlsec.config.DefaultSecurityConfigurationBootstrap;
+import org.opensaml.xmlsec.signature.support.SignatureConstants;
+import org.opensaml.xmlsec.signature.support.SignatureException;
+import org.opensaml.xmlsec.signature.support.SignatureSupport;
+import org.opensaml.xmlsec.signature.support.SignatureTrustEngine;
+import org.opensaml.xmlsec.signature.support.impl.ExplicitKeySignatureTrustEngine;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -60,13 +78,39 @@ public class AbstractDynamicMetadataResolverTest extends XMLObjectBaseTestCase {
     private String id1, id2, id3;
     private EntityDescriptor ed1, ed2, ed3;
     
+    private Credential signingCred;
+    private SignatureSigningParameters signingParams;
+    private SignatureTrustEngine signatureTrustEngine;
+    private SignatureValidationFilter signatureValidationFilter;
+    
+    @BeforeClass
+    protected void setUpSigningSupport() throws NoSuchAlgorithmException, NoSuchProviderException {
+        KeyPair kp = KeySupport.generateKeyPair(JCAConstants.KEY_ALGO_RSA, 1024, null);
+        signingCred = CredentialSupport.getSimpleCredential(kp.getPublic(), kp.getPrivate());
+        
+        signingParams = new SignatureSigningParameters();
+        signingParams.setSigningCredential(signingCred);
+        signingParams.setSignatureAlgorithm(SignatureConstants.ALGO_ID_SIGNATURE_RSA_SHA256);
+        signingParams.setSignatureCanonicalizationAlgorithm(SignatureConstants.ALGO_ID_C14N_EXCL_OMIT_COMMENTS);
+        signingParams.setSignatureReferenceDigestMethod(SignatureConstants.ALGO_ID_DIGEST_SHA256);
+        signingParams.setKeyInfoGenerator(DefaultSecurityConfigurationBootstrap.buildBasicKeyInfoGeneratorManager().getDefaultManager().getFactory(signingCred).newInstance());
+        
+        signatureTrustEngine = new ExplicitKeySignatureTrustEngine(
+                new StaticCredentialResolver(signingCred), 
+                DefaultSecurityConfigurationBootstrap.buildBasicInlineKeyInfoCredentialResolver());
+        
+        signatureValidationFilter = new SignatureValidationFilter(signatureTrustEngine);
+    }
+    
     @BeforeMethod
-    protected void setUpEntityData() throws MarshallingException, IOException {
+    protected void setUpEntityData() throws MarshallingException, IOException, SecurityException, SignatureException {
         ByteArrayOutputStream baos = null;
         
         id1 = "urn:test:entity:1";
         ed1 = buildXMLObject(EntityDescriptor.DEFAULT_ELEMENT_NAME);
         ed1.setEntityID(id1);
+        SignatureSupport.signObject(ed1, signingParams);
+        Assert.assertTrue(ed1.isSigned());
         baos = new ByteArrayOutputStream();
         XMLObjectSupport.marshallToOutputStream(ed1, baos);
         baos.flush();
@@ -76,6 +120,8 @@ public class AbstractDynamicMetadataResolverTest extends XMLObjectBaseTestCase {
         id2 = "urn:test:entity:2";
         ed2 = buildXMLObject(EntityDescriptor.DEFAULT_ELEMENT_NAME);
         ed2.setEntityID(id2);
+        SignatureSupport.signObject(ed2, signingParams);
+        Assert.assertTrue(ed2.isSigned());
         baos = new ByteArrayOutputStream();
         XMLObjectSupport.marshallToOutputStream(ed2, baos);
         baos.flush();
@@ -85,6 +131,8 @@ public class AbstractDynamicMetadataResolverTest extends XMLObjectBaseTestCase {
         id3 = "urn:test:entity:3";
         ed3 = buildXMLObject(EntityDescriptor.DEFAULT_ELEMENT_NAME);
         ed3.setEntityID(id3);
+        SignatureSupport.signObject(ed3, signingParams);
+        Assert.assertTrue(ed3.isSigned());
         baos = new ByteArrayOutputStream();
         XMLObjectSupport.marshallToOutputStream(ed3, baos);
         baos.flush();
@@ -158,13 +206,49 @@ public class AbstractDynamicMetadataResolverTest extends XMLObjectBaseTestCase {
         Assert.assertNull(result.getDOM());
     }
     
-    @Test
     public void testBasicResolutionWithPersistentCache() throws ComponentInitializationException, ResolverException {
         sourceMap.put(id1, ed1);
         sourceMap.put(id2, ed2);
         sourceMap.put(id3, ed3);
         
         resolver.setPersistentCacheManager(persistentCacheManager);
+        resolver.initialize();
+        
+        Assert.assertTrue(resolver.isPersistentCachingEnabled());
+        
+        Assert.assertEquals(persistentCacheMap.size(), 0);
+        
+        Assert.assertNotNull(resolver.resolveSingle(new CriteriaSet(new EntityIdCriterion(id1))));
+        
+        Assert.assertEquals(persistentCacheMap.size(), 1);
+        
+        String cacheKey = resolver.getPersistentCacheKeyGenerator().apply(ed1);
+        Assert.assertTrue(persistentCacheMap.containsKey(cacheKey));
+        Assert.assertSame(persistentCacheMap.get(cacheKey), ed1);
+        
+        Assert.assertNotNull(resolver.resolveSingle(new CriteriaSet(new EntityIdCriterion(id2))));
+        Assert.assertNotNull(resolver.resolveSingle(new CriteriaSet(new EntityIdCriterion(id3))));
+        
+        Assert.assertEquals(persistentCacheMap.size(), 3);
+        
+        cacheKey = resolver.getPersistentCacheKeyGenerator().apply(ed2);
+        Assert.assertTrue(persistentCacheMap.containsKey(cacheKey));
+        Assert.assertSame(persistentCacheMap.get(cacheKey), ed2);
+        
+        cacheKey = resolver.getPersistentCacheKeyGenerator().apply(ed3);
+        Assert.assertTrue(persistentCacheMap.containsKey(cacheKey));
+        Assert.assertSame(persistentCacheMap.get(cacheKey), ed3);
+        
+    }
+    
+    @Test
+    public void testWithPersistentCacheAndSignatureValidation() throws ComponentInitializationException, ResolverException {
+        sourceMap.put(id1, ed1);
+        sourceMap.put(id2, ed2);
+        sourceMap.put(id3, ed3);
+        
+        resolver.setPersistentCacheManager(persistentCacheManager);
+        resolver.setMetadataFilter(signatureValidationFilter);
         resolver.initialize();
         
         Assert.assertTrue(resolver.isPersistentCachingEnabled());

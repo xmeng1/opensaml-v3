@@ -720,7 +720,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
             //   1) the root doesn't expose its source byte[] via object metadata, and
             //   2) the object can't be successfully round-tripped (e.g signatures).
             try {
-                return XMLObjectSupport.cloneXMLObject(input, CloneOutputOption.DropDOM);
+                return XMLObjectSupport.cloneXMLObject(input, CloneOutputOption.RootDOMInNewDocument);
             } catch (MarshallingException | UnmarshallingException e) {
                 log.warn("Error cloning XMLObject, will use input root object as filter target", e);
                 return input;
