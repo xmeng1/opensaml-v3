@@ -28,8 +28,10 @@ import org.opensaml.core.metrics.impl.DisabledMeter;
 import org.opensaml.core.metrics.impl.DisabledTimer;
 
 import com.codahale.metrics.Counter;
+import com.codahale.metrics.Gauge;
 import com.codahale.metrics.Histogram;
 import com.codahale.metrics.Meter;
+import com.codahale.metrics.Metric;
 import com.codahale.metrics.MetricFilter;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.MetricSet;
@@ -136,4 +138,14 @@ public class FilteredMetricRegistry extends MetricRegistry {
         }
     }
     
+    /** {@inheritDoc} */
+    @Override public <T extends Metric> T register(String name, T metric) throws IllegalArgumentException {
+        if (!(metric instanceof Gauge)) {
+            return super.register(name, metric);
+        } else if (metricFilter != null && metricFilter.matches(name, metric)) {
+            return super.register(name, metric);
+        }
+        return metric;
+    }
+
 }
