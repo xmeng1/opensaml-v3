@@ -51,6 +51,7 @@ import org.opensaml.security.crypto.JCAConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.codahale.metrics.Gauge;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.RatioGauge;
 import com.codahale.metrics.Timer.Context;
@@ -88,6 +89,9 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
     /** Metric name for the ratio gauge of fetches to resolve requests. */
     public static final String METRIC_RATIOGAUGE_FETCH_TO_RESOLVE = "ratioGauge.fetchToResolve";
     
+    /** Metric name for the gauge of the number of live entityIDs. */
+    public static final String METRIC_GAUGE_NUM_LIVE_ENTITYIDS = "gauge.numLiveEntityIDs";
+    
     /** Class logger. */
     private final Logger log = LoggerFactory.getLogger(AbstractDynamicMetadataResolver.class);
     
@@ -102,6 +106,9 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
     
     /** Metrics RatioGauge for count of origin fetches to resolves.*/
     @Nullable private RatioGauge ratioGaugeFetchToResolve;
+    
+    /** Metrics Gauge for the number of live entityIDs.*/
+    @Nullable private Gauge<Integer> gaugeNumLiveEntityIDs;
     
     /** Timer used to schedule background metadata update tasks. */
     private Timer taskTimer;
@@ -869,14 +876,22 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
             timerFetchFromOriginSource = metricRegistry.timer(
                     MetricRegistry.name(getMetricsBaseName(), METRIC_TIMER_FETCH_FROM_ORIGIN_SOURCE));
 
-            // Note that this gauge must use the support method to register in a synchronized fashion,
-            // and also must store off the instance for later use in destroy.
+            // Note that these gauges must use the support method to register in a synchronized fashion,
+            // and also must store off the instances for later use in destroy.
             ratioGaugeFetchToResolve = MetricsSupport.register(
                     MetricRegistry.name(getMetricsBaseName(), METRIC_RATIOGAUGE_FETCH_TO_RESOLVE), 
                     new RatioGauge() {
                         protected Ratio getRatio() {
                             return Ratio.of(timerFetchFromOriginSource.getCount(), 
                                     timerResolve.getCount());
+                        }},
+                    true);
+            
+            gaugeNumLiveEntityIDs = MetricsSupport.register(
+                    MetricRegistry.name(getMetricsBaseName(), METRIC_GAUGE_NUM_LIVE_ENTITYIDS),
+                    new Gauge<Integer>() {
+                        public Integer getValue() {
+                            return getBackingStore().getIndexedDescriptors().keySet().size();
                         }},
                     true);
         }
@@ -1012,7 +1027,12 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
             MetricsSupport.remove(MetricRegistry.name(getMetricsBaseName(), METRIC_RATIOGAUGE_FETCH_TO_RESOLVE), 
                     ratioGaugeFetchToResolve);
         }
+        if (gaugeNumLiveEntityIDs != null) {
+            MetricsSupport.remove(MetricRegistry.name(getMetricsBaseName(), METRIC_GAUGE_NUM_LIVE_ENTITYIDS), 
+                    gaugeNumLiveEntityIDs);
+        }
         ratioGaugeFetchToResolve = null;
+        gaugeNumLiveEntityIDs = null;
         timerFetchFromOriginSource = null;
         timerResolve = null;
         
