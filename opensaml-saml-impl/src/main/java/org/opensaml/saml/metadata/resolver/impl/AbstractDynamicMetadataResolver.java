@@ -155,7 +155,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
     private boolean initializeFromPersistentCacheInBackground;
     
     /** The delay in milliseconds after which to schedule the background initialization from the persistent cache. */
-    @Duration @Positive private Long backgroundInitializatonFromCacheDelay;
+    @Duration @Positive private Long backgroundInitializationFromCacheDelay;
     
     /** Predicate which determines whether a given entity should be loaded from the persistent cache
      * at resolver initialization time. */
@@ -203,7 +203,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
         initializeFromPersistentCacheInBackground = true;
         
         // Default to 2 seconds.
-        backgroundInitializatonFromCacheDelay = 2*1000L;
+        backgroundInitializationFromCacheDelay = 2*1000L;
     }
     
     /**
@@ -236,9 +236,11 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
      * <p>Defaults to: 2 seconds.</p>
      * 
      * @return the delay in milliseconds
+     * 
+     * @since 3.3.0
      */
-    @Nonnull public Long getBackgroundInitializatonFromCacheDelay() {
-        return backgroundInitializatonFromCacheDelay;
+    @Nonnull public Long getBackgroundInitializationFromCacheDelay() {
+        return backgroundInitializationFromCacheDelay;
     }
 
     /**
@@ -247,11 +249,13 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
      * <p>Defaults to: 2 seconds.</p>
      * 
      * @param delay the delay in milliseconds
+     * 
+     * @since 3.3.0
      */
-    public void setBackgroundInitializatonFromCacheDelay(@Nonnull final Long delay) {
+    public void setBackgroundInitializationFromCacheDelay(@Nonnull final Long delay) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
-        backgroundInitializatonFromCacheDelay = delay;
+        backgroundInitializationFromCacheDelay = delay;
     }
 
     /**
@@ -851,13 +855,13 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
                 persistentCacheInitMetrics.enabled = true;
                 if (isInitializeFromPersistentCacheInBackground()) {
                     log.debug("Initializing from the persistent cache in the background in {} ms", 
-                            getBackgroundInitializatonFromCacheDelay());
+                            getBackgroundInitializationFromCacheDelay());
                     TimerTask initTask = new TimerTask() {
                         public void run() {
                             initializeFromPersistentCache();
                         }
                     };
-                    taskTimer.schedule(initTask, getBackgroundInitializatonFromCacheDelay());
+                    taskTimer.schedule(initTask, getBackgroundInitializationFromCacheDelay());
                 } else {
                     log.debug("Initializing from the persistent cache in the foreground");
                     initializeFromPersistentCache();
