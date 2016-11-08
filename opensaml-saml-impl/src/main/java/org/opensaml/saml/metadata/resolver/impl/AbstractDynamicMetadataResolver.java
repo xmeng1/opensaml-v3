@@ -664,7 +664,11 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
         if (filteredMetadata == null) {
             log.info("Metadata filtering process produced a null document, resulting in an empty data set");
             releaseMetadataDOM(root);
-            return;
+            if (fromPersistentCache) {
+                throw new FilterException("Metadata filtering process produced a null XMLObject");
+            } else {
+                return;
+            }
         }
         
         if (filteredMetadata instanceof EntityDescriptor) {
