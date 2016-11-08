@@ -982,28 +982,15 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
         
         if (isValid(descriptor)) {
             if (getInitializationFromCachePredicate().apply(descriptor)) {
-                final String expectedKey = getPersistentCacheKeyGenerator().apply(descriptor);
                 try {
                     processNewMetadata(descriptor, descriptor.getEntityID(), true);
                     log.trace("Successfully processed EntityDescriptor with entityID '{}' from cache", 
                             descriptor.getEntityID());
                     persistentCacheInitMetrics.entriesLoaded++;
-
-                    // Update storage key if necessary, e.g. if cache key generator impl has changed.
-                    if (!Objects.equals(currentKey, expectedKey)) {
-                        log.trace("Current cache storage key '{}' differs from expected key '{}', updating",
-                                currentKey, expectedKey);
-                        getPersistentCacheManager().updateKey(currentKey, expectedKey);
-                        log.trace("Successfully updated cache storage key '{}' to '{}'", 
-                                currentKey, expectedKey);
-                    }
-
                 } catch (final FilterException e) {
                     log.warn("Error processing EntityDescriptor '{}' from cache with storage key '{}'", 
                             descriptor.getEntityID(), currentKey, e);
                     persistentCacheInitMetrics.entriesSkippedProcessingException++;
-                } catch (final IOException e) {
-                    log.warn("Error updating cache storage key '{}' to '{}'", currentKey, expectedKey, e);
                 }
             } else {
                 log.trace("Cache initialization predicate indicated to not process EntityDescriptor " 
@@ -1011,6 +998,21 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
                         descriptor.getEntityID(), currentKey);
                 persistentCacheInitMetrics.entriesSkippedFailedPredicate++;
             }
+            
+            // Update storage key if necessary, e.g. if cache key generator impl has changed.
+            final String expectedKey = getPersistentCacheKeyGenerator().apply(descriptor);
+            try {
+                if (!Objects.equals(currentKey, expectedKey)) {
+                    log.trace("Current cache storage key '{}' differs from expected key '{}', updating",
+                            currentKey, expectedKey);
+                    getPersistentCacheManager().updateKey(currentKey, expectedKey);
+                    log.trace("Successfully updated cache storage key '{}' to '{}'", 
+                            currentKey, expectedKey);
+                }
+            } catch (final IOException e) {
+                log.warn("Error updating cache storage key '{}' to '{}'", currentKey, expectedKey, e);
+            }
+                
         } else {
             log.trace("EntityDescriptor with entityID '{}' and storaage key '{}' in cache was " 
                     + "not valid, skipping and removing", descriptor.getEntityID(), currentKey);
