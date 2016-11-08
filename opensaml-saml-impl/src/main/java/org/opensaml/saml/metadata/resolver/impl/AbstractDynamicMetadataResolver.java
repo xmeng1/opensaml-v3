@@ -636,7 +636,12 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
      */
     @Nonnull protected void processNewMetadata(@Nonnull final XMLObject root, @Nonnull final String expectedEntityID) 
             throws FilterException {
-        processNewMetadata(root, expectedEntityID, false);
+        try {
+            processNewMetadata(root, expectedEntityID, false);
+        } catch (ResolverException e) {
+            //TODO this is kludgy, but necessary until we can change the API to add an exception to the method signature
+            throw new FilterException(e);
+        }
     }
     
     /**
@@ -654,10 +659,11 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
      * @param fromPersistentCache whether the entity data was loaded from the persistent cache
      * 
      * @throws FilterException if there is a problem filtering the metadata
+     * @throws ResolverException if there is a problem processing the metadata
      */
-    //CheckStyle: ReturnCount OFF
+    //CheckStyle: ReturnCount|CyclomaticComplexity OFF
     @Nonnull protected void processNewMetadata(@Nonnull final XMLObject root, @Nonnull final String expectedEntityID,
-            final boolean fromPersistentCache) throws FilterException {
+            final boolean fromPersistentCache) throws FilterException, ResolverException {
         
         final XMLObject filteredMetadata = filterMetadata(prepareForFiltering(root));
         
@@ -676,7 +682,11 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
             if (!Objects.equals(entityDescriptor.getEntityID(), expectedEntityID)) {
                 log.warn("New metadata's entityID '{}' does not match expected entityID '{}', will not process", 
                         entityDescriptor.getEntityID(), expectedEntityID);
-               return; 
+                if (fromPersistentCache) {
+                    throw new ResolverException("New metadata's entityID does not match expected entityID");
+                } else {
+                    return; 
+                }
             }
             
             preProcessEntityDescriptor(entityDescriptor, getBackingStore());
@@ -708,7 +718,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
         releaseMetadataDOM(root);
     
     }
-    //CheckStyle: ReturnCount ON
+    //CheckStyle: ReturnCount|CyclomaticComplexity ON
     
     /**
      * Prepare the object for filtering:  If persistent caching is enabled, return a clone of the object
@@ -991,7 +1001,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
                     log.trace("Successfully processed EntityDescriptor with entityID '{}' from cache", 
                             descriptor.getEntityID());
                     persistentCacheInitMetrics.entriesLoaded++;
-                } catch (final FilterException e) {
+                } catch (final FilterException | ResolverException e) {
                     log.warn("Error processing EntityDescriptor '{}' from cache with storage key '{}'", 
                             descriptor.getEntityID(), currentKey, e);
                     persistentCacheInitMetrics.entriesSkippedProcessingException++;
