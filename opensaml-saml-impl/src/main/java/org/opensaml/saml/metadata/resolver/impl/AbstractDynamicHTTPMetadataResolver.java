@@ -224,7 +224,7 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
             provider.setCredentials(authScope, credentials);
             credentialsProvider = provider;
         } else {
-            log.debug("Either username or password were null, disabling basic auth");
+            log.debug("{} Either username or password were null, disabling basic auth", getLogPrefix());
             credentialsProvider = null;
         }
 
@@ -343,7 +343,7 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
             supportedMediaTypes = Collections.emptySet();
         }
         
-        log.debug("Supported content types are: {}", getSupportedContentTypes());
+        log.debug("{} Supported content types are: {}", getLogPrefix(), getSupportedContentTypes());
     }
     
    /** {@inheritDoc} */
@@ -368,7 +368,7 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
             
         final HttpUriRequest request = buildHttpRequest(criteria);
         if (request == null) {
-            log.debug("Could not build request based on input criteria, unable to query");
+            log.debug("{} Could not build request based on input criteria, unable to query", getLogPrefix());
             return null;
         }
         
@@ -407,10 +407,10 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
      */
     @Nullable protected HttpUriRequest buildHttpRequest(@Nonnull final CriteriaSet criteria) {
         final String url = buildRequestURL(criteria);
-        log.debug("Built request URL of: {}", url);
+        log.debug("{} Built request URL of: {}", getLogPrefix(), url);
         
         if (url == null) {
-            log.debug("Could not construct request URL from input criteria, unable to query");
+            log.debug("{} Could not construct request URL from input criteria, unable to query", getLogPrefix());
             return null;
         }
             
@@ -489,20 +489,21 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
             // TODO should we be seeing/doing this? Probably not if we don't do conditional GET.
             // But we will if we do pre-emptive refreshing of metadata in background thread.
             if (httpStatusCode == HttpStatus.SC_NOT_MODIFIED) {
-                log.debug("Metadata document from '{}' has not changed since last retrieval", currentRequestURI);
+                log.debug("{} Metadata document from '{}' has not changed since last retrieval", 
+                        getLogPrefix(), currentRequestURI);
                 return null;
             }
 
             if (httpStatusCode != HttpStatus.SC_OK) {
-                log.warn("Non-ok status code '{}' returned from remote metadata source: {}", 
-                        httpStatusCode, currentRequestURI);
+                log.warn("{} Non-ok status code '{}' returned from remote metadata source: {}", 
+                        getLogPrefix(), httpStatusCode, currentRequestURI);
                 return null;
             }
             
             try {
                 validateHttpResponse(response);
             } catch (final ResolverException e) {
-                log.error("Problem validating dynamic metadata HTTP response", e);
+                log.error("{} Problem validating dynamic metadata HTTP response", getLogPrefix(), e);
                 return null;
             }
             
@@ -515,7 +516,7 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
                     return xmlObject;
                 }
             } catch (IOException | UnmarshallingException e) {
-                log.error("Error unmarshalling HTTP response stream", e);
+                log.error("{} Error unmarshalling HTTP response stream", getLogPrefix(), e);
                 return null;
             }
                 
@@ -534,7 +535,7 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
                 if (contentType != null && contentType.getValue() != null) {
                     contentTypeValue = StringSupport.trimOrNull(contentType.getValue());
                 }
-                log.debug("Saw raw Content-Type from response header '{}'", contentTypeValue);
+                log.debug("{} Saw raw Content-Type from response header '{}'", getLogPrefix(), contentTypeValue);
                 
                 if (!MediaTypeSupport.validateContentType(contentTypeValue, getSupportedMediaTypes(), true, false)) {
                     throw new ResolverException("HTTP response specified an unsupported Content-Type MIME type: " 

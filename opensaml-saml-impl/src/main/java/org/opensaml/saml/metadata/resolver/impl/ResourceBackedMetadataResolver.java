@@ -91,7 +91,8 @@ public class ResourceBackedMetadataResolver extends AbstractReloadingMetadataRes
     protected byte[] fetchMetadata() throws ResolverException {
         try {
             final DateTime metadataUpdateTime = new DateTime(metadataResource.lastModified());
-            log.debug("resource {} was last modified {}", metadataResource.getDescription(), metadataUpdateTime);
+            log.debug("{} Resource {} was last modified {}", 
+                    getLogPrefix(), metadataResource.getDescription(), metadataUpdateTime);
             if (getLastRefresh() == null || metadataUpdateTime.isAfter(getLastRefresh())) {
                 return inputstreamToByteArray(metadataResource.getInputStream());
             }
@@ -99,7 +100,7 @@ public class ResourceBackedMetadataResolver extends AbstractReloadingMetadataRes
             return null;
         } catch (final IOException e) {
             final String errorMsg = "Unable to read metadata file";
-            log.error(errorMsg, e);
+            log.error("{} " + errorMsg, getLogPrefix(), e);
             throw new ResolverException(errorMsg, e);
         }
     }

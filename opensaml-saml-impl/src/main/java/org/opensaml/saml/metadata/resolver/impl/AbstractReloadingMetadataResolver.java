@@ -127,7 +127,8 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
         ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
 
         if (!flag) {
-            log.warn("Caching of source metadata may not be disabled for reloading metadata resolvers");
+            log.warn("{} Caching of source metadata may not be disabled for reloading metadata resolvers", 
+                    getLogPrefix());
         } else {
             super.setCacheSourceMetadata(flag);
         }
@@ -279,18 +280,18 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
         final DateTime now = new DateTime(ISOChronology.getInstanceUTC());
         final String mdId = getMetadataIdentifier();
 
-        log.debug("Beginning refresh of metadata from '{}'", mdId);
+        log.debug("{} Beginning refresh of metadata from '{}'", getLogPrefix(), mdId);
         try {
             final byte[] mdBytes = fetchMetadata();
             if (mdBytes == null) {
-                log.debug("Metadata from '{}' has not changed since last refresh", mdId);
+                log.debug("{} Metadata from '{}' has not changed since last refresh", getLogPrefix(), mdId);
                 processCachedMetadata(mdId, now);
             } else {
-                log.debug("Processing new metadata from '{}'", mdId);
+                log.debug("{} Processing new metadata from '{}'", getLogPrefix(), mdId);
                 processNewMetadata(mdId, now, mdBytes);
             }
         } catch (final Throwable t) {
-            log.error("Error occurred while attempting to refresh metadata from '" + mdId + "'", t);
+            log.error("{} Error occurred while attempting to refresh metadata from '{}'", getLogPrefix(), mdId, t);
             nextRefresh = new DateTime(ISOChronology.getInstanceUTC()).plus(minRefreshDelay);
             if (t instanceof Exception) {
                 throw new ResolverException((Exception) t);
@@ -302,8 +303,9 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
             refreshMetadataTask = new RefreshMetadataTask();
             final long nextRefreshDelay = nextRefresh.getMillis() - System.currentTimeMillis();
             taskTimer.schedule(refreshMetadataTask, nextRefreshDelay);
-            log.info("Next refresh cycle for metadata provider '{}' will occur on '{}' ('{}' local time)",
-                    new Object[] {mdId, nextRefresh, nextRefresh.toDateTime(DateTimeZone.getDefault()),});
+            log.info("{} Next refresh cycle for metadata provider '{}' will occur on '{}' ('{}' local time)",
+                    new Object[] {getLogPrefix(), mdId, nextRefresh, 
+                            nextRefresh.toDateTime(DateTimeZone.getDefault()),});
             lastRefresh = now;
         }
     }
@@ -338,7 +340,7 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
             return unmarshallMetadata(new ByteArrayInputStream(metadataBytes));
         } catch (final UnmarshallingException e) {
             final String errorMsg = "Unable to unmarshall metadata";
-            log.error(errorMsg, e);
+            log.error("{} " + errorMsg, getLogPrefix(), e);
             throw new ResolverException(errorMsg, e);
         }
     }
@@ -353,7 +355,7 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
      */
     protected void processCachedMetadata(final String metadataIdentifier, final DateTime refreshStart)
             throws ResolverException {
-        log.debug("Computing new expiration time for cached metadata from '{}'", metadataIdentifier);
+        log.debug("{} Computing new expiration time for cached metadata from '{}'", getLogPrefix(), metadataIdentifier);
         final DateTime metadataExpirationTime = 
                 SAML2Support.getEarliestExpiration(getBackingStore().getCachedOriginalMetadata(),
                 refreshStart.plus(getMaxRefreshDelay()), refreshStart);
@@ -375,7 +377,7 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
      */
     protected void processNewMetadata(final String metadataIdentifier, final DateTime refreshStart,
             final byte[] metadataBytes) throws ResolverException {
-        log.debug("Unmarshalling metadata from '{}'", metadataIdentifier);
+        log.debug("{} Unmarshalling metadata from '{}'", getLogPrefix(), metadataIdentifier);
         final XMLObject metadata = unmarshallMetadata(metadataBytes);
 
         if (!isValid(metadata)) {
@@ -397,8 +399,8 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
      */
     protected void processPreExpiredMetadata(final String metadataIdentifier, final DateTime refreshStart,
             final byte[] metadataBytes, final XMLObject metadata) {
-        log.warn("Entire metadata document from '{}' was expired at time of loading, existing metadata retained",
-                metadataIdentifier);
+        log.warn("{} Entire metadata document from '{}' was expired at time of loading, existing metadata retained",
+                getLogPrefix(), metadataIdentifier);
 
         nextRefresh = new DateTime(ISOChronology.getInstanceUTC()).plus(getMinRefreshDelay());
     }
@@ -418,31 +420,31 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
             final byte[] metadataBytes, final XMLObject metadata) throws ResolverException {
         final Document metadataDom = metadata.getDOM().getOwnerDocument();
 
-        log.debug("Preprocessing metadata from '{}'", metadataIdentifier);
+        log.debug("{} Preprocessing metadata from '{}'", getLogPrefix(), metadataIdentifier);
         BatchEntityBackingStore newBackingStore = null;
         try {
             newBackingStore = preProcessNewMetadata(metadata);
         } catch (final FilterException e) {
             final String errMsg = "Error filtering metadata from " + metadataIdentifier;
-            log.error(errMsg, e);
+            log.error("{} " + errMsg, getLogPrefix(), e);
             throw new ResolverException(errMsg, e);
         }
 
-        log.debug("Releasing cached DOM for metadata from '{}'", metadataIdentifier);
+        log.debug("{} Releasing cached DOM for metadata from '{}'", getLogPrefix(), metadataIdentifier);
         releaseMetadataDOM(newBackingStore.getCachedOriginalMetadata());
         releaseMetadataDOM(newBackingStore.getCachedFilteredMetadata());
 
-        log.debug("Post-processing metadata from '{}'", metadataIdentifier);
+        log.debug("{} Post-processing metadata from '{}'", getLogPrefix(), metadataIdentifier);
         postProcessMetadata(metadataBytes, metadataDom, newBackingStore.getCachedOriginalMetadata(), 
                 newBackingStore.getCachedFilteredMetadata());
 
-        log.debug("Computing expiration time for metadata from '{}'", metadataIdentifier);
+        log.debug("{} Computing expiration time for metadata from '{}'", getLogPrefix(), metadataIdentifier);
         // Note: As noted in its Javadocs, technically this method can sometimes return null, but won't in this case
         // since the candidate time (2nd arg) is not null.
         final DateTime metadataExpirationTime = SAML2Support.getEarliestExpiration(
                 newBackingStore.getCachedOriginalMetadata(), refreshStart.plus(getMaxRefreshDelay()), refreshStart);
-        log.debug("Expiration of metadata from '{}' will occur at {}", metadataIdentifier, metadataExpirationTime
-                .toString());
+        log.debug("{} Expiration of metadata from '{}' will occur at {}", getLogPrefix(), metadataIdentifier, 
+                metadataExpirationTime.toString());
 
         // This is where the new processed data becomes effective. Exceptions thrown prior to this point
         // therefore result in the old data being kept effective.
@@ -460,7 +462,7 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
         }
         nextRefresh = new DateTime(ISOChronology.getInstanceUTC()).plus(nextRefreshDelay);
 
-        log.info("New metadata successfully loaded for '{}'", getMetadataIdentifier());
+        log.info("{} New metadata successfully loaded for '{}'", getLogPrefix(), getMetadataIdentifier());
     }
 
     /**

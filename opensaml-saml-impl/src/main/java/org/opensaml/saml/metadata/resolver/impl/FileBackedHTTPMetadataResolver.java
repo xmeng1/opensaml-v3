@@ -191,10 +191,11 @@ public class FileBackedHTTPMetadataResolver extends HTTPMetadataResolver {
             validateBackupFile(metadataBackupFile);
         } catch (final ResolverException e) {
             if (isFailFastInitialization()) {
-                log.error("Metadata backup file path was invalid, initialization is fatal");
+                log.error("{} Metadata backup file path was invalid, initialization is fatal", getLogPrefix());
                 throw new ComponentInitializationException("Metadata backup file path was invalid", e);
             } else {
-                log.error("Metadata backup file path was invalid, continuing without known good backup file");
+                log.error("{} Metadata backup file path was invalid, continuing without known good backup file", 
+                        getLogPrefix());
             }
         }
         
@@ -232,11 +233,11 @@ public class FileBackedHTTPMetadataResolver extends HTTPMetadataResolver {
     protected void validateBackupFile(final File backupFile) throws ResolverException {
         if (!backupFile.exists()) {
             try {
-                log.debug("Testing creation of backup file");
+                log.debug("{} Testing creation of backup file", getLogPrefix());
                 backupFile.createNewFile();
             } catch (final IOException e) {
                 final String msg = "Unable to create backup file " + backupFile.getAbsolutePath();
-                log.error(msg, e);
+                log.error("{} " + msg, getLogPrefix(), e);
                 throw new ResolverException(msg, e);
             } finally {
                 // Don't leave the empty test file lying around if it didin't originally exist.
@@ -245,7 +246,7 @@ public class FileBackedHTTPMetadataResolver extends HTTPMetadataResolver {
                 if (backupFile.exists()) {
                     final boolean deleted = backupFile.delete();
                     if (!deleted) {
-                        log.debug("Deletion of test backup file failed");
+                        log.debug("{} Deletion of test backup file failed", getLogPrefix());
                     }
                 }
             }
@@ -273,15 +274,17 @@ public class FileBackedHTTPMetadataResolver extends HTTPMetadataResolver {
     @Override
     protected byte[] fetchMetadata() throws ResolverException {
         if (initializing && initializeFromBackupFile && metadataBackupFile.exists()) {
-            log.debug("On initialization, detected existing backup file, attempting load from that: {}",
-                        metadataBackupFile.getAbsolutePath());
+            log.debug("{} On initialization, detected existing backup file, attempting load from that: {}",
+                        getLogPrefix(), metadataBackupFile.getAbsolutePath());
             try {
                 final byte[] backingData = Files.toByteArray(metadataBackupFile);
-                log.debug("Successfully initialized from backup file: {}", metadataBackupFile.getAbsolutePath());
+                log.debug("{} Successfully initialized from backup file: {}", 
+                        getLogPrefix(), metadataBackupFile.getAbsolutePath());
                 initializedFromBackupFile = true;
                 return backingData;
             } catch (final IOException e) {
-                log.warn("Error initializing from backup file, continuing with normal HTTP fetch", e);
+                log.warn("{} Error initializing from backup file, continuing with normal HTTP fetch", 
+                        getLogPrefix(), e);
             }
         }
         
@@ -289,24 +292,24 @@ public class FileBackedHTTPMetadataResolver extends HTTPMetadataResolver {
             return super.fetchMetadata();
         } catch (final ResolverException e) {
             if (getCachedOriginalMetadata() != null) {
-                log.warn("Problem reading metadata from remote source; " 
-                        + "detected existing cached metadata, skipping load of backup file");
+                log.warn("{} Problem reading metadata from remote source; " 
+                        + "detected existing cached metadata, skipping load of backup file", getLogPrefix());
                 return null;
             }
             
             if (metadataBackupFile.exists()) {
-                log.warn("Problem reading metadata from remote source, processing existing backup file: {}", 
-                        metadataBackupFile.getAbsolutePath());
+                log.warn("{} Problem reading metadata from remote source, processing existing backup file: {}", 
+                        getLogPrefix(), metadataBackupFile.getAbsolutePath());
                 try {
                     return Files.toByteArray(metadataBackupFile);
                 } catch (final IOException ioe) {
                     final String errMsg = "Unable to retrieve metadata from backup file "
                             + metadataBackupFile.getAbsolutePath();
-                    log.error(errMsg, ioe);
+                    log.error("{} " + errMsg, getLogPrefix(), ioe);
                     throw new ResolverException(errMsg, ioe);
                 }
             } else {
-                log.error("Unable to read metadata from remote server and backup does not exist");
+                log.error("{} Unable to read metadata from remote server and backup does not exist", getLogPrefix());
                 throw new ResolverException("Unable to read metadata from remote server and backup does not exist");
             }
         }
@@ -316,8 +319,8 @@ public class FileBackedHTTPMetadataResolver extends HTTPMetadataResolver {
     @Override
     protected long computeNextRefreshDelay(final DateTime expectedExpiration) {
         if (initializing && initializedFromBackupFile) {
-            log.debug("Detected initialization from backup file, scheduling next refresh from HTTP in {}ms", 
-                    getBackupFileInitNextRefreshDelay());
+            log.debug("{} Detected initialization from backup file, scheduling next refresh from HTTP in {}ms", 
+                    getLogPrefix(), getBackupFileInitNextRefreshDelay());
             return getBackupFileInitNextRefreshDelay();
         } else {
             return super.computeNextRefreshDelay(expectedExpiration);
@@ -336,9 +339,11 @@ public class FileBackedHTTPMetadataResolver extends HTTPMetadataResolver {
                 out.flush();
             }
         } catch (final ResolverException e) {
-            log.error("Unable to write metadata to backup file: {}", metadataBackupFile.getAbsoluteFile(), e);
+            log.error("{} Unable to write metadata to backup file: {}", 
+                    getLogPrefix(), metadataBackupFile.getAbsoluteFile(), e);
         } catch (final IOException e) {
-            log.error("Unable to write metadata to backup file: {}", metadataBackupFile.getAbsoluteFile(), e);
+            log.error("{} Unable to write metadata to backup file: {}", 
+                    getLogPrefix(), metadataBackupFile.getAbsoluteFile(), e);
         } finally {
             super.postProcessMetadata(metadataBytes, metadataDom, originalMetadata, filteredMetadata);
         }

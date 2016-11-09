@@ -103,17 +103,17 @@ public class LocalDynamicMetadataResolver extends AbstractDynamicMetadataResolve
     protected XMLObject fetchFromOriginSource(final CriteriaSet criteria) throws IOException {
         final String key = sourceKeyGenerator.apply(criteria);
         if (key != null) {
-            log.trace("Attempting to load from local source manager with generated key '{}'", key);
+            log.trace("{} Attempting to load from local source manager with generated key '{}'", getLogPrefix(), key);
             final XMLObject result = sourceManager.load(key);
             if (result != null) {
-                log.trace("Successfully loaded target from local source manager source with key '{}' of type: ",
-                        key, result.getElementQName());
+                log.trace("{} Successfully loaded target from local source manager source with key '{}' of type: ",
+                        getLogPrefix(), key, result.getElementQName());
             } else {
-                log.trace("Found no target in local source manager with key '{}'", key);
+                log.trace("{} Found no target in local source manager with key '{}'", getLogPrefix(), key);
             }
             return result;
         } else {
-            log.trace("Could not generate source key from criteria, can not resolve");
+            log.trace("{} Could not generate source key from criteria, can not resolve", getLogPrefix());
             return null;
         }
     }

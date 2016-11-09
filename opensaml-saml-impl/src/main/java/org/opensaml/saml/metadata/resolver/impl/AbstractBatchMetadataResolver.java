@@ -158,8 +158,8 @@ public abstract class AbstractBatchMetadataResolver extends AbstractMetadataReso
         if (entityIdCriterion != null) {
             final Iterable<EntityDescriptor> entityIdcandidates = lookupEntityID(entityIdCriterion.getEntityId());
             if (log.isDebugEnabled()) {
-                log.debug("Resolved {} candidates via EntityIdCriterion: {}", 
-                        Iterables.size(entityIdcandidates), entityIdCriterion);
+                log.debug("{} Resolved {} candidates via EntityIdCriterion: {}", 
+                        getLogPrefix(), Iterables.size(entityIdcandidates), entityIdCriterion);
             }
             return predicateFilterCandidates(entityIdcandidates, criteria, false);
         }
@@ -167,20 +167,22 @@ public abstract class AbstractBatchMetadataResolver extends AbstractMetadataReso
         final Optional<Set<EntityDescriptor>> indexedCandidates = lookupByIndexes(criteria);
         if (log.isDebugEnabled()) {
             if (indexedCandidates.isPresent()) {
-                log.debug("Resolved {} candidates via secondary index lookup", Iterables.size(indexedCandidates.get()));
+                log.debug("{} Resolved {} candidates via secondary index lookup", 
+                        getLogPrefix(), Iterables.size(indexedCandidates.get()));
             } else {
-                log.debug("Resolved no candidates via secondary index lookup (Optional indicated result was absent)");
+                log.debug("{} Resolved no candidates via secondary index lookup (Optional indicated result was absent)", 
+                        getLogPrefix());
             }
         }
         
         if (indexedCandidates.isPresent()) {
-            log.debug("Performing predicate filtering of resolved secondary indexed candidates");
+            log.debug("{} Performing predicate filtering of resolved secondary indexed candidates", getLogPrefix());
             return predicateFilterCandidates(indexedCandidates.get(), criteria, false);
         } else if (isResolveViaPredicatesOnly()) {
-            log.debug("Performing predicate filtering of entire metadata collection");
+            log.debug("{} Performing predicate filtering of entire metadata collection", getLogPrefix());
             return predicateFilterCandidates(this, criteria, true);
         } else {
-            log.debug("Resolved no secondary indexed candidates, returning empty result");
+            log.debug("{} Resolved no secondary indexed candidates, returning empty result", getLogPrefix());
             return Collections.emptySet();
         }
         
@@ -280,7 +282,8 @@ public abstract class AbstractBatchMetadataResolver extends AbstractMetadataReso
         } 
         
         if (filteredMetadata == null) {
-            log.info("Metadata filtering process produced a null document, resulting in an empty data set");
+            log.info("{} Metadata filtering process produced a null document, resulting in an empty data set", 
+                    getLogPrefix());
             return newBackingStore;
         }
         
@@ -289,8 +292,8 @@ public abstract class AbstractBatchMetadataResolver extends AbstractMetadataReso
         } else if (filteredMetadata instanceof EntitiesDescriptor) {
             preProcessEntitiesDescriptor((EntitiesDescriptor)filteredMetadata, newBackingStore);
         } else {
-            log.warn("Document root was neither an EntityDescriptor nor an EntitiesDescriptor: {}", 
-                    root.getClass().getName());
+            log.warn("{} Document root was neither an EntityDescriptor nor an EntitiesDescriptor: {}", 
+                    getLogPrefix(), root.getClass().getName());
         }
         
         return newBackingStore;

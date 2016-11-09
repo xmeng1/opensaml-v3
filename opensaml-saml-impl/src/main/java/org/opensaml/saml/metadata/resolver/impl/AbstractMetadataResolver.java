@@ -287,11 +287,12 @@ public abstract class AbstractMetadataResolver extends AbstractIdentifiableIniti
             initMetadataResolver();
         } catch (final ComponentInitializationException e) {
             if (failFastInitialization) {
-                log.error("Metadata provider failed to properly initialize, fail-fast=true, halting", e);
+                log.error("{} Metadata provider failed to properly initialize, fail-fast=true, halting", 
+                        getLogPrefix(), e);
                 throw e;
             } else {
-                log.error("Metadata provider failed to properly initialize, fail-fast=false, "
-                        + "continuing on in a degraded state", e);
+                log.error("{} Metadata provider failed to properly initialize, fail-fast=false, "
+                        + "continuing on in a degraded state", getLogPrefix(), e);
             }
         }
     }
@@ -336,16 +337,16 @@ public abstract class AbstractMetadataResolver extends AbstractIdentifiableIniti
             if (parser == null) {
                 throw new UnmarshallingException("ParserPool is null, can't parse input stream");
             }
-            log.trace("Parsing retrieved metadata into a DOM object");
+            log.trace("{} Parsing retrieved metadata into a DOM object", getLogPrefix());
             final Document mdDocument = parser.parse(metadataInput);
 
-            log.trace("Unmarshalling and caching metadata DOM");
+            log.trace("{} Unmarshalling and caching metadata DOM", getLogPrefix());
             final Unmarshaller unmarshaller = getUnmarshallerFactory().getUnmarshaller(mdDocument.getDocumentElement());
             if (unmarshaller == null) {
                 final String msg =
                         "No unmarshaller registered for document element "
                                 + QNameSupport.getNodeQName(mdDocument.getDocumentElement());
-                log.error(msg);
+                log.error("{} " + msg, getLogPrefix());
                 throw new UnmarshallingException(msg);
             }
             final XMLObject metadata = unmarshaller.unmarshall(mdDocument.getDocumentElement());
@@ -356,7 +357,7 @@ public abstract class AbstractMetadataResolver extends AbstractIdentifiableIniti
             try {
                 metadataInput.close();
             } catch (final IOException e2) {
-                log.debug("Failed to close input: {}", e2);
+                log.debug("{} Failed to close input: {}", getLogPrefix(), e2);
             }
         }
     }
@@ -372,7 +373,7 @@ public abstract class AbstractMetadataResolver extends AbstractIdentifiableIniti
      */
     @Nullable protected XMLObject filterMetadata(@Nullable final XMLObject metadata) throws FilterException {
         if (getMetadataFilter() != null) {
-            log.debug("Applying metadata filter");
+            log.debug("{} Applying metadata filter", getLogPrefix());
             return getMetadataFilter().filter(metadata);
         } else {
             return metadata;
@@ -424,13 +425,14 @@ public abstract class AbstractMetadataResolver extends AbstractIdentifiableIniti
         }
 
         if (Strings.isNullOrEmpty(entityID)) {
-            log.debug("EntityDescriptor entityID was null or empty, skipping search for it");
+            log.debug("{} EntityDescriptor entityID was null or empty, skipping search for it", getLogPrefix());
             return Collections.emptyList();
         }
 
         final List<EntityDescriptor> descriptors = lookupIndexedEntityID(entityID);
         if (descriptors.isEmpty()) {
-            log.debug("Metadata backing store does not contain any EntityDescriptors with the ID: {}", entityID);
+            log.debug("{} Metadata backing store does not contain any EntityDescriptors with the ID: {}", 
+                    getLogPrefix(), entityID);
             return descriptors;
         }
 
@@ -438,8 +440,8 @@ public abstract class AbstractMetadataResolver extends AbstractIdentifiableIniti
         while (entitiesIter.hasNext()) {
             final EntityDescriptor descriptor = entitiesIter.next();
             if (!isValid(descriptor)) {
-                log.debug("Metadata backing store contained an EntityDescriptor with the ID: {}, " 
-                        + " but it was no longer valid", entityID);
+                log.debug("{} Metadata backing store contained an EntityDescriptor with the ID: {}, " 
+                        + " but it was no longer valid", getLogPrefix(), entityID);
                 entitiesIter.remove();
             }
         }
@@ -539,7 +541,7 @@ public abstract class AbstractMetadataResolver extends AbstractIdentifiableIniti
                 entities = new ArrayList<>();
                 backingStore.getIndexedDescriptors().put(entityID, entities);
             } else if (!entities.isEmpty()) {
-                log.warn("Detected duplicate EntityDescriptor for entityID: {}", entityID);
+                log.warn("{} Detected duplicate EntityDescriptor for entityID: {}", getLogPrefix(), entityID);
             }
             entities.add(entityDescriptor);
         }
@@ -581,33 +583,34 @@ public abstract class AbstractMetadataResolver extends AbstractIdentifiableIniti
                     throws ResolverException {
         
         if (!candidates.iterator().hasNext()) {
-            log.debug("Candidates iteration was empty, nothing to filter via predicates");
+            log.debug("{} Candidates iteration was empty, nothing to filter via predicates", getLogPrefix());
             return Collections.emptySet();
         }
         
-        log.debug("Attempting to filter candidate EntityDescriptors via resolved Predicates");
+        log.debug("{} Attempting to filter candidate EntityDescriptors via resolved Predicates", getLogPrefix());
         
         final Set<Predicate<EntityDescriptor>> predicates = ResolverSupport.getPredicates(criteria, 
                 EvaluableEntityDescriptorCriterion.class, getCriterionPredicateRegistry());
         
-        log.trace("Resolved {} Predicates: {}", predicates.size(), predicates);
+        log.trace("{} Resolved {} Predicates: {}", getLogPrefix(), predicates.size(), predicates);
         
         boolean satisfyAny;
         final SatisfyAnyCriterion satisfyAnyCriterion = criteria.get(SatisfyAnyCriterion.class);
         if (satisfyAnyCriterion  != null) {
-            log.trace("CriteriaSet contained SatisfyAnyCriterion");
+            log.trace("{} CriteriaSet contained SatisfyAnyCriterion", getLogPrefix());
             satisfyAny = satisfyAnyCriterion.isSatisfyAny();
         } else {
-            log.trace("CriteriaSet did NOT contain SatisfyAnyCriterion");
+            log.trace("{} CriteriaSet did NOT contain SatisfyAnyCriterion", getLogPrefix());
             satisfyAny = isSatisfyAnyPredicates();
         }
         
-        log.trace("Effective satisyAny value: {}", satisfyAny);
+        log.trace("{} Effective satisyAny value: {}", getLogPrefix(), satisfyAny);
         
         final Iterable<EntityDescriptor> result = 
                 ResolverSupport.getFilteredIterable(candidates, predicates, satisfyAny, onEmptyPredicatesReturnEmpty);
         if (log.isDebugEnabled()) {
-            log.debug("After predicate filtering {} EntityDescriptors remain", Iterables.size(result));
+            log.debug("{} After predicate filtering {} EntityDescriptors remain", 
+                    getLogPrefix(), Iterables.size(result));
         }
         return result;
     }
