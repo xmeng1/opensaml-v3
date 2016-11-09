@@ -691,6 +691,9 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
             
             preProcessEntityDescriptor(entityDescriptor, getBackingStore());
             
+            log.info("Successfully loaded new EntityDescriptor with entityID '{}' from {}",
+                    entityDescriptor.getEntityID(), fromPersistentCache ? "persistent cache" : "origin source");
+            
             // Note: we store in the cache the original input XMLObject, not the filtered one
             if (isPersistentCachingEnabled() && !fromPersistentCache && (root instanceof EntityDescriptor)) {
                 final EntityDescriptor origDescriptor = (EntityDescriptor) root;
