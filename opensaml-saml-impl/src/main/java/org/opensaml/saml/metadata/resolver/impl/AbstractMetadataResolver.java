@@ -83,6 +83,9 @@ public abstract class AbstractMetadataResolver extends AbstractIdentifiableIniti
     /** Filter applied to all metadata. */
     private MetadataFilter mdFilter;
     
+    /** Logging prefix. */
+    private String logPrefix;
+    
     /**
      * Whether problems during initialization should cause the provider to fail or go on without metadata. The
      * assumption being that in most cases a provider will recover at some point in the future. Default: true.
@@ -607,6 +610,18 @@ public abstract class AbstractMetadataResolver extends AbstractIdentifiableIniti
             log.debug("After predicate filtering {} EntityDescriptors remain", Iterables.size(result));
         }
         return result;
+    }
+    
+    /**
+     * Return a prefix for logging messages for this component.
+     * 
+     * @return a string for insertion at the beginning of any log messages
+     */
+    @Nonnull @NotEmpty protected String getLogPrefix() {
+        if (logPrefix == null) {
+            logPrefix = String.format("Metadata Resolver %s %s:", getClass().getSimpleName(), getId());
+        }
+        return logPrefix;
     }
 
     /**
