@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.opensaml.xacml.ctx.provider;
+package org.opensaml.xacml.ctx.provider.impl;
 
 import java.util.Objects;
 

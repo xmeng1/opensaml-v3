@@ -16,6 +16,6 @@
  */
 
 /**
- * Configuration classes for XACML SAML profile classes.
+ * Implementations of XACML functionality.
  */
-package org.opensaml.xacml.profile.saml.config;
+package org.opensaml.xacml.ctx.provider.impl;

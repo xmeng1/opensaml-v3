@@ -15,8 +15,36 @@
  * limitations under the License.
  */
 
-/**
- * SAML configuration initializers.
- */
+package org.opensaml.xacml.ctx.provider.impl;
 
-package org.opensaml.saml.config;
+import org.opensaml.xacml.ctx.ResultType;
+
+/**
+ * A context for processing obligations.
+ */
+public class ObligationProcessingContext {
+
+    /** Result of a XACML authorization request. */
+    private ResultType result;
+
+    /**
+     * Constructor.
+     * 
+     * @param authzResult result of a XACML authorization request
+     */
+    public ObligationProcessingContext(ResultType authzResult) {
+        if (authzResult == null) {
+            throw new IllegalArgumentException("Authorization request result may not be null");
+        }
+        result = authzResult;
+    }
+
+    /**
+     * Gets the result of a XACML authorization request.
+     * 
+     * @return result of a XACML authorization request
+     */
+    public ResultType getAuthorizationDecisionResult() {
+        return result;
+    }
+}

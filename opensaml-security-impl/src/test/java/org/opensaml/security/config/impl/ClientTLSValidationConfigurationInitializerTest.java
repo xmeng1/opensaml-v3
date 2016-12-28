@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.opensaml.security.config;
+package org.opensaml.security.config.impl;
 
 import org.opensaml.core.config.ConfigurationService;
 import org.opensaml.core.config.InitializationException;

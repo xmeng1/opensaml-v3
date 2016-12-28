@@ -15,20 +15,16 @@
  * limitations under the License.
  */
 
-package org.opensaml.soap.config;
+package org.opensaml.xacml.profile.saml.config.impl;
 
 import javax.xml.namespace.QName;
 
 import org.opensaml.core.config.Initializer;
 import org.opensaml.core.xml.config.XMLObjectProviderInitializerBaseTestCase;
-import org.opensaml.soap.soap11.Envelope;
-import org.opensaml.soap.wsaddressing.Action;
-import org.opensaml.soap.wspolicy.Policy;
-import org.opensaml.soap.wssecurity.Security;
-import org.opensaml.soap.wstrust.RequestedSecurityToken;
+import org.opensaml.xacml.profile.saml.XACMLPolicyStatementType;
 
 /**
- * Test XMLObject provider initializer for module "soap-impl".
+ * Test XMLObject provider initializer for module "xacml-saml-impl".
  */
 public class XMLObjectProviderInitializerTest extends XMLObjectProviderInitializerBaseTestCase {
 
@@ -40,12 +36,10 @@ public class XMLObjectProviderInitializerTest extends XMLObjectProviderInitializ
     /** {@inheritDoc} */
     protected QName[] getTestedProviders() {
         return new QName[] {
-                Envelope.DEFAULT_ELEMENT_NAME,
-                Action.ELEMENT_NAME,
-                org.opensaml.soap.wsfed.RequestedSecurityToken.DEFAULT_ELEMENT_NAME,
-                Policy.ELEMENT_NAME,
-                Security.ELEMENT_NAME,
-                RequestedSecurityToken.ELEMENT_NAME,
+                XACMLPolicyStatementType.DEFAULT_ELEMENT_NAME_XACML10,
+                XACMLPolicyStatementType.DEFAULT_ELEMENT_NAME_XACML11,
+                XACMLPolicyStatementType.DEFAULT_ELEMENT_NAME_XACML20,
+                XACMLPolicyStatementType.DEFAULT_ELEMENT_NAME_XACML30,
         };
     }
     

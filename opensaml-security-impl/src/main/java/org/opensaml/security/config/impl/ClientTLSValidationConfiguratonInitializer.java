@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.opensaml.security.config;
+package org.opensaml.security.config.impl;
 
 import java.util.Arrays;
 import java.util.HashSet;

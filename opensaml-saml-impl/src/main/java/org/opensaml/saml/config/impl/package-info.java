@@ -15,26 +15,8 @@
  * limitations under the License.
  */
 
-package org.opensaml.xacml.profile.saml.config;
-
-import org.opensaml.core.xml.config.AbstractXMLObjectProviderInitializer;
-
 /**
- * XMLObject provider initializer for module "xacml-saml-impl".
+ * SAML configuration initializers.
  */
-public class XMLObjectProviderInitializer extends AbstractXMLObjectProviderInitializer {
-    
-    /** Config resources. */
-    private static String[] configs = {
-        "/xacml10-saml2-profile-config.xml",
-        "/xacml11-saml2-profile-config.xml",
-        "/xacml2-saml2-profile-config.xml",
-        "/xacml3-saml2-profile-config.xml",   
-        };
 
-    /** {@inheritDoc} */
-    protected String[] getConfigResources() {
-        return configs;
-    }
-
-}
+package org.opensaml.saml.config.impl;

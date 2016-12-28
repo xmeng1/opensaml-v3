@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.opensaml.xacml.ctx.provider;
+package org.opensaml.xacml.ctx.provider.impl;
 
 /** Exception thrown if there is a problem evaluating an obligation. */
 public class ObligationProcessingException extends Exception {

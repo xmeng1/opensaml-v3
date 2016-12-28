@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.opensaml.xacml.config;
+package org.opensaml.xacml.config.impl;
 
 import org.opensaml.core.xml.config.AbstractXMLObjectProviderInitializer;
 

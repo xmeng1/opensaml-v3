@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.opensaml.saml.config;
+package org.opensaml.saml.config.impl;
 
 import org.opensaml.core.xml.config.AbstractXMLObjectProviderInitializer;
 

@@ -15,7 +15,28 @@
  * limitations under the License.
  */
 
+package org.opensaml.soap.config.impl;
+
+import org.opensaml.core.xml.config.AbstractXMLObjectProviderInitializer;
+
 /**
- * Configuration classes for XACML classes.
+ * XMLObject provider initializer for module "soap-impl".
  */
-package org.opensaml.xacml.config;
+public class XMLObjectProviderInitializer extends AbstractXMLObjectProviderInitializer {
+    
+    /** Config resources. */
+    private static String[] configs = {
+        "/soap11-config.xml", 
+        "/wsaddressing-config.xml",
+        "/wsfed11-protocol-config.xml",
+        "/wspolicy-config.xml",
+        "/wssecurity-config.xml",
+        "/wstrust-config.xml",
+        };
+
+    /** {@inheritDoc} */
+    protected String[] getConfigResources() {
+        return configs;
+    }
+
+}

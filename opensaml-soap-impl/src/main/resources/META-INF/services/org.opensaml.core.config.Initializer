@@ -1,1 +1,1 @@
-org.opensaml.soap.config.XMLObjectProviderInitializer
+org.opensaml.soap.config.impl.XMLObjectProviderInitializer

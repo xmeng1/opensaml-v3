@@ -15,7 +15,5 @@
  * limitations under the License.
  */
 
-/**
- * Implementations of XACML functionality.
- */
-package org.opensaml.xacml.ctx.provider;
+/** Configuration and initialization of SOAP XMLObject providers. */
+package org.opensaml.soap.config.impl;

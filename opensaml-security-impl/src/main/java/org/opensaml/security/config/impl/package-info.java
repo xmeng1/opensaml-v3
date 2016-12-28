@@ -18,4 +18,4 @@
 /**
  * Security configuration implementation classes.
  */
-package org.opensaml.security.config;
+package org.opensaml.security.config.impl;

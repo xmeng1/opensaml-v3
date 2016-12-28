@@ -15,16 +15,17 @@
  * limitations under the License.
  */
 
-package org.opensaml.xacml.profile.saml.config;
+package org.opensaml.xacml.config.impl;
 
 import javax.xml.namespace.QName;
 
 import org.opensaml.core.config.Initializer;
 import org.opensaml.core.xml.config.XMLObjectProviderInitializerBaseTestCase;
-import org.opensaml.xacml.profile.saml.XACMLPolicyStatementType;
+import org.opensaml.xacml.ctx.EnvironmentType;
+import org.opensaml.xacml.policy.PolicySetType;
 
 /**
- * Test XMLObject provider initializer for module "xacml-saml-impl".
+ * Test XMLObject provider initializer for module "xacml-impl".
  */
 public class XMLObjectProviderInitializerTest extends XMLObjectProviderInitializerBaseTestCase {
 
@@ -36,10 +37,8 @@ public class XMLObjectProviderInitializerTest extends XMLObjectProviderInitializ
     /** {@inheritDoc} */
     protected QName[] getTestedProviders() {
         return new QName[] {
-                XACMLPolicyStatementType.DEFAULT_ELEMENT_NAME_XACML10,
-                XACMLPolicyStatementType.DEFAULT_ELEMENT_NAME_XACML11,
-                XACMLPolicyStatementType.DEFAULT_ELEMENT_NAME_XACML20,
-                XACMLPolicyStatementType.DEFAULT_ELEMENT_NAME_XACML30,
+                EnvironmentType.DEFAULT_ELEMENT_NAME,
+                PolicySetType.DEFAULT_ELEMENT_NAME,
         };
     }
     

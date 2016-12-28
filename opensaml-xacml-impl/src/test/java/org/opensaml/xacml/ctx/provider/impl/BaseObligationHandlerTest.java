@@ -15,16 +15,14 @@
  * limitations under the License.
  */
 
-package org.opensaml.xacml.ctx.provider;
-
-
+package org.opensaml.xacml.ctx.provider.impl;
 
 import org.opensaml.xacml.policy.ObligationType;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 /**
- * test for org.opensaml.xacml.ctx.provider.BaseObligationHandler
+ * test for org.opensaml.xacml.ctx.provider.impl.BaseObligationHandler
  */
 public class BaseObligationHandlerTest {
 

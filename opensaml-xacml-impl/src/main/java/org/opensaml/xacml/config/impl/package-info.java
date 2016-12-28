@@ -15,36 +15,7 @@
  * limitations under the License.
  */
 
-package org.opensaml.xacml.ctx.provider;
-
-import org.opensaml.xacml.ctx.ResultType;
-
 /**
- * A context for processing obligations.
+ * Configuration classes for XACML classes.
  */
-public class ObligationProcessingContext {
-
-    /** Result of a XACML authorization request. */
-    private ResultType result;
-
-    /**
-     * Constructor.
-     * 
-     * @param authzResult result of a XACML authorization request
-     */
-    public ObligationProcessingContext(ResultType authzResult) {
-        if (authzResult == null) {
-            throw new IllegalArgumentException("Authorization request result may not be null");
-        }
-        result = authzResult;
-    }
-
-    /**
-     * Gets the result of a XACML authorization request.
-     * 
-     * @return result of a XACML authorization request
-     */
-    public ResultType getAuthorizationDecisionResult() {
-        return result;
-    }
-}
+package org.opensaml.xacml.config.impl;
