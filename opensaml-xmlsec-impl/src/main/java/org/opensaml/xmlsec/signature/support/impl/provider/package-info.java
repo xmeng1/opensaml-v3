@@ -16,4 +16,4 @@
  */
 
 /** Provides Santuario-specific implementation of signing and validation. */
-package org.opensaml.xmlsec.signature.support.provider;
+package org.opensaml.xmlsec.signature.support.impl.provider;

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.opensaml.xmlsec.signature.support.provider;
+package org.opensaml.xmlsec.signature.support.impl.provider;
 
 import javax.annotation.Nonnull;
 
