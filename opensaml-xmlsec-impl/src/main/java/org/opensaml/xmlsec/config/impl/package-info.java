@@ -15,24 +15,5 @@
  * limitations under the License.
  */
 
-package org.opensaml.xmlsec.config;
-
-import org.opensaml.core.xml.config.AbstractXMLObjectProviderInitializer;
-
-/**
- * XMLObject provider initializer for module "xmlsec-impl".
- */
-public class XMLObjectProviderInitializer extends AbstractXMLObjectProviderInitializer {
-    
-    /** Config resources. */
-    private static String[] configs = {
-        "/signature-config.xml",
-        "/encryption-config.xml", 
-        };
-
-    /** {@inheritDoc} */
-    protected String[] getConfigResources() {
-        return configs;
-    }
-
-}
+/** Configuration and initialization of security. */
+package org.opensaml.xmlsec.config.impl;

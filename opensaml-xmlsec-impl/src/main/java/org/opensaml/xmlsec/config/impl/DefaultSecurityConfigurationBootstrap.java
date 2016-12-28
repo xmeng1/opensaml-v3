@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.opensaml.xmlsec.config;
+package org.opensaml.xmlsec.config.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;

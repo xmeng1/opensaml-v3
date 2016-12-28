@@ -15,5 +15,31 @@
  * limitations under the License.
  */
 
-/** Configuration and initialization of security. */
-package org.opensaml.xmlsec.config;
+package org.opensaml.xmlsec.config.impl;
+
+import javax.xml.namespace.QName;
+
+import org.opensaml.core.config.Initializer;
+import org.opensaml.core.xml.config.XMLObjectProviderInitializerBaseTestCase;
+import org.opensaml.xmlsec.encryption.EncryptedData;
+import org.opensaml.xmlsec.signature.Signature;
+
+/**
+ * Test XMLObject provider initializer for module "xmlsec-impl".
+ */
+public class XMLObjectProviderInitializerTest extends XMLObjectProviderInitializerBaseTestCase {
+
+    /** {@inheritDoc} */
+    protected Initializer getTestedInitializer() {
+        return new XMLObjectProviderInitializer();
+    }
+
+    /** {@inheritDoc} */
+    protected QName[] getTestedProviders() {
+        return new QName[] {
+                Signature.DEFAULT_ELEMENT_NAME,
+                EncryptedData.DEFAULT_ELEMENT_NAME,
+        };
+    }
+    
+}
