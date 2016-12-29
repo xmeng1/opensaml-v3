@@ -81,7 +81,7 @@ public class ConfigurationTest {
                 .getResourceAsStream("/org/opensaml/core/xml/config/SimpleXMLObjectConfiguration.xml");
         configurator.load(sxConfig);
 
-        XMLObjectBuilder sxBuilder = XMLObjectProviderRegistrySupport.getBuilderFactory().getBuilder(simpleXMLObjectQName);
+        XMLObjectBuilder<?> sxBuilder = XMLObjectProviderRegistrySupport.getBuilderFactory().getBuilder(simpleXMLObjectQName);
         Assert.assertNotNull(sxBuilder, "SimpleXMLObject did not have a registered builder");
 
         Marshaller sxMarshaller = XMLObjectProviderRegistrySupport.getMarshallerFactory().getMarshaller(simpleXMLObjectQName);

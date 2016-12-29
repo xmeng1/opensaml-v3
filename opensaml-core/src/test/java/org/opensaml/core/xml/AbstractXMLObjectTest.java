@@ -42,15 +42,12 @@ public class AbstractXMLObjectTest extends XMLObjectBaseTestCase {
      */
     @Test
     public void testDOMAndXMLObjectSourceDropOnMutateContent() throws MarshallingException, IOException {
-        SimpleXMLObject sxo = null;
-        ByteArrayOutputStream baos  = null;
-        
-        sxo = buildXMLObject(simpleXMLObjectQName);
-        baos = new ByteArrayOutputStream();
-        XMLObjectSupport.marshallToOutputStream(sxo, baos);
-        baos.flush();
-        baos.close();
-        sxo.getObjectMetadata().put(new XMLObjectSource(baos.toByteArray()));
+        final SimpleXMLObject sxo = buildXMLObject(simpleXMLObjectQName);
+        try (final ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+            XMLObjectSupport.marshallToOutputStream(sxo, baos);
+            baos.flush();
+            sxo.getObjectMetadata().put(new XMLObjectSource(baos.toByteArray()));
+        }
         
         Assert.assertTrue(sxo.getObjectMetadata().containsKey(XMLObjectSource.class));
         Assert.assertFalse(sxo.getObjectMetadata().get(XMLObjectSource.class).isEmpty());
@@ -71,15 +68,13 @@ public class AbstractXMLObjectTest extends XMLObjectBaseTestCase {
      */
     @Test
     public void testDOMAndXMLObjectSourceDropOnMutateAttribute() throws MarshallingException, IOException {
-        SimpleXMLObject sxo = null;
-        ByteArrayOutputStream baos  = null;
+        final SimpleXMLObject sxo = buildXMLObject(simpleXMLObjectQName);
         
-        sxo = buildXMLObject(simpleXMLObjectQName);
-        baos = new ByteArrayOutputStream();
-        XMLObjectSupport.marshallToOutputStream(sxo, baos);
-        baos.flush();
-        baos.close();
-        sxo.getObjectMetadata().put(new XMLObjectSource(baos.toByteArray()));
+        try (final ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+            XMLObjectSupport.marshallToOutputStream(sxo, baos);
+            baos.flush();
+            sxo.getObjectMetadata().put(new XMLObjectSource(baos.toByteArray()));
+        }
         
         Assert.assertTrue(sxo.getObjectMetadata().containsKey(XMLObjectSource.class));
         Assert.assertFalse(sxo.getObjectMetadata().get(XMLObjectSource.class).isEmpty());
@@ -100,15 +95,13 @@ public class AbstractXMLObjectTest extends XMLObjectBaseTestCase {
      */
     @Test
     public void testDOMAndXMLObjectSourceDropOnMutateChildElements() throws MarshallingException, IOException {
-        SimpleXMLObject sxo = null;
-        ByteArrayOutputStream baos  = null;
-        
-        sxo = buildXMLObject(simpleXMLObjectQName);
-        baos = new ByteArrayOutputStream();
-        XMLObjectSupport.marshallToOutputStream(sxo, baos);
-        baos.flush();
-        baos.close();
-        sxo.getObjectMetadata().put(new XMLObjectSource(baos.toByteArray()));
+        final SimpleXMLObject sxo = buildXMLObject(simpleXMLObjectQName);
+
+        try (final ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+            XMLObjectSupport.marshallToOutputStream(sxo, baos);
+            baos.flush();
+            sxo.getObjectMetadata().put(new XMLObjectSource(baos.toByteArray()));
+        }
         
         Assert.assertTrue(sxo.getObjectMetadata().containsKey(XMLObjectSource.class));
         Assert.assertFalse(sxo.getObjectMetadata().get(XMLObjectSource.class).isEmpty());

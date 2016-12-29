@@ -91,7 +91,7 @@ public class LoggerDrivenMetricFilter implements MetricFilter {
         if (map == null || map.isEmpty()) {
             levelMap = Collections.emptyMap();
         } else {
-            levelMap = new HashMap(map.size());
+            levelMap = new HashMap<>(map.size());
             for (final Map.Entry<String,Level> entry : map.entrySet()) {
                 final String trimmed = StringSupport.trimOrNull(entry.getKey());
                 if (trimmed != null && entry.getValue() != null) {

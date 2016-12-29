@@ -166,15 +166,15 @@ public class FilesystemLoadSaveManager<T extends XMLObject> implements XMLObject
             log.debug("Target file with key '{}' does not exist, path: {}", key, file.getAbsolutePath());
             return null;
         }
-        try (FileInputStream fis = new FileInputStream(file)) {
+        try (final FileInputStream fis = new FileInputStream(file)) {
             byte[] source = ByteStreams.toByteArray(fis);
-            try (ByteArrayInputStream bais = new ByteArrayInputStream(source)) {
-                XMLObject xmlObject = XMLObjectSupport.unmarshallFromInputStream(parserPool, bais);
+            try (final ByteArrayInputStream bais = new ByteArrayInputStream(source)) {
+                final XMLObject xmlObject = XMLObjectSupport.unmarshallFromInputStream(parserPool, bais);
                 xmlObject.getObjectMetadata().put(new XMLObjectSource(source));
                 //TODO via ctor, etc, does caller need to supply a Class so we can can test and throw an IOException, 
                 // rather than an unchecked ClassCastException?
                 return (T) xmlObject;
-            } catch (XMLParserException|UnmarshallingException e) {
+            } catch (final XMLParserException|UnmarshallingException e) {
                 throw new IOException(String.format("Error loading file from path: %s", file.getAbsolutePath()), e);
             }
         }

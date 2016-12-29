@@ -162,11 +162,11 @@ public abstract class XMLObjectBaseTestCase extends OpenSAMLInitBaseTestCase {
      * @return the build XMLObject
      */
     protected <T extends XMLObject> T buildXMLObject(QName name) {
-        XMLObjectBuilder<T> builder = getBuilder(name);
+        final XMLObjectBuilder<T> builder = getBuilder(name);
         if (builder == null) {
             Assert.fail("no builder registered for: " + name);
         }
-        T wsObj = builder.buildObject(name);
+        final T wsObj = builder.buildObject(name);
         Assert.assertNotNull(wsObj);
         return wsObj;
     }
@@ -176,17 +176,17 @@ public abstract class XMLObjectBaseTestCase extends OpenSAMLInitBaseTestCase {
      * 
      * @return the XMLObject from the file
      */
-    protected <T extends XMLObject> T  unmarshallElement(String elementFile) {
+    protected <T extends XMLObject> T unmarshallElement(String elementFile) {
         try {
-            Document doc = parseXMLDocument(elementFile);
-            Element element = doc.getDocumentElement();
-            Unmarshaller unmarshaller = getUnmarshaller(element);
-            T object = (T) unmarshaller.unmarshall(element);
+            final Document doc = parseXMLDocument(elementFile);
+            final Element element = doc.getDocumentElement();
+            final Unmarshaller unmarshaller = getUnmarshaller(element);
+            final T object = (T) unmarshaller.unmarshall(element);
             Assert.assertNotNull(object);
             return object;
-        } catch (XMLParserException e) {
+        } catch (final XMLParserException e) {
             Assert.fail("Unable to parse element file " + elementFile);
-        } catch (UnmarshallingException e) {
+        } catch (final UnmarshallingException e) {
             Assert.fail("Unmarshalling failed when parsing element file " + elementFile + ": " + e);
         }
 
@@ -226,12 +226,8 @@ public abstract class XMLObjectBaseTestCase extends OpenSAMLInitBaseTestCase {
      * @param qname the QName for which to find the builder
      * @return the XMLObjectBuilder
      */
-    protected XMLObjectBuilder getBuilder(QName qname) {
-        XMLObjectBuilder builder = builderFactory.getBuilder(qname);
-        if (builder == null) {
-            Assert.fail("no builder registered for " + qname);
-        }
-        return builder;
+    protected <T extends XMLObject> XMLObjectBuilder<T> getBuilder(QName qname) {
+        return builderFactory.getBuilderOrThrow(qname);
     }
 
     /**

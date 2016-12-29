@@ -204,7 +204,7 @@ public final class XMLObjectSupport {
                     + QNameSupport.getNodeQName(clonedElement));
         }
         
-        T clonedXMLObject = (T) unmarshaller.unmarshall(clonedElement);
+        final T clonedXMLObject = (T) unmarshaller.unmarshall(clonedElement);
         if (CloneOutputOption.DropDOM.equals(cloneOutputOption)) {
             clonedXMLObject.releaseDOM();
             clonedXMLObject.releaseChildrenDOM(true);

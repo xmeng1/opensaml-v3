@@ -47,8 +47,8 @@ public class MapBasedConfiguration implements Configuration {
      * @return the instance of the registered configuration interface, or null
      */
     public <T extends Object> T get(Class<T> configClass, String partitionName) {
-        Map<String, Object> partition = getPartition(partitionName);
-        return (T) partition.get(configClass.getName());
+        final Map<String, Object> partition = getPartition(partitionName);
+        return configClass.cast(partition.get(configClass.getName()));
     }
     
     /**
@@ -79,7 +79,7 @@ public class MapBasedConfiguration implements Configuration {
     public <T extends Object> T deregister(Class<T> configClass, String partitionName) {
         Map<String, Object> partition = getPartition(partitionName);
         synchronized (partition) {
-            T old = (T) partition.get(configClass.getName());
+            final T old = configClass.cast(partition.get(configClass.getName()));
             partition.remove(configClass.getName());
             return old;
         }
