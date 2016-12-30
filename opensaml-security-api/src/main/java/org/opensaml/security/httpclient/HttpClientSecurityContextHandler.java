@@ -59,12 +59,16 @@ public class HttpClientSecurityContextHandler extends AbstractInitializableCompo
     
     /** {@inheritDoc} */
     public void invokeBefore(HttpClientContext context, HttpUriRequest request) throws IOException {
+        ComponentSupport.ifNotInitializedThrowUninitializedComponentException(this);
+        
         HttpClientSecuritySupport.marshalSecurityParameters(context, httpClientSecurityParameters, false);
         HttpClientSecuritySupport.addDefaultTLSTrustEngineCriteria(context, request);
     }
 
     /** {@inheritDoc} */
     public void invokeAfter(HttpClientContext context, HttpUriRequest request) throws IOException {
+        ComponentSupport.ifNotInitializedThrowUninitializedComponentException(this);
+        
         HttpClientSecuritySupport.checkTLSCredentialEvaluated(context, request.getURI().getScheme());
     }
 
