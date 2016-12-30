@@ -63,10 +63,18 @@ public class PKIXX509CredentialTrustEngine implements PKIXTrustEngine<X509Creden
      * @param resolver credential resolver used to resolve trusted credentials
      */
     public PKIXX509CredentialTrustEngine(@Nonnull final PKIXValidationInformationResolver resolver) {
-        pkixResolver = Constraint.isNotNull(resolver, "PKIX trust information resolver cannot be null");
-
-        pkixTrustEvaluator = new CertPathPKIXTrustEvaluator();
-        credNameEvaluator = new BasicX509CredentialNameEvaluator();
+        this(resolver, new CertPathPKIXTrustEvaluator(), new BasicX509CredentialNameEvaluator());
+    }
+    
+    /**
+     * Constructor.
+     * 
+     * @param resolver credential resolver used to resolve trusted credentials
+     * @param nameEvaluator the X.509 credential name evaluator to use (may be null)
+     */
+    public PKIXX509CredentialTrustEngine(@Nonnull final PKIXValidationInformationResolver resolver,
+            @Nullable final X509CredentialNameEvaluator nameEvaluator) {
+        this(resolver, new CertPathPKIXTrustEvaluator(), null);
     }
     
     /**
