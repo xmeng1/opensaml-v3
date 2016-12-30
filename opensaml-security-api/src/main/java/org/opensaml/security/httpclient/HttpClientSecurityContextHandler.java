@@ -30,6 +30,8 @@ import net.shibboleth.utilities.java.support.httpclient.HttpClientContextHandler
 
 /**
  * An {@link HttpClientContextHandler} that supports this package's security capabilities.
+ * 
+ * @since 3.4.0
  */
 public class HttpClientSecurityContextHandler extends AbstractInitializableComponent
         implements HttpClientContextHandler {
