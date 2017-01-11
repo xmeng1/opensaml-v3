@@ -212,6 +212,7 @@ public abstract class BaseClientCertAuthSecurityHandler extends BaseTrustEngineS
      *             and the client certificate token can not be establishd as trusted on that basis, or if there is error
      *             during evaluation processing
      */
+// Checkstyle: ReturnCount OFF
     protected void doEvaluate(@Nonnull final X509Credential requestCredential,
             @Nonnull final MessageContext messageContext) throws MessageHandlerException {
 
@@ -251,6 +252,7 @@ public abstract class BaseClientCertAuthSecurityHandler extends BaseTrustEngineS
             return;
         }
     }
+// Checkstyle: ReturnCount ON
 
     /**
      * Get the entity ID of the presenter of the client TLS certificate, as will be used for trust evaluation purposes.
