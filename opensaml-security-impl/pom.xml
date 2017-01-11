@@ -35,6 +35,12 @@
             <optional>true</optional>
         </dependency>
 
+        <dependency>
+            <groupId>org.ldaptive</groupId>
+            <artifactId>ldaptive</artifactId>
+            <optional>true</optional>
+        </dependency>
+
         <!-- Provided Dependencies -->
         <dependency>
             <groupId>javax.servlet</groupId>
