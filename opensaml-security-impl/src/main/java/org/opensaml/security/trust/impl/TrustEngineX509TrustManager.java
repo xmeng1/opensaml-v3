@@ -52,7 +52,7 @@ public class TrustEngineX509TrustManager implements X509TrustManager {
     @Nullable private CriteriaSet tlsCriteriaSet;
     
     /**
-     * Sets the optional trust engine used in evaluating server TLS credentials.
+     * Set the trust engine used in evaluating server TLS credentials.
      * 
      * @param engine the trust engine instance to use
      */
@@ -78,6 +78,8 @@ public class TrustEngineX509TrustManager implements X509TrustManager {
     public void checkServerTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
         if (arg0 == null || arg0.length < 1) {
             throw new CertificateException("Peer certificate array was null or empty");
+        } else if (tlsTrustEngine == null) {
+            throw new CertificateException("TrustEngine was null");
         }
 
         final ArrayList<X509Certificate> certChain = new ArrayList<>();
@@ -110,7 +112,7 @@ public class TrustEngineX509TrustManager implements X509TrustManager {
 
     /** {@inheritDoc} */
     public X509Certificate[] getAcceptedIssuers() {
-        return null;
+        return new X509Certificate[] {};
     }
 
 }
