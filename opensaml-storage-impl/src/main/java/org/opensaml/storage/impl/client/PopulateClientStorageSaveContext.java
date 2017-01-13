@@ -115,14 +115,17 @@ public class PopulateClientStorageSaveContext<InboundMessageType, OutboundMessag
             log.debug("{} No ClientStorageServices require saving, nothing to do", getLogPrefix());
             ActionSupport.buildEvent(profileRequestContext, SAVE_NOT_NEEDED);
         } else {
-            final Collection<String> ids = Collections2.transform(saveCtx.getStorageOperations(),
-                    new Function<ClientStorageServiceOperation,String>() {
-                public String apply(ClientStorageServiceOperation input) {
-                    return input.getStorageServiceID();
-                }
-            });
-            log.debug("{} ClientStorageServices requiring save: {}", getLogPrefix(), ids);
             profileRequestContext.addSubcontext(saveCtx, true);
+            
+            if (log.isDebugEnabled()) {
+                final Collection<String> ids = Collections2.transform(saveCtx.getStorageOperations(),
+                        new Function<ClientStorageServiceOperation,String>() {
+                    public String apply(ClientStorageServiceOperation input) {
+                        return input.getStorageServiceID();
+                    }
+                });
+                log.debug("{} ClientStorageServices requiring save: {}", getLogPrefix(), ids);
+            }
         }
     }
 
