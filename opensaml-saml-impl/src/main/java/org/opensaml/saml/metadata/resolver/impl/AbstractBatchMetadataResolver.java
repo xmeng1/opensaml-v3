@@ -125,7 +125,8 @@ public abstract class AbstractBatchMetadataResolver extends AbstractMetadataReso
         if (newIndexes == null) {
             indexes = Collections.emptySet();
         } else {
-            indexes = new HashSet<>(Collections2.filter(newIndexes, Predicates.notNull()));
+            indexes = new HashSet<>();
+            indexes.addAll(Collections2.filter(newIndexes, Predicates.notNull()));
         }
     }
 

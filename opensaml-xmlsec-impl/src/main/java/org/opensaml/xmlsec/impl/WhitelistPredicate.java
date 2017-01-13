@@ -23,6 +23,7 @@ import java.util.HashSet;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
 import net.shibboleth.utilities.java.support.logic.Constraint;
 
 import com.google.common.base.Predicate;
@@ -36,7 +37,7 @@ import com.google.common.collect.Collections2;
 public class WhitelistPredicate implements Predicate<String> {
     
     /** Whitelisted algorithms. */
-    private Collection<String> whitelist;
+    @Nonnull @NonnullElements private Collection<String> whitelist;
     
     /**
      * Constructor.
@@ -45,7 +46,8 @@ public class WhitelistPredicate implements Predicate<String> {
      */
     public WhitelistPredicate(@Nonnull Collection<String> algorithms) {
         Constraint.isNotNull(algorithms, "Whitelist may not be null");
-        whitelist = new HashSet<>(Collections2.filter(algorithms, Predicates.notNull()));
+        whitelist = new HashSet<>();
+        whitelist.addAll(Collections2.filter(algorithms, Predicates.notNull()));
     }
 
     /** {@inheritDoc} */

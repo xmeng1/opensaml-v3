@@ -124,7 +124,8 @@ public class CertificateNameOptions implements Cloneable {
             return;
         }
         
-        subjectAltNames = new HashSet<>(Collections2.filter(names, Predicates.notNull()));
+        subjectAltNames = new HashSet<>();
+        subjectAltNames.addAll(Collections2.filter(names, Predicates.notNull()));
     }
 
     /**

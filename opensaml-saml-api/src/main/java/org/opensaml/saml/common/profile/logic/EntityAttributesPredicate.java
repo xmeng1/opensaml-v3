@@ -305,8 +305,7 @@ public class EntityAttributesPredicate implements Predicate<EntityDescriptor> {
          */
         public void setRegexps(@Nonnull @NonnullElements final Collection<Pattern> exps) {
             Constraint.isNotNull(exps, "Regular expressions collection cannot be null");
-            regexps = new ArrayList<>(exps.size());
-            regexps.addAll(Collections2.filter(exps, Predicates.notNull()));
+            regexps = new ArrayList<>(Collections2.filter(exps, Predicates.notNull()));
         }
     }
     

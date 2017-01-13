@@ -138,7 +138,8 @@ public class BasicX509CredentialNameEvaluator implements X509CredentialNameEvalu
         if (nameTypes == null) {
             subjectAltNameTypes = Collections.emptySet();
         } else {
-            subjectAltNameTypes = new HashSet<>(Collections2.filter(nameTypes, Predicates.notNull()));
+            subjectAltNameTypes = new HashSet<>();
+            subjectAltNameTypes.addAll(Collections2.filter(nameTypes, Predicates.notNull()));
         }
     }
 
