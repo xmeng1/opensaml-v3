@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import net.shibboleth.utilities.java.support.annotation.constraint.NotEmpty;
 import net.shibboleth.utilities.java.support.codec.Base64Support;
+import net.shibboleth.utilities.java.support.primitive.StringSupport;
 
 import org.opensaml.messaging.context.MessageContext;
 import org.opensaml.messaging.decoder.MessageDecodingException;
@@ -87,6 +88,11 @@ public class HTTPRedirectDeflateDecoder extends BaseHttpServletRequestXMLMessage
         
         if (!"GET".equalsIgnoreCase(request.getMethod())) {
             throw new MessageDecodingException("This message decoder only supports the HTTP GET method");
+        }
+        
+        String samlEncoding = StringSupport.trimOrNull(request.getParameter("SAMLEncoding"));
+        if (samlEncoding != null && !SAMLConstants.SAML2_BINDING_URL_ENCODING_DEFLATE_URI.equals(samlEncoding)) {
+            throw new MessageDecodingException("Request indicated an unsupported SAMLEncoding: " + samlEncoding);
         }
 
         String relayState = request.getParameter("RelayState");

@@ -24,9 +24,6 @@ import java.net.URL;
 import java.util.zip.Deflater;
 import java.util.zip.DeflaterOutputStream;
 
-import net.shibboleth.utilities.java.support.codec.Base64Support;
-import net.shibboleth.utilities.java.support.xml.SerializeSupport;
-
 import org.opensaml.core.xml.XMLObjectBaseTestCase;
 import org.opensaml.core.xml.io.MarshallingException;
 import org.opensaml.messaging.context.MessageContext;
@@ -34,7 +31,6 @@ import org.opensaml.messaging.decoder.MessageDecodingException;
 import org.opensaml.messaging.encoder.MessageEncodingException;
 import org.opensaml.saml.common.SAMLObject;
 import org.opensaml.saml.common.binding.SAMLBindingSupport;
-import org.opensaml.saml.saml2.binding.decoding.impl.HTTPRedirectDeflateDecoder;
 import org.opensaml.saml.saml2.core.AuthnRequest;
 import org.opensaml.saml.saml2.core.RequestAbstractType;
 import org.opensaml.saml.saml2.core.Response;
@@ -42,6 +38,9 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import net.shibboleth.utilities.java.support.codec.Base64Support;
+import net.shibboleth.utilities.java.support.xml.SerializeSupport;
 
 /**
  *
@@ -96,6 +95,36 @@ public class HTTPRedirectDeflateDecoderTest extends XMLObjectBaseTestCase {
 
         Assert.assertTrue(messageContext.getMessage() instanceof RequestAbstractType);
         Assert.assertEquals(SAMLBindingSupport.getRelayState(messageContext), expectedRelayValue);
+    }
+
+    @Test
+    public void testExplicitDefaultSAMLEncoding() 
+            throws MessageDecodingException, MessageEncodingException, MarshallingException {
+        AuthnRequest samlRequest =
+                (AuthnRequest) unmarshallElement("/org/opensaml/saml/saml2/binding/AuthnRequest.xml");
+        samlRequest.setDestination(null);
+
+        httpRequest.setParameter("SAMLRequest", encodeMessage(samlRequest));
+        httpRequest.setParameter("SAMLEncoding", "urn:oasis:names:tc:SAML:2.0:bindings:URL-Encoding:DEFLATE");
+
+        decoder.decode();
+        MessageContext<SAMLObject> messageContext = decoder.getMessageContext();
+
+        Assert.assertTrue(messageContext.getMessage() instanceof RequestAbstractType);
+        Assert.assertEquals(SAMLBindingSupport.getRelayState(messageContext), expectedRelayValue);
+    }
+
+    @Test(expectedExceptions=MessageDecodingException.class)
+    public void testUnsupportedSAMLEncoding() 
+            throws MessageDecodingException, MessageEncodingException, MarshallingException {
+        AuthnRequest samlRequest =
+                (AuthnRequest) unmarshallElement("/org/opensaml/saml/saml2/binding/AuthnRequest.xml");
+        samlRequest.setDestination(null);
+
+        httpRequest.setParameter("SAMLRequest", encodeMessage(samlRequest));
+        httpRequest.setParameter("SAMLEncoding", "urn:test:encoding:bogus");
+
+        decoder.decode();
     }
 
     private void populateRequestURL(MockHttpServletRequest request, String requestURL) {

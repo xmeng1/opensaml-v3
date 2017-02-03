@@ -320,6 +320,10 @@ public final class SAMLConstants {
     
     /** SAML 2.0 Metadata Profile for Algorithm Support QName prefix. */
     public static final String SAML20ALG_PREFIX = "alg";
+    
+    /** URI for SAML 2 binding URL encoding DEFLATE method. */
+    public static final String SAML2_BINDING_URL_ENCODING_DEFLATE_URI = 
+            "urn:oasis:names:tc:SAML:2.0:bindings:URL-Encoding:DEFLATE";
 
     /** Constructor. */
     private SAMLConstants() {
