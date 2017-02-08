@@ -25,6 +25,8 @@ import net.shibboleth.utilities.java.support.resolver.Criterion;
 
 /**
  * A criterion for specifying whether encryption is to be treated as optional.
+ * 
+ * @since 3.3.0
  */
 public class EncryptionOptionalCriterion implements Criterion {
     

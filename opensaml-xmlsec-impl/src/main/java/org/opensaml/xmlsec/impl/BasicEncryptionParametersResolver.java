@@ -158,7 +158,7 @@ public class BasicEncryptionParametersResolver extends AbstractSecurityParameter
         }
         
         boolean encryptionOptional = false;
-        EncryptionOptionalCriterion encryptionOptionalCrit = criteria.get(EncryptionOptionalCriterion.class);
+        final EncryptionOptionalCriterion encryptionOptionalCrit = criteria.get(EncryptionOptionalCriterion.class);
         if (encryptionOptionalCrit != null) {
             encryptionOptional = encryptionOptionalCrit.isEncryptionOptional();
         }
@@ -231,12 +231,16 @@ public class BasicEncryptionParametersResolver extends AbstractSecurityParameter
         return validate(params, false);
     }
     
+// Checkstyle: CyclomaticComplexity OFF
     /**
      * Validate that the {@link EncryptionParameters} instance has all the required properties populated.
      * 
      * @param params the parameters instance to evaluate
+     * @param encryptionOptional whether to consider invalid parameters to be a problem
      * 
      * @return true if parameters instance passes validation, false otherwise
+     * 
+     * @since 3.3.0
      */
     protected boolean validate(@Nonnull final EncryptionParameters params, final boolean encryptionOptional) {
         if (params.getKeyTransportEncryptionCredential() == null 
@@ -284,7 +288,8 @@ public class BasicEncryptionParametersResolver extends AbstractSecurityParameter
         
         return true;
     }
-
+// Checkstyle: CyclomaticComplexity ON
+    
     /**
      * Get a predicate which implements the effective configured whitelist/blacklist policy.
      * 
@@ -395,7 +400,7 @@ public class BasicEncryptionParametersResolver extends AbstractSecurityParameter
      * @param whitelistBlacklistPredicate the whitelist/blacklist predicate with which to evaluate the 
      *          candidate data encryption and key transport algorithm URIs
      */
-    // Checkstyle: CyclomaticComplexity OFF -- more readable not split up
+// Checkstyle: CyclomaticComplexity|ReturnCount OFF -- more readable not split up
     protected void populateRSAOAEPParams(@Nonnull final RSAOAEPParameters rsaParams, 
             @Nonnull final CriteriaSet criteria,
             @Nonnull final Predicate<String> whitelistBlacklistPredicate) {
@@ -406,10 +411,10 @@ public class BasicEncryptionParametersResolver extends AbstractSecurityParameter
         
         Predicate<String> algoSupportPredicate = getAlgorithmRuntimeSupportedPredicate();
         
-        for (EncryptionConfiguration config : criteria.get(EncryptionConfigurationCriterion.class)
-                .getConfigurations()) {
+        for (final EncryptionConfiguration config :
+                criteria.get(EncryptionConfigurationCriterion.class).getConfigurations()) {
             
-            RSAOAEPParameters rsaConfig = config.getRSAOAEPParameters();
+            final RSAOAEPParameters rsaConfig = config.getRSAOAEPParameters();
             if (rsaConfig != null) {
                 if (rsaParams.getDigestMethod() == null) {
                     if (rsaConfig.getDigestMethod() != null 
@@ -436,7 +441,7 @@ public class BasicEncryptionParametersResolver extends AbstractSecurityParameter
             }
         }
     }
-    // Checkstyle:CyclomaticComplexity ON
+// Checkstyle:CyclomaticComplexity|ReturnCount ON
     
     /**
      * Resolve the optional effectively configured instance of {@link KeyTransportAlgorithmPredicate} to use.
