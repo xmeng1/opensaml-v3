@@ -35,18 +35,23 @@ public class NameIDPolicyUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        NameIDPolicy policy = (NameIDPolicy) samlObject;
+        final NameIDPolicy policy = (NameIDPolicy) samlObject;
 
-        if (attribute.getLocalName().equals(NameIDPolicy.FORMAT_ATTRIB_NAME)) {
-            policy.setFormat(attribute.getValue());
-        }
-        if (attribute.getLocalName().equals(NameIDPolicy.SP_NAME_QUALIFIER_ATTRIB_NAME)) {
-            policy.setSPNameQualifier(attribute.getValue());
-        }
-        if (attribute.getLocalName().equals(NameIDPolicy.ALLOW_CREATE_ATTRIB_NAME)) {
-            policy.setAllowCreate(XSBooleanValue.valueOf(attribute.getValue()));
+        if (attribute.getNamespaceURI() == null) {
+            if (attribute.getLocalName().equals(NameIDPolicy.FORMAT_ATTRIB_NAME)) {
+                policy.setFormat(attribute.getValue());
+            }
+            if (attribute.getLocalName().equals(NameIDPolicy.SP_NAME_QUALIFIER_ATTRIB_NAME)) {
+                policy.setSPNameQualifier(attribute.getValue());
+            }
+            if (attribute.getLocalName().equals(NameIDPolicy.ALLOW_CREATE_ATTRIB_NAME)) {
+                policy.setAllowCreate(XSBooleanValue.valueOf(attribute.getValue()));
+            } else {
+                super.processAttribute(samlObject, attribute);
+            }
         } else {
             super.processAttribute(samlObject, attribute);
         }
     }
+    
 }

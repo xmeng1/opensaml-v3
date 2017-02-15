@@ -33,7 +33,7 @@ public class RegistrationInfoUnmarshaller extends AbstractSAMLObjectUnmarshaller
 
     /** {@inheritDoc} */
     protected void processChildElement(XMLObject parentObject, XMLObject childObject) throws UnmarshallingException {
-        RegistrationInfo info = (RegistrationInfo) parentObject;
+        final RegistrationInfo info = (RegistrationInfo) parentObject;
         
         if (childObject instanceof RegistrationPolicy) {
             info.getRegistrationPolicies().add((RegistrationPolicy)childObject);
@@ -44,12 +44,16 @@ public class RegistrationInfoUnmarshaller extends AbstractSAMLObjectUnmarshaller
     
     /** {@inheritDoc} */
     protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        RegistrationInfo info = (RegistrationInfo) samlObject;
+        final RegistrationInfo info = (RegistrationInfo) samlObject;
         
-        if (RegistrationInfo.REGISTRATION_AUTHORITY_ATTRIB_NAME.equals(attribute.getName())) {
-            info.setRegistrationAuthority(attribute.getValue());
-        } else if (RegistrationInfo.REGISTRATION_INSTANT_ATTRIB_NAME.equals(attribute.getName())) {
-            info.setRegistrationInstant(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));
+        if (attribute.getNamespaceURI() == null) {
+            if (RegistrationInfo.REGISTRATION_AUTHORITY_ATTRIB_NAME.equals(attribute.getName())) {
+                info.setRegistrationAuthority(attribute.getValue());
+            } else if (RegistrationInfo.REGISTRATION_INSTANT_ATTRIB_NAME.equals(attribute.getName())) {
+                info.setRegistrationInstant(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));
+            } else {
+                super.processAttribute(samlObject, attribute);
+            }
         } else {
             super.processAttribute(samlObject, attribute);
         }

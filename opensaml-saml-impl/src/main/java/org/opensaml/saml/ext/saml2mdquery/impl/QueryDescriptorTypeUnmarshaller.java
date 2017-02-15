@@ -31,7 +31,7 @@ public class QueryDescriptorTypeUnmarshaller extends RoleDescriptorUnmarshaller 
     /** {@inheritDoc} */
     protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
             throws UnmarshallingException {
-        QueryDescriptorType descriptor = (QueryDescriptorType) parentSAMLObject;
+        final QueryDescriptorType descriptor = (QueryDescriptorType) parentSAMLObject;
 
         if (childSAMLObject instanceof NameIDFormat) {
             descriptor.getNameIDFormat().add((NameIDFormat) childSAMLObject);
@@ -42,9 +42,10 @@ public class QueryDescriptorTypeUnmarshaller extends RoleDescriptorUnmarshaller 
 
     /** {@inheritDoc} */
     protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        QueryDescriptorType descriptor = (QueryDescriptorType) samlObject;
+        final QueryDescriptorType descriptor = (QueryDescriptorType) samlObject;
 
-        if (attribute.getLocalName().equals(QueryDescriptorType.WANT_ASSERTIONS_SIGNED_ATTRIB_NAME)) {
+        if (attribute.getLocalName().equals(QueryDescriptorType.WANT_ASSERTIONS_SIGNED_ATTRIB_NAME)
+                && attribute.getNamespaceURI() == null) {
             descriptor.setWantAssertionsSigned(XSBooleanValue.valueOf(attribute.getValue()));
         } else {
             super.processAttribute(samlObject, attribute);

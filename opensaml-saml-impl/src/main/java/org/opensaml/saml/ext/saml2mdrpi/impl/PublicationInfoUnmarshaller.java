@@ -33,7 +33,7 @@ public class PublicationInfoUnmarshaller extends AbstractSAMLObjectUnmarshaller 
 
     /** {@inheritDoc} */
     protected void processChildElement(XMLObject parentObject, XMLObject childObject) throws UnmarshallingException {
-        PublicationInfo info = (PublicationInfo) parentObject;
+        final PublicationInfo info = (PublicationInfo) parentObject;
 
         if (childObject instanceof UsagePolicy) {
             info.getUsagePolicies().add((UsagePolicy)childObject);
@@ -44,14 +44,18 @@ public class PublicationInfoUnmarshaller extends AbstractSAMLObjectUnmarshaller 
 
     /** {@inheritDoc} */
     protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        PublicationInfo info = (PublicationInfo) samlObject;
+        final PublicationInfo info = (PublicationInfo) samlObject;
 
-        if (PublicationInfo.PUBLISHER_ATTRIB_NAME.equals(attribute.getName())) {
-            info.setPublisher(attribute.getValue());
-        } else if (PublicationInfo.CREATION_INSTANT_ATTRIB_NAME.equals(attribute.getName())) {
-            info.setCreationInstant(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));
-        } else if (PublicationInfo.PUBLICATION_ID_ATTRIB_NAME.equals(attribute.getName())) {
-            info.setPublicationId(attribute.getValue());
+        if (attribute.getNamespaceURI() == null) {
+            if (PublicationInfo.PUBLISHER_ATTRIB_NAME.equals(attribute.getName())) {
+                info.setPublisher(attribute.getValue());
+            } else if (PublicationInfo.CREATION_INSTANT_ATTRIB_NAME.equals(attribute.getName())) {
+                info.setCreationInstant(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));
+            } else if (PublicationInfo.PUBLICATION_ID_ATTRIB_NAME.equals(attribute.getName())) {
+                info.setPublicationId(attribute.getValue());
+            } else {
+                super.processAttribute(samlObject, attribute);
+            }
         } else {
             super.processAttribute(samlObject, attribute);
         }

@@ -21,6 +21,8 @@
 
 package org.opensaml.saml.saml1.core.impl;
 
+import javax.annotation.Nonnull;
+
 import org.joda.time.DateTime;
 import org.joda.time.chrono.ISOChronology;
 import org.opensaml.core.xml.XMLObject;
@@ -43,12 +45,12 @@ import com.google.common.base.Strings;
 public abstract class ResponseAbstractTypeUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** Logger. */
-    private final Logger log = LoggerFactory.getLogger(ResponseUnmarshaller.class);
+    @Nonnull private final Logger log = LoggerFactory.getLogger(ResponseUnmarshaller.class);
 
     /** {@inheritDoc} */
     public XMLObject unmarshall(Element domElement) throws UnmarshallingException {
         // After regular unmarshalling, check the minor version and set ID-ness if not SAML 1.0
-        ResponseAbstractType response = (ResponseAbstractType) super.unmarshall(domElement);
+        final ResponseAbstractType response = (ResponseAbstractType) super.unmarshall(domElement);
         if (response.getVersion() != SAMLVersion.VERSION_10 && !Strings.isNullOrEmpty(response.getID())) {
             domElement.setIdAttributeNS(null, ResponseAbstractType.ID_ATTRIB_NAME, true);
         }
@@ -58,7 +60,7 @@ public abstract class ResponseAbstractTypeUnmarshaller extends AbstractSAMLObjec
     /** {@inheritDoc} */
     protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
             throws UnmarshallingException {
-        ResponseAbstractType response = (ResponseAbstractType) parentSAMLObject;
+        final ResponseAbstractType response = (ResponseAbstractType) parentSAMLObject;
 
         if (childSAMLObject instanceof Signature) {
             response.setSignature((Signature) childSAMLObject);
@@ -70,44 +72,49 @@ public abstract class ResponseAbstractTypeUnmarshaller extends AbstractSAMLObjec
 // Checkstyle: CyclomaticComplexity OFF
     /** {@inheritDoc} */
     protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        ResponseAbstractType response = (ResponseAbstractType) samlObject;
+        final ResponseAbstractType response = (ResponseAbstractType) samlObject;
 
-        if (attribute.getLocalName().equals(ResponseAbstractType.ID_ATTRIB_NAME)) {
-            response.setID(attribute.getValue());
-        } else if (attribute.getLocalName().equals(ResponseAbstractType.INRESPONSETO_ATTRIB_NAME)) {
-            response.setInResponseTo(attribute.getValue());
-        } else if (attribute.getLocalName().equals(ResponseAbstractType.ISSUEINSTANT_ATTRIB_NAME)
-                && !Strings.isNullOrEmpty(attribute.getValue())) {
-            response.setIssueInstant(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));
-        } else if (attribute.getLocalName().equals(ResponseAbstractType.MAJORVERSION_ATTRIB_NAME)) {
-            int major;
-            try {
-                major = Integer.parseInt(attribute.getValue());
-                if (major != 1) {
-                    throw new UnmarshallingException("MajorVersion was invalid, must be 1");
+        if (attribute.getNamespaceURI() == null) {
+            if (attribute.getLocalName().equals(ResponseAbstractType.ID_ATTRIB_NAME)) {
+                response.setID(attribute.getValue());
+            } else if (attribute.getLocalName().equals(ResponseAbstractType.INRESPONSETO_ATTRIB_NAME)) {
+                response.setInResponseTo(attribute.getValue());
+            } else if (attribute.getLocalName().equals(ResponseAbstractType.ISSUEINSTANT_ATTRIB_NAME)
+                    && !Strings.isNullOrEmpty(attribute.getValue())) {
+                response.setIssueInstant(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));
+            } else if (attribute.getLocalName().equals(ResponseAbstractType.MAJORVERSION_ATTRIB_NAME)) {
+                int major;
+                try {
+                    major = Integer.parseInt(attribute.getValue());
+                    if (major != 1) {
+                        throw new UnmarshallingException("MajorVersion was invalid, must be 1");
+                    }
+                } catch (final NumberFormatException n) {
+                    log.error("Failed to parse major version", n);
+                    throw new UnmarshallingException(n);
                 }
-            } catch (final NumberFormatException n) {
-                log.error("Failed to parse major version", n);
-                throw new UnmarshallingException(n);
+            } else if (attribute.getLocalName().equals(ResponseAbstractType.MINORVERSION_ATTRIB_NAME)) {
+                int minor;
+                try {
+                    minor = Integer.parseInt(attribute.getValue());
+                } catch (final NumberFormatException n) {
+                    log.error("Failed to parse minor version", n);
+                    throw new UnmarshallingException(n);
+                }
+                if (minor == 0) {
+                    response.setVersion(SAMLVersion.VERSION_10);
+                } else if (minor == 1) {
+                    response.setVersion(SAMLVersion.VERSION_11);
+                }
+            } else if (attribute.getLocalName().equals(ResponseAbstractType.RECIPIENT_ATTRIB_NAME)) {
+                response.setRecipient(attribute.getValue());
+            } else {
+                super.processAttribute(samlObject, attribute);
             }
-        } else if (attribute.getLocalName().equals(ResponseAbstractType.MINORVERSION_ATTRIB_NAME)) {
-            int minor;
-            try {
-                minor = Integer.parseInt(attribute.getValue());
-            } catch (NumberFormatException n) {
-                log.error("Failed to parse minor version", n);
-                throw new UnmarshallingException(n);
-            }
-            if (minor == 0) {
-                response.setVersion(SAMLVersion.VERSION_10);
-            } else if (minor == 1) {
-                response.setVersion(SAMLVersion.VERSION_11);
-            }
-        } else if (attribute.getLocalName().equals(ResponseAbstractType.RECIPIENT_ATTRIB_NAME)) {
-            response.setRecipient(attribute.getValue());
         } else {
             super.processAttribute(samlObject, attribute);
         }
+        
     }
 // Checkstyle: CyclomaticComplexity ON
     

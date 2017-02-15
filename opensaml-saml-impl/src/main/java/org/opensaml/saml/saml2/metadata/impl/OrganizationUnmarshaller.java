@@ -39,7 +39,7 @@ public class OrganizationUnmarshaller extends AbstractSAMLObjectUnmarshaller {
     /** {@inheritDoc} */
     protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
             throws UnmarshallingException {
-        Organization org = (Organization) parentSAMLObject;
+        final Organization org = (Organization) parentSAMLObject;
 
         if (childSAMLObject instanceof Extensions) {
             org.setExtensions((Extensions) childSAMLObject);
@@ -58,8 +58,12 @@ public class OrganizationUnmarshaller extends AbstractSAMLObjectUnmarshaller {
      * {@inheritDoc}
      */
     protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        Organization org = (Organization) samlObject;
 
-        processUnknownAttribute(org, attribute);
+        if (attribute.getNamespaceURI() == null) {
+            super.processAttribute(samlObject, attribute);
+        } else {
+            processUnknownAttribute((Organization) samlObject, attribute);
+        }
     }
+    
 }

@@ -42,33 +42,10 @@ import com.google.common.base.Strings;
 public abstract class StatusResponseTypeUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        StatusResponseType sr = (StatusResponseType) samlObject;
-
-        if (attribute.getLocalName().equals(StatusResponseType.VERSION_ATTRIB_NAME)) {
-            sr.setVersion(SAMLVersion.valueOf(attribute.getValue()));
-        } else if (attribute.getLocalName().equals(StatusResponseType.ID_ATTRIB_NAME)) {
-            sr.setID(attribute.getValue());
-            attribute.getOwnerElement().setIdAttributeNode(attribute, true);
-        } else if (attribute.getLocalName().equals(StatusResponseType.IN_RESPONSE_TO_ATTRIB_NAME)) {
-            sr.setInResponseTo(attribute.getValue());
-        } else if (attribute.getLocalName().equals(StatusResponseType.ISSUE_INSTANT_ATTRIB_NAME)
-                && !Strings.isNullOrEmpty(attribute.getValue())) {
-            sr.setIssueInstant(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));
-        } else if (attribute.getLocalName().equals(StatusResponseType.DESTINATION_ATTRIB_NAME)) {
-            sr.setDestination(attribute.getValue());
-        } else if (attribute.getLocalName().equals(StatusResponseType.CONSENT_ATTRIB_NAME)) {
-            sr.setConsent(attribute.getValue());
-        } else {
-            super.processAttribute(samlObject, attribute);
-        }
-    }
-
-    /** {@inheritDoc} */
     protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
             throws UnmarshallingException {
-        StatusResponseType sr = (StatusResponseType) parentSAMLObject;
-
+        final StatusResponseType sr = (StatusResponseType) parentSAMLObject;
+    
         if (childSAMLObject instanceof Issuer) {
             sr.setIssuer((Issuer) childSAMLObject);
         } else if (childSAMLObject instanceof Signature) {
@@ -81,4 +58,32 @@ public abstract class StatusResponseTypeUnmarshaller extends AbstractSAMLObjectU
             super.processChildElement(parentSAMLObject, childSAMLObject);
         }
     }
+
+    /** {@inheritDoc} */
+    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
+        final StatusResponseType sr = (StatusResponseType) samlObject;
+
+        if (attribute.getNamespaceURI() == null) {
+            if (attribute.getLocalName().equals(StatusResponseType.VERSION_ATTRIB_NAME)) {
+                sr.setVersion(SAMLVersion.valueOf(attribute.getValue()));
+            } else if (attribute.getLocalName().equals(StatusResponseType.ID_ATTRIB_NAME)) {
+                sr.setID(attribute.getValue());
+                attribute.getOwnerElement().setIdAttributeNode(attribute, true);
+            } else if (attribute.getLocalName().equals(StatusResponseType.IN_RESPONSE_TO_ATTRIB_NAME)) {
+                sr.setInResponseTo(attribute.getValue());
+            } else if (attribute.getLocalName().equals(StatusResponseType.ISSUE_INSTANT_ATTRIB_NAME)
+                    && !Strings.isNullOrEmpty(attribute.getValue())) {
+                sr.setIssueInstant(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));
+            } else if (attribute.getLocalName().equals(StatusResponseType.DESTINATION_ATTRIB_NAME)) {
+                sr.setDestination(attribute.getValue());
+            } else if (attribute.getLocalName().equals(StatusResponseType.CONSENT_ATTRIB_NAME)) {
+                sr.setConsent(attribute.getValue());
+            } else {
+                super.processAttribute(samlObject, attribute);
+            }
+        } else {
+            super.processAttribute(samlObject, attribute);
+        }
+    }
+    
 }

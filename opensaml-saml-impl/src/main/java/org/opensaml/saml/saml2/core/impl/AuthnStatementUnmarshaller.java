@@ -40,7 +40,7 @@ public class AuthnStatementUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processChildElement(XMLObject parentObject, XMLObject childObject) throws UnmarshallingException {
-        AuthnStatement authnStatement = (AuthnStatement) parentObject;
+        final AuthnStatement authnStatement = (AuthnStatement) parentObject;
         if (childObject instanceof SubjectLocality) {
             authnStatement.setSubjectLocality((SubjectLocality) childObject);
         } else if (childObject instanceof AuthnContext) {
@@ -52,17 +52,24 @@ public class AuthnStatementUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        AuthnStatement authnStatement = (AuthnStatement) samlObject;
-        if (attribute.getLocalName().equals(AuthnStatement.AUTHN_INSTANT_ATTRIB_NAME)
-                && !Strings.isNullOrEmpty(attribute.getValue())) {
-            authnStatement.setAuthnInstant(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));
-        } else if (attribute.getLocalName().equals(AuthnStatement.SESSION_INDEX_ATTRIB_NAME)) {
-            authnStatement.setSessionIndex(attribute.getValue());
-        } else if (attribute.getLocalName().equals(AuthnStatement.SESSION_NOT_ON_OR_AFTER_ATTRIB_NAME)
-                && !Strings.isNullOrEmpty(attribute.getValue())) {
-            authnStatement.setSessionNotOnOrAfter(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));
+        final AuthnStatement authnStatement = (AuthnStatement) samlObject;
+        
+        if (attribute.getNamespaceURI() == null) {
+            if (attribute.getLocalName().equals(AuthnStatement.AUTHN_INSTANT_ATTRIB_NAME)
+                    && !Strings.isNullOrEmpty(attribute.getValue())) {
+                authnStatement.setAuthnInstant(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));
+            } else if (attribute.getLocalName().equals(AuthnStatement.SESSION_INDEX_ATTRIB_NAME)) {
+                authnStatement.setSessionIndex(attribute.getValue());
+            } else if (attribute.getLocalName().equals(AuthnStatement.SESSION_NOT_ON_OR_AFTER_ATTRIB_NAME)
+                    && !Strings.isNullOrEmpty(attribute.getValue())) {
+                authnStatement.setSessionNotOnOrAfter(new DateTime(attribute.getValue(),
+                        ISOChronology.getInstanceUTC()));
+            } else {
+                super.processAttribute(samlObject, attribute);
+            }
         } else {
             super.processAttribute(samlObject, attribute);
         }
     }
+    
 }

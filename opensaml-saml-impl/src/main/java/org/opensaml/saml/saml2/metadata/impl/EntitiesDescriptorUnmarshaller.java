@@ -42,7 +42,7 @@ public class EntitiesDescriptorUnmarshaller extends AbstractSAMLObjectUnmarshall
     /** {@inheritDoc} */
     protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
             throws UnmarshallingException {
-        EntitiesDescriptor entitiesDescriptor = (EntitiesDescriptor) parentSAMLObject;
+        final EntitiesDescriptor entitiesDescriptor = (EntitiesDescriptor) parentSAMLObject;
 
         if (childSAMLObject instanceof Extensions) {
             entitiesDescriptor.setExtensions((Extensions) childSAMLObject);
@@ -59,20 +59,25 @@ public class EntitiesDescriptorUnmarshaller extends AbstractSAMLObjectUnmarshall
 
     /** {@inheritDoc} */
     protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        EntitiesDescriptor entitiesDescriptor = (EntitiesDescriptor) samlObject;
+        final EntitiesDescriptor entitiesDescriptor = (EntitiesDescriptor) samlObject;
 
-        if (attribute.getLocalName().equals(EntitiesDescriptor.ID_ATTRIB_NAME)) {
-            entitiesDescriptor.setID(attribute.getValue());
-            attribute.getOwnerElement().setIdAttributeNode(attribute, true);
-        } else if (attribute.getLocalName().equals(TimeBoundSAMLObject.VALID_UNTIL_ATTRIB_NAME)
-                && !Strings.isNullOrEmpty(attribute.getValue())) {
-            entitiesDescriptor.setValidUntil(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));
-        } else if (attribute.getLocalName().equals(CacheableSAMLObject.CACHE_DURATION_ATTRIB_NAME)) {
-            entitiesDescriptor.setCacheDuration(new Long(DOMTypeSupport.durationToLong(attribute.getValue())));
-        } else if (attribute.getLocalName().equals(EntitiesDescriptor.NAME_ATTRIB_NAME)) {
-            entitiesDescriptor.setName(attribute.getValue());
+        if (attribute.getNamespaceURI() == null) {
+            if (attribute.getLocalName().equals(EntitiesDescriptor.ID_ATTRIB_NAME)) {
+                entitiesDescriptor.setID(attribute.getValue());
+                attribute.getOwnerElement().setIdAttributeNode(attribute, true);
+            } else if (attribute.getLocalName().equals(TimeBoundSAMLObject.VALID_UNTIL_ATTRIB_NAME)
+                    && !Strings.isNullOrEmpty(attribute.getValue())) {
+                entitiesDescriptor.setValidUntil(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));
+            } else if (attribute.getLocalName().equals(CacheableSAMLObject.CACHE_DURATION_ATTRIB_NAME)) {
+                entitiesDescriptor.setCacheDuration(new Long(DOMTypeSupport.durationToLong(attribute.getValue())));
+            } else if (attribute.getLocalName().equals(EntitiesDescriptor.NAME_ATTRIB_NAME)) {
+                entitiesDescriptor.setName(attribute.getValue());
+            } else {
+                super.processAttribute(samlObject, attribute);
+            }
         } else {
             super.processAttribute(samlObject, attribute);
         }
     }
+
 }

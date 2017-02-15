@@ -30,8 +30,10 @@ public class AdditionalMetadataLocationUnmarshaller extends AbstractSAMLObjectUn
 
     /** {@inheritDoc} */
     protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        if (attribute.getLocalName().equals(AdditionalMetadataLocation.NAMESPACE_ATTRIB_NAME)) {
-            AdditionalMetadataLocation aml = (AdditionalMetadataLocation) samlObject;
+        final AdditionalMetadataLocation aml = (AdditionalMetadataLocation) samlObject;
+        
+        if (attribute.getLocalName().equals(AdditionalMetadataLocation.NAMESPACE_ATTRIB_NAME)
+                && attribute.getNamespaceURI() == null) {
             aml.setNamespaceURI(attribute.getValue());
         } else {
             super.processAttribute(samlObject, attribute);
@@ -40,7 +42,8 @@ public class AdditionalMetadataLocationUnmarshaller extends AbstractSAMLObjectUn
 
     /** {@inheritDoc} */
     protected void processElementContent(XMLObject samlObject, String elementContent) {
-        AdditionalMetadataLocation aml = (AdditionalMetadataLocation) samlObject;
+        final AdditionalMetadataLocation aml = (AdditionalMetadataLocation) samlObject;
         aml.setLocationURI(elementContent);
     }
+    
 }

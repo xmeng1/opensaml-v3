@@ -35,20 +35,10 @@ import org.w3c.dom.Attr;
 public class ScopingUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        Scoping scoping = (Scoping) samlObject;
-
-        if (attribute.getLocalName().equals(Scoping.PROXY_COUNT_ATTRIB_NAME)) {
-            scoping.setProxyCount(Integer.valueOf(attribute.getValue()));
-        } else {
-            super.processAttribute(samlObject, attribute);
-        }
-    }
-
-    /** {@inheritDoc} */
     protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
             throws UnmarshallingException {
-        Scoping scoping = (Scoping) parentSAMLObject;
+        final Scoping scoping = (Scoping) parentSAMLObject;
+        
         if (childSAMLObject instanceof IDPList) {
             scoping.setIDPList((IDPList) childSAMLObject);
         } else if (childSAMLObject instanceof RequesterID) {
@@ -57,4 +47,16 @@ public class ScopingUnmarshaller extends AbstractSAMLObjectUnmarshaller {
             super.processChildElement(parentSAMLObject, childSAMLObject);
         }
     }
+
+    /** {@inheritDoc} */
+    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
+        final Scoping scoping = (Scoping) samlObject;
+
+        if (attribute.getLocalName().equals(Scoping.PROXY_COUNT_ATTRIB_NAME) && attribute.getNamespaceURI() == null) {
+            scoping.setProxyCount(Integer.valueOf(attribute.getValue()));
+        } else {
+            super.processAttribute(samlObject, attribute);
+        }
+    }
+    
 }

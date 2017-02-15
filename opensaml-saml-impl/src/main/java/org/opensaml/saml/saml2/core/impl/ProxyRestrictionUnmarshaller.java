@@ -35,7 +35,7 @@ public class ProxyRestrictionUnmarshaller extends AbstractSAMLObjectUnmarshaller
 
     /** {@inheritDoc} */
     protected void processChildElement(XMLObject parentObject, XMLObject childObject) throws UnmarshallingException {
-        ProxyRestriction proxyRestriction = (ProxyRestriction) parentObject;
+        final ProxyRestriction proxyRestriction = (ProxyRestriction) parentObject;
 
         if (childObject instanceof Audience) {
             proxyRestriction.getAudiences().add((Audience) childObject);
@@ -46,12 +46,14 @@ public class ProxyRestrictionUnmarshaller extends AbstractSAMLObjectUnmarshaller
 
     /** {@inheritDoc} */
     protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        ProxyRestriction proxyRestriction = (ProxyRestriction) samlObject;
+        final ProxyRestriction proxyRestriction = (ProxyRestriction) samlObject;
 
-        if (attribute.getLocalName().equals(ProxyRestriction.COUNT_ATTRIB_NAME)) {
+        if (attribute.getLocalName().equals(ProxyRestriction.COUNT_ATTRIB_NAME)
+                && attribute.getNamespaceURI() == null) {
             proxyRestriction.setProxyCount(Integer.valueOf(attribute.getValue()));
         } else {
             super.processAttribute(samlObject, attribute);
         }
     }
+    
 }

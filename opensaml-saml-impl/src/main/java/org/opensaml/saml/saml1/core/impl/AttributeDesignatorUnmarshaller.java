@@ -29,12 +29,16 @@ public class AttributeDesignatorUnmarshaller extends AbstractSAMLObjectUnmarshal
     /** {@inheritDoc} */
     protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
 
-        AttributeDesignator designator = (AttributeDesignator) samlObject;
+        final AttributeDesignator designator = (AttributeDesignator) samlObject;
 
-        if (AttributeDesignator.ATTRIBUTENAME_ATTRIB_NAME.equals(attribute.getLocalName())) {
-            designator.setAttributeName(attribute.getValue());
-        } else if (AttributeDesignator.ATTRIBUTENAMESPACE_ATTRIB_NAME.equals(attribute.getLocalName())) {
-            designator.setAttributeNamespace(attribute.getValue());
+        if (attribute.getNamespaceURI() == null) {
+            if (AttributeDesignator.ATTRIBUTENAME_ATTRIB_NAME.equals(attribute.getLocalName())) {
+                designator.setAttributeName(attribute.getValue());
+            } else if (AttributeDesignator.ATTRIBUTENAMESPACE_ATTRIB_NAME.equals(attribute.getLocalName())) {
+                designator.setAttributeNamespace(attribute.getValue());
+            } else {
+                super.processAttribute(samlObject, attribute);
+            }
         } else {
             super.processAttribute(samlObject, attribute);
         }

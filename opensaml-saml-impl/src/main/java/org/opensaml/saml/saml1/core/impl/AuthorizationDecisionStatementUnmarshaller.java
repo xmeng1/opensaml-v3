@@ -39,8 +39,8 @@ public class AuthorizationDecisionStatementUnmarshaller extends SubjectStatement
     protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
             throws UnmarshallingException {
 
-        AuthorizationDecisionStatement authorizationDecisionStatement;
-        authorizationDecisionStatement = (AuthorizationDecisionStatement) parentSAMLObject;
+        final AuthorizationDecisionStatement authorizationDecisionStatement =
+                (AuthorizationDecisionStatement) parentSAMLObject;
 
         if (childSAMLObject instanceof Action) {
             authorizationDecisionStatement.getActions().add((Action) childSAMLObject);
@@ -54,23 +54,27 @@ public class AuthorizationDecisionStatementUnmarshaller extends SubjectStatement
     /** {@inheritDoc} */
     protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
 
-        AuthorizationDecisionStatement authorizationDecisionStatement;
-        authorizationDecisionStatement = (AuthorizationDecisionStatement) samlObject;
+        final AuthorizationDecisionStatement authorizationDecisionStatement =
+                (AuthorizationDecisionStatement) samlObject;
 
-        if (AuthorizationDecisionStatement.DECISION_ATTRIB_NAME.equals(attribute.getLocalName())) {
-            String value = attribute.getValue();
-            if (value.equals(DecisionTypeEnumeration.PERMIT.toString())) {
-                authorizationDecisionStatement.setDecision(DecisionTypeEnumeration.PERMIT);
-            } else if (value.equals(DecisionTypeEnumeration.DENY.toString())) {
-                authorizationDecisionStatement.setDecision(DecisionTypeEnumeration.DENY);
-            } else if (value.equals(DecisionTypeEnumeration.INDETERMINATE.toString())) {
-                authorizationDecisionStatement.setDecision(DecisionTypeEnumeration.INDETERMINATE);
+        if (attribute.getNamespaceURI() == null) {
+            if (AuthorizationDecisionStatement.DECISION_ATTRIB_NAME.equals(attribute.getLocalName())) {
+                final String value = attribute.getValue();
+                if (value.equals(DecisionTypeEnumeration.PERMIT.toString())) {
+                    authorizationDecisionStatement.setDecision(DecisionTypeEnumeration.PERMIT);
+                } else if (value.equals(DecisionTypeEnumeration.DENY.toString())) {
+                    authorizationDecisionStatement.setDecision(DecisionTypeEnumeration.DENY);
+                } else if (value.equals(DecisionTypeEnumeration.INDETERMINATE.toString())) {
+                    authorizationDecisionStatement.setDecision(DecisionTypeEnumeration.INDETERMINATE);
+                } else {
+                    log.error("Unknown value for DecisionType '" + value + "'");
+                    throw new UnmarshallingException("Unknown value for DecisionType '" + value + "'");
+                }
+            } else if (AuthorizationDecisionStatement.RESOURCE_ATTRIB_NAME.equals(attribute.getLocalName())) {
+                authorizationDecisionStatement.setResource(attribute.getValue());
             } else {
-                log.error("Unknown value for DecisionType '" + value + "'");
-                throw new UnmarshallingException("Unknown value for DecisionType '" + value + "'");
+                super.processAttribute(samlObject, attribute);
             }
-        } else if (AuthorizationDecisionStatement.RESOURCE_ATTRIB_NAME.equals(attribute.getLocalName())) {
-            authorizationDecisionStatement.setResource(attribute.getValue());
         } else {
             super.processAttribute(samlObject, attribute);
         }

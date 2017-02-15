@@ -31,14 +31,19 @@ public class SubjectLocalityUnmarshaller extends AbstractSAMLObjectUnmarshaller 
     /** {@inheritDoc} */
     protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
 
-        SubjectLocality subjectLocality = (SubjectLocality) samlObject;
+        final SubjectLocality subjectLocality = (SubjectLocality) samlObject;
 
-        if (SubjectLocality.DNSADDRESS_ATTRIB_NAME.equals(attribute.getLocalName())) {
-            subjectLocality.setDNSAddress(attribute.getValue());
-        } else if (SubjectLocality.IPADDRESS_ATTRIB_NAME.equals(attribute.getLocalName())) {
-            subjectLocality.setIPAddress(attribute.getValue());
+        if (attribute.getNamespaceURI() == null) {
+            if (SubjectLocality.DNSADDRESS_ATTRIB_NAME.equals(attribute.getLocalName())) {
+                subjectLocality.setDNSAddress(attribute.getValue());
+            } else if (SubjectLocality.IPADDRESS_ATTRIB_NAME.equals(attribute.getLocalName())) {
+                subjectLocality.setIPAddress(attribute.getValue());
+            } else {
+                super.processAttribute(samlObject, attribute);
+            }
         } else {
             super.processAttribute(samlObject, attribute);
         }
     }
+    
 }

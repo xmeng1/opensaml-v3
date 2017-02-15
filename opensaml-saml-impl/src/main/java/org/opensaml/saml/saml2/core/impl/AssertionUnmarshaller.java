@@ -45,7 +45,7 @@ public class AssertionUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processChildElement(XMLObject parentObject, XMLObject childObject) throws UnmarshallingException {
-        Assertion assertion = (Assertion) parentObject;
+        final Assertion assertion = (Assertion) parentObject;
 
         if (childObject instanceof Issuer) {
             assertion.setIssuer((Issuer) childObject);
@@ -66,18 +66,23 @@ public class AssertionUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        Assertion assertion = (Assertion) samlObject;
+        final Assertion assertion = (Assertion) samlObject;
 
-        if (attribute.getLocalName().equals(Assertion.VERSION_ATTRIB_NAME)) {
-            assertion.setVersion(SAMLVersion.valueOf(attribute.getValue()));
-        } else if (attribute.getLocalName().equals(Assertion.ISSUE_INSTANT_ATTRIB_NAME)
-                && !Strings.isNullOrEmpty(attribute.getValue())) {
-            assertion.setIssueInstant(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));
-        } else if (attribute.getLocalName().equals(Assertion.ID_ATTRIB_NAME)) {
-            assertion.setID(attribute.getValue());
-            attribute.getOwnerElement().setIdAttributeNode(attribute, true);
+        if (attribute.getNamespaceURI() == null) {
+            if (attribute.getLocalName().equals(Assertion.VERSION_ATTRIB_NAME)) {
+                assertion.setVersion(SAMLVersion.valueOf(attribute.getValue()));
+            } else if (attribute.getLocalName().equals(Assertion.ISSUE_INSTANT_ATTRIB_NAME)
+                    && !Strings.isNullOrEmpty(attribute.getValue())) {
+                assertion.setIssueInstant(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));
+            } else if (attribute.getLocalName().equals(Assertion.ID_ATTRIB_NAME)) {
+                assertion.setID(attribute.getValue());
+                attribute.getOwnerElement().setIdAttributeNode(attribute, true);
+            } else {
+                super.processAttribute(samlObject, attribute);
+            }
         } else {
             super.processAttribute(samlObject, attribute);
         }
     }
+    
 }

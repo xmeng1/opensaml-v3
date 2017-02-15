@@ -34,16 +34,21 @@ public class AuthorityBindingUnmarshaller extends AbstractSAMLObjectUnmarshaller
     /** {@inheritDoc} */
     protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
 
-        AuthorityBinding authorityBinding = (AuthorityBinding) samlObject;
+        final AuthorityBinding authorityBinding = (AuthorityBinding) samlObject;
 
-        if (AuthorityBinding.AUTHORITYKIND_ATTRIB_NAME.equals(attribute.getLocalName())) {
-            authorityBinding.setAuthorityKind(AttributeSupport.getAttributeValueAsQName(attribute));
-        } else if (AuthorityBinding.LOCATION_ATTRIB_NAME.equals(attribute.getLocalName())) {
-            authorityBinding.setLocation(attribute.getValue());
-        } else if (AuthorityBinding.BINDING_ATTRIB_NAME.equals(attribute.getLocalName())) {
-            authorityBinding.setBinding(attribute.getValue());
+        if (attribute.getNamespaceURI() == null) {
+            if (AuthorityBinding.AUTHORITYKIND_ATTRIB_NAME.equals(attribute.getLocalName())) {
+                authorityBinding.setAuthorityKind(AttributeSupport.getAttributeValueAsQName(attribute));
+            } else if (AuthorityBinding.LOCATION_ATTRIB_NAME.equals(attribute.getLocalName())) {
+                authorityBinding.setLocation(attribute.getValue());
+            } else if (AuthorityBinding.BINDING_ATTRIB_NAME.equals(attribute.getLocalName())) {
+                authorityBinding.setBinding(attribute.getValue());
+            } else {
+                super.processAttribute(samlObject, attribute);
+            }
         } else {
             super.processAttribute(samlObject, attribute);
         }
     }
+    
 }

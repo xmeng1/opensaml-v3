@@ -61,10 +61,10 @@ public class EntityDescriptorTest extends XMLObjectProviderBaseTestCase {
     protected DateTime expectedValidUntil;
 
     /** Unknown Attributes */
-    protected QName[] unknownAttributeNames = {new QName("urn:foo:bar", "bar", "foo"), new QName("flibble")};
+    protected QName[] unknownAttributeNames = {new QName("urn:foo:bar", "bar", "foo")};
 
     /** Unknown Attribute Values */
-    protected String[] unknownAttributeValues = {"fred", "flobble"};
+    protected String[] unknownAttributeValues = {"fred"};
 
     /**
      * Constructor

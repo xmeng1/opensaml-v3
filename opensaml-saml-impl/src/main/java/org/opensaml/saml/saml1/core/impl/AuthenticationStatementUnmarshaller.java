@@ -37,7 +37,7 @@ public class AuthenticationStatementUnmarshaller extends SubjectStatementUnmarsh
     protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
             throws UnmarshallingException {
 
-        AuthenticationStatement authenticationStatement = (AuthenticationStatement) parentSAMLObject;
+        final AuthenticationStatement authenticationStatement = (AuthenticationStatement) parentSAMLObject;
 
         if (childSAMLObject instanceof SubjectLocality) {
             authenticationStatement.setSubjectLocality((SubjectLocality) childSAMLObject);
@@ -50,14 +50,18 @@ public class AuthenticationStatementUnmarshaller extends SubjectStatementUnmarsh
 
     /** {@inheritDoc} */
     protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        AuthenticationStatement authenticationStatement = (AuthenticationStatement) samlObject;
+        final AuthenticationStatement authenticationStatement = (AuthenticationStatement) samlObject;
 
-        if (AuthenticationStatement.AUTHENTICATIONINSTANT_ATTRIB_NAME.equals(attribute.getLocalName())
-                && !Strings.isNullOrEmpty(attribute.getValue())) {
-            DateTime value = new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC());
-            authenticationStatement.setAuthenticationInstant(value);
-        } else if (AuthenticationStatement.AUTHENTICATIONMETHOD_ATTRIB_NAME.equals(attribute.getLocalName())) {
-            authenticationStatement.setAuthenticationMethod(attribute.getValue());
+        if (attribute.getNamespaceURI() == null) {
+            if (AuthenticationStatement.AUTHENTICATIONINSTANT_ATTRIB_NAME.equals(attribute.getLocalName())
+                    && !Strings.isNullOrEmpty(attribute.getValue())) {
+                DateTime value = new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC());
+                authenticationStatement.setAuthenticationInstant(value);
+            } else if (AuthenticationStatement.AUTHENTICATIONMETHOD_ATTRIB_NAME.equals(attribute.getLocalName())) {
+                authenticationStatement.setAuthenticationMethod(attribute.getValue());
+            } else {
+                super.processAttribute(samlObject, attribute);
+            }
         } else {
             super.processAttribute(samlObject, attribute);
         }

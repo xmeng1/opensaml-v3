@@ -41,27 +41,31 @@ public class SubjectConfirmationDataUnmarshaller extends AbstractSAMLObjectUnmar
      */
     protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
             throws UnmarshallingException {
-        SubjectConfirmationData subjectCD = (SubjectConfirmationData) parentSAMLObject;
+        final SubjectConfirmationData subjectCD = (SubjectConfirmationData) parentSAMLObject;
 
         subjectCD.getUnknownXMLObjects().add(childSAMLObject);
     }
 
     /** {@inheritDoc} */
     protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        SubjectConfirmationData subjectCD = (SubjectConfirmationData) samlObject;
+        final SubjectConfirmationData subjectCD = (SubjectConfirmationData) samlObject;
 
-        if (attribute.getLocalName().equals(SubjectConfirmationData.NOT_BEFORE_ATTRIB_NAME)
-                && !Strings.isNullOrEmpty(attribute.getValue())) {
-            subjectCD.setNotBefore(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));
-        } else if (attribute.getLocalName().equals(SubjectConfirmationData.NOT_ON_OR_AFTER_ATTRIB_NAME)
-                && !Strings.isNullOrEmpty(attribute.getValue())) {
-            subjectCD.setNotOnOrAfter(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));
-        } else if (attribute.getLocalName().equals(SubjectConfirmationData.RECIPIENT_ATTRIB_NAME)) {
-            subjectCD.setRecipient(attribute.getValue());
-        } else if (attribute.getLocalName().equals(SubjectConfirmationData.IN_RESPONSE_TO_ATTRIB_NAME)) {
-            subjectCD.setInResponseTo(attribute.getValue());
-        } else if (attribute.getLocalName().equals(SubjectConfirmationData.ADDRESS_ATTRIB_NAME)) {
-            subjectCD.setAddress(attribute.getValue());
+        if (attribute.getNamespaceURI() == null) {
+            if (attribute.getLocalName().equals(SubjectConfirmationData.NOT_BEFORE_ATTRIB_NAME)
+                    && !Strings.isNullOrEmpty(attribute.getValue())) {
+                subjectCD.setNotBefore(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));
+            } else if (attribute.getLocalName().equals(SubjectConfirmationData.NOT_ON_OR_AFTER_ATTRIB_NAME)
+                    && !Strings.isNullOrEmpty(attribute.getValue())) {
+                subjectCD.setNotOnOrAfter(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));
+            } else if (attribute.getLocalName().equals(SubjectConfirmationData.RECIPIENT_ATTRIB_NAME)) {
+                subjectCD.setRecipient(attribute.getValue());
+            } else if (attribute.getLocalName().equals(SubjectConfirmationData.IN_RESPONSE_TO_ATTRIB_NAME)) {
+                subjectCD.setInResponseTo(attribute.getValue());
+            } else if (attribute.getLocalName().equals(SubjectConfirmationData.ADDRESS_ATTRIB_NAME)) {
+                subjectCD.setAddress(attribute.getValue());
+            } else {
+                super.processAttribute(samlObject, attribute);
+            }
         } else {
             processUnknownAttribute(subjectCD, attribute);
         }

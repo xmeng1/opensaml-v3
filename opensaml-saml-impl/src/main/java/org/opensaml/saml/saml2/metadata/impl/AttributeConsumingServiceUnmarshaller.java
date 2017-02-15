@@ -39,7 +39,7 @@ public class AttributeConsumingServiceUnmarshaller extends AbstractSAMLObjectUnm
     /** {@inheritDoc} */
     protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
             throws UnmarshallingException {
-        AttributeConsumingService service = (AttributeConsumingService) parentSAMLObject;
+        final AttributeConsumingService service = (AttributeConsumingService) parentSAMLObject;
 
         if (childSAMLObject instanceof ServiceName) {
             service.getNames().add((ServiceName) childSAMLObject);
@@ -54,12 +54,16 @@ public class AttributeConsumingServiceUnmarshaller extends AbstractSAMLObjectUnm
 
     /** {@inheritDoc} */
     protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        AttributeConsumingService service = (AttributeConsumingService) samlObject;
+        final AttributeConsumingService service = (AttributeConsumingService) samlObject;
 
-        if (attribute.getLocalName().equals(AttributeConsumingService.INDEX_ATTRIB_NAME)) {
-            service.setIndex(Integer.valueOf(attribute.getValue()));
-        } else if (attribute.getLocalName().equals(AttributeConsumingService.IS_DEFAULT_ATTRIB_NAME)) {
-            service.setIsDefault(XSBooleanValue.valueOf(attribute.getValue()));
+        if (attribute.getNamespaceURI() == null) {
+            if (attribute.getLocalName().equals(AttributeConsumingService.INDEX_ATTRIB_NAME)) {
+                service.setIndex(Integer.valueOf(attribute.getValue()));
+            } else if (attribute.getLocalName().equals(AttributeConsumingService.IS_DEFAULT_ATTRIB_NAME)) {
+                service.setIsDefault(XSBooleanValue.valueOf(attribute.getValue()));
+            } else {
+                super.processAttribute(samlObject, attribute);
+            }
         } else {
             super.processAttribute(samlObject, attribute);
         }

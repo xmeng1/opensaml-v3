@@ -32,14 +32,18 @@ public class PublicationUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        Publication info = (Publication) samlObject;
+        final Publication info = (Publication) samlObject;
 
-        if (Publication.PUBLISHER_ATTRIB_NAME.equals(attribute.getName())) {
-            info.setPublisher(attribute.getValue());
-        } else if (Publication.CREATION_INSTANT_ATTRIB_NAME.equals(attribute.getName())) {
-            info.setCreationInstant(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));
-        } else if (Publication.PUBLICATION_ID_ATTRIB_NAME.equals(attribute.getName())) {
-            info.setPublicationId(attribute.getValue());
+        if (attribute.getNamespaceURI() == null) {
+            if (Publication.PUBLISHER_ATTRIB_NAME.equals(attribute.getName())) {
+                info.setPublisher(attribute.getValue());
+            } else if (Publication.CREATION_INSTANT_ATTRIB_NAME.equals(attribute.getName())) {
+                info.setCreationInstant(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));
+            } else if (Publication.PUBLICATION_ID_ATTRIB_NAME.equals(attribute.getName())) {
+                info.setPublicationId(attribute.getValue());
+            } else {
+                super.processAttribute(samlObject, attribute);
+            }
         } else {
             super.processAttribute(samlObject, attribute);
         }

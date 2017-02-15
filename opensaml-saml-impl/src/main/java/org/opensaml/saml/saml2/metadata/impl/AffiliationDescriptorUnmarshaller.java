@@ -43,7 +43,7 @@ public class AffiliationDescriptorUnmarshaller extends AbstractSAMLObjectUnmarsh
     /** {@inheritDoc} */
     protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
             throws UnmarshallingException {
-        AffiliationDescriptor descriptor = (AffiliationDescriptor) parentSAMLObject;
+        final AffiliationDescriptor descriptor = (AffiliationDescriptor) parentSAMLObject;
 
         if (childSAMLObject instanceof Extensions) {
             descriptor.setExtensions((Extensions) childSAMLObject);
@@ -60,20 +60,25 @@ public class AffiliationDescriptorUnmarshaller extends AbstractSAMLObjectUnmarsh
 
     /** {@inheritDoc} */
     protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        AffiliationDescriptor descriptor = (AffiliationDescriptor) samlObject;
+        final AffiliationDescriptor descriptor = (AffiliationDescriptor) samlObject;
 
-        if (attribute.getLocalName().equals(AffiliationDescriptor.OWNER_ID_ATTRIB_NAME)) {
-            descriptor.setOwnerID(attribute.getValue());
-        } else if (attribute.getLocalName().equals(AffiliationDescriptor.ID_ATTRIB_NAME)) {
-            descriptor.setID(attribute.getValue());
-            attribute.getOwnerElement().setIdAttributeNode(attribute, true);
-        } else if (attribute.getLocalName().equals(TimeBoundSAMLObject.VALID_UNTIL_ATTRIB_NAME)
-                && !Strings.isNullOrEmpty(attribute.getValue())) {
-            descriptor.setValidUntil(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));
-        } else if (attribute.getLocalName().equals(CacheableSAMLObject.CACHE_DURATION_ATTRIB_NAME)) {
-            descriptor.setCacheDuration(DOMTypeSupport.durationToLong(attribute.getValue()));
+        if (attribute.getNamespaceURI() == null) {
+            if (attribute.getLocalName().equals(AffiliationDescriptor.OWNER_ID_ATTRIB_NAME)) {
+                descriptor.setOwnerID(attribute.getValue());
+            } else if (attribute.getLocalName().equals(AffiliationDescriptor.ID_ATTRIB_NAME)) {
+                descriptor.setID(attribute.getValue());
+                attribute.getOwnerElement().setIdAttributeNode(attribute, true);
+            } else if (attribute.getLocalName().equals(TimeBoundSAMLObject.VALID_UNTIL_ATTRIB_NAME)
+                    && !Strings.isNullOrEmpty(attribute.getValue())) {
+                descriptor.setValidUntil(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));
+            } else if (attribute.getLocalName().equals(CacheableSAMLObject.CACHE_DURATION_ATTRIB_NAME)) {
+                descriptor.setCacheDuration(DOMTypeSupport.durationToLong(attribute.getValue()));
+            } else {
+                super.processAttribute(samlObject, attribute);
+            }
         } else {
             processUnknownAttribute(descriptor, attribute);
         }
     }
+    
 }

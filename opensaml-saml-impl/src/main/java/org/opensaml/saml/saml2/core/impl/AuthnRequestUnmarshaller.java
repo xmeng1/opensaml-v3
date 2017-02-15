@@ -38,33 +38,10 @@ import org.w3c.dom.Attr;
 public class AuthnRequestUnmarshaller extends RequestAbstractTypeUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        AuthnRequest req = (AuthnRequest) samlObject;
-
-        if (attribute.getLocalName().equals(AuthnRequest.FORCE_AUTHN_ATTRIB_NAME)) {
-            req.setForceAuthn(XSBooleanValue.valueOf(attribute.getValue()));
-        } else if (attribute.getLocalName().equals(AuthnRequest.IS_PASSIVE_ATTRIB_NAME)) {
-            req.setIsPassive(XSBooleanValue.valueOf(attribute.getValue()));
-        } else if (attribute.getLocalName().equals(AuthnRequest.PROTOCOL_BINDING_ATTRIB_NAME)) {
-            req.setProtocolBinding(attribute.getValue());
-        } else if (attribute.getLocalName().equals(AuthnRequest.ASSERTION_CONSUMER_SERVICE_INDEX_ATTRIB_NAME)) {
-            req.setAssertionConsumerServiceIndex(Integer.valueOf(attribute.getValue()));
-        } else if (attribute.getLocalName().equals(AuthnRequest.ASSERTION_CONSUMER_SERVICE_URL_ATTRIB_NAME)) {
-            req.setAssertionConsumerServiceURL(attribute.getValue());
-        } else if (attribute.getLocalName().equals(AuthnRequest.ATTRIBUTE_CONSUMING_SERVICE_INDEX_ATTRIB_NAME)) {
-            req.setAttributeConsumingServiceIndex(Integer.valueOf(attribute.getValue()));
-        } else if (attribute.getLocalName().equals(AuthnRequest.PROVIDER_NAME_ATTRIB_NAME)) {
-            req.setProviderName(attribute.getValue());
-        } else {
-            super.processAttribute(samlObject, attribute);
-        }
-    }
-
-    /** {@inheritDoc} */
     protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
             throws UnmarshallingException {
-        AuthnRequest req = (AuthnRequest) parentSAMLObject;
-
+        final AuthnRequest req = (AuthnRequest) parentSAMLObject;
+    
         if (childSAMLObject instanceof Subject) {
             req.setSubject((Subject) childSAMLObject);
         } else if (childSAMLObject instanceof NameIDPolicy) {
@@ -79,4 +56,32 @@ public class AuthnRequestUnmarshaller extends RequestAbstractTypeUnmarshaller {
             super.processChildElement(parentSAMLObject, childSAMLObject);
         }
     }
+
+    /** {@inheritDoc} */
+    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
+        final AuthnRequest req = (AuthnRequest) samlObject;
+
+        if (attribute.getNamespaceURI() == null) {
+            if (attribute.getLocalName().equals(AuthnRequest.FORCE_AUTHN_ATTRIB_NAME)) {
+                req.setForceAuthn(XSBooleanValue.valueOf(attribute.getValue()));
+            } else if (attribute.getLocalName().equals(AuthnRequest.IS_PASSIVE_ATTRIB_NAME)) {
+                req.setIsPassive(XSBooleanValue.valueOf(attribute.getValue()));
+            } else if (attribute.getLocalName().equals(AuthnRequest.PROTOCOL_BINDING_ATTRIB_NAME)) {
+                req.setProtocolBinding(attribute.getValue());
+            } else if (attribute.getLocalName().equals(AuthnRequest.ASSERTION_CONSUMER_SERVICE_INDEX_ATTRIB_NAME)) {
+                req.setAssertionConsumerServiceIndex(Integer.valueOf(attribute.getValue()));
+            } else if (attribute.getLocalName().equals(AuthnRequest.ASSERTION_CONSUMER_SERVICE_URL_ATTRIB_NAME)) {
+                req.setAssertionConsumerServiceURL(attribute.getValue());
+            } else if (attribute.getLocalName().equals(AuthnRequest.ATTRIBUTE_CONSUMING_SERVICE_INDEX_ATTRIB_NAME)) {
+                req.setAttributeConsumingServiceIndex(Integer.valueOf(attribute.getValue()));
+            } else if (attribute.getLocalName().equals(AuthnRequest.PROVIDER_NAME_ATTRIB_NAME)) {
+                req.setProviderName(attribute.getValue());
+            } else {
+                super.processAttribute(samlObject, attribute);
+            }
+        } else {
+            super.processAttribute(samlObject, attribute);
+        }
+    }
+    
 }

@@ -46,7 +46,7 @@ public abstract class RoleDescriptorUnmarshaller extends AbstractSAMLObjectUnmar
     /** {@inheritDoc} */
     protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
             throws UnmarshallingException {
-        RoleDescriptor roleDescriptor = (RoleDescriptor) parentSAMLObject;
+        final RoleDescriptor roleDescriptor = (RoleDescriptor) parentSAMLObject;
 
         if (childSAMLObject instanceof Extensions) {
             roleDescriptor.setExtensions((Extensions) childSAMLObject);
@@ -65,25 +65,30 @@ public abstract class RoleDescriptorUnmarshaller extends AbstractSAMLObjectUnmar
 
     /** {@inheritDoc} */
     protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        RoleDescriptor roleDescriptor = (RoleDescriptor) samlObject;
+        final RoleDescriptor roleDescriptor = (RoleDescriptor) samlObject;
 
-        if (attribute.getLocalName().equals(RoleDescriptor.ID_ATTRIB_NAME)) {
-            roleDescriptor.setID(attribute.getValue());
-            attribute.getOwnerElement().setIdAttributeNode(attribute, true);
-        } else if (attribute.getLocalName().equals(TimeBoundSAMLObject.VALID_UNTIL_ATTRIB_NAME)
-                && !Strings.isNullOrEmpty(attribute.getValue())) {
-            roleDescriptor.setValidUntil(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));
-        } else if (attribute.getLocalName().equals(CacheableSAMLObject.CACHE_DURATION_ATTRIB_NAME)) {
-            roleDescriptor.setCacheDuration(DOMTypeSupport.durationToLong(attribute.getValue()));
-        } else if (attribute.getLocalName().equals(RoleDescriptor.PROTOCOL_ENUMERATION_ATTRIB_NAME)) {
-            StringTokenizer protocolTokenizer = new StringTokenizer(attribute.getValue(), " ");
-            while (protocolTokenizer.hasMoreTokens()) {
-                roleDescriptor.addSupportedProtocol(protocolTokenizer.nextToken());
+        if (attribute.getNamespaceURI() == null) {
+            if (attribute.getLocalName().equals(RoleDescriptor.ID_ATTRIB_NAME)) {
+                roleDescriptor.setID(attribute.getValue());
+                attribute.getOwnerElement().setIdAttributeNode(attribute, true);
+            } else if (attribute.getLocalName().equals(TimeBoundSAMLObject.VALID_UNTIL_ATTRIB_NAME)
+                    && !Strings.isNullOrEmpty(attribute.getValue())) {
+                roleDescriptor.setValidUntil(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));
+            } else if (attribute.getLocalName().equals(CacheableSAMLObject.CACHE_DURATION_ATTRIB_NAME)) {
+                roleDescriptor.setCacheDuration(DOMTypeSupport.durationToLong(attribute.getValue()));
+            } else if (attribute.getLocalName().equals(RoleDescriptor.PROTOCOL_ENUMERATION_ATTRIB_NAME)) {
+                StringTokenizer protocolTokenizer = new StringTokenizer(attribute.getValue(), " ");
+                while (protocolTokenizer.hasMoreTokens()) {
+                    roleDescriptor.addSupportedProtocol(protocolTokenizer.nextToken());
+                }
+            } else if (attribute.getLocalName().equals(RoleDescriptor.ERROR_URL_ATTRIB_NAME)) {
+                roleDescriptor.setErrorURL(attribute.getValue());
+            } else {
+                super.processAttribute(samlObject, attribute);
             }
-        } else if (attribute.getLocalName().equals(RoleDescriptor.ERROR_URL_ATTRIB_NAME)) {
-            roleDescriptor.setErrorURL(attribute.getValue());
         } else {
             processUnknownAttribute(roleDescriptor, attribute);
         }
     }
+    
 }

@@ -30,26 +30,27 @@ import org.w3c.dom.Attr;
  * A thread-safe Unmarshaller for {@link org.opensaml.saml.ext.saml2mdui.Logo} objects.
  */
 public class LogoUnmarshaller extends AbstractSAMLObjectUnmarshaller {
-
     
     /** {@inheritDoc} */
     protected void processElementContent(XMLObject samlObject, String elementContent) {
-        Logo logo = (Logo) samlObject;
+        final Logo logo = (Logo) samlObject;
 
         logo.setURL(elementContent);
     }
     
     /**  {@inheritDoc} */
     protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        Logo logo = (Logo) samlObject;
+        final Logo logo = (Logo) samlObject;
 
         if (attribute.getLocalName().equals(LangBearing.XML_LANG_ATTR_LOCAL_NAME)
                 && XMLConstants.XML_NS.equals(attribute.getNamespaceURI())) {
             logo.setXMLLang(attribute.getValue());
-        } else if (attribute.getLocalName().equals(Logo.HEIGHT_ATTR_NAME)) {
+        } else if (attribute.getLocalName().equals(Logo.HEIGHT_ATTR_NAME) && attribute.getNamespaceURI() == null) {
             logo.setHeight(Integer.valueOf(attribute.getValue()));
-        } else if (attribute.getLocalName().equals(Logo.WIDTH_ATTR_NAME)) {
+        } else if (attribute.getLocalName().equals(Logo.WIDTH_ATTR_NAME) && attribute.getNamespaceURI() == null) {
             logo.setWidth(Integer.valueOf(attribute.getValue()));
+        } else {
+            super.processAttribute(samlObject, attribute);
         }
     }
 

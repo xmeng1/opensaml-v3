@@ -35,10 +35,11 @@ public class ChannelBindingsUnmarshaller extends XSBase64BinaryUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
-        ChannelBindings cb = (ChannelBindings) xmlObject;
+        final ChannelBindings cb = (ChannelBindings) xmlObject;
         
-        QName attrName = QNameSupport.getNodeQName(attribute);
-        if (attribute.getLocalName().equals(ChannelBindings.TYPE_ATTRIB_NAME)) {
+        final QName attrName = QNameSupport.getNodeQName(attribute);
+        if (attribute.getLocalName().equals(ChannelBindings.TYPE_ATTRIB_NAME)
+                && attribute.getNamespaceURI() == null) {
             cb.setType(attribute.getValue());
         } else if (ChannelBindings.SOAP11_MUST_UNDERSTAND_ATTR_NAME.equals(attrName)) {
             cb.setSOAP11MustUnderstand(XSBooleanValue.valueOf(attribute.getValue()));

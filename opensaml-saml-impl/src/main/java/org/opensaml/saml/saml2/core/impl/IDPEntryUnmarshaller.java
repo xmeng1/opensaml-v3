@@ -34,16 +34,21 @@ public class IDPEntryUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        IDPEntry entry = (IDPEntry) samlObject;
+        final IDPEntry entry = (IDPEntry) samlObject;
 
-        if (attribute.getLocalName().equals(IDPEntry.PROVIDER_ID_ATTRIB_NAME)) {
-            entry.setProviderID(attribute.getValue());
-        } else if (attribute.getLocalName().equals(IDPEntry.NAME_ATTRIB_NAME)) {
-            entry.setName(attribute.getValue());
-        } else if (attribute.getLocalName().equals(IDPEntry.LOC_ATTRIB_NAME)) {
-            entry.setLoc(attribute.getValue());
+        if (attribute.getNamespaceURI() == null) {
+            if (attribute.getLocalName().equals(IDPEntry.PROVIDER_ID_ATTRIB_NAME)) {
+                entry.setProviderID(attribute.getValue());
+            } else if (attribute.getLocalName().equals(IDPEntry.NAME_ATTRIB_NAME)) {
+                entry.setName(attribute.getValue());
+            } else if (attribute.getLocalName().equals(IDPEntry.LOC_ATTRIB_NAME)) {
+                entry.setLoc(attribute.getValue());
+            } else {
+                super.processAttribute(samlObject, attribute);
+            }
         } else {
             super.processAttribute(samlObject, attribute);
         }
     }
+    
 }

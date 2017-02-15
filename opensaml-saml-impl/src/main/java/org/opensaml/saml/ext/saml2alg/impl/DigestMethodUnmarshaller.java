@@ -33,16 +33,17 @@ public class DigestMethodUnmarshaller extends AbstractSAMLObjectUnmarshaller {
     /** {@inheritDoc} */
     protected void processChildElement(@Nonnull XMLObject parentXMLObject, @Nonnull XMLObject childXMLObject)
             throws UnmarshallingException {
-        DigestMethod digestMethod = (DigestMethod) parentXMLObject;
+        final DigestMethod digestMethod = (DigestMethod) parentXMLObject;
         digestMethod.getUnknownXMLObjects().add(childXMLObject);
     }
 
     /** {@inheritDoc} */
     protected void processAttribute(@Nonnull XMLObject xmlObject, @Nonnull Attr attribute) 
             throws UnmarshallingException {
-        DigestMethod digestMethod = (DigestMethod) xmlObject;
+        final DigestMethod digestMethod = (DigestMethod) xmlObject;
         
-        if (attribute.getLocalName().equals(DigestMethod.ALGORITHM_ATTRIB_NAME)) {
+        if (attribute.getLocalName().equals(DigestMethod.ALGORITHM_ATTRIB_NAME)
+                && attribute.getNamespaceURI() == null) {
             digestMethod.setAlgorithm(attribute.getValue());
         } else {
             super.processAttribute(xmlObject, attribute);

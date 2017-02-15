@@ -36,24 +36,10 @@ import com.google.common.base.Strings;
 public class LogoutRequestUnmarshaller extends RequestAbstractTypeUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        LogoutRequest req = (LogoutRequest) samlObject;
-
-        if (attribute.getLocalName().equals(LogoutRequest.REASON_ATTRIB_NAME)) {
-            req.setReason(attribute.getValue());
-        } else if (attribute.getLocalName().equals(LogoutRequest.NOT_ON_OR_AFTER_ATTRIB_NAME)
-                && !Strings.isNullOrEmpty(attribute.getValue())) {
-            req.setNotOnOrAfter(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));
-        } else {
-            super.processAttribute(samlObject, attribute);
-        }
-    }
-
-    /** {@inheritDoc} */
     protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
             throws UnmarshallingException {
-        LogoutRequest req = (LogoutRequest) parentSAMLObject;
-
+        final LogoutRequest req = (LogoutRequest) parentSAMLObject;
+    
         if (childSAMLObject instanceof BaseID) {
             req.setBaseID((BaseID) childSAMLObject);
         } else if (childSAMLObject instanceof NameID) {
@@ -66,4 +52,23 @@ public class LogoutRequestUnmarshaller extends RequestAbstractTypeUnmarshaller {
             super.processChildElement(parentSAMLObject, childSAMLObject);
         }
     }
+
+    /** {@inheritDoc} */
+    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
+        final LogoutRequest req = (LogoutRequest) samlObject;
+
+        if (attribute.getNamespaceURI() == null) {
+            if (attribute.getLocalName().equals(LogoutRequest.REASON_ATTRIB_NAME)) {
+                req.setReason(attribute.getValue());
+            } else if (attribute.getLocalName().equals(LogoutRequest.NOT_ON_OR_AFTER_ATTRIB_NAME)
+                    && !Strings.isNullOrEmpty(attribute.getValue())) {
+                req.setNotOnOrAfter(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));
+            } else {
+                super.processAttribute(samlObject, attribute);
+            }
+        } else {
+            super.processAttribute(samlObject, attribute);
+        }
+    }
+    
 }

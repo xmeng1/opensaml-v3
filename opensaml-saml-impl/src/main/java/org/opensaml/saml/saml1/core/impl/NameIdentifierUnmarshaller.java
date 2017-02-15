@@ -30,12 +30,16 @@ public class NameIdentifierUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        NameIdentifier nameIdentifier = (NameIdentifier) samlObject;
+        final NameIdentifier nameIdentifier = (NameIdentifier) samlObject;
 
-        if (NameIdentifier.FORMAT_ATTRIB_NAME.equals(attribute.getLocalName())) {
-            nameIdentifier.setFormat(attribute.getValue());
-        } else if (NameIdentifier.NAMEQUALIFIER_ATTRIB_NAME.equals(attribute.getLocalName())) {
-            nameIdentifier.setNameQualifier(attribute.getValue());
+        if (attribute.getNamespaceURI() == null) {
+            if (NameIdentifier.FORMAT_ATTRIB_NAME.equals(attribute.getLocalName())) {
+                nameIdentifier.setFormat(attribute.getValue());
+            } else if (NameIdentifier.NAMEQUALIFIER_ATTRIB_NAME.equals(attribute.getLocalName())) {
+                nameIdentifier.setNameQualifier(attribute.getValue());
+            } else {
+                super.processAttribute(samlObject, attribute);
+            }
         } else {
             super.processAttribute(samlObject, attribute);
         }
@@ -43,7 +47,8 @@ public class NameIdentifierUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processElementContent(XMLObject samlObject, String elementContent) {
-        NameIdentifier nameIdentifier = (NameIdentifier) samlObject;
+        final NameIdentifier nameIdentifier = (NameIdentifier) samlObject;
         nameIdentifier.setValue(elementContent);
     }
+    
 }

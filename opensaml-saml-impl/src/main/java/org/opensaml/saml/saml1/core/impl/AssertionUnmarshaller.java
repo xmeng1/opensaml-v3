@@ -41,7 +41,7 @@ public class AssertionUnmarshaller extends AbstractSAMLObjectUnmarshaller {
     /** {@inheritDoc} */
     public XMLObject unmarshall(Element domElement) throws UnmarshallingException {
         // After regular unmarshalling, check the minor version and set ID-ness if not SAML 1.0
-        Assertion assertion = (Assertion) super.unmarshall(domElement);
+        final Assertion assertion = (Assertion) super.unmarshall(domElement);
         if (assertion.getMinorVersion() != 0 && !Strings.isNullOrEmpty(assertion.getID())) {
             domElement.setIdAttributeNS(null, Assertion.ID_ATTRIB_NAME, true);
         }
@@ -52,7 +52,7 @@ public class AssertionUnmarshaller extends AbstractSAMLObjectUnmarshaller {
     protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
             throws UnmarshallingException {
 
-        Assertion assertion = (Assertion) parentSAMLObject;
+        final Assertion assertion = (Assertion) parentSAMLObject;
 
         if (childSAMLObject instanceof Signature) {
             assertion.setSignature((Signature) childSAMLObject);
@@ -71,36 +71,40 @@ public class AssertionUnmarshaller extends AbstractSAMLObjectUnmarshaller {
     /** {@inheritDoc} */
     protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
 
-        Assertion assertion = (Assertion) samlObject;
+        final Assertion assertion = (Assertion) samlObject;
 
-        if (Assertion.ID_ATTRIB_NAME.equals(attribute.getLocalName())) {
-            assertion.setID(attribute.getValue());
-        } else if (Assertion.ISSUER_ATTRIB_NAME.equals(attribute.getLocalName())) {
-            assertion.setIssuer(attribute.getValue());
-        } else if (Assertion.ISSUEINSTANT_ATTRIB_NAME.equals(attribute.getLocalName())
-                && !Strings.isNullOrEmpty(attribute.getValue())) {
-            assertion.setIssueInstant(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));
-        } else if (Assertion.MAJORVERSION_ATTRIB_NAME.equals(attribute.getLocalName())) {
-            int major;
-            try {
-                major = Integer.parseInt(attribute.getValue());
-                if (major != 1) {
-                    throw new UnmarshallingException("MajorVersion was invalid, must be 1");
+        if (attribute.getNamespaceURI() == null) {
+            if (Assertion.ID_ATTRIB_NAME.equals(attribute.getLocalName())) {
+                assertion.setID(attribute.getValue());
+            } else if (Assertion.ISSUER_ATTRIB_NAME.equals(attribute.getLocalName())) {
+                assertion.setIssuer(attribute.getValue());
+            } else if (Assertion.ISSUEINSTANT_ATTRIB_NAME.equals(attribute.getLocalName())
+                    && !Strings.isNullOrEmpty(attribute.getValue())) {
+                assertion.setIssueInstant(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));
+            } else if (Assertion.MAJORVERSION_ATTRIB_NAME.equals(attribute.getLocalName())) {
+                int major;
+                try {
+                    major = Integer.parseInt(attribute.getValue());
+                    if (major != 1) {
+                        throw new UnmarshallingException("MajorVersion was invalid, must be 1");
+                    }
+                } catch (final NumberFormatException n) {
+                    throw new UnmarshallingException(n);
                 }
-            } catch (final NumberFormatException n) {
-                throw new UnmarshallingException(n);
-            }
-        } else if (Assertion.MINORVERSION_ATTRIB_NAME.equals(attribute.getLocalName())) {
-            int minor;
-            try {
-                minor = Integer.parseInt(attribute.getValue());
-            } catch (NumberFormatException n) {
-                throw new UnmarshallingException(n);
-            }
-            if (minor == 0) {
-                assertion.setVersion(SAMLVersion.VERSION_10);
-            } else if (minor == 1) {
-                assertion.setVersion(SAMLVersion.VERSION_11);
+            } else if (Assertion.MINORVERSION_ATTRIB_NAME.equals(attribute.getLocalName())) {
+                int minor;
+                try {
+                    minor = Integer.parseInt(attribute.getValue());
+                } catch (final NumberFormatException n) {
+                    throw new UnmarshallingException(n);
+                }
+                if (minor == 0) {
+                    assertion.setVersion(SAMLVersion.VERSION_10);
+                } else if (minor == 1) {
+                    assertion.setVersion(SAMLVersion.VERSION_11);
+                }
+            } else {
+                super.processAttribute(samlObject, attribute);
             }
         } else {
             super.processAttribute(samlObject, attribute);

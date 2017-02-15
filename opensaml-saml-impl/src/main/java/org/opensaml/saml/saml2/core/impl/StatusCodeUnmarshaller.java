@@ -33,25 +33,26 @@ import org.w3c.dom.Attr;
 public class StatusCodeUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        StatusCode statusCode = (StatusCode) samlObject;
-
-        if (attribute.getLocalName().equals(StatusCode.VALUE_ATTRIB_NAME)) {
-            statusCode.setValue(attribute.getValue());
-        } else {
-            super.processAttribute(samlObject, attribute);
-        }
-    }
-
-    /** {@inheritDoc} */
     protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
             throws UnmarshallingException {
-        StatusCode statusCode = (StatusCode) parentSAMLObject;
-
+        final StatusCode statusCode = (StatusCode) parentSAMLObject;
+    
         if (childSAMLObject instanceof StatusCode) {
             statusCode.setStatusCode((StatusCode) childSAMLObject);
         } else {
             super.processChildElement(parentSAMLObject, childSAMLObject);
         }
     }
+
+    /** {@inheritDoc} */
+    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
+        final StatusCode statusCode = (StatusCode) samlObject;
+
+        if (attribute.getLocalName().equals(StatusCode.VALUE_ATTRIB_NAME) && attribute.getNamespaceURI() == null) {
+            statusCode.setValue(attribute.getValue());
+        } else {
+            super.processAttribute(samlObject, attribute);
+        }
+    }
+    
 }

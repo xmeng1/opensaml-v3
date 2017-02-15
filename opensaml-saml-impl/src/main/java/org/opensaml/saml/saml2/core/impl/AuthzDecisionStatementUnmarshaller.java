@@ -37,7 +37,7 @@ public class AuthzDecisionStatementUnmarshaller extends AbstractSAMLObjectUnmars
 
     /** {@inheritDoc} */
     protected void processChildElement(XMLObject parentObject, XMLObject childObject) throws UnmarshallingException {
-        AuthzDecisionStatement authzDS = (AuthzDecisionStatement) parentObject;
+        final AuthzDecisionStatement authzDS = (AuthzDecisionStatement) parentObject;
 
         if (childObject instanceof Action) {
             authzDS.getActions().add((Action) childObject);
@@ -50,23 +50,28 @@ public class AuthzDecisionStatementUnmarshaller extends AbstractSAMLObjectUnmars
 
     /** {@inheritDoc} */
     protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        AuthzDecisionStatement authzDS = (AuthzDecisionStatement) samlObject;
+        final AuthzDecisionStatement authzDS = (AuthzDecisionStatement) samlObject;
 
-        if (attribute.getLocalName().equals(AuthzDecisionStatement.RESOURCE_ATTRIB_NAME)) {
-            authzDS.setResource(attribute.getValue());
-        } else if (attribute.getLocalName().equals(AuthzDecisionStatement.DECISION_ATTRIB_NAME)) {
-            String value = attribute.getValue();
-            if (value.equals(DecisionTypeEnumeration.PERMIT.toString())) {
-                authzDS.setDecision(DecisionTypeEnumeration.PERMIT);
-            } else if (value.equals(DecisionTypeEnumeration.DENY.toString())) {
-                authzDS.setDecision(DecisionTypeEnumeration.DENY);
-            } else if (value.equals(DecisionTypeEnumeration.INDETERMINATE.toString())) {
-                authzDS.setDecision(DecisionTypeEnumeration.INDETERMINATE);
+        if (attribute.getNamespaceURI() == null) {
+            if (attribute.getLocalName().equals(AuthzDecisionStatement.RESOURCE_ATTRIB_NAME)) {
+                authzDS.setResource(attribute.getValue());
+            } else if (attribute.getLocalName().equals(AuthzDecisionStatement.DECISION_ATTRIB_NAME)) {
+                final String value = attribute.getValue();
+                if (value.equals(DecisionTypeEnumeration.PERMIT.toString())) {
+                    authzDS.setDecision(DecisionTypeEnumeration.PERMIT);
+                } else if (value.equals(DecisionTypeEnumeration.DENY.toString())) {
+                    authzDS.setDecision(DecisionTypeEnumeration.DENY);
+                } else if (value.equals(DecisionTypeEnumeration.INDETERMINATE.toString())) {
+                    authzDS.setDecision(DecisionTypeEnumeration.INDETERMINATE);
+                } else {
+                    throw new UnmarshallingException("Unknown value for DecisionType '" + value + "'");
+                }
             } else {
-                throw new UnmarshallingException("Unknown value for DecisionType '" + value + "'");
+                super.processAttribute(samlObject, attribute);
             }
         } else {
             super.processAttribute(samlObject, attribute);
         }
     }
+    
 }

@@ -31,22 +31,25 @@ import org.w3c.dom.Attr;
  */
 public class LocalizedNameUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
+    /** {@inheritDoc} */
+    protected void processElementContent(XMLObject samlObject, String elementContent) {
+        final LocalizedName name = (LocalizedName) samlObject;
+    
+        name.setValue(elementContent);
+    }
+
     /**
      * {@inheritDoc}
      */
     protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
         if (attribute.getLocalName().equals(LangBearing.XML_LANG_ATTR_LOCAL_NAME)
                 && XMLConstants.XML_NS.equals(attribute.getNamespaceURI())) {
-            LocalizedName name = (LocalizedName) samlObject;
+            final LocalizedName name = (LocalizedName) samlObject;
 
             name.setXMLLang(attribute.getValue());
+        } else {
+            super.processAttribute(samlObject, attribute);
         }
     }
-
-    /** {@inheritDoc} */
-    protected void processElementContent(XMLObject samlObject, String elementContent) {
-        LocalizedName name = (LocalizedName) samlObject;
-
-        name.setValue(elementContent);
-    }
+    
 }

@@ -29,12 +29,14 @@ public class AuthenticationQueryUnmarshaller extends SubjectQueryUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        AuthenticationQuery authenticationQuery = (AuthenticationQuery) samlObject;
+        final AuthenticationQuery authenticationQuery = (AuthenticationQuery) samlObject;
 
-        if (AuthenticationQuery.AUTHENTICATIONMETHOD_ATTRIB_NAME.equals(attribute.getLocalName())) {
+        if (AuthenticationQuery.AUTHENTICATIONMETHOD_ATTRIB_NAME.equals(attribute.getLocalName())
+                && attribute.getNamespaceURI() == null) {
             authenticationQuery.setAuthenticationMethod(attribute.getValue());
         } else {
             super.processAttribute(samlObject, attribute);
         }
     }
+    
 }

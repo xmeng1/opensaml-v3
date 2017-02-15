@@ -34,21 +34,10 @@ import org.w3c.dom.Attr;
 public class AuthzDecisionQueryUnmarshaller extends SubjectQueryUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        AuthzDecisionQuery query = (AuthzDecisionQuery) samlObject;
-
-        if (attribute.getLocalName().equals(AuthzDecisionQuery.RESOURCE_ATTRIB_NAME)) {
-            query.setResource(attribute.getValue());
-        } else {
-            super.processAttribute(samlObject, attribute);
-        }
-    }
-
-    /** {@inheritDoc} */
     protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
             throws UnmarshallingException {
-        AuthzDecisionQuery query = (AuthzDecisionQuery) parentSAMLObject;
-
+        final AuthzDecisionQuery query = (AuthzDecisionQuery) parentSAMLObject;
+    
         if (childSAMLObject instanceof Action) {
             query.getActions().add((Action) childSAMLObject);
         } else if (childSAMLObject instanceof Evidence) {
@@ -57,4 +46,17 @@ public class AuthzDecisionQueryUnmarshaller extends SubjectQueryUnmarshaller {
             super.processChildElement(parentSAMLObject, childSAMLObject);
         }
     }
+
+    /** {@inheritDoc} */
+    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
+        final AuthzDecisionQuery query = (AuthzDecisionQuery) samlObject;
+
+        if (attribute.getLocalName().equals(AuthzDecisionQuery.RESOURCE_ATTRIB_NAME)
+                && attribute.getNamespaceURI() == null) {
+            query.setResource(attribute.getValue());
+        } else {
+            super.processAttribute(samlObject, attribute);
+        }
+    }
+    
 }

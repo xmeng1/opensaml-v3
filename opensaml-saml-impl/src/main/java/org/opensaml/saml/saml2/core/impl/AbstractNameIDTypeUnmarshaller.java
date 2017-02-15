@@ -30,24 +30,29 @@ import org.w3c.dom.Attr;
 public abstract class AbstractNameIDTypeUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        NameIDType nameID = (NameIDType) samlObject;
-        if (attribute.getLocalName().equals(NameID.NAME_QUALIFIER_ATTRIB_NAME)) {
-            nameID.setNameQualifier(attribute.getValue());
-        } else if (attribute.getLocalName().equals(NameID.SP_NAME_QUALIFIER_ATTRIB_NAME)) {
-            nameID.setSPNameQualifier(attribute.getValue());
-        } else if (attribute.getLocalName().equals(NameID.FORMAT_ATTRIB_NAME)) {
-            nameID.setFormat(attribute.getValue());
-        } else if (attribute.getLocalName().equals(NameID.SPPROVIDED_ID_ATTRIB_NAME)) {
-            nameID.setSPProvidedID(attribute.getValue());
-        } else {
-            super.processAttribute(samlObject, attribute);
-        }
+    protected void processElementContent(XMLObject samlObject, String elementContent) {
+        final NameIDType nameID = (NameIDType) samlObject;
+        nameID.setValue(elementContent);
     }
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject samlObject, String elementContent) {
-        NameIDType nameID = (NameIDType) samlObject;
-        nameID.setValue(elementContent);
+    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
+        final NameIDType nameID = (NameIDType) samlObject;
+        
+        if (attribute.getNamespaceURI() == null) {
+            if (attribute.getLocalName().equals(NameID.NAME_QUALIFIER_ATTRIB_NAME)) {
+                nameID.setNameQualifier(attribute.getValue());
+            } else if (attribute.getLocalName().equals(NameID.SP_NAME_QUALIFIER_ATTRIB_NAME)) {
+                nameID.setSPNameQualifier(attribute.getValue());
+            } else if (attribute.getLocalName().equals(NameID.FORMAT_ATTRIB_NAME)) {
+                nameID.setFormat(attribute.getValue());
+            } else if (attribute.getLocalName().equals(NameID.SPPROVIDED_ID_ATTRIB_NAME)) {
+                nameID.setSPProvidedID(attribute.getValue());
+            } else {
+                super.processAttribute(samlObject, attribute);
+            }
+        } else {
+            super.processAttribute(samlObject, attribute);
+        }
     }
 }

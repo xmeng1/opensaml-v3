@@ -34,7 +34,7 @@ public class SubjectConfirmationUnmarshaller extends AbstractSAMLObjectUnmarshal
 
     /** {@inheritDoc} */
     protected void processChildElement(XMLObject parentObject, XMLObject childObject) throws UnmarshallingException {
-        SubjectConfirmation subjectConfirmation = (SubjectConfirmation) parentObject;
+        final SubjectConfirmation subjectConfirmation = (SubjectConfirmation) parentObject;
 
         if (childObject instanceof BaseID) {
             subjectConfirmation.setBaseID((BaseID) childObject);
@@ -51,12 +51,14 @@ public class SubjectConfirmationUnmarshaller extends AbstractSAMLObjectUnmarshal
 
     /** {@inheritDoc} */
     protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        SubjectConfirmation subjectConfirmation = (SubjectConfirmation) samlObject;
+        final SubjectConfirmation subjectConfirmation = (SubjectConfirmation) samlObject;
 
-        if (attribute.getLocalName().equals(SubjectConfirmation.METHOD_ATTRIB_NAME)) {
+        if (attribute.getLocalName().equals(SubjectConfirmation.METHOD_ATTRIB_NAME)
+                && attribute.getNamespaceURI() == null) {
             subjectConfirmation.setMethod(attribute.getValue());
         } else {
             super.processAttribute(samlObject, attribute);
         }
     }
+    
 }

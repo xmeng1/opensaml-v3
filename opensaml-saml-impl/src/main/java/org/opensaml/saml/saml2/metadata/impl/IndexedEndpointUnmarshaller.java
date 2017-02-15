@@ -34,14 +34,19 @@ public class IndexedEndpointUnmarshaller extends EndpointUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        IndexedEndpoint iEndpoint = (IndexedEndpoint) samlObject;
+        final IndexedEndpoint iEndpoint = (IndexedEndpoint) samlObject;
 
-        if (attribute.getLocalName().equals(IndexedEndpoint.INDEX_ATTRIB_NAME)) {
-            iEndpoint.setIndex(Integer.valueOf(attribute.getValue()));
-        } else if (attribute.getLocalName().equals(IndexedEndpoint.IS_DEFAULT_ATTRIB_NAME)) {
-            iEndpoint.setIsDefault(XSBooleanValue.valueOf(attribute.getValue()));
+        if (attribute.getNamespaceURI() == null) {
+            if (attribute.getLocalName().equals(IndexedEndpoint.INDEX_ATTRIB_NAME)) {
+                iEndpoint.setIndex(Integer.valueOf(attribute.getValue()));
+            } else if (attribute.getLocalName().equals(IndexedEndpoint.IS_DEFAULT_ATTRIB_NAME)) {
+                iEndpoint.setIsDefault(XSBooleanValue.valueOf(attribute.getValue()));
+            } else {
+                super.processAttribute(samlObject, attribute);
+            }
         } else {
             super.processAttribute(samlObject, attribute);
         }
     }
+    
 }

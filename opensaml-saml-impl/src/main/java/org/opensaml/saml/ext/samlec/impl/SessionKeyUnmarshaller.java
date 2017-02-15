@@ -50,14 +50,15 @@ public class SessionKeyUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        SessionKey key = (SessionKey) samlObject;
+        final SessionKey key = (SessionKey) samlObject;
 
-        QName attrName = QNameSupport.getNodeQName(attribute);
+        final QName attrName = QNameSupport.getNodeQName(attribute);
         if (SessionKey.SOAP11_MUST_UNDERSTAND_ATTR_NAME.equals(attrName)) {
             key.setSOAP11MustUnderstand(XSBooleanValue.valueOf(attribute.getValue()));
         } else if (SessionKey.SOAP11_ACTOR_ATTR_NAME.equals(attrName)) {
             key.setSOAP11Actor(attribute.getValue()); 
-        } else if (attribute.getLocalName().equals(SessionKey.ALGORITHM_ATTRIB_NAME)) {
+        } else if (attribute.getLocalName().equals(SessionKey.ALGORITHM_ATTRIB_NAME)
+                && attribute.getNamespaceURI() == null) {
             key.setAlgorithm(attribute.getValue());
         } else {
             super.processAttribute(samlObject, attribute);

@@ -33,25 +33,27 @@ import org.w3c.dom.Attr;
 public class AuthnQueryUnmarshaller extends SubjectQueryUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        AuthnQuery query = (AuthnQuery) samlObject;
-
-        if (attribute.getLocalName().equals(AuthnQuery.SESSION_INDEX_ATTRIB_NAME)) {
-            query.setSessionIndex(attribute.getValue());
-        } else {
-            super.processAttribute(samlObject, attribute);
-        }
-    }
-
-    /** {@inheritDoc} */
     protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
             throws UnmarshallingException {
-        AuthnQuery query = (AuthnQuery) parentSAMLObject;
-
+        final AuthnQuery query = (AuthnQuery) parentSAMLObject;
+    
         if (childSAMLObject instanceof RequestedAuthnContext) {
             query.setRequestedAuthnContext((RequestedAuthnContext) childSAMLObject);
         } else {
             super.processChildElement(parentSAMLObject, childSAMLObject);
         }
     }
+
+    /** {@inheritDoc} */
+    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
+        final AuthnQuery query = (AuthnQuery) samlObject;
+
+        if (attribute.getLocalName().equals(AuthnQuery.SESSION_INDEX_ATTRIB_NAME)
+                && attribute.getNamespaceURI() == null) {
+            query.setSessionIndex(attribute.getValue());
+        } else {
+            super.processAttribute(samlObject, attribute);
+        }
+    }
+    
 }

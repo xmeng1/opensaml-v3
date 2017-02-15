@@ -35,11 +35,14 @@ public class RequestedAttributeUnmarshaller extends AttributeUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        RequestedAttribute requestedAttribute = (RequestedAttribute) samlObject;
-        if (attribute.getLocalName().equals(RequestedAttribute.IS_REQUIRED_ATTRIB_NAME)) {
+        final RequestedAttribute requestedAttribute = (RequestedAttribute) samlObject;
+        
+        if (attribute.getLocalName().equals(RequestedAttribute.IS_REQUIRED_ATTRIB_NAME)
+                && attribute.getNamespaceURI() == null) {
             requestedAttribute.setIsRequired(XSBooleanValue.valueOf(attribute.getValue()));
         } else {
             super.processAttribute(samlObject, attribute);
         }
     }
+    
 }

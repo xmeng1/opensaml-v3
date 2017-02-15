@@ -34,7 +34,7 @@ public class KeyDescriptorUnmarshaller extends AbstractSAMLObjectUnmarshaller {
     /** {@inheritDoc} */
     protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
             throws UnmarshallingException {
-        KeyDescriptor keyDescriptor = (KeyDescriptor) parentSAMLObject;
+        final KeyDescriptor keyDescriptor = (KeyDescriptor) parentSAMLObject;
 
         if (childSAMLObject instanceof KeyInfo) {
             keyDescriptor.setKeyInfo((KeyInfo) childSAMLObject);
@@ -47,17 +47,17 @@ public class KeyDescriptorUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        KeyDescriptor keyDescriptor = (KeyDescriptor) samlObject;
+        final KeyDescriptor keyDescriptor = (KeyDescriptor) samlObject;
 
-        if (attribute.getName().equals(KeyDescriptor.USE_ATTRIB_NAME)) {
+        if (attribute.getName().equals(KeyDescriptor.USE_ATTRIB_NAME) && attribute.getNamespaceURI() == null) {
             try {
-                UsageType usageType = UsageType.valueOf(UsageType.class, attribute.getValue().toUpperCase());
+                final UsageType usageType = UsageType.valueOf(UsageType.class, attribute.getValue().toUpperCase());
                 // Only allow the enum values specified in the schema.
                 if (usageType != UsageType.SIGNING && usageType != UsageType.ENCRYPTION) {
                     throw new UnmarshallingException("Invalid key usage type: " + attribute.getValue());
                 }
                 keyDescriptor.setUse(usageType);
-            } catch (IllegalArgumentException e) {
+            } catch (final IllegalArgumentException e) {
                 throw new UnmarshallingException("Invalid key usage type: " + attribute.getValue());
             }
         } else {

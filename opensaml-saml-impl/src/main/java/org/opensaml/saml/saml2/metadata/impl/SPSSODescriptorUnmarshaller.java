@@ -37,7 +37,7 @@ public class SPSSODescriptorUnmarshaller extends SSODescriptorUnmarshaller {
     /** {@inheritDoc} */
     protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
             throws UnmarshallingException {
-        SPSSODescriptor descriptor = (SPSSODescriptor) parentSAMLObject;
+        final SPSSODescriptor descriptor = (SPSSODescriptor) parentSAMLObject;
 
         if (childSAMLObject instanceof AssertionConsumerService) {
             descriptor.getAssertionConsumerServices().add((AssertionConsumerService) childSAMLObject);
@@ -50,14 +50,19 @@ public class SPSSODescriptorUnmarshaller extends SSODescriptorUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        SPSSODescriptor descriptor = (SPSSODescriptor) samlObject;
+        final SPSSODescriptor descriptor = (SPSSODescriptor) samlObject;
 
-        if (attribute.getLocalName().equals(SPSSODescriptor.AUTH_REQUESTS_SIGNED_ATTRIB_NAME)) {
-            descriptor.setAuthnRequestsSigned(XSBooleanValue.valueOf(attribute.getValue()));
-        } else if (attribute.getLocalName().equals(SPSSODescriptor.WANT_ASSERTIONS_SIGNED_ATTRIB_NAME)) {
-            descriptor.setWantAssertionsSigned(XSBooleanValue.valueOf(attribute.getValue()));
+        if (attribute.getNamespaceURI() == null) {
+            if (attribute.getLocalName().equals(SPSSODescriptor.AUTH_REQUESTS_SIGNED_ATTRIB_NAME)) {
+                descriptor.setAuthnRequestsSigned(XSBooleanValue.valueOf(attribute.getValue()));
+            } else if (attribute.getLocalName().equals(SPSSODescriptor.WANT_ASSERTIONS_SIGNED_ATTRIB_NAME)) {
+                descriptor.setWantAssertionsSigned(XSBooleanValue.valueOf(attribute.getValue()));
+            } else {
+                super.processAttribute(samlObject, attribute);
+            }
         } else {
             super.processAttribute(samlObject, attribute);
         }
     }
+    
 }

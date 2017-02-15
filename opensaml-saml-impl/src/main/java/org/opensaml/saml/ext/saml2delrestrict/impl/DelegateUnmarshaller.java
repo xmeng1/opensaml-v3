@@ -35,13 +35,17 @@ public class DelegateUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        Delegate delegate = (Delegate) samlObject;
-        
-        String attrName = attribute.getLocalName();
-        if (Delegate.CONFIRMATION_METHOD_ATTRIB_NAME.equals(attrName)) {
-            delegate.setConfirmationMethod(attribute.getValue());
-        } else if (Delegate.DELEGATION_INSTANT_ATTRIB_NAME.equals(attrName)) {
-            delegate.setDelegationInstant(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));
+        final Delegate delegate = (Delegate) samlObject;
+
+        if (attribute.getNamespaceURI() == null) {
+            String attrName = attribute.getLocalName();
+            if (Delegate.CONFIRMATION_METHOD_ATTRIB_NAME.equals(attrName)) {
+                delegate.setConfirmationMethod(attribute.getValue());
+            } else if (Delegate.DELEGATION_INSTANT_ATTRIB_NAME.equals(attrName)) {
+                delegate.setDelegationInstant(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));
+            } else {
+                super.processAttribute(samlObject, attribute);
+            }
         } else {
             super.processAttribute(samlObject, attribute);
         }

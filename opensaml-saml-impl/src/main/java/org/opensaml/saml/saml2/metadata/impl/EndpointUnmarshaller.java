@@ -30,14 +30,18 @@ public class EndpointUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        Endpoint endpoint = (Endpoint) samlObject;
+        final Endpoint endpoint = (Endpoint) samlObject;
 
-        if (attribute.getLocalName().equals(Endpoint.BINDING_ATTRIB_NAME)) {
-            endpoint.setBinding(attribute.getValue());
-        } else if (attribute.getLocalName().equals(Endpoint.LOCATION_ATTRIB_NAME)) {
-            endpoint.setLocation(attribute.getValue());
-        } else if (attribute.getLocalName().equals(Endpoint.RESPONSE_LOCATION_ATTRIB_NAME)) {
-            endpoint.setResponseLocation(attribute.getValue());
+        if (attribute.getNamespaceURI() == null) {
+            if (attribute.getLocalName().equals(Endpoint.BINDING_ATTRIB_NAME)) {
+                endpoint.setBinding(attribute.getValue());
+            } else if (attribute.getLocalName().equals(Endpoint.LOCATION_ATTRIB_NAME)) {
+                endpoint.setLocation(attribute.getValue());
+            } else if (attribute.getLocalName().equals(Endpoint.RESPONSE_LOCATION_ATTRIB_NAME)) {
+                endpoint.setResponseLocation(attribute.getValue());
+            } else {
+                super.processAttribute(samlObject, attribute);
+            }
         } else {
             processUnknownAttribute(endpoint, attribute);
         }
@@ -48,7 +52,7 @@ public class EndpointUnmarshaller extends AbstractSAMLObjectUnmarshaller {
      */
     protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
             throws UnmarshallingException {
-        Endpoint endpoint = (Endpoint) parentSAMLObject;
+        final Endpoint endpoint = (Endpoint) parentSAMLObject;
 
         endpoint.getUnknownXMLObjects().add(childSAMLObject);
     }

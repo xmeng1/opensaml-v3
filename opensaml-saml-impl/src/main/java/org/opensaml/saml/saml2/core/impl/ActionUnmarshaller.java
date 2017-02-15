@@ -33,19 +33,20 @@ import org.w3c.dom.Attr;
 public class ActionUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        Action action = (Action) samlObject;
+    protected void processElementContent(XMLObject samlObject, String elementContent) {
+        final Action action = (Action) samlObject;
+        action.setAction(elementContent);
+    }
 
-        if (attribute.getLocalName().equals(Action.NAMEPSACE_ATTRIB_NAME)) {
+    /** {@inheritDoc} */
+    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
+        final Action action = (Action) samlObject;
+
+        if (attribute.getLocalName().equals(Action.NAMEPSACE_ATTRIB_NAME) && attribute.getNamespaceURI() == null) {
             action.setNamespace(attribute.getValue());
         } else {
             super.processAttribute(samlObject, attribute);
         }
     }
-
-    /** {@inheritDoc} */
-    protected void processElementContent(XMLObject samlObject, String elementContent) {
-        Action action = (Action) samlObject;
-        action.setAction(elementContent);
-    }
+    
 }

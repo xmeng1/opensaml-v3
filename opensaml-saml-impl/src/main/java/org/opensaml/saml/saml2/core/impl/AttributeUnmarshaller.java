@@ -35,7 +35,7 @@ public class AttributeUnmarshaller extends AbstractSAMLObjectUnmarshaller {
     protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
             throws UnmarshallingException {
 
-        Attribute attribute = (Attribute) parentSAMLObject;
+        final Attribute attribute = (Attribute) parentSAMLObject;
 
         QName childQName = childSAMLObject.getElementQName();
         if ("AttributeValue".equals(childQName.getLocalPart())
@@ -49,16 +49,21 @@ public class AttributeUnmarshaller extends AbstractSAMLObjectUnmarshaller {
     /** {@inheritDoc} */
     protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
 
-        Attribute attrib = (Attribute) samlObject;
+        final Attribute attrib = (Attribute) samlObject;
 
-        if (attribute.getLocalName().equals(Attribute.NAME_ATTTRIB_NAME)) {
-            attrib.setName(attribute.getValue());
-        } else if (attribute.getLocalName().equals(Attribute.NAME_FORMAT_ATTRIB_NAME)) {
-            attrib.setNameFormat(attribute.getValue());
-        } else if (attribute.getLocalName().equals(Attribute.FRIENDLY_NAME_ATTRIB_NAME)) {
-            attrib.setFriendlyName(attribute.getValue());
+        if (attribute.getNamespaceURI() == null) {
+            if (attribute.getLocalName().equals(Attribute.NAME_ATTTRIB_NAME)) {
+                attrib.setName(attribute.getValue());
+            } else if (attribute.getLocalName().equals(Attribute.NAME_FORMAT_ATTRIB_NAME)) {
+                attrib.setNameFormat(attribute.getValue());
+            } else if (attribute.getLocalName().equals(Attribute.FRIENDLY_NAME_ATTRIB_NAME)) {
+                attrib.setFriendlyName(attribute.getValue());
+            } else {
+                super.processAttribute(samlObject, attribute);
+           }
         } else {
             processUnknownAttribute(attrib, attribute);
-       }
+        }
     }
+    
 }

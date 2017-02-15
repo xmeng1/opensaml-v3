@@ -39,7 +39,7 @@ public class IDPSSODescriptorUnmarshaller extends SSODescriptorUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processChildElement(XMLObject parentObject, XMLObject childObject) throws UnmarshallingException {
-        IDPSSODescriptor descriptor = (IDPSSODescriptor) parentObject;
+        final IDPSSODescriptor descriptor = (IDPSSODescriptor) parentObject;
 
         if (childObject instanceof SingleSignOnService) {
             descriptor.getSingleSignOnServices().add((SingleSignOnService) childObject);
@@ -58,12 +58,14 @@ public class IDPSSODescriptorUnmarshaller extends SSODescriptorUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        IDPSSODescriptor descriptor = (IDPSSODescriptor) samlObject;
+        final IDPSSODescriptor descriptor = (IDPSSODescriptor) samlObject;
 
-        if (attribute.getLocalName().equals(IDPSSODescriptor.WANT_AUTHN_REQ_SIGNED_ATTRIB_NAME)) {
+        if (attribute.getLocalName().equals(IDPSSODescriptor.WANT_AUTHN_REQ_SIGNED_ATTRIB_NAME)
+                && attribute.getNamespaceURI() == null) {
             descriptor.setWantAuthnRequestsSigned(XSBooleanValue.valueOf(attribute.getValue()));
         } else {
             super.processAttribute(samlObject, attribute);
         }
     }
+    
 }

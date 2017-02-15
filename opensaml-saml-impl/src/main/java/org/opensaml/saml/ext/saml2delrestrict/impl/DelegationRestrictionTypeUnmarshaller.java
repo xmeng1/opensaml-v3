@@ -31,7 +31,7 @@ public class DelegationRestrictionTypeUnmarshaller extends AbstractSAMLObjectUnm
     /** {@inheritDoc} */
     protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
             throws UnmarshallingException {
-        DelegationRestrictionType drt = (DelegationRestrictionType) parentSAMLObject;
+        final DelegationRestrictionType drt = (DelegationRestrictionType) parentSAMLObject;
         
         if (childSAMLObject instanceof Delegate) {
             drt.getDelegates().add((Delegate) childSAMLObject);

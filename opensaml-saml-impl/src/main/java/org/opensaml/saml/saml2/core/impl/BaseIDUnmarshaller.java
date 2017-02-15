@@ -34,13 +34,19 @@ public abstract class BaseIDUnmarshaller extends AbstractSAMLObjectUnmarshaller 
 
     /** {@inheritDoc} */
     protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        BaseID baseID = (BaseID) samlObject;
-        if (attribute.getLocalName().equals(BaseID.NAME_QUALIFIER_ATTRIB_NAME)) {
-            baseID.setNameQualifier(attribute.getValue());
-        } else if (attribute.getLocalName().equals(BaseID.SP_NAME_QUALIFIER_ATTRIB_NAME)) {
-            baseID.setSPNameQualifier(attribute.getValue());
+        final BaseID baseID = (BaseID) samlObject;
+        
+        if (attribute.getNamespaceURI() == null) {
+            if (attribute.getLocalName().equals(BaseID.NAME_QUALIFIER_ATTRIB_NAME)) {
+                baseID.setNameQualifier(attribute.getValue());
+            } else if (attribute.getLocalName().equals(BaseID.SP_NAME_QUALIFIER_ATTRIB_NAME)) {
+                baseID.setSPNameQualifier(attribute.getValue());
+            } else {
+                super.processAttribute(samlObject, attribute);
+            }
         } else {
             super.processAttribute(samlObject, attribute);
         }
     }
+    
 }

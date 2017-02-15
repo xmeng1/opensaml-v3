@@ -32,7 +32,7 @@ public class AttributeQueryUnmarshaller extends SubjectQueryUnmarshaller {
     protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
             throws UnmarshallingException {
 
-        AttributeQuery attributeQuery = (AttributeQuery) parentSAMLObject;
+        final AttributeQuery attributeQuery = (AttributeQuery) parentSAMLObject;
 
         if (childSAMLObject instanceof AttributeDesignator) {
             attributeQuery.getAttributeDesignators().add((AttributeDesignator) childSAMLObject);
@@ -44,12 +44,14 @@ public class AttributeQueryUnmarshaller extends SubjectQueryUnmarshaller {
     /** {@inheritDoc} */
     protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
 
-        AttributeQuery attributeQuery = (AttributeQuery) samlObject;
+        final AttributeQuery attributeQuery = (AttributeQuery) samlObject;
 
-        if (attribute.getLocalName().equals(AttributeQuery.RESOURCE_ATTRIB_NAME)) {
+        if (attribute.getLocalName().equals(AttributeQuery.RESOURCE_ATTRIB_NAME)
+                && attribute.getNamespaceURI() == null) {
             attributeQuery.setResource(attribute.getValue());
         } else {
             super.processAttribute(samlObject, attribute);
         }
     }
+    
 }

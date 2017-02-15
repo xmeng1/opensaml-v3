@@ -36,10 +36,25 @@ import org.w3c.dom.Attr;
 public class RequestedAuthnContextUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        RequestedAuthnContext rac = (RequestedAuthnContext) samlObject;
+    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
+            throws UnmarshallingException {
+        final RequestedAuthnContext rac = (RequestedAuthnContext) parentSAMLObject;
+        
+        if (childSAMLObject instanceof AuthnContextClassRef) {
+            rac.getAuthnContextClassRefs().add((AuthnContextClassRef) childSAMLObject);
+        } else if (childSAMLObject instanceof AuthnContextDeclRef) {
+            rac.getAuthnContextDeclRefs().add((AuthnContextDeclRef) childSAMLObject);
+        } else {
+            super.processChildElement(parentSAMLObject, childSAMLObject);
+        }
+    }
 
-        if (attribute.getLocalName().equals(RequestedAuthnContext.COMPARISON_ATTRIB_NAME)) {
+    /** {@inheritDoc} */
+    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
+        final RequestedAuthnContext rac = (RequestedAuthnContext) samlObject;
+
+        if (attribute.getLocalName().equals(RequestedAuthnContext.COMPARISON_ATTRIB_NAME)
+                && attribute.getNamespaceURI() == null) {
             if ("exact".equals(attribute.getValue())) {
                 rac.setComparison(AuthnContextComparisonTypeEnumeration.EXACT);
             } else if ("minimum".equals(attribute.getValue())) {
@@ -54,19 +69,6 @@ public class RequestedAuthnContextUnmarshaller extends AbstractSAMLObjectUnmarsh
             }
         } else {
             super.processAttribute(samlObject, attribute);
-        }
-    }
-
-    /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
-            throws UnmarshallingException {
-        RequestedAuthnContext rac = (RequestedAuthnContext) parentSAMLObject;
-        if (childSAMLObject instanceof AuthnContextClassRef) {
-            rac.getAuthnContextClassRefs().add((AuthnContextClassRef) childSAMLObject);
-        } else if (childSAMLObject instanceof AuthnContextDeclRef) {
-            rac.getAuthnContextDeclRefs().add((AuthnContextDeclRef) childSAMLObject);
-        } else {
-            super.processChildElement(parentSAMLObject, childSAMLObject);
         }
     }
 }

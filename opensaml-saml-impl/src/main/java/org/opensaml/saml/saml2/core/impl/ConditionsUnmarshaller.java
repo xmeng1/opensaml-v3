@@ -39,7 +39,7 @@ public class ConditionsUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processChildElement(XMLObject parentObject, XMLObject childObject) throws UnmarshallingException {
-        Conditions conditions = (Conditions) parentObject;
+        final Conditions conditions = (Conditions) parentObject;
 
         if (childObject instanceof Condition) {
             conditions.getConditions().add((Condition) childObject);
@@ -50,16 +50,21 @@ public class ConditionsUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        Conditions conditions = (Conditions) samlObject;
+        final Conditions conditions = (Conditions) samlObject;
 
-        if (attribute.getLocalName().equals(Conditions.NOT_BEFORE_ATTRIB_NAME)
-                && !Strings.isNullOrEmpty(attribute.getValue())) {
-            conditions.setNotBefore(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));
-        } else if (attribute.getLocalName().equals(Conditions.NOT_ON_OR_AFTER_ATTRIB_NAME)
-                && !Strings.isNullOrEmpty(attribute.getValue())) {
-            conditions.setNotOnOrAfter(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));
+        if (attribute.getNamespaceURI() == null) {
+            if (attribute.getLocalName().equals(Conditions.NOT_BEFORE_ATTRIB_NAME)
+                    && !Strings.isNullOrEmpty(attribute.getValue())) {
+                conditions.setNotBefore(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));
+            } else if (attribute.getLocalName().equals(Conditions.NOT_ON_OR_AFTER_ATTRIB_NAME)
+                    && !Strings.isNullOrEmpty(attribute.getValue())) {
+                conditions.setNotOnOrAfter(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));
+            } else {
+                super.processAttribute(samlObject, attribute);
+            }
         } else {
             super.processAttribute(samlObject, attribute);
         }
     }
+    
 }

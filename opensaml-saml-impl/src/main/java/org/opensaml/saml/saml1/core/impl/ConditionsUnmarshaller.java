@@ -36,7 +36,7 @@ public class ConditionsUnmarshaller extends AbstractSAMLObjectUnmarshaller {
     /** {@inheritDoc} */
     protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
             throws UnmarshallingException {
-        Conditions conditions = (Conditions) parentSAMLObject;
+        final Conditions conditions = (Conditions) parentSAMLObject;
 
         if (childSAMLObject instanceof Condition) {
             conditions.getConditions().add((Condition) childSAMLObject);
@@ -48,16 +48,20 @@ public class ConditionsUnmarshaller extends AbstractSAMLObjectUnmarshaller {
     /** {@inheritDoc} */
     protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
 
-        Conditions conditions = (Conditions) samlObject;
+        final Conditions conditions = (Conditions) samlObject;
 
-        if (Conditions.NOTBEFORE_ATTRIB_NAME.equals(attribute.getLocalName())
-                && !Strings.isNullOrEmpty(attribute.getValue())) {
-            conditions.setNotBefore(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));
-        } else if (Conditions.NOTONORAFTER_ATTRIB_NAME.equals(attribute.getLocalName())
-                && !Strings.isNullOrEmpty(attribute.getValue())) {
-            conditions.setNotOnOrAfter(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));
+        if (attribute.getNamespaceURI() == null) {
+            if (Conditions.NOTBEFORE_ATTRIB_NAME.equals(attribute.getLocalName())
+                    && !Strings.isNullOrEmpty(attribute.getValue())) {
+                conditions.setNotBefore(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));
+            } else if (Conditions.NOTONORAFTER_ATTRIB_NAME.equals(attribute.getLocalName())
+                    && !Strings.isNullOrEmpty(attribute.getValue())) {
+                conditions.setNotOnOrAfter(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));
+            } else {
+                super.processAttribute(samlObject, attribute);
+            }
         } else {
-            processAttribute(samlObject, attribute);
+            super.processAttribute(samlObject, attribute);
         }
     }
 }

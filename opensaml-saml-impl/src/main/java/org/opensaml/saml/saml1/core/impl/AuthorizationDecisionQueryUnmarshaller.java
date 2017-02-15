@@ -33,8 +33,7 @@ public class AuthorizationDecisionQueryUnmarshaller extends SubjectQueryUnmarsha
     protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
             throws UnmarshallingException {
 
-        AuthorizationDecisionQuery authorizationDecisionQuery;
-        authorizationDecisionQuery = (AuthorizationDecisionQuery) parentSAMLObject;
+        final AuthorizationDecisionQuery authorizationDecisionQuery = (AuthorizationDecisionQuery) parentSAMLObject;
 
         if (childSAMLObject instanceof Action) {
             authorizationDecisionQuery.getActions().add((Action) childSAMLObject);
@@ -48,13 +47,14 @@ public class AuthorizationDecisionQueryUnmarshaller extends SubjectQueryUnmarsha
     /** {@inheritDoc} */
     protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
 
-        AuthorizationDecisionQuery authorizationDecisionQuery;
-        authorizationDecisionQuery = (AuthorizationDecisionQuery) samlObject;
+        final AuthorizationDecisionQuery authorizationDecisionQuery = (AuthorizationDecisionQuery) samlObject;
 
-        if (attribute.getLocalName().equals(AuthorizationDecisionQuery.RESOURCE_ATTRIB_NAME)) {
+        if (attribute.getLocalName().equals(AuthorizationDecisionQuery.RESOURCE_ATTRIB_NAME)
+                && attribute.getNamespaceURI() == null) {
             authorizationDecisionQuery.setResource(attribute.getValue());
         } else {
             super.processAttribute(samlObject, attribute);
         }
     }
+    
 }

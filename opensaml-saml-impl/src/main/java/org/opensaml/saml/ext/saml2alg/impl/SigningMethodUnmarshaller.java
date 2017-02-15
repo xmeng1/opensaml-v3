@@ -33,21 +33,25 @@ public class SigningMethodUnmarshaller extends AbstractSAMLObjectUnmarshaller {
     /** {@inheritDoc} */
     protected void processChildElement(@Nonnull XMLObject parentXMLObject, @Nonnull XMLObject childXMLObject)
             throws UnmarshallingException {
-        SigningMethod signingMethod = (SigningMethod) parentXMLObject;
+        final SigningMethod signingMethod = (SigningMethod) parentXMLObject;
         signingMethod.getUnknownXMLObjects().add(childXMLObject);
     }
 
     /** {@inheritDoc} */
     protected void processAttribute(@Nonnull XMLObject xmlObject, @Nonnull Attr attribute) 
             throws UnmarshallingException {
-        SigningMethod signingMethod = (SigningMethod) xmlObject;
+        final SigningMethod signingMethod = (SigningMethod) xmlObject;
         
-        if (attribute.getLocalName().equals(SigningMethod.ALGORITHM_ATTRIB_NAME)) {
-            signingMethod.setAlgorithm(attribute.getValue());
-        } else if (attribute.getLocalName().equals(SigningMethod.MIN_KEY_SIZE_ATTRIB_NAME)) {
-            signingMethod.setMinKeySize(Integer.valueOf(attribute.getValue()));
-        } else if (attribute.getLocalName().equals(SigningMethod.MAX_KEY_SIZE_ATTRIB_NAME)) {
-            signingMethod.setMaxKeySize(Integer.valueOf(attribute.getValue()));
+        if (attribute.getNamespaceURI() == null) {
+            if (attribute.getLocalName().equals(SigningMethod.ALGORITHM_ATTRIB_NAME)) {
+                signingMethod.setAlgorithm(attribute.getValue());
+            } else if (attribute.getLocalName().equals(SigningMethod.MIN_KEY_SIZE_ATTRIB_NAME)) {
+                signingMethod.setMinKeySize(Integer.valueOf(attribute.getValue()));
+            } else if (attribute.getLocalName().equals(SigningMethod.MAX_KEY_SIZE_ATTRIB_NAME)) {
+                signingMethod.setMaxKeySize(Integer.valueOf(attribute.getValue()));
+            } else {
+                super.processAttribute(xmlObject, attribute);
+            }
         } else {
             super.processAttribute(xmlObject, attribute);
         }

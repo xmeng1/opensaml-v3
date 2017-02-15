@@ -41,31 +41,10 @@ import com.google.common.base.Strings;
 public abstract class RequestAbstractTypeUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        RequestAbstractType req = (RequestAbstractType) samlObject;
-
-        if (attribute.getLocalName().equals(RequestAbstractType.VERSION_ATTRIB_NAME)) {
-            req.setVersion(SAMLVersion.valueOf(attribute.getValue()));
-        } else if (attribute.getLocalName().equals(RequestAbstractType.ID_ATTRIB_NAME)) {
-            req.setID(attribute.getValue());
-            attribute.getOwnerElement().setIdAttributeNode(attribute, true);
-        } else if (attribute.getLocalName().equals(RequestAbstractType.ISSUE_INSTANT_ATTRIB_NAME)
-                && !Strings.isNullOrEmpty(attribute.getValue())) {
-            req.setIssueInstant(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));
-        } else if (attribute.getLocalName().equals(RequestAbstractType.DESTINATION_ATTRIB_NAME)) {
-            req.setDestination(attribute.getValue());
-        } else if (attribute.getLocalName().equals(RequestAbstractType.CONSENT_ATTRIB_NAME)) {
-            req.setConsent(attribute.getValue());
-        } else {
-            super.processAttribute(samlObject, attribute);
-        }
-    }
-
-    /** {@inheritDoc} */
     protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
             throws UnmarshallingException {
-        RequestAbstractType req = (RequestAbstractType) parentSAMLObject;
-
+        final RequestAbstractType req = (RequestAbstractType) parentSAMLObject;
+    
         if (childSAMLObject instanceof Issuer) {
             req.setIssuer((Issuer) childSAMLObject);
         } else if (childSAMLObject instanceof Signature) {
@@ -76,4 +55,30 @@ public abstract class RequestAbstractTypeUnmarshaller extends AbstractSAMLObject
             super.processChildElement(parentSAMLObject, childSAMLObject);
         }
     }
+
+    /** {@inheritDoc} */
+    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
+        final RequestAbstractType req = (RequestAbstractType) samlObject;
+
+        if (attribute.getNamespaceURI() == null) {
+            if (attribute.getLocalName().equals(RequestAbstractType.VERSION_ATTRIB_NAME)) {
+                req.setVersion(SAMLVersion.valueOf(attribute.getValue()));
+            } else if (attribute.getLocalName().equals(RequestAbstractType.ID_ATTRIB_NAME)) {
+                req.setID(attribute.getValue());
+                attribute.getOwnerElement().setIdAttributeNode(attribute, true);
+            } else if (attribute.getLocalName().equals(RequestAbstractType.ISSUE_INSTANT_ATTRIB_NAME)
+                    && !Strings.isNullOrEmpty(attribute.getValue())) {
+                req.setIssueInstant(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));
+            } else if (attribute.getLocalName().equals(RequestAbstractType.DESTINATION_ATTRIB_NAME)) {
+                req.setDestination(attribute.getValue());
+            } else if (attribute.getLocalName().equals(RequestAbstractType.CONSENT_ATTRIB_NAME)) {
+                req.setConsent(attribute.getValue());
+            } else {
+                super.processAttribute(samlObject, attribute);
+            }
+        } else {
+            super.processAttribute(samlObject, attribute);
+        }
+    }
+    
 }

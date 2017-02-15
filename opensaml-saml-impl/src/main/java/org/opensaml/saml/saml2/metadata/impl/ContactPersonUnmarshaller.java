@@ -65,18 +65,21 @@ public class ContactPersonUnmarshaller extends AbstractSAMLObjectUnmarshaller {
     protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
         ContactPerson person = (ContactPerson) samlObject;
 
-        if (attribute.getLocalName().equals(ContactPerson.CONTACT_TYPE_ATTRIB_NAME) &&
-                attribute.getNamespaceURI() == null) {
-            if (ContactPersonTypeEnumeration.TECHNICAL.toString().equals(attribute.getValue())) {
-                person.setType(ContactPersonTypeEnumeration.TECHNICAL);
-            } else if (ContactPersonTypeEnumeration.SUPPORT.toString().equals(attribute.getValue())) {
-                person.setType(ContactPersonTypeEnumeration.SUPPORT);
-            } else if (ContactPersonTypeEnumeration.ADMINISTRATIVE.toString().equals(attribute.getValue())) {
-                person.setType(ContactPersonTypeEnumeration.ADMINISTRATIVE);
-            } else if (ContactPersonTypeEnumeration.BILLING.toString().equals(attribute.getValue())) {
-                person.setType(ContactPersonTypeEnumeration.BILLING);
-            } else if (ContactPersonTypeEnumeration.OTHER.toString().equals(attribute.getValue())) {
-                person.setType(ContactPersonTypeEnumeration.OTHER);
+        if (attribute.getNamespaceURI() == null) {
+            if (attribute.getLocalName().equals(ContactPerson.CONTACT_TYPE_ATTRIB_NAME)) {
+                if (ContactPersonTypeEnumeration.TECHNICAL.toString().equals(attribute.getValue())) {
+                    person.setType(ContactPersonTypeEnumeration.TECHNICAL);
+                } else if (ContactPersonTypeEnumeration.SUPPORT.toString().equals(attribute.getValue())) {
+                    person.setType(ContactPersonTypeEnumeration.SUPPORT);
+                } else if (ContactPersonTypeEnumeration.ADMINISTRATIVE.toString().equals(attribute.getValue())) {
+                    person.setType(ContactPersonTypeEnumeration.ADMINISTRATIVE);
+                } else if (ContactPersonTypeEnumeration.BILLING.toString().equals(attribute.getValue())) {
+                    person.setType(ContactPersonTypeEnumeration.BILLING);
+                } else if (ContactPersonTypeEnumeration.OTHER.toString().equals(attribute.getValue())) {
+                    person.setType(ContactPersonTypeEnumeration.OTHER);
+                } else {
+                    super.processAttribute(samlObject, attribute);
+                }
             } else {
                 super.processAttribute(samlObject, attribute);
             }
