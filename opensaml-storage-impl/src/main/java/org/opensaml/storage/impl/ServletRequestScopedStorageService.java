@@ -74,6 +74,7 @@ import org.opensaml.storage.StorageCapabilitiesEx;
 import org.opensaml.storage.VersionMismatchException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.util.Strings;
 
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
@@ -282,7 +283,7 @@ public class ServletRequestScopedStorageService extends AbstractMapBackedStorage
         chain.doFilter(request, new OutputInterceptingHttpServletResponseProxy((HttpServletResponse) response));
     }
 
-// Checkstyle: CyclomaticComplexity|MethodLength OFF
+// Checkstyle: CyclomaticComplexity|MethodLength|ReturnCount OFF
     /**
      * Reconstitute stored data.
      * 
@@ -315,7 +316,7 @@ public class ServletRequestScopedStorageService extends AbstractMapBackedStorage
             }
         });
         
-        if (!cookie.isPresent() || cookie.get().getValue() == null || cookie.get().getValue().isEmpty()) {
+        if (!cookie.isPresent() || Strings.isNullOrEmpty(cookie.get().getValue())) {
             return;
         }
         
