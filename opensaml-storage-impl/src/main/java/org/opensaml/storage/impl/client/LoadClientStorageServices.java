@@ -35,11 +35,11 @@ import org.opensaml.profile.context.ProfileRequestContext;
 import org.opensaml.storage.impl.client.ClientStorageService.ClientStorageSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.util.Strings;
 
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
+import com.google.common.base.Strings;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Iterables;
 

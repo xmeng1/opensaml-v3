@@ -74,10 +74,10 @@ import org.opensaml.storage.StorageCapabilitiesEx;
 import org.opensaml.storage.VersionMismatchException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.util.Strings;
 
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
+import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.escape.Escaper;
 import com.google.common.net.UrlEscapers;
