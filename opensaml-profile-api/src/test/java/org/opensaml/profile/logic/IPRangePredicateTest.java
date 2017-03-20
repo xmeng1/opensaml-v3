@@ -17,18 +17,13 @@
 
 package org.opensaml.profile.logic;
 
-import java.util.Collections;
 import java.util.Map;
 
 import net.shibboleth.ext.spring.config.IdentifiableBeanPostProcessor;
-import net.shibboleth.ext.spring.util.SpringSupport;
+import net.shibboleth.ext.spring.util.ApplicationContextBuilder;
 
-import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
-import org.springframework.beans.factory.config.BeanPostProcessor;
-import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -38,10 +33,12 @@ import org.testng.annotations.Test;
 public class IPRangePredicateTest {
 
     @Test public void testRanges() {
-       final GenericApplicationContext ctx = SpringSupport.newContext("IpRange", Collections.singletonList((Resource)new ClassPathResource("iprange.xml")),
-                Collections.<BeanFactoryPostProcessor> emptyList(),
-                Collections.<BeanPostProcessor> singletonList(new IdentifiableBeanPostProcessor()),
-                Collections.<ApplicationContextInitializer> emptyList(), null);
+
+       final GenericApplicationContext ctx = new ApplicationContextBuilder()
+               .setName("IpRange")
+               .setServiceConfiguration(new ClassPathResource("iprange.xml"))
+               .setBeanPostProcessor(new IdentifiableBeanPostProcessor())
+               .build();
 
        final Map<String, IPRangePredicate> bar = ctx.getBeansOfType(IPRangePredicate.class);
        
