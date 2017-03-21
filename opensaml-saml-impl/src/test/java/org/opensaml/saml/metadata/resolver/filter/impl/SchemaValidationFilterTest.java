@@ -26,6 +26,8 @@ import org.opensaml.saml.metadata.resolver.impl.HTTPMetadataResolver;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import net.shibboleth.utilities.java.support.repository.RepositorySupport;
+
 /**
  * Unit tests for {@link SchemaValidationFilter}.
  */
@@ -42,7 +44,7 @@ public class SchemaValidationFilterTest extends XMLObjectBaseTestCase {
         httpClient = new DefaultHttpClient();
         httpClient.getParams().setIntParameter(AllClientPNames.CONNECTION_TIMEOUT, 1000 * 5);
         
-        inCommonMDURL = "http://svn.shibboleth.net/view/java-opensaml/trunk/opensaml-saml-impl/src/test/resources/org/opensaml/saml/saml2/metadata/InCommon-metadata.xml?content-type=text%2Fplain&view=co";
+        inCommonMDURL = RepositorySupport.buildHTTPSResourceURL("java-opensaml", "opensaml-saml-impl/src/test/resources/org/opensaml/saml/saml2/metadata/InCommon-metadata.xml");
     }
 
     @Test

@@ -58,6 +58,7 @@ import com.google.common.io.Resources;
 import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
 import net.shibboleth.utilities.java.support.httpclient.HttpClientBuilder;
 import net.shibboleth.utilities.java.support.httpclient.HttpClientSupport;
+import net.shibboleth.utilities.java.support.repository.RepositorySupport;
 import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
 import net.shibboleth.utilities.java.support.resolver.ResolverException;
 
@@ -72,8 +73,7 @@ public class FileBackedHTTPMetadataResolverTest extends XMLObjectBaseTestCase {
     private HttpClientBuilder httpClientBuilder;
 
     private String relativeMDResource;
-    private String httpsMDURL;
-    private String httpMDURL;
+    private String metadataURL;
     private String badMDURL;
     private String backupFilePath;
     private FileBackedHTTPMetadataResolver metadataProvider;
@@ -85,8 +85,7 @@ public class FileBackedHTTPMetadataResolverTest extends XMLObjectBaseTestCase {
         httpClientBuilder = new HttpClientBuilder();
         
         relativeMDResource = "org/opensaml/saml/metadata/resolver/impl/08ced64cddc9f1578598b2cf71ae747b11d11472.xml";
-        httpsMDURL = String.format("https://svn.shibboleth.net/java-opensaml/trunk/opensaml-saml-impl/src/test/resources/%s", relativeMDResource);
-        httpMDURL = String.format("http://svn.shibboleth.net/view/java-opensaml/trunk/opensaml-saml-impl/src/test/resources/%s?view=co", relativeMDResource);
+        metadataURL = RepositorySupport.buildHTTPSResourceURL("java-opensaml", String.format("opensaml-saml-impl/src/test/resources/%s", relativeMDResource));
         
         entityID = "https://www.example.org/sp";
         badMDURL = "http://www.opensaml.org/foo/bar/baz/samlmd";
@@ -109,7 +108,7 @@ public class FileBackedHTTPMetadataResolverTest extends XMLObjectBaseTestCase {
      */
     @Test
     public void testGetEntityDescriptor() throws Exception {
-        metadataProvider = new FileBackedHTTPMetadataResolver(httpClientBuilder.buildClient(), httpMDURL, backupFilePath);
+        metadataProvider = new FileBackedHTTPMetadataResolver(httpClientBuilder.buildClient(), metadataURL, backupFilePath);
         metadataProvider.setParserPool(parserPool);
         metadataProvider.setId("test");
         metadataProvider.initialize();
@@ -167,7 +166,7 @@ public class FileBackedHTTPMetadataResolverTest extends XMLObjectBaseTestCase {
     public void testFailFastBadBackupFile() throws Exception {
         try {
             // Use a known existing directory as backup file path, which is an invalid argument.
-            metadataProvider = new FileBackedHTTPMetadataResolver(httpClientBuilder.buildClient(), httpMDURL, System.getProperty("java.io.tmpdir"));
+            metadataProvider = new FileBackedHTTPMetadataResolver(httpClientBuilder.buildClient(), metadataURL, System.getProperty("java.io.tmpdir"));
         } catch (ResolverException e) {
             Assert.fail("Provider failed bad backup file in constructor");
             
@@ -192,7 +191,7 @@ public class FileBackedHTTPMetadataResolverTest extends XMLObjectBaseTestCase {
     public void testNoFailFastBadBackupFile() throws Exception {
         try {
             // Use a known existing directory as backup file path, which is an invalid argument.
-            metadataProvider = new FileBackedHTTPMetadataResolver(httpClientBuilder.buildClient(), httpMDURL, System.getProperty("java.io.tmpdir"));
+            metadataProvider = new FileBackedHTTPMetadataResolver(httpClientBuilder.buildClient(), metadataURL, System.getProperty("java.io.tmpdir"));
         } catch (ResolverException e) {
             Assert.fail("Provider failed bad backup file in constructor");
             
@@ -227,7 +226,7 @@ public class FileBackedHTTPMetadataResolverTest extends XMLObjectBaseTestCase {
         Assert.assertTrue(backupFile.exists(), "Backup file was not created");
         Assert.assertTrue(backupFile.length() > 0, "Backup file contains no data");
         
-        metadataProvider = new FileBackedHTTPMetadataResolver(httpClientBuilder.buildClient(), httpMDURL, backupFilePath);
+        metadataProvider = new FileBackedHTTPMetadataResolver(httpClientBuilder.buildClient(), metadataURL, backupFilePath);
         metadataProvider.setParserPool(parserPool);
         metadataProvider.setFailFastInitialization(true);
         metadataProvider.setId("test");
@@ -296,7 +295,7 @@ public class FileBackedHTTPMetadataResolverTest extends XMLObjectBaseTestCase {
         // Make sure resolver works when TrustEngine socket factory is configured but just using an HTTP URL.
         httpClientBuilder.setTLSSocketFactory(buildTrustEngineSocketFactory());
         
-        metadataProvider = new FileBackedHTTPMetadataResolver(httpClientBuilder.buildClient(), httpsMDURL, backupFilePath);
+        metadataProvider = new FileBackedHTTPMetadataResolver(httpClientBuilder.buildClient(), metadataURL, backupFilePath);
         metadataProvider.setParserPool(parserPool);
         metadataProvider.setId("test");
         metadataProvider.initialize();
@@ -311,10 +310,10 @@ public class FileBackedHTTPMetadataResolverTest extends XMLObjectBaseTestCase {
         // Make sure resolver works when TrustEngine socket factory is configured but just using an HTTP URL.
         httpClientBuilder.setTLSSocketFactory(buildTrustEngineSocketFactory());
         
-        metadataProvider = new FileBackedHTTPMetadataResolver(httpClientBuilder.buildClient(), httpsMDURL, backupFilePath);
+        metadataProvider = new FileBackedHTTPMetadataResolver(httpClientBuilder.buildClient(), metadataURL, backupFilePath);
         metadataProvider.setParserPool(parserPool);
         metadataProvider.setId("test");
-        metadataProvider.setTLSTrustEngine(buildExplicitKeyTrustEngine("svn-entity.crt"));
+        metadataProvider.setTLSTrustEngine(buildExplicitKeyTrustEngine("repo-entity.crt"));
         metadataProvider.initialize();
         
         EntityDescriptor descriptor = metadataProvider.resolveSingle(criteriaSet);
@@ -326,7 +325,7 @@ public class FileBackedHTTPMetadataResolverTest extends XMLObjectBaseTestCase {
     public void testHTTPSNoTrustEngine() throws Exception  {
         httpClientBuilder.setTLSSocketFactory(buildTrustEngineSocketFactory());
         
-        metadataProvider = new FileBackedHTTPMetadataResolver(httpClientBuilder.buildClient(), httpsMDURL, backupFilePath); 
+        metadataProvider = new FileBackedHTTPMetadataResolver(httpClientBuilder.buildClient(), metadataURL, backupFilePath); 
         metadataProvider.setParserPool(parserPool);
         metadataProvider.setId("test");
         metadataProvider.initialize();
@@ -340,10 +339,10 @@ public class FileBackedHTTPMetadataResolverTest extends XMLObjectBaseTestCase {
     public void testHTTPSTrustEngineExplicitKey() throws Exception  {
         httpClientBuilder.setTLSSocketFactory(buildTrustEngineSocketFactory());
         
-        metadataProvider = new FileBackedHTTPMetadataResolver(httpClientBuilder.buildClient(), httpsMDURL, backupFilePath);
+        metadataProvider = new FileBackedHTTPMetadataResolver(httpClientBuilder.buildClient(), metadataURL, backupFilePath);
         metadataProvider.setParserPool(parserPool);
         metadataProvider.setId("test");
-        metadataProvider.setTLSTrustEngine(buildExplicitKeyTrustEngine("svn-entity.crt"));
+        metadataProvider.setTLSTrustEngine(buildExplicitKeyTrustEngine("repo-entity.crt"));
         metadataProvider.initialize();
         
         EntityDescriptor descriptor = metadataProvider.resolveSingle(criteriaSet);
@@ -356,7 +355,7 @@ public class FileBackedHTTPMetadataResolverTest extends XMLObjectBaseTestCase {
     public void testHTTPSTrustEngineInvalidKey() throws Exception  {
         httpClientBuilder.setTLSSocketFactory(buildTrustEngineSocketFactory());
         
-        metadataProvider = new FileBackedHTTPMetadataResolver(httpClientBuilder.buildClient(), httpsMDURL, backupFilePath);
+        metadataProvider = new FileBackedHTTPMetadataResolver(httpClientBuilder.buildClient(), metadataURL, backupFilePath);
         metadataProvider.setParserPool(parserPool);
         metadataProvider.setId("test");
         metadataProvider.setTLSTrustEngine(buildExplicitKeyTrustEngine("badKey.crt"));
@@ -371,10 +370,10 @@ public class FileBackedHTTPMetadataResolverTest extends XMLObjectBaseTestCase {
     public void testHTTPSTrustEngineValidPKIX() throws Exception  {
         httpClientBuilder.setTLSSocketFactory(buildTrustEngineSocketFactory());
         
-        metadataProvider = new FileBackedHTTPMetadataResolver(httpClientBuilder.buildClient(), httpsMDURL, backupFilePath);
+        metadataProvider = new FileBackedHTTPMetadataResolver(httpClientBuilder.buildClient(), metadataURL, backupFilePath);
         metadataProvider.setParserPool(parserPool);
         metadataProvider.setId("test");
-        metadataProvider.setTLSTrustEngine(buildPKIXTrustEngine("svn-rootCA.crt", null, false));
+        metadataProvider.setTLSTrustEngine(buildPKIXTrustEngine("repo-rootCA.crt", null, false));
         metadataProvider.initialize();
         
         EntityDescriptor descriptor = metadataProvider.resolveSingle(criteriaSet);
@@ -386,10 +385,10 @@ public class FileBackedHTTPMetadataResolverTest extends XMLObjectBaseTestCase {
     public void testHTTPSTrustEngineValidPKIXExplicitName() throws Exception  {
         httpClientBuilder.setTLSSocketFactory(buildTrustEngineSocketFactory());
         
-        metadataProvider = new FileBackedHTTPMetadataResolver(httpClientBuilder.buildClient(), httpsMDURL, backupFilePath);
+        metadataProvider = new FileBackedHTTPMetadataResolver(httpClientBuilder.buildClient(), metadataURL, backupFilePath);
         metadataProvider.setParserPool(parserPool);
         metadataProvider.setId("test");
-        metadataProvider.setTLSTrustEngine(buildPKIXTrustEngine("svn-rootCA.crt", "*.shibboleth.net", true));
+        metadataProvider.setTLSTrustEngine(buildPKIXTrustEngine("repo-rootCA.crt", "*.shibboleth.net", true));
         metadataProvider.initialize();
         
         EntityDescriptor descriptor = metadataProvider.resolveSingle(criteriaSet);
@@ -401,7 +400,7 @@ public class FileBackedHTTPMetadataResolverTest extends XMLObjectBaseTestCase {
     public void testHTTPSTrustEngineInvalidPKIX() throws Exception  {
         httpClientBuilder.setTLSSocketFactory(buildTrustEngineSocketFactory());
         
-        metadataProvider = new FileBackedHTTPMetadataResolver(httpClientBuilder.buildClient(), httpsMDURL, backupFilePath);
+        metadataProvider = new FileBackedHTTPMetadataResolver(httpClientBuilder.buildClient(), metadataURL, backupFilePath);
         metadataProvider.setParserPool(parserPool);
         metadataProvider.setId("test");
         metadataProvider.setTLSTrustEngine(buildPKIXTrustEngine("badCA.crt", null, false));
@@ -416,10 +415,10 @@ public class FileBackedHTTPMetadataResolverTest extends XMLObjectBaseTestCase {
     public void testHTTPSTrustEngineValidPKIXInvalidName() throws Exception  {
         httpClientBuilder.setTLSSocketFactory(buildTrustEngineSocketFactory());
         
-        metadataProvider = new FileBackedHTTPMetadataResolver(httpClientBuilder.buildClient(), httpsMDURL, backupFilePath);
+        metadataProvider = new FileBackedHTTPMetadataResolver(httpClientBuilder.buildClient(), metadataURL, backupFilePath);
         metadataProvider.setParserPool(parserPool);
         metadataProvider.setId("test");
-        metadataProvider.setTLSTrustEngine(buildPKIXTrustEngine("svn-rootCA.crt", "foobar.shibboleth.net", true));
+        metadataProvider.setTLSTrustEngine(buildPKIXTrustEngine("repo-rootCA.crt", "foobar.shibboleth.net", true));
         metadataProvider.initialize();
         
         EntityDescriptor descriptor = metadataProvider.resolveSingle(criteriaSet);
@@ -430,10 +429,10 @@ public class FileBackedHTTPMetadataResolverTest extends XMLObjectBaseTestCase {
     @Test(expectedExceptions=ComponentInitializationException.class)
     public void testHTTPSTrustEngineWrongSocketFactory() throws Exception  {
         // Trust engine set, but appropriate socket factory not set
-        metadataProvider = new FileBackedHTTPMetadataResolver(httpClientBuilder.buildClient(), httpsMDURL, backupFilePath);
+        metadataProvider = new FileBackedHTTPMetadataResolver(httpClientBuilder.buildClient(), metadataURL, backupFilePath);
         metadataProvider.setParserPool(parserPool);
         metadataProvider.setId("test");
-        metadataProvider.setTLSTrustEngine(buildExplicitKeyTrustEngine("svn-entity.crt"));
+        metadataProvider.setTLSTrustEngine(buildExplicitKeyTrustEngine("repo-entity.crt"));
         metadataProvider.initialize();
         
         EntityDescriptor descriptor = metadataProvider.resolveSingle(criteriaSet);

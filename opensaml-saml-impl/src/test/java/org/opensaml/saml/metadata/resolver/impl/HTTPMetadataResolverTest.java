@@ -24,12 +24,6 @@ import java.security.cert.X509Certificate;
 import java.util.Collections;
 import java.util.Set;
 
-import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
-import net.shibboleth.utilities.java.support.httpclient.HttpClientBuilder;
-import net.shibboleth.utilities.java.support.httpclient.HttpClientSupport;
-import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
-import net.shibboleth.utilities.java.support.resolver.ResolverException;
-
 import org.apache.http.conn.socket.LayeredConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.opensaml.core.criterion.EntityIdCriterion;
@@ -52,6 +46,13 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
+import net.shibboleth.utilities.java.support.httpclient.HttpClientBuilder;
+import net.shibboleth.utilities.java.support.httpclient.HttpClientSupport;
+import net.shibboleth.utilities.java.support.repository.RepositorySupport;
+import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
+import net.shibboleth.utilities.java.support.resolver.ResolverException;
+
 /**
  * Unit tests for {@link HTTPMetadataResolver}.
  */
@@ -61,8 +62,7 @@ public class HTTPMetadataResolverTest extends XMLObjectBaseTestCase {
     
     private HttpClientBuilder httpClientBuilder;
 
-    private String httpsMDURL;
-    private String httpMDURL;
+    private String metadataURL;
     private String badMDURL;
     private String entityID;
     private HTTPMetadataResolver metadataProvider;
@@ -72,13 +72,12 @@ public class HTTPMetadataResolverTest extends XMLObjectBaseTestCase {
     protected void setUp() throws Exception {
         httpClientBuilder = new HttpClientBuilder();
         
-        httpsMDURL = "https://svn.shibboleth.net/java-opensaml/trunk/opensaml-saml-impl/src/test/resources/org/opensaml/saml/metadata/resolver/impl/08ced64cddc9f1578598b2cf71ae747b11d11472.xml";
-        httpMDURL = "http://svn.shibboleth.net/view/java-opensaml/trunk/opensaml-saml-impl/src/test/resources/org/opensaml/saml/metadata/resolver/impl/08ced64cddc9f1578598b2cf71ae747b11d11472.xml?view=co";
+       metadataURL = RepositorySupport.buildHTTPSResourceURL("java-opensaml", "opensaml-saml-impl/src/test/resources/org/opensaml/saml/metadata/resolver/impl/08ced64cddc9f1578598b2cf71ae747b11d11472.xml");
         
         badMDURL = "http://www.google.com/";
         entityID = "https://www.example.org/sp";
         
-        metadataProvider = new HTTPMetadataResolver(httpClientBuilder.buildClient(), httpMDURL);
+        metadataProvider = new HTTPMetadataResolver(httpClientBuilder.buildClient(), metadataURL);
         metadataProvider.setParserPool(parserPool);
         metadataProvider.setId("test");
         metadataProvider.initialize();
@@ -141,7 +140,7 @@ public class HTTPMetadataResolverTest extends XMLObjectBaseTestCase {
         // Make sure resolver works when TrustEngine socket factory is configured but just using an HTTP URL.
         httpClientBuilder.setTLSSocketFactory(buildTrustEngineSocketFactory());
         
-        metadataProvider = new HTTPMetadataResolver(httpClientBuilder.buildClient(), httpMDURL);
+        metadataProvider = new HTTPMetadataResolver(httpClientBuilder.buildClient(), metadataURL);
         metadataProvider.setParserPool(parserPool);
         metadataProvider.setId("test");
         metadataProvider.initialize();
@@ -156,10 +155,10 @@ public class HTTPMetadataResolverTest extends XMLObjectBaseTestCase {
         // Make sure resolver works when TrustEngine socket factory is configured but just using an HTTP URL.
         httpClientBuilder.setTLSSocketFactory(buildTrustEngineSocketFactory());
         
-        metadataProvider = new HTTPMetadataResolver(httpClientBuilder.buildClient(), httpMDURL);
+        metadataProvider = new HTTPMetadataResolver(httpClientBuilder.buildClient(), metadataURL);
         metadataProvider.setParserPool(parserPool);
         metadataProvider.setId("test");
-        metadataProvider.setTLSTrustEngine(buildExplicitKeyTrustEngine("svn-entity.crt"));
+        metadataProvider.setTLSTrustEngine(buildExplicitKeyTrustEngine("repo-entity.crt"));
         metadataProvider.initialize();
         
         EntityDescriptor descriptor = metadataProvider.resolveSingle(criteriaSet);
@@ -171,7 +170,7 @@ public class HTTPMetadataResolverTest extends XMLObjectBaseTestCase {
     public void testHTTPSNoTrustEngine() throws Exception  {
         httpClientBuilder.setTLSSocketFactory(buildTrustEngineSocketFactory());
         
-        metadataProvider = new HTTPMetadataResolver(httpClientBuilder.buildClient(), httpsMDURL);
+        metadataProvider = new HTTPMetadataResolver(httpClientBuilder.buildClient(), metadataURL);
         metadataProvider.setParserPool(parserPool);
         metadataProvider.setId("test");
         metadataProvider.initialize();
@@ -185,10 +184,10 @@ public class HTTPMetadataResolverTest extends XMLObjectBaseTestCase {
     public void testHTTPSTrustEngineExplicitKey() throws Exception  {
         httpClientBuilder.setTLSSocketFactory(buildTrustEngineSocketFactory());
         
-        metadataProvider = new HTTPMetadataResolver(httpClientBuilder.buildClient(), httpsMDURL);
+        metadataProvider = new HTTPMetadataResolver(httpClientBuilder.buildClient(), metadataURL);
         metadataProvider.setParserPool(parserPool);
         metadataProvider.setId("test");
-        metadataProvider.setTLSTrustEngine(buildExplicitKeyTrustEngine("svn-entity.crt"));
+        metadataProvider.setTLSTrustEngine(buildExplicitKeyTrustEngine("repo-entity.crt"));
         metadataProvider.initialize();
         
         EntityDescriptor descriptor = metadataProvider.resolveSingle(criteriaSet);
@@ -201,7 +200,7 @@ public class HTTPMetadataResolverTest extends XMLObjectBaseTestCase {
     public void testHTTPSTrustEngineInvalidKey() throws Exception  {
         httpClientBuilder.setTLSSocketFactory(buildTrustEngineSocketFactory());
         
-        metadataProvider = new HTTPMetadataResolver(httpClientBuilder.buildClient(), httpsMDURL);
+        metadataProvider = new HTTPMetadataResolver(httpClientBuilder.buildClient(), metadataURL);
         metadataProvider.setParserPool(parserPool);
         metadataProvider.setId("test");
         metadataProvider.setTLSTrustEngine(buildExplicitKeyTrustEngine("badKey.crt"));
@@ -216,10 +215,10 @@ public class HTTPMetadataResolverTest extends XMLObjectBaseTestCase {
     public void testHTTPSTrustEngineValidPKIX() throws Exception  {
         httpClientBuilder.setTLSSocketFactory(buildTrustEngineSocketFactory());
         
-        metadataProvider = new HTTPMetadataResolver(httpClientBuilder.buildClient(), httpsMDURL);
+        metadataProvider = new HTTPMetadataResolver(httpClientBuilder.buildClient(), metadataURL);
         metadataProvider.setParserPool(parserPool);
         metadataProvider.setId("test");
-        metadataProvider.setTLSTrustEngine(buildPKIXTrustEngine("svn-rootCA.crt", null, false));
+        metadataProvider.setTLSTrustEngine(buildPKIXTrustEngine("repo-rootCA.crt", null, false));
         metadataProvider.initialize();
         
         EntityDescriptor descriptor = metadataProvider.resolveSingle(criteriaSet);
@@ -231,10 +230,10 @@ public class HTTPMetadataResolverTest extends XMLObjectBaseTestCase {
     public void testHTTPSTrustEngineValidPKIXExplicitName() throws Exception  {
         httpClientBuilder.setTLSSocketFactory(buildTrustEngineSocketFactory());
         
-        metadataProvider = new HTTPMetadataResolver(httpClientBuilder.buildClient(), httpsMDURL);
+        metadataProvider = new HTTPMetadataResolver(httpClientBuilder.buildClient(), metadataURL);
         metadataProvider.setParserPool(parserPool);
         metadataProvider.setId("test");
-        metadataProvider.setTLSTrustEngine(buildPKIXTrustEngine("svn-rootCA.crt", "*.shibboleth.net", true));
+        metadataProvider.setTLSTrustEngine(buildPKIXTrustEngine("repo-rootCA.crt", "*.shibboleth.net", true));
         metadataProvider.initialize();
         
         EntityDescriptor descriptor = metadataProvider.resolveSingle(criteriaSet);
@@ -246,7 +245,7 @@ public class HTTPMetadataResolverTest extends XMLObjectBaseTestCase {
     public void testHTTPSTrustEngineInvalidPKIX() throws Exception  {
         httpClientBuilder.setTLSSocketFactory(buildTrustEngineSocketFactory());
         
-        metadataProvider = new HTTPMetadataResolver(httpClientBuilder.buildClient(), httpsMDURL);
+        metadataProvider = new HTTPMetadataResolver(httpClientBuilder.buildClient(), metadataURL);
         metadataProvider.setParserPool(parserPool);
         metadataProvider.setId("test");
         metadataProvider.setTLSTrustEngine(buildPKIXTrustEngine("badCA.crt", null, false));
@@ -261,10 +260,10 @@ public class HTTPMetadataResolverTest extends XMLObjectBaseTestCase {
     public void testHTTPSTrustEngineValidPKIXInvalidName() throws Exception  {
         httpClientBuilder.setTLSSocketFactory(buildTrustEngineSocketFactory());
         
-        metadataProvider = new HTTPMetadataResolver(httpClientBuilder.buildClient(), httpsMDURL);
+        metadataProvider = new HTTPMetadataResolver(httpClientBuilder.buildClient(), metadataURL);
         metadataProvider.setParserPool(parserPool);
         metadataProvider.setId("test");
-        metadataProvider.setTLSTrustEngine(buildPKIXTrustEngine("svn-rootCA.crt", "foobar.shibboleth.net", true));
+        metadataProvider.setTLSTrustEngine(buildPKIXTrustEngine("repo-rootCA.crt", "foobar.shibboleth.net", true));
         metadataProvider.initialize();
         
         EntityDescriptor descriptor = metadataProvider.resolveSingle(criteriaSet);
@@ -275,10 +274,10 @@ public class HTTPMetadataResolverTest extends XMLObjectBaseTestCase {
     @Test(expectedExceptions=ComponentInitializationException.class)
     public void testHTTPSTrustEngineWrongSocketFactory() throws Exception  {
         // Trust engine set, but appropriate socket factory not set
-        metadataProvider = new HTTPMetadataResolver(httpClientBuilder.buildClient(), httpsMDURL);
+        metadataProvider = new HTTPMetadataResolver(httpClientBuilder.buildClient(), metadataURL);
         metadataProvider.setParserPool(parserPool);
         metadataProvider.setId("test");
-        metadataProvider.setTLSTrustEngine(buildExplicitKeyTrustEngine("svn-entity.crt"));
+        metadataProvider.setTLSTrustEngine(buildExplicitKeyTrustEngine("repo-entity.crt"));
         metadataProvider.initialize();
         
         EntityDescriptor descriptor = metadataProvider.resolveSingle(criteriaSet);

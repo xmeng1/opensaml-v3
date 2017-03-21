@@ -17,15 +17,9 @@
 
 package org.opensaml.xmlsec.signature.support;
 
-import org.testng.annotations.Test;
-import org.testng.annotations.BeforeMethod;
-import org.testng.Assert;
 import java.security.KeyPair;
 
 import javax.xml.bind.ValidationException;
-
-import net.shibboleth.utilities.java.support.xml.BasicParserPool;
-import net.shibboleth.utilities.java.support.xml.SerializeSupport;
 
 import org.opensaml.core.xml.XMLObjectBaseTestCase;
 import org.opensaml.core.xml.XMLObjectBuilder;
@@ -42,7 +36,14 @@ import org.opensaml.xmlsec.mock.SignableSimpleXMLObjectBuilder;
 import org.opensaml.xmlsec.signature.Signature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 import org.w3c.dom.Element;
+
+import net.shibboleth.utilities.java.support.repository.RepositorySupport;
+import net.shibboleth.utilities.java.support.xml.BasicParserPool;
+import net.shibboleth.utilities.java.support.xml.SerializeSupport;
 
 public class DetachedSignatureTest extends XMLObjectBaseTestCase {
 
@@ -134,7 +135,8 @@ public class DetachedSignatureTest extends XMLObjectBaseTestCase {
         signature.setCanonicalizationAlgorithm(SignatureConstants.ALGO_ID_C14N_EXCL_OMIT_COMMENTS);
         signature.setSignatureAlgorithm(SignatureConstants.ALGO_ID_SIGNATURE_RSA);
 
-        String incommonMetadata = "http://svn.shibboleth.net/view/java-opensaml/trunk/opensaml-xmlsec-impl/src/test/resources/org/opensaml/xmlsec/signature/support/InCommon-metadata.xml?content-type=text%2Fplain&view=co";
+        //Note: we have to use a http URL here, not https, as current default Santuario HTTP ResourceResolver doesn't support https URLs.
+        String incommonMetadata = (RepositorySupport.buildHTTPResourceURL("java-opensaml", "opensaml-xmlsec-impl/src/test/resources/org/opensaml/xmlsec/signature/support/InCommon-metadata.xml", false));
         URIContentReference contentReference = new URIContentReference(incommonMetadata);
         contentReference.getTransforms().add(SignatureConstants.TRANSFORM_C14N_EXCL_OMIT_COMMENTS);
         contentReference.setDigestAlgorithm(SignatureConstants.ALGO_ID_DIGEST_SHA1);
