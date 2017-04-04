@@ -142,6 +142,39 @@ public class JPAStorageServiceTest extends StorageServiceTest {
         Assert.assertFalse(result, "createString should have failed");
     }
 
+    @Test
+    public void keyCollision() throws IOException {
+        shared.create("unit_test", "dlo1", "value", null);
+        shared.create("unit_test", "dn11", "value", null);
+        StorageRecord rec1 = shared.read("unit_test", "dlo1");
+        StorageRecord rec2 = shared.read("unit_test", "dn11");
+        Assert.assertNotNull(rec1);
+        Assert.assertNotNull(rec2);
+        Assert.assertNotEquals(rec1, rec2);
+
+        shared.update("unit_test", "dlo1", "value2", null);
+        shared.update("unit_test", "dn11", "value2", null);
+        rec1 = shared.read("unit_test", "dlo1");
+        rec2 = shared.read("unit_test", "dn11");
+        Assert.assertNotNull(rec1);
+        Assert.assertNotNull(rec2);
+        Assert.assertNotEquals(rec1, rec2);
+
+        Assert.assertEquals(2, storageService.readAll().size());
+        Assert.assertEquals(2, storageService.readAll("unit_test").size());
+
+        shared.delete("unit_test", "dlo1");
+        rec1 = shared.read("unit_test", "dlo1");
+        rec2 = shared.read("unit_test", "dn11");
+        Assert.assertNull(rec1);
+        Assert.assertNotNull(rec2);
+        shared.delete("unit_test", "dn11");
+        rec1 = shared.read("unit_test", "dlo1");
+        rec2 = shared.read("unit_test", "dn11");
+        Assert.assertNull(rec1);
+        Assert.assertNull(rec2);
+    }
+
     @Test(enabled = false)
     public void largeValue() throws IOException {
         // hsqldb defaults LOB length to 255 chars; disabled for now

@@ -19,6 +19,7 @@ package org.opensaml.storage.impl;
 
 import java.io.Serializable;
 
+import java.util.Objects;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.persistence.Column;
@@ -212,16 +213,20 @@ public class JPAStorageRecord extends MutableStorageRecord {
         /** {@inheritDoc} */
         @Override
         public int hashCode() {
-            int hc = 31;
-            hc += context != null ? context.hashCode() : 0;
-            hc += key != null ? key.hashCode() : 0;
-            return hc;
+            return Objects.hash(context, key);
         }
 
         /** {@inheritDoc} */
         @Override
         public boolean equals(final Object o) {
-            return o != null && (this == o || getClass() == o.getClass() && hashCode() == o.hashCode());
+            if (o == this) {
+                return true;
+            }
+            if (o instanceof RecordId) {
+                final RecordId id = (RecordId) o;
+                return context.equals(id.context) && key.equals(id.key);
+            }
+            return false;
         }
 
         /** {@inheritDoc} */
