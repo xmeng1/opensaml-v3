@@ -375,9 +375,10 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
         return newVersion;
     }
 
+// Checkstyle: ParameterNumber OFF
     /** {@inheritDoc} */
     @Override
-    public Long updateWithVersion(@Positive final long version,
+    @Nullable public Long updateWithVersion(@Positive final long version,
                                   @Nonnull @NotEmpty final String context,
                                   @Nonnull @NotEmpty final String key,
                                   @Nonnull final Object value,
@@ -388,10 +389,11 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
         Constraint.isNotNull(serializer, "Serializer cannot be null");
         return updateWithVersion(version, context, key, serializer.serialize(value), expiration);
     }
+// Checkstyle: ParameterNumber ON
 
     /** {@inheritDoc} */
     @Override
-    public Long updateWithVersion(@Positive final long version, @Nonnull final Object value)
+    @Nullable public Long updateWithVersion(@Positive final long version, @Nonnull final Object value)
             throws IOException, VersionMismatchException {
 
         Constraint.isNotNull(value, "Value cannot be null");
@@ -508,6 +510,7 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
         return;
     }
 
+// Checkstyle: ReturnCount OFF
     /** {@inheritDoc} */
     @Override
     public void updateContextExpiration(@Nonnull @NotEmpty final String context, @Nullable final Long expiration)
@@ -544,6 +547,7 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
             handleAsyncResult(result);
         }
     }
+// Checkstyle: ReturnCount ON
 
     /** {@inheritDoc} */
     @Override
@@ -558,7 +562,8 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
         final OperationFuture<Boolean> nsResult = memcacheClient.delete(namespace);
         if (trackContextKeys) {
             final OperationFuture<Boolean> keyListResult = memcacheClient.delete(namespace + CTX_KEY_LIST_SUFFIX);
-            final OperationFuture<Boolean> blackListResult = memcacheClient.delete(namespace + CTX_KEY_BLACKLIST_SUFFIX);
+            final OperationFuture<Boolean> blackListResult =
+                    memcacheClient.delete(namespace + CTX_KEY_BLACKLIST_SUFFIX);
             handleAsyncResult(keyListResult);
             handleAsyncResult(blackListResult);
         }

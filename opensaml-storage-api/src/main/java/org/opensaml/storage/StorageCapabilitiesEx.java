@@ -20,7 +20,6 @@ package org.opensaml.storage;
 /**
  * Exposes capabilities of a {@link StorageService} implementation.
  */
-@SuppressWarnings("deprecation")
 public interface StorageCapabilitiesEx extends StorageCapabilities {
     
     /**
