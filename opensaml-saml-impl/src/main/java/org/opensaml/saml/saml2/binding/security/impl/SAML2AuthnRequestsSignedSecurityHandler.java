@@ -17,6 +17,8 @@
 
 package org.opensaml.saml.saml2.binding.security.impl;
 
+import javax.annotation.Nonnull;
+
 import org.opensaml.messaging.context.MessageContext;
 import org.opensaml.messaging.handler.AbstractMessageHandler;
 import org.opensaml.messaging.handler.MessageHandlerException;
@@ -38,10 +40,11 @@ import com.google.common.base.Strings;
 public class SAML2AuthnRequestsSignedSecurityHandler extends AbstractMessageHandler<SAMLObject>{
     
     /** Logger. */
-    private final Logger log = LoggerFactory.getLogger(SAML2AuthnRequestsSignedSecurityHandler.class);
+    @Nonnull private final Logger log = LoggerFactory.getLogger(SAML2AuthnRequestsSignedSecurityHandler.class);
 
+// Checkstyle: ReturnCount OFF
     /** {@inheritDoc} */
-    public void doInvoke(MessageContext<SAMLObject> messageContext) throws MessageHandlerException {
+    public void doInvoke(@Nonnull final MessageContext<SAMLObject> messageContext) throws MessageHandlerException {
         SAMLObject samlMessage = messageContext.getMessage();
         if (! (samlMessage instanceof AuthnRequest) ) {
             log.debug("Inbound message is not an instance of AuthnRequest, skipping evaluation...");
@@ -81,6 +84,7 @@ public class SAML2AuthnRequestsSignedSecurityHandler extends AbstractMessageHand
         }
 
     }
+// Checkstyle: ReturnCount ON
     
     /**
      * Determine whether the inbound message is signed.
@@ -88,7 +92,7 @@ public class SAML2AuthnRequestsSignedSecurityHandler extends AbstractMessageHand
      * @param messageContext the message context being evaluated
      * @return true if the inbound message is signed, otherwise false
      */
-    protected boolean isMessageSigned(MessageContext<SAMLObject> messageContext) {
+    protected boolean isMessageSigned(@Nonnull final MessageContext<SAMLObject> messageContext) {
         return SAMLBindingSupport.isMessageSigned(messageContext);
     }
 

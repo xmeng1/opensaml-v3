@@ -158,6 +158,7 @@ public class VerifyChannelBindings extends AbstractProfileAction {
         return true;
     }
 
+// Checkstyle: ReturnCount OFF
     /** {@inheritDoc} */
     @Override
     protected void doExecute(@Nonnull final ProfileRequestContext profileRequestContext) {
@@ -202,5 +203,6 @@ public class VerifyChannelBindings extends AbstractProfileAction {
             ActionSupport.buildEvent(profileRequestContext, SAMLEventIds.CHANNEL_BINDINGS_ERROR);
         }
     }
+// Checkstyle: ReturnCount ON
     
 }

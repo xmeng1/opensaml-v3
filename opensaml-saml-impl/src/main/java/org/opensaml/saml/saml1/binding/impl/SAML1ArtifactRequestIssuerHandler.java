@@ -70,6 +70,7 @@ public class SAML1ArtifactRequestIssuerHandler extends AbstractMessageHandler {
         }
     }
     
+// Checkstyle: ReturnCount OFF
     /** {@inheritDoc} */
     @Override
     protected void doInvoke(@Nonnull final MessageContext messageContext) throws MessageHandlerException {
@@ -100,5 +101,6 @@ public class SAML1ArtifactRequestIssuerHandler extends AbstractMessageHandler {
             log.error("{} Error resolving first artifact in request: {}", getLogPrefix(), artifact, e);
         }
     }
+// Checkstyle: ReturnCount ON
     
 }

@@ -189,7 +189,7 @@ public class PopulateSignatureSigningParameters extends AbstractConditionalProfi
         }
     }
     
-// Checkstyle: CyclomaticComplexity OFF
+// Checkstyle: CyclomaticComplexity|ReturnCount OFF
     /** {@inheritDoc} */
     @Override
     protected void doExecute(@Nonnull final ProfileRequestContext profileRequestContext) {
@@ -241,6 +241,6 @@ public class PopulateSignatureSigningParameters extends AbstractConditionalProfi
             ActionSupport.buildEvent(profileRequestContext, EventIds.INVALID_SEC_CFG);
         }
     }
-// Checkstyle: CyclomaticComplexity ON
+// Checkstyle: CyclomaticComplexity|ReturnCount ON
     
 }

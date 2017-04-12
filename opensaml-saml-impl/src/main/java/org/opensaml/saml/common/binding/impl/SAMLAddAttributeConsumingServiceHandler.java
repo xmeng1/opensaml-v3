@@ -103,6 +103,7 @@ public class SAMLAddAttributeConsumingServiceHandler extends AbstractMessageHand
         return true;
     }
 
+// Checkstyle: ReturnCount OFF
     /** {@inheritDoc}*/
     @Override protected void doInvoke(@Nonnull final MessageContext messageContext) throws MessageHandlerException {
         final SAMLMetadataContext metadataContext = metadataContextLookupStrategy.apply(messageContext);
@@ -138,6 +139,7 @@ public class SAMLAddAttributeConsumingServiceHandler extends AbstractMessageHand
             log.debug("{} No AttributeConsumingService selected", getLogPrefix());
         }
     }
+// Checkstyle: ReturnCount ON
 
     /** Default lookup function that reads from a SAML 2 {@link AuthnRequest}. */
     private class AuthnRequestIndexLookup implements Function<MessageContext,Integer> {

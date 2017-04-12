@@ -63,7 +63,7 @@ import com.google.common.base.Strings;
 public class WSSecuritySAML20AssertionTokenSecurityHandler extends AbstractMessageHandler {
 
     /** Class logger. */
-    private final Logger log = LoggerFactory.getLogger(WSSecuritySAML20AssertionTokenSecurityHandler.class);
+    @Nonnull private final Logger log = LoggerFactory.getLogger(WSSecuritySAML20AssertionTokenSecurityHandler.class);
     
     /** The HttpServletRequest being processed. */
     @NonnullAfterInit private HttpServletRequest httpServletRequest;
@@ -238,6 +238,7 @@ public class WSSecuritySAML20AssertionTokenSecurityHandler extends AbstractMessa
         super.doDestroy();
     }
 
+// Checkstyle: ReturnCount OFF
     /** {@inheritDoc} */
     protected void doInvoke(@Nonnull final MessageContext messageContext) throws MessageHandlerException {
         if (!SOAPMessagingSupport.isSOAPMessage(messageContext)) {
@@ -276,8 +277,8 @@ public class WSSecuritySAML20AssertionTokenSecurityHandler extends AbstractMessa
                 throw new MessageHandlerException("Error determining SAML 2.0 Assertion validity", e);
             }
         }
-        
     }
+// Checkstyle: ReturnCount ON
 
     /**
      * Process the result of the token validation.

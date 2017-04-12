@@ -58,6 +58,7 @@ public class ExtractChannelBindingsExtensionsHandler extends AbstractMessageHand
         return true;
     }
     
+// Checkstyle: ReturnCount OFF
     /** {@inheritDoc} */
     @Override
     protected void doInvoke(@Nonnull final MessageContext messageContext) throws MessageHandlerException {
@@ -90,5 +91,6 @@ public class ExtractChannelBindingsExtensionsHandler extends AbstractMessageHand
         
         log.debug("{} {} ChannelBindings extension(s) found", getLogPrefix(), channelBindings.size());
     }
-    
+// Checkstyle: ReturnCount ON
+
 }

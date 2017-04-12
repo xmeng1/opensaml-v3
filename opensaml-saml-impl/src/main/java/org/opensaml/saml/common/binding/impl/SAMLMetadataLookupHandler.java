@@ -98,6 +98,7 @@ public class SAMLMetadataLookupHandler extends AbstractMessageHandler {
         }
     }
 
+// Checkstyle: ReturnCount OFF
     /** {@inheritDoc} */
     @Override
     protected void doInvoke(@Nonnull final MessageContext messageContext) throws MessageHandlerException {
@@ -147,5 +148,6 @@ public class SAMLMetadataLookupHandler extends AbstractMessageHandler {
             log.error("{} ResolverException thrown during metadata lookup", getLogPrefix(), e);
         }
     }
+// Checkstyle: ReturnCount OFF
 
 }

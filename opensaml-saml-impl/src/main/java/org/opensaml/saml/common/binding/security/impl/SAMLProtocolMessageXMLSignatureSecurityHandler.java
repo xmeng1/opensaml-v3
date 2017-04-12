@@ -87,6 +87,7 @@ public class SAMLProtocolMessageXMLSignatureSecurityHandler extends BaseSAMLXMLS
         signaturePrevalidator = validator;
     }
 
+// Checkstyle: ReturnCount OFF
     /** {@inheritDoc} */
     @Override
     public void doInvoke(@Nonnull final MessageContext messageContext) throws MessageHandlerException {
@@ -108,6 +109,7 @@ public class SAMLProtocolMessageXMLSignatureSecurityHandler extends BaseSAMLXMLS
 
         doEvaluate(signature, signableObject, messageContext);
     }
+// Checkstyle: ReturnCount OFF
 
     /**
      * Perform cryptographic validation and trust evaluation on the Signature token using the configured Signature

@@ -142,13 +142,14 @@ public abstract class BaseSAMLSimpleSignatureSecurityHandler extends AbstractMes
         return true;
     }
 
+// Checkstyle: ReturnCount OFF
     /** {@inheritDoc} */
     @Override
     protected void doInvoke(@Nonnull final MessageContext messageContext) throws MessageHandlerException {
         log.debug("{} Evaluating simple signature rule of type: {}", getLogPrefix(), getClass().getName());
 
         if (!ruleHandles(messageContext)) {
-            log.debug("{} Handler can not handle this request, skipping processing", getLogPrefix());
+            log.debug("{} Handler can not handle this request, skipping", getLogPrefix());
             return;
         }
 
@@ -173,6 +174,7 @@ public abstract class BaseSAMLSimpleSignatureSecurityHandler extends AbstractMes
 
         doEvaluate(signature, signedContent, sigAlg, messageContext);
     }
+// Checkstyle: ReturnCount OFF
 
     /**
      * Evaluate the simple signature based on information in the request and/or message context.
