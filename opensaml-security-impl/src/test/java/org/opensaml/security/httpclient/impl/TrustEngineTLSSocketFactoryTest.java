@@ -46,6 +46,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+@SuppressWarnings("deprecation")
 public class TrustEngineTLSSocketFactoryTest {
     
     private static final String DATA_PATH = "/org/opensaml/security/x509/impl/";

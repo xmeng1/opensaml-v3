@@ -145,8 +145,8 @@ public class SecurityEnhancedTLSSocketFactory implements LayeredConnectionSocket
         return wrappedFactory.createSocket(context);
     }
 
+// CheckStyle: ParameterNumber OFF
     /** {@inheritDoc} */
-    // CheckStyle: ParameterNumber OFF
     public Socket connectSocket(int connectTimeout, Socket sock, HttpHost host,
             InetSocketAddress remoteAddress, InetSocketAddress localAddress,
             HttpContext context) throws IOException {
@@ -163,7 +163,7 @@ public class SecurityEnhancedTLSSocketFactory implements LayeredConnectionSocket
             teardown(context);
         }
     }
-    // CheckStyle: ParameterNumber ON
+// CheckStyle: ParameterNumber ON
 
     /** {@inheritDoc} */
     public Socket createLayeredSocket(Socket socket, String target, int port, HttpContext context) throws IOException {
@@ -198,6 +198,7 @@ public class SecurityEnhancedTLSSocketFactory implements LayeredConnectionSocket
         performTrustEval(socket, null, context);
     }
     
+// Checkstyle: ReturnCount OFF
     /**
      * Perform trust evaluation by extracting the server TLS {@link X509Credential} from the 
      * {@link SSLSession} and evaluating it via a {@link TrustEngine<Credential>} 
@@ -264,6 +265,7 @@ public class SecurityEnhancedTLSSocketFactory implements LayeredConnectionSocket
         }
         
     }
+// Checkstyle: ReturnCount ON
 
     /**
      * Extract the server TLS {@link X509Credential} from the supplied {@link SSLSocket}.

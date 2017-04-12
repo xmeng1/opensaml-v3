@@ -86,7 +86,7 @@ import org.slf4j.LoggerFactory;
 public class TrustEngineTLSSocketFactory implements LayeredConnectionSocketFactory {
     
     /** Logger. */
-    private final Logger log = LoggerFactory.getLogger(TrustEngineTLSSocketFactory.class);
+    @Nonnull private final Logger log = LoggerFactory.getLogger(TrustEngineTLSSocketFactory.class);
     
     /** The HttpClient socket factory instance wrapped by this implementation. */
     @Nonnull private LayeredConnectionSocketFactory wrappedFactory;
@@ -111,6 +111,7 @@ public class TrustEngineTLSSocketFactory implements LayeredConnectionSocketFacto
         return wrappedFactory.createSocket(context);
     }
 
+// Checkstyle: ParameterNumber OFF
     /** {@inheritDoc} */
     public Socket connectSocket(int connectTimeout, Socket sock, HttpHost host,
             InetSocketAddress remoteAddress, InetSocketAddress localAddress,
@@ -123,6 +124,7 @@ public class TrustEngineTLSSocketFactory implements LayeredConnectionSocketFacto
         return socket;
         
     }
+// Checkstyle: ParameterNumber ON
 
     /** {@inheritDoc} */
     public Socket createLayeredSocket(Socket socket, String target, int port, HttpContext context) throws IOException {
@@ -133,6 +135,7 @@ public class TrustEngineTLSSocketFactory implements LayeredConnectionSocketFacto
         return layeredSocket;
     }
     
+// Checkstyle: ReturnCount OFF
     /**
      * Perform trust evaluation by extracting the server TLS {@link X509Credential} from the 
      * {@link SSLSession} and evaluating it via a {@link TrustEngine<Credential>} 
@@ -150,7 +153,7 @@ public class TrustEngineTLSSocketFactory implements LayeredConnectionSocketFacto
             log.debug("Socket was not an instance of SSLSocket, skipping trust eval");
             return;
         }
-        SSLSocket sslSocket = (SSLSocket) socket;
+        final SSLSocket sslSocket = (SSLSocket) socket;
         
         log.debug("Attempting to evaluate server TLS credential against supplied TrustEngine and CriteriaSet");
         
@@ -192,6 +195,7 @@ public class TrustEngineTLSSocketFactory implements LayeredConnectionSocketFacto
         }
         
     }
+// Checkstyle: ReturnCount ON
 
     /**
      * Extract the server TLS {@link X509Credential} from the supplied {@link SSLSocket}.
