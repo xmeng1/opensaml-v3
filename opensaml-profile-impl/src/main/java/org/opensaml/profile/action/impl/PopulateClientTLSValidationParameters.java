@@ -137,6 +137,7 @@ public class PopulateClientTLSValidationParameters extends AbstractProfileAction
         }
     }
     
+// Checkstyle: ReturnCount OFF
     /** {@inheritDoc} */
     @Override
     protected void doExecute(@Nonnull final ProfileRequestContext profileRequestContext) {
@@ -169,5 +170,6 @@ public class PopulateClientTLSValidationParameters extends AbstractProfileAction
             ActionSupport.buildEvent(profileRequestContext, EventIds.INVALID_SEC_CFG);
         }
     }
+// Checkstyle: ReturnCount ON
     
 }
