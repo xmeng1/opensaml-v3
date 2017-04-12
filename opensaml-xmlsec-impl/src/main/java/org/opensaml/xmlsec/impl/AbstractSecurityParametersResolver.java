@@ -87,6 +87,7 @@ public abstract class AbstractSecurityParametersResolver<ProductType>
         return KeyInfoSupport.getKeyInfoGenerator(credential, manager, keyInfoProfileName);
     }
     
+// Checkstyle: ReturnCount OFF    
     /**
      * Resolve and populate the effective whitelist or blacklist on the supplied instance of 
      * {@link WhitelistBlacklistParameters}.
@@ -139,6 +140,7 @@ public abstract class AbstractSecurityParametersResolver<ProductType>
         }
         
     }
+// Checkstyle: ReturnCount ON
     
     /**
      * Get a predicate which operates according to the effective configured whitelist and blacklist policy.

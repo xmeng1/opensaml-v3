@@ -81,7 +81,8 @@ public class SignatureAlgorithmValidator {
      *
      * @param params signature validation parameters containing the whitelist and blacklist
      */
-    public SignatureAlgorithmValidator(@Nonnull @ParameterName(name="params") final SignatureValidationParameters params) {
+    public SignatureAlgorithmValidator(
+            @Nonnull @ParameterName(name="params") final SignatureValidationParameters params) {
         Constraint.isNotNull(params, "SignatureValidationParameters may not be null");
         whitelistedAlgorithmURIs = params.getWhitelistedAlgorithms();
         blacklistedAlgorithmURIs = params.getBlacklistedAlgorithms();
@@ -93,7 +94,8 @@ public class SignatureAlgorithmValidator {
      * @param whitelistAlgos the algorithm whitelist
      * @param blacklistAlgos the algorithm blacklist
      */
-    public SignatureAlgorithmValidator(@Nullable @ParameterName(name="whitelistAlgos") final Collection<String> whitelistAlgos,
+    public SignatureAlgorithmValidator(
+            @Nullable @ParameterName(name="whitelistAlgos") final Collection<String> whitelistAlgos,
             @Nullable @ParameterName(name="blacklistAlgos") final Collection<String> blacklistAlgos) {
         whitelistedAlgorithmURIs = whitelistAlgos;
         blacklistedAlgorithmURIs = blacklistAlgos;
@@ -163,7 +165,8 @@ public class SignatureAlgorithmValidator {
      * @return list of algorithm URIs
      * @throws SignatureException if a DigestMethod is found to have a null or empty Algorithm attribute
      */
-    @Nonnull protected List<String> getDigestMethods(@Nonnull final Signature signatureXMLObject) throws SignatureException {
+    @Nonnull protected List<String> getDigestMethods(
+            @Nonnull final Signature signatureXMLObject) throws SignatureException {
         final ArrayList<String> digestMethodAlgorithms = new ArrayList<>();
         
         final Element signature = signatureXMLObject.getDOM();
