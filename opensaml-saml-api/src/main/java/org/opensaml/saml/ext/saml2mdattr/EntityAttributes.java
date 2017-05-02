@@ -43,6 +43,10 @@ public interface EntityAttributes extends SAMLObject {
     public static final QName TYPE_NAME =
         new QName(SAMLConstants.SAML20MDATTR_NS, TYPE_LOCAL_NAME, SAMLConstants.SAML20MDATTR_PREFIX);
     
+    /* TODO: add a modifiable accessor of the child collection in 4.0  
+    public List<? extends SAMLObject> getEntityAttributesChildren();
+     */
+    
     /**
      * Gets the attributes about the entity.
      * 

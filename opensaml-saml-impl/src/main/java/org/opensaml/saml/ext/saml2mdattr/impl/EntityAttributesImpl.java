@@ -28,12 +28,11 @@ import org.opensaml.saml.common.SAMLObject;
 import org.opensaml.saml.ext.saml2mdattr.EntityAttributes;
 import org.opensaml.saml.saml2.core.Assertion;
 import org.opensaml.saml.saml2.core.Attribute;
-import org.opensaml.saml.saml2.core.Evidentiary;
 
 /** Concrete implementation of {@link EntityAttributes}. */
 public class EntityAttributesImpl extends AbstractSAMLObject implements EntityAttributes {
 
-    /** Assertion of the Evidence. */
+    /** Extension data. */
     private final IndexedXMLObjectChildrenList<? extends SAMLObject> attributeInfo;
 
     /**
@@ -45,7 +44,7 @@ public class EntityAttributesImpl extends AbstractSAMLObject implements EntityAt
      */
     protected EntityAttributesImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
-        attributeInfo = new IndexedXMLObjectChildrenList<Evidentiary>(this);
+        attributeInfo = new IndexedXMLObjectChildrenList<>(this);
     }
 
     /** {@inheritDoc} */
@@ -56,6 +55,19 @@ public class EntityAttributesImpl extends AbstractSAMLObject implements EntityAt
     /** {@inheritDoc} */
     public List<Assertion> getAssertions() {
         return (List<Assertion>) attributeInfo.subList(Assertion.DEFAULT_ELEMENT_NAME);
+    }
+    
+    /**
+     * Get the list of {@link Attribute} and {@link Assertion} content.
+     * 
+     * TODO: this is implementation only until 4.0 when we can promote this to the API
+     * 
+     * @return a modifiable list of the children
+     * 
+     * @since 3.4.0
+     */
+    public List<? extends SAMLObject> getEntityAttributesChildren() {
+        return attributeInfo;
     }
 
     /** {@inheritDoc} */

@@ -19,12 +19,16 @@ package org.opensaml.saml.metadata.resolver.filter.impl;
 
 
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
+import net.shibboleth.utilities.java.support.component.AbstractInitializableComponent;
+import net.shibboleth.utilities.java.support.component.ComponentSupport;
 import net.shibboleth.utilities.java.support.logic.Constraint;
 
 import org.opensaml.core.xml.XMLObject;
@@ -32,8 +36,10 @@ import org.opensaml.core.xml.config.XMLObjectProviderRegistrySupport;
 import org.opensaml.core.xml.io.MarshallingException;
 import org.opensaml.core.xml.io.UnmarshallingException;
 import org.opensaml.core.xml.util.XMLObjectSupport;
+import org.opensaml.saml.common.SAMLObject;
 import org.opensaml.saml.common.SAMLObjectBuilder;
 import org.opensaml.saml.ext.saml2mdattr.EntityAttributes;
+import org.opensaml.saml.ext.saml2mdattr.impl.EntityAttributesImpl;
 import org.opensaml.saml.metadata.resolver.filter.FilterException;
 import org.opensaml.saml.metadata.resolver.filter.MetadataFilter;
 import org.opensaml.saml.saml2.core.Attribute;
@@ -53,10 +59,13 @@ import com.google.common.collect.Multimap;
  * A filter that adds {@link EntityAttributes} extension content to entities in order to drive software
  * behavior based on them.
  * 
- * The entities to annotate are identified with a {@link Predicate}, and multiple attributes can be
- * associated with each.
+ * <p>The entities to annotate are identified with a {@link Predicate}, and multiple attributes can be
+ * associated with each.</p>
+ * 
+ * <p>As of 3.4.0, another predicate can be set to validate pre-existing extension content to better
+ * protect use cases of this component.</p>
  */
-public class EntityAttributesFilter implements MetadataFilter {
+public class EntityAttributesFilter extends AbstractInitializableComponent implements MetadataFilter {
 
     /** Class logger. */
     @Nonnull private final Logger log = LoggerFactory.getLogger(EntityAttributesFilter.class);
@@ -64,6 +73,9 @@ public class EntityAttributesFilter implements MetadataFilter {
     /** Rules for adding attributes. */
     @Nonnull @NonnullElements private Multimap<Predicate<EntityDescriptor>,Attribute> applyMap;
 
+    /** A condition to apply to pre-existing tags to determine their legitimacy. */
+    @Nullable private Predicate<Attribute> attributeFilter;
+    
     /** Builder for {@link Extensions}. */
     @Nonnull private final SAMLObjectBuilder<Extensions> extBuilder;
 
@@ -78,6 +90,7 @@ public class EntityAttributesFilter implements MetadataFilter {
         entityAttributesBuilder = (SAMLObjectBuilder<EntityAttributes>)
                 XMLObjectProviderRegistrySupport.getBuilderFactory().<EntityAttributes>getBuilderOrThrow(
                         EntityAttributes.DEFAULT_ELEMENT_NAME);
+        applyMap = ArrayListMultimap.create();
     }
     
     /**
@@ -86,6 +99,7 @@ public class EntityAttributesFilter implements MetadataFilter {
      * @param rules rules to apply
      */
     public void setRules(@Nonnull @NonnullElements final Map<Predicate<EntityDescriptor>,Collection<Attribute>> rules) {
+        ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         Constraint.isNotNull(rules, "Rules map cannot be null");
         
         applyMap = ArrayListMultimap.create(rules.size(), 1);
@@ -94,6 +108,22 @@ public class EntityAttributesFilter implements MetadataFilter {
                 applyMap.putAll(entry.getKey(), Collections2.filter(entry.getValue(), Predicates.notNull()));
             }
         }
+    }
+
+    /**
+     * Set a condition to apply to any pre-existing extension attributes, such that failure
+     * causes their removal.
+     * 
+     * <p>If not set, then anything is allowed.</p>
+     * 
+     * @param condition condition to apply
+     * 
+     * @since 3.4.0
+     */
+    public void setAttributeFilter(@Nullable final Predicate<Attribute> condition) {
+        ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
+        
+        attributeFilter = condition;
     }
 
     /** {@inheritDoc} */
@@ -118,6 +148,10 @@ public class EntityAttributesFilter implements MetadataFilter {
      * @param descriptor entity descriptor to filter
      */
     protected void filterEntityDescriptor(@Nonnull final EntityDescriptor descriptor) {
+        if (attributeFilter != null) {
+            applyFilter(descriptor);
+        }
+        
         for (final Map.Entry<Predicate<EntityDescriptor>,Collection<Attribute>> entry : applyMap.asMap().entrySet()) {
             if (!entry.getValue().isEmpty() && entry.getKey().apply(descriptor)) {
                 
@@ -167,4 +201,37 @@ public class EntityAttributesFilter implements MetadataFilter {
         }
     }
 
+    /**
+     * Apply whitelist to metadata on input.
+     * 
+     * @param descriptor input to evaluate
+     */
+    @Nullable private void applyFilter(@Nonnull final EntityDescriptor descriptor) {
+        final Extensions ext = descriptor.getExtensions();
+        if (ext != null) {
+            final Collection<XMLObject> entityAttributesCollection =
+                    ext.getUnknownXMLObjects(EntityAttributes.DEFAULT_ELEMENT_NAME);
+            if (!entityAttributesCollection.isEmpty()) {
+                final EntityAttributes entityAttributes =
+                        (EntityAttributes) entityAttributesCollection.iterator().next();
+                if (entityAttributes instanceof EntityAttributesImpl) {
+                    // TODO: bug in original interface requires that we dive into the impl layer
+                    final List<? extends SAMLObject> attributes =
+                            ((EntityAttributesImpl) entityAttributes).getEntityAttributesChildren();
+                    final Iterator<? extends SAMLObject> iter = attributes.iterator();
+                    while (iter.hasNext()) {
+                        final SAMLObject attribute = iter.next();
+                        if (attribute instanceof Attribute) {
+                            if (!attributeFilter.apply((Attribute) attribute)) {
+                                log.warn("Filtering pre-existing attribute '{}' from entity '{}'",
+                                        ((Attribute) attribute).getName(), descriptor.getEntityID());
+                                iter.remove();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
 }
