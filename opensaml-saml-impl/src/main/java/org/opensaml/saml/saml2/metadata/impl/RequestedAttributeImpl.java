@@ -21,9 +21,6 @@
 
 package org.opensaml.saml.saml2.metadata.impl;
 
-import java.util.List;
-
-import org.opensaml.core.xml.XMLObject;
 import org.opensaml.core.xml.schema.XSBooleanValue;
 import org.opensaml.saml.saml2.core.impl.AttributeImpl;
 import org.opensaml.saml.saml2.metadata.RequestedAttribute;
@@ -76,8 +73,4 @@ public class RequestedAttributeImpl extends AttributeImpl implements RequestedAt
 
     }
 
-    /** {@inheritDoc} */
-    public List<XMLObject> getOrderedChildren() {
-        return null;
-    }
 }

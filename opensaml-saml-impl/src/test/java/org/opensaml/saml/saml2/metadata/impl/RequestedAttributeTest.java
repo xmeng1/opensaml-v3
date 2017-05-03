@@ -17,15 +17,19 @@
 
 package org.opensaml.saml.saml2.metadata.impl;
 
-import org.testng.annotations.Test;
-import org.testng.annotations.BeforeMethod;
-import org.testng.Assert;
 import javax.xml.namespace.QName;
 
-import org.opensaml.core.xml.schema.XSBooleanValue;
 import org.opensaml.core.xml.XMLObjectProviderBaseTestCase;
+import org.opensaml.core.xml.config.XMLObjectProviderRegistrySupport;
+import org.opensaml.core.xml.schema.XSAny;
+import org.opensaml.core.xml.schema.XSBooleanValue;
+import org.opensaml.core.xml.schema.impl.XSAnyBuilder;
 import org.opensaml.saml.common.xml.SAMLConstants;
+import org.opensaml.saml.saml2.core.AttributeValue;
 import org.opensaml.saml.saml2.metadata.RequestedAttribute;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 /**
  * Test case for creating, marshalling, and unmarshalling
@@ -44,6 +48,9 @@ public class RequestedAttributeTest extends XMLObjectProviderBaseTestCase {
 
     /** Excpected isRequired attribute value */
     protected XSBooleanValue expectedIsRequired;
+    
+    /** Expected saml2:AttributeValue values (element content).*/
+    protected String expectedAttributeValue0, expectedAttributeValue1;
 
     /**
      * Constructor
@@ -51,6 +58,7 @@ public class RequestedAttributeTest extends XMLObjectProviderBaseTestCase {
     public RequestedAttributeTest() {
         singleElementFile = "/org/opensaml/saml/saml2/metadata/impl/RequestedAttribute.xml";
         singleElementOptionalAttributesFile = "/org/opensaml/saml/saml2/metadata/impl/RequestedAttributeOptionalAttributes.xml";
+        childElementsFile = "/org/opensaml/saml/saml2/metadata/impl/RequestedAttributeChildElements.xml";
     }
 
     @BeforeMethod
@@ -59,6 +67,8 @@ public class RequestedAttributeTest extends XMLObjectProviderBaseTestCase {
         expectedNameFormat = "urn:string";
         expectedFriendlyName = "Attribute Name";
         expectedIsRequired = new XSBooleanValue(Boolean.TRUE, false);
+        expectedAttributeValue0 = "SomeAttributeValue0";
+        expectedAttributeValue1 = "SomeAttributeValue1";
     }
 
     /** {@inheritDoc} */
@@ -91,6 +101,26 @@ public class RequestedAttributeTest extends XMLObjectProviderBaseTestCase {
         Assert.assertEquals(requestedAttribute.isRequiredXSBoolean(), expectedIsRequired,
                 "Is Required was " + isRequired + ", expected " + expectedIsRequired);
     }
+    
+    /** {@inheritDoc} */
+    @Test
+    public void testChildElementsUnmarshall() {
+        RequestedAttribute attribute = (RequestedAttribute) unmarshallElement(childElementsFile);
+
+        String name = attribute.getName();
+        Assert.assertEquals(name, expectedName, "Name was " + name + ", expected " + expectedName);
+        
+        Assert.assertEquals(attribute.getAttributeValues().size(), 2);
+        
+        Assert.assertTrue(attribute.getAttributeValues().get(0) instanceof XSAny);
+        XSAny value0 = (XSAny) attribute.getAttributeValues().get(0);
+        Assert.assertEquals(value0.getTextContent(), expectedAttributeValue0);
+        
+        Assert.assertTrue(attribute.getAttributeValues().get(1) instanceof XSAny);
+        XSAny value1 = (XSAny) attribute.getAttributeValues().get(1);
+        Assert.assertEquals(value1.getTextContent(), expectedAttributeValue1);
+    }
+
 
     /** {@inheritDoc} */
     @Test
@@ -114,6 +144,27 @@ public class RequestedAttributeTest extends XMLObjectProviderBaseTestCase {
         requestedAttribute.setIsRequired(expectedIsRequired);
 
         assertXMLEquals(expectedOptionalAttributesDOM, requestedAttribute);
+    }
+    
+    /** {@inheritDoc} */
+    @Test
+    public void testChildElementsMarshall() {
+        QName qname = new QName(SAMLConstants.SAML20MD_NS, RequestedAttribute.DEFAULT_ELEMENT_LOCAL_NAME, SAMLConstants.SAML20MD_PREFIX);
+        RequestedAttribute requestedAttribute = (RequestedAttribute) buildXMLObject(qname);
+
+        requestedAttribute.setName(expectedName);
+        
+        XSAnyBuilder valueBuilder = (XSAnyBuilder) XMLObjectProviderRegistrySupport.getBuilderFactory().getBuilder(XSAny.TYPE_NAME);
+
+        XSAny val0 = valueBuilder.buildObject(AttributeValue.DEFAULT_ELEMENT_NAME);
+        val0.setTextContent(expectedAttributeValue0);
+        requestedAttribute.getAttributeValues().add(val0);
+        
+        XSAny val1 = valueBuilder.buildObject(AttributeValue.DEFAULT_ELEMENT_NAME);
+        val1.setTextContent(expectedAttributeValue1);
+        requestedAttribute.getAttributeValues().add(val1);
+
+        assertXMLEquals(expectedChildElementsDOM, requestedAttribute);
     }
     
     /**
