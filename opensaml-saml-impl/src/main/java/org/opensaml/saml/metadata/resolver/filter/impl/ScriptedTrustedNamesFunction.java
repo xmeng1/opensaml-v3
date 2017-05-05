@@ -80,7 +80,6 @@ public class ScriptedTrustedNamesFunction extends AbstractScriptEvaluator implem
     
     /** {@inheritDoc} */
     protected void prepareContext(@Nonnull final ScriptContext scriptContext, @Nullable final Object... input) {
-        scriptContext.setAttribute("custom", getCustomObject(), ScriptContext.ENGINE_SCOPE);
         scriptContext.setAttribute("profileContext", input[0], ScriptContext.ENGINE_SCOPE);
     }
 
