@@ -25,40 +25,21 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.script.ScriptContext;
 import javax.script.ScriptException;
-import javax.script.SimpleScriptContext;
 
 import net.shibboleth.utilities.java.support.annotation.constraint.NotEmpty;
-import net.shibboleth.utilities.java.support.logic.Constraint;
 import net.shibboleth.utilities.java.support.resource.Resource;
+import net.shibboleth.utilities.java.support.scripting.AbstractScriptEvaluator;
 import net.shibboleth.utilities.java.support.scripting.EvaluableScript;
 
 import org.opensaml.core.xml.XMLObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Function;
 
 /**
  * A scripted {@link Function} which can be injected into
  * {@link SignatureValidationFilter#setDynamicTrustedNamesStrategy(Function)}.
- * 
  */
-public class ScriptedTrustedNamesFunction implements Function<XMLObject, Set<String>> {
-
-    /** The default language is JavaScript. */
-    @Nonnull @NotEmpty public static final String DEFAULT_ENGINE = "JavaScript";
-
-    /** Class logger. */
-    @Nonnull private final Logger log = LoggerFactory.getLogger(ScriptedTrustedNamesFunction.class);
-
-    /** The script we care about. */
-    @Nonnull private final EvaluableScript script;
-
-    /** The custom object we can get inject into all scripts. */
-    @Nullable private Object customObject;
-
-    /** Debugging info. */
-    @Nullable private final String logPrefix;
+public class ScriptedTrustedNamesFunction extends AbstractScriptEvaluator implements Function<XMLObject, Set<String>> {
 
     /**
      * Constructor.
@@ -67,8 +48,10 @@ public class ScriptedTrustedNamesFunction implements Function<XMLObject, Set<Str
      * @param extraInfo debugging information.
      */
     protected ScriptedTrustedNamesFunction(@Nonnull final EvaluableScript theScript, @Nullable final String extraInfo) {
-        script = Constraint.isNotNull(theScript, "Supplied script cannot be null");
-        logPrefix = "Scripted Function from " + extraInfo + " :";
+        super(theScript);
+        setOutputType(Set.class);
+        setHideExceptions(true);
+        setLogPrefix("Scripted Function from " + extraInfo + ":");
     }
 
     /**
@@ -77,43 +60,28 @@ public class ScriptedTrustedNamesFunction implements Function<XMLObject, Set<Str
      * @param theScript the script we will evaluate.
      */
     protected ScriptedTrustedNamesFunction(@Nonnull final EvaluableScript theScript) {
-        script = Constraint.isNotNull(theScript, "Supplied script should not be null");
-        logPrefix = "Anonymous Scripted Function :";
-    }
-
-    /**
-     * Return the custom (externally provided) object.
-     * 
-     * @return the custom object
-     */
-    @Nullable public Object getCustomObject() {
-        return customObject;
-    }
-
-    /**
-     * Set the custom (externally provided) object.
-     * 
-     * @param object the custom object
-     */
-    @Nullable public void setCustomObject(final Object object) {
-        customObject = object;
+        super(theScript);
+        setOutputType(Set.class);
+        setHideExceptions(true);
+        setLogPrefix("Anonymous Scripted Function:");
     }
 
     /** {@inheritDoc} */
-    @Override public Set<String> apply(@Nullable final XMLObject context) {
+    @Override
+    @Nullable public Object getCustomObject() {
+        return super.getCustomObject();
+    }
 
-        final SimpleScriptContext scriptContext = new SimpleScriptContext();
+    /** {@inheritDoc} */
+    @Override
+    @Nullable public Set<String> apply(@Nullable final XMLObject context) {
+        return (Set<String>) evaluate(context);
+    }
+    
+    /** {@inheritDoc} */
+    protected void prepareContext(@Nonnull final ScriptContext scriptContext, @Nullable final Object... input) {
         scriptContext.setAttribute("custom", getCustomObject(), ScriptContext.ENGINE_SCOPE);
-        scriptContext.setAttribute("profileContext", context, ScriptContext.ENGINE_SCOPE);
-
-        try {
-            final Object output = script.eval(scriptContext);
-            return (Set<String>) output;
-
-        } catch (final ScriptException e) {
-            log.error("{} Error while executing Function script", logPrefix, e);
-            return null;
-        }
+        scriptContext.setAttribute("profileContext", input[0], ScriptContext.ENGINE_SCOPE);
     }
 
     /**
