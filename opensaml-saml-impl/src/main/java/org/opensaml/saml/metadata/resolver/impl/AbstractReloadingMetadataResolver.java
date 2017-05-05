@@ -284,7 +284,7 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
         try {
             final byte[] mdBytes = fetchMetadata();
             if (mdBytes == null) {
-                log.debug("{} Metadata from '{}' has not changed since last refresh", getLogPrefix(), mdId);
+                log.info("{} Metadata from '{}' has not changed since last refresh", getLogPrefix(), mdId);
                 processCachedMetadata(mdId, now);
             } else {
                 log.debug("{} Processing new metadata from '{}'", getLogPrefix(), mdId);
@@ -300,6 +300,11 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
                         t.getClass().getName(), t.getMessage()));
             }
         } finally {
+            final XMLObject cached = getBackingStore().getCachedOriginalMetadata();
+            if (cached != null && !isValid(cached)) {
+                log.warn("{} Metadata root from '{}' currently live (post-refresh) is expired or otherwise invalid", 
+                        getLogPrefix(), mdId);
+            }
             refreshMetadataTask = new RefreshMetadataTask();
             final long nextRefreshDelay = nextRefresh.getMillis() - System.currentTimeMillis();
             taskTimer.schedule(refreshMetadataTask, nextRefreshDelay);
