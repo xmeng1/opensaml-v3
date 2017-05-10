@@ -96,6 +96,15 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
 
     /** Next time a refresh cycle will occur. */
     private DateTime nextRefresh;
+    
+    /** Last time a successful refresh cycle occurred. */
+    private DateTime lastSuccessfulRefresh;
+
+    /** Flag indicating whether last refresh cycle was successful. */
+    private Boolean wasLastRefreshSuccess;
+    
+    /** Internal flag for tracking success during the refresh operation. */
+    private boolean trackRefreshSuccess;
 
     /** Constructor. */
     protected AbstractReloadingMetadataResolver() {
@@ -152,6 +161,24 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
     /** {@inheritDoc} */
     @Override @Nullable public DateTime getLastRefresh() {
         return lastRefresh;
+    }
+    
+    /**
+     * Gets the time the last successful refresh cycle occurred.
+     * 
+     * @return time the last successful refresh cycle occurred
+     */
+    @Nullable DateTime getLastSuccessfulRefresh() {
+        return lastSuccessfulRefresh;
+    }
+
+    /**
+     * Gets whether the last refresh cycle was successful.
+     * 
+     * @return true if last refresh cycle was successful, false if not
+     */
+    @Nullable Boolean wasLastRefreshSuccess() {
+        return wasLastRefreshSuccess;
     }
 
     /**
@@ -279,6 +306,7 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
     public synchronized void refresh() throws ResolverException {
         final DateTime now = new DateTime(ISOChronology.getInstanceUTC());
         final String mdId = getMetadataIdentifier();
+        trackRefreshSuccess = false;
 
         log.debug("{} Beginning refresh of metadata from '{}'", getLogPrefix(), mdId);
         try {
@@ -291,6 +319,7 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
                 processNewMetadata(mdId, now, mdBytes);
             }
         } catch (final Throwable t) {
+            trackRefreshSuccess = false;
             log.error("{} Error occurred while attempting to refresh metadata from '{}'", getLogPrefix(), mdId, t);
             nextRefresh = new DateTime(ISOChronology.getInstanceUTC()).plus(minRefreshDelay);
             if (t instanceof Exception) {
@@ -305,6 +334,14 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
                 log.warn("{} Metadata root from '{}' currently live (post-refresh) is expired or otherwise invalid", 
                         getLogPrefix(), mdId);
             }
+            
+            if (trackRefreshSuccess) {
+                wasLastRefreshSuccess = true;
+                lastSuccessfulRefresh = now;
+            } else {
+                wasLastRefreshSuccess = false;
+            }
+            
             refreshMetadataTask = new RefreshMetadataTask();
             final long nextRefreshDelay = nextRefresh.getMillis() - System.currentTimeMillis();
             taskTimer.schedule(refreshMetadataTask, nextRefreshDelay);
@@ -365,6 +402,7 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
                 SAML2Support.getEarliestExpiration(getBackingStore().getCachedOriginalMetadata(),
                 refreshStart.plus(getMaxRefreshDelay()), refreshStart);
 
+        trackRefreshSuccess = true;
         expirationTime = metadataExpirationTime;
         final long nextRefreshDelay = computeNextRefreshDelay(expirationTime);
         nextRefresh = new DateTime(ISOChronology.getInstanceUTC()).plus(nextRefreshDelay);
@@ -408,6 +446,7 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
                 getLogPrefix(), metadataIdentifier);
 
         nextRefresh = new DateTime(ISOChronology.getInstanceUTC()).plus(getMinRefreshDelay());
+        trackRefreshSuccess = false;
     }
 
     /**
@@ -456,6 +495,7 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
         setBackingStore(newBackingStore);
         
         lastUpdate = refreshStart;
+        trackRefreshSuccess = true;
         
         long nextRefreshDelay;
         if (metadataExpirationTime.isBeforeNow()) {
