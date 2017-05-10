@@ -40,6 +40,7 @@ import org.opensaml.core.xml.io.UnmarshallingException;
 import org.opensaml.saml.metadata.resolver.RefreshableMetadataResolver;
 import org.opensaml.saml.metadata.resolver.filter.FilterException;
 import org.opensaml.saml.saml2.common.SAML2Support;
+import org.opensaml.saml.saml2.common.TimeBoundSAMLObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -78,15 +79,19 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
 
     /**
      * Refresh interval used when metadata does not contain any validUntil or cacheDuration information. Default value:
-     * 14400000ms
+     * 14400000ms (4 hours).
      */
     @Duration @Positive private long maxRefreshDelay = 14400000;
 
-    /** Floor, in milliseconds, for the refresh interval. Default value: 300000ms */
+    /** Floor, in milliseconds, for the refresh interval. Default value: 300000ms (5 minutes). */
     @Duration @Positive private long minRefreshDelay = 300000;
 
     /** Time when the currently cached metadata file expires. */
     private DateTime expirationTime;
+    
+    /** Impending expiration warning threshold for metadata refresh, in milliseconds. 
+     * Default value: 3600000ms (1 hour). */
+    @Duration @Positive private long expirationWarningThreshold = 60*60*1000;
 
     /** Last time the metadata was updated. */
     private DateTime lastUpdate;
@@ -105,6 +110,8 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
     
     /** Internal flag for tracking success during the refresh operation. */
     private boolean trackRefreshSuccess;
+    
+
 
     /** Constructor. */
     protected AbstractReloadingMetadataResolver() {
@@ -190,6 +197,29 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
         return nextRefresh;
     }
 
+    /**
+     * Gets the impending expiration warning threshold used at refresh time.
+     * 
+     * @return threshold for logging a warning if live metadata will soon expire
+     */
+    @Duration public long getExpirationWarningThreshold() {
+        return expirationWarningThreshold;
+    }
+
+    /**
+     * Sets the impending expiration warning threshold used at refresh time.
+     * 
+     * @param threshold the threshold for logging a warning if live metadata will soon expire
+     */
+    @Duration public void setExpirationWarningThreshold(@Duration @Positive final long threshold) {
+        ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
+        ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
+        
+        if (threshold < 0) {
+            throw new IllegalArgumentException("Expiration warning threshold must be greater than 0");
+        }
+        expirationWarningThreshold = threshold;
+    }
     /**
      * Gets the maximum amount of time, in milliseconds, between refresh intervals.
      * 
@@ -333,6 +363,19 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
             if (cached != null && !isValid(cached)) {
                 log.warn("{} Metadata root from '{}' currently live (post-refresh) is expired or otherwise invalid", 
                         getLogPrefix(), mdId);
+            } else if (cached instanceof TimeBoundSAMLObject) {
+                final TimeBoundSAMLObject timebound = (TimeBoundSAMLObject) cached;
+                if (isRequireValidMetadata() && timebound.getValidUntil()  != null) {
+                    if (timebound.getValidUntil().isBefore(now.plus(getExpirationWarningThreshold()))) {
+                        log.warn("{} Metadata root from '{}' currently live (post-refresh) will expire " 
+                                + "within the configured threshhold at '{}'", 
+                                getLogPrefix(), mdId, timebound.getValidUntil());
+                    } else if (timebound.getValidUntil().isBefore(nextRefresh)) {
+                        log.warn("{} Metadata root from '{}' currently live (post-refresh) will expire " 
+                                + "at '{}' before the next refresh scheduled for {}'", 
+                                getLogPrefix(), mdId, timebound.getValidUntil(), nextRefresh);
+                    }
+                }
             }
             
             if (trackRefreshSuccess) {
