@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import net.shibboleth.utilities.java.support.annotation.Duration;
@@ -359,24 +360,7 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
                         t.getClass().getName(), t.getMessage()));
             }
         } finally {
-            final XMLObject cached = getBackingStore().getCachedOriginalMetadata();
-            if (cached != null && !isValid(cached)) {
-                log.warn("{} Metadata root from '{}' currently live (post-refresh) is expired or otherwise invalid", 
-                        getLogPrefix(), mdId);
-            } else if (cached instanceof TimeBoundSAMLObject) {
-                final TimeBoundSAMLObject timebound = (TimeBoundSAMLObject) cached;
-                if (isRequireValidMetadata() && timebound.getValidUntil()  != null) {
-                    if (timebound.getValidUntil().isBefore(now.plus(getExpirationWarningThreshold()))) {
-                        log.warn("{} Metadata root from '{}' currently live (post-refresh) will expire " 
-                                + "within the configured threshhold at '{}'", 
-                                getLogPrefix(), mdId, timebound.getValidUntil());
-                    } else if (timebound.getValidUntil().isBefore(nextRefresh)) {
-                        log.warn("{} Metadata root from '{}' currently live (post-refresh) will expire " 
-                                + "at '{}' before the next refresh scheduled for {}'", 
-                                getLogPrefix(), mdId, timebound.getValidUntil(), nextRefresh);
-                    }
-                }
-            }
+            logCachedMetadataExpiration(now);
             
             if (trackRefreshSuccess) {
                 wasLastRefreshSuccess = true;
@@ -392,6 +376,33 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
                     new Object[] {getLogPrefix(), mdId, nextRefresh, 
                             nextRefresh.toDateTime(DateTimeZone.getDefault()),});
             lastRefresh = now;
+        }
+    }
+
+    /**
+     * Check cached metadata for expiration or pending expiration and log appropriately.
+     *
+     * @param now the current date/time
+     */
+    private void logCachedMetadataExpiration(@Nonnull final DateTime now) {
+        final String mdId = getMetadataIdentifier();
+        final XMLObject cached = getBackingStore().getCachedOriginalMetadata();
+        if (cached != null && !isValid(cached)) {
+            log.warn("{} Metadata root from '{}' currently live (post-refresh) is expired or otherwise invalid",
+                    getLogPrefix(), mdId);
+        } else if (cached instanceof TimeBoundSAMLObject) {
+            final TimeBoundSAMLObject timebound = (TimeBoundSAMLObject) cached;
+            if (isRequireValidMetadata() && timebound.getValidUntil() != null) {
+                if (timebound.getValidUntil().isBefore(now.plus(getExpirationWarningThreshold()))) {
+                    log.warn("{} Metadata root from '{}' currently live (post-refresh) will expire "
+                            + "within the configured threshhold at '{}'",
+                            getLogPrefix(), mdId, timebound.getValidUntil());
+                } else if (timebound.getValidUntil().isBefore(nextRefresh)) {
+                    log.warn("{} Metadata root from '{}' currently live (post-refresh) will expire "
+                            + "at '{}' before the next refresh scheduled for {}'",
+                            getLogPrefix(), mdId, timebound.getValidUntil(), nextRefresh);
+                }
+            }
         }
     }
 
