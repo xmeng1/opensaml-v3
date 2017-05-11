@@ -91,8 +91,8 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
     private DateTime expirationTime;
     
     /** Impending expiration warning threshold for metadata refresh, in milliseconds. 
-     * Default value: 3600000ms (1 hour). */
-    @Duration @Positive private long expirationWarningThreshold = 60*60*1000;
+     * Default value: 432000000ms (12 hours). */
+    @Duration @Positive private long expirationWarningThreshold = 12*60*60*1000;
 
     /** Last time the metadata was updated. */
     private DateTime lastUpdate;
