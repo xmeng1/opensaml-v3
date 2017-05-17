@@ -17,6 +17,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: xml-apis:xml-apis:1.0.b2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: xmlunit:xmlunit:1.6" level="project" />
     <orderEntry type="module" module-name="opensaml-storage-api" />
     <orderEntry type="library" name="Maven: joda-time:joda-time:2.9" level="project" />
     <orderEntry type="module" module-name="opensaml-profile-api" />

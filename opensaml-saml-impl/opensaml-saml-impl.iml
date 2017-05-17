@@ -17,6 +17,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" scope="TEST" name="Maven: xml-apis:xml-apis:1.0.b2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: xmlunit:xmlunit:1.6" level="project" />
     <orderEntry type="module" module-name="opensaml-profile-api" />
     <orderEntry type="module" module-name="opensaml-core" />
     <orderEntry type="module" module-name="opensaml-messaging-api" />

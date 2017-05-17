@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>org.opensaml.profile</OriginalElement>
+  <nodes>
+    <node x="379.75" y="347.0">org.opensaml.profile.context.EventContext</node>
+    <node x="3.75" y="347.0">org.opensaml.profile.logic.MessageContextPredicateAdapterTest</node>
+    <node x="849.5" y="83.0">org.opensaml.profile.action.AbstractProfileAction</node>
+    <node x="662.0" y="269.0">org.opensaml.profile.action.AbstractProfileActionTest.PostFailProfileAction</node>
+    <node x="207.0" y="269.0">org.opensaml.profile.action.AbstractProfileActionTest.ExecUncheckedProfileAction</node>
+    <node x="590.0" y="586.0">org.opensaml.profile.logic.BrowserProfilePredicate</node>
+    <node x="1138.4453124999998" y="269.0">org.opensaml.profile.action.impl</node>
+    <node x="496.0" y="664.0">org.opensaml.profile.context.ProfileRequestContext</node>
+    <node x="1095.0" y="176.0">org.opensaml.profile.action.MessageEncoderFactory</node>
+    <node x="812.0" y="176.0">org.opensaml.profile.action.AbstractConditionalProfileAction</node>
+    <node x="0.0" y="898.0">org.opensaml.profile.context.MetricContext</node>
+    <node x="350.75" y="430.0">org.opensaml.profile.context.PreviousEventContext</node>
+    <node x="463.0" y="269.0">org.opensaml.profile.action.AbstractProfileActionTest.PreFailProfileAction</node>
+    <node x="877.0" y="0.0">org.opensaml.profile.action.ProfileAction</node>
+    <node x="383.0" y="508.0">org.opensaml.profile.logic.NoIntegrityMessageChannelPredicate</node>
+    <node x="363.375" y="176.0">org.opensaml.profile.action.AbstractProfileActionTest.BaseProfileAction</node>
+    <node x="296.625" y="83.0">org.opensaml.profile.action.AbstractProfileActionTest</node>
+    <node x="242.0" y="742.0">org.opensaml.profile.logic.IPRangePredicateTest</node>
+    <node x="0.0" y="742.0">org.opensaml.profile.context.AccessControlContext</node>
+    <node x="0.0" y="586.0">org.opensaml.profile.logic.MessageContextPredicateAdapter</node>
+    <node x="211.0" y="820.0">org.opensaml.profile.logic.IPRangePredicate</node>
+    <node x="0.0" y="664.0">org.opensaml.profile.logic.PredicateAccessControl</node>
+    <node x="614.0" y="820.0">org.opensaml.profile.context.navigate</node>
+    <node x="375.0" y="898.0">org.opensaml.profile.action.EventIds</node>
+    <node x="167.0" y="430.0">org.opensaml.profile.logic.MessageContextPredicateAdapterTest.MockContext</node>
+    <node x="0.0" y="508.0">org.opensaml.profile.logic.NoConfidentialityMessageChannelPredicate</node>
+    <node x="420.0" y="820.0">org.opensaml.profile.action.EventException</node>
+    <node x="188.0" y="898.0">org.opensaml.profile.action.ActionSupport</node>
+    <node x="0.0" y="430.0">org.opensaml.profile.logic.MessageContextPredicateAdapterTest.MockPredicate</node>
+    <node x="479.0" y="742.0">org.opensaml.profile.action.ActionTestingSupport</node>
+    <node x="319.0" y="586.0">org.opensaml.profile.context.ProfileRequestContextTest</node>
+    <node x="0.0" y="820.0">org.opensaml.profile.logic.ProfileIdPredicate</node>
+    <node x="0.0" y="269.0">org.opensaml.profile.action.AbstractProfileActionTest.ExecFailProfileAction</node>
+    <node x="251.0" y="664.0">org.opensaml.profile.RequestContextBuilder</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="org.opensaml.profile.action.impl" target="org.opensaml.profile.action.MessageEncoderFactory">
+      <point x="0.0" y="-16.5" />
+      <point x="1197.9453124999998" y="249.0" />
+      <point x="1201.0" y="249.0" />
+      <point x="0.0" y="16.5" />
+    </edge>
+    <edge source="org.opensaml.profile.context.PreviousEventContext" target="org.opensaml.profile.context.EventContext">
+      <point x="0.0" y="-16.5" />
+      <point x="0.0" y="16.5" />
+    </edge>
+    <edge source="org.opensaml.profile.action.impl" target="org.opensaml.profile.action.AbstractConditionalProfileAction">
+      <point x="-39.66666666666674" y="-16.5" />
+      <point x="1158.278645833333" y="249.0" />
+      <point x="943.5" y="249.0" />
+      <point x="0.0" y="16.5" />
+    </edge>
+    <edge source="org.opensaml.profile.action.AbstractProfileActionTest.PreFailProfileAction" target="org.opensaml.profile.action.AbstractProfileActionTest">
+      <point x="44.75" y="-16.5" />
+      <point x="597.25" y="249.0" />
+      <point x="588.6875" y="249.0" />
+      <point x="588.6875" y="146.0" />
+      <point x="447.825" y="146.0" />
+      <point x="43.19999999999999" y="16.5" />
+    </edge>
+    <edge source="org.opensaml.profile.action.AbstractProfileActionTest.PostFailProfileAction" target="org.opensaml.profile.action.AbstractProfileActionTest.BaseProfileAction">
+      <point x="-46.5" y="-16.5" />
+      <point x="708.5" y="239.0" />
+      <point x="507.75" y="239.0" />
+      <point x="61.875" y="16.5" />
+    </edge>
+    <edge source="org.opensaml.profile.action.AbstractProfileAction" target="org.opensaml.profile.action.ProfileAction">
+      <point x="0.0" y="-16.5" />
+      <point x="0.0" y="16.5" />
+    </edge>
+    <edge source="org.opensaml.profile.logic.MessageContextPredicateAdapterTest.MockPredicate" target="org.opensaml.profile.logic.MessageContextPredicateAdapterTest">
+      <point x="0.0" y="-16.5" />
+      <point x="73.5" y="405.0" />
+      <point x="79.25" y="405.0" />
+      <point x="-75.5" y="16.5" />
+    </edge>
+    <edge source="org.opensaml.profile.action.AbstractProfileActionTest.BaseProfileAction" target="org.opensaml.profile.action.AbstractProfileActionTest">
+      <point x="-41.25" y="-16.5" />
+      <point x="0.0" y="16.5" />
+    </edge>
+    <edge source="org.opensaml.profile.action.AbstractProfileActionTest.ExecFailProfileAction" target="org.opensaml.profile.action.AbstractProfileActionTest">
+      <point x="-46.75" y="-16.5" />
+      <point x="46.75" y="146.0" />
+      <point x="318.225" y="146.0" />
+      <point x="-86.39999999999998" y="16.5" />
+    </edge>
+    <edge source="org.opensaml.profile.action.impl" target="org.opensaml.profile.action.AbstractProfileAction">
+      <point x="39.66666666666674" y="-16.5" />
+      <point x="1237.6119791666665" y="249.0" />
+      <point x="1317.5" y="249.0" />
+      <point x="1317.5" y="156.0" />
+      <point x="1006.1666666666666" y="156.0" />
+      <point x="62.66666666666663" y="16.5" />
+    </edge>
+    <edge source="org.opensaml.profile.action.AbstractProfileActionTest.ExecUncheckedProfileAction" target="org.opensaml.profile.action.AbstractProfileActionTest">
+      <point x="-59.0" y="-16.5" />
+      <point x="266.0" y="229.0" />
+      <point x="288.8125" y="229.0" />
+      <point x="288.8125" y="156.0" />
+      <point x="361.425" y="156.0" />
+      <point x="-43.19999999999999" y="16.5" />
+    </edge>
+    <edge source="org.opensaml.profile.action.AbstractConditionalProfileAction" target="org.opensaml.profile.action.AbstractProfileAction">
+      <point x="0.0" y="-16.5" />
+      <point x="0.0" y="16.5" />
+    </edge>
+    <edge source="org.opensaml.profile.logic.MessageContextPredicateAdapterTest.MockContext" target="org.opensaml.profile.logic.MessageContextPredicateAdapterTest">
+      <point x="0.0" y="-16.5" />
+      <point x="236.0" y="405.0" />
+      <point x="230.25" y="405.0" />
+      <point x="75.5" y="16.5" />
+    </edge>
+    <edge source="org.opensaml.profile.action.AbstractProfileActionTest.PostFailProfileAction" target="org.opensaml.profile.action.AbstractProfileActionTest">
+      <point x="46.5" y="-16.5" />
+      <point x="801.5" y="136.0" />
+      <point x="491.025" y="136.0" />
+      <point x="86.39999999999998" y="16.5" />
+    </edge>
+    <edge source="org.opensaml.profile.action.AbstractProfileActionTest.PreFailProfileAction" target="org.opensaml.profile.action.AbstractProfileActionTest.BaseProfileAction">
+      <point x="-44.75" y="-16.5" />
+      <point x="507.75" y="249.0" />
+      <point x="466.5" y="249.0" />
+      <point x="20.625" y="16.5" />
+    </edge>
+    <edge source="org.opensaml.profile.action.AbstractProfileActionTest.BaseProfileAction" target="org.opensaml.profile.action.AbstractProfileAction">
+      <point x="41.25" y="-16.5" />
+      <point x="487.125" y="156.0" />
+      <point x="880.8333333333334" y="156.0" />
+      <point x="-62.66666666666663" y="16.5" />
+    </edge>
+    <edge source="org.opensaml.profile.action.AbstractProfileActionTest.ExecUncheckedProfileAction" target="org.opensaml.profile.action.AbstractProfileActionTest.BaseProfileAction">
+      <point x="59.0" y="-16.5" />
+      <point x="384.0" y="249.0" />
+      <point x="425.25" y="249.0" />
+      <point x="-20.625" y="16.5" />
+    </edge>
+    <edge source="org.opensaml.profile.action.AbstractProfileActionTest.ExecFailProfileAction" target="org.opensaml.profile.action.AbstractProfileActionTest.BaseProfileAction">
+      <point x="46.75" y="-16.5" />
+      <point x="140.25" y="239.0" />
+      <point x="384.0" y="239.0" />
+      <point x="-61.875" y="16.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="656.0" y="253.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Inner Classes</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>public</VISIBILITY>
+</Diagram>
+

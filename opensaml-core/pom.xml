@@ -32,6 +32,12 @@
         <!-- Runtime Dependencies -->
 
         <!-- Test Dependencies -->
+        <!-- https://mvnrepository.com/artifact/xmlunit/xmlunit -->
+        <dependency>
+            <groupId>xmlunit</groupId>
+            <artifactId>xmlunit</artifactId>
+            <version>1.6</version>
+        </dependency>
 
     </dependencies>
     

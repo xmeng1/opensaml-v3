@@ -17,6 +17,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" scope="TEST" name="Maven: xmlunit:xmlunit:1.6" level="project" />
     <orderEntry type="module" module-name="opensaml-soap-api" />
     <orderEntry type="module" module-name="opensaml-xmlsec-api" />
     <orderEntry type="module" module-name="opensaml-security-api" />
