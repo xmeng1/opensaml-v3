@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: net.shibboleth.utilities:java-support:7.4.0-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/net/shibboleth/utilities/java-support/7.4.0-SNAPSHOT/java-support-7.4.0-20170517.035953-161.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/net/shibboleth/utilities/java-support/7.4.0-SNAPSHOT/java-support-7.4.0-20170517.035953-161-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/net/shibboleth/utilities/java-support/7.4.0-SNAPSHOT/java-support-7.4.0-20170517.035953-161-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="opensaml-core" />
+        <module name="opensaml-messaging-api" />
+        <module name="opensaml-messaging-impl" />
+        <module name="opensaml-profile-api" />
+        <module name="opensaml-profile-impl" />
+        <module name="opensaml-saml-api" />
+        <module name="opensaml-saml-impl" />
+        <module name="opensaml-security-api" />
+        <module name="opensaml-security-impl" />
+        <module name="opensaml-soap-api" />
+        <module name="opensaml-soap-impl" />
+        <module name="opensaml-storage-api" />
+        <module name="opensaml-storage-impl" />
+        <module name="opensaml-xacml-api" />
+        <module name="opensaml-xacml-impl" />
+        <module name="opensaml-xacml-saml-api" />
+        <module name="opensaml-xacml-saml-impl" />
+        <module name="opensaml-xmlsec-api" />
+        <module name="opensaml-xmlsec-impl" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="opensaml-core" target="1.7" />
+      <module name="opensaml-messaging-api" target="1.7" />
+      <module name="opensaml-messaging-impl" target="1.7" />
+      <module name="opensaml-parent" target="1.7" />
+      <module name="opensaml-profile-api" target="1.7" />
+      <module name="opensaml-profile-impl" target="1.7" />
+      <module name="opensaml-saml-api" target="1.7" />
+      <module name="opensaml-saml-impl" target="1.7" />
+      <module name="opensaml-security-api" target="1.7" />
+      <module name="opensaml-security-impl" target="1.7" />
+      <module name="opensaml-soap-api" target="1.7" />
+      <module name="opensaml-soap-impl" target="1.7" />
+      <module name="opensaml-storage-api" target="1.7" />
+      <module name="opensaml-storage-impl" target="1.7" />
+      <module name="opensaml-xacml-api" target="1.7" />
+      <module name="opensaml-xacml-impl" target="1.7" />
+      <module name="opensaml-xacml-saml-api" target="1.7" />
+      <module name="opensaml-xacml-saml-impl" target="1.7" />
+      <module name="opensaml-xmlsec-api" target="1.7" />
+      <module name="opensaml-xmlsec-impl" target="1.7" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

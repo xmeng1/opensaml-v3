@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/../opensaml-core" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../opensaml-messaging-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../opensaml-messaging-impl" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../opensaml-profile-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../opensaml-profile-impl" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../opensaml-saml-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../opensaml-saml-impl" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../opensaml-security-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../opensaml-security-impl" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../opensaml-soap-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../opensaml-soap-impl" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../opensaml-storage-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../opensaml-storage-impl" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../opensaml-xacml-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../opensaml-xacml-impl" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../opensaml-xacml-saml-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../opensaml-xacml-saml-impl" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../opensaml-xmlsec-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../opensaml-xmlsec-impl" charset="UTF-8" />
+  </component>
+</project>

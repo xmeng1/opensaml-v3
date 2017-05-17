@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: net.shibboleth.ext:spring-extensions:test-jar:tests:5.4.0-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/net/shibboleth/ext/spring-extensions/5.4.0-SNAPSHOT/spring-extensions-5.4.0-20170517.040739-140-tests.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/net/shibboleth/ext/spring-extensions/5.4.0-SNAPSHOT/spring-extensions-5.4.0-20170517.040739-140-test-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/net/shibboleth/ext/spring-extensions/5.4.0-SNAPSHOT/spring-extensions-5.4.0-20170517.040739-140-test-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

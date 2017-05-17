@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../opensaml-core/opensaml-core.iml" filepath="$PROJECT_DIR$/../opensaml-core/opensaml-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../opensaml-messaging-api/opensaml-messaging-api.iml" filepath="$PROJECT_DIR$/../opensaml-messaging-api/opensaml-messaging-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../opensaml-messaging-impl/opensaml-messaging-impl.iml" filepath="$PROJECT_DIR$/../opensaml-messaging-impl/opensaml-messaging-impl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/opensaml-parent.iml" filepath="$PROJECT_DIR$/opensaml-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../opensaml-profile-api/opensaml-profile-api.iml" filepath="$PROJECT_DIR$/../opensaml-profile-api/opensaml-profile-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../opensaml-profile-impl/opensaml-profile-impl.iml" filepath="$PROJECT_DIR$/../opensaml-profile-impl/opensaml-profile-impl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../opensaml-saml-api/opensaml-saml-api.iml" filepath="$PROJECT_DIR$/../opensaml-saml-api/opensaml-saml-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../opensaml-saml-impl/opensaml-saml-impl.iml" filepath="$PROJECT_DIR$/../opensaml-saml-impl/opensaml-saml-impl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../opensaml-security-api/opensaml-security-api.iml" filepath="$PROJECT_DIR$/../opensaml-security-api/opensaml-security-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../opensaml-security-impl/opensaml-security-impl.iml" filepath="$PROJECT_DIR$/../opensaml-security-impl/opensaml-security-impl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../opensaml-soap-api/opensaml-soap-api.iml" filepath="$PROJECT_DIR$/../opensaml-soap-api/opensaml-soap-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../opensaml-soap-impl/opensaml-soap-impl.iml" filepath="$PROJECT_DIR$/../opensaml-soap-impl/opensaml-soap-impl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../opensaml-storage-api/opensaml-storage-api.iml" filepath="$PROJECT_DIR$/../opensaml-storage-api/opensaml-storage-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../opensaml-storage-impl/opensaml-storage-impl.iml" filepath="$PROJECT_DIR$/../opensaml-storage-impl/opensaml-storage-impl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../opensaml-xacml-api/opensaml-xacml-api.iml" filepath="$PROJECT_DIR$/../opensaml-xacml-api/opensaml-xacml-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../opensaml-xacml-impl/opensaml-xacml-impl.iml" filepath="$PROJECT_DIR$/../opensaml-xacml-impl/opensaml-xacml-impl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../opensaml-xacml-saml-api/opensaml-xacml-saml-api.iml" filepath="$PROJECT_DIR$/../opensaml-xacml-saml-api/opensaml-xacml-saml-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../opensaml-xacml-saml-impl/opensaml-xacml-saml-impl.iml" filepath="$PROJECT_DIR$/../opensaml-xacml-saml-impl/opensaml-xacml-saml-impl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../opensaml-xmlsec-api/opensaml-xmlsec-api.iml" filepath="$PROJECT_DIR$/../opensaml-xmlsec-api/opensaml-xmlsec-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../opensaml-xmlsec-impl/opensaml-xmlsec-impl.iml" filepath="$PROJECT_DIR$/../opensaml-xmlsec-impl/opensaml-xmlsec-impl.iml" />
+    </modules>
+  </component>
+</project>
