@@ -18,6 +18,7 @@
 package org.opensaml.security.httpclient;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -39,25 +40,25 @@ import org.opensaml.security.x509.X509Credential;
 public class HttpClientSecurityParameters {
     
     /** HttpClient credentials provider. */
-    private CredentialsProvider credentialsProvider;
+    @Nullable private CredentialsProvider credentialsProvider;
     
     /** Optional trust engine used in evaluating server TLS credentials. */
-    private TrustEngine<? super X509Credential> tlsTrustEngine;
+    @Nullable private TrustEngine<? super X509Credential> tlsTrustEngine;
     
     /** Optional criteria set used in evaluating server TLS credentials. */
-    private CriteriaSet tlsCriteriaSet;
+    @Nullable private CriteriaSet tlsCriteriaSet;
     
     /** TLS Protocols. */
-    private List<String> tlsProtocols;
+    @Nullable private List<String> tlsProtocols;
     
     /** TLS cipher suites. */
-    private List<String> tlsCipherSuites;
+    @Nullable private List<String> tlsCipherSuites;
     
     /** The hostname verifier. */
-    private X509HostnameVerifier hostnameVerifier;
+    @Nullable private X509HostnameVerifier hostnameVerifier;
     
     /** The X509 credential used for client TLS. */
-    private X509Credential clientTLSCredential;
+    @Nullable private X509Credential clientTLSCredential;
     
     /**
      * Get an instance of {@link CredentialsProvider} used for authentication by the HttpClient instance.
@@ -176,7 +177,7 @@ public class HttpClientSecurityParameters {
      * 
      * @param protocols the TLS protocols or null
      */
-    public void setTLSProtocols(@Nullable final List<String> protocols) {
+    public void setTLSProtocols(@Nullable final Collection<String> protocols) {
         tlsProtocols = new ArrayList<>(StringSupport.normalizeStringCollection(protocols));
         if (tlsProtocols.isEmpty()) {
             tlsProtocols = null;
@@ -197,7 +198,7 @@ public class HttpClientSecurityParameters {
      * 
      * @param cipherSuites the TLS cipher suites, or null
      */
-    public void setTLSCipherSuites(@Nullable final List<String> cipherSuites) {
+    public void setTLSCipherSuites(@Nullable final Collection<String> cipherSuites) {
         tlsCipherSuites = new ArrayList<>(StringSupport.normalizeStringCollection(cipherSuites));
         if (tlsCipherSuites.isEmpty()) {
             tlsCipherSuites = null;
