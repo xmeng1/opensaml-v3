@@ -91,8 +91,8 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
     private DateTime expirationTime;
     
     /** Impending expiration warning threshold for metadata refresh, in milliseconds. 
-     * Default value: 432000000ms (12 hours). */
-    @Duration @Positive private long expirationWarningThreshold = 12*60*60*1000;
+     * Default value: 0ms (disabled). */
+    @Duration @Positive private long expirationWarningThreshold = 0;
 
     /** Last time the metadata was updated. */
     private DateTime lastUpdate;
@@ -217,7 +217,7 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
         ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
         
         if (threshold < 0) {
-            throw new IllegalArgumentException("Expiration warning threshold must be greater than 0");
+            throw new IllegalArgumentException("Expiration warning threshold must be greater than or equal to 0");
         }
         expirationWarningThreshold = threshold;
     }
@@ -393,7 +393,8 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
         } else if (cached instanceof TimeBoundSAMLObject) {
             final TimeBoundSAMLObject timebound = (TimeBoundSAMLObject) cached;
             if (isRequireValidMetadata() && timebound.getValidUntil() != null) {
-                if (timebound.getValidUntil().isBefore(now.plus(getExpirationWarningThreshold()))) {
+                if (getExpirationWarningThreshold() > 0 
+                        && timebound.getValidUntil().isBefore(now.plus(getExpirationWarningThreshold()))) {
                     log.warn("{} Metadata root from '{}' currently live (post-refresh) will expire "
                             + "within the configured threshhold at '{}'",
                             getLogPrefix(), mdId, timebound.getValidUntil());
