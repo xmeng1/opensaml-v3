@@ -33,6 +33,7 @@ import net.shibboleth.utilities.java.support.component.ComponentSupport;
 import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
 import net.shibboleth.utilities.java.support.resolver.ResolverException;
 
+import org.joda.time.DateTime;
 import org.opensaml.core.criterion.EntityIdCriterion;
 import org.opensaml.core.xml.XMLObject;
 import org.opensaml.saml.metadata.IterableMetadataSource;
@@ -40,6 +41,7 @@ import org.opensaml.saml.metadata.resolver.BatchMetadataResolver;
 import org.opensaml.saml.metadata.resolver.filter.FilterException;
 import org.opensaml.saml.metadata.resolver.index.MetadataIndex;
 import org.opensaml.saml.metadata.resolver.index.impl.MetadataIndexManager;
+import org.opensaml.saml.saml2.common.TimeBoundSAMLObject;
 import org.opensaml.saml.saml2.metadata.EntitiesDescriptor;
 import org.opensaml.saml.saml2.metadata.EntityDescriptor;
 import org.slf4j.Logger;
@@ -149,6 +151,34 @@ public abstract class AbstractBatchMetadataResolver extends AbstractMetadataReso
     public void setResolveViaPredicatesOnly(final boolean flag) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         resolveViaPredicatesOnly = flag;
+    }
+
+    /**
+     * Get the validUntil of of the metadata batch root element, if present.
+     *
+     * @return the validUntil date/time of the root element, or null if not available
+     */
+    @Nullable public DateTime getRootValidUntil() {
+        XMLObject cached = getBackingStore().getCachedOriginalMetadata();
+        if (cached != null && cached instanceof TimeBoundSAMLObject) {
+            return ((TimeBoundSAMLObject)cached).getValidUntil();
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Get the validity state of the metadata batch root element, as determined by {@link #isValid(XMLObject)}.
+     *
+     * @return true if root element is valid, false if not valid, null if indeterminate
+     */
+    @Nullable public Boolean isRootValid() {
+        XMLObject cached = getBackingStore().getCachedOriginalMetadata();
+        if (cached == null) {
+            return null;
+        } else {
+            return isValid(cached);
+        }
     }
 
     /** {@inheritDoc} */

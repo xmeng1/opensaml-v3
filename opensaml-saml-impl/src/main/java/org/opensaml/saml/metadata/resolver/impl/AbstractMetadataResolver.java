@@ -440,7 +440,7 @@ public abstract class AbstractMetadataResolver extends AbstractIdentifiableIniti
         while (entitiesIter.hasNext()) {
             final EntityDescriptor descriptor = entitiesIter.next();
             if (!isValid(descriptor)) {
-                log.debug("{} Metadata backing store contained an EntityDescriptor with the ID: {}, " 
+                log.warn("{} Metadata backing store contained an EntityDescriptor with the ID: {}, " 
                         + " but it was no longer valid", getLogPrefix(), entityID);
                 entitiesIter.remove();
             }

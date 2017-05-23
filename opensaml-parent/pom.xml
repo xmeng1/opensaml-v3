@@ -43,6 +43,8 @@
         <module>../opensaml-xacml-saml-impl</module>
         <module>../opensaml-profile-api</module>
         <module>../opensaml-profile-impl</module>
+        
+        <module>../opensaml-bom</module>
     </modules>
 
     <properties>

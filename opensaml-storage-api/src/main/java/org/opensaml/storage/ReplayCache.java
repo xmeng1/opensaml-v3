@@ -141,7 +141,7 @@ public class ReplayCache extends AbstractIdentifiableInitializableComponent {
                 return false;
             }
         } catch (IOException e) {
-            log.error("Exception reading/writing to storage service, returning {}", e, strict ? "failure" : "success");
+            log.error("Exception reading/writing to storage service, returning {}", strict ? "failure" : "success", e);
             return !strict;
         }
     }

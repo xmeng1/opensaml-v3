@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import net.shibboleth.utilities.java.support.annotation.Duration;
@@ -40,6 +41,7 @@ import org.opensaml.core.xml.io.UnmarshallingException;
 import org.opensaml.saml.metadata.resolver.RefreshableMetadataResolver;
 import org.opensaml.saml.metadata.resolver.filter.FilterException;
 import org.opensaml.saml.saml2.common.SAML2Support;
+import org.opensaml.saml.saml2.common.TimeBoundSAMLObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -78,15 +80,19 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
 
     /**
      * Refresh interval used when metadata does not contain any validUntil or cacheDuration information. Default value:
-     * 14400000ms
+     * 14400000ms (4 hours).
      */
     @Duration @Positive private long maxRefreshDelay = 14400000;
 
-    /** Floor, in milliseconds, for the refresh interval. Default value: 300000ms */
+    /** Floor, in milliseconds, for the refresh interval. Default value: 300000ms (5 minutes). */
     @Duration @Positive private long minRefreshDelay = 300000;
 
     /** Time when the currently cached metadata file expires. */
     private DateTime expirationTime;
+    
+    /** Impending expiration warning threshold for metadata refresh, in milliseconds. 
+     * Default value: 0ms (disabled). */
+    @Duration @Positive private long expirationWarningThreshold = 0;
 
     /** Last time the metadata was updated. */
     private DateTime lastUpdate;
@@ -96,6 +102,17 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
 
     /** Next time a refresh cycle will occur. */
     private DateTime nextRefresh;
+    
+    /** Last time a successful refresh cycle occurred. */
+    private DateTime lastSuccessfulRefresh;
+
+    /** Flag indicating whether last refresh cycle was successful. */
+    private Boolean wasLastRefreshSuccess;
+    
+    /** Internal flag for tracking success during the refresh operation. */
+    private boolean trackRefreshSuccess;
+    
+
 
     /** Constructor. */
     protected AbstractReloadingMetadataResolver() {
@@ -153,6 +170,24 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
     @Override @Nullable public DateTime getLastRefresh() {
         return lastRefresh;
     }
+    
+    /**
+     * Gets the time the last successful refresh cycle occurred.
+     * 
+     * @return time the last successful refresh cycle occurred
+     */
+    @Nullable DateTime getLastSuccessfulRefresh() {
+        return lastSuccessfulRefresh;
+    }
+
+    /**
+     * Gets whether the last refresh cycle was successful.
+     * 
+     * @return true if last refresh cycle was successful, false if not
+     */
+    @Nullable Boolean wasLastRefreshSuccess() {
+        return wasLastRefreshSuccess;
+    }
 
     /**
      * Gets the time when the next refresh cycle will occur.
@@ -163,6 +198,29 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
         return nextRefresh;
     }
 
+    /**
+     * Gets the impending expiration warning threshold used at refresh time.
+     * 
+     * @return threshold for logging a warning if live metadata will soon expire
+     */
+    @Duration public long getExpirationWarningThreshold() {
+        return expirationWarningThreshold;
+    }
+
+    /**
+     * Sets the impending expiration warning threshold used at refresh time.
+     * 
+     * @param threshold the threshold for logging a warning if live metadata will soon expire
+     */
+    @Duration public void setExpirationWarningThreshold(@Duration @Positive final long threshold) {
+        ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
+        ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
+        
+        if (threshold < 0) {
+            throw new IllegalArgumentException("Expiration warning threshold must be greater than or equal to 0");
+        }
+        expirationWarningThreshold = threshold;
+    }
     /**
      * Gets the maximum amount of time, in milliseconds, between refresh intervals.
      * 
@@ -279,18 +337,20 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
     public synchronized void refresh() throws ResolverException {
         final DateTime now = new DateTime(ISOChronology.getInstanceUTC());
         final String mdId = getMetadataIdentifier();
+        trackRefreshSuccess = false;
 
         log.debug("{} Beginning refresh of metadata from '{}'", getLogPrefix(), mdId);
         try {
             final byte[] mdBytes = fetchMetadata();
             if (mdBytes == null) {
-                log.debug("{} Metadata from '{}' has not changed since last refresh", getLogPrefix(), mdId);
+                log.info("{} Metadata from '{}' has not changed since last refresh", getLogPrefix(), mdId);
                 processCachedMetadata(mdId, now);
             } else {
                 log.debug("{} Processing new metadata from '{}'", getLogPrefix(), mdId);
                 processNewMetadata(mdId, now, mdBytes);
             }
         } catch (final Throwable t) {
+            trackRefreshSuccess = false;
             log.error("{} Error occurred while attempting to refresh metadata from '{}'", getLogPrefix(), mdId, t);
             nextRefresh = new DateTime(ISOChronology.getInstanceUTC()).plus(minRefreshDelay);
             if (t instanceof Exception) {
@@ -300,6 +360,15 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
                         t.getClass().getName(), t.getMessage()));
             }
         } finally {
+            logCachedMetadataExpiration(now);
+            
+            if (trackRefreshSuccess) {
+                wasLastRefreshSuccess = true;
+                lastSuccessfulRefresh = now;
+            } else {
+                wasLastRefreshSuccess = false;
+            }
+            
             refreshMetadataTask = new RefreshMetadataTask();
             final long nextRefreshDelay = nextRefresh.getMillis() - System.currentTimeMillis();
             taskTimer.schedule(refreshMetadataTask, nextRefreshDelay);
@@ -307,6 +376,34 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
                     new Object[] {getLogPrefix(), mdId, nextRefresh, 
                             nextRefresh.toDateTime(DateTimeZone.getDefault()),});
             lastRefresh = now;
+        }
+    }
+
+    /**
+     * Check cached metadata for expiration or pending expiration and log appropriately.
+     *
+     * @param now the current date/time
+     */
+    private void logCachedMetadataExpiration(@Nonnull final DateTime now) {
+        final String mdId = getMetadataIdentifier();
+        final XMLObject cached = getBackingStore().getCachedOriginalMetadata();
+        if (cached != null && !isValid(cached)) {
+            log.warn("{} Metadata root from '{}' currently live (post-refresh) is expired or otherwise invalid",
+                    getLogPrefix(), mdId);
+        } else if (cached instanceof TimeBoundSAMLObject) {
+            final TimeBoundSAMLObject timebound = (TimeBoundSAMLObject) cached;
+            if (isRequireValidMetadata() && timebound.getValidUntil() != null) {
+                if (getExpirationWarningThreshold() > 0 
+                        && timebound.getValidUntil().isBefore(now.plus(getExpirationWarningThreshold()))) {
+                    log.warn("{} Metadata root from '{}' currently live (post-refresh) will expire "
+                            + "within the configured threshhold at '{}'",
+                            getLogPrefix(), mdId, timebound.getValidUntil());
+                } else if (timebound.getValidUntil().isBefore(nextRefresh)) {
+                    log.warn("{} Metadata root from '{}' currently live (post-refresh) will expire "
+                            + "at '{}' before the next refresh scheduled for {}'",
+                            getLogPrefix(), mdId, timebound.getValidUntil(), nextRefresh);
+                }
+            }
         }
     }
 
@@ -360,6 +457,7 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
                 SAML2Support.getEarliestExpiration(getBackingStore().getCachedOriginalMetadata(),
                 refreshStart.plus(getMaxRefreshDelay()), refreshStart);
 
+        trackRefreshSuccess = true;
         expirationTime = metadataExpirationTime;
         final long nextRefreshDelay = computeNextRefreshDelay(expirationTime);
         nextRefresh = new DateTime(ISOChronology.getInstanceUTC()).plus(nextRefreshDelay);
@@ -403,6 +501,7 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
                 getLogPrefix(), metadataIdentifier);
 
         nextRefresh = new DateTime(ISOChronology.getInstanceUTC()).plus(getMinRefreshDelay());
+        trackRefreshSuccess = false;
     }
 
     /**
@@ -451,6 +550,7 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
         setBackingStore(newBackingStore);
         
         lastUpdate = refreshStart;
+        trackRefreshSuccess = true;
         
         long nextRefreshDelay;
         if (metadataExpirationTime.isBeforeNow()) {

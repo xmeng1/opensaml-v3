@@ -25,4 +25,6 @@ package org.opensaml.saml.metadata.resolver;
  */
 public interface BatchMetadataResolver extends MetadataResolver {
 
+    //TODO For 4.0: promote getRootValidUntil() and isRootValid() from AbstractBatchMetadataResolver
+
 }
