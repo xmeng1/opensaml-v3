@@ -21,10 +21,14 @@
 package org.opensaml.saml.saml2.core.impl;
 
 import org.testng.annotations.Test;
+
+import net.shibboleth.utilities.java.support.xml.XMLParserException;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.Assert;
 import javax.xml.namespace.QName;
 
+import org.opensaml.core.xml.io.UnmarshallingException;
 import org.opensaml.saml.common.xml.SAMLConstants;
 import org.opensaml.saml.saml2.core.Assertion;
 import org.opensaml.saml.saml2.core.EncryptedAssertion;
@@ -128,6 +132,11 @@ public class ResponseTest extends StatusResponseTestBase {
         Assert.assertEquals(resp.getAssertions().size(), expectedNumAssertions, "Assertion count");
         Assert.assertEquals(resp.getEncryptedAssertions().size(), expectedNumEncryptedAssertions, "EncryptedAssertion count");
         super.helperTestChildElementsUnmarshall(resp);
+    }
+    
+    @Test(expectedExceptions=UnmarshallingException.class)
+    public void testBadSAMLVersion() throws XMLParserException, UnmarshallingException {
+        unmarshallElement("/org/opensaml/saml/saml2/core/impl/ResponseBadSAMLVersion.xml", true);
     }
 
 }

@@ -26,7 +26,6 @@ import org.joda.time.chrono.ISOChronology;
 import org.opensaml.core.xml.XMLObject;
 import org.opensaml.core.xml.io.UnmarshallingException;
 import org.opensaml.saml.common.AbstractSAMLObjectUnmarshaller;
-import org.opensaml.saml.common.SAMLVersion;
 import org.opensaml.saml.saml2.core.Extensions;
 import org.opensaml.saml.saml2.core.Issuer;
 import org.opensaml.saml.saml2.core.Status;
@@ -65,7 +64,7 @@ public abstract class StatusResponseTypeUnmarshaller extends AbstractSAMLObjectU
 
         if (attribute.getNamespaceURI() == null) {
             if (attribute.getLocalName().equals(StatusResponseType.VERSION_ATTRIB_NAME)) {
-                sr.setVersion(SAMLVersion.valueOf(attribute.getValue()));
+                sr.setVersion(parseSAMLVersion(attribute));
             } else if (attribute.getLocalName().equals(StatusResponseType.ID_ATTRIB_NAME)) {
                 sr.setID(attribute.getValue());
                 attribute.getOwnerElement().setIdAttributeNode(attribute, true);

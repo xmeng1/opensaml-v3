@@ -17,9 +17,12 @@
 
 package org.opensaml.saml.common;
 
+import javax.annotation.Nonnull;
 import javax.annotation.concurrent.ThreadSafe;
 
 import org.opensaml.core.xml.io.AbstractXMLObjectUnmarshaller;
+import org.opensaml.core.xml.io.UnmarshallingException;
+import org.w3c.dom.Attr;
 
 /**
  * An thread safe abstract unmarshaller. This abstract unmarshaller only works with
@@ -27,5 +30,21 @@ import org.opensaml.core.xml.io.AbstractXMLObjectUnmarshaller;
  */
 @ThreadSafe
 public abstract class AbstractSAMLObjectUnmarshaller extends AbstractXMLObjectUnmarshaller {
+    
+    /**
+     * Parse {@link SAMLVersion} instance from the specified DOM attribute.
+     * 
+     * @param attribute the DOM attribute to process
+     * @return the parsed SAMLVersion instance
+     * @throws UnmarshallingException if a SAMLVersion instance could not be successfully parsed
+     */
+    @Nonnull protected SAMLVersion parseSAMLVersion(@Nonnull final Attr attribute) throws UnmarshallingException {
+        try {
+            return SAMLVersion.valueOf(attribute.getValue());
+        } catch (RuntimeException e) {
+            throw new UnmarshallingException(String.format("Could not parse SAMLVersion from DOM attribute value '%s'",
+                    attribute.getValue()), e);
+        }
+    }
 
 }

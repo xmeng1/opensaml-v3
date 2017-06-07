@@ -226,28 +226,32 @@ public final class XMLObjectSupport {
         Logger log = getLogger();
         log.debug("Parsing InputStream into DOM document");
 
-        Document messageDoc = parserPool.parse(inputStream);
-        Element messageElem = messageDoc.getDocumentElement();
+        try {
+            Document messageDoc = parserPool.parse(inputStream);
+            Element messageElem = messageDoc.getDocumentElement();
 
-        if (log.isTraceEnabled()) {
-            log.trace("Resultant DOM message was:");
-            log.trace(SerializeSupport.nodeToString(messageElem));
+            if (log.isTraceEnabled()) {
+                log.trace("Resultant DOM message was:");
+                log.trace(SerializeSupport.nodeToString(messageElem));
+            }
+
+            log.debug("Unmarshalling DOM parsed from InputStream");
+            Unmarshaller unmarshaller = getUnmarshaller(messageElem);
+            if (unmarshaller == null) {
+                log.error("Unable to unmarshall InputStream, no unmarshaller registered for element "
+                        + QNameSupport.getNodeQName(messageElem));
+                throw new UnmarshallingException(
+                        "Unable to unmarshall InputStream, no unmarshaller registered for element "
+                                + QNameSupport.getNodeQName(messageElem));
+            }
+
+            XMLObject message = unmarshaller.unmarshall(messageElem);
+
+            log.debug("InputStream succesfully unmarshalled");
+            return message;
+        } catch (RuntimeException e) {
+            throw new UnmarshallingException("Fatal error unmarshalling XMLObject", e);
         }
-
-        log.debug("Unmarshalling DOM parsed from InputStream");
-        Unmarshaller unmarshaller = getUnmarshaller(messageElem);
-        if (unmarshaller == null) {
-            log.error("Unable to unmarshall InputStream, no unmarshaller registered for element "
-                    + QNameSupport.getNodeQName(messageElem));
-            throw new UnmarshallingException(
-                    "Unable to unmarshall InputStream, no unmarshaller registered for element "
-                            + QNameSupport.getNodeQName(messageElem));
-        }
-
-        XMLObject message = unmarshaller.unmarshall(messageElem);
-
-        log.debug("InputStream succesfully unmarshalled");
-        return message;
     }
     
     /**
@@ -265,28 +269,32 @@ public final class XMLObjectSupport {
         log.debug("Parsing Reader into DOM document");
         
 
-        Document messageDoc = parserPool.parse(reader);
-        Element messageElem = messageDoc.getDocumentElement();
+        try {
+            Document messageDoc = parserPool.parse(reader);
+            Element messageElem = messageDoc.getDocumentElement();
 
-        if (log.isTraceEnabled()) {
-            log.trace("Resultant DOM message was:");
-            log.trace(SerializeSupport.nodeToString(messageElem));
+            if (log.isTraceEnabled()) {
+                log.trace("Resultant DOM message was:");
+                log.trace(SerializeSupport.nodeToString(messageElem));
+            }
+
+            log.debug("Unmarshalling DOM parsed from Reader");
+            Unmarshaller unmarshaller = getUnmarshaller(messageElem);
+            if (unmarshaller == null) {
+                log.error("Unable to unmarshall Reader, no unmarshaller registered for element "
+                        + QNameSupport.getNodeQName(messageElem));
+                throw new UnmarshallingException(
+                        "Unable to unmarshall Reader, no unmarshaller registered for element "
+                                + QNameSupport.getNodeQName(messageElem));
+            }
+
+            XMLObject message = unmarshaller.unmarshall(messageElem);
+
+            log.debug("Reader succesfully unmarshalled");
+            return message;
+        } catch (RuntimeException e) {
+            throw new UnmarshallingException("Fatal error unmarshalling XMLObject", e);
         }
-
-        log.debug("Unmarshalling DOM parsed from Reader");
-        Unmarshaller unmarshaller = getUnmarshaller(messageElem);
-        if (unmarshaller == null) {
-            log.error("Unable to unmarshall Reader, no unmarshaller registered for element "
-                    + QNameSupport.getNodeQName(messageElem));
-            throw new UnmarshallingException(
-                    "Unable to unmarshall Reader, no unmarshaller registered for element "
-                            + QNameSupport.getNodeQName(messageElem));
-        }
-
-        XMLObject message = unmarshaller.unmarshall(messageElem);
-
-        log.debug("Reader succesfully unmarshalled");
-        return message;
     }
 
     /**

@@ -18,6 +18,9 @@
 package org.opensaml.saml.saml2.core.impl;
 
 import org.testng.annotations.Test;
+
+import net.shibboleth.utilities.java.support.xml.XMLParserException;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.Assert;
 import javax.xml.namespace.QName;
@@ -25,6 +28,7 @@ import javax.xml.namespace.QName;
 import org.joda.time.DateTime;
 import org.joda.time.chrono.ISOChronology;
 import org.opensaml.core.xml.XMLObjectProviderBaseTestCase;
+import org.opensaml.core.xml.io.UnmarshallingException;
 import org.opensaml.saml.common.SAMLVersion;
 import org.opensaml.saml.common.xml.SAMLConstants;
 import org.opensaml.saml.saml2.core.Advice;
@@ -177,5 +181,10 @@ public class AssertionTest extends XMLObjectProviderBaseTestCase {
         }
         
         assertXMLEquals(expectedChildElementsDOM, assertion);
+    }
+    
+    @Test(expectedExceptions=UnmarshallingException.class)
+    public void testBadSAMLVersion() throws XMLParserException, UnmarshallingException {
+        unmarshallElement("/org/opensaml/saml/saml2/core/impl/AssertionBadSAMLVersion.xml", true);
     }
 }
