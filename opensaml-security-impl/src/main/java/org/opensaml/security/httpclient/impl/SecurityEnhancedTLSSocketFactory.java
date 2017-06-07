@@ -81,9 +81,16 @@ import org.slf4j.LoggerFactory;
  * </p>
  * 
  * <p>
- * If the trust engine context attribute is not populated by the caller, then no trust 
- * evaluation is performed.  This allows use of this implementation with use cases where, given a particular 
- * HttpClient instance, sometimes trust engine evaluation is to be performed, and sometimes not.
+ * If the trust engine context attribute is not populated by the caller and {@link #isTrustEngineRequired()} 
+ * is <code>true</code> (the default), then an {@link SSLPeerUnverifiedException} is thrown.
+ * </p>
+ * 
+ * <p>
+ * If the trust engine context attribute is not populated by the caller and {@link #isTrustEngineRequired()}
+ * is <code>false</code>, then no trust evaluation is performed. This allows use of this implementation 
+ * with use cases where, given a particular HttpClient instance, sometimes TLS trust engine evaluation is to 
+ * be performed, and sometimes not. The caller is then responsible for ensuring they supply a trust engine or not,
+ * as appropriate.
  * </p>
  * 
  * <p>
@@ -94,7 +101,7 @@ import org.slf4j.LoggerFactory;
  * </p>
  * 
  * <p>
- * If the client TLS context attribute is not populated by the caller, then client TLS is not attempted.
+ * If the client TLS credential context attribute is not populated by the caller, then client TLS is not attempted.
  * </p>
  * 
  * <p>
@@ -114,6 +121,10 @@ public class SecurityEnhancedTLSSocketFactory implements LayeredConnectionSocket
     
     /** The hostname verifier evaluated by this implementation. */
     @Nullable private X509HostnameVerifier hostnameVerifier;
+    
+    /** Flag indicating whether a context trust engine attribute is required for TLS server validation. 
+     * Default: true. */
+    private boolean trustEngineRequired;
     
     /**
      * Constructor. 
@@ -137,6 +148,29 @@ public class SecurityEnhancedTLSSocketFactory implements LayeredConnectionSocket
             @Nullable final X509HostnameVerifier verifier) {
         wrappedFactory = Constraint.isNotNull(factory, "Socket factory was null");
         hostnameVerifier = verifier;
+        trustEngineRequired = true;
+    }
+
+    /**
+     * Get the flag indicating whether a context trust engine attribute is required for TLS server validation. 
+     * 
+     * <p>Default: true.</p>
+     * 
+     * @return true if trust engine is required, false if not
+     */
+    public boolean isTrustEngineRequired() {
+        return trustEngineRequired;
+    }
+
+   /**
+     * Set the flag indicating whether a context trust engine attribute is required for TLS server validation. 
+     * 
+     * <p>Default: true.</p>
+     * 
+     * @param flag true if trust engine is required, false if not
+     */
+    public void setTrustEngineRequired(boolean flag) {
+        trustEngineRequired = flag;
     }
 
     /** {@inheritDoc} */
@@ -227,8 +261,13 @@ public class SecurityEnhancedTLSSocketFactory implements LayeredConnectionSocket
         TrustEngine<? super X509Credential> trustEngine = (TrustEngine<? super X509Credential>) context.getAttribute(
                 HttpClientSecurityConstants.CONTEXT_KEY_TRUST_ENGINE);
         if (trustEngine == null) {
-            log.debug("No trust engine supplied by caller, skipping trust eval");
-            return;
+            if (isTrustEngineRequired()) {
+                log.warn("The required trust engine was not supplied by the caller, failing socket TLS creation");
+                throw new SSLPeerUnverifiedException("The required trust engine was not supplied by the caller");
+            } else  {
+                log.debug("No trust engine supplied by caller, skipping trust eval");
+                return;
+            }
         } else {
             log.trace("Saw trust engine of type: {}", trustEngine.getClass().getName());
         }
