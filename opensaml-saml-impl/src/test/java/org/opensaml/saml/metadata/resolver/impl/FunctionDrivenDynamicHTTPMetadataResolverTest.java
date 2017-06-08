@@ -258,7 +258,7 @@ public class FunctionDrivenDynamicHTTPMetadataResolverTest extends XMLObjectBase
                 true, 
                 new StringDigester("SHA-1", OutputFormat.HEX_LOWER));
         
-        httpClientBuilder.setTLSSocketFactory(buildTrustEngineSocketFactory());
+        httpClientBuilder.setTLSSocketFactory(buildTrustEngineSocketFactory(false));
         
         resolver = new FunctionDrivenDynamicHTTPMetadataResolver(httpClientBuilder.buildClient());
         resolver.setId("myDynamicResolver");
@@ -315,7 +315,7 @@ public class FunctionDrivenDynamicHTTPMetadataResolverTest extends XMLObjectBase
                 true, 
                 new StringDigester("SHA-1", OutputFormat.HEX_LOWER));
         
-        httpClientBuilder.setTLSSocketFactory(buildTrustEngineSocketFactory());
+        httpClientBuilder.setTLSSocketFactory(buildTrustEngineSocketFactory(false));
         
         resolver = new FunctionDrivenDynamicHTTPMetadataResolver(httpClientBuilder.buildClient());
         resolver.setId("myDynamicResolver");
@@ -531,10 +531,16 @@ public class FunctionDrivenDynamicHTTPMetadataResolverTest extends XMLObjectBase
     // Helpers
     
     private LayeredConnectionSocketFactory buildTrustEngineSocketFactory() {
-        return new SecurityEnhancedTLSSocketFactory(
+        return buildTrustEngineSocketFactory(true);
+    }
+    
+    private LayeredConnectionSocketFactory buildTrustEngineSocketFactory(boolean trustEngineRequired) {
+        SecurityEnhancedTLSSocketFactory factory = new SecurityEnhancedTLSSocketFactory(
                 HttpClientSupport.buildNoTrustTLSSocketFactory(),
                 SSLConnectionSocketFactory.STRICT_HOSTNAME_VERIFIER
                 );
+        factory.setTrustEngineRequired(trustEngineRequired);
+        return factory;
     }
 
     private TrustEngine<? super X509Credential> buildExplicitKeyTrustEngine(String cert) throws URISyntaxException, CertificateException {
