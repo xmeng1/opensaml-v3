@@ -26,6 +26,8 @@ import javax.xml.validation.Validator;
 
 import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
 import net.shibboleth.utilities.java.support.logic.Constraint;
+import net.shibboleth.utilities.java.support.primitive.DeprecationSupport;
+import net.shibboleth.utilities.java.support.primitive.DeprecationSupport.ObjectType;
 import net.shibboleth.utilities.java.support.primitive.StringSupport;
 import net.shibboleth.utilities.java.support.xml.ClasspathResolver;
 import net.shibboleth.utilities.java.support.xml.SchemaBuilder;
@@ -81,7 +83,10 @@ public class SchemaValidationFilter implements MetadataFilter {
         
         if (extensionSchemas != null) {
             log.info("Overriding SchemaBuilder used to construct schemas to accomodate extension schemas");
-            log.warn("Supplying extension schemas directly to metadata filter is deprecated");
+            
+            DeprecationSupport.warn(ObjectType.METHOD,
+                    getClass().getName() + ".SchemaValidationFilter(SAMLSchemaBuilder, String[])", null,
+                    "SchemaValidationFilter(SAMLSchemaBuilder)");
             
             final SchemaBuilder overriddenSchemaBuilder = new SchemaBuilder();
             overriddenSchemaBuilder.setResourceResolver(new ClasspathResolver());

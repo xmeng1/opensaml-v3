@@ -69,6 +69,8 @@ import net.shibboleth.utilities.java.support.component.ComponentInitializationEx
 import net.shibboleth.utilities.java.support.component.ComponentSupport;
 import net.shibboleth.utilities.java.support.logic.Constraint;
 import net.shibboleth.utilities.java.support.net.MediaTypeSupport;
+import net.shibboleth.utilities.java.support.primitive.DeprecationSupport;
+import net.shibboleth.utilities.java.support.primitive.DeprecationSupport.ObjectType;
 import net.shibboleth.utilities.java.support.primitive.StringSupport;
 import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
 import net.shibboleth.utilities.java.support.resolver.ResolverException;
@@ -442,6 +444,7 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
      */
     protected HttpClientContext buildHttpClientContext() {
         //TODO when we remove this deprecated method, change called method to @Nonnull for request
+        DeprecationSupport.warn(ObjectType.METHOD, getClass().getName() + ".buildHttpClientContext()", null, null);
         return buildHttpClientContext(null);
     }
     

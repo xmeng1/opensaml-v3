@@ -32,6 +32,8 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocket;
 
 import net.shibboleth.utilities.java.support.logic.Constraint;
+import net.shibboleth.utilities.java.support.primitive.DeprecationSupport;
+import net.shibboleth.utilities.java.support.primitive.DeprecationSupport.ObjectType;
 import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
 
 import org.apache.http.HttpHost;
@@ -229,6 +231,8 @@ public class SecurityEnhancedTLSSocketFactory implements LayeredConnectionSocket
     protected void performTrustEval(@Nonnull final Socket socket, @Nonnull final HttpContext context) 
             throws IOException {
         //TODO when we remove this deprecated method, change called method to @Nonnull for hostname
+        DeprecationSupport.warn(ObjectType.METHOD, getClass().getName() + ".performTrustEval(Socket, HttpContext)",
+                null, null);
         performTrustEval(socket, null, context);
     }
     
