@@ -137,6 +137,12 @@
         </dependencies>
     </dependencyManagement>
 
+    <scm>
+        <connection>${scm.connection}java-opensaml</connection>
+        <developerConnection>${scm.developerConnection}java-opensaml</developerConnection>
+        <url>${scm.url}java-opensaml.git</url>
+    </scm>
+
     <distributionManagement>
         <site>
             <id>site</id>
