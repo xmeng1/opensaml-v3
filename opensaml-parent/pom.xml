@@ -138,9 +138,9 @@
     </dependencyManagement>
 
     <scm>
-        <connection>${scm.connection}java-opensaml</connection>
-        <developerConnection>${scm.developerConnection}java-opensaml</developerConnection>
-        <url>${scm.url}java-opensaml.git</url>
+        <connection>${shibboleth.scm.connection}java-opensaml</connection>
+        <developerConnection>${shibboleth.scm.developerConnection}java-opensaml</developerConnection>
+        <url>${shibboleth.scm.url}java-opensaml.git</url>
     </scm>
 
     <distributionManagement>
