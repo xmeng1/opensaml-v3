@@ -176,7 +176,7 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
      * 
      * @return time the last successful refresh cycle occurred
      */
-    @Nullable DateTime getLastSuccessfulRefresh() {
+    @Nullable public DateTime getLastSuccessfulRefresh() {
         return lastSuccessfulRefresh;
     }
 
@@ -185,7 +185,7 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
      * 
      * @return true if last refresh cycle was successful, false if not
      */
-    @Nullable Boolean wasLastRefreshSuccess() {
+    @Nullable public Boolean wasLastRefreshSuccess() {
         return wasLastRefreshSuccess;
     }
 
