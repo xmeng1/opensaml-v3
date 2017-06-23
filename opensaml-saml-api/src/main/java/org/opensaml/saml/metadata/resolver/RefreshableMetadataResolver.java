@@ -56,6 +56,7 @@ public interface RefreshableMetadataResolver extends MetadataResolver {
      */
     @Nullable DateTime getLastUpdate();
     
-    //TODO For 4.0: promote getLastSuccessfulRefresh() and wasLastRefreshSuccess() from AbstractReloadingMetadataResolver
+    //TODO For 4.0: promote getLastSuccessfulRefresh() and wasLastRefreshSuccess() 
+    //     from ExtendedRefreshableMetadataResolver
     
 }

@@ -17,14 +17,29 @@
 
 package org.opensaml.saml.metadata.resolver;
 
-/**
- * Marker interface for {@link MetadataResolver} implementations which resolve
- * metadata from a batch of data loaded and processed in advance of resolution operations,
- * for example by loading an XML document from a file or HTTP resource at component initialization 
- * time.
- */
-public interface BatchMetadataResolver extends MetadataResolver {
+import javax.annotation.Nullable;
 
-    //TODO For 4.0: promote getRootValidUntil() and isRootValid() from ExtendedBatchMetadataResolver
+import org.joda.time.DateTime;
+
+/**
+ *
+ */
+public interface ExtendedRefreshableMetadataResolver extends RefreshableMetadataResolver {
+    
+    //TODO promote methods up and remove in 4.0.0
+    
+    /**
+     * Gets the time the last successful refresh cycle occurred.
+     * 
+     * @return time the last successful refresh cycle occurred
+     */
+    @Nullable public DateTime getLastSuccessfulRefresh();
+
+    /**
+     * Gets whether the last refresh cycle was successful.
+     * 
+     * @return true if last refresh cycle was successful, false if not
+     */
+    @Nullable public Boolean wasLastRefreshSuccess();
 
 }

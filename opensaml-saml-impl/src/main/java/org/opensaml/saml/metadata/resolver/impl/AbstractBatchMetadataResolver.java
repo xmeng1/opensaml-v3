@@ -25,19 +25,11 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
-import net.shibboleth.utilities.java.support.annotation.constraint.NotLive;
-import net.shibboleth.utilities.java.support.annotation.constraint.Unmodifiable;
-import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
-import net.shibboleth.utilities.java.support.component.ComponentSupport;
-import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
-import net.shibboleth.utilities.java.support.resolver.ResolverException;
-
 import org.joda.time.DateTime;
 import org.opensaml.core.criterion.EntityIdCriterion;
 import org.opensaml.core.xml.XMLObject;
 import org.opensaml.saml.metadata.IterableMetadataSource;
-import org.opensaml.saml.metadata.resolver.BatchMetadataResolver;
+import org.opensaml.saml.metadata.resolver.ExtendedBatchMetadataResolver;
 import org.opensaml.saml.metadata.resolver.filter.FilterException;
 import org.opensaml.saml.metadata.resolver.index.MetadataIndex;
 import org.opensaml.saml.metadata.resolver.index.impl.MetadataIndexManager;
@@ -53,12 +45,20 @@ import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 
+import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
+import net.shibboleth.utilities.java.support.annotation.constraint.NotLive;
+import net.shibboleth.utilities.java.support.annotation.constraint.Unmodifiable;
+import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
+import net.shibboleth.utilities.java.support.component.ComponentSupport;
+import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
+import net.shibboleth.utilities.java.support.resolver.ResolverException;
+
 /**
  * Abstract subclass for metadata resolvers that process and resolve metadata at a given point 
  * in time from a single metadata source document.
  */
 public abstract class AbstractBatchMetadataResolver extends AbstractMetadataResolver 
-        implements BatchMetadataResolver, IterableMetadataSource {
+        implements ExtendedBatchMetadataResolver, IterableMetadataSource {
     
     /** Class logger. */
     private final Logger log = LoggerFactory.getLogger(AbstractBatchMetadataResolver.class);
@@ -153,11 +153,7 @@ public abstract class AbstractBatchMetadataResolver extends AbstractMetadataReso
         resolveViaPredicatesOnly = flag;
     }
 
-    /**
-     * Get the validUntil of of the metadata batch root element, if present.
-     *
-     * @return the validUntil date/time of the root element, or null if not available
-     */
+    /** {@inheritDoc} */
     @Nullable public DateTime getRootValidUntil() {
         XMLObject cached = getBackingStore().getCachedOriginalMetadata();
         if (cached != null && cached instanceof TimeBoundSAMLObject) {
@@ -167,11 +163,7 @@ public abstract class AbstractBatchMetadataResolver extends AbstractMetadataReso
         }
     }
 
-    /**
-     * Get the validity state of the metadata batch root element, as determined by {@link #isValid(XMLObject)}.
-     *
-     * @return true if root element is valid, false if not valid, null if indeterminate
-     */
+    /** {@inheritDoc} */
     @Nullable public Boolean isRootValid() {
         XMLObject cached = getBackingStore().getCachedOriginalMetadata();
         if (cached == null) {

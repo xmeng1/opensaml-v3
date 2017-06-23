@@ -17,14 +17,30 @@
 
 package org.opensaml.saml.metadata.resolver;
 
-/**
- * Marker interface for {@link MetadataResolver} implementations which resolve
- * metadata from a batch of data loaded and processed in advance of resolution operations,
- * for example by loading an XML document from a file or HTTP resource at component initialization 
- * time.
- */
-public interface BatchMetadataResolver extends MetadataResolver {
+import javax.annotation.Nullable;
 
-    //TODO For 4.0: promote getRootValidUntil() and isRootValid() from ExtendedBatchMetadataResolver
+import org.joda.time.DateTime;
+import org.opensaml.core.xml.XMLObject;
+
+/**
+ * Extended {@link BatchMetadataResolver}.
+ */
+public interface ExtendedBatchMetadataResolver extends BatchMetadataResolver {
+    
+    //TODO promote methods up and remove in 4.0.0
+    
+    /**
+     * Get the validUntil of of the metadata batch root element, if present.
+     *
+     * @return the validUntil date/time of the root element, or null if not available
+     */
+    @Nullable public DateTime getRootValidUntil();
+
+    /**
+     * Get the validity state of the metadata batch root element, as determined by {@link #isValid(XMLObject)}.
+     *
+     * @return true if root element is valid, false if not valid, null if indeterminate
+     */
+    @Nullable public Boolean isRootValid();
 
 }

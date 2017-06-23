@@ -27,24 +27,24 @@ import java.util.TimerTask;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.shibboleth.utilities.java.support.annotation.Duration;
-import net.shibboleth.utilities.java.support.annotation.constraint.Positive;
-import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
-import net.shibboleth.utilities.java.support.component.ComponentSupport;
-import net.shibboleth.utilities.java.support.resolver.ResolverException;
-
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.chrono.ISOChronology;
 import org.opensaml.core.xml.XMLObject;
 import org.opensaml.core.xml.io.UnmarshallingException;
-import org.opensaml.saml.metadata.resolver.RefreshableMetadataResolver;
+import org.opensaml.saml.metadata.resolver.ExtendedRefreshableMetadataResolver;
 import org.opensaml.saml.metadata.resolver.filter.FilterException;
 import org.opensaml.saml.saml2.common.SAML2Support;
 import org.opensaml.saml.saml2.common.TimeBoundSAMLObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
+
+import net.shibboleth.utilities.java.support.annotation.Duration;
+import net.shibboleth.utilities.java.support.annotation.constraint.Positive;
+import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
+import net.shibboleth.utilities.java.support.component.ComponentSupport;
+import net.shibboleth.utilities.java.support.resolver.ResolverException;
 
 /**
  * Base class for metadata providers that cache and periodically refresh their metadata.
@@ -61,7 +61,7 @@ import org.w3c.dom.Document;
  * expires.
  */
 public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMetadataResolver 
-        implements RefreshableMetadataResolver {
+        implements ExtendedRefreshableMetadataResolver {
 
     /** Class logger. */
     private final Logger log = LoggerFactory.getLogger(AbstractReloadingMetadataResolver.class);
@@ -171,20 +171,12 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
         return lastRefresh;
     }
     
-    /**
-     * Gets the time the last successful refresh cycle occurred.
-     * 
-     * @return time the last successful refresh cycle occurred
-     */
+    /** {@inheritDoc} */
     @Nullable public DateTime getLastSuccessfulRefresh() {
         return lastSuccessfulRefresh;
     }
 
-    /**
-     * Gets whether the last refresh cycle was successful.
-     * 
-     * @return true if last refresh cycle was successful, false if not
-     */
+    /** {@inheritDoc} */
     @Nullable public Boolean wasLastRefreshSuccess() {
         return wasLastRefreshSuccess;
     }
