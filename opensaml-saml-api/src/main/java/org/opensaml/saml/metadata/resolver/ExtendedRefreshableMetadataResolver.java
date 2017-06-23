@@ -22,7 +22,7 @@ import javax.annotation.Nullable;
 import org.joda.time.DateTime;
 
 /**
- *
+ * Extended {@link RefreshableMetadataResolver}.
  */
 public interface ExtendedRefreshableMetadataResolver extends RefreshableMetadataResolver {
     
