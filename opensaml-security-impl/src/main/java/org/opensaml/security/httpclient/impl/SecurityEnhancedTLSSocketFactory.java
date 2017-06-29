@@ -31,11 +31,6 @@ import javax.net.ssl.SSLPeerUnverifiedException;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocket;
 
-import net.shibboleth.utilities.java.support.logic.Constraint;
-import net.shibboleth.utilities.java.support.primitive.DeprecationSupport;
-import net.shibboleth.utilities.java.support.primitive.DeprecationSupport.ObjectType;
-import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
-
 import org.apache.http.HttpHost;
 import org.apache.http.conn.socket.LayeredConnectionSocketFactory;
 import org.apache.http.conn.ssl.X509HostnameVerifier;
@@ -51,6 +46,11 @@ import org.opensaml.security.x509.X509Credential;
 import org.opensaml.security.x509.tls.impl.ThreadLocalX509CredentialContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import net.shibboleth.utilities.java.support.logic.Constraint;
+import net.shibboleth.utilities.java.support.primitive.DeprecationSupport;
+import net.shibboleth.utilities.java.support.primitive.DeprecationSupport.ObjectType;
+import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
 
 /**
  * An security-enhanced implementation of HttpClient's TLS-capable {@link LayeredConnectionSocketFactory}.
@@ -126,7 +126,22 @@ public class SecurityEnhancedTLSSocketFactory implements LayeredConnectionSocket
     
     /** Flag indicating whether a context trust engine attribute is required for TLS server validation. 
      * Default: true. */
-    private boolean trustEngineRequired;
+    private boolean engineRequired = true;
+    
+    /**
+     * Constructor. 
+     * 
+     * <p>No hostname verifier is configured in this implementation. (Does not affect whether hostname 
+     * is or is not evaluated by the wrapped socket factory).</p>
+     * 
+     * @param factory the underlying HttpClient socket factory wrapped by this implementation.
+     * @param trustEngineRequired flag indicating whether a context trust engine attribute is required 
+     *         for TLS server validation.
+     */
+    public SecurityEnhancedTLSSocketFactory(@Nonnull final LayeredConnectionSocketFactory factory,
+            boolean trustEngineRequired) {
+        this(factory, null, trustEngineRequired);
+    }
     
     /**
      * Constructor. 
@@ -137,7 +152,7 @@ public class SecurityEnhancedTLSSocketFactory implements LayeredConnectionSocket
      * @param factory the underlying HttpClient socket factory wrapped by this implementation.
      */
     public SecurityEnhancedTLSSocketFactory(@Nonnull final LayeredConnectionSocketFactory factory) {
-        this(factory, null);
+        this(factory, null, true);
     }
 
     /**
@@ -148,9 +163,21 @@ public class SecurityEnhancedTLSSocketFactory implements LayeredConnectionSocket
      */
     public SecurityEnhancedTLSSocketFactory(@Nonnull final LayeredConnectionSocketFactory factory, 
             @Nullable final X509HostnameVerifier verifier) {
+        this(factory, verifier, true);
+    }
+    /**
+     * Constructor. 
+     * 
+     * @param factory the underlying HttpClient socket factory wrapped by this implementation.
+     * @param verifier the hostname verifier evaluated by this implementation
+     * @param trustEngineRequired flag indicating whether a context trust engine attribute is required 
+     *         for TLS server validation.
+     */
+    public SecurityEnhancedTLSSocketFactory(@Nonnull final LayeredConnectionSocketFactory factory, 
+            @Nullable final X509HostnameVerifier verifier, boolean trustEngineRequired) {
         wrappedFactory = Constraint.isNotNull(factory, "Socket factory was null");
         hostnameVerifier = verifier;
-        trustEngineRequired = true;
+        engineRequired = trustEngineRequired;
     }
 
     /**
@@ -161,18 +188,7 @@ public class SecurityEnhancedTLSSocketFactory implements LayeredConnectionSocket
      * @return true if trust engine is required, false if not
      */
     public boolean isTrustEngineRequired() {
-        return trustEngineRequired;
-    }
-
-   /**
-     * Set the flag indicating whether a context trust engine attribute is required for TLS server validation. 
-     * 
-     * <p>Default: true.</p>
-     * 
-     * @param flag true if trust engine is required, false if not
-     */
-    public void setTrustEngineRequired(boolean flag) {
-        trustEngineRequired = flag;
+        return engineRequired;
     }
 
     /** {@inheritDoc} */

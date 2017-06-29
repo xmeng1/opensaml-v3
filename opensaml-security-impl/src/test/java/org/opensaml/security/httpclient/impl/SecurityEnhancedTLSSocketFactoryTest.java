@@ -87,8 +87,7 @@ public class SecurityEnhancedTLSSocketFactoryTest {
        X509Credential cred = getCredential("foo-1A1-good.crt");
        
        securityEnhancedSocketFactory = new SecurityEnhancedTLSSocketFactory(buildInnerSSLFactory(
-               Collections.singletonList((Certificate)cred.getEntityCertificate()), hostname), null);
-       securityEnhancedSocketFactory.setTrustEngineRequired(false);
+               Collections.singletonList((Certificate)cred.getEntityCertificate()), hostname), null, false);
        Socket socket = securityEnhancedSocketFactory.createSocket(httpContext);
        
        securityEnhancedSocketFactory.connectSocket(0, socket, new HttpHost(hostname, 443, "https"), null, null, httpContext);

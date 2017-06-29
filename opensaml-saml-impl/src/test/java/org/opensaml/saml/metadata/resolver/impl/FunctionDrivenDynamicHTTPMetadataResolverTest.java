@@ -537,9 +537,9 @@ public class FunctionDrivenDynamicHTTPMetadataResolverTest extends XMLObjectBase
     private LayeredConnectionSocketFactory buildTrustEngineSocketFactory(boolean trustEngineRequired) {
         SecurityEnhancedTLSSocketFactory factory = new SecurityEnhancedTLSSocketFactory(
                 HttpClientSupport.buildNoTrustTLSSocketFactory(),
-                SSLConnectionSocketFactory.STRICT_HOSTNAME_VERIFIER
+                SSLConnectionSocketFactory.STRICT_HOSTNAME_VERIFIER,
+                trustEngineRequired
                 );
-        factory.setTrustEngineRequired(trustEngineRequired);
         return factory;
     }
 
