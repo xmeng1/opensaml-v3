@@ -69,15 +69,7 @@ public class EntityGroupNamePredicate implements Predicate<EntityDescriptor> {
      * @param names the group names to test for
      */
     public EntityGroupNamePredicate(@Nonnull @NonnullElements final Collection<String> names) {
-        
-        Constraint.isNotNull(names, "Group name collection cannot be null");
-        groupNames = new HashSet<>(names.size());
-        for (final String name : names) {
-            final String trimmed = StringSupport.trimOrNull(name);
-            if (trimmed != null) {
-                groupNames.add(trimmed);
-            }
-        }
+        this(names, null);
     }
     
     /**
@@ -89,14 +81,23 @@ public class EntityGroupNamePredicate implements Predicate<EntityDescriptor> {
      * @since 3.4.0
      */
     public EntityGroupNamePredicate(@Nonnull @NonnullElements final Collection<String> names,
-            @Nonnull final MetadataResolver resolver) {
-        this(names);
+            @Nullable final MetadataResolver resolver) {
         
-        metadataResolver = Constraint.isNotNull(resolver, "MetadataResolver cannot be null");
+        Constraint.isNotNull(names, "Group name collection cannot be null");
+        groupNames = new HashSet<>(names.size());
+        for (final String name : names) {
+            final String trimmed = StringSupport.trimOrNull(name);
+            if (trimmed != null) {
+                groupNames.add(trimmed);
+            }
+        }
         
-        criteriaSets = new ArrayList<>(groupNames.size());
-        for (final String name : groupNames) {
-            criteriaSets.add(new CriteriaSet(new EntityIdCriterion(name)));
+        metadataResolver = resolver;
+        if (resolver != null) {
+            criteriaSets = new ArrayList<>(groupNames.size());
+            for (final String name : groupNames) {
+                criteriaSets.add(new CriteriaSet(new EntityIdCriterion(name)));
+            }
         }
     }
 
