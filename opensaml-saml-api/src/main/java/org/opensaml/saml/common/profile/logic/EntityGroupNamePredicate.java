@@ -17,6 +17,7 @@
 
 package org.opensaml.saml.common.profile.logic;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -29,9 +30,17 @@ import net.shibboleth.utilities.java.support.annotation.constraint.NotLive;
 import net.shibboleth.utilities.java.support.annotation.constraint.Unmodifiable;
 import net.shibboleth.utilities.java.support.logic.Constraint;
 import net.shibboleth.utilities.java.support.primitive.StringSupport;
+import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
+import net.shibboleth.utilities.java.support.resolver.ResolverException;
 
+import org.opensaml.core.criterion.EntityIdCriterion;
 import org.opensaml.saml.metadata.EntityGroupName;
+import org.opensaml.saml.metadata.resolver.MetadataResolver;
+import org.opensaml.saml.saml2.metadata.AffiliateMember;
+import org.opensaml.saml.saml2.metadata.AffiliationDescriptor;
 import org.opensaml.saml.saml2.metadata.EntityDescriptor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableSet;
@@ -42,8 +51,17 @@ import com.google.common.collect.ImmutableSet;
  */
 public class EntityGroupNamePredicate implements Predicate<EntityDescriptor> {
     
+    /** Class logger. */
+    @Nonnull private final Logger log = LoggerFactory.getLogger(EntityGroupNamePredicate.class);
+    
     /** Groups to match on. */
     @Nonnull @NonnullElements private final Set<String> groupNames;
+    
+    /** A supplemental resolver to allow for {@link AffiliationDescriptor} lookup. */
+    @Nullable private MetadataResolver metadataResolver;
+    
+    /** Pre-created criteria sets for metadata lookup. */
+    @Nullable @NonnullElements private Collection<CriteriaSet> criteriaSets;
     
     /**
      * Constructor.
@@ -61,6 +79,26 @@ public class EntityGroupNamePredicate implements Predicate<EntityDescriptor> {
             }
         }
     }
+    
+    /**
+     * Constructor.
+     * 
+     * @param names the group names to test for
+     * @param resolver metadata resolver for affiliation support
+     * 
+     * @since 3.4.0
+     */
+    public EntityGroupNamePredicate(@Nonnull @NonnullElements final Collection<String> names,
+            @Nonnull final MetadataResolver resolver) {
+        this(names);
+        
+        metadataResolver = Constraint.isNotNull(resolver, "MetadataResolver cannot be null");
+        
+        criteriaSets = new ArrayList<>(groupNames.size());
+        for (final String name : groupNames) {
+            criteriaSets.add(new CriteriaSet(new EntityIdCriterion(name)));
+        }
+    }
 
     /**
      * Get the group name criteria.
@@ -71,18 +109,45 @@ public class EntityGroupNamePredicate implements Predicate<EntityDescriptor> {
         return ImmutableSet.copyOf(groupNames);
     }
     
+// Checkstyle: CyclomaticComplexity OFF
     /** {@inheritDoc} */
     @Override
     public boolean apply(@Nullable final EntityDescriptor input) {
-        if (input != null) {
-            for (final EntityGroupName group : input.getObjectMetadata().get(EntityGroupName.class)) {
-                if (groupNames.contains(group.getName())) {
-                    return true;
+        
+        if (input == null) {
+            log.debug("Input was null, condition is false");
+            return false;
+        }
+        
+        for (final EntityGroupName group : input.getObjectMetadata().get(EntityGroupName.class)) {
+            if (groupNames.contains(group.getName())) {
+                log.debug("Found matching group '{}' attached to entity '{}'", group.getName(), input.getEntityID());
+                return true;
+            }
+        }
+        
+        if (metadataResolver != null) {
+            for (final CriteriaSet criteria : criteriaSets) {
+                try {
+                    final EntityDescriptor affiliation = metadataResolver.resolveSingle(criteria);
+                    if (affiliation != null && affiliation.getAffiliationDescriptor() != null) {
+                        for (final AffiliateMember member : affiliation.getAffiliationDescriptor().getMembers()) {
+                            if (member.getID().equals(input.getEntityID())) {
+                                log.debug("Found AffiliationDescriptor '{}' membership for entity '{}'",
+                                        affiliation.getEntityID(), input.getEntityID());
+                                return true;
+                            }
+                        }
+                    }
+                } catch (final ResolverException e) {
+                    log.warn("Metadata lookup for AffiliationDescriptor failed", e);
                 }
             }
         }
         
+        log.debug("No group match found for entity '{}'", input.getEntityID());
         return false;
     }
-
+// Checkstyle: CyclomaticComplexity ON
+    
 }
