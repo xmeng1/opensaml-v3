@@ -56,7 +56,7 @@ public class ClasspathConfigurationPropertiesSource implements ConfigurationProp
                         props.load(is);
                         cachedProperties = props;
                     }
-                } catch (IOException e) {
+                } catch (final IOException e) {
                     log.warn("Problem attempting to load configuration properties '" 
                             + RESOURCE_NAME + "' from classpath", e);
                 }

@@ -47,7 +47,7 @@ public class SatisfyAnyCriterion implements Criterion {
      *
      * @param value the satisfyAny flag value
      */
-    public SatisfyAnyCriterion(boolean value) {
+    public SatisfyAnyCriterion(final boolean value) {
         satisfyAny = value;
     }
 
@@ -66,7 +66,7 @@ public class SatisfyAnyCriterion implements Criterion {
     }
 
     /** {@inheritDoc} */
-    public boolean equals(Object other) {
+    public boolean equals(final Object other) {
         if (this == other) {
             return true;
         }

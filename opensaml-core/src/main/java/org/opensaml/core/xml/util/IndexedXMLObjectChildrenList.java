@@ -268,7 +268,7 @@ class ListView<ElementType extends XMLObject> extends AbstractList<ElementType> 
 
     /** {@inheritDoc} */
     @Override
-    public void add(int newIndex, @Nullable final ElementType element) {
+    public void add(final int newIndex, @Nullable final ElementType element) {
         throw new UnsupportedOperationException();
     }
 
@@ -282,7 +282,7 @@ class ListView<ElementType extends XMLObject> extends AbstractList<ElementType> 
 
     /** {@inheritDoc} */
     @Override
-    public boolean addAll(int i, @Nonnull final Collection<? extends ElementType> c) {
+    public boolean addAll(final int i, @Nonnull final Collection<? extends ElementType> c) {
         throw new UnsupportedOperationException();
     }
 
@@ -370,7 +370,7 @@ class ListView<ElementType extends XMLObject> extends AbstractList<ElementType> 
 
     /** {@inheritDoc} */
     @Override
-    public ElementType set(int newIndex, @Nonnull final ElementType element) {
+    public ElementType set(final int newIndex, @Nonnull final ElementType element) {
         throw new UnsupportedOperationException();
     }
 

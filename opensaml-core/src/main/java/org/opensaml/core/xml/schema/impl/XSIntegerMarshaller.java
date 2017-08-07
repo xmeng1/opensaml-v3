@@ -31,12 +31,13 @@ import org.w3c.dom.Element;
 public class XSIntegerMarshaller extends AbstractXMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
         // no attributes
     }
 
     /** {@inheritDoc} */
-    protected void marshallElementContent(XMLObject xmlObject, Element domElement) throws MarshallingException {
+    protected void marshallElementContent(final XMLObject xmlObject, final Element domElement)
+            throws MarshallingException {
         XSInteger xsiInteger = (XSInteger) xmlObject;
 
         if (xsiInteger.getValue() != null) {

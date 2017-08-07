@@ -47,7 +47,7 @@ public class XSBooleanValue {
      * @param newValue the value
      * @param numericRepresentation whether to use a numeric or lexical representation
      */
-    public XSBooleanValue(@Nullable final Boolean newValue, boolean numericRepresentation) {
+    public XSBooleanValue(@Nullable final Boolean newValue, final boolean numericRepresentation) {
         numeric = numericRepresentation;
         value = newValue;
     }
@@ -84,7 +84,7 @@ public class XSBooleanValue {
      * 
      * @param numericRepresentation whether to use the numeric or lexical representation
      */
-    public void setNumericRepresentation(boolean numericRepresentation) {
+    public void setNumericRepresentation(final boolean numericRepresentation) {
         numeric = numericRepresentation;
     }
     
@@ -115,7 +115,7 @@ public class XSBooleanValue {
     
     /** {@inheritDoc} */
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if(obj == this){
             return true;
         }
@@ -143,7 +143,7 @@ public class XSBooleanValue {
      * 
      * @return the textual representation
      */
-    public static String toString(Boolean value, boolean numericRepresentation) {
+    public static String toString(final Boolean value, final boolean numericRepresentation) {
         if (value == null) {
             return "false";
         }

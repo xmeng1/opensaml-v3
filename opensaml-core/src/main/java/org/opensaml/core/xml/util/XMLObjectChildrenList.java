@@ -100,7 +100,7 @@ public class XMLObjectChildrenList<ElementType extends XMLObject> extends Abstra
     }
 
     /** {@inheritDoc} */
-    @Nonnull public ElementType get(int index) {
+    @Nonnull public ElementType get(final int index) {
         return elements.get(index);
     }
 
@@ -116,7 +116,7 @@ public class XMLObjectChildrenList<ElementType extends XMLObject> extends Abstra
      * 
      * @return the replaced XMLObject
      */
-    @Nullable public ElementType set(int index, @Nullable final ElementType element) {
+    @Nullable public ElementType set(final int index, @Nullable final ElementType element) {
         if (element == null) {
             return null;
         }
@@ -148,7 +148,7 @@ public class XMLObjectChildrenList<ElementType extends XMLObject> extends Abstra
      * @param index index at which to add the given XMLObject
      * @param element element to be stored at the given index
      */
-    public void add(int index, @Nullable final ElementType element) {
+    public void add(final int index, @Nullable final ElementType element) {
         if (element == null || elements.contains(element)) {
             return;
         }
@@ -161,7 +161,7 @@ public class XMLObjectChildrenList<ElementType extends XMLObject> extends Abstra
     }
 
     /** {@inheritDoc} */
-    @Nonnull public ElementType remove(int index) {
+    @Nonnull public ElementType remove(final int index) {
         ElementType element = elements.remove(index);
 
         if (element != null) {

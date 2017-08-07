@@ -84,7 +84,7 @@ public class AttributeMap implements Map<QName, String> {
     }
 
     /** {@inheritDoc} */
-    public String put(QName attributeName, String value) {
+    public String put(final QName attributeName, final String value) {
         Constraint.isNotNull(attributeName, "Attribute name cannot be null");
         String oldValue = get(attributeName);
         if (!Objects.equals(value, oldValue)) {
@@ -117,7 +117,7 @@ public class AttributeMap implements Map<QName, String> {
      * @param value the QName attribute value
      * @return the old attribute value, possibly null
      */
-    public QName put(QName attributeName, QName value) {
+    public QName put(final QName attributeName, final QName value) {
         Constraint.isNotNull(attributeName, "Attribute name cannot be null");
         String oldValueString = get(attributeName);
         
@@ -173,22 +173,22 @@ public class AttributeMap implements Map<QName, String> {
     }
 
     /** {@inheritDoc} */
-    public boolean containsKey(Object key) {
+    public boolean containsKey(final Object key) {
         return attributes.containsKey(key);
     }
 
     /** {@inheritDoc} */
-    public boolean containsValue(Object value) {
+    public boolean containsValue(final Object value) {
         return attributes.containsValue(value);
     }
 
     /** {@inheritDoc} */
-    public String get(Object key) {
+    public String get(final Object key) {
         return attributes.get(key);
     }
 
     /** {@inheritDoc} */
-    public String remove(Object key) {
+    public String remove(final Object key) {
         String removedValue = attributes.remove(key);
         if (removedValue != null) {
             releaseDOM();
@@ -204,7 +204,7 @@ public class AttributeMap implements Map<QName, String> {
     }
 
     /** {@inheritDoc} */
-    public void putAll(Map<? extends QName, ? extends String> t) {
+    public void putAll(final Map<? extends QName, ? extends String> t) {
         if (t != null && t.size() > 0) {
             for (Entry<? extends QName, ? extends String> entry : t.entrySet()) {
                 put(entry.getKey(), entry.getValue());
@@ -235,7 +235,7 @@ public class AttributeMap implements Map<QName, String> {
      * 
      * @param attributeName the QName of the ID attribute to be registered
      */
-    public void registerID(QName attributeName) {
+    public void registerID(final QName attributeName) {
         if (! idAttribNames.contains(attributeName)) {
             idAttribNames.add(attributeName);
         }
@@ -252,7 +252,7 @@ public class AttributeMap implements Map<QName, String> {
      * 
      * @param attributeName the QName of the ID attribute to be de-registered
      */
-    public void deregisterID(QName attributeName) {
+    public void deregisterID(final QName attributeName) {
         if (idAttribNames.contains(attributeName)) {
             idAttribNames.remove(attributeName);
         }
@@ -271,7 +271,7 @@ public class AttributeMap implements Map<QName, String> {
      * @param attributeName the QName of the attribute to be checked for ID type.
      * @return true if attribute is registered as having an ID type.
      */
-    public boolean isIDAttribute(QName attributeName) {
+    public boolean isIDAttribute(final QName attributeName) {
         return idAttribNames.contains(attributeName);
     }
     
@@ -280,7 +280,7 @@ public class AttributeMap implements Map<QName, String> {
      * 
      * @param attributeName the name of the QName-valued attribute to be registered
      */
-    public void registerQNameAttribute(QName attributeName) {
+    public void registerQNameAttribute(final QName attributeName) {
         qnameAttribNames.add(attributeName);
     }
     
@@ -289,7 +289,7 @@ public class AttributeMap implements Map<QName, String> {
      * 
      * @param attributeName the name of the QName-valued attribute to be registered
      */
-    public void deregisterQNameAttribute(QName attributeName) {
+    public void deregisterQNameAttribute(final QName attributeName) {
         qnameAttribNames.remove(attributeName);
     }
     
@@ -299,7 +299,7 @@ public class AttributeMap implements Map<QName, String> {
      * @param attributeName the QName of the attribute to be checked for QName type.
      * @return true if attribute is registered as having an QName type.
      */
-    public boolean isQNameAttribute(QName attributeName) {
+    public boolean isQNameAttribute(final QName attributeName) {
         return qnameAttribNames.contains(attributeName);
     }
     
@@ -321,7 +321,7 @@ public class AttributeMap implements Map<QName, String> {
      * @param flag true if QName types should be inferred, false if not
      * 
      */
-    public void setInferQNameValues(boolean flag) {
+    public void setInferQNameValues(final boolean flag) {
         inferQNameValues = flag;
     }
     
@@ -340,7 +340,7 @@ public class AttributeMap implements Map<QName, String> {
      * @param attributeName the attribute name
      * @param attributeValue the attribute value
      */
-    private void checkAndRegisterQNameValue(QName attributeName, String attributeValue) {
+    private void checkAndRegisterQNameValue(final QName attributeName, final String attributeValue) {
         if (attributeValue == null) {
             return;
         }
@@ -363,7 +363,7 @@ public class AttributeMap implements Map<QName, String> {
      * @param attributeName the attribute name
      * @param attributeValue the attribute value
      */
-    private void registerQNameValue(QName attributeName, QName attributeValue) {
+    private void registerQNameValue(final QName attributeName, final QName attributeValue) {
         if (attributeValue == null) {
             return;
         }
@@ -381,7 +381,7 @@ public class AttributeMap implements Map<QName, String> {
      * @param attributeName the attribute name
      * @param attributeValue the attribute value
      */
-    private void checkAndDeregisterQNameValue(QName attributeName, String attributeValue) {
+    private void checkAndDeregisterQNameValue(final QName attributeName, final String attributeValue) {
         if (attributeValue == null) {
             return;
         }
@@ -402,7 +402,7 @@ public class AttributeMap implements Map<QName, String> {
      * 
      * @param attributeName the attribute name whose QName attribute value should be deregistered
      */
-    private void deregisterQNameValue(QName attributeName) {
+    private void deregisterQNameValue(final QName attributeName) {
         String attributeID = NamespaceManager.generateAttributeID(attributeName);
         log.trace("Deregistering QName attribute with attibute ID '{}'", attributeID);
         attributeOwner.getNamespaceManager().deregisterAttributeValue(attributeID);
@@ -415,7 +415,7 @@ public class AttributeMap implements Map<QName, String> {
      * @param attributeValue the attribute value
      * @return the QName if the attribute value is a QName type, otherwise null
      */
-    private QName checkQName(QName attributeName, String attributeValue) {
+    private QName checkQName(final QName attributeName, final String attributeValue) {
         log.trace("Checking whether attribute '{}' with value {} is a QName type", attributeName, attributeValue);
         
         if (attributeValue == null) {
@@ -461,7 +461,7 @@ public class AttributeMap implements Map<QName, String> {
      * 
      * @return the QName, or null if unable to resolve into a QName
      */
-    private QName resolveQName(String attributeValue, boolean isDefaultNSOK) {
+    private QName resolveQName(final String attributeValue, final boolean isDefaultNSOK) {
         if (attributeValue == null) {
             return null;
         }
@@ -511,7 +511,7 @@ public class AttributeMap implements Map<QName, String> {
      * @param attributeValue the QName to process
      * @return the attribute value string representation of the QName
      */
-    private String constructAttributeValue(QName attributeValue) {
+    private String constructAttributeValue(final QName attributeValue) {
         String trimmedLocalName = StringSupport.trimOrNull(attributeValue.getLocalPart());
 
         if (trimmedLocalName == null) {

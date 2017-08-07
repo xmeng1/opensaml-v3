@@ -49,7 +49,7 @@ public class XSDateTimeImpl extends AbstractXMLObject implements XSDateTime {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected XSDateTimeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected XSDateTimeImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         formatter = ISODateTimeFormat.dateTime().withChronology(ISOChronology.getInstanceUTC());
     }
@@ -60,7 +60,7 @@ public class XSDateTimeImpl extends AbstractXMLObject implements XSDateTime {
     }
 
     /** {@inheritDoc} */
-    public void setValue(DateTime newValue) {
+    public void setValue(final DateTime newValue) {
         value = prepareForAssignment(value, newValue);
     }
 
@@ -75,7 +75,7 @@ public class XSDateTimeImpl extends AbstractXMLObject implements XSDateTime {
     }
 
     /** {@inheritDoc} */
-    public void setDateTimeFormatter(DateTimeFormatter newFormatter) {
+    public void setDateTimeFormatter(final DateTimeFormatter newFormatter) {
         formatter = Constraint.isNotNull(newFormatter, "The formatter cannot be null");
     }
 

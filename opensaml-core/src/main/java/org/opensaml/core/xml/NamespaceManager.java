@@ -404,7 +404,7 @@ public class NamespaceManager {
      * @param namespaces list of Namespaces to merge
      * @return the a new set of merged Namespaces
      */
-    @Nonnull private Set<Namespace> mergeNamespaceCollections(Collection<Namespace> ... namespaces) {
+    @Nonnull private Set<Namespace> mergeNamespaceCollections(final Collection<Namespace> ... namespaces) {
         LazySet<Namespace> newNamespaces = new LazySet<>();
         
         for (Collection<Namespace> nsCollection : namespaces) {

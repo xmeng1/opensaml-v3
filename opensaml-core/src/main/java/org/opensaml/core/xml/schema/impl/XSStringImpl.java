@@ -38,7 +38,7 @@ public class XSStringImpl extends AbstractXMLObject implements XSString {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected XSStringImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected XSStringImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
     
@@ -52,7 +52,7 @@ public class XSStringImpl extends AbstractXMLObject implements XSString {
     /**
      * {@inheritDoc}
      */
-    public void setValue(String newValue) {
+    public void setValue(final String newValue) {
         value = prepareForAssignment(value, newValue);
     }
 

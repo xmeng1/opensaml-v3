@@ -31,12 +31,13 @@ import org.w3c.dom.Element;
 public class XSStringMarshaller extends AbstractXMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
         // no attributes
     }
 
     /** {@inheritDoc} */
-    protected void marshallElementContent(XMLObject xmlObject, Element domElement) throws MarshallingException {
+    protected void marshallElementContent(final XMLObject xmlObject, final Element domElement)
+            throws MarshallingException {
         XSString xsiString = (XSString) xmlObject;
 
         ElementSupport.appendTextContent(domElement, xsiString.getValue());

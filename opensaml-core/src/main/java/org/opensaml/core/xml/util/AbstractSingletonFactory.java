@@ -32,7 +32,7 @@ public abstract class AbstractSingletonFactory<Input, Output> implements Singlet
     private final Logger log = LoggerFactory.getLogger(AbstractSingletonFactory.class);
     
     /** {@inheritDoc} */
-    public synchronized Output getInstance(Input input) {
+    public synchronized Output getInstance(final Input input) {
         Output output = get(input);
         if (output != null) {
             log.trace("Input key mapped to a non-null value, returning output");

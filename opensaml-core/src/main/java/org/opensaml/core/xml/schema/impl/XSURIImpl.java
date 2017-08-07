@@ -40,7 +40,7 @@ public class XSURIImpl extends AbstractXMLObject implements XSURI {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected XSURIImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected XSURIImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -50,7 +50,7 @@ public class XSURIImpl extends AbstractXMLObject implements XSURI {
     }
 
     /** {@inheritDoc} */
-    public void setValue(String newValue) {
+    public void setValue(final String newValue) {
         value = prepareForAssignment(value, newValue);
     }
 

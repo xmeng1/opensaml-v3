@@ -64,10 +64,10 @@ public abstract class AbstractFilesystemConfigurationPropertiesSource implements
                         Properties props = new Properties();
                         props.load(is);
                         cachedProperties = props;
-                    } catch (FileNotFoundException e) {
+                    } catch (final FileNotFoundException e) {
                         log.warn("File not found attempting to load configuration properties '" 
                                 + fileName + "' from filesystem");
-                    } catch (IOException e) {
+                    } catch (final IOException e) {
                         log.warn("I/O problem attempting to load configuration properties '" 
                                 + fileName + "' from filesystem", e);
                     }

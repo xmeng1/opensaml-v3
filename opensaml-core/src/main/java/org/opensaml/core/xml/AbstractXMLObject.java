@@ -167,7 +167,7 @@ public abstract class AbstractXMLObject implements XMLObject {
      * @param attributeName the attribute name
      * @param hasValue true to indicate that the attribute has a value, false to indicate it has no value
      */
-    protected void manageQualifiedAttributeNamespace(@Nonnull final QName attributeName, boolean hasValue) {
+    protected void manageQualifiedAttributeNamespace(@Nonnull final QName attributeName, final boolean hasValue) {
         if (hasValue) {
             getNamespaceManager().registerAttributeName(attributeName);
         } else {
@@ -274,7 +274,7 @@ public abstract class AbstractXMLObject implements XMLObject {
      * @return the value that should be assigned
      */
     @Nullable protected String prepareForAssignment(@Nullable final String oldValue, @Nullable final String newValue, 
-            boolean normalize) {
+            final boolean normalize) {
         String newString = newValue;
         if (normalize) {
             newString = StringSupport.trimOrNull(newString);
@@ -390,7 +390,7 @@ public abstract class AbstractXMLObject implements XMLObject {
     }
 
     /** {@inheritDoc} */
-    public void releaseChildrenDOM(boolean propagateRelease) {
+    public void releaseChildrenDOM(final boolean propagateRelease) {
         log.trace("Releasing cached DOM reprsentation for children of {} with propagation set to {}",
                 getElementQName(), propagateRelease);
         if (getOrderedChildren() != null) {
@@ -416,7 +416,7 @@ public abstract class AbstractXMLObject implements XMLObject {
     }
 
     /** {@inheritDoc} */
-    public void releaseParentDOM(boolean propagateRelease) {
+    public void releaseParentDOM(final boolean propagateRelease) {
         log.trace("Releasing cached DOM reprsentation for parent of {} with propagation set to {}", getElementQName(),
                 propagateRelease);
         XMLObject parentElement = getParent();
@@ -550,7 +550,7 @@ public abstract class AbstractXMLObject implements XMLObject {
     }
 
     /** {@inheritDoc} */
-    public void setNil(@Nullable XSBooleanValue newNil) {
+    public void setNil(@Nullable final XSBooleanValue newNil) {
         nil = prepareForAssignment(nil, newNil);
         manageQualifiedAttributeNamespace(XMLConstants.XSI_NIL_ATTRIB_NAME, nil != null);
     }

@@ -54,7 +54,7 @@ public interface SpaceBearing {
          * @param value the value to parse
          * @return the corresponding XMLSpaceEnum
          */
-        public static XMLSpaceEnum parseValue(String value) {
+        public static XMLSpaceEnum parseValue(final String value) {
             return XMLSpaceEnum.valueOf(value.toUpperCase());
         }
         

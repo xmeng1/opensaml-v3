@@ -177,7 +177,7 @@ public class XMLObjectProviderRegistry {
      * 
      * @param attributeName the QName of the ID attribute to be registered
      */
-    public void registerIDAttribute(QName attributeName) {
+    public void registerIDAttribute(final QName attributeName) {
         if (!idAttributeNames.contains(attributeName)) {
             idAttributeNames.add(attributeName);
         }
@@ -188,7 +188,7 @@ public class XMLObjectProviderRegistry {
      * 
      * @param attributeName the QName of the ID attribute to be de-registered
      */
-    public void deregisterIDAttribute(QName attributeName) {
+    public void deregisterIDAttribute(final QName attributeName) {
         if (idAttributeNames.contains(attributeName)) {
             idAttributeNames.remove(attributeName);
         }
@@ -200,7 +200,7 @@ public class XMLObjectProviderRegistry {
      * @param attributeName the QName of the attribute to be checked for ID type.
      * @return true if attribute is registered as having an ID type.
      */
-    public boolean isIDAttribute(QName attributeName) {
+    public boolean isIDAttribute(final QName attributeName) {
         return idAttributeNames.contains(attributeName);
     }
     

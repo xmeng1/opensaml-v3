@@ -42,7 +42,7 @@ public class XSQNameImpl extends AbstractXMLObject implements XSQName {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected XSQNameImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected XSQNameImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
     
@@ -52,7 +52,7 @@ public class XSQNameImpl extends AbstractXMLObject implements XSQName {
     }
 
     /** {@inheritDoc} */
-    public void setValue(QName newValue) {
+    public void setValue(final QName newValue) {
         value = prepareElementContentForAssignment(value, newValue);
     }
 

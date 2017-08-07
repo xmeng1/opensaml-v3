@@ -55,7 +55,7 @@ public class GlobalParserPoolInitializer implements Initializer {
         pp.setMaxPoolSize(50);
         try {
             pp.initialize();
-        } catch (ComponentInitializationException e) {
+        } catch (final ComponentInitializationException e) {
             throw new InitializationException("Error initializing parser pool", e);
         }
         

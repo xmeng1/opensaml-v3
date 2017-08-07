@@ -50,7 +50,7 @@ public final class XMLAttributeSupport {
      * @param xmlObject the XML object to which to add the attribute
      * @param id the Id value
      */
-    public static void addXMLId(XMLObject xmlObject, String id) {
+    public static void addXMLId(final XMLObject xmlObject, final String id) {
         if (xmlObject instanceof IdBearing) {
             ((IdBearing)xmlObject).setXMLId(id);
         } else if (xmlObject instanceof AttributeExtensibleXMLObject) {
@@ -68,7 +68,7 @@ public final class XMLAttributeSupport {
      * 
      * @return the value of the xml:id attribute, or null if not present
      */
-    public static String getXMLId(XMLObject xmlObject) {
+    public static String getXMLId(final XMLObject xmlObject) {
         String value = null;
         if (xmlObject instanceof IdBearing) {
             value = StringSupport.trimOrNull(((IdBearing)xmlObject).getXMLId());
@@ -90,7 +90,7 @@ public final class XMLAttributeSupport {
      * @param xmlObject the XML object to which to add the attribute
      * @param lang the lang value
      */
-    public static void addXMLLang(XMLObject xmlObject, String lang) {
+    public static void addXMLLang(final XMLObject xmlObject, final String lang) {
         if (xmlObject instanceof LangBearing) {
             ((LangBearing)xmlObject).setXMLLang(lang);
         } else if (xmlObject instanceof AttributeExtensibleXMLObject) {
@@ -108,7 +108,7 @@ public final class XMLAttributeSupport {
      * 
      * @return the value of the xml:lang attribute, or null if not present
      */
-    public static String getXMLLang(XMLObject xmlObject) {
+    public static String getXMLLang(final XMLObject xmlObject) {
         String value = null;
         if (xmlObject instanceof LangBearing) {
             value = StringSupport.trimOrNull(((LangBearing)xmlObject).getXMLLang());
@@ -130,7 +130,7 @@ public final class XMLAttributeSupport {
      * @param xmlObject the XML object to which to add the attribute
      * @param base the base value
      */
-    public static void addXMLBase(XMLObject xmlObject, String base) {
+    public static void addXMLBase(final XMLObject xmlObject, final String base) {
         if (xmlObject instanceof BaseBearing) {
             ((BaseBearing)xmlObject).setXMLBase(base);
         } else if (xmlObject instanceof AttributeExtensibleXMLObject) {
@@ -148,7 +148,7 @@ public final class XMLAttributeSupport {
      * 
      * @return the value of the xml:base attribute, or null if not present
      */
-    public static String getXMLBase(XMLObject xmlObject) {
+    public static String getXMLBase(final XMLObject xmlObject) {
         String value = null;
         if (xmlObject instanceof BaseBearing) {
             value = StringSupport.trimOrNull(((BaseBearing)xmlObject).getXMLBase());
@@ -170,7 +170,7 @@ public final class XMLAttributeSupport {
      * @param xmlObject the XML object to which to add the attribute
      * @param space the space value
      */
-    public static void addXMLSpace(XMLObject xmlObject, XMLSpaceEnum space) {
+    public static void addXMLSpace(final XMLObject xmlObject, final XMLSpaceEnum space) {
         if (xmlObject instanceof SpaceBearing) {
             ((SpaceBearing)xmlObject).setXMLSpace(space);
         } else if (xmlObject instanceof AttributeExtensibleXMLObject) {
@@ -188,7 +188,7 @@ public final class XMLAttributeSupport {
      * 
      * @return the value of the xml:space attribute, or null if not present
      */
-    public static XMLSpaceEnum getXMLSpace(XMLObject xmlObject) {
+    public static XMLSpaceEnum getXMLSpace(final XMLObject xmlObject) {
         XMLSpaceEnum valueEnum = null;
         if (xmlObject instanceof SpaceBearing) {
             valueEnum = ((SpaceBearing)xmlObject).getXMLSpace();

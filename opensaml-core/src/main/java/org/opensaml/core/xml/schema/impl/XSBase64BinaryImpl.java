@@ -56,7 +56,7 @@ public class XSBase64BinaryImpl extends AbstractXMLObject implements XSBase64Bin
     /**
      * {@inheritDoc}
      */
-    public void setValue(@Nullable String newValue) {
+    public void setValue(@Nullable final String newValue) {
         value = prepareForAssignment(value, newValue);
     }
 

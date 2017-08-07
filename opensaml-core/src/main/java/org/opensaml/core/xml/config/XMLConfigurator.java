@@ -220,7 +220,7 @@ public class XMLConfigurator {
      * 
      * @throws XMLConfigurationException thrown if the configuration elements are invalid
      */
-    protected void initializeObjectProviders(Element objectProviders) throws XMLConfigurationException {
+    protected void initializeObjectProviders(final Element objectProviders) throws XMLConfigurationException {
 
         final NodeList providerList = objectProviders.getElementsByTagNameNS(XMLTOOLING_CONFIG_NS, "ObjectProvider");
         for (int i = 0; i < providerList.getLength(); i++) {
@@ -266,7 +266,7 @@ public class XMLConfigurator {
      * 
      * @throws XMLConfigurationException thrown if there is a problem with a parsing or registering the ID attribute
      */
-    protected void initializeIDAttributes(Element idAttributesElement) throws XMLConfigurationException {
+    protected void initializeIDAttributes(final Element idAttributesElement) throws XMLConfigurationException {
         Element idAttributeElement;
         QName attributeQName;
 
@@ -294,7 +294,7 @@ public class XMLConfigurator {
      * 
      * @throws XMLConfigurationException thrown if the class can not be instantiated
      */
-    protected Object createClassInstance(Element configuration) throws XMLConfigurationException {
+    protected Object createClassInstance(final Element configuration) throws XMLConfigurationException {
         final String className = StringSupport.trimOrNull(configuration.getAttributeNS(null, "className"));
 
         if (className == null) {
@@ -326,7 +326,7 @@ public class XMLConfigurator {
      * 
      * @throws XMLConfigurationException thrown if the configuration is not schema-valid
      */
-    protected void validateConfiguration(Document configuration) throws XMLConfigurationException {
+    protected void validateConfiguration(final Document configuration) throws XMLConfigurationException {
         try {
             javax.xml.validation.Validator schemaValidator = configurationSchema.newValidator();
             schemaValidator.validate(new DOMSource(configuration));

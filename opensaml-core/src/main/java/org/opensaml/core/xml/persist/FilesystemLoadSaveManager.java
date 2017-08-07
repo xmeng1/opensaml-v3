@@ -155,12 +155,12 @@ public class FilesystemLoadSaveManager<T extends XMLObject> implements XMLObject
     }
 
     /** {@inheritDoc} */
-    public boolean exists(String key) throws IOException {
+    public boolean exists(final String key) throws IOException {
         return buildFile(key).exists();
     }
 
     /** {@inheritDoc} */
-    public T load(String key) throws IOException {
+    public T load(final String key) throws IOException {
         File file = buildFile(key);
         if (!file.exists()) {
             log.debug("Target file with key '{}' does not exist, path: {}", key, file.getAbsolutePath());
@@ -181,12 +181,12 @@ public class FilesystemLoadSaveManager<T extends XMLObject> implements XMLObject
     }
 
     /** {@inheritDoc} */
-    public void save(String key, T xmlObject) throws IOException {
+    public void save(final String key, final T xmlObject) throws IOException {
         save(key, xmlObject, false);
     }
 
     /** {@inheritDoc} */
-    public void save(String key, T xmlObject, boolean overwrite) throws IOException {
+    public void save(final String key, final T xmlObject, final boolean overwrite) throws IOException {
         if (!overwrite && exists(key)) {
             throw new IOException(
                     String.format("Target file already exists for key '%s' and overwrite not indicated", key));
@@ -204,7 +204,7 @@ public class FilesystemLoadSaveManager<T extends XMLObject> implements XMLObject
                         sources.size());
                 try {
                     XMLObjectSupport.marshallToOutputStream(xmlObject, fos);
-                } catch (MarshallingException e) {
+                } catch (final MarshallingException e) {
                     throw new IOException(String.format("Error saving target file: %s", file.getAbsolutePath()), e);
                 }
             } 
@@ -214,7 +214,7 @@ public class FilesystemLoadSaveManager<T extends XMLObject> implements XMLObject
     }
 
     /** {@inheritDoc} */
-    public boolean remove(String key) throws IOException {
+    public boolean remove(final String key) throws IOException {
         File file = buildFile(key);
         if (file.exists()) {
             boolean success = file.delete();
@@ -229,7 +229,7 @@ public class FilesystemLoadSaveManager<T extends XMLObject> implements XMLObject
     }
 
     /** {@inheritDoc} */
-    public boolean updateKey(String currentKey, String newKey) throws IOException {
+    public boolean updateKey(final String currentKey, final String newKey) throws IOException {
         File currentFile = buildFile(currentKey);
         if (!currentFile.exists()) {
             return false;
@@ -251,7 +251,7 @@ public class FilesystemLoadSaveManager<T extends XMLObject> implements XMLObject
      * @return the constructed File instance for the target file
      * @throws IOException if there is a fatal error constructing or evaluating the candidate target path
      */
-    protected File buildFile(String key) throws IOException {
+    protected File buildFile(final String key) throws IOException {
         File path = new File(baseDirectory, 
                 Constraint.isNotNull(StringSupport.trimOrNull(key), "Input key was null or empty"));
         if (path.exists() && !path.isFile()) {
@@ -268,7 +268,7 @@ public class FilesystemLoadSaveManager<T extends XMLObject> implements XMLObject
     public static class DefaultFileFilter implements FileFilter {
 
         /** {@inheritDoc} */
-        public boolean accept(File pathname) {
+        public boolean accept(final File pathname) {
             if (pathname == null) {
                 return false;
             }
@@ -374,7 +374,7 @@ public class FilesystemLoadSaveManager<T extends XMLObject> implements XMLObject
                     } else {
                         log.warn("Target file with key '{}' was removed since iterator creation, skipping", key);
                     }
-                } catch (IOException e) {
+                } catch (final IOException e) {
                     log.warn("Error loading target file with key '{}'", key, e);
                 }
             }
