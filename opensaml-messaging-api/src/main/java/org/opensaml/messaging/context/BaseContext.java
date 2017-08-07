@@ -267,7 +267,7 @@ public abstract class BaseContext implements Iterable<BaseContext> {
      */
     public void clearSubcontexts() {
         log.trace("Clearing all subcontexts from context with type '{}'", this.getClass().getName());
-        for (BaseContext subcontext : subcontexts) {
+        for (final BaseContext subcontext : subcontexts) {
             subcontext.setParent(null);
         }
         subcontexts.clear();
@@ -305,7 +305,7 @@ public abstract class BaseContext implements Iterable<BaseContext> {
      * @return the new subcontext instance
      */
     @Nonnull protected <T extends BaseContext> T createSubcontext(@Nonnull final Class<T> clazz) {
-        Constructor<T> constructor;
+        final Constructor<T> constructor;
         try {
             constructor = clazz.getConstructor();
             return constructor.newInstance();

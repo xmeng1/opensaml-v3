@@ -59,14 +59,14 @@ public abstract class BaseHttpClientRequestXMLMessageEncoder<MessageType extends
      */
     protected void logEncodedMessage() {
         if (protocolMessageLog.isDebugEnabled() ){
-            XMLObject message = getMessageToLog();
+            final XMLObject message = getMessageToLog();
             if (message == null) {
                 log.warn("Encoded message was null, nothing to log");
                 return;
             }
             
             try {
-                Element dom = XMLObjectSupport.marshall(message);
+                final Element dom = XMLObjectSupport.marshall(message);
                 protocolMessageLog.debug("\n" + SerializeSupport.prettyPrintXML(dom));
             } catch (final MarshallingException e) {
                 log.error("Unable to marshall message for logging purposes", e);

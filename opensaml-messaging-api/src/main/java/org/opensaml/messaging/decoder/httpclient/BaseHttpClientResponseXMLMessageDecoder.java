@@ -111,14 +111,14 @@ public abstract class BaseHttpClientResponseXMLMessageDecoder<MessageType extend
      */
     protected void logDecodedMessage() {
         if (protocolMessageLog.isDebugEnabled() ){
-            XMLObject message = getMessageToLog();
+            final XMLObject message = getMessageToLog();
             if (message == null) {
                 log.warn("Decoded message was null, nothing to log");
                 return;
             }
             
             try {
-                Element dom = XMLObjectSupport.marshall(message);
+                final Element dom = XMLObjectSupport.marshall(message);
                 protocolMessageLog.debug("\n" + SerializeSupport.prettyPrintXML(dom));
             } catch (final MarshallingException e) {
                 log.error("Unable to marshall message for logging purposes", e);
@@ -146,7 +146,7 @@ public abstract class BaseHttpClientResponseXMLMessageDecoder<MessageType extend
      */
     protected XMLObject unmarshallMessage(final InputStream messageStream) throws MessageDecodingException {
         try {
-            XMLObject message = XMLObjectSupport.unmarshallFromInputStream(getParserPool(), messageStream);
+            final XMLObject message = XMLObjectSupport.unmarshallFromInputStream(getParserPool(), messageStream);
             return message;
         } catch (final XMLParserException e) {
             log.error("Error unmarshalling message from input stream", e);
