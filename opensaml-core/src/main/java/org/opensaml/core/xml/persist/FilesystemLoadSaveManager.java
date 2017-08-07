@@ -141,9 +141,9 @@ public class FilesystemLoadSaveManager<T extends XMLObject> implements XMLObject
 
     /** {@inheritDoc} */
     public Set<String> listKeys() throws IOException {
-        File[] files = baseDirectory.listFiles(fileFilter);
-        HashSet<String> keys = new HashSet<>();
-        for (File file : files) {
+        final File[] files = baseDirectory.listFiles(fileFilter);
+        final HashSet<String> keys = new HashSet<>();
+        for (final File file : files) {
             keys.add(file.getName());
         }
         return Collections.unmodifiableSet(keys);
@@ -161,13 +161,13 @@ public class FilesystemLoadSaveManager<T extends XMLObject> implements XMLObject
 
     /** {@inheritDoc} */
     public T load(final String key) throws IOException {
-        File file = buildFile(key);
+        final File file = buildFile(key);
         if (!file.exists()) {
             log.debug("Target file with key '{}' does not exist, path: {}", key, file.getAbsolutePath());
             return null;
         }
         try (final FileInputStream fis = new FileInputStream(file)) {
-            byte[] source = ByteStreams.toByteArray(fis);
+            final byte[] source = ByteStreams.toByteArray(fis);
             try (final ByteArrayInputStream bais = new ByteArrayInputStream(source)) {
                 final XMLObject xmlObject = XMLObjectSupport.unmarshallFromInputStream(parserPool, bais);
                 xmlObject.getObjectMetadata().put(new XMLObjectSource(source));
@@ -192,12 +192,12 @@ public class FilesystemLoadSaveManager<T extends XMLObject> implements XMLObject
                     String.format("Target file already exists for key '%s' and overwrite not indicated", key));
         }
         
-        File file = buildFile(key);
+        final File file = buildFile(key);
         try (FileOutputStream fos = new FileOutputStream(file)) {
-            List<XMLObjectSource> sources = xmlObject.getObjectMetadata().get(XMLObjectSource.class);
+            final List<XMLObjectSource> sources = xmlObject.getObjectMetadata().get(XMLObjectSource.class);
             if (sources.size() == 1) {
                 log.debug("XMLObject contained 1 XMLObjectSource instance, persisting existing byte[]");
-                XMLObjectSource source = sources.get(0);
+                final XMLObjectSource source = sources.get(0);
                 fos.write(source.getObjectSource());
             } else {
                 log.debug("XMLObject contained {} XMLObjectSource instances, persisting marshalled object", 
@@ -215,9 +215,9 @@ public class FilesystemLoadSaveManager<T extends XMLObject> implements XMLObject
 
     /** {@inheritDoc} */
     public boolean remove(final String key) throws IOException {
-        File file = buildFile(key);
+        final File file = buildFile(key);
         if (file.exists()) {
-            boolean success = file.delete();
+            final boolean success = file.delete();
             if (success) {
                 return true;
             } else {
@@ -230,12 +230,12 @@ public class FilesystemLoadSaveManager<T extends XMLObject> implements XMLObject
 
     /** {@inheritDoc} */
     public boolean updateKey(final String currentKey, final String newKey) throws IOException {
-        File currentFile = buildFile(currentKey);
+        final File currentFile = buildFile(currentKey);
         if (!currentFile.exists()) {
             return false;
         }
         
-        File newFile = buildFile(newKey);
+        final File newFile = buildFile(newKey);
         if (newFile.exists()) {
             throw new IOException(String.format("Specified new key already exists: %s", newKey));
         } else {
@@ -252,7 +252,7 @@ public class FilesystemLoadSaveManager<T extends XMLObject> implements XMLObject
      * @throws IOException if there is a fatal error constructing or evaluating the candidate target path
      */
     protected File buildFile(final String key) throws IOException {
-        File path = new File(baseDirectory, 
+        final File path = new File(baseDirectory, 
                 Constraint.isNotNull(StringSupport.trimOrNull(key), "Input key was null or empty"));
         if (path.exists() && !path.isFile()) {
             throw new IOException(String.format("Path exists based on specified key, but is not a file: %s", 
@@ -319,7 +319,7 @@ public class FilesystemLoadSaveManager<T extends XMLObject> implements XMLObject
          * @param filenames Snapshot of filesystem keys at time of construction
          */
         public FileIterator(@Nonnull final Collection<String> filenames) {
-            Set<String> keys = new HashSet<>();
+            final Set<String> keys = new HashSet<>();
             keys.addAll(Collections2.filter(filenames, Predicates.notNull()));
             keysIter = keys.iterator();
         }
@@ -338,11 +338,11 @@ public class FilesystemLoadSaveManager<T extends XMLObject> implements XMLObject
         /** {@inheritDoc} */
         public Pair<String, T> next() {
             if (current != null) {
-                Pair<String, T> temp = current;
+                final Pair<String, T> temp = current;
                 current = null;
                 return temp;
             } else {
-                Pair<String, T> temp = getNext();
+                final Pair<String, T> temp = getNext();
                 if (temp != null) {
                     return temp;
                 } else {
@@ -364,9 +364,9 @@ public class FilesystemLoadSaveManager<T extends XMLObject> implements XMLObject
          */
         private Pair<String, T> getNext() {
             while (keysIter.hasNext()) {
-                String key = keysIter.next();
+                final String key = keysIter.next();
                 try {
-                    T xmlObject = load(key);
+                    final T xmlObject = load(key);
                     if (xmlObject != null) {
                         // This is to defensively guard against files being removed after files/keys are enumerated.
                         // Don't fail, just skip

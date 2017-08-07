@@ -44,7 +44,7 @@ public class XMLObjectProviderInitializer extends AbstractXMLObjectProviderIniti
     public void init() throws InitializationException {
         super.init();
         
-        XMLObjectProviderRegistry registry = ConfigurationService.get(XMLObjectProviderRegistry.class);
+        final XMLObjectProviderRegistry registry = ConfigurationService.get(XMLObjectProviderRegistry.class);
         
         registry.registerIDAttribute(new QName(javax.xml.XMLConstants.XML_NS_URI, "id"));
     }

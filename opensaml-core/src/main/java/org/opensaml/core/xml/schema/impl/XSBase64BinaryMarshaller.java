@@ -43,7 +43,7 @@ public class XSBase64BinaryMarshaller extends AbstractXMLObjectMarshaller {
     @Override
     protected void marshallElementContent(@Nonnull final XMLObject xmlObject, @Nonnull final Element domElement)
             throws MarshallingException {
-        XSBase64Binary xsBase64Binary = (XSBase64Binary) xmlObject;
+        final XSBase64Binary xsBase64Binary = (XSBase64Binary) xmlObject;
 
         ElementSupport.appendTextContent(domElement, xsBase64Binary.getValue());
     }

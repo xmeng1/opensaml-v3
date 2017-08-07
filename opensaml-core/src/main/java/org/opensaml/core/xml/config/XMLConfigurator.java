@@ -158,7 +158,7 @@ public class XMLConfigurator {
      */
     public void load(@Nonnull final InputStream configurationStream) throws XMLConfigurationException {
         try {
-            Document configuration = parserPool.parse(configurationStream);
+            final Document configuration = parserPool.parse(configurationStream);
             load(configuration);
         } catch (final XMLParserException e) {
             log.error("Invalid configuration file", e);
@@ -197,7 +197,8 @@ public class XMLConfigurator {
      */
     protected void load(@Nonnull final Element configurationRoot) throws XMLConfigurationException {
         // Initialize object providers
-        NodeList objectProviders = configurationRoot.getElementsByTagNameNS(XMLTOOLING_CONFIG_NS, "ObjectProviders");
+        final NodeList objectProviders =
+                configurationRoot.getElementsByTagNameNS(XMLTOOLING_CONFIG_NS, "ObjectProviders");
         if (objectProviders.getLength() > 0) {
             log.debug("Preparing to load ObjectProviders");
             initializeObjectProviders((Element) objectProviders.item(0));
@@ -205,7 +206,8 @@ public class XMLConfigurator {
         }
 
         // Initialize ID attributes
-        NodeList idAttributesNodes = configurationRoot.getElementsByTagNameNS(XMLTOOLING_CONFIG_NS, "IDAttributes");
+        final NodeList idAttributesNodes =
+                configurationRoot.getElementsByTagNameNS(XMLTOOLING_CONFIG_NS, "IDAttributes");
         if (idAttributesNodes.getLength() > 0) {
             log.debug("Preparing to load IDAttributes");
             initializeIDAttributes((Element) idAttributesNodes.item(0));
@@ -214,7 +216,7 @@ public class XMLConfigurator {
     }
 
     /**
-     * Intializes the object providers defined in the configuration file.
+     * Initializes the object providers defined in the configuration file.
      * 
      * @param objectProviders the configuration for the various object providers
      * 
@@ -328,15 +330,15 @@ public class XMLConfigurator {
      */
     protected void validateConfiguration(final Document configuration) throws XMLConfigurationException {
         try {
-            javax.xml.validation.Validator schemaValidator = configurationSchema.newValidator();
+            final javax.xml.validation.Validator schemaValidator = configurationSchema.newValidator();
             schemaValidator.validate(new DOMSource(configuration));
         } catch (final IOException e) {
             // Should never get here as the DOM is already in memory
-            String errorMsg = "Unable to read configuration file DOM";
+            final String errorMsg = "Unable to read configuration file DOM";
             log.error(errorMsg, e);
             throw new XMLConfigurationException(errorMsg, e);
         } catch (final SAXException e) {
-            String errorMsg = "Configuration file does not validate against schema";
+            final String errorMsg = "Configuration file does not validate against schema";
             log.error(errorMsg, e);
             throw new XMLConfigurationException(errorMsg, e);
         }

@@ -91,7 +91,7 @@ public class XSBooleanValue {
     /** {@inheritDoc} */
     @Override
     public int hashCode(){
-        int hash;
+        final int hash;
         if(numeric){
             if(value == null){
                 hash = 0;
@@ -170,7 +170,7 @@ public class XSBooleanValue {
      * @return the boolean value
      */
     public static XSBooleanValue valueOf(@Nullable final String booleanString) {
-        String trimmedBooleanString = StringSupport.trimOrNull(booleanString);
+        final String trimmedBooleanString = StringSupport.trimOrNull(booleanString);
         if (trimmedBooleanString != null) {
             if ("1".equals(trimmedBooleanString)) {
                 return new XSBooleanValue(Boolean.TRUE, true);

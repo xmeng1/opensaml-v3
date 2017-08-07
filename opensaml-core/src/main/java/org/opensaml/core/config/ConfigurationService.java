@@ -83,7 +83,7 @@ public class ConfigurationService {
      * @return the instance of the registered configuration object, or null
      */
     public static <T extends Object> T get(@Nonnull final Class<T> configClass) {
-        String partitionName = getPartitionName();
+        final String partitionName = getPartitionName();
         return getConfiguration().get(configClass, partitionName);
     }
     
@@ -98,7 +98,7 @@ public class ConfigurationService {
      */
     public static <T extends Object, I extends T> void register(@Nonnull final Class<T> configClass,
             @Nonnull final I configInstance) {
-        String partitionName = getPartitionName();
+        final String partitionName = getPartitionName();
         getConfiguration().register(configClass, configInstance, partitionName);
     }
 
@@ -112,7 +112,7 @@ public class ConfigurationService {
      * @return the configuration object instance which was deregistered, or null
      */
     public static <T extends Object> T deregister(@Nonnull final Class<T> configClass) {
-        String partitionName = getPartitionName();
+        final String partitionName = getPartitionName();
         return getConfiguration().deregister(configClass, partitionName);
     }
     
@@ -136,13 +136,13 @@ public class ConfigurationService {
      */
     @Nullable public static Properties getConfigurationProperties() {
         //TODO make these immutable?
-        Logger log = getLogger();
+        final Logger log = getLogger();
         log.trace("Resolving configuration propreties source");
-        Iterator<ConfigurationPropertiesSource> iter = configPropertiesLoader.iterator();
+        final Iterator<ConfigurationPropertiesSource> iter = configPropertiesLoader.iterator();
         while (iter.hasNext()) {
-            ConfigurationPropertiesSource source = iter.next();
+            final ConfigurationPropertiesSource source = iter.next();
             log.trace("Evaluating configuration properties implementation: {}", source.getClass().getName());
-            Properties props = source.getProperties();
+            final Properties props = source.getProperties();
             if (props != null) {
                 log.trace("Resolved non-null configuration properties using implementation: {}", 
                         source.getClass().getName());
@@ -180,8 +180,8 @@ public class ConfigurationService {
      * @return the partition name
      */
     @Nonnull @NotEmpty protected static String getPartitionName() {
-        Logger log = getLogger();
-        Properties configProperties = getConfigurationProperties();
+        final Logger log = getLogger();
+        final Properties configProperties = getConfigurationProperties();
         String partitionName = null;
         if (configProperties != null) {
             partitionName = configProperties.getProperty(PROPERTY_PARTITION_NAME, DEFAULT_PARTITION_NAME);
@@ -206,8 +206,8 @@ public class ConfigurationService {
     @Nonnull protected static Configuration getConfiguration() {
         if (configuration == null) {
             synchronized (ConfigurationService.class) {
-                ServiceLoader<Configuration> loader = ServiceLoader.load(Configuration.class);
-                Iterator<Configuration> iter = loader.iterator();
+                final ServiceLoader<Configuration> loader = ServiceLoader.load(Configuration.class);
+                final Iterator<Configuration> iter = loader.iterator();
                 if (iter.hasNext()) {
                     configuration = iter.next();
                 } else {

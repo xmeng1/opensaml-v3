@@ -51,7 +51,7 @@ public class GlobalParserPoolInitializer implements Initializer {
 
     /** {@inheritDoc} */
     public void init() throws InitializationException {
-        BasicParserPool pp = new BasicParserPool();
+        final BasicParserPool pp = new BasicParserPool();
         pp.setMaxPoolSize(50);
         try {
             pp.initialize();

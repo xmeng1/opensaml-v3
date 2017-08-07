@@ -79,12 +79,12 @@ public abstract class AbstractXMLObjectUnmarshaller implements Unmarshaller {
     @Nonnull public XMLObject unmarshall(@Nonnull final Element domElement) throws UnmarshallingException {
         log.trace("Starting to unmarshall DOM element {}", QNameSupport.getNodeQName(domElement));
 
-        XMLObject xmlObject = buildXMLObject(domElement);
+        final XMLObject xmlObject = buildXMLObject(domElement);
 
         if (log.isTraceEnabled()) {
             log.trace("Unmarshalling attributes of DOM Element {}", QNameSupport.getNodeQName(domElement));
         }
-        NamedNodeMap attributes = domElement.getAttributes();
+        final NamedNodeMap attributes = domElement.getAttributes();
         Node attribute;
         for (int i = 0; i < attributes.getLength(); i++) {
             attribute = attributes.item(i);
@@ -141,7 +141,7 @@ public abstract class AbstractXMLObjectUnmarshaller implements Unmarshaller {
             xmlObjectBuilder = xmlObjectBuilderFactory.getBuilder(
                     XMLObjectProviderRegistrySupport.getDefaultProviderQName());
             if (xmlObjectBuilder == null) {
-                String errorMsg = "Unable to locate builder for " + QNameSupport.getNodeQName(domElement);
+                final String errorMsg = "Unable to locate builder for " + QNameSupport.getNodeQName(domElement);
                 log.error(errorMsg);
                 throw new UnmarshallingException(errorMsg);
             } else {
@@ -169,9 +169,9 @@ public abstract class AbstractXMLObjectUnmarshaller implements Unmarshaller {
      */
     protected void unmarshallAttribute(@Nonnull final XMLObject xmlObject, @Nonnull final Attr attribute)
             throws UnmarshallingException {
-        QName attribName = QNameSupport.getNodeQName(attribute);
+        final QName attribName = QNameSupport.getNodeQName(attribute);
         log.trace("Pre-processing attribute {}", attribName);
-        String attributeNamespace = StringSupport.trimOrNull(attribute.getNamespaceURI());
+        final String attributeNamespace = StringSupport.trimOrNull(attribute.getNamespaceURI());
 
         if (Objects.equals(attributeNamespace, XMLConstants.XMLNS_NS)) {
             unmarshallNamespaceAttribute(xmlObject, attribute);
@@ -182,7 +182,7 @@ public abstract class AbstractXMLObjectUnmarshaller implements Unmarshaller {
                 log.trace("Attribute {} is neither a schema type nor namespace, calling processAttribute()",
                         QNameSupport.getNodeQName(attribute));
             }
-            String attributeNSURI = attribute.getNamespaceURI();
+            final String attributeNSURI = attribute.getNamespaceURI();
             String attributeNSPrefix;
             if (attributeNSURI != null) {
                 attributeNSPrefix = attribute.lookupPrefix(attributeNSURI);
@@ -209,7 +209,7 @@ public abstract class AbstractXMLObjectUnmarshaller implements Unmarshaller {
             log.trace("{} is a namespace declaration, adding it to the list of namespaces on the XMLObject",
                     QNameSupport.getNodeQName(attribute));
         }
-        Namespace namespace;
+        final Namespace namespace;
         if (Objects.equals(attribute.getLocalName(), XMLConstants.XMLNS_PREFIX)) {
             namespace = new Namespace(attribute.getValue(), null);
         } else {
@@ -226,7 +226,7 @@ public abstract class AbstractXMLObjectUnmarshaller implements Unmarshaller {
      */
     protected void unmarshallSchemaInstanceAttributes(@Nonnull final XMLObject xmlObject,
             @Nonnull final Attr attribute) {
-        QName attribName = QNameSupport.getNodeQName(attribute);
+        final QName attribName = QNameSupport.getNodeQName(attribute);
         if (XMLConstants.XSI_TYPE_ATTRIB_NAME.equals(attribName)) {
             if (log.isTraceEnabled()) {
                 log.trace("Saw XMLObject {} with an xsi:type of: {}", xmlObject.getElementQName(),
@@ -262,7 +262,7 @@ public abstract class AbstractXMLObjectUnmarshaller implements Unmarshaller {
      * @param attribute the DOM attribute to be checked
      */
     protected void checkIDAttribute(@Nonnull final Attr attribute) {
-        QName attribName = QNameSupport.getNodeQName(attribute);
+        final QName attribName = QNameSupport.getNodeQName(attribute);
         if (XMLObjectProviderRegistrySupport.isIDAttribute(attribName) && !attribute.isId()) {
             attribute.getOwnerElement().setIdAttributeNode(attribute, true);
         }
@@ -291,7 +291,7 @@ public abstract class AbstractXMLObjectUnmarshaller implements Unmarshaller {
             unmarshaller = unmarshallerFactory.getUnmarshaller(
                     XMLObjectProviderRegistrySupport.getDefaultProviderQName());
             if (unmarshaller == null) {
-                String errorMsg =
+                final String errorMsg =
                         "No unmarshaller available for " + QNameSupport.getNodeQName(childElement) + ", child of "
                                 + xmlObject.getElementQName();
                 log.error(errorMsg);
@@ -323,7 +323,7 @@ public abstract class AbstractXMLObjectUnmarshaller implements Unmarshaller {
      */
     protected void unmarshallTextContent(@Nonnull final XMLObject xmlObject, @Nonnull final Text content)
             throws UnmarshallingException {
-        String textContent = StringSupport.trimOrNull(content.getWholeText());
+        final String textContent = StringSupport.trimOrNull(content.getWholeText());
         if (textContent != null) {
             processElementContent(xmlObject, textContent);
         }

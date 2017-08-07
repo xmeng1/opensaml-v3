@@ -86,7 +86,7 @@ public class AttributeMap implements Map<QName, String> {
     /** {@inheritDoc} */
     public String put(final QName attributeName, final String value) {
         Constraint.isNotNull(attributeName, "Attribute name cannot be null");
-        String oldValue = get(attributeName);
+        final String oldValue = get(attributeName);
         if (!Objects.equals(value, oldValue)) {
             releaseDOM();
             attributes.put(attributeName, value);
@@ -119,7 +119,7 @@ public class AttributeMap implements Map<QName, String> {
      */
     public QName put(final QName attributeName, final QName value) {
         Constraint.isNotNull(attributeName, "Attribute name cannot be null");
-        String oldValueString = get(attributeName);
+        final String oldValueString = get(attributeName);
         
         QName oldValue = null;
         if (!Strings.isNullOrEmpty(oldValueString)) {
@@ -130,7 +130,7 @@ public class AttributeMap implements Map<QName, String> {
             releaseDOM();
             if (value != null) {
                 // new value is not null, old value was either null or non-equal
-                String newStringValue = constructAttributeValue(value);
+                final String newStringValue = constructAttributeValue(value);
                 attributes.put(attributeName, newStringValue);
                 registerQNameValue(attributeName, value);
                 attributeOwner.getNamespaceManager().registerAttributeName(attributeName);
@@ -146,9 +146,9 @@ public class AttributeMap implements Map<QName, String> {
 
     /** {@inheritDoc} */
     public void clear() {
-        LazySet<QName> keys = new LazySet<>();
+        final LazySet<QName> keys = new LazySet<>();
         keys.addAll(attributes.keySet());
-        for (QName attributeName : keys) {
+        for (final QName attributeName : keys) {
             remove(attributeName);
         }
     }
@@ -189,10 +189,10 @@ public class AttributeMap implements Map<QName, String> {
 
     /** {@inheritDoc} */
     public String remove(final Object key) {
-        String removedValue = attributes.remove(key);
+        final String removedValue = attributes.remove(key);
         if (removedValue != null) {
             releaseDOM();
-            QName attributeName = (QName) key;
+            final QName attributeName = (QName) key;
             if (isIDAttribute(attributeName) || XMLObjectProviderRegistrySupport.isIDAttribute(attributeName)) {
                 attributeOwner.getIDIndex().deregisterIDMapping(removedValue);
             }
@@ -206,7 +206,7 @@ public class AttributeMap implements Map<QName, String> {
     /** {@inheritDoc} */
     public void putAll(final Map<? extends QName, ? extends String> t) {
         if (t != null && t.size() > 0) {
-            for (Entry<? extends QName, ? extends String> entry : t.entrySet()) {
+            for (final Entry<? extends QName, ? extends String> entry : t.entrySet()) {
                 put(entry.getKey(), entry.getValue());
             }
         }
@@ -345,7 +345,7 @@ public class AttributeMap implements Map<QName, String> {
             return;
         }
         
-        QName qnameValue = checkQName(attributeName, attributeValue);
+        final QName qnameValue = checkQName(attributeName, attributeValue);
         if (qnameValue != null) {
             log.trace("Attribute '{}' with value '{}' was evaluated to be QName type", 
                     attributeName, attributeValue);
@@ -368,7 +368,7 @@ public class AttributeMap implements Map<QName, String> {
             return;
         }
         
-        String attributeID = NamespaceManager.generateAttributeID(attributeName);
+        final String attributeID = NamespaceManager.generateAttributeID(attributeName);
         log.trace("Registering QName attribute value '{}' under attibute ID '{}'",
                 attributeValue, attributeID);
         attributeOwner.getNamespaceManager().registerAttributeValue(attributeID, attributeValue);
@@ -386,7 +386,7 @@ public class AttributeMap implements Map<QName, String> {
             return;
         }
         
-        QName qnameValue = checkQName(attributeName, attributeValue);
+        final QName qnameValue = checkQName(attributeName, attributeValue);
         if (qnameValue != null) {
             log.trace("Attribute '{}' with value '{}' was evaluated to be QName type", 
                     attributeName, attributeValue);
@@ -403,7 +403,7 @@ public class AttributeMap implements Map<QName, String> {
      * @param attributeName the attribute name whose QName attribute value should be deregistered
      */
     private void deregisterQNameValue(final QName attributeName) {
-        String attributeID = NamespaceManager.generateAttributeID(attributeName);
+        final String attributeID = NamespaceManager.generateAttributeID(attributeName);
         log.trace("Deregistering QName attribute with attibute ID '{}'", attributeID);
         attributeOwner.getNamespaceManager().deregisterAttributeValue(attributeID);
     }
@@ -427,7 +427,7 @@ public class AttributeMap implements Map<QName, String> {
             log.trace("Configuration indicates attribute with name '{}' is a QName type, resolving value QName", 
                     attributeName);
             // Do support the default namespace in this scenario, since we know it should be a QName
-            QName valueName = resolveQName(attributeValue, true);
+            final QName valueName = resolveQName(attributeValue, true);
             if (valueName != null) {
                 log.trace("Successfully resolved attribute value to QName: {}", valueName);
             } else {
@@ -438,7 +438,7 @@ public class AttributeMap implements Map<QName, String> {
             log.trace("Attempting to infer whether attribute value is a QName");
             // Do not support the default namespace in this scenario, since we're trying to infer.
             // Better to fail to resolve than to infer a bogus QName value.
-            QName valueName = resolveQName(attributeValue, false);
+            final QName valueName = resolveQName(attributeValue, false);
             if (valueName != null) {
                 log.trace("Resolved attribute as a QName: '{}'", valueName);
             } else {
@@ -471,7 +471,7 @@ public class AttributeMap implements Map<QName, String> {
         // this candidate prefix into a namespace URI. 
         String candidatePrefix = null;
         String localPart = null;
-        int ci = attributeValue.indexOf(':');
+        final int ci = attributeValue.indexOf(':');
         if (ci > -1) {
             candidatePrefix = attributeValue.substring(0, ci);
             log.trace("Evaluating candiate namespace prefix '{}'", candidatePrefix);
@@ -490,10 +490,10 @@ public class AttributeMap implements Map<QName, String> {
         
         log.trace("Evaluated QName local part as '{}'", localPart);
         
-        String nsURI = XMLObjectSupport.lookupNamespaceURI(attributeOwner, candidatePrefix);
+        final String nsURI = XMLObjectSupport.lookupNamespaceURI(attributeOwner, candidatePrefix);
         log.trace("Resolved namespace URI '{}'", nsURI);
         if (nsURI != null) {
-            QName name = QNameSupport.constructQName(nsURI, localPart, candidatePrefix);
+            final QName name = QNameSupport.constructQName(nsURI, localPart, candidatePrefix);
             log.trace("Resolved QName '{}'", name);
             return name;
         } else {
@@ -512,14 +512,14 @@ public class AttributeMap implements Map<QName, String> {
      * @return the attribute value string representation of the QName
      */
     private String constructAttributeValue(final QName attributeValue) {
-        String trimmedLocalName = StringSupport.trimOrNull(attributeValue.getLocalPart());
+        final String trimmedLocalName = StringSupport.trimOrNull(attributeValue.getLocalPart());
 
         if (trimmedLocalName == null) {
             throw new IllegalArgumentException("Local name may not be null or empty");
         }
 
-        String qualifiedName;
-        String trimmedPrefix = StringSupport.trimOrNull(attributeValue.getPrefix());
+        final String qualifiedName;
+        final String trimmedPrefix = StringSupport.trimOrNull(attributeValue.getPrefix());
         if (trimmedPrefix != null) {
             qualifiedName = trimmedPrefix + ":" + StringSupport.trimOrNull(trimmedLocalName);
         } else {

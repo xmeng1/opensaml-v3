@@ -48,7 +48,7 @@ public abstract class AbstractFilesystemConfigurationPropertiesSource implements
     
     /** {@inheritDoc} */
     public Properties getProperties() {
-        String fileName = StringSupport.trimOrNull(getFilename());
+        final String fileName = StringSupport.trimOrNull(getFilename());
         if (fileName == null) {
             log.warn("No filename was supplied, unable to load properties");
             return null;
@@ -58,10 +58,10 @@ public abstract class AbstractFilesystemConfigurationPropertiesSource implements
                 // NOTE: in this invocation style via class loader, resource should NOT have a leading slash
                 // because all names are absolute. This is unlike Class.getResourceAsStream 
                 // where a leading slash is required for absolute names.
-                File file = new File(fileName);
+                final File file = new File(fileName);
                 if (file.exists()) {
                     try (InputStream is = new FileInputStream(fileName)) {
-                        Properties props = new Properties();
+                        final Properties props = new Properties();
                         props.load(is);
                         cachedProperties = props;
                     } catch (final FileNotFoundException e) {

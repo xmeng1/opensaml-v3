@@ -151,7 +151,7 @@ public abstract class AbstractXMLObject implements XMLObject {
 
     /** {@inheritDoc} */
     public boolean hasChildren() {
-        List<? extends XMLObject> children = getOrderedChildren();
+        final List<? extends XMLObject> children = getOrderedChildren();
         return children != null && children.size() > 0;
     }
 
@@ -376,7 +376,7 @@ public abstract class AbstractXMLObject implements XMLObject {
      * @param newID the new value of the ID-typed attribute
      */
     protected void registerOwnID(@Nullable final String oldID, @Nullable final String newID) {
-        String newString = StringSupport.trimOrNull(newID);
+        final String newString = StringSupport.trimOrNull(newID);
 
         if (!Objects.equals(oldID, newString)) {
             if (oldID != null) {
@@ -394,7 +394,7 @@ public abstract class AbstractXMLObject implements XMLObject {
         log.trace("Releasing cached DOM reprsentation for children of {} with propagation set to {}",
                 getElementQName(), propagateRelease);
         if (getOrderedChildren() != null) {
-            for (XMLObject child : getOrderedChildren()) {
+            for (final XMLObject child : getOrderedChildren()) {
                 if (child != null) {
                     child.releaseDOM();
                     if (propagateRelease) {
@@ -419,7 +419,7 @@ public abstract class AbstractXMLObject implements XMLObject {
     public void releaseParentDOM(final boolean propagateRelease) {
         log.trace("Releasing cached DOM reprsentation for parent of {} with propagation set to {}", getElementQName(),
                 propagateRelease);
-        XMLObject parentElement = getParent();
+        final XMLObject parentElement = getParent();
         if (parentElement != null) {
             parent.releaseDOM();
             if (propagateRelease) {

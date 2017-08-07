@@ -38,7 +38,7 @@ public class XSURIMarshaller extends AbstractXMLObjectMarshaller {
     /** {@inheritDoc} */
     protected void marshallElementContent(final XMLObject xmlObject, final Element domElement)
             throws MarshallingException {
-        XSURI uri = (XSURI) xmlObject;
+        final XSURI uri = (XSURI) xmlObject;
 
         ElementSupport.appendTextContent(domElement, uri.getValue());
     }

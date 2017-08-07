@@ -49,10 +49,10 @@ public abstract class AbstractExtensibleXMLObjectMarshaller extends AbstractElem
     @Override
     protected void marshallAttributes(@Nonnull final XMLObject xmlObject, @Nonnull final Element domElement)
             throws MarshallingException {
-        AttributeExtensibleXMLObject anyAttribute = (AttributeExtensibleXMLObject) xmlObject;
+        final AttributeExtensibleXMLObject anyAttribute = (AttributeExtensibleXMLObject) xmlObject;
         Attr attribute;
-        Document document = domElement.getOwnerDocument();
-        for (Entry<QName, String> entry : anyAttribute.getUnknownAttributes().entrySet()) {
+        final Document document = domElement.getOwnerDocument();
+        for (final Entry<QName, String> entry : anyAttribute.getUnknownAttributes().entrySet()) {
             attribute = AttributeSupport.constructAttribute(document, entry.getKey());
             attribute.setValue(entry.getValue());
             domElement.setAttributeNodeNS(attribute);

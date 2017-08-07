@@ -115,7 +115,7 @@ public abstract class AbstractWrappedSingletonFactory<Input, Output>
      * @return an output class instance
      */
     public synchronized Output getInstance(final Input input) {
-        Output output = super.getInstance(input);
+        final Output output = super.getInstance(input);
         
         if (explicitRelease && output != null) {
             log.trace("Explicit release was indicated, registering output instance to inhibit garbage collection");
@@ -179,7 +179,7 @@ public abstract class AbstractWrappedSingletonFactory<Input, Output>
      * </p>
      */
     protected synchronized Output get(final Input input) {
-        WeakReference<Output> outputRef = map.get(input);
+        final WeakReference<Output> outputRef = map.get(input);
         if (outputRef != null) {
             log.trace("Input key mapped to a non-null WeakReference");
             if (outputRef.get() != null) {

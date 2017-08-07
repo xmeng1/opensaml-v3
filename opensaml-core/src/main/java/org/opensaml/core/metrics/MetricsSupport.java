@@ -225,7 +225,7 @@ public final class MetricsSupport {
         Constraint.isNotNull(name, "Metric name was null");
         Constraint.isNotNull(metric, "Metric was null");
         
-        Metric registeredMetric = registry.getMetrics().get(name);
+        final Metric registeredMetric = registry.getMetrics().get(name);
         return metric == registeredMetric;
     }
     

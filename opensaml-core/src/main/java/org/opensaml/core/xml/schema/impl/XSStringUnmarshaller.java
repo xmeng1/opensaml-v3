@@ -41,7 +41,7 @@ public class XSStringUnmarshaller extends AbstractXMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processElementContent(final XMLObject xmlObject, final String elementContent) {
-        XSString xsiString = (XSString) xmlObject;
+        final XSString xsiString = (XSString) xmlObject;
 
         xsiString.setValue(elementContent);
     }

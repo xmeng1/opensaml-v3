@@ -51,7 +51,7 @@ public final class EntityIdCriterion implements Criterion {
     /** {@inheritDoc} */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("EntityIdCriterion [id=");
         builder.append(id);
         builder.append("]");

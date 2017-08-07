@@ -43,14 +43,14 @@ public class InitializationService {
      * @throws InitializationException  if initialization did not complete successfully
      */
     public static synchronized void initialize() throws InitializationException {
-        Logger log = getLogger();
+        final Logger log = getLogger();
         
         log.info("Initializing OpenSAML using the Java Services API");
         
-        ServiceLoader<Initializer> serviceLoader = getServiceLoader();
-        Iterator<Initializer> iter = serviceLoader.iterator();
+        final ServiceLoader<Initializer> serviceLoader = getServiceLoader();
+        final Iterator<Initializer> iter = serviceLoader.iterator();
         while (iter.hasNext()) {
-            Initializer initializer  = iter.next();
+            final Initializer initializer  = iter.next();
             log.debug("Initializing module initializer implementation: {}", initializer.getClass().getName());
             try {
                 initializer.init();

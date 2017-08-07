@@ -118,7 +118,7 @@ public class NamespaceManager {
      * @return the unmodifiable set of namespaces
      */
     @Nonnull public Set<Namespace> getNamespaces() {
-        Set<Namespace> namespaces = mergeNamespaceCollections(decls, attrNames, attrValues.values());
+        final Set<Namespace> namespaces = mergeNamespaceCollections(decls, attrNames, attrValues.values());
         addNamespace(namespaces, getElementNameNamespace());
         addNamespace(namespaces, getElementTypeNamespace());
         addNamespace(namespaces, contentValue);
@@ -226,7 +226,7 @@ public class NamespaceManager {
      * @return the set of non-visibly used namespace prefixes
      */
     @Nonnull public Set<String> getNonVisibleNamespacePrefixes() {
-        LazySet<String> prefixes = new LazySet<>();
+        final LazySet<String> prefixes = new LazySet<>();
         addPrefixes(prefixes, getNonVisibleNamespaces());
         return prefixes;
     }
@@ -243,14 +243,15 @@ public class NamespaceManager {
      * @return the set of non-visibly used namespaces 
      */
     @Nonnull public Set<Namespace> getNonVisibleNamespaces() {
-        LazySet<Namespace> nonVisibleCandidates = new LazySet<>();
+        final LazySet<Namespace> nonVisibleCandidates = new LazySet<>();
 
         // Collect each child's non-visible namespaces
-        List<XMLObject> children = getOwner().getOrderedChildren();
+        final List<XMLObject> children = getOwner().getOrderedChildren();
         if (children != null) {
-            for(XMLObject child : children) {
+            for(final XMLObject child : children) {
                 if (child != null) {
-                    Set<Namespace> childNonVisibleNamespaces = child.getNamespaceManager().getNonVisibleNamespaces();
+                    final Set<Namespace> childNonVisibleNamespaces =
+                            child.getNamespaceManager().getNonVisibleNamespaces();
                     if (!childNonVisibleNamespaces.isEmpty()) {
                         nonVisibleCandidates.addAll(childNonVisibleNamespaces);
                     }
@@ -280,14 +281,14 @@ public class NamespaceManager {
      * @return set of all namespaces in scope for the owning object
      */
     @Nonnull public Set<Namespace> getAllNamespacesInSubtreeScope() {
-        LazySet<Namespace> namespaces = new LazySet<>();
+        final LazySet<Namespace> namespaces = new LazySet<>();
 
         // Collect namespaces for the subtree rooted at each child
-        List<XMLObject> children = getOwner().getOrderedChildren();
+        final List<XMLObject> children = getOwner().getOrderedChildren();
         if (children != null) {
-            for(XMLObject child : children) {
+            for(final XMLObject child : children) {
                 if (child != null) {
-                    Set<Namespace> childNamespaces = child.getNamespaceManager().getAllNamespacesInSubtreeScope();
+                    final Set<Namespace> childNamespaces = child.getNamespaceManager().getAllNamespacesInSubtreeScope();
                     if (!childNamespaces.isEmpty()) {
                         namespaces.addAll(childNamespaces);
                     }
@@ -296,7 +297,7 @@ public class NamespaceManager {
         }
 
         // Collect this node's namespaces.
-        for (Namespace myNS : getNamespaces()) {
+        for (final Namespace myNS : getNamespaces()) {
             namespaces.add(myNS);
         }
 
@@ -348,7 +349,7 @@ public class NamespaceManager {
      */
     @Nullable private Namespace getElementTypeNamespace() {
         if (elementType == null) {
-            QName type = owner.getSchemaType();
+            final QName type = owner.getSchemaType();
             if (type != null && checkQName(type)) {
                 elementType = buildNamespace(type);
             }
@@ -364,9 +365,9 @@ public class NamespaceManager {
      */
     @Nonnull private Namespace buildNamespace(@Nonnull final QName name) {
         Constraint.isNotNull(name, "QName cannot be null");
-        String uri = Constraint.isNotNull(StringSupport.trimOrNull(name.getNamespaceURI()),
+        final String uri = Constraint.isNotNull(StringSupport.trimOrNull(name.getNamespaceURI()),
                 "Namespace URI of QName cannot be null");
-        String prefix = StringSupport.trimOrNull(name.getPrefix());
+        final String prefix = StringSupport.trimOrNull(name.getPrefix());
         return new Namespace(uri, prefix);
     }
     
@@ -405,10 +406,10 @@ public class NamespaceManager {
      * @return the a new set of merged Namespaces
      */
     @Nonnull private Set<Namespace> mergeNamespaceCollections(final Collection<Namespace> ... namespaces) {
-        LazySet<Namespace> newNamespaces = new LazySet<>();
+        final LazySet<Namespace> newNamespaces = new LazySet<>();
         
-        for (Collection<Namespace> nsCollection : namespaces) {
-            for (Namespace ns : nsCollection) {
+        for (final Collection<Namespace> nsCollection : namespaces) {
+            for (final Namespace ns : nsCollection) {
                 if (ns != null) {
                     addNamespace(newNamespaces, ns);
                 }
@@ -425,7 +426,7 @@ public class NamespaceManager {
      * @return the set of visibly-used namespaces
      */
     @Nonnull private Set<Namespace> getVisibleNamespaces() {
-        LazySet<Namespace> namespaces = new LazySet<>();
+        final LazySet<Namespace> namespaces = new LazySet<>();
 
         // Add namespace from element name.
         if (getElementNameNamespace() != null) {
@@ -438,7 +439,7 @@ public class NamespaceManager {
         }
         
         // Add namespaces from attribute names
-        for (Namespace attribName : attrNames) {
+        for (final Namespace attribName : attrNames) {
             if (attribName != null) {
                 namespaces.add(attribName);
             }
@@ -454,7 +455,7 @@ public class NamespaceManager {
      * @return the set of non-visibly-used namespaces
      */
     @Nonnull private Set<Namespace> getNonVisibleNamespaceCandidates() {
-        LazySet<Namespace> namespaces = new LazySet<>();
+        final LazySet<Namespace> namespaces = new LazySet<>();
 
         // Add xsi:type value's prefix, if element carries an xsi:type
         if (getElementTypeNamespace() != null) {
@@ -462,7 +463,7 @@ public class NamespaceManager {
         }
         
         // Add prefixes from attribute and content values
-        for (Namespace attribValue : attrValues.values()) {
+        for (final Namespace attribValue : attrValues.values()) {
             if (attribValue != null) {
                 namespaces.add(attribValue);
             }
@@ -483,7 +484,7 @@ public class NamespaceManager {
      * @param namespaces the source set of Namespaces
      */
     private void addPrefixes(@Nonnull final Set<String> prefixes, @Nonnull final Collection<Namespace> namespaces) {
-        for (Namespace ns : namespaces) {
+        for (final Namespace ns : namespaces) {
             String prefix = StringSupport.trimOrNull(ns.getNamespacePrefix());
             if (prefix == null) {
                 prefix = DEFAULT_NS_TOKEN;

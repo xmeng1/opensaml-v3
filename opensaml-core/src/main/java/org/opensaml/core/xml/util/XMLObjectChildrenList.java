@@ -123,7 +123,7 @@ public class XMLObjectChildrenList<ElementType extends XMLObject> extends Abstra
 
         setParent(element);
 
-        ElementType removedElement = elements.set(index, element);
+        final ElementType removedElement = elements.set(index, element);
         if (removedElement != null) {
             removedElement.setParent(null);
             parent.getIDIndex().deregisterIDMappings(removedElement.getIDIndex());
@@ -162,7 +162,7 @@ public class XMLObjectChildrenList<ElementType extends XMLObject> extends Abstra
 
     /** {@inheritDoc} */
     @Nonnull public ElementType remove(final int index) {
-        ElementType element = elements.remove(index);
+        final ElementType element = elements.remove(index);
 
         if (element != null) {
             element.releaseParentDOM(true);
@@ -183,7 +183,7 @@ public class XMLObjectChildrenList<ElementType extends XMLObject> extends Abstra
      */
     public boolean remove(@Nullable final ElementType element) {
 
-        boolean elementRemoved = elements.remove(element);
+        final boolean elementRemoved = elements.remove(element);
         if (elementRemoved) {
             if (element != null) {
                 element.releaseParentDOM(true);
@@ -205,7 +205,7 @@ public class XMLObjectChildrenList<ElementType extends XMLObject> extends Abstra
      * @param element the element to set the parent on
      */
     protected void setParent(@Nonnull final ElementType element) {
-        XMLObject elemParent = element.getParent();
+        final XMLObject elemParent = element.getParent();
         if (elemParent != null && elemParent != parent) {
             throw new IllegalArgumentException(element.getElementQName()
                     + " is already the child of another XMLObject and may not be inserted into this list");

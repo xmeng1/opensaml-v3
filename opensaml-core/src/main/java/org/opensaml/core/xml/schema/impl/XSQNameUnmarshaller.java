@@ -51,9 +51,9 @@ public class XSQNameUnmarshaller extends AbstractXMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
     protected void unmarshallTextContent(final XMLObject xmlObject, final Text content) throws UnmarshallingException {
-        String textContent = StringSupport.trimOrNull(content.getWholeText());
+        final String textContent = StringSupport.trimOrNull(content.getWholeText());
         if (textContent != null) {
-            XSQName qname = (XSQName) xmlObject;
+            final XSQName qname = (XSQName) xmlObject;
             qname.setValue(QNameSupport.constructQName(ElementSupport.getElementAncestor(content), textContent));
         }
     }

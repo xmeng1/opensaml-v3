@@ -52,7 +52,7 @@ public class ClasspathConfigurationPropertiesSource implements ConfigurationProp
                     // because all names are absolute. This is unlike Class.getResourceAsStream 
                     // where a leading slash is required for absolute names.
                     if (is != null) {
-                        Properties props = new Properties();
+                        final Properties props = new Properties();
                         props.load(is);
                         cachedProperties = props;
                     }

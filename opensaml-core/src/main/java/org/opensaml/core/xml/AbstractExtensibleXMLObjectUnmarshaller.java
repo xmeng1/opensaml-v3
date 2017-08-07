@@ -44,9 +44,9 @@ public abstract class AbstractExtensibleXMLObjectUnmarshaller extends AbstractEl
     @Override
     protected void processAttribute(@Nonnull final XMLObject xmlObject, @Nonnull final Attr attribute)
             throws UnmarshallingException {
-        AttributeExtensibleXMLObject anyAttribute = (AttributeExtensibleXMLObject) xmlObject;
-        QName attribQName = QNameSupport.constructQName(attribute.getNamespaceURI(), attribute.getLocalName(), attribute
-                .getPrefix());
+        final AttributeExtensibleXMLObject anyAttribute = (AttributeExtensibleXMLObject) xmlObject;
+        final QName attribQName = QNameSupport.constructQName(attribute.getNamespaceURI(), attribute.getLocalName(),
+                attribute.getPrefix());
         if (attribute.isId()) {
             anyAttribute.getUnknownAttributes().registerID(attribQName);
         }

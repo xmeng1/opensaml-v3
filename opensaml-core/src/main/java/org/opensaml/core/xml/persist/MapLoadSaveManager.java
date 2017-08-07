@@ -63,8 +63,8 @@ public class MapLoadSaveManager<T extends XMLObject> implements XMLObjectLoadSav
 
     /** {@inheritDoc} */
     public Iterable<Pair<String, T>> listAll() throws IOException {
-        ArrayList<Pair<String,T>> list = new ArrayList<>();
-        for (String key : listKeys()) {
+        final ArrayList<Pair<String,T>> list = new ArrayList<>();
+        for (final String key : listKeys()) {
             list.add(new Pair<>(key, load(key)));
         }
         return list;
@@ -101,7 +101,7 @@ public class MapLoadSaveManager<T extends XMLObject> implements XMLObjectLoadSav
 
     /** {@inheritDoc} */
     public boolean updateKey(final String currentKey, final String newKey) throws IOException {
-        T value = load(currentKey);
+        final T value = load(currentKey);
         if (value != null) {
             save(newKey, value, false);
             remove(currentKey);

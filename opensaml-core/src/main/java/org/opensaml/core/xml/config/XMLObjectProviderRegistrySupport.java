@@ -79,7 +79,7 @@ public class XMLObjectProviderRegistrySupport {
     public static void registerObjectProvider(@Nonnull final QName providerName,
             @Nonnull final XMLObjectBuilder<?> builder, @Nonnull final Marshaller marshaller,
             @Nonnull final Unmarshaller unmarshaller) {
-        XMLObjectProviderRegistry registry = ConfigurationService.get(XMLObjectProviderRegistry.class);
+        final XMLObjectProviderRegistry registry = ConfigurationService.get(XMLObjectProviderRegistry.class);
         
         registry.getBuilderFactory().registerBuilder(providerName, builder);
         registry.getMarshallerFactory().registerMarshaller(providerName, marshaller);
@@ -92,7 +92,7 @@ public class XMLObjectProviderRegistrySupport {
      * @param key the key of the builder, marshaller, and unmarshaller to be removed
      */
     public static void deregisterObjectProvider(@Nonnull final QName key) {
-        XMLObjectProviderRegistry registry = ConfigurationService.get(XMLObjectProviderRegistry.class);
+        final XMLObjectProviderRegistry registry = ConfigurationService.get(XMLObjectProviderRegistry.class);
         registry.getBuilderFactory().deregisterBuilder(key);
         registry.getMarshallerFactory().deregisterMarshaller(key);
         registry.getUnmarshallerFactory().deregisterUnmarshaller(key);

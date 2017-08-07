@@ -38,7 +38,7 @@ public class XSStringMarshaller extends AbstractXMLObjectMarshaller {
     /** {@inheritDoc} */
     protected void marshallElementContent(final XMLObject xmlObject, final Element domElement)
             throws MarshallingException {
-        XSString xsiString = (XSString) xmlObject;
+        final XSString xsiString = (XSString) xmlObject;
 
         ElementSupport.appendTextContent(domElement, xsiString.getValue());
     }

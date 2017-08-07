@@ -41,7 +41,7 @@ public class XSURIUnmarshaller extends AbstractXMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processElementContent(final XMLObject xmlObject, final String elementContent) {
-        XSURI uri = (XSURI) xmlObject;
+        final XSURI uri = (XSURI) xmlObject;
         uri.setValue(elementContent);
     }
 }

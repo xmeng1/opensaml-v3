@@ -37,7 +37,7 @@ public class XSAnyUnmarshaller extends AbstractXMLObjectUnmarshaller {
     @Override
     protected void processChildElement(@Nonnull final XMLObject parentXMLObject,
             @Nonnull final XMLObject childXMLObject) throws UnmarshallingException {
-        XSAny xsAny = (XSAny) parentXMLObject;
+        final XSAny xsAny = (XSAny) parentXMLObject;
 
         xsAny.getUnknownXMLObjects().add(childXMLObject);
     }
@@ -46,9 +46,9 @@ public class XSAnyUnmarshaller extends AbstractXMLObjectUnmarshaller {
     @Override
     protected void processAttribute(@Nonnull final XMLObject xmlObject, @Nonnull final Attr attribute)
             throws UnmarshallingException {
-        XSAny xsAny = (XSAny) xmlObject;
+        final XSAny xsAny = (XSAny) xmlObject;
 
-        QName attribQName = QNameSupport.constructQName(attribute.getNamespaceURI(), attribute.getLocalName(),
+        final QName attribQName = QNameSupport.constructQName(attribute.getNamespaceURI(), attribute.getLocalName(),
                 attribute.getPrefix());
 
         if (attribute.isId()) {
@@ -61,7 +61,7 @@ public class XSAnyUnmarshaller extends AbstractXMLObjectUnmarshaller {
     /** {@inheritDoc} */
     @Override
     protected void processElementContent(@Nonnull final XMLObject xmlObject, @Nonnull final String elementContent) {
-        XSAny xsAny = (XSAny) xmlObject;
+        final XSAny xsAny = (XSAny) xmlObject;
 
         xsAny.setTextContent(elementContent);
     }

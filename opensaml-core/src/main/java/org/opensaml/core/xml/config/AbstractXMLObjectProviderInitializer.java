@@ -35,7 +35,7 @@ public abstract class AbstractXMLObjectProviderInitializer implements Initialize
     /** {@inheritDoc} */
     public void init() throws InitializationException {
         try {
-            XMLConfigurator configurator = new XMLConfigurator();
+            final XMLConfigurator configurator = new XMLConfigurator();
             for (String resource : getConfigResources()) {
                 // When using ClassLoader.getResourceAsStream() (as below), resource names should *not*
                 // begin with leading "/".  They are always absolute.

@@ -38,7 +38,7 @@ public class XSIntegerMarshaller extends AbstractXMLObjectMarshaller {
     /** {@inheritDoc} */
     protected void marshallElementContent(final XMLObject xmlObject, final Element domElement)
             throws MarshallingException {
-        XSInteger xsiInteger = (XSInteger) xmlObject;
+        final XSInteger xsiInteger = (XSInteger) xmlObject;
 
         if (xsiInteger.getValue() != null) {
             ElementSupport.appendTextContent(domElement, xsiInteger.getValue().toString());

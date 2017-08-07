@@ -116,7 +116,7 @@ public class Namespace {
 
     /** Constructs an XML namespace declaration string representing this namespace. */
     protected void constructStringRepresentation() {
-        StringBuffer stringRep = new StringBuffer();
+        final StringBuffer stringRep = new StringBuffer();
 
         stringRep.append(XMLConstants.XMLNS_PREFIX);
 
