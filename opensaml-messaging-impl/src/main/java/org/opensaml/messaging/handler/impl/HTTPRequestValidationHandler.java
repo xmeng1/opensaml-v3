@@ -64,7 +64,7 @@ public class HTTPRequestValidationHandler extends AbstractMessageHandler {
      * 
      * @param contentType the content type
      */
-    public void setRequiredContentType(String contentType) {
+    public void setRequiredContentType(final String contentType) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         requiredContentType = contentType;
         requiredRequestMethod = StringSupport.trimOrNull(contentType);
@@ -84,7 +84,7 @@ public class HTTPRequestValidationHandler extends AbstractMessageHandler {
      * 
      * @param requestMethod the required request method
      */
-    public void setRequiredRequestMethod(String requestMethod) {
+    public void setRequiredRequestMethod(final String requestMethod) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         requiredRequestMethod = StringSupport.trimOrNull(requestMethod);
     }
@@ -103,7 +103,7 @@ public class HTTPRequestValidationHandler extends AbstractMessageHandler {
      * 
      * @param secured true if required to be secure, false otherwise
      */
-    public void setRequireSecured(boolean secured) {
+    public void setRequireSecured(final boolean secured) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         requireSecured = secured;
     }
@@ -122,7 +122,7 @@ public class HTTPRequestValidationHandler extends AbstractMessageHandler {
      * 
      * @param request the request instance
      */
-    public void setHttpServletRequest(HttpServletRequest request) {
+    public void setHttpServletRequest(final HttpServletRequest request) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         httpServletRequest = Constraint.isNotNull(request, "HttpServletRequest may not be null");
     }
@@ -141,7 +141,7 @@ public class HTTPRequestValidationHandler extends AbstractMessageHandler {
      * 
      * @throws MessageHandlerException thrown if the request does not meet the requirements of the handler
      */
-    protected void doInvoke(MessageContext messageContext) throws MessageHandlerException {
+    protected void doInvoke(final MessageContext messageContext) throws MessageHandlerException {
         evaluateContentType(getHttpServletRequest());
         evaluateRequestMethod(getHttpServletRequest());
         evaluateSecured(getHttpServletRequest());
@@ -154,7 +154,7 @@ public class HTTPRequestValidationHandler extends AbstractMessageHandler {
      * 
      * @throws MessageHandlerException thrown if the content type was an unexpected value
      */
-    protected void evaluateContentType(HttpServletRequest request) throws MessageHandlerException {
+    protected void evaluateContentType(final HttpServletRequest request) throws MessageHandlerException {
         String transportContentType = request.getHeader("Content-Type");
         if (getRequiredContentType() != null && !transportContentType.startsWith(getRequiredContentType())) {
             log.error("Invalid content type, expected '{}' but was '{}'", getRequiredContentType(), 
@@ -171,7 +171,7 @@ public class HTTPRequestValidationHandler extends AbstractMessageHandler {
      * 
      * @throws MessageHandlerException thrown if the request method was an unexpected value
      */
-    protected void evaluateRequestMethod(HttpServletRequest request) throws MessageHandlerException {
+    protected void evaluateRequestMethod(final HttpServletRequest request) throws MessageHandlerException {
         String transportMethod = request.getMethod();
         if (getRequiredRequestMethod() != null && !transportMethod.equalsIgnoreCase(getRequiredRequestMethod())) {
             log.error("Invalid request method, expected '{}' but was '{}'", getRequiredRequestMethod(), 
@@ -188,7 +188,7 @@ public class HTTPRequestValidationHandler extends AbstractMessageHandler {
      * 
      * @throws MessageHandlerException thrown if the request is not secure and was required to be
      */
-    protected void evaluateSecured(HttpServletRequest request) throws MessageHandlerException {
+    protected void evaluateSecured(final HttpServletRequest request) throws MessageHandlerException {
         if (isRequireSecured() && !request.isSecure()) {
             log.error("Request was required to be secured but was not");
             throw new MessageHandlerException("Request was required to be secured but was not");

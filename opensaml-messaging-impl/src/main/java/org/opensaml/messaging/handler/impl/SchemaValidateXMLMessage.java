@@ -99,11 +99,11 @@ public class SchemaValidateXMLMessage<MessageType extends XMLObject> extends Abs
         try {
             final Validator schemaValidator = validationSchema.newValidator();
             schemaValidator.validate(new DOMSource(messageContext.getMessage().getDOM()));
-        } catch (SAXException e) {
+        } catch (final SAXException e) {
             log.debug("{} Message {} is not schema-valid", getLogPrefix(), messageContext.getMessage()
                     .getElementQName(), e);
             throw new MessageHandlerException("Message is not schema-valid.", e);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             log.debug("{} Unable to read message", getLogPrefix(), e);
             throw new MessageHandlerException("Unable to read message.", e);
         }

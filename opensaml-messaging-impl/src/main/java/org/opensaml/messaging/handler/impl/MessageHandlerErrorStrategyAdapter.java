@@ -104,7 +104,7 @@ public class MessageHandlerErrorStrategyAdapter<MessageType> extends AbstractMes
      * 
      * @param flag true if should rethrow, false if not
      */
-    public void setRethrowIfHandled(boolean flag) {
+    public void setRethrowIfHandled(final boolean flag) {
         rethrowIfHandled = flag;
     }
 
@@ -116,16 +116,16 @@ public class MessageHandlerErrorStrategyAdapter<MessageType> extends AbstractMes
      * 
      * @param flag true if should rethrow, false if not
      */
-    public void setRethrowIfNotHandled(boolean flag) {
+    public void setRethrowIfNotHandled(final boolean flag) {
         rethrowIfNotHandled = flag;
     }
 
 
     /** {@inheritDoc} */
-    protected void doInvoke(MessageContext<MessageType> messageContext) throws MessageHandlerException {
+    protected void doInvoke(final MessageContext<MessageType> messageContext) throws MessageHandlerException {
         try {
             wrappedHandler.invoke(messageContext);
-        } catch (Throwable t) {
+        } catch (final Throwable t) {
             log.trace("Wrapped message handler threw error", t);
             for (TypedMessageErrorHandler errorHandler : errorHandlers) {
                 if (errorHandler.handlesError(t)) {
