@@ -155,7 +155,7 @@ public class HTTPRequestValidationHandler extends AbstractMessageHandler {
      * @throws MessageHandlerException thrown if the content type was an unexpected value
      */
     protected void evaluateContentType(final HttpServletRequest request) throws MessageHandlerException {
-        String transportContentType = request.getHeader("Content-Type");
+        final String transportContentType = request.getHeader("Content-Type");
         if (getRequiredContentType() != null && !transportContentType.startsWith(getRequiredContentType())) {
             log.error("Invalid content type, expected '{}' but was '{}'", getRequiredContentType(), 
                     transportContentType);
@@ -172,7 +172,7 @@ public class HTTPRequestValidationHandler extends AbstractMessageHandler {
      * @throws MessageHandlerException thrown if the request method was an unexpected value
      */
     protected void evaluateRequestMethod(final HttpServletRequest request) throws MessageHandlerException {
-        String transportMethod = request.getMethod();
+        final String transportMethod = request.getMethod();
         if (getRequiredRequestMethod() != null && !transportMethod.equalsIgnoreCase(getRequiredRequestMethod())) {
             log.error("Invalid request method, expected '{}' but was '{}'", getRequiredRequestMethod(), 
                     transportMethod);

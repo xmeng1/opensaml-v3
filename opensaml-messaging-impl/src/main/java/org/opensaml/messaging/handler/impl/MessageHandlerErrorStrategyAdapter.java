@@ -127,10 +127,10 @@ public class MessageHandlerErrorStrategyAdapter<MessageType> extends AbstractMes
             wrappedHandler.invoke(messageContext);
         } catch (final Throwable t) {
             log.trace("Wrapped message handler threw error", t);
-            for (TypedMessageErrorHandler errorHandler : errorHandlers) {
+            for (final TypedMessageErrorHandler errorHandler : errorHandlers) {
                 if (errorHandler.handlesError(t)) {
                     log.trace("Handler indicates it can handle the error: {}", errorHandler.getClass().getName());
-                    boolean handled = errorHandler.handleError(t, messageContext);
+                    final boolean handled = errorHandler.handleError(t, messageContext);
                     log.trace("Handler's indication whether it actually handled the error: {}", handled);
                     if (handled) {
                         if (rethrowIfHandled) {
