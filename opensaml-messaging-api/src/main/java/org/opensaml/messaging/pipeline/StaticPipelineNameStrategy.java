@@ -43,7 +43,7 @@ public class StaticPipelineNameStrategy implements Function<InOutOperationContex
     }
     
     /** {@inheritDoc} */
-    @Nullable public String apply(@Nullable InOutOperationContext<?, ?> input) {
+    @Nullable public String apply(@Nullable final InOutOperationContext<?, ?> input) {
         return pipelineName;
     }
 

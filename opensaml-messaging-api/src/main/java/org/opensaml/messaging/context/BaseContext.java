@@ -343,7 +343,7 @@ public abstract class BaseContext implements Iterable<BaseContext> {
          *
          * @param iterator the iterator instance to decorator
          */
-        protected ContextSetNoRemoveIteratorDecorator(Iterator<BaseContext> iterator) {
+        protected ContextSetNoRemoveIteratorDecorator(final Iterator<BaseContext> iterator) {
             wrappedIterator = iterator;
         }
 

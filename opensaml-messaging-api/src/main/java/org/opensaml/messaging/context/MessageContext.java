@@ -50,7 +50,7 @@ public class MessageContext<MessageType> extends BaseContext {
      * 
      * @param message the message
      */
-    public void setMessage(MessageType message) {
+    public void setMessage(final MessageType message) {
         msg = message;
     }
 

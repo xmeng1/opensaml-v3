@@ -68,7 +68,7 @@ public abstract class BaseHttpClientRequestXMLMessageEncoder<MessageType extends
             try {
                 Element dom = XMLObjectSupport.marshall(message);
                 protocolMessageLog.debug("\n" + SerializeSupport.prettyPrintXML(dom));
-            } catch (MarshallingException e) {
+            } catch (final MarshallingException e) {
                 log.error("Unable to marshall message for logging purposes", e);
             }
         }
@@ -92,12 +92,12 @@ public abstract class BaseHttpClientRequestXMLMessageEncoder<MessageType extends
      * 
      * @throws MessageEncodingException thrown if the give message can not be marshalled into its DOM representation
      */
-    protected Element marshallMessage(XMLObject message) throws MessageEncodingException {
+    protected Element marshallMessage(final XMLObject message) throws MessageEncodingException {
         log.debug("Marshalling message");
         
         try {
             return XMLObjectSupport.marshall(message);
-        } catch (MarshallingException e) {
+        } catch (final MarshallingException e) {
             log.error("Error marshalling message", e);
             throw new MessageEncodingException("Error marshalling message", e);
         }

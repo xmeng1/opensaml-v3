@@ -120,7 +120,7 @@ public abstract class BaseHttpClientResponseXMLMessageDecoder<MessageType extend
             try {
                 Element dom = XMLObjectSupport.marshall(message);
                 protocolMessageLog.debug("\n" + SerializeSupport.prettyPrintXML(dom));
-            } catch (MarshallingException e) {
+            } catch (final MarshallingException e) {
                 log.error("Unable to marshall message for logging purposes", e);
             }
         }
@@ -144,14 +144,14 @@ public abstract class BaseHttpClientResponseXMLMessageDecoder<MessageType extend
      * 
      * @throws MessageDecodingException thrown if there is a problem deserializing and unmarshalling the message
      */
-    protected XMLObject unmarshallMessage(InputStream messageStream) throws MessageDecodingException {
+    protected XMLObject unmarshallMessage(final InputStream messageStream) throws MessageDecodingException {
         try {
             XMLObject message = XMLObjectSupport.unmarshallFromInputStream(getParserPool(), messageStream);
             return message;
-        } catch (XMLParserException e) {
+        } catch (final XMLParserException e) {
             log.error("Error unmarshalling message from input stream", e);
             throw new MessageDecodingException("Error unmarshalling message from input stream", e);
-        } catch (UnmarshallingException e) {
+        } catch (final UnmarshallingException e) {
             log.error("Error unmarshalling message from input stream", e);
             throw new MessageDecodingException("Error unmarshalling message from input stream", e);
         }
