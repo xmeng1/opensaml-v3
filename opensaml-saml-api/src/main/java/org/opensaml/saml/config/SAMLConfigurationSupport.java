@@ -52,7 +52,7 @@ public final class SAMLConfigurationSupport {
      * 
      * @param format date format used to string'ify date objects
      */
-    public static void setSAMLDateFormat(String format) {
+    public static void setSAMLDateFormat(final String format) {
         ConfigurationService.get(SAMLConfiguration.class).setSAMLDateFormat(format);
     }
 
@@ -70,7 +70,7 @@ public final class SAMLConfigurationSupport {
      * 
      * @param factory artifact factory for the library
      */
-    public static void setSAML1ArtifactBuilderFactory(SAML1ArtifactBuilderFactory factory) {
+    public static void setSAML1ArtifactBuilderFactory(final SAML1ArtifactBuilderFactory factory) {
         ConfigurationService.get(SAMLConfiguration.class).setSAML1ArtifactBuilderFactory(factory);
     }
 
@@ -88,7 +88,7 @@ public final class SAMLConfigurationSupport {
      * 
      * @param factory artifact factory for the library
      */
-    public static void setSAML2ArtifactBuilderFactory(SAML2ArtifactBuilderFactory factory) {
+    public static void setSAML2ArtifactBuilderFactory(final SAML2ArtifactBuilderFactory factory) {
         ConfigurationService.get(SAMLConfiguration.class).setSAML2ArtifactBuilderFactory(factory);
     }
     
@@ -106,7 +106,7 @@ public final class SAMLConfigurationSupport {
      * 
      * @param schemes the new list of allowed URL schemes
      */
-    public static void setAllowedBindingURLSchemes(List<String>schemes) {
+    public static void setAllowedBindingURLSchemes(final List<String>schemes) {
         ConfigurationService.get(SAMLConfiguration.class).setAllowedBindingURLSchemes(schemes);
     }
 }

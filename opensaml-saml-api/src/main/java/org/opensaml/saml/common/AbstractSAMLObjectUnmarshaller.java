@@ -41,7 +41,7 @@ public abstract class AbstractSAMLObjectUnmarshaller extends AbstractXMLObjectUn
     @Nonnull protected SAMLVersion parseSAMLVersion(@Nonnull final Attr attribute) throws UnmarshallingException {
         try {
             return SAMLVersion.valueOf(attribute.getValue());
-        } catch (RuntimeException e) {
+        } catch (final RuntimeException e) {
             throw new UnmarshallingException(String.format("Could not parse SAMLVersion from DOM attribute value '%s'",
                     attribute.getValue()), e);
         }

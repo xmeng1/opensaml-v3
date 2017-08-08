@@ -27,7 +27,7 @@ import com.google.common.base.Predicate;
 public class IsTimeboundSAMLObjectValidPredicate implements Predicate<XMLObject> {
 
     /** {@inheritDoc} */
-    public boolean apply(XMLObject input) {
+    public boolean apply(final XMLObject input) {
         if (input == null) {
             return false;
         }

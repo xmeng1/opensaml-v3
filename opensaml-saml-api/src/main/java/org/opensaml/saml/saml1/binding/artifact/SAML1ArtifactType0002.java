@@ -52,7 +52,7 @@ public class SAML1ArtifactType0002 extends AbstractSAML1Artifact implements SAML
      * @throws IllegalArgumentException thrown if the given assertion handle is not 20 bytes or the source location is
      *             null or empty
      */
-    public SAML1ArtifactType0002(byte[] handle, String location) {
+    public SAML1ArtifactType0002(final byte[] handle, final String location) {
         super(TYPE_CODE);
 
         setAssertionHandle(handle);
@@ -67,7 +67,7 @@ public class SAML1ArtifactType0002 extends AbstractSAML1Artifact implements SAML
      * 
      * @throws IllegalArgumentException thrown if the artifact type is not 0x0002
      */
-    public static SAML1ArtifactType0002 parseArtifact(byte[] artifact) {
+    public static SAML1ArtifactType0002 parseArtifact(final byte[] artifact) {
         byte[] typeCode = { artifact[0], artifact[1] };
         if (!Arrays.equals(typeCode, TYPE_CODE)) {
             throw new IllegalArgumentException("Artifact is not of appropriate type.");
@@ -97,7 +97,7 @@ public class SAML1ArtifactType0002 extends AbstractSAML1Artifact implements SAML
      * 
      * @param handle artifiact's 20 byte assertion handle
      */
-    public void setAssertionHandle(byte[] handle) {
+    public void setAssertionHandle(final byte[] handle) {
         if (handle.length != 20) {
             throw new IllegalArgumentException("Artifact assertion handle must be 20 bytes long");
         }
@@ -120,7 +120,7 @@ public class SAML1ArtifactType0002 extends AbstractSAML1Artifact implements SAML
      * 
      * @throws IllegalArgumentException thrown if the given location is empty or null
      */
-    protected void setSourceLocation(String newLocation) {
+    protected void setSourceLocation(final String newLocation) {
         String location = StringSupport.trimOrNull(newLocation);
         if (location == null) {
             throw new IllegalArgumentException("Artifact source location may not be a null or empty string");

@@ -29,7 +29,7 @@ import org.opensaml.saml.saml2.metadata.EntityDescriptor;
 public class EntityDescriptorLookupFunction implements ContextDataLookupFunction<SAMLMetadataContext,EntityDescriptor> {
 
     /** {@inheritDoc} */
-    @Override @Nullable public EntityDescriptor apply(@Nullable SAMLMetadataContext input) {
+    @Override @Nullable public EntityDescriptor apply(@Nullable final SAMLMetadataContext input) {
         if (null == input) {
             return null;
         }

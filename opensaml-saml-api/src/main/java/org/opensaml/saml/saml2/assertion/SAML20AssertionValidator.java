@@ -131,7 +131,7 @@ public class SAML20AssertionValidator {
      */
     public SAML20AssertionValidator(@Nullable final Collection<ConditionValidator> newConditionValidators,
             @Nullable final Collection<SubjectConfirmationValidator> newConfirmationValidators,
-            @Nullable Collection<StatementValidator> newStatementValidators, 
+            @Nullable final Collection<StatementValidator> newStatementValidators, 
             @Nullable final SignatureTrustEngine newTrustEngine,
             @Nullable final SignaturePrevalidator newSignaturePrevalidator) {
         
@@ -183,7 +183,7 @@ public class SAML20AssertionValidator {
                 if (clockSkew < 1) {
                     clockSkew = DEFAULT_CLOCK_SKEW;
                 }
-            } catch (ClassCastException e) {
+            } catch (final ClassCastException e) {
                 clockSkew = DEFAULT_CLOCK_SKEW;
             }
         }
@@ -333,7 +333,7 @@ public class SAML20AssertionValidator {
         
         try {
             signaturePrevalidator.validate(signature);
-        } catch (SignatureException e) {
+        } catch (final SignatureException e) {
             String msg = String.format("Assertion Signature failed pre-validation: %s", e.getMessage());
             log.warn(msg);
             context.setValidationFailureMessage(msg);
@@ -354,7 +354,7 @@ public class SAML20AssertionValidator {
                 context.setValidationFailureMessage(msg);
                 return ValidationResult.INVALID;
             }
-        } catch (SecurityException e) {
+        } catch (final SecurityException e) {
             String msg = String.format(
                     "A problem was encountered evaluating the signature over Assertion with ID '%s': %s",
                     token.getID(), e.getMessage());
@@ -535,7 +535,7 @@ public class SAML20AssertionValidator {
                                 SAML2AssertionValidationParameters.CONFIRMED_SUBJECT_CONFIRMATION, confirmation);
                         return ValidationResult.VALID;
                     }
-                } catch (AssertionValidationException e) {
+                } catch (final AssertionValidationException e) {
                     log.warn("Error while executing subject confirmation validation " + validator.getClass().getName(),
                             e);
                 }

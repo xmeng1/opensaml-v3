@@ -29,7 +29,7 @@ public abstract class AbstractSAML1Artifact extends AbstractSAMLArtifact impleme
      * 
      * @param typeCode artifact type code
      */
-    protected AbstractSAML1Artifact(byte[] typeCode) {
+    protected AbstractSAML1Artifact(final byte[] typeCode) {
         super(typeCode);
     }
 }

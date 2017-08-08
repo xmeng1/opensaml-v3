@@ -102,7 +102,7 @@ public class SAMLConfiguration {
      * 
      * @param format date format used to string'ify date objects
      */
-    public void setSAMLDateFormat(String format) {
+    public void setSAMLDateFormat(final String format) {
         DateTimeFormatter formatter = DateTimeFormat.forPattern(format);
         dateFormatter = formatter.withChronology(ISOChronology.getInstanceUTC());
     }
@@ -121,7 +121,7 @@ public class SAMLConfiguration {
      * 
      * @param factory artifact factory for the library
      */
-    public void setSAML1ArtifactBuilderFactory(SAML1ArtifactBuilderFactory factory) {
+    public void setSAML1ArtifactBuilderFactory(final SAML1ArtifactBuilderFactory factory) {
         saml1ArtifactBuilderFactory = factory;
     }
 
@@ -139,7 +139,7 @@ public class SAMLConfiguration {
      * 
      * @param factory artifact factory for the library
      */
-    public void setSAML2ArtifactBuilderFactory(SAML2ArtifactBuilderFactory factory) {
+    public void setSAML2ArtifactBuilderFactory(final SAML2ArtifactBuilderFactory factory) {
         saml2ArtifactBuilderFactory = factory;
     }
 
@@ -191,7 +191,7 @@ public class SAMLConfiguration {
     private static class LowercaseFunction implements Function<String, String> {
 
         /** {@inheritDoc} */
-        public String apply(String input) {
+        public String apply(final String input) {
             if (input == null) {
                 return null;
             } else {

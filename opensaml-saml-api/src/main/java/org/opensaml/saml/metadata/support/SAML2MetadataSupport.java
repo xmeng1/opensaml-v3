@@ -50,7 +50,7 @@ public final class SAML2MetadataSupport {
      * @param <T> the subtype of IndexedType
      * 
      */
-    public static <T extends IndexedEndpoint> T getDefaultIndexedEndpoint(List<T> candidates) {
+    public static <T extends IndexedEndpoint> T getDefaultIndexedEndpoint(final List<T> candidates) {
         Logger log = getLogger();
         log.debug("Selecting default IndexedEndpoint");
         

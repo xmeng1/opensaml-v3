@@ -50,7 +50,7 @@ public class SAML1ArtifactType0001 extends AbstractSAML1Artifact implements SAML
      * @throws IllegalArgumentException thrown if the given source ID or message handle are not of the current length
      *             (20 bytes)
      */
-    public SAML1ArtifactType0001(byte[] source, byte[] handle) {
+    public SAML1ArtifactType0001(final byte[] source, final byte[] handle) {
         super(TYPE_CODE);
 
         setSourceID(source);
@@ -67,7 +67,7 @@ public class SAML1ArtifactType0001 extends AbstractSAML1Artifact implements SAML
      * @throws IllegalArgumentException thrown if the artifact is not the right type or lenght (42 bytes) or is not of
      *             the correct type (0x0001)
      */
-    public static SAML1ArtifactType0001 parseArtifact(byte[] artifact) {
+    public static SAML1ArtifactType0001 parseArtifact(final byte[] artifact) {
         if (artifact.length != 42) {
             throw new IllegalArgumentException("Artifact length must be 42 bytes it was " + artifact.length + "bytes");
         }
@@ -102,7 +102,7 @@ public class SAML1ArtifactType0001 extends AbstractSAML1Artifact implements SAML
      * 
      * @throws IllegalArgumentException thrown if the given source ID is not 20 bytes
      */
-    protected void setSourceID(byte[] newSourceID) {
+    protected void setSourceID(final byte[] newSourceID) {
         if (newSourceID.length != 20) {
             throw new IllegalArgumentException("Artifact source ID must be 20 bytes long");
         }
@@ -123,7 +123,7 @@ public class SAML1ArtifactType0001 extends AbstractSAML1Artifact implements SAML
      * 
      * @param handle artifiact's 20 byte assertion handle
      */
-    public void setAssertionHandle(byte[] handle) {
+    public void setAssertionHandle(final byte[] handle) {
         if (handle.length != 20) {
             throw new IllegalArgumentException("Artifact assertion handle must be 20 bytes long");
         }

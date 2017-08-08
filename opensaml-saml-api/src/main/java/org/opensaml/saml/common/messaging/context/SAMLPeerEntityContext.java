@@ -87,7 +87,7 @@ public class SAMLPeerEntityContext extends AbstractAuthenticatableSAMLEntityCont
      * 
      * @param useResource whether to use the Resource attribute of some SAML 1 queries to resolve the entity ID
      */
-    public void setUseSAML1QueryResourceAsEntityId(boolean useResource) {
+    public void setUseSAML1QueryResourceAsEntityId(final boolean useResource) {
         useSAML1QueryResourceAsEntityId = useResource;
     }
 

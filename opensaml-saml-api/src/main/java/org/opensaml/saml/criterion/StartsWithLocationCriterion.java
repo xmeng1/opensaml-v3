@@ -44,7 +44,7 @@ public class StartsWithLocationCriterion implements Criterion {
      *
      * @param value the matchStartsWith flag value
      */
-    public StartsWithLocationCriterion(boolean value) {
+    public StartsWithLocationCriterion(final boolean value) {
         matchStartsWith = value;
     }
 
@@ -63,7 +63,7 @@ public class StartsWithLocationCriterion implements Criterion {
     }
 
     /** {@inheritDoc} */
-    public boolean equals(Object other) {
+    public boolean equals(final Object other) {
         if (this == other) {
             return true;
         }

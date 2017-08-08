@@ -31,7 +31,7 @@ public class SignatureCapableBindingPredicate implements Predicate<MessageContex
 
     /** {@inheritDoc} */
     @Override
-    public boolean apply(MessageContext<SAMLObject> input) {
+    public boolean apply(final MessageContext<SAMLObject> input) {
         return input != null && SAMLBindingSupport.isSigningCapableBinding(input);
     }
 

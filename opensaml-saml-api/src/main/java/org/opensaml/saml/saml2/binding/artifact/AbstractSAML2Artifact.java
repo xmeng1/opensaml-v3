@@ -35,7 +35,7 @@ public abstract class AbstractSAML2Artifact extends AbstractSAMLArtifact impleme
      * 
      * @param artifactType artifact type code
      */
-    protected AbstractSAML2Artifact(byte[] artifactType) {
+    protected AbstractSAML2Artifact(final byte[] artifactType) {
         super(artifactType);
     }
 
@@ -48,7 +48,7 @@ public abstract class AbstractSAML2Artifact extends AbstractSAMLArtifact impleme
      * @throws IllegalArgumentException thrown if the endpoint index, source ID, or message handle arrays are not of the
      *             right size
      */
-    public AbstractSAML2Artifact(byte[] artifactType, byte[] index) {
+    public AbstractSAML2Artifact(final byte[] artifactType, final byte[] index) {
         super(artifactType);
         setEndpointIndex(index);
     }
@@ -81,7 +81,7 @@ public abstract class AbstractSAML2Artifact extends AbstractSAMLArtifact impleme
      * 
      * @throws IllegalArgumentException thrown if the given index is not 2 bytes
      */
-    public void setEndpointIndex(byte[] newIndex) {
+    public void setEndpointIndex(final byte[] newIndex) {
         if (newIndex.length != 2) {
             throw new IllegalArgumentException("Artifact endpoint index must be two bytes long");
         }

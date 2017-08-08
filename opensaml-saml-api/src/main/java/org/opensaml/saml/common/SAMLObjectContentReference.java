@@ -145,9 +145,9 @@ public class SAMLObjectContentReference implements ConfigurableContentReference 
                 signature.addDocument("" , dsigTransforms, digestAlgorithm);
             }
             
-        } catch (TransformationException e) {
+        } catch (final TransformationException e) {
             log.error("Unsupported signature transformation", e);
-        } catch (XMLSignatureException e) {
+        } catch (final XMLSignatureException e) {
             log.error("Error adding content reference to signature", e);
         }
     }

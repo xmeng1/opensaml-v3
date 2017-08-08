@@ -60,7 +60,7 @@ public class EncryptedElementTypeEncryptedKeyResolver extends AbstractEncryptedK
     }
 
     /** {@inheritDoc} */
-    public Iterable<EncryptedKey> resolve(EncryptedData encryptedData) {
+    public Iterable<EncryptedKey> resolve(final EncryptedData encryptedData) {
         final List<EncryptedKey> resolvedEncKeys = new ArrayList<>();
         
         if (!(encryptedData.getParent() instanceof EncryptedElementType) ) {

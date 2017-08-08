@@ -42,7 +42,7 @@ public class SAML1ArtifactType0002Builder implements SAML1ArtifactBuilder<SAML1A
 
     /** {@inheritDoc} */
     @Override
-    @Nullable public SAML1ArtifactType0002 buildArtifact(@Nonnull @NotEmpty byte[] artifact) {
+    @Nullable public SAML1ArtifactType0002 buildArtifact(@Nonnull @NotEmpty final byte[] artifact) {
         try {
             return SAML1ArtifactType0002.parseArtifact(artifact);
         } catch (final IllegalArgumentException e) {

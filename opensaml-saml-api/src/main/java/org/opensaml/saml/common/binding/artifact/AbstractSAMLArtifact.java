@@ -100,7 +100,7 @@ public abstract class AbstractSAMLArtifact implements SAMLArtifact {
     }
 
     /** {@inheritDoc} */
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (o == this) {
             return true;
         }

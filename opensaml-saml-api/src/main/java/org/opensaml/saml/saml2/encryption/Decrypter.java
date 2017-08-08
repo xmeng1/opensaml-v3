@@ -57,7 +57,7 @@ public class Decrypter extends org.opensaml.xmlsec.encryption.support.Decrypter 
      *
      * @param params decryption parameters to use
      */
-    public Decrypter(DecryptionParameters params) {
+    public Decrypter(final DecryptionParameters params) {
         super(params);
     }
     
@@ -174,7 +174,7 @@ public class Decrypter extends org.opensaml.xmlsec.encryption.support.Decrypter 
         XMLObject xmlObject = null;
         try {
             xmlObject = decryptData(encElement.getEncryptedData(), isRootInNewDocument());
-        } catch (DecryptionException e) {
+        } catch (final DecryptionException e) {
             log.error("SAML Decrypter encountered an error decrypting element content", e);
             throw e; 
         }

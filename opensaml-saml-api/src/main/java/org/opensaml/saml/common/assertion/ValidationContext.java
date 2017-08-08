@@ -50,7 +50,7 @@ public class ValidationContext {
      * 
      * @param newStaticParameters static parameters for the validation evaluation
      */
-    public ValidationContext(Map<String, Object> newStaticParameters) {
+    public ValidationContext(final Map<String, Object> newStaticParameters) {
         if (newStaticParameters == null) {
             staticParameters = Collections.unmodifiableMap(Collections.EMPTY_MAP);
         } else {
@@ -91,7 +91,7 @@ public class ValidationContext {
      * 
      * @param message message describing why the validation process failed
      */
-    public void setValidationFailureMessage(String message) {
+    public void setValidationFailureMessage(final String message) {
         validationFailureMessage = StringSupport.trimOrNull(message);
     }
 }

@@ -53,7 +53,7 @@ public class SAML1ArtifactBuilderFactory {
      * 
      * @return artifact builder for the given type
      */
-    public SAML1ArtifactBuilder getArtifactBuilder(byte[] type) {
+    public SAML1ArtifactBuilder getArtifactBuilder(final byte[] type) {
         return artifactBuilders.get(new String(type));
     }
     
@@ -64,7 +64,7 @@ public class SAML1ArtifactBuilderFactory {
      * 
      * @return constructed artifact
      */
-    public AbstractSAML1Artifact buildArtifact(String base64Artifact){
+    public AbstractSAML1Artifact buildArtifact(final String base64Artifact){
         return buildArtifact(Base64Support.decode(base64Artifact));
     }
 
@@ -75,7 +75,7 @@ public class SAML1ArtifactBuilderFactory {
      * 
      * @return constructed artifact
      */
-    public AbstractSAML1Artifact buildArtifact(byte[] artifact) {
+    public AbstractSAML1Artifact buildArtifact(final byte[] artifact) {
         if(artifact == null){
             return null;
         }

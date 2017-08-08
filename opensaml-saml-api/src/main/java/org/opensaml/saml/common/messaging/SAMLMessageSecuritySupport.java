@@ -92,7 +92,7 @@ public final class SAMLMessageSecuritySupport {
      * 
      * @return true if allowed, otherwise false
      */
-    public static boolean checkURLScheme(@Nonnull @NotEmpty String scheme) {
+    public static boolean checkURLScheme(@Nonnull @NotEmpty final String scheme) {
         String normalized = StringSupport.trimOrNull(scheme);
         if (normalized == null) {
             return false;

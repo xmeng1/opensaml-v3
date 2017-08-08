@@ -85,7 +85,7 @@ public final class SAML2Support {
      *          was null, otherwise will always be non-null.
      */
     @Nullable public static DateTime getEarliestExpiration(@Nullable final XMLObject xmlObject, 
-            @Nullable DateTime candidateTime, @Nonnull DateTime now) {
+            @Nullable final DateTime candidateTime, @Nonnull final DateTime now) {
         
         DateTime earliestExpiration = candidateTime;
 
@@ -126,8 +126,8 @@ public final class SAML2Support {
      * @return the earliest effective expiration instant of the 2 targets. May be null if the input candiateTime 
      *          was null, otherwise will always be non-null.
      */
-    @Nullable public static DateTime getEarliestExpirationFromCacheable(@Nonnull CacheableSAMLObject cacheableObject, 
-            @Nullable DateTime candidateTime, @Nonnull DateTime now) {
+    @Nullable public static DateTime getEarliestExpirationFromCacheable(@Nonnull final CacheableSAMLObject cacheableObject, 
+            @Nullable final DateTime candidateTime, @Nonnull final DateTime now) {
         
         DateTime earliestExpiration = candidateTime;
 
@@ -155,8 +155,8 @@ public final class SAML2Support {
      * @return the earliest effective expiration instant of the 2 targets. May be null if the input candiateTime 
      *          was null, otherwise will always be non-null.
      */
-    @Nullable public static DateTime getEarliestExpirationFromTimeBound(@Nonnull TimeBoundSAMLObject timeBoundObject, 
-            @Nullable DateTime candidateTime) {
+    @Nullable public static DateTime getEarliestExpirationFromTimeBound(@Nonnull final TimeBoundSAMLObject timeBoundObject, 
+            @Nullable final DateTime candidateTime) {
         
         DateTime earliestExpiration = candidateTime;
         
