@@ -137,7 +137,7 @@ public class SAML20AssertionValidator {
         
         conditionValidators = new LazyMap<>();
         if (newConditionValidators != null) {
-            for (ConditionValidator validator : newConditionValidators) {
+            for (final ConditionValidator validator : newConditionValidators) {
                 if (validator != null) {
                     conditionValidators.put(validator.getServicedCondition(), validator);
                 }
@@ -146,7 +146,7 @@ public class SAML20AssertionValidator {
 
         subjectConfirmationValidators = new LazyMap<>();
         if (newConfirmationValidators != null) {
-            for (SubjectConfirmationValidator validator : newConfirmationValidators) {
+            for (final SubjectConfirmationValidator validator : newConfirmationValidators) {
                 if (validator != null) {
                     subjectConfirmationValidators.put(validator.getServicedMethod(), validator);
                 }
@@ -155,7 +155,7 @@ public class SAML20AssertionValidator {
 
         statementValidators = new LazyMap<>();
         if (newStatementValidators != null) {
-            for (StatementValidator validator : newStatementValidators) {
+            for (final StatementValidator validator : newStatementValidators) {
                 if (validator != null) {
                     statementValidators.put(validator.getServicedStatement(), validator);
                 }
@@ -321,7 +321,7 @@ public class SAML20AssertionValidator {
      */
     @Nonnull protected ValidationResult performSignatureValidation(@Nonnull final Assertion token, 
             @Nonnull final ValidationContext context) throws AssertionValidationException {
-        Signature signature = token.getSignature();
+        final Signature signature = token.getSignature();
         
         String tokenIssuer = null;
         if (token.getIssuer() != null) {
@@ -334,13 +334,13 @@ public class SAML20AssertionValidator {
         try {
             signaturePrevalidator.validate(signature);
         } catch (final SignatureException e) {
-            String msg = String.format("Assertion Signature failed pre-validation: %s", e.getMessage());
+            final String msg = String.format("Assertion Signature failed pre-validation: %s", e.getMessage());
             log.warn(msg);
             context.setValidationFailureMessage(msg);
             return ValidationResult.INVALID;
         }
         
-        CriteriaSet criteriaSet = getSignatureValidationCriteriaSet(token, context);
+        final CriteriaSet criteriaSet = getSignatureValidationCriteriaSet(token, context);
         
         try {
             if (trustEngine.validate(signature, criteriaSet)) {
@@ -348,14 +348,14 @@ public class SAML20AssertionValidator {
                         token.getID(), tokenIssuer);
                 return ValidationResult.VALID;
             } else {
-                String msg = String.format(
+                final String msg = String.format(
                         "Signature of Assertion '%s' from Issuer '%s' was not valid", token.getID(), tokenIssuer);
                 log.warn(msg);
                 context.setValidationFailureMessage(msg);
                 return ValidationResult.INVALID;
             }
         } catch (final SecurityException e) {
-            String msg = String.format(
+            final String msg = String.format(
                     "A problem was encountered evaluating the signature over Assertion with ID '%s': %s",
                     token.getID(), e.getMessage());
             log.warn(msg);
@@ -413,26 +413,26 @@ public class SAML20AssertionValidator {
     @Nonnull protected ValidationResult validateConditions(@Nonnull final Assertion assertion, 
             @Nonnull final ValidationContext context) throws AssertionValidationException {
         
-        Conditions conditions = assertion.getConditions();
+        final Conditions conditions = assertion.getConditions();
         if (conditions == null) {
             log.debug("Assertion contained no Conditions element");
             return ValidationResult.VALID;
         }
         
-        ValidationResult timeboundsResult = validateConditionsTimeBounds(assertion, context);
+        final ValidationResult timeboundsResult = validateConditionsTimeBounds(assertion, context);
         if (timeboundsResult != ValidationResult.VALID) {
             return timeboundsResult;
         }
 
         ConditionValidator validator;
-        for (Condition condition : conditions.getConditions()) {
+        for (final Condition condition : conditions.getConditions()) {
             validator = conditionValidators.get(condition.getElementQName());
             if (validator == null && condition.getSchemaType() != null) {
                 validator = conditionValidators.get(condition.getSchemaType());
             }
 
             if (validator == null) {
-                String msg = String.format(
+                final String msg = String.format(
                         "Unknown Condition '%s' of type '%s' in assertion '%s'", 
                                 condition.getElementQName(), condition.getSchemaType(), assertion.getID());
                 log.debug(msg);
@@ -468,15 +468,15 @@ public class SAML20AssertionValidator {
     @Nonnull protected ValidationResult validateConditionsTimeBounds(@Nonnull final Assertion assertion,
             @Nonnull final ValidationContext context) throws AssertionValidationException {
         
-        Conditions conditions = assertion.getConditions();
+        final Conditions conditions = assertion.getConditions();
         if (conditions == null) {
             return ValidationResult.VALID;
         }
         
-        DateTime now = new DateTime(ISOChronology.getInstanceUTC());
-        long clockSkew = getClockSkew(context);
+        final DateTime now = new DateTime(ISOChronology.getInstanceUTC());
+        final long clockSkew = getClockSkew(context);
 
-        DateTime notBefore = conditions.getNotBefore();
+        final DateTime notBefore = conditions.getNotBefore();
         log.debug("Evaluating Conditions NotBefore '{}' against 'skewed now' time '{}'",
                 notBefore, now.plus(clockSkew));
         if (notBefore != null && notBefore.isAfter(now.plus(clockSkew))) {
@@ -485,7 +485,7 @@ public class SAML20AssertionValidator {
             return ValidationResult.INVALID;
         }
 
-        DateTime notOnOrAfter = conditions.getNotOnOrAfter();
+        final DateTime notOnOrAfter = conditions.getNotOnOrAfter();
         log.debug("Evaluating Conditions NotOnOrAfter '{}' against 'skewed now' time '{}'",
                 notOnOrAfter, now.minus(clockSkew));
         if (notOnOrAfter != null && notOnOrAfter.isBefore(now.minus(clockSkew))) {
@@ -512,13 +512,13 @@ public class SAML20AssertionValidator {
     @Nonnull protected ValidationResult validateSubjectConfirmation(@Nonnull final Assertion assertion, 
             @Nonnull final ValidationContext context) throws AssertionValidationException {
         
-        Subject assertionSubject = assertion.getSubject();
+        final Subject assertionSubject = assertion.getSubject();
         if (assertionSubject == null) {
             log.debug("Assertion contains no Subject, skipping subject confirmation");
             return ValidationResult.VALID;
         }
 
-        List<SubjectConfirmation> confirmations = assertionSubject.getSubjectConfirmations();
+        final List<SubjectConfirmation> confirmations = assertionSubject.getSubjectConfirmations();
         if (confirmations == null || confirmations.isEmpty()) {
             log.debug("Assertion contains no SubjectConfirmations, skipping subject confirmation");
             return ValidationResult.VALID;
@@ -526,8 +526,8 @@ public class SAML20AssertionValidator {
         
         log.debug("Assertion contains at least 1 SubjectConfirmation, proceeding with subject confirmation");
 
-        for (SubjectConfirmation confirmation : confirmations) {
-            SubjectConfirmationValidator validator = subjectConfirmationValidators.get(confirmation.getMethod());
+        for (final SubjectConfirmation confirmation : confirmations) {
+            final SubjectConfirmationValidator validator = subjectConfirmationValidators.get(confirmation.getMethod());
             if (validator != null) {
                 try {
                     if (validator.validate(confirmation, assertion, context) == ValidationResult.VALID) {
@@ -542,7 +542,7 @@ public class SAML20AssertionValidator {
             }
         }
 
-        String msg = String.format(
+        final String msg = String.format(
                 "No subject confirmation methods were met for assertion with ID '%s'", assertion.getID());
         log.debug(msg);
         context.setValidationFailureMessage(msg);
@@ -563,14 +563,14 @@ public class SAML20AssertionValidator {
     @Nonnull protected ValidationResult validateStatements(@Nonnull final Assertion assertion, 
             @Nonnull final ValidationContext context) throws AssertionValidationException {
         
-        List<Statement> statements = assertion.getStatements();
+        final List<Statement> statements = assertion.getStatements();
         if (statements == null || statements.isEmpty()) {
             return ValidationResult.VALID;
         }
 
         ValidationResult result;
         StatementValidator validator;
-        for (Statement statement : statements) {
+        for (final Statement statement : statements) {
             validator = statementValidators.get(statement.getElementQName());
             if (validator == null && statement.getSchemaType() != null) {
                 validator = statementValidators.get(statement.getSchemaType());

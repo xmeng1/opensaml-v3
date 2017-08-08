@@ -51,7 +51,7 @@ public final class SAML2MetadataSupport {
      * 
      */
     public static <T extends IndexedEndpoint> T getDefaultIndexedEndpoint(final List<T> candidates) {
-        Logger log = getLogger();
+        final Logger log = getLogger();
         log.debug("Selecting default IndexedEndpoint");
         
         if (candidates == null || candidates.isEmpty()) {
@@ -60,7 +60,7 @@ public final class SAML2MetadataSupport {
         }
         
         T firstNoDefault = null;
-        for (T endpoint : candidates) {
+        for (final T endpoint : candidates) {
             if (endpoint.isDefault()) {
                 log.debug("Selected IndexedEndpoint with explicit isDefault of true");
                 return endpoint;

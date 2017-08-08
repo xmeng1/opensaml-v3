@@ -98,7 +98,7 @@ public class MetadataNameIdentifierFormatStrategy implements Function<ProfileReq
                 final SAMLPeerEntityContext peerCtx =
                         input.getInboundMessageContext().getSubcontext(SAMLPeerEntityContext.class);
                 if (peerCtx != null) {
-                    SAMLMetadataContext mdCtx = peerCtx.getSubcontext(SAMLMetadataContext.class);
+                    final SAMLMetadataContext mdCtx = peerCtx.getSubcontext(SAMLMetadataContext.class);
                     if (mdCtx != null && mdCtx.getRoleDescriptor() != null
                             && mdCtx.getRoleDescriptor() instanceof SSODescriptor) {
                         return (SSODescriptor) mdCtx.getRoleDescriptor();

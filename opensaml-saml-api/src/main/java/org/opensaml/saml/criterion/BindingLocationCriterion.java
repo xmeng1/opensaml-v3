@@ -51,7 +51,7 @@ public final class BindingLocationCriterion implements Criterion {
     /** {@inheritDoc} */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("BindingLocation [location=");
         builder.append(location);
         builder.append("]");

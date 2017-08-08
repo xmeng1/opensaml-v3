@@ -59,8 +59,8 @@ public abstract class AbstractSAML2Artifact extends AbstractSAMLArtifact impleme
      * @return the bytes for the artifact
      */
     public byte[] getArtifactBytes() {
-        byte[] remainingArtifact = getRemainingArtifact();
-        byte[] artifact = new byte[4 + remainingArtifact.length];
+        final byte[] remainingArtifact = getRemainingArtifact();
+        final byte[] artifact = new byte[4 + remainingArtifact.length];
 
         System.arraycopy(getTypeCode(), 0, artifact, 0, 2);
         System.arraycopy(getEndpointIndex(), 0, artifact, 2, 2);

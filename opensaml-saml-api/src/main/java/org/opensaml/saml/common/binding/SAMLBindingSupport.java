@@ -261,17 +261,17 @@ public final class SAMLBindingSupport {
         String messageDestination = null;
         //SAML 2 Request
         if (samlMessage instanceof org.opensaml.saml.saml2.core.RequestAbstractType) {
-            org.opensaml.saml.saml2.core.RequestAbstractType request =  
+            final org.opensaml.saml.saml2.core.RequestAbstractType request =  
                     (org.opensaml.saml.saml2.core.RequestAbstractType) samlMessage;
             messageDestination = StringSupport.trimOrNull(request.getDestination());
         //SAML 2 Response
         } else if (samlMessage instanceof org.opensaml.saml.saml2.core.StatusResponseType) {
-            org.opensaml.saml.saml2.core.StatusResponseType response = 
+            final org.opensaml.saml.saml2.core.StatusResponseType response = 
                     (org.opensaml.saml.saml2.core.StatusResponseType) samlMessage;
             messageDestination = StringSupport.trimOrNull(response.getDestination());
         //SAML 1 Response
         } else if (samlMessage instanceof org.opensaml.saml.saml1.core.ResponseAbstractType) {
-            org.opensaml.saml.saml1.core.ResponseAbstractType response = 
+            final org.opensaml.saml.saml1.core.ResponseAbstractType response = 
                     (org.opensaml.saml.saml1.core.ResponseAbstractType) samlMessage;
             messageDestination = StringSupport.trimOrNull(response.getRecipient());
         //SAML 1 Request
@@ -319,7 +319,7 @@ public final class SAMLBindingSupport {
         Constraint.isNotNull(artifactEndpointIndex, "Artifact endpoint index cannot be null");
         Constraint.isTrue(artifactEndpointIndex.length == 2, "Artifact endpoint index length was not 2, was: "
                 + artifactEndpointIndex.length);
-        short value = ByteBuffer.wrap(artifactEndpointIndex).order(ByteOrder.BIG_ENDIAN).getShort();
+        final short value = ByteBuffer.wrap(artifactEndpointIndex).order(ByteOrder.BIG_ENDIAN).getShort();
         return (int) Constraint.isGreaterThanOrEqual(0, value, 
                 "Input value was too large, resulting in a negative 16-bit short");
     }

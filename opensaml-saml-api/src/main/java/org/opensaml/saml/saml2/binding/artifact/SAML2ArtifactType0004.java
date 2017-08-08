@@ -71,17 +71,17 @@ public class SAML2ArtifactType0004 extends AbstractSAML2Artifact implements SAML
             throw new IllegalArgumentException("Artifact length must be 44 bytes it was " + artifact.length + "bytes");
         }
 
-        byte[] typeCode = { artifact[0], artifact[1] };
+        final byte[] typeCode = { artifact[0], artifact[1] };
         if (!Arrays.equals(typeCode, TYPE_CODE)) {
             throw new IllegalArgumentException("Illegal artifact type code");
         }
 
-        byte[] endpointIndex = { artifact[2], artifact[3] };
+        final byte[] endpointIndex = { artifact[2], artifact[3] };
 
-        byte[] sourceID = new byte[20];
+        final byte[] sourceID = new byte[20];
         System.arraycopy(artifact, 4, sourceID, 0, 20);
 
-        byte[] messageHandle = new byte[20];
+        final byte[] messageHandle = new byte[20];
         System.arraycopy(artifact, 24, messageHandle, 0, 20);
 
         return new SAML2ArtifactType0004(endpointIndex, sourceID, messageHandle);
@@ -133,7 +133,7 @@ public class SAML2ArtifactType0004 extends AbstractSAML2Artifact implements SAML
 
     /** {@inheritDoc} */
     public byte[] getRemainingArtifact() {
-        byte[] remainingArtifact = new byte[40];
+        final byte[] remainingArtifact = new byte[40];
 
         System.arraycopy(getSourceID(), 0, remainingArtifact, 0, 20);
         System.arraycopy(getMessageHandle(), 0, remainingArtifact, 20, 20);

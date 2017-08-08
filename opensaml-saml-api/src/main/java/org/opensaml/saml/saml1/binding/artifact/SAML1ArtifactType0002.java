@@ -68,16 +68,16 @@ public class SAML1ArtifactType0002 extends AbstractSAML1Artifact implements SAML
      * @throws IllegalArgumentException thrown if the artifact type is not 0x0002
      */
     public static SAML1ArtifactType0002 parseArtifact(final byte[] artifact) {
-        byte[] typeCode = { artifact[0], artifact[1] };
+        final byte[] typeCode = { artifact[0], artifact[1] };
         if (!Arrays.equals(typeCode, TYPE_CODE)) {
             throw new IllegalArgumentException("Artifact is not of appropriate type.");
         }
 
-        byte[] assertionHandle = new byte[20];
+        final byte[] assertionHandle = new byte[20];
         System.arraycopy(artifact, 2, assertionHandle, 0, 20);
 
-        int locationLength = artifact.length - 22;
-        byte[] sourceLocation = new byte[locationLength];
+        final int locationLength = artifact.length - 22;
+        final byte[] sourceLocation = new byte[locationLength];
         System.arraycopy(artifact, 22, sourceLocation, 0, locationLength);
 
         return new SAML1ArtifactType0002(assertionHandle, new String(sourceLocation));
@@ -121,7 +121,7 @@ public class SAML1ArtifactType0002 extends AbstractSAML1Artifact implements SAML
      * @throws IllegalArgumentException thrown if the given location is empty or null
      */
     protected void setSourceLocation(final String newLocation) {
-        String location = StringSupport.trimOrNull(newLocation);
+        final String location = StringSupport.trimOrNull(newLocation);
         if (location == null) {
             throw new IllegalArgumentException("Artifact source location may not be a null or empty string");
         }
@@ -131,8 +131,8 @@ public class SAML1ArtifactType0002 extends AbstractSAML1Artifact implements SAML
 
     /** {@inheritDoc} */
     public byte[] getRemainingArtifact() {
-        byte[] location = getSourceLocation().getBytes();
-        byte[] remainingArtifact = new byte[20 + location.length];
+        final byte[] location = getSourceLocation().getBytes();
+        final byte[] remainingArtifact = new byte[20 + location.length];
 
         System.arraycopy(getAssertionHandle(), 0, remainingArtifact, 0, 20);
         System.arraycopy(location, 0, remainingArtifact, 20, location.length);

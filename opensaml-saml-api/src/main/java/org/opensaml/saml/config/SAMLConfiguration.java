@@ -86,7 +86,7 @@ public class SAMLConfiguration {
      */
     public DateTimeFormatter getSAMLDateFormatter() {
         if (dateFormatter == null) {
-            DateTimeFormatter formatter = DateTimeFormat.forPattern(defaultDateFormat);
+            final DateTimeFormatter formatter = DateTimeFormat.forPattern(defaultDateFormat);
             dateFormatter = formatter.withChronology(ISOChronology.getInstanceUTC());
         }
         
@@ -103,7 +103,7 @@ public class SAMLConfiguration {
      * @param format date format used to string'ify date objects
      */
     public void setSAMLDateFormat(final String format) {
-        DateTimeFormatter formatter = DateTimeFormat.forPattern(format);
+        final DateTimeFormatter formatter = DateTimeFormat.forPattern(format);
         dateFormatter = formatter.withChronology(ISOChronology.getInstanceUTC());
     }
 
@@ -179,7 +179,7 @@ public class SAMLConfiguration {
         if (schemes == null || schemes.isEmpty()) {
             allowedBindingURLSchemes = Collections.emptyList();
         } else {
-            Collection<String> normalized = Collections2.transform(
+            final Collection<String> normalized = Collections2.transform(
                     StringSupport.normalizeStringCollection(schemes), lowercaseFunction);
             allowedBindingURLSchemes = new ArrayList<>(normalized);
         }

@@ -54,7 +54,7 @@ public final class ArtifactCriterion implements Criterion {
     /** {@inheritDoc} */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("ArtifactCriterion [artifact=");
         builder.append(Hex.encodeHex(artifact.getArtifactBytes(), true));
         builder.append("]");

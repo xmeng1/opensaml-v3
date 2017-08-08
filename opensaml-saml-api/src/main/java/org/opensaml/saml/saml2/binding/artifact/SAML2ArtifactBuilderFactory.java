@@ -79,11 +79,11 @@ public class SAML2ArtifactBuilderFactory {
             return null;
         }
         
-        byte[] type = new byte[2];
+        final byte[] type = new byte[2];
         type[0] = artifact[0];
         type[1] = artifact[1];
 
-        SAML2ArtifactBuilder<?> artifactBuilder = getArtifactBuilder(type);
+        final SAML2ArtifactBuilder<?> artifactBuilder = getArtifactBuilder(type);
         if (artifactBuilder == null) {
             throw new IllegalArgumentException("Saw unsupported artifact type: " + new String(type));
         }

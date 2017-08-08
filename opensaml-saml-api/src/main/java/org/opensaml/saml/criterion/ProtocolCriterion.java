@@ -52,7 +52,7 @@ public final class ProtocolCriterion implements Criterion {
     /** {@inheritDoc} */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("ProtocolCriterion [protocol=");
         builder.append(protocol);
         builder.append("]");

@@ -51,7 +51,7 @@ public final class RoleDescriptorCriterion implements Criterion {
     /** {@inheritDoc} */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("RoleDescriptorCriterion [role=");
         builder.append(role);
         builder.append("]");

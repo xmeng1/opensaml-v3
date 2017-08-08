@@ -51,7 +51,7 @@ public final class SAMLObjectSupport {
      * @param signableObject the signable SAML object to evaluate
      */
     public static void declareNonVisibleNamespaces(@Nonnull final SignableSAMLObject signableObject) {
-        Logger log = getLogger();
+        final Logger log = getLogger();
         if (signableObject.getDOM() == null && signableObject.getSignature() != null) {
             log.debug("Examining signed object for content references with exclusive canonicalization transform");
             boolean sawExclusive = false;
