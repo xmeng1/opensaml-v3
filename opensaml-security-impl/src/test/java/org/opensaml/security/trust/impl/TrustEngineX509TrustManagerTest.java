@@ -25,7 +25,6 @@ import java.io.IOException;
 import javax.annotation.Nonnull;
 
 import org.cryptacular.util.KeyPairUtil;
-import org.junit.Assert;
 import org.ldaptive.Connection;
 import org.ldaptive.ConnectionConfig;
 import org.ldaptive.DefaultConnectionFactory;
@@ -38,8 +37,7 @@ import org.ldaptive.SearchResult;
 import org.ldaptive.ssl.SslConfig;
 import org.opensaml.security.credential.BasicCredential;
 import org.opensaml.security.credential.impl.StaticCredentialResolver;
-import org.opensaml.security.trust.impl.ExplicitKeyTrustEngine;
-import org.opensaml.security.trust.impl.TrustEngineX509TrustManager;
+import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
