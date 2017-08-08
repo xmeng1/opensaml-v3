@@ -342,7 +342,8 @@ public class Encrypter extends org.opensaml.xmlsec.encryption.support.Encrypter 
      * @return a specialization of {@link org.opensaml.saml.saml2.core.EncryptedElementType}
      * @throws EncryptionException thrown when encryption generates an error
      */
-    private EncryptedElementType encrypt(final XMLObject xmlObject, final QName encElementName) throws EncryptionException {
+    private EncryptedElementType encrypt(final XMLObject xmlObject, final QName encElementName)
+            throws EncryptionException {
 
         checkParams(encParams, kekParamsList);
 
