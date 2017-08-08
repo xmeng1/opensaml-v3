@@ -122,7 +122,7 @@ public abstract class AbstractProfileAction<InboundMessageType, OutboundMessageT
                     } else {
                         doPostExecute(profileRequestContext);
                     }
-                } catch (Throwable t2) {
+                } catch (final Throwable t2) {
                     LoggerFactory.getLogger(AbstractProfileAction.class).warn(
                             getLogPrefix() + " Unchecked exception/error thrown by doPostInvoke, "
                                     + "superseding earlier exception/error ", t);
