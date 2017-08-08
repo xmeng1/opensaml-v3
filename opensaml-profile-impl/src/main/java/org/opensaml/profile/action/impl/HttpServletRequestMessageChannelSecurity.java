@@ -68,7 +68,7 @@ public class HttpServletRequestMessageChannelSecurity extends AbstractMessageCha
 
     /** {@inheritDoc} */
     @Override
-    protected void doExecute(ProfileRequestContext profileRequestContext) {
+    protected void doExecute(final ProfileRequestContext profileRequestContext) {
         final MessageChannelSecurityContext channelContext =
                 getParentContext().getSubcontext(MessageChannelSecurityContext.class, true);
         

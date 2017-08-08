@@ -129,7 +129,7 @@ public class PopulateClientTLSValidationParameters extends AbstractProfileAction
             throw new ComponentInitializationException("ClientTLSValidationParametersResolver cannot be null");
         } else if (configurationLookupStrategy == null) {
             configurationLookupStrategy = new Function<ProfileRequestContext,List<ClientTLSValidationConfiguration>>() {
-                public List<ClientTLSValidationConfiguration> apply(ProfileRequestContext input) {
+                public List<ClientTLSValidationConfiguration> apply(final ProfileRequestContext input) {
                     return Collections.singletonList(
                             ConfigurationService.get(ClientTLSValidationConfiguration.class));
                 }

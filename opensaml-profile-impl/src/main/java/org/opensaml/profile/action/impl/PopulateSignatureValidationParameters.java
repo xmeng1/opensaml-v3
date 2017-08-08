@@ -127,7 +127,7 @@ public class PopulateSignatureValidationParameters extends AbstractProfileAction
             throw new ComponentInitializationException("SignatureValidationParametersResolver cannot be null");
         } else if (configurationLookupStrategy == null) {
             configurationLookupStrategy = new Function<ProfileRequestContext,List<SignatureValidationConfiguration>>() {
-                public List<SignatureValidationConfiguration> apply(ProfileRequestContext input) {
+                public List<SignatureValidationConfiguration> apply(final ProfileRequestContext input) {
                     return Collections.singletonList(
                             SecurityConfigurationSupport.getGlobalSignatureValidationConfiguration());
                 }
