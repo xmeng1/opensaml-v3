@@ -61,7 +61,7 @@ public class LogoutRequestImpl extends RequestAbstractTypeImpl implements Logout
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected LogoutRequestImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected LogoutRequestImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         sessionIndexes = new XMLObjectChildrenList<>(this);
     }
@@ -72,7 +72,7 @@ public class LogoutRequestImpl extends RequestAbstractTypeImpl implements Logout
     }
 
     /** {@inheritDoc} */
-    public void setReason(String newReason) {
+    public void setReason(final String newReason) {
         this.reason = prepareForAssignment(this.reason, newReason);
     }
 
@@ -82,7 +82,7 @@ public class LogoutRequestImpl extends RequestAbstractTypeImpl implements Logout
     }
 
     /** {@inheritDoc} */
-    public void setNotOnOrAfter(DateTime newNotOnOrAfter) {
+    public void setNotOnOrAfter(final DateTime newNotOnOrAfter) {
         this.notOnOrAfter = prepareForAssignment(this.notOnOrAfter, newNotOnOrAfter);
     }
 
@@ -92,7 +92,7 @@ public class LogoutRequestImpl extends RequestAbstractTypeImpl implements Logout
     }
 
     /** {@inheritDoc} */
-    public void setBaseID(BaseID newBaseID) {
+    public void setBaseID(final BaseID newBaseID) {
         baseID = prepareForAssignment(baseID, newBaseID);
     }
 
@@ -102,7 +102,7 @@ public class LogoutRequestImpl extends RequestAbstractTypeImpl implements Logout
     }
 
     /** {@inheritDoc} */
-    public void setNameID(NameID newNameID) {
+    public void setNameID(final NameID newNameID) {
         nameID = prepareForAssignment(nameID, newNameID);
     }
 
@@ -112,7 +112,7 @@ public class LogoutRequestImpl extends RequestAbstractTypeImpl implements Logout
     }
 
     /** {@inheritDoc} */
-    public void setEncryptedID(EncryptedID newEncryptedID) {
+    public void setEncryptedID(final EncryptedID newEncryptedID) {
         this.encryptedID = prepareForAssignment(this.encryptedID, newEncryptedID);
     }
 

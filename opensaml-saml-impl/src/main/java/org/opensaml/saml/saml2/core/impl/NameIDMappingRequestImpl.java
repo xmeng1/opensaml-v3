@@ -52,7 +52,7 @@ public class NameIDMappingRequestImpl extends RequestAbstractTypeImpl implements
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected NameIDMappingRequestImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected NameIDMappingRequestImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -62,7 +62,7 @@ public class NameIDMappingRequestImpl extends RequestAbstractTypeImpl implements
     }
 
     /** {@inheritDoc} */
-    public void setBaseID(BaseID newBaseID) {
+    public void setBaseID(final BaseID newBaseID) {
         baseID = prepareForAssignment(baseID, newBaseID);
     }
 
@@ -72,7 +72,7 @@ public class NameIDMappingRequestImpl extends RequestAbstractTypeImpl implements
     }
 
     /** {@inheritDoc} */
-    public void setNameID(NameID newNameID) {
+    public void setNameID(final NameID newNameID) {
         nameID = prepareForAssignment(nameID, newNameID);
     }
 
@@ -82,7 +82,7 @@ public class NameIDMappingRequestImpl extends RequestAbstractTypeImpl implements
     }
 
     /** {@inheritDoc} */
-    public void setEncryptedID(EncryptedID newEncryptedID) {
+    public void setEncryptedID(final EncryptedID newEncryptedID) {
         this.encryptedID = prepareForAssignment(this.encryptedID, newEncryptedID);
     }
 
@@ -92,7 +92,7 @@ public class NameIDMappingRequestImpl extends RequestAbstractTypeImpl implements
     }
 
     /** {@inheritDoc} */
-    public void setNameIDPolicy(NameIDPolicy newNameIDPolicy) {
+    public void setNameIDPolicy(final NameIDPolicy newNameIDPolicy) {
         this.nameIDPolicy = prepareForAssignment(this.nameIDPolicy, newNameIDPolicy);
     }
 

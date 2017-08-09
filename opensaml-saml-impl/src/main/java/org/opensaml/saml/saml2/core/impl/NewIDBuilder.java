@@ -42,7 +42,7 @@ public class NewIDBuilder extends AbstractSAMLObjectBuilder<NewID> {
     }
 
     /** {@inheritDoc} */
-    public NewID buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public NewID buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new NewIDImpl(namespaceURI, localName, namespacePrefix);
     }
 }

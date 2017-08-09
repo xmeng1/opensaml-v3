@@ -53,7 +53,7 @@ public class StatusImpl extends AbstractSAMLObject implements Status {
      * @param elementLocalName element name
      * @param namespacePrefix namespace prefix
      */
-    protected StatusImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected StatusImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -63,7 +63,7 @@ public class StatusImpl extends AbstractSAMLObject implements Status {
     }
 
     /** {@inheritDoc} */
-    public void setStatusCode(StatusCode newStatusCode) {
+    public void setStatusCode(final StatusCode newStatusCode) {
         this.statusCode = prepareForAssignment(this.statusCode, newStatusCode);
 
     }
@@ -74,7 +74,7 @@ public class StatusImpl extends AbstractSAMLObject implements Status {
     }
 
     /** {@inheritDoc} */
-    public void setStatusMessage(StatusMessage newStatusMessage) {
+    public void setStatusMessage(final StatusMessage newStatusMessage) {
         this.statusMessage = prepareForAssignment(this.getStatusMessage(), newStatusMessage);
     }
 
@@ -84,7 +84,7 @@ public class StatusImpl extends AbstractSAMLObject implements Status {
     }
 
     /** {@inheritDoc} */
-    public void setStatusDetail(StatusDetail newStatusDetail) {
+    public void setStatusDetail(final StatusDetail newStatusDetail) {
         this.statusDetail = prepareForAssignment(this.statusDetail, newStatusDetail);
     }
 

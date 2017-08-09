@@ -31,7 +31,7 @@ import org.opensaml.saml.saml1.core.StatusMessage;
 public class StatusUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
+    protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
 
         Status status = (Status) parentSAMLObject;

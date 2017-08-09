@@ -54,7 +54,7 @@ public class RequestedAuthnContextImpl extends AbstractSAMLObject implements Req
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected RequestedAuthnContextImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected RequestedAuthnContextImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         authnContextClassRefs = new XMLObjectChildrenList<>(this);
         authnContextDeclRefs = new XMLObjectChildrenList<>(this);
@@ -66,7 +66,7 @@ public class RequestedAuthnContextImpl extends AbstractSAMLObject implements Req
     }
 
     /** {@inheritDoc} */
-    public void setComparison(AuthnContextComparisonTypeEnumeration newComparison) {
+    public void setComparison(final AuthnContextComparisonTypeEnumeration newComparison) {
         this.comparison = prepareForAssignment(this.comparison, newComparison);
     }
 

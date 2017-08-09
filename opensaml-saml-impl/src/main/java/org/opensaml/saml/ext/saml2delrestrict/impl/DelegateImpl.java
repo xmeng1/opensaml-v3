@@ -56,7 +56,7 @@ public class DelegateImpl extends AbstractSAMLObject implements Delegate {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected DelegateImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected DelegateImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -86,27 +86,27 @@ public class DelegateImpl extends AbstractSAMLObject implements Delegate {
     }
 
     /** {@inheritDoc} */
-    public void setBaseID(BaseID newBaseID) {
+    public void setBaseID(final BaseID newBaseID) {
         baseID = prepareForAssignment(baseID, newBaseID);
     }
     
     /** {@inheritDoc} */
-    public void setConfirmationMethod(String newMethod) {
+    public void setConfirmationMethod(final String newMethod) {
         confirmationMethod = prepareForAssignment(confirmationMethod, newMethod);
     }
 
     /** {@inheritDoc} */
-    public void setDelegationInstant(DateTime newInstant) {
+    public void setDelegationInstant(final DateTime newInstant) {
         delegationInstant = prepareForAssignment(delegationInstant, newInstant);
     }
 
     /** {@inheritDoc} */
-    public void setEncryptedID(EncryptedID newEncryptedID) {
+    public void setEncryptedID(final EncryptedID newEncryptedID) {
         encryptedID = prepareForAssignment(encryptedID, newEncryptedID);
     }
 
     /** {@inheritDoc} */
-    public void setNameID(NameID newNameID) {
+    public void setNameID(final NameID newNameID) {
         nameID = prepareForAssignment(nameID, newNameID);
     }
 

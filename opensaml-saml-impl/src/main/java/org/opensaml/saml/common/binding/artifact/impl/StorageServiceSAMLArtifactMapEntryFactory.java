@@ -95,11 +95,11 @@ public class StorageServiceSAMLArtifactMapEntryFactory extends AbstractInitializ
     @Override
     @Nonnull public SAMLArtifactMapEntry newEntry(@Nonnull @NotEmpty final String artifact,
             @Nonnull @NotEmpty final String issuerId, @Nonnull @NotEmpty final String relyingPartyId,
-            @Nonnull SAMLObject samlMessage) {
+            @Nonnull final SAMLObject samlMessage) {
         
         try {
             return new BasicSAMLArtifactMapEntry(artifact, issuerId, relyingPartyId, samlMessage);
-        } catch (MarshallingException | UnmarshallingException e) {
+        } catch (final MarshallingException | UnmarshallingException e) {
             throw new XMLRuntimeException("Error creating BasicSAMLArtifactMapEntry", e);
         }
     }
@@ -112,7 +112,7 @@ public class StorageServiceSAMLArtifactMapEntryFactory extends AbstractInitializ
         final Element marshalledMessage;
         try {
             marshalledMessage = XMLObjectSupport.marshall(instance.getSamlMessage());
-        } catch (MarshallingException e) {
+        } catch (final MarshallingException e) {
             throw new IOException("Error marshalling SAML message", e);
         }
         

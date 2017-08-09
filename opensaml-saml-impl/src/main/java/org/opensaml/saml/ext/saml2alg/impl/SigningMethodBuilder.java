@@ -40,7 +40,7 @@ public class SigningMethodBuilder extends AbstractSAMLObjectBuilder<SigningMetho
     }
 
     /** {@inheritDoc} */
-    public SigningMethod buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public SigningMethod buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new SigningMethodImpl(namespaceURI, localName, namespacePrefix);
     }
 

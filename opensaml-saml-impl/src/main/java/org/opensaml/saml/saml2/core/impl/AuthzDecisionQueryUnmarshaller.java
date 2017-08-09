@@ -34,7 +34,7 @@ import org.w3c.dom.Attr;
 public class AuthzDecisionQueryUnmarshaller extends SubjectQueryUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
+    protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
         final AuthzDecisionQuery query = (AuthzDecisionQuery) parentSAMLObject;
     
@@ -48,7 +48,7 @@ public class AuthzDecisionQueryUnmarshaller extends SubjectQueryUnmarshaller {
     }
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject samlObject, final Attr attribute) throws UnmarshallingException {
         final AuthzDecisionQuery query = (AuthzDecisionQuery) samlObject;
 
         if (attribute.getLocalName().equals(AuthzDecisionQuery.RESOURCE_ATTRIB_NAME)

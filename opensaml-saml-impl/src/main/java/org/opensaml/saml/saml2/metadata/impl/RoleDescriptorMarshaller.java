@@ -41,7 +41,7 @@ public abstract class RoleDescriptorMarshaller extends AbstractSAMLObjectMarshal
     private final Logger log = LoggerFactory.getLogger(RoleDescriptorMarshaller.class);
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject samlElement, Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject samlElement, final Element domElement) throws MarshallingException {
         RoleDescriptor roleDescriptor = (RoleDescriptor) samlElement;
 
         // Set the ID attribute

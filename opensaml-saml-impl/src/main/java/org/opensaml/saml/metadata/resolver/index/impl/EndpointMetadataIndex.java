@@ -182,7 +182,7 @@ public class EndpointMetadataIndex implements MetadataIndex {
      * @param location the location to process
      * @return the variants of the location to be indexed 
      */
-    @Nonnull private Set<String> processLocation(@Nonnull CriteriaSet criteriaSet, @Nonnull final String location) {
+    @Nonnull private Set<String> processLocation(@Nonnull final CriteriaSet criteriaSet, @Nonnull final String location) {
         boolean generateStartsWithVariants = false;
         StartsWithLocationCriterion startsWithCrit = criteriaSet.get(StartsWithLocationCriterion.class);
         if (startsWithCrit != null) {
@@ -208,7 +208,7 @@ public class EndpointMetadataIndex implements MetadataIndex {
                 currentURL = urlBuilder.buildURL();
                 result.add(currentURL);
                 log.trace("Produced value '{}'", currentURL);
-            } catch (MalformedURLException e) {
+            } catch (final MalformedURLException e) {
                 log.warn("Could not parse URL '{}', will not generate path segment variants", location, e);
             }
             return result;
@@ -312,7 +312,7 @@ public class EndpointMetadataIndex implements MetadataIndex {
         public EndpointMetadataIndexKey(@Nonnull final QName roleType, 
                 @Nonnull final QName endpointType, 
                 @Nonnull @NotEmpty final String endpointLocation,
-                boolean isResponse) {
+                final boolean isResponse) {
             role = Constraint.isNotNull(roleType, "SAML role cannot be null");
             endpoint = Constraint.isNotNull(endpointType, "SAML endpoint type cannot be null");
             location = Constraint.isNotNull(StringSupport.trimOrNull(endpointLocation),
@@ -321,7 +321,7 @@ public class EndpointMetadataIndex implements MetadataIndex {
             
             try {
                 canonicalizedLocation = MetadataIndexSupport.canonicalizeLocationURI(location);
-            } catch (MalformedURLException e) {
+            } catch (final MalformedURLException e) {
                 // This is unlikely to happen on realistic real world inputs. If it does, don't be fatal, 
                 // just switch to alternate strategy.
                 log.warn("Input location '{}' was a malformed URL, switching to lower case strategy", 
@@ -398,7 +398,7 @@ public class EndpointMetadataIndex implements MetadataIndex {
 
         /** {@inheritDoc} */
         @Override
-        public boolean equals(Object obj) {
+        public boolean equals(final Object obj) {
             if (this == obj) {
                 return true;
             }

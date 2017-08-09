@@ -36,7 +36,7 @@ public class AuthzDecisionQueryDescriptorTypeBuilder
 
     /** {@inheritDoc} */
     @Override
-    public AuthzDecisionQueryDescriptorType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public AuthzDecisionQueryDescriptorType buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new AuthzDecisionQueryDescriptorTypeImpl(namespaceURI, localName, namespacePrefix);
     }
 }

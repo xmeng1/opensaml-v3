@@ -53,7 +53,7 @@ public abstract class RequestAbstractTypeImpl extends AbstractSignableSAMLObject
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected RequestAbstractTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected RequestAbstractTypeImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         version = SAMLVersion.VERSION_11;
         respondWiths = new XMLObjectChildrenList<>(this);
@@ -65,7 +65,7 @@ public abstract class RequestAbstractTypeImpl extends AbstractSignableSAMLObject
     }
 
     /** {@inheritDoc} */
-    public void setID(String newID) {
+    public void setID(final String newID) {
         String oldID = id;
         id = prepareForAssignment(id, newID);
         registerOwnID(oldID, id);
@@ -77,7 +77,7 @@ public abstract class RequestAbstractTypeImpl extends AbstractSignableSAMLObject
     }
 
     /** {@inheritDoc} */
-    public void setVersion(SAMLVersion newVersion) {
+    public void setVersion(final SAMLVersion newVersion) {
         version = prepareForAssignment(version, newVersion);
     }
 
@@ -87,7 +87,7 @@ public abstract class RequestAbstractTypeImpl extends AbstractSignableSAMLObject
     }
 
     /** {@inheritDoc} */
-    public void setIssueInstant(DateTime instant) {
+    public void setIssueInstant(final DateTime instant) {
         this.issueInstant = prepareForAssignment(this.issueInstant, instant);
     }
 

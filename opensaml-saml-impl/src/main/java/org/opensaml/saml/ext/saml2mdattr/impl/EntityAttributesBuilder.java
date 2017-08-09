@@ -34,7 +34,7 @@ public class EntityAttributesBuilder extends AbstractSAMLObjectBuilder<EntityAtt
     }
 
     /** {@inheritDoc} */
-    public EntityAttributes buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public EntityAttributes buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new EntityAttributesImpl(namespaceURI, localName, namespacePrefix);
     }
 }

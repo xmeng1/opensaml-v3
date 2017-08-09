@@ -30,7 +30,7 @@ import org.opensaml.saml.ext.saml2mdrpi.PublicationPath;
 public class PublicationPathUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentObject, XMLObject childObject) throws UnmarshallingException {
+    protected void processChildElement(final XMLObject parentObject, final XMLObject childObject) throws UnmarshallingException {
         PublicationPath pPath = (PublicationPath) parentObject;
 
         if (childObject instanceof Publication) {

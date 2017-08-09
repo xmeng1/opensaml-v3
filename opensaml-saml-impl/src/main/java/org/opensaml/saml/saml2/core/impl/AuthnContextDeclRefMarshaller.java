@@ -35,7 +35,7 @@ import org.w3c.dom.Element;
 public class AuthnContextDeclRefMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallElementContent(XMLObject samlObject, Element domElement) throws MarshallingException {
+    protected void marshallElementContent(final XMLObject samlObject, final Element domElement) throws MarshallingException {
         AuthnContextDeclRef authnContextDeclRef = (AuthnContextDeclRef) samlObject;
         ElementSupport.appendTextContent(domElement, authnContextDeclRef.getAuthnContextDeclRef());
     }

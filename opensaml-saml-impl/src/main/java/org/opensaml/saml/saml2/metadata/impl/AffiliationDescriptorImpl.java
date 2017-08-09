@@ -71,7 +71,7 @@ public class AffiliationDescriptorImpl extends AbstractSignableSAMLObject implem
      * @param elementLocalName localname
      * @param namespacePrefix prefix
      */
-    protected AffiliationDescriptorImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AffiliationDescriptorImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         unknownAttributes = new AttributeMap(this);
         members = new XMLObjectChildrenList<>(this);
@@ -86,7 +86,7 @@ public class AffiliationDescriptorImpl extends AbstractSignableSAMLObject implem
 
     /** {@inheritDoc} */
     @Override
-    public void setOwnerID(String newOwnerID) {
+    public void setOwnerID(final String newOwnerID) {
         if (newOwnerID != null && newOwnerID.length() > 1024) {
             throw new IllegalArgumentException("Owner ID can not exceed 1024 characters in length");
         }
@@ -101,7 +101,7 @@ public class AffiliationDescriptorImpl extends AbstractSignableSAMLObject implem
     
     /** {@inheritDoc} */
     @Override
-    public void setID(String newID) {
+    public void setID(final String newID) {
         String oldID = this.id;
         this.id = prepareForAssignment(this.id, newID);
         registerOwnID(oldID, this.id);
@@ -126,7 +126,7 @@ public class AffiliationDescriptorImpl extends AbstractSignableSAMLObject implem
 
     /** {@inheritDoc} */
     @Override
-    public void setValidUntil(DateTime theValidUntil) {
+    public void setValidUntil(final DateTime theValidUntil) {
         this.validUntil = prepareForAssignment(this.validUntil, theValidUntil);
     }
 
@@ -138,7 +138,7 @@ public class AffiliationDescriptorImpl extends AbstractSignableSAMLObject implem
 
     /** {@inheritDoc} */
     @Override
-    public void setCacheDuration(Long duration) {
+    public void setCacheDuration(final Long duration) {
         cacheDuration = prepareForAssignment(cacheDuration, duration);
     }
 
@@ -150,7 +150,7 @@ public class AffiliationDescriptorImpl extends AbstractSignableSAMLObject implem
 
     /** {@inheritDoc} */
     @Override
-    public void setExtensions(Extensions theExtensions) {
+    public void setExtensions(final Extensions theExtensions) {
         this.extensions = prepareForAssignment(this.extensions, theExtensions);
     }
 

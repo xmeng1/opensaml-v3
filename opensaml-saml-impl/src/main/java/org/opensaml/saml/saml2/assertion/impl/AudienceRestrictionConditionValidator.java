@@ -85,7 +85,7 @@ public class AudienceRestrictionConditionValidator implements ConditionValidator
         try {
             validAudiences = (Set<String>) context.getStaticParameters().get(
                     SAML2AssertionValidationParameters.COND_VALID_AUDIENCES);
-        } catch (ClassCastException e) {
+        } catch (final ClassCastException e) {
             log.warn("The value of the static validation parameter '{}' was not java.util.Set<String>",
                     SAML2AssertionValidationParameters.COND_VALID_AUDIENCES);
             context.setValidationFailureMessage("Unable to determine list of valid audiences");

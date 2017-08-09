@@ -37,7 +37,7 @@ public class KeywordsUnmarshaller extends AbstractSAMLObjectUnmarshaller {
      * {@inheritDoc}
      */
     @Override
-    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject samlObject, final Attr attribute) throws UnmarshallingException {
         if (attribute.getLocalName().equals(LangBearing.XML_LANG_ATTR_LOCAL_NAME)
                 && XMLConstants.XML_NS.equals(attribute.getNamespaceURI())) {
             Keywords keywords = (Keywords) samlObject;
@@ -48,7 +48,7 @@ public class KeywordsUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
     @Override
-    protected void processElementContent(XMLObject samlObject, String elementContent) {
+    protected void processElementContent(final XMLObject samlObject, final String elementContent) {
         Keywords keywords = (Keywords) samlObject;
         String[] words = elementContent.split("\\s+");
         ArrayList<String> wordlist = new ArrayList<>(words.length);

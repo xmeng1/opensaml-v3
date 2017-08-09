@@ -39,7 +39,7 @@ public class AttributeBuilder extends AbstractSAMLObjectBuilder<Attribute> {
     }
 
     /** {@inheritDoc} */
-    public Attribute buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Attribute buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new AttributeImpl(namespaceURI, localName, namespacePrefix);
     }
 }

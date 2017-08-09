@@ -35,7 +35,7 @@ public class ServiceDescriptionImpl extends LocalizedNameImpl implements Service
      * @param elementLocalName Name
      * @param namespacePrefix prefix
      */
-    protected ServiceDescriptionImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected ServiceDescriptionImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 }

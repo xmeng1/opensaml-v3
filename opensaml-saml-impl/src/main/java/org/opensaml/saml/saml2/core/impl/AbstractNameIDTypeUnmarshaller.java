@@ -30,13 +30,13 @@ import org.w3c.dom.Attr;
 public abstract class AbstractNameIDTypeUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject samlObject, String elementContent) {
+    protected void processElementContent(final XMLObject samlObject, final String elementContent) {
         final NameIDType nameID = (NameIDType) samlObject;
         nameID.setValue(elementContent);
     }
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject samlObject, final Attr attribute) throws UnmarshallingException {
         final NameIDType nameID = (NameIDType) samlObject;
         
         if (attribute.getNamespaceURI() == null) {

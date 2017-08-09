@@ -42,7 +42,7 @@ public class AssertionURIRefImpl extends AbstractSAMLObject implements Assertion
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AssertionURIRefImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AssertionURIRefImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -52,7 +52,7 @@ public class AssertionURIRefImpl extends AbstractSAMLObject implements Assertion
     }
 
     /** {@inheritDoc} */
-    public void setAssertionURI(String newAssertionURI) {
+    public void setAssertionURI(final String newAssertionURI) {
         this.assertionURI = prepareForAssignment(this.assertionURI, newAssertionURI);
     }
 

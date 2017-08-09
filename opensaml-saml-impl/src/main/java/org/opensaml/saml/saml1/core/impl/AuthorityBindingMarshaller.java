@@ -33,7 +33,7 @@ import org.w3c.dom.Element;
 public class AuthorityBindingMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    public void marshallAttributes(XMLObject samlElement, Element domElement) throws MarshallingException {
+    public void marshallAttributes(final XMLObject samlElement, final Element domElement) throws MarshallingException {
         AuthorityBinding authorityBinding = (AuthorityBinding) samlElement;
 
         if (authorityBinding.getAuthorityKind() != null) {

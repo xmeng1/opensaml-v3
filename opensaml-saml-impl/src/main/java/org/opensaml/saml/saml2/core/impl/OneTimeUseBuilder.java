@@ -41,7 +41,7 @@ public class OneTimeUseBuilder extends AbstractSAMLObjectBuilder<OneTimeUse> {
     }
 
     /** {@inheritDoc} */
-    public OneTimeUse buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public OneTimeUse buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new OneTimeUseImpl(namespaceURI, localName, namespacePrefix);
     }
 }

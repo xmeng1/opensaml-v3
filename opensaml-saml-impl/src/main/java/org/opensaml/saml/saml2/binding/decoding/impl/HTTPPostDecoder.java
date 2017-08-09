@@ -105,7 +105,7 @@ public class HTTPPostDecoder extends BaseHttpServletRequestXMLMessageDecoder<SAM
      * 
      * @throws MessageDecodingException thrown if the message does not contain a base64 encoded SAML message
      */
-    protected InputStream getBase64DecodedMessage(HttpServletRequest request) throws MessageDecodingException {
+    protected InputStream getBase64DecodedMessage(final HttpServletRequest request) throws MessageDecodingException {
         log.debug("Getting Base64 encoded message from request");
         String encodedMessage = request.getParameter("SAMLRequest");
         if (Strings.isNullOrEmpty(encodedMessage)) {
@@ -134,7 +134,7 @@ public class HTTPPostDecoder extends BaseHttpServletRequestXMLMessageDecoder<SAM
      * 
      * @param messageContext the current message context
      */
-    protected void populateBindingContext(MessageContext<SAMLObject> messageContext) {
+    protected void populateBindingContext(final MessageContext<SAMLObject> messageContext) {
         SAMLBindingContext bindingContext = messageContext.getSubcontext(SAMLBindingContext.class, true);
         bindingContext.setBindingUri(getBindingURI());
         bindingContext.setBindingDescriptor(bindingDescriptor);

@@ -44,7 +44,7 @@ public class NameIdentifierImpl extends AbstractSAMLObject implements NameIdenti
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected NameIdentifierImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected NameIdentifierImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -70,23 +70,23 @@ public class NameIdentifierImpl extends AbstractSAMLObject implements NameIdenti
     }
     
     /** {@inheritDoc} */
-    public void setNameQualifier(String qualifier) {
+    public void setNameQualifier(final String qualifier) {
         nameQualifier = prepareForAssignment(nameQualifier, qualifier);
     }
 
     /** {@inheritDoc} */
-    public void setFormat(String fmt) {
+    public void setFormat(final String fmt) {
         format = prepareForAssignment(format, fmt);
     }
 
     /** {@inheritDoc} */
     @Deprecated
-    public void setNameIdentifier(String id) {
+    public void setNameIdentifier(final String id) {
         setValue(id);
     }
 
     /** {@inheritDoc} */
-    public void setValue(String id) {
+    public void setValue(final String id) {
         nameIdentifier = prepareForAssignment(nameIdentifier, id);
     }
 

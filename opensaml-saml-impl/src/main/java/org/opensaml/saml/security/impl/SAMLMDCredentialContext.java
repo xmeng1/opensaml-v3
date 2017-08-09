@@ -44,7 +44,7 @@ public class SAMLMDCredentialContext implements CredentialContext {
      * 
      * @param descriptor the KeyDescriptor context from which a credential was resolved
      */
-    public SAMLMDCredentialContext(KeyDescriptor descriptor) {
+    public SAMLMDCredentialContext(final KeyDescriptor descriptor) {
         keyDescriptor = descriptor;
         if (descriptor != null) {
             // KeyDescriptor / EncryptionMethod

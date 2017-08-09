@@ -42,7 +42,7 @@ public class AssertionArtifactBuilder extends AbstractSAMLObjectBuilder<Assertio
 
     /** {@inheritDoc} */
     @Override
-    public AssertionArtifact buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public AssertionArtifact buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new AssertionArtifactImpl(namespaceURI, localName, namespacePrefix);
     }
 }

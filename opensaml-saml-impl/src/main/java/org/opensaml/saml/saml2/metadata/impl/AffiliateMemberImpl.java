@@ -38,7 +38,7 @@ public class AffiliateMemberImpl extends AbstractSAMLObject implements Affiliate
      * @param elementLocalName local name
      * @param namespacePrefix prefix
      */
-    protected AffiliateMemberImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AffiliateMemberImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -50,7 +50,7 @@ public class AffiliateMemberImpl extends AbstractSAMLObject implements Affiliate
 
     /** {@inheritDoc} */
     @Override
-    public void setID(String newID) {
+    public void setID(final String newID) {
         if (newID != null && newID.length() > 1024) {
             throw new IllegalArgumentException("Member ID can not exceed 1024 characters in length");
         }

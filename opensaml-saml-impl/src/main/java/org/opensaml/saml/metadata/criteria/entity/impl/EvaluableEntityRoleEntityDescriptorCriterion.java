@@ -44,7 +44,7 @@ public class EvaluableEntityRoleEntityDescriptorCriterion implements EvaluableEn
      *
      * @param criterion the entity role criterion
      */
-    public EvaluableEntityRoleEntityDescriptorCriterion(EntityRoleCriterion criterion) {
+    public EvaluableEntityRoleEntityDescriptorCriterion(final EntityRoleCriterion criterion) {
         Constraint.isNotNull(criterion, "EntityRoleCriterion was null");
         role = Constraint.isNotNull(criterion.getRole(), "Criterion role QName was null");
     }
@@ -54,12 +54,12 @@ public class EvaluableEntityRoleEntityDescriptorCriterion implements EvaluableEn
      *
      * @param entityRole the entity
      */
-    public EvaluableEntityRoleEntityDescriptorCriterion(QName entityRole) {
+    public EvaluableEntityRoleEntityDescriptorCriterion(final QName entityRole) {
         role = Constraint.isNotNull(entityRole, "Entity Role QName was null");
     }
 
     /** {@inheritDoc} */
-    public boolean apply(EntityDescriptor entityDescriptor) {
+    public boolean apply(final EntityDescriptor entityDescriptor) {
         if (entityDescriptor == null) {
             return false;
         }
@@ -73,7 +73,7 @@ public class EvaluableEntityRoleEntityDescriptorCriterion implements EvaluableEn
     }
 
     /** {@inheritDoc} */
-    public boolean equals(Object other) {
+    public boolean equals(final Object other) {
         if (this == other) {
             return true;
         }

@@ -60,7 +60,7 @@ public class AttributeAuthorityDescriptorImpl extends RoleDescriptorImpl impleme
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AttributeAuthorityDescriptorImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AttributeAuthorityDescriptorImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         attributeServices = new XMLObjectChildrenList<>(this);
         assertionIDRequestServices = new XMLObjectChildrenList<>(this);
@@ -103,7 +103,7 @@ public class AttributeAuthorityDescriptorImpl extends RoleDescriptorImpl impleme
     }
     
     /** {@inheritDoc} */
-    public List<Endpoint> getEndpoints(QName type) {
+    public List<Endpoint> getEndpoints(final QName type) {
         if(type.equals(AttributeService.DEFAULT_ELEMENT_NAME)){
             return Collections.unmodifiableList(new ArrayList<Endpoint>(attributeServices));
         }else if(type.equals(AssertionIDRequestService.DEFAULT_ELEMENT_NAME)){

@@ -34,7 +34,7 @@ import org.opensaml.saml.saml2.metadata.PDPDescriptor;
 public class PDPDescriptorUnmarshaller extends RoleDescriptorUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
+    protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
         PDPDescriptor descriptor = (PDPDescriptor) parentSAMLObject;
 

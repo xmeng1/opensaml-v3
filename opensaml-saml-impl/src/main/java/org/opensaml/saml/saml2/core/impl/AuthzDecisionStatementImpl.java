@@ -57,7 +57,7 @@ public class AuthzDecisionStatementImpl extends AbstractSAMLObject implements Au
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AuthzDecisionStatementImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AuthzDecisionStatementImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         actions = new XMLObjectChildrenList<>(this);
     }
@@ -68,7 +68,7 @@ public class AuthzDecisionStatementImpl extends AbstractSAMLObject implements Au
     }
 
     /** {@inheritDoc} */
-    public void setResource(String newResourceURI) {
+    public void setResource(final String newResourceURI) {
         this.resource = prepareForAssignment(this.resource, newResourceURI, false);
     }
 
@@ -78,7 +78,7 @@ public class AuthzDecisionStatementImpl extends AbstractSAMLObject implements Au
     }
 
     /** {@inheritDoc} */
-    public void setDecision(DecisionTypeEnumeration newDecision) {
+    public void setDecision(final DecisionTypeEnumeration newDecision) {
         this.decision = prepareForAssignment(this.decision, newDecision);
     }
 
@@ -93,7 +93,7 @@ public class AuthzDecisionStatementImpl extends AbstractSAMLObject implements Au
     }
 
     /** {@inheritDoc} */
-    public void setEvidence(Evidence newEvidence) {
+    public void setEvidence(final Evidence newEvidence) {
         this.evidence = prepareForAssignment(this.evidence, newEvidence);
     }
 

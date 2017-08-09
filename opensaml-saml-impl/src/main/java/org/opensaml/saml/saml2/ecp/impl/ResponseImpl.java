@@ -47,7 +47,7 @@ public class ResponseImpl extends AbstractSAMLObject implements Response {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected ResponseImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected ResponseImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -57,7 +57,7 @@ public class ResponseImpl extends AbstractSAMLObject implements Response {
     }
 
     /** {@inheritDoc} */
-    public void setAssertionConsumerServiceURL(String newAssertionConsumerServiceURL) {
+    public void setAssertionConsumerServiceURL(final String newAssertionConsumerServiceURL) {
         acsURL = prepareForAssignment(acsURL, newAssertionConsumerServiceURL);
     }
     
@@ -75,7 +75,7 @@ public class ResponseImpl extends AbstractSAMLObject implements Response {
     }
 
     /** {@inheritDoc} */
-    public void setSOAP11MustUnderstand(Boolean newMustUnderstand) {
+    public void setSOAP11MustUnderstand(final Boolean newMustUnderstand) {
         if (newMustUnderstand != null) {
             soap11MustUnderstand = prepareForAssignment(soap11MustUnderstand, 
                     new XSBooleanValue(newMustUnderstand, true));
@@ -87,7 +87,7 @@ public class ResponseImpl extends AbstractSAMLObject implements Response {
     }
 
     /** {@inheritDoc} */
-    public void setSOAP11MustUnderstand(XSBooleanValue newMustUnderstand) {
+    public void setSOAP11MustUnderstand(final XSBooleanValue newMustUnderstand) {
             soap11MustUnderstand = prepareForAssignment(soap11MustUnderstand, newMustUnderstand);
             manageQualifiedAttributeNamespace(MustUnderstandBearing.SOAP11_MUST_UNDERSTAND_ATTR_NAME, 
                     soap11MustUnderstand != null);
@@ -99,7 +99,7 @@ public class ResponseImpl extends AbstractSAMLObject implements Response {
     }
 
     /** {@inheritDoc} */
-    public void setSOAP11Actor(String newActor) {
+    public void setSOAP11Actor(final String newActor) {
         soap11Actor = prepareForAssignment(soap11Actor, newActor);
         manageQualifiedAttributeNamespace(ActorBearing.SOAP11_ACTOR_ATTR_NAME, soap11Actor != null);
     }

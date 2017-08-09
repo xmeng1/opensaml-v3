@@ -29,7 +29,7 @@ import org.w3c.dom.Element;
 public class SubjectLocalityMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    public void marshallAttributes(XMLObject samlElement, Element domElement) throws MarshallingException {
+    public void marshallAttributes(final XMLObject samlElement, final Element domElement) throws MarshallingException {
         SubjectLocality subjectLocality = (SubjectLocality) samlElement;
 
         if (subjectLocality.getIPAddress() != null) {

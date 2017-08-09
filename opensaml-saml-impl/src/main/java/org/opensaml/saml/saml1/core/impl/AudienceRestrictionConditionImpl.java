@@ -42,7 +42,7 @@ public class AudienceRestrictionConditionImpl extends AbstractSAMLObject impleme
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AudienceRestrictionConditionImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AudienceRestrictionConditionImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         audiences = new XMLObjectChildrenList<>(this);
     }

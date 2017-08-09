@@ -26,7 +26,7 @@ import org.opensaml.saml.ext.saml2mdquery.AuthzDecisionQueryDescriptorType;
 public class AuthzDecisionQueryDescriptorTypeUnmarshaller extends QueryDescriptorTypeUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
+    protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
         AuthzDecisionQueryDescriptorType descriptor = (AuthzDecisionQueryDescriptorType) parentSAMLObject;
 

@@ -41,7 +41,7 @@ public class SubjectBuilder extends AbstractSAMLObjectBuilder<Subject> {
     }
 
     /** {@inheritDoc} */
-    public Subject buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Subject buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new SubjectImpl(namespaceURI, localName, namespacePrefix);
     }
 }

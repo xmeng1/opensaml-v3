@@ -31,14 +31,14 @@ import org.w3c.dom.Attr;
 public class DigestMethodUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(@Nonnull XMLObject parentXMLObject, @Nonnull XMLObject childXMLObject)
+    protected void processChildElement(@Nonnull final XMLObject parentXMLObject, @Nonnull final XMLObject childXMLObject)
             throws UnmarshallingException {
         final DigestMethod digestMethod = (DigestMethod) parentXMLObject;
         digestMethod.getUnknownXMLObjects().add(childXMLObject);
     }
 
     /** {@inheritDoc} */
-    protected void processAttribute(@Nonnull XMLObject xmlObject, @Nonnull Attr attribute) 
+    protected void processAttribute(@Nonnull final XMLObject xmlObject, @Nonnull final Attr attribute) 
             throws UnmarshallingException {
         final DigestMethod digestMethod = (DigestMethod) xmlObject;
         

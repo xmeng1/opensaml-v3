@@ -35,7 +35,7 @@ import org.w3c.dom.Attr;
 public class SubjectConfirmationUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentObject, XMLObject childObject) throws UnmarshallingException {
+    protected void processChildElement(final XMLObject parentObject, final XMLObject childObject) throws UnmarshallingException {
         SubjectConfirmation sc = (SubjectConfirmation) parentObject;
 
         if (childObject instanceof SubjectConfirmationData) {
@@ -46,7 +46,7 @@ public class SubjectConfirmationUnmarshaller extends AbstractSAMLObjectUnmarshal
     }
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject samlObject, final Attr attribute) throws UnmarshallingException {
         SubjectConfirmation sc = (SubjectConfirmation) samlObject;
 
         QName attrName = QNameSupport.getNodeQName(attribute);

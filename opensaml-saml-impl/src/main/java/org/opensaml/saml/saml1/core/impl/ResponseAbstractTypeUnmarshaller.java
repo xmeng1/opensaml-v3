@@ -48,7 +48,7 @@ public abstract class ResponseAbstractTypeUnmarshaller extends AbstractSAMLObjec
     @Nonnull private final Logger log = LoggerFactory.getLogger(ResponseUnmarshaller.class);
 
     /** {@inheritDoc} */
-    public XMLObject unmarshall(Element domElement) throws UnmarshallingException {
+    public XMLObject unmarshall(final Element domElement) throws UnmarshallingException {
         // After regular unmarshalling, check the minor version and set ID-ness if not SAML 1.0
         final ResponseAbstractType response = (ResponseAbstractType) super.unmarshall(domElement);
         if (response.getVersion() != SAMLVersion.VERSION_10 && !Strings.isNullOrEmpty(response.getID())) {
@@ -58,7 +58,7 @@ public abstract class ResponseAbstractTypeUnmarshaller extends AbstractSAMLObjec
     }
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
+    protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
         final ResponseAbstractType response = (ResponseAbstractType) parentSAMLObject;
 
@@ -71,7 +71,7 @@ public abstract class ResponseAbstractTypeUnmarshaller extends AbstractSAMLObjec
 
 // Checkstyle: CyclomaticComplexity OFF
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject samlObject, final Attr attribute) throws UnmarshallingException {
         final ResponseAbstractType response = (ResponseAbstractType) samlObject;
 
         if (attribute.getNamespaceURI() == null) {

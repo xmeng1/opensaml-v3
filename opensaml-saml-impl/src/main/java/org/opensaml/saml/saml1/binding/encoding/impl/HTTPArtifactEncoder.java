@@ -132,7 +132,7 @@ public class HTTPArtifactEncoder extends BaseSAML1MessageEncoder {
         final URLBuilder urlBuilder;
         try {
             urlBuilder = new URLBuilder(endpointUrl);
-        } catch (MalformedURLException e) {
+        } catch (final MalformedURLException e) {
             throw new MessageEncodingException("Endpoint URL " + endpointUrl + " is not a valid URL", e);
         }
         
@@ -187,7 +187,7 @@ public class HTTPArtifactEncoder extends BaseSAML1MessageEncoder {
         
         try {
             response.sendRedirect(encodedEndpoint);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new MessageEncodingException("Problem sending HTTP redirect", e);
         }
     }

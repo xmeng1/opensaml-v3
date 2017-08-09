@@ -40,7 +40,7 @@ public class EntitiesDescriptorBuilder extends AbstractSAMLObjectBuilder<Entitie
     }
 
     /** {@inheritDoc} */
-    public EntitiesDescriptor buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public EntitiesDescriptor buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new EntitiesDescriptorImpl(namespaceURI, localName, namespacePrefix);
     }
 }

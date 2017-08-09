@@ -326,7 +326,7 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
      * 
      * @throws MessageDecodingException thrown if there is a problem decoding or dereferencing the artifact
      */
-    private void processArtifact(MessageContext messageContext, HttpServletRequest request) 
+    private void processArtifact(final MessageContext messageContext, final HttpServletRequest request) 
             throws MessageDecodingException {
         String encodedArtifact = StringSupport.trimOrNull(request.getParameter("SAMLart"));
         if (encodedArtifact == null) {
@@ -347,9 +347,9 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
             SAMLObject inboundMessage = dereferenceArtifact(artifact, peerRoleDescriptor, ars);
 
             messageContext.setMessage(inboundMessage);
-        } catch (MessageDecodingException e) {
+        } catch (final MessageDecodingException e) {
             throw e;
-        } catch (Exception e) {
+        } catch (final Exception e) {
             throw new MessageDecodingException("Fatal error decoding or resolving inbound artifact", e);
         }
     }
@@ -360,7 +360,7 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
      * @param artifactResolveEndpointURL
      * @return
      */
-    private SAMLObject dereferenceArtifact(SAML2Artifact artifact, RoleDescriptor peerRoleDescriptor, ArtifactResolutionService ars) 
+    private SAMLObject dereferenceArtifact(final SAML2Artifact artifact, final RoleDescriptor peerRoleDescriptor, final ArtifactResolutionService ars) 
             throws MessageDecodingException {
         
         MessageContext<SAMLObject> outbound = new MessageContext<>();
@@ -378,7 +378,7 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
             log.trace("Executing ArtifactResolve over SOAP 1.1 binding to endpoint: {}", ars.getLocation());
             soapClient.send(ars.getLocation(), opContext);
             return opContext.getInboundMessageContext().getMessage();
-        } catch (SOAPException | SecurityException e) {
+        } catch (final SOAPException | SecurityException e) {
             throw new MessageDecodingException("Error dereferencing artifact", e);
         }
     }
@@ -389,7 +389,7 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
      * @param peerRoleDescriptor 
      * @return
      */
-    private ArtifactResolve buildArtifactResolveRequestMessage(SAML2Artifact artifact, String endpoint, RoleDescriptor peerRoleDescriptor) {
+    private ArtifactResolve buildArtifactResolveRequestMessage(final SAML2Artifact artifact, final String endpoint, final RoleDescriptor peerRoleDescriptor) {
         ArtifactResolve request = 
                 (ArtifactResolve) XMLObjectSupport.buildXMLObject(ArtifactResolve.DEFAULT_ELEMENT_NAME);
         
@@ -409,7 +409,7 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
      * @param peerRoleDescriptor 
      * @return
      */
-    private Issuer buildIssuer(RoleDescriptor peerRoleDescriptor) {
+    private Issuer buildIssuer(final RoleDescriptor peerRoleDescriptor) {
         Issuer issuer = (Issuer) XMLObjectSupport.buildXMLObject(Issuer.DEFAULT_ELEMENT_NAME);
         //TODO how do we get our own entityID?
         //     probably support optional static injected self entityID as well as injected resolution strategy
@@ -422,7 +422,7 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
      * @param peerRoleDescriptor
      * @return
      */
-    private ArtifactResolutionService resolveArtifactEndpoint(SAML2Artifact artifact, RoleDescriptor peerRoleDescriptor) throws MessageDecodingException {
+    private ArtifactResolutionService resolveArtifactEndpoint(final SAML2Artifact artifact, final RoleDescriptor peerRoleDescriptor) throws MessageDecodingException {
         RoleDescriptorCriterion roleDescriptorCriterion = new RoleDescriptorCriterion(peerRoleDescriptor);
 
         ArtifactResolutionService arsTemplate = 
@@ -450,7 +450,7 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
             } else {
                 throw new MessageDecodingException("Unable to resolve ArtifactResolutionService endpoint");
             }
-        } catch (ResolverException e) {
+        } catch (final ResolverException e) {
             throw new MessageDecodingException("Unable to resolve ArtifactResolutionService endpoint");
         }
     }
@@ -459,7 +459,7 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
      * @param artifact
      * @return
      */
-    private RoleDescriptor resolvePeerRoleDescriptor(SAML2Artifact artifact) throws MessageDecodingException {
+    private RoleDescriptor resolvePeerRoleDescriptor(final SAML2Artifact artifact) throws MessageDecodingException {
 
         CriteriaSet criteriaSet = new CriteriaSet(
                 new ArtifactCriterion(artifact),
@@ -467,7 +467,7 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
                 new EntityRoleCriterion(getPeerEntityRole()));
         try {
             return roleDescriptorResolver.resolveSingle(criteriaSet);
-        } catch (ResolverException e) {
+        } catch (final ResolverException e) {
             throw new MessageDecodingException("Error resolving peer entity RoleDescriptor", e);
         }
     }
@@ -476,7 +476,7 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
      * @param encodedArtifact
      * @return
      */
-    private SAML2Artifact parseArtifact(String encodedArtifact) throws MessageDecodingException {
+    private SAML2Artifact parseArtifact(final String encodedArtifact) throws MessageDecodingException {
         return artifactBuilderFactory.buildArtifact(encodedArtifact);
     }
 
@@ -485,7 +485,7 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
      * 
      * @param messageContext the current message context
      */
-    protected void populateBindingContext(MessageContext<SAMLObject> messageContext) {
+    protected void populateBindingContext(final MessageContext<SAMLObject> messageContext) {
         SAMLBindingContext bindingContext = messageContext.getSubcontext(SAMLBindingContext.class, true);
         bindingContext.setBindingUri(getBindingURI());
         bindingContext.setBindingDescriptor(bindingDescriptor);

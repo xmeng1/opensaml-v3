@@ -66,8 +66,8 @@ public class HTTPPostSimpleSignEncoder extends HTTPPostEncoder {
     }
 
     /** {@inheritDoc} */
-    protected void populateVelocityContext(VelocityContext velocityContext, MessageContext<SAMLObject> messageContext,
-            String endpointURL) throws MessageEncodingException {
+    protected void populateVelocityContext(final VelocityContext velocityContext, final MessageContext<SAMLObject> messageContext,
+            final String endpointURL) throws MessageEncodingException {
 
         super.populateVelocityContext(velocityContext, messageContext, endpointURL);
 
@@ -104,7 +104,7 @@ public class HTTPPostSimpleSignEncoder extends HTTPPostEncoder {
      * @throws MessageEncodingException thrown if there is an error generating or marshalling the KeyInfo
      * @return the marshalled, serialized and base64-encoded KeyInfo, or null if none was generated
      */
-    protected String buildKeyInfo(Credential signingCredential, KeyInfoGenerator kiGenerator)
+    protected String buildKeyInfo(final Credential signingCredential, final KeyInfoGenerator kiGenerator)
             throws MessageEncodingException {
 
         try {
@@ -140,8 +140,8 @@ public class HTTPPostSimpleSignEncoder extends HTTPPostEncoder {
      * 
      * @return the form control data string for signature computation
      */
-    protected String buildFormDataToSign(VelocityContext velocityContext, MessageContext<SAMLObject> messageContext,
-            String sigAlgURI) {
+    protected String buildFormDataToSign(final VelocityContext velocityContext, final MessageContext<SAMLObject> messageContext,
+            final String sigAlgURI) {
         StringBuilder builder = new StringBuilder();
 
         boolean isRequest = false;
@@ -189,7 +189,7 @@ public class HTTPPostSimpleSignEncoder extends HTTPPostEncoder {
      * @throws MessageEncodingException thrown if the algorithm URI is not supplied explicitly and 
      *          could not be derived from the supplied credential
      */
-    protected String getSignatureAlgorithmURI(SignatureSigningParameters signingParameters)
+    protected String getSignatureAlgorithmURI(final SignatureSigningParameters signingParameters)
             throws MessageEncodingException {
         
         if (signingParameters.getSignatureAlgorithm() != null) {
@@ -210,7 +210,7 @@ public class HTTPPostSimpleSignEncoder extends HTTPPostEncoder {
      * 
      * @throws MessageEncodingException there is an error computing the signature
      */
-    protected String generateSignature(Credential signingCredential, String algorithmURI, String formData)
+    protected String generateSignature(final Credential signingCredential, final String algorithmURI, final String formData)
             throws MessageEncodingException {
 
         log.debug(String.format(
@@ -223,10 +223,10 @@ public class HTTPPostSimpleSignEncoder extends HTTPPostEncoder {
                     XMLSigningUtil.signWithURI(signingCredential, algorithmURI, formData.getBytes("UTF-8"));
             b64Signature = Base64Support.encode(rawSignature, Base64Support.UNCHUNKED);
             log.debug("Generated digital signature value (base64-encoded) {}", b64Signature);
-        } catch (SecurityException e) {
+        } catch (final SecurityException e) {
             log.error("Error during URL signing process", e);
             throw new MessageEncodingException("Unable to sign form control string", e);
-        } catch (UnsupportedEncodingException e) {
+        } catch (final UnsupportedEncodingException e) {
             // UTF-8 encoding is required to be supported by all JVMs
         }
 

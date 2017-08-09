@@ -30,7 +30,7 @@ import org.w3c.dom.Element;
  */
 public class RegistrationInfoMarshaller extends AbstractSAMLObjectMarshaller {
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject samlObject, Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject samlObject, final Element domElement) throws MarshallingException {
         RegistrationInfo info = (RegistrationInfo) samlObject;
 
         if (info.getRegistrationAuthority() != null) {

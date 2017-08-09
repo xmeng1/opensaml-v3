@@ -101,7 +101,7 @@ public class NodeProcessingMetadataFilter extends AbstractInitializableComponent
      * 
      * @throws FilterException if a fatal error is encountered while processing a node
      */
-    protected void processNode(XMLObject node) throws FilterException {
+    protected void processNode(final XMLObject node) throws FilterException {
         
         for (final MetadataNodeProcessor processor : getNodeProcessors()) {
             processor.process(node);

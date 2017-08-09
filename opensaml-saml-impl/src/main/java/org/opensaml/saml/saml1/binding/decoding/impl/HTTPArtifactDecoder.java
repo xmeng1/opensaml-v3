@@ -94,7 +94,7 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
      * 
      * @throws MessageDecodingException thrown if there is a problem decoding the TARGET parameter.
      */
-    protected void decodeTarget(MessageContext messageContext, HttpServletRequest request) 
+    protected void decodeTarget(final MessageContext messageContext, final HttpServletRequest request) 
             throws MessageDecodingException {
         String target = StringSupport.trim(request.getParameter("TARGET"));
         if (target == null) {
@@ -113,7 +113,7 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
      * 
      * @throws MessageDecodingException thrown if there is a problem decoding or dereferencing the artifacts
      */
-    protected void processArtifacts(MessageContext messageContext, HttpServletRequest request) 
+    protected void processArtifacts(final MessageContext messageContext, final HttpServletRequest request) 
             throws MessageDecodingException {
         String[] encodedArtifacts = request.getParameterValues("SAMLart");
         if (encodedArtifacts == null || encodedArtifacts.length == 0) {
@@ -131,7 +131,7 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
      * 
      * @param messageContext the current message context
      */
-    protected void populateBindingContext(MessageContext<SAMLObject> messageContext) {
+    protected void populateBindingContext(final MessageContext<SAMLObject> messageContext) {
         SAMLBindingContext bindingContext = messageContext.getSubcontext(SAMLBindingContext.class, true);
         bindingContext.setBindingUri(getBindingURI());
         bindingContext.setBindingDescriptor(bindingDescriptor);

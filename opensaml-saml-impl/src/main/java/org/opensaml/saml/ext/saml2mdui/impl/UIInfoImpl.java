@@ -48,7 +48,7 @@ public class UIInfoImpl extends AbstractSAMLObject implements UIInfo {
      * @param elementLocalName elementLocalName
      * @param namespacePrefix namespacePrefix
      */
-    protected UIInfoImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected UIInfoImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         
         uiInfoChildren = new IndexedXMLObjectChildrenList<>(this);
@@ -62,7 +62,7 @@ public class UIInfoImpl extends AbstractSAMLObject implements UIInfo {
 
     /** {@inheritDoc} */
     @Override
-    public List<XMLObject> getXMLObjects(QName typeOrName) {
+    public List<XMLObject> getXMLObjects(final QName typeOrName) {
         return (List<XMLObject>) uiInfoChildren.subList(typeOrName);
     }
 

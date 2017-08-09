@@ -30,7 +30,7 @@ import org.opensaml.saml.saml1.core.AssertionIDReference;
 public class AdviceUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
+    protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
 
         Advice advice = (Advice) parentSAMLObject;

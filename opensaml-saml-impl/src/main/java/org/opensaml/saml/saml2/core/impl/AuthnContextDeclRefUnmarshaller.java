@@ -31,7 +31,7 @@ import org.opensaml.saml.saml2.core.AuthnContextDeclRef;
 public class AuthnContextDeclRefUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject samlObject, String elementContent) {
+    protected void processElementContent(final XMLObject samlObject, final String elementContent) {
         AuthnContextDeclRef authnContextDeclRef = (AuthnContextDeclRef) samlObject;
         authnContextDeclRef.setAuthnContextDeclRef(elementContent);
     }

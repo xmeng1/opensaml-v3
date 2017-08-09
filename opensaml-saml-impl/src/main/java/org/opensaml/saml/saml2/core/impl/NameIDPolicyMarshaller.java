@@ -33,7 +33,7 @@ import org.w3c.dom.Element;
 public class NameIDPolicyMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject samlObject, Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject samlObject, final Element domElement) throws MarshallingException {
         NameIDPolicy policy = (NameIDPolicy) samlObject;
 
         if (policy.getFormat() != null) {

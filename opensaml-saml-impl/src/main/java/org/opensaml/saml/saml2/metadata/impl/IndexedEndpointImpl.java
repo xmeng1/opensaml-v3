@@ -42,7 +42,7 @@ public abstract class IndexedEndpointImpl extends EndpointImpl implements Indexe
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected IndexedEndpointImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected IndexedEndpointImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -52,7 +52,7 @@ public abstract class IndexedEndpointImpl extends EndpointImpl implements Indexe
     }
 
     /** {@inheritDoc} */
-    public void setIndex(Integer theIndex) {
+    public void setIndex(final Integer theIndex) {
         this.index = prepareForAssignment(this.index, theIndex);
     }
     
@@ -70,7 +70,7 @@ public abstract class IndexedEndpointImpl extends EndpointImpl implements Indexe
     }
     
     /** {@inheritDoc} */
-    public void setIsDefault(Boolean newIsDefault){
+    public void setIsDefault(final Boolean newIsDefault){
         if(newIsDefault != null){
             isDefault = prepareForAssignment(isDefault, new XSBooleanValue(newIsDefault, false));
         }else{
@@ -79,7 +79,7 @@ public abstract class IndexedEndpointImpl extends EndpointImpl implements Indexe
     }
 
     /** {@inheritDoc} */
-    public void setIsDefault(XSBooleanValue theIsDefault) {
+    public void setIsDefault(final XSBooleanValue theIsDefault) {
         this.isDefault = prepareForAssignment(this.isDefault, theIsDefault);
     }
 }

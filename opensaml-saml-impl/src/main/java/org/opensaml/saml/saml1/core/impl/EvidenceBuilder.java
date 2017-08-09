@@ -39,7 +39,7 @@ public class EvidenceBuilder extends AbstractSAMLObjectBuilder<Evidence> {
     }
 
     /** {@inheritDoc} */
-    public Evidence buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Evidence buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new EvidenceImpl(namespaceURI, localName, namespacePrefix);
     }
 }

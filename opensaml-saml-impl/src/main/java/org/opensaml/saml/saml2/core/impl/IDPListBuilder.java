@@ -43,7 +43,7 @@ public class IDPListBuilder extends AbstractSAMLObjectBuilder<IDPList> {
     }
 
     /** {@inheritDoc} */
-    public IDPList buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public IDPList buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new IDPListImpl(namespaceURI, localName, namespacePrefix);
     }
 }

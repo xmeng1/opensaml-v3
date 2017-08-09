@@ -247,7 +247,7 @@ public class SignatureValidationFilter implements MetadataFilter {
                 log.error("Internal error, metadata object was of an unsupported type: {}", 
                         metadata.getClass().getName());
             }
-        } catch (Throwable t) {
+        } catch (final Throwable t) {
             log.warn("Saw fatal error validating metadata signature(s), metadata will be filtered out", t);
             return null;
         }

@@ -44,7 +44,7 @@ public class NameIDMappingRequestBuilder extends AbstractSAMLObjectBuilder<NameI
     }
 
     /** {@inheritDoc} */
-    public NameIDMappingRequest buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public NameIDMappingRequest buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new NameIDMappingRequestImpl(namespaceURI, localName, namespacePrefix);
     }
 }

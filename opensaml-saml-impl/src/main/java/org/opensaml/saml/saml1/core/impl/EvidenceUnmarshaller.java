@@ -30,7 +30,7 @@ import org.opensaml.saml.saml1.core.Evidence;
 public class EvidenceUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
+    protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
 
         Evidence evidence = (Evidence) parentSAMLObject;

@@ -36,7 +36,7 @@ import org.w3c.dom.Attr;
 public class AuthzDecisionStatementUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentObject, XMLObject childObject) throws UnmarshallingException {
+    protected void processChildElement(final XMLObject parentObject, final XMLObject childObject) throws UnmarshallingException {
         final AuthzDecisionStatement authzDS = (AuthzDecisionStatement) parentObject;
 
         if (childObject instanceof Action) {
@@ -49,7 +49,7 @@ public class AuthzDecisionStatementUnmarshaller extends AbstractSAMLObjectUnmars
     }
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject samlObject, final Attr attribute) throws UnmarshallingException {
         final AuthzDecisionStatement authzDS = (AuthzDecisionStatement) samlObject;
 
         if (attribute.getNamespaceURI() == null) {

@@ -36,7 +36,7 @@ import org.opensaml.saml.saml2.core.Terminate;
 public class ManageNameIDRequestUnmarshaller extends RequestAbstractTypeUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
+    protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
         ManageNameIDRequest req = (ManageNameIDRequest) parentSAMLObject;
 

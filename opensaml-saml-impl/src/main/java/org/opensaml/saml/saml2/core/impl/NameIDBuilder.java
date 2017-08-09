@@ -41,7 +41,7 @@ public class NameIDBuilder extends AbstractSAMLObjectBuilder<NameID> {
     }
 
     /** {@inheritDoc} */
-    public NameID buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public NameID buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new NameIDImpl(namespaceURI, localName, namespacePrefix);
     }
 }

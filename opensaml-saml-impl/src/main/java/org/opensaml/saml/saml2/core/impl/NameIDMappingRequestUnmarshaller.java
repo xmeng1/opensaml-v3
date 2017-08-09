@@ -31,7 +31,7 @@ import org.opensaml.saml.saml2.core.NameIDPolicy;
 public class NameIDMappingRequestUnmarshaller extends RequestAbstractTypeUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
+    protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
         NameIDMappingRequest req = (NameIDMappingRequest) parentSAMLObject;
 

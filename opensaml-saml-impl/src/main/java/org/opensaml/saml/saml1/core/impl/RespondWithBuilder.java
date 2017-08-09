@@ -33,7 +33,7 @@ public class RespondWithBuilder extends AbstractSAMLObjectBuilder<RespondWith> {
     }
 
     /** {@inheritDoc} */
-    public RespondWith buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public RespondWith buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new RespondWithImpl(namespaceURI, localName, namespacePrefix);
     }
 }

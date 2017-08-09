@@ -68,7 +68,7 @@ public class IDPSSODescriptorImpl extends SSODescriptorImpl implements IDPSSODes
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected IDPSSODescriptorImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected IDPSSODescriptorImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         singleSignOnServices = new XMLObjectChildrenList<>(this);
         nameIDMappingServices = new XMLObjectChildrenList<>(this);
@@ -92,7 +92,7 @@ public class IDPSSODescriptorImpl extends SSODescriptorImpl implements IDPSSODes
     }
 
     /** {@inheritDoc} */
-    public void setWantAuthnRequestsSigned(Boolean newWantSigned) {
+    public void setWantAuthnRequestsSigned(final Boolean newWantSigned) {
         if (newWantSigned != null) {
             wantAuthnRequestsSigned =
                     prepareForAssignment(wantAuthnRequestsSigned, new XSBooleanValue(newWantSigned, false));
@@ -102,7 +102,7 @@ public class IDPSSODescriptorImpl extends SSODescriptorImpl implements IDPSSODes
     }
 
     /** {@inheritDoc} */
-    public void setWantAuthnRequestsSigned(XSBooleanValue wantSigned) {
+    public void setWantAuthnRequestsSigned(final XSBooleanValue wantSigned) {
         wantAuthnRequestsSigned = prepareForAssignment(wantAuthnRequestsSigned, wantSigned);
     }
 
@@ -142,7 +142,7 @@ public class IDPSSODescriptorImpl extends SSODescriptorImpl implements IDPSSODes
     }
 
     /** {@inheritDoc} */
-    public List<Endpoint> getEndpoints(QName type) {
+    public List<Endpoint> getEndpoints(final QName type) {
         if (type.equals(SingleSignOnService.DEFAULT_ELEMENT_NAME)) {
             return Collections.unmodifiableList(new ArrayList<Endpoint>(singleSignOnServices));
         } else if (type.equals(NameIDMappingService.DEFAULT_ELEMENT_NAME)) {

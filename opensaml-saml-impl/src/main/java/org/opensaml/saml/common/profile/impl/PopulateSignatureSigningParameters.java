@@ -168,7 +168,7 @@ public class PopulateSignatureSigningParameters extends AbstractConditionalProfi
             throw new ComponentInitializationException("SignatureSigningParametersResolver cannot be null");
         } else if (configurationLookupStrategy == null) {
             configurationLookupStrategy = new Function<ProfileRequestContext,List<SignatureSigningConfiguration>>() {
-                public List<SignatureSigningConfiguration> apply(ProfileRequestContext input) {
+                public List<SignatureSigningConfiguration> apply(final ProfileRequestContext input) {
                     return Collections.singletonList(
                             SecurityConfigurationSupport.getGlobalSignatureSigningConfiguration());
                 }

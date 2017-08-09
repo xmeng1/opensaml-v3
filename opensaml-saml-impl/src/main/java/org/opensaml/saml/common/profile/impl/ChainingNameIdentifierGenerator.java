@@ -73,7 +73,7 @@ public class ChainingNameIdentifierGenerator<NameIdType extends SAMLObject>
      * @param generators generators to use
      */
     public void setGenerators(
-            @Nonnull @NullableElements List<NameIdentifierGenerator<NameIdType>> generators) {
+            @Nonnull @NullableElements final List<NameIdentifierGenerator<NameIdType>> generators) {
         Constraint.isNotNull(generators, "NameIdentifierGenerator list cannot be null");
         
         nameIdGeneratorMap.clear();

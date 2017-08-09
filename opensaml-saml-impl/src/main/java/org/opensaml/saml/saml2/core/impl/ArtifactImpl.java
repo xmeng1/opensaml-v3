@@ -42,7 +42,7 @@ public class ArtifactImpl extends AbstractSAMLObject implements Artifact {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected ArtifactImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected ArtifactImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -52,7 +52,7 @@ public class ArtifactImpl extends AbstractSAMLObject implements Artifact {
     }
 
     /** {@inheritDoc} */
-    public void setArtifact(String newArtifact) {
+    public void setArtifact(final String newArtifact) {
         this.artifact = prepareForAssignment(this.artifact, newArtifact);
     }
 

@@ -69,7 +69,7 @@ public class MetadataIndexManager<T> {
      * @param extractionFunction function to extract the indexed data item from an EntityDescriptor
      */
     public MetadataIndexManager(
-            @Nullable @NonnullElements @Unmodifiable @NotLive Set<MetadataIndex> initIndexes,
+            @Nullable @NonnullElements @Unmodifiable @NotLive final Set<MetadataIndex> initIndexes,
             @Nonnull final Function<EntityDescriptor, T> extractionFunction
             ) {
         
@@ -102,7 +102,7 @@ public class MetadataIndexManager<T> {
      * @return the index store for the index, may be null if index was not initialized 
      *         for this manager instance
      */
-    @Nullable protected MetadataIndexStore<T> getStore(@Nonnull MetadataIndex index) {
+    @Nullable protected MetadataIndexStore<T> getStore(@Nonnull final MetadataIndex index) {
         Constraint.isNotNull(index, "MetadataIndex was null");
         return indexes.get(index);
     }
@@ -186,7 +186,7 @@ public class MetadataIndexManager<T> {
     public static class IdentityExtractionFunction implements Function<EntityDescriptor, EntityDescriptor> {
 
         /** {@inheritDoc} */
-        public EntityDescriptor apply(EntityDescriptor input) {
+        public EntityDescriptor apply(final EntityDescriptor input) {
             return input;
         }
         
@@ -196,7 +196,7 @@ public class MetadataIndexManager<T> {
     public static class EntityIDExtractionFunction implements Function<EntityDescriptor, String> {
 
         /** {@inheritDoc} */
-        public String apply(EntityDescriptor input) {
+        public String apply(final EntityDescriptor input) {
             if (input == null) {
                 return null;
             }

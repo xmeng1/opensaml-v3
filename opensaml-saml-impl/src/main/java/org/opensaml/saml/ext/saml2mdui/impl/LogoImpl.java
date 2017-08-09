@@ -51,7 +51,7 @@ public class LogoImpl extends AbstractSAMLObject implements Logo {
      * @param elementLocalName elementLocalName
      * @param namespacePrefix namespacePrefix
      */
-    protected LogoImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected LogoImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -62,7 +62,7 @@ public class LogoImpl extends AbstractSAMLObject implements Logo {
     }
 
     /** {@inheritDoc} */
-    public void setHeight(Integer newHeight) {
+    public void setHeight(final Integer newHeight) {
          height = prepareForAssignment(height, newHeight);
     }
 
@@ -72,7 +72,7 @@ public class LogoImpl extends AbstractSAMLObject implements Logo {
     }
 
     /** {@inheritDoc} */
-    public void setWidth(Integer newWidth) {
+    public void setWidth(final Integer newWidth) {
         width = prepareForAssignment(width, newWidth);
     }
 
@@ -82,7 +82,7 @@ public class LogoImpl extends AbstractSAMLObject implements Logo {
     }
 
     /** {@inheritDoc} */
-    public void setURL(String newURL) {
+    public void setURL(final String newURL) {
        url = prepareForAssignment(url, newURL);
     }
 
@@ -92,7 +92,7 @@ public class LogoImpl extends AbstractSAMLObject implements Logo {
     }
 
     /** {@inheritDoc} */
-    public void setXMLLang(String newLang) {
+    public void setXMLLang(final String newLang) {
         boolean hasValue = newLang != null && !Strings.isNullOrEmpty(newLang);
         lang = prepareForAssignment(lang, newLang);
         manageQualifiedAttributeNamespace(LangBearing.XML_LANG_ATTR_NAME, hasValue);

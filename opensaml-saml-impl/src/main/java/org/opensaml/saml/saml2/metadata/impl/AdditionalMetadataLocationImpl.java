@@ -41,7 +41,7 @@ public class AdditionalMetadataLocationImpl extends AbstractSAMLObject implement
      * @param elementLocalName the local name
      * @param namespacePrefix the prefix name space
      */
-    protected AdditionalMetadataLocationImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AdditionalMetadataLocationImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -51,7 +51,7 @@ public class AdditionalMetadataLocationImpl extends AbstractSAMLObject implement
     }
 
     /** {@inheritDoc} */
-    public void setLocationURI(String locationURI) {
+    public void setLocationURI(final String locationURI) {
         location = prepareForAssignment(location, locationURI);
     }
 
@@ -61,7 +61,7 @@ public class AdditionalMetadataLocationImpl extends AbstractSAMLObject implement
     }
 
     /** {@inheritDoc} */
-    public void setNamespaceURI(String namespaceURI) {
+    public void setNamespaceURI(final String namespaceURI) {
         namespace = prepareForAssignment(namespace, namespaceURI);
     }
 

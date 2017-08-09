@@ -31,7 +31,7 @@ import org.w3c.dom.Element;
 public class NameIdentifierMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject samlElement, Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject samlElement, final Element domElement) throws MarshallingException {
         NameIdentifier nameIdentifier = (NameIdentifier) samlElement;
 
         if (nameIdentifier.getNameQualifier() != null) {
@@ -45,7 +45,7 @@ public class NameIdentifierMarshaller extends AbstractSAMLObjectMarshaller {
     }
 
     /** {@inheritDoc} */
-    protected void marshallElementContent(XMLObject samlObject, Element domElement) throws MarshallingException {
+    protected void marshallElementContent(final XMLObject samlObject, final Element domElement) throws MarshallingException {
         NameIdentifier nameIdentifier = (NameIdentifier) samlObject;
 
         if (nameIdentifier.getValue() != null) {

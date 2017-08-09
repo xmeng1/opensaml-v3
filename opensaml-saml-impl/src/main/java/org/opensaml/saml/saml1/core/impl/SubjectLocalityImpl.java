@@ -41,7 +41,7 @@ public class SubjectLocalityImpl extends AbstractSAMLObject implements SubjectLo
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected SubjectLocalityImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected SubjectLocalityImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -51,7 +51,7 @@ public class SubjectLocalityImpl extends AbstractSAMLObject implements SubjectLo
     }
 
     /** {@inheritDoc} */
-    public void setIPAddress(String address) {
+    public void setIPAddress(final String address) {
         ipAddress = prepareForAssignment(ipAddress, address);
     }
 
@@ -61,7 +61,7 @@ public class SubjectLocalityImpl extends AbstractSAMLObject implements SubjectLo
     }
 
     /** {@inheritDoc} */
-    public void setDNSAddress(String address) {
+    public void setDNSAddress(final String address) {
         dnsAddress = prepareForAssignment(dnsAddress, address);
     }
 

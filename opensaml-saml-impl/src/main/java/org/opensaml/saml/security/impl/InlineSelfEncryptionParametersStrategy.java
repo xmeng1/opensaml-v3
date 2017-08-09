@@ -92,7 +92,7 @@ public class InlineSelfEncryptionParametersStrategy
 
     /** {@inheritDoc} */
     @Nullable
-    public List<EncryptionParameters> apply(@Nullable Pair<ProfileRequestContext, EncryptionParameters> input) {
+    public List<EncryptionParameters> apply(@Nullable final Pair<ProfileRequestContext, EncryptionParameters> input) {
         if (input == null || input.getFirst() == null) {
             log.debug("Input Pair or ProfileRequestContext was null, skipping");
             return Collections.emptyList();
@@ -125,7 +125,7 @@ public class InlineSelfEncryptionParametersStrategy
             try {
                 Iterables.addAll(encParams, encParamsresolver.resolve(
                         new CriteriaSet(new EncryptionConfigurationCriterion(configs))));
-            } catch (ResolverException e) {
+            } catch (final ResolverException e) {
                 log.error("Error resolving self-encryption parameters for Credential '{}', " 
                         + "params from other Credentials may still succeed", cred, e);
             }
@@ -150,7 +150,7 @@ public class InlineSelfEncryptionParametersStrategy
             Iterables.addAll(credentials, credentialResolver.resolve(
                     new CriteriaSet(new UsageCriterion(UsageType.ENCRYPTION))));
             return credentials;
-        } catch (ResolverException e) {
+        } catch (final ResolverException e) {
             log.error("Error resolving IdP encryption credentials", e);
             return Collections.emptyList();
         }

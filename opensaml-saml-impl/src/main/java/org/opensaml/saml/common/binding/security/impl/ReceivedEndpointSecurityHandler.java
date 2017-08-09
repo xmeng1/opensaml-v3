@@ -160,7 +160,7 @@ public class ReceivedEndpointSecurityHandler extends AbstractMessageHandler {
         try {
             messageDestination = StringSupport.trimOrNull(
                     SAMLBindingSupport.getIntendedDestinationEndpointURI(messageContext));
-        } catch (MessageException e) {
+        } catch (final MessageException e) {
             throw new MessageHandlerException("Error obtaining message intended destination endpoint URI", e);
         }
         
@@ -183,7 +183,7 @@ public class ReceivedEndpointSecurityHandler extends AbstractMessageHandler {
         try {
             receiverEndpoint = StringSupport.trimOrNull(
                     SAMLBindingSupport.getActualReceiverEndpointURI(messageContext, getHttpServletRequest()));
-        } catch (MessageException e) {
+        } catch (final MessageException e) {
             throw new MessageHandlerException("Error obtaining message received endpoint URI", e);
         }
         
@@ -193,7 +193,7 @@ public class ReceivedEndpointSecurityHandler extends AbstractMessageHandler {
         boolean matched;
         try {
             matched = compareEndpointURIs(messageDestination, receiverEndpoint, comparator);
-        } catch (URIException e) {
+        } catch (final URIException e) {
             throw new MessageHandlerException("Error comparing endpoint URI's", e);
         }
         if (!matched) {

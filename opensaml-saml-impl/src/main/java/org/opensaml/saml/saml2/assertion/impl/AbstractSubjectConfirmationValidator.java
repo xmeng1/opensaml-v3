@@ -194,7 +194,7 @@ public abstract class AbstractSubjectConfirmationValidator implements SubjectCon
         try {
             validRecipients = (Set<String>) context.getStaticParameters().get(
                     SAML2AssertionValidationParameters.SC_VALID_RECIPIENTS);
-        } catch (ClassCastException e) {
+        } catch (final ClassCastException e) {
             log.warn("The value of the static validation parameter '{}' was not java.util.Set<String>",
                     SAML2AssertionValidationParameters.SC_VALID_RECIPIENTS);
             context.setValidationFailureMessage(
@@ -249,7 +249,7 @@ public abstract class AbstractSubjectConfirmationValidator implements SubjectCon
         InetAddress[] confirmingAddresses;
         try {
             confirmingAddresses = InetAddress.getAllByName(address);
-        } catch (UnknownHostException e) {
+        } catch (final UnknownHostException e) {
             log.warn("The subject confirmation address '{}' in assetion '{}' can not be resolved " 
                     + "to a valid set of IP address(s)", address, assertion.getID());
             context.setValidationFailureMessage(String.format(
@@ -266,7 +266,7 @@ public abstract class AbstractSubjectConfirmationValidator implements SubjectCon
         try {
             validAddresses = (Set<InetAddress>) context.getStaticParameters().get(
                     SAML2AssertionValidationParameters.SC_VALID_ADDRESSES);
-        } catch (ClassCastException e) {
+        } catch (final ClassCastException e) {
             log.warn("The value of the static validation parameter '{}' was not java.util.Set<InetAddress>",
                     SAML2AssertionValidationParameters.SC_VALID_ADDRESSES);
             context.setValidationFailureMessage("Unable to determine list of valid subject confirmation addresses");

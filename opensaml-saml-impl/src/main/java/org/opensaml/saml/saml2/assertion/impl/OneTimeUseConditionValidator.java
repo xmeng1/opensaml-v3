@@ -149,12 +149,12 @@ public class OneTimeUseConditionValidator implements ConditionValidator {
      * 
      * @return the effective one-time use expiration for the assertion being evaluated
      */
-    protected long getExpires(Assertion assertion, ValidationContext context) {
+    protected long getExpires(final Assertion assertion, final ValidationContext context) {
         Long expires = null;
         try {
             expires = (Long) context.getStaticParameters().get(
                     SAML2AssertionValidationParameters.COND_ONE_TIME_USE_EXPIRES);
-        } catch (ClassCastException e) {
+        } catch (final ClassCastException e) {
             log.warn("Value of param was not a Long: {}", SAML2AssertionValidationParameters.COND_ONE_TIME_USE_EXPIRES);
         }
         log.debug("Saw one-time use cache expires context param: {}", expires);

@@ -40,7 +40,7 @@ public class GeolocationHintImpl extends AbstractSAMLObject implements Geolocati
      * @param elementLocalName the elementLocalName
      * @param namespacePrefix the namespacePrefix
      */
-    protected GeolocationHintImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected GeolocationHintImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -50,7 +50,7 @@ public class GeolocationHintImpl extends AbstractSAMLObject implements Geolocati
     }
 
     /** {@inheritDoc} */
-    public void setHint(String newHint) {
+    public void setHint(final String newHint) {
         hint = prepareForAssignment(hint, newHint);
     }
 

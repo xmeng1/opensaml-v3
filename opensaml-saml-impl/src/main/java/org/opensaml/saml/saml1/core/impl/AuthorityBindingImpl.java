@@ -46,7 +46,7 @@ public class AuthorityBindingImpl extends AbstractSAMLObject implements Authorit
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AuthorityBindingImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AuthorityBindingImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
    }
     
@@ -56,7 +56,7 @@ public class AuthorityBindingImpl extends AbstractSAMLObject implements Authorit
     }
 
     /** {@inheritDoc} */
-    public void setAuthorityKind(QName kind) {
+    public void setAuthorityKind(final QName kind) {
         authorityKind = prepareAttributeValueForAssignment(AuthorityBinding.AUTHORITYKIND_ATTRIB_NAME, 
                 authorityKind, kind);
     }
@@ -67,7 +67,7 @@ public class AuthorityBindingImpl extends AbstractSAMLObject implements Authorit
     }
 
     /** {@inheritDoc} */
-    public void setLocation(String loc) {
+    public void setLocation(final String loc) {
         location = prepareForAssignment(location, loc);
     }
 
@@ -77,7 +77,7 @@ public class AuthorityBindingImpl extends AbstractSAMLObject implements Authorit
     }
 
     /** {@inheritDoc} */
-    public void setBinding(String newBinding) {
+    public void setBinding(final String newBinding) {
         binding = prepareForAssignment(binding, newBinding);
     }
 

@@ -42,7 +42,7 @@ public class EntitiesDescriptorNameProcessor implements MetadataNodeProcessor {
 
     /** {@inheritDoc} */
     @Override
-    public void process(XMLObject metadataNode) throws FilterException {
+    public void process(final XMLObject metadataNode) throws FilterException {
         if (metadataNode instanceof EntityDescriptor) {
             XMLObject currentParent = metadataNode.getParent();
             while (currentParent != null) {

@@ -28,7 +28,7 @@ import org.opensaml.saml.ext.saml2mdui.UIInfo;
 public class UIInfoUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
+    protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
         UIInfo info = (UIInfo) parentSAMLObject;
         info.getXMLObjects().add(childSAMLObject);

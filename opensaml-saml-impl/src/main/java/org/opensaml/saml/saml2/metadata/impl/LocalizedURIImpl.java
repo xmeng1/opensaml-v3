@@ -41,7 +41,7 @@ public class LocalizedURIImpl extends XSURIImpl implements LocalizedURI {
      * @param elementLocalName the elementLocalName
      * @param namespacePrefix the namespacePrefix
      */
-    protected LocalizedURIImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected LocalizedURIImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -51,7 +51,7 @@ public class LocalizedURIImpl extends XSURIImpl implements LocalizedURI {
     }
 
     /** {@inheritDoc} */
-    public void setXMLLang(String newLang) {
+    public void setXMLLang(final String newLang) {
         boolean hasValue = newLang != null && !Strings.isNullOrEmpty(newLang);
         language = prepareForAssignment(language, newLang);
         manageQualifiedAttributeNamespace(LangBearing.XML_LANG_ATTR_NAME, hasValue);

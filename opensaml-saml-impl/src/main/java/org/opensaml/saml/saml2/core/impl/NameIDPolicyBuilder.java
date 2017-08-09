@@ -43,7 +43,7 @@ public class NameIDPolicyBuilder extends AbstractSAMLObjectBuilder<NameIDPolicy>
     }
 
     /** {@inheritDoc} */
-    public NameIDPolicy buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public NameIDPolicy buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new NameIDPolicyImpl(namespaceURI, localName, namespacePrefix);
     }
 }

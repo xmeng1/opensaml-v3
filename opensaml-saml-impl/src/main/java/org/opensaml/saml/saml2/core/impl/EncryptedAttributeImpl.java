@@ -31,7 +31,7 @@ public class EncryptedAttributeImpl extends EncryptedElementTypeImpl implements 
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected EncryptedAttributeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected EncryptedAttributeImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

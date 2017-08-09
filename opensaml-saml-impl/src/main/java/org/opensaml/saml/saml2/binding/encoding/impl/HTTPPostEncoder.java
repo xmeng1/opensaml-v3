@@ -84,7 +84,7 @@ public class HTTPPostEncoder extends BaseSAML2MessageEncoder {
      * 
      * @param newVelocityEngine the new VelocityEngine instane
      */
-    public void setVelocityEngine(VelocityEngine newVelocityEngine) {
+    public void setVelocityEngine(final VelocityEngine newVelocityEngine) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
         velocityEngine = newVelocityEngine;
@@ -108,7 +108,7 @@ public class HTTPPostEncoder extends BaseSAML2MessageEncoder {
      * 
      * @param newVelocityTemplateId the new Velocity template id
      */
-    public void setVelocityTemplateId(String newVelocityTemplateId) {
+    public void setVelocityTemplateId(final String newVelocityTemplateId) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
         velocityTemplateId = newVelocityTemplateId;
@@ -154,7 +154,7 @@ public class HTTPPostEncoder extends BaseSAML2MessageEncoder {
      * 
      * @throws MessageEncodingException thrown if there is a problem encoding the message
      */
-    protected void postEncode(MessageContext<SAMLObject> messageContext, String endpointURL) 
+    protected void postEncode(final MessageContext<SAMLObject> messageContext, final String endpointURL) 
             throws MessageEncodingException {
         log.debug("Invoking Velocity template to create POST body");
         try {
@@ -171,7 +171,7 @@ public class HTTPPostEncoder extends BaseSAML2MessageEncoder {
             Writer out = new OutputStreamWriter(response.getOutputStream(), "UTF-8");
             velocityEngine.mergeTemplate(velocityTemplateId, "UTF-8", context, out);
             out.flush();
-        } catch (Exception e) {
+        } catch (final Exception e) {
             log.error("Error invoking Velocity template", e);
             throw new MessageEncodingException("Error creating output document", e);
         }
@@ -185,8 +185,8 @@ public class HTTPPostEncoder extends BaseSAML2MessageEncoder {
      * @param endpointURL endpoint URL to which to encode message
      * @throws MessageEncodingException thrown if there is a problem encoding the message
      */
-    protected void populateVelocityContext(VelocityContext velocityContext, MessageContext<SAMLObject> messageContext,
-            String endpointURL) throws MessageEncodingException {
+    protected void populateVelocityContext(final VelocityContext velocityContext, final MessageContext<SAMLObject> messageContext,
+            final String endpointURL) throws MessageEncodingException {
 
         String encodedEndpointURL = HTMLEncoder.encodeForHTMLAttribute(endpointURL);
         log.debug("Encoding action url of '{}' with encoded value '{}'", endpointURL, encodedEndpointURL);
@@ -209,7 +209,7 @@ public class HTTPPostEncoder extends BaseSAML2MessageEncoder {
                 throw new MessageEncodingException(
                         "SAML message is neither a SAML RequestAbstractType or StatusResponseType");
             }
-        } catch (UnsupportedEncodingException e) {
+        } catch (final UnsupportedEncodingException e) {
             log.error("UTF-8 encoding is not supported, this VM is not Java compliant.");
             throw new MessageEncodingException("Unable to encode message, UTF-8 encoding is not supported");
         }

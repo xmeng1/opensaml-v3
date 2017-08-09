@@ -40,7 +40,7 @@ public class NewEncryptedIDBuilder extends AbstractSAMLObjectBuilder<NewEncrypte
     }
 
     /** {@inheritDoc} */
-    public NewEncryptedID buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public NewEncryptedID buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new NewEncryptedIDImpl(namespaceURI, localName, namespacePrefix);
     }
 

@@ -44,7 +44,7 @@ public class OrganizationURLBuilder extends AbstractSAMLObjectBuilder<Organizati
     }
 
     /** {@inheritDoc} */
-    public OrganizationURL buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public OrganizationURL buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new OrganizationURLImpl(namespaceURI, localName, namespacePrefix);
     }
 }

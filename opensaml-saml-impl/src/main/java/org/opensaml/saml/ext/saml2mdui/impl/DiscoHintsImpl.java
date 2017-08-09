@@ -43,7 +43,7 @@ public class DiscoHintsImpl extends AbstractSAMLObject implements DiscoHints {
      * @param elementLocalName elementLocalName
      * @param namespacePrefix namespacePrefix
      */
-    protected DiscoHintsImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected DiscoHintsImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         discoHintsChildren = new IndexedXMLObjectChildrenList<>(this);
     }
@@ -56,7 +56,7 @@ public class DiscoHintsImpl extends AbstractSAMLObject implements DiscoHints {
 
     /** {@inheritDoc} */
     @Override
-    public List<XMLObject> getXMLObjects(QName typeOrName) {
+    public List<XMLObject> getXMLObjects(final QName typeOrName) {
         return (List<XMLObject>) discoHintsChildren.subList(typeOrName);
     }
 

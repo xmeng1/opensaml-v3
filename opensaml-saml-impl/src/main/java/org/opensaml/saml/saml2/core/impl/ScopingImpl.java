@@ -53,7 +53,7 @@ public class ScopingImpl extends AbstractSAMLObject implements Scoping {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected ScopingImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected ScopingImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         requesterIDs = new XMLObjectChildrenList<>(this);
     }
@@ -64,7 +64,7 @@ public class ScopingImpl extends AbstractSAMLObject implements Scoping {
     }
 
     /** {@inheritDoc} */
-    public void setProxyCount(Integer newProxyCount) {
+    public void setProxyCount(final Integer newProxyCount) {
         this.proxyCount = prepareForAssignment(this.proxyCount, newProxyCount);
     }
 
@@ -74,7 +74,7 @@ public class ScopingImpl extends AbstractSAMLObject implements Scoping {
     }
 
     /** {@inheritDoc} */
-    public void setIDPList(IDPList newIDPList) {
+    public void setIDPList(final IDPList newIDPList) {
         this.idpList = prepareForAssignment(this.idpList, newIDPList);
 
     }

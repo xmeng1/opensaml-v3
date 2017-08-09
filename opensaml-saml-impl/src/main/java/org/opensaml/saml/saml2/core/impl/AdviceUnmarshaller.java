@@ -32,7 +32,7 @@ import org.opensaml.saml.saml2.core.Advice;
 public class AdviceUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentObject, XMLObject childObject) throws UnmarshallingException {
+    protected void processChildElement(final XMLObject parentObject, final XMLObject childObject) throws UnmarshallingException {
         Advice advice = (Advice) parentObject;
 
         // This is an unbounded choice over several unrelated elements, and the <any> wildcard element.

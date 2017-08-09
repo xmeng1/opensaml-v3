@@ -41,7 +41,7 @@ public abstract class SubjectStatementImpl extends AbstractSAMLObject implements
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected SubjectStatementImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected SubjectStatementImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -51,7 +51,7 @@ public abstract class SubjectStatementImpl extends AbstractSAMLObject implements
     }
 
     /** {@inheritDoc} */
-    public void setSubject(Subject sub) {
+    public void setSubject(final Subject sub) {
         subject = prepareForAssignment(subject, sub);
     }
 

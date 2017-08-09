@@ -40,7 +40,7 @@ public class IPHintBuilder extends AbstractSAMLObjectBuilder<IPHint> {
     }
 
     /** {@inheritDoc} */
-    public IPHint buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public IPHint buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new IPHintImpl(namespaceURI, localName, namespacePrefix);
     }
 }

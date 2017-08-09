@@ -76,7 +76,7 @@ public abstract class RoleDescriptorImpl extends AbstractSignableSAMLObject impl
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected RoleDescriptorImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected RoleDescriptorImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         unknownAttributes = new AttributeMap(this);
         supportedProtocols = new LazyList<>();
@@ -92,7 +92,7 @@ public abstract class RoleDescriptorImpl extends AbstractSignableSAMLObject impl
 
     /** {@inheritDoc} */
     @Override
-    public void setID(String newID) {
+    public void setID(final String newID) {
         String oldID = this.id;
         this.id = prepareForAssignment(this.id, newID);
         registerOwnID(oldID, this.id);
@@ -117,7 +117,7 @@ public abstract class RoleDescriptorImpl extends AbstractSignableSAMLObject impl
 
     /** {@inheritDoc} */
     @Override
-    public void setValidUntil(DateTime dt) {
+    public void setValidUntil(final DateTime dt) {
         validUntil = prepareForAssignment(validUntil, dt);
     }
 
@@ -129,7 +129,7 @@ public abstract class RoleDescriptorImpl extends AbstractSignableSAMLObject impl
 
     /** {@inheritDoc} */
     @Override
-    public void setCacheDuration(Long duration) {
+    public void setCacheDuration(final Long duration) {
         cacheDuration = prepareForAssignment(cacheDuration, duration);
     }
 
@@ -141,7 +141,7 @@ public abstract class RoleDescriptorImpl extends AbstractSignableSAMLObject impl
 
     /** {@inheritDoc} */
     @Override
-    public boolean isSupportedProtocol(String protocol) {
+    public boolean isSupportedProtocol(final String protocol) {
         return supportedProtocols.contains(protocol);
     }
 
@@ -167,7 +167,7 @@ public abstract class RoleDescriptorImpl extends AbstractSignableSAMLObject impl
 
     /** {@inheritDoc} */
     @Override
-    public void removeSupportedProtocols(Collection<String> protocols) {
+    public void removeSupportedProtocols(final Collection<String> protocols) {
         for (String protocol : protocols) {
             removeSupportedProtocol(protocol);
         }
@@ -187,7 +187,7 @@ public abstract class RoleDescriptorImpl extends AbstractSignableSAMLObject impl
 
     /** {@inheritDoc} */
     @Override
-    public void setErrorURL(String url) {
+    public void setErrorURL(final String url) {
 
         errorURL = prepareForAssignment(errorURL, url);
     }
@@ -200,7 +200,7 @@ public abstract class RoleDescriptorImpl extends AbstractSignableSAMLObject impl
 
     /** {@inheritDoc} */
     @Override
-    public void setExtensions(Extensions ext) {
+    public void setExtensions(final Extensions ext) {
         extensions = prepareForAssignment(extensions, ext);
     }
 
@@ -212,7 +212,7 @@ public abstract class RoleDescriptorImpl extends AbstractSignableSAMLObject impl
 
     /** {@inheritDoc} */
     @Override
-    public void setOrganization(Organization org) {
+    public void setOrganization(final Organization org) {
         organization = prepareForAssignment(organization, org);
     }
 

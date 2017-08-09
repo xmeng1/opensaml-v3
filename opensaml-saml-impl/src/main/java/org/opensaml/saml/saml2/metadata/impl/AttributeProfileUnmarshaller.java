@@ -31,7 +31,7 @@ import org.opensaml.saml.saml2.metadata.AttributeProfile;
 public class AttributeProfileUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject samlObject, String elementContent) {
+    protected void processElementContent(final XMLObject samlObject, final String elementContent) {
         ((AttributeProfile) samlObject).setProfileURI(elementContent);
     }
 }

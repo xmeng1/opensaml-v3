@@ -42,7 +42,7 @@ public class KeywordsImpl extends AbstractSAMLObject implements Keywords {
      * @param elementLocalName the local name
      * @param namespacePrefix the prefix
      */
-    protected KeywordsImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected KeywordsImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -58,7 +58,7 @@ public class KeywordsImpl extends AbstractSAMLObject implements Keywords {
     }
 
     /** {@inheritDoc} */
-    public void setXMLLang(String newLang) {
+    public void setXMLLang(final String newLang) {
         boolean hasValue = newLang != null && !Strings.isNullOrEmpty(newLang);
         lang = prepareForAssignment(lang, newLang);
         manageQualifiedAttributeNamespace(LangBearing.XML_LANG_ATTR_NAME, hasValue);
@@ -70,7 +70,7 @@ public class KeywordsImpl extends AbstractSAMLObject implements Keywords {
     }
 
     /** {@inheritDoc} */
-    public void setKeywords(List<String> val) {
+    public void setKeywords(final List<String> val) {
         data = prepareForAssignment(data, val);
     }
 

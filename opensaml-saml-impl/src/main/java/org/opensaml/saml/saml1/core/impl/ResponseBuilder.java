@@ -32,7 +32,7 @@ public class ResponseBuilder extends AbstractSAMLObjectBuilder<Response> {
     }
 
     /** {@inheritDoc} */
-    public Response buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Response buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new ResponseImpl(namespaceURI, localName, namespacePrefix);
     }
 }

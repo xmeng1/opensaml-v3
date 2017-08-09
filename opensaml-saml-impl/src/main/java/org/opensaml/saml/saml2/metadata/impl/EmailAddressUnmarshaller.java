@@ -31,7 +31,7 @@ import org.opensaml.saml.saml2.metadata.EmailAddress;
 public class EmailAddressUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject samlObject, String elementContent) {
+    protected void processElementContent(final XMLObject samlObject, final String elementContent) {
         EmailAddress address = (EmailAddress) samlObject;
 
         address.setAddress(elementContent);

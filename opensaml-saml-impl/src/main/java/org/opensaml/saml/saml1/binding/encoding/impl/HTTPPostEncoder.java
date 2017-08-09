@@ -82,7 +82,7 @@ public class HTTPPostEncoder extends BaseSAML1MessageEncoder {
      * 
      * @param newVelocityEngine the new VelocityEngine instane
      */
-    public void setVelocityEngine(VelocityEngine newVelocityEngine) {
+    public void setVelocityEngine(final VelocityEngine newVelocityEngine) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
         velocityEngine = newVelocityEngine;
@@ -106,7 +106,7 @@ public class HTTPPostEncoder extends BaseSAML1MessageEncoder {
      * 
      * @param newVelocityTemplateId the new Velocity template id
      */
-    public void setVelocityTemplateId(String newVelocityTemplateId) {
+    public void setVelocityTemplateId(final String newVelocityTemplateId) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
         velocityTemplateId = newVelocityTemplateId;
@@ -151,7 +151,7 @@ public class HTTPPostEncoder extends BaseSAML1MessageEncoder {
      * 
      * @throws MessageEncodingException thrown if there is a problem encoding the message
      */
-    protected void postEncode(MessageContext<SAMLObject> messageContext, String endpointURL) 
+    protected void postEncode(final MessageContext<SAMLObject> messageContext, final String endpointURL) 
             throws MessageEncodingException {
         log.debug("Invoking velocity template to create POST body");
 
@@ -185,10 +185,10 @@ public class HTTPPostEncoder extends BaseSAML1MessageEncoder {
             Writer out = new OutputStreamWriter(response.getOutputStream(), "UTF-8");
             velocityEngine.mergeTemplate(velocityTemplateId, "UTF-8", context, out);
             out.flush();
-        } catch (UnsupportedEncodingException e) {
+        } catch (final UnsupportedEncodingException e) {
             log.error("UTF-8 encoding is not supported, this VM is not Java compliant.");
             throw new MessageEncodingException("Unable to encode message, UTF-8 encoding is not supported");
-        } catch (Exception e) {
+        } catch (final Exception e) {
             log.error("Error invoking velocity template", e);
             throw new MessageEncodingException("Error creating output document", e);
         }

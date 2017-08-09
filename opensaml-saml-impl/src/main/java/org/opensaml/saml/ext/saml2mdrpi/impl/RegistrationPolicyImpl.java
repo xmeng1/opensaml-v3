@@ -32,7 +32,7 @@ public class RegistrationPolicyImpl extends LocalizedURIImpl implements Registra
      * @param elementLocalName elementLocalName
      * @param namespacePrefix namespacePrefix
      */
-    protected RegistrationPolicyImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected RegistrationPolicyImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

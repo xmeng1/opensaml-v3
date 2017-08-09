@@ -52,7 +52,7 @@ public class AuthenticationStatementImpl extends SubjectStatementImpl implements
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AuthenticationStatementImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AuthenticationStatementImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         authorityBindings = new XMLObjectChildrenList<>(this);
     }
@@ -63,7 +63,7 @@ public class AuthenticationStatementImpl extends SubjectStatementImpl implements
     }
 
     /** {@inheritDoc} */
-    public void setAuthenticationMethod(String method) {
+    public void setAuthenticationMethod(final String method) {
         authenticationMethod = prepareForAssignment(authenticationMethod, method);
     }
 
@@ -73,7 +73,7 @@ public class AuthenticationStatementImpl extends SubjectStatementImpl implements
     }
 
     /** {@inheritDoc} */
-    public void setAuthenticationInstant(DateTime instant) {
+    public void setAuthenticationInstant(final DateTime instant) {
         authenticationInstant = prepareForAssignment(authenticationInstant, instant);
     }
 
@@ -87,7 +87,7 @@ public class AuthenticationStatementImpl extends SubjectStatementImpl implements
     }
 
     /** {@inheritDoc} */
-    public void setSubjectLocality(SubjectLocality locality) {
+    public void setSubjectLocality(final SubjectLocality locality) {
         subjectLocality = prepareForAssignment(subjectLocality, locality);
     }
 

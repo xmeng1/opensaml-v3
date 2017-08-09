@@ -71,7 +71,7 @@ public class AssertionImpl extends AbstractSignableSAMLObject implements Asserti
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AssertionImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AssertionImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         statements = new IndexedXMLObjectChildrenList<>(this);
         version = SAMLVersion.VERSION_11;
@@ -88,7 +88,7 @@ public class AssertionImpl extends AbstractSignableSAMLObject implements Asserti
     }
     
     /** {@inheritDoc} */
-    public void setVersion(SAMLVersion newVersion){
+    public void setVersion(final SAMLVersion newVersion){
         version = prepareForAssignment(version, newVersion);
     }
 
@@ -98,7 +98,7 @@ public class AssertionImpl extends AbstractSignableSAMLObject implements Asserti
     }
 
     /** {@inheritDoc} */
-    public void setID(String newID) {
+    public void setID(final String newID) {
         String oldID = id;
         id = prepareForAssignment(id, newID);   
         registerOwnID(oldID, id);
@@ -110,7 +110,7 @@ public class AssertionImpl extends AbstractSignableSAMLObject implements Asserti
     }
 
     /** {@inheritDoc} */
-    public void setIssuer(String iss) {
+    public void setIssuer(final String iss) {
         issuer = prepareForAssignment(issuer, iss);
     }
 
@@ -120,7 +120,7 @@ public class AssertionImpl extends AbstractSignableSAMLObject implements Asserti
     }
 
     /** {@inheritDoc} */
-    public void setIssueInstant(DateTime instant) {
+    public void setIssueInstant(final DateTime instant) {
         issueInstant = prepareForAssignment(issueInstant, instant);
     }
 
@@ -130,7 +130,7 @@ public class AssertionImpl extends AbstractSignableSAMLObject implements Asserti
     }
 
     /** {@inheritDoc} */
-    public void setConditions(Conditions c) {
+    public void setConditions(final Conditions c) {
         conditions = prepareForAssignment(conditions, c);
     }
 
@@ -140,7 +140,7 @@ public class AssertionImpl extends AbstractSignableSAMLObject implements Asserti
     }
 
     /** {@inheritDoc} */
-    public void setAdvice(Advice adv) {
+    public void setAdvice(final Advice adv) {
         advice = prepareForAssignment(advice, adv);
     }
 
@@ -150,7 +150,7 @@ public class AssertionImpl extends AbstractSignableSAMLObject implements Asserti
     }
 
     /** {@inheritDoc} */
-    public List<Statement> getStatements(QName typeOrName) {
+    public List<Statement> getStatements(final QName typeOrName) {
         return (List<Statement>) statements.subList(typeOrName);
     }
 

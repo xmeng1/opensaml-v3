@@ -31,7 +31,7 @@ import org.opensaml.saml.saml2.core.RequesterID;
 public class RequesterIDUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject samlObject, String elementContent) {
+    protected void processElementContent(final XMLObject samlObject, final String elementContent) {
         RequesterID reqID = (RequesterID) samlObject;
 
         reqID.setRequesterID(elementContent);

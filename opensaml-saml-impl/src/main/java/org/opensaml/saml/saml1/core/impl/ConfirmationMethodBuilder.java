@@ -40,7 +40,7 @@ public class ConfirmationMethodBuilder extends AbstractSAMLObjectBuilder<Confirm
     }
 
     /** {@inheritDoc} */
-    public ConfirmationMethod buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public ConfirmationMethod buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new ConfirmationMethodImpl(namespaceURI, localName, namespacePrefix);
     }
 }

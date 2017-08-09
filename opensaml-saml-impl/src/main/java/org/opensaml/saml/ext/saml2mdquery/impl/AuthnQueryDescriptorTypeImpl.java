@@ -37,7 +37,7 @@ public class AuthnQueryDescriptorTypeImpl extends QueryDescriptorTypeImpl implem
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AuthnQueryDescriptorTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AuthnQueryDescriptorTypeImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
     
@@ -47,7 +47,7 @@ public class AuthnQueryDescriptorTypeImpl extends QueryDescriptorTypeImpl implem
     }
     
     /** {@inheritDoc} */
-    public List<Endpoint> getEndpoints(QName type) {
+    public List<Endpoint> getEndpoints(final QName type) {
         return null;
     }
 }

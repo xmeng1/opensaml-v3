@@ -34,7 +34,7 @@ import org.w3c.dom.Attr;
 public class RequestAuthenticatedUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         RequestAuthenticated ra = (RequestAuthenticated) xmlObject;
         
         QName attrName = QNameSupport.getNodeQName(attribute);

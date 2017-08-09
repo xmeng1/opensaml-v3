@@ -43,7 +43,7 @@ public class LogoutRequestBuilder extends AbstractSAMLObjectBuilder<LogoutReques
     }
 
     /** {@inheritDoc} */
-    public LogoutRequest buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public LogoutRequest buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new LogoutRequestImpl(namespaceURI, localName, namespacePrefix);
     }
 }

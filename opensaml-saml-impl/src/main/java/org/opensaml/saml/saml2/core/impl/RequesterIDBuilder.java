@@ -43,7 +43,7 @@ public class RequesterIDBuilder extends AbstractSAMLObjectBuilder<RequesterID> {
     }
 
     /** {@inheritDoc} */
-    public RequesterID buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public RequesterID buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new RequesterIDImpl(namespaceURI, localName, namespacePrefix);
     }
 }

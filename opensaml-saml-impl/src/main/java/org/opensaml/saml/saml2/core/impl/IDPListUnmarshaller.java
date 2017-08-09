@@ -34,7 +34,7 @@ import org.opensaml.saml.saml2.core.IDPList;
 public class IDPListUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
+    protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
         IDPList list = (IDPList) parentSAMLObject;
 

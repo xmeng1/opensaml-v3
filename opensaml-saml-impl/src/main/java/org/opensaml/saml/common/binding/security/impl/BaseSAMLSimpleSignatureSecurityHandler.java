@@ -186,7 +186,7 @@ public abstract class BaseSAMLSimpleSignatureSecurityHandler extends AbstractMes
      * @throws MessageHandlerException thrown if there are errors during the signature validation process
      * 
      */
-    private void doEvaluate(@Nonnull @NotEmpty final byte[] signature, @Nonnull @NotEmpty byte[] signedContent,
+    private void doEvaluate(@Nonnull @NotEmpty final byte[] signature, @Nonnull @NotEmpty final byte[] signedContent,
             @Nonnull @NotEmpty final String algorithmURI, @Nonnull final MessageContext messageContext)
                     throws MessageHandlerException {
 
@@ -289,7 +289,7 @@ public abstract class BaseSAMLSimpleSignatureSecurityHandler extends AbstractMes
                 log.warn("{} Signature validation using request-derived credentials failed", getLogPrefix());
                 return false;
             }
-        } catch (SecurityException e) {
+        } catch (final SecurityException e) {
             log.warn("{} Error evaluating the request's simple signature using the trust engine", getLogPrefix(), e);
             throw new MessageHandlerException("Error during trust engine evaluation of the simple signature", e);
         }

@@ -28,7 +28,7 @@ import org.opensaml.saml.saml1.core.AttributeStatement;
 public class AttributeStatementUnmarshaller extends SubjectStatementUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
+    protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
 
         AttributeStatement attributeStatement = (AttributeStatement) parentSAMLObject;

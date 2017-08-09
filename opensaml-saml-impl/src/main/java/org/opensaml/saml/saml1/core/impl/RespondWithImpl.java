@@ -40,7 +40,7 @@ public class RespondWithImpl extends AbstractSAMLObject implements RespondWith {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected RespondWithImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected RespondWithImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -50,7 +50,7 @@ public class RespondWithImpl extends AbstractSAMLObject implements RespondWith {
     }
 
     /** {@inheritDoc} */
-    public void setValue(QName newValue) {
+    public void setValue(final QName newValue) {
         value = prepareElementContentForAssignment(value, newValue);
     }
 

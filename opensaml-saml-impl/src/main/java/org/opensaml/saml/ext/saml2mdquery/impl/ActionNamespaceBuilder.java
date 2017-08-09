@@ -40,7 +40,7 @@ public class ActionNamespaceBuilder extends AbstractSAMLObjectBuilder<ActionName
 
     /** {@inheritDoc} */
     @Override
-    public ActionNamespace buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public ActionNamespace buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new ActionNamespaceImpl(namespaceURI, localName, namespacePrefix);
     }
 }

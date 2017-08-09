@@ -87,7 +87,7 @@ public class EntityDescriptorImpl extends AbstractSignableSAMLObject implements 
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected EntityDescriptorImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected EntityDescriptorImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         roleDescriptors = new IndexedXMLObjectChildrenList<>(this);
         contactPersons = new XMLObjectChildrenList<>(this);
@@ -101,7 +101,7 @@ public class EntityDescriptorImpl extends AbstractSignableSAMLObject implements 
     }
 
     /** {@inheritDoc} */
-    public void setEntityID(String newId) {
+    public void setEntityID(final String newId) {
         if (newId != null && newId.length() > 1024) {
             throw new IllegalArgumentException("Entity ID can not exceed 1024 characters in length");
         }
@@ -114,7 +114,7 @@ public class EntityDescriptorImpl extends AbstractSignableSAMLObject implements 
     }
 
     /** {@inheritDoc} */
-    public void setID(String newID) {
+    public void setID(final String newID) {
         String oldID = this.id;
         this.id = prepareForAssignment(this.id, newID);
         registerOwnID(oldID, this.id);
@@ -136,7 +136,7 @@ public class EntityDescriptorImpl extends AbstractSignableSAMLObject implements 
     }
 
     /** {@inheritDoc} */
-    public void setValidUntil(DateTime newValidUntil) {
+    public void setValidUntil(final DateTime newValidUntil) {
         validUntil = prepareForAssignment(validUntil, newValidUntil);
     }
 
@@ -146,7 +146,7 @@ public class EntityDescriptorImpl extends AbstractSignableSAMLObject implements 
     }
 
     /** {@inheritDoc} */
-    public void setCacheDuration(Long duration) {
+    public void setCacheDuration(final Long duration) {
         cacheDuration = prepareForAssignment(cacheDuration, duration);
     }
 
@@ -156,7 +156,7 @@ public class EntityDescriptorImpl extends AbstractSignableSAMLObject implements 
     }
 
     /** {@inheritDoc} */
-    public void setExtensions(Extensions newExtensions) {
+    public void setExtensions(final Extensions newExtensions) {
         extensions = prepareForAssignment(extensions, newExtensions);
     }
 
@@ -166,12 +166,12 @@ public class EntityDescriptorImpl extends AbstractSignableSAMLObject implements 
     }
 
     /** {@inheritDoc} */
-    public List<RoleDescriptor> getRoleDescriptors(QName typeOrName) {
+    public List<RoleDescriptor> getRoleDescriptors(final QName typeOrName) {
         return (List<RoleDescriptor>) roleDescriptors.subList(typeOrName);
     }
 
     /** {@inheritDoc} */
-    public List<RoleDescriptor> getRoleDescriptors(QName type, String supportedProtocol) {
+    public List<RoleDescriptor> getRoleDescriptors(final QName type, final String supportedProtocol) {
         ArrayList<RoleDescriptor> supportingRoleDescriptors = new ArrayList<>();
         for (RoleDescriptor descriptor : roleDescriptors.subList(type)) {
             if (descriptor.isSupportedProtocol(supportedProtocol)) {
@@ -183,7 +183,7 @@ public class EntityDescriptorImpl extends AbstractSignableSAMLObject implements 
     }
 
     /** {@inheritDoc} */
-    public IDPSSODescriptor getIDPSSODescriptor(String supportedProtocol) {
+    public IDPSSODescriptor getIDPSSODescriptor(final String supportedProtocol) {
         List<RoleDescriptor> descriptors = getRoleDescriptors(IDPSSODescriptor.DEFAULT_ELEMENT_NAME, supportedProtocol);
         if (descriptors.size() > 0) {
             return (IDPSSODescriptor) descriptors.get(0);
@@ -193,7 +193,7 @@ public class EntityDescriptorImpl extends AbstractSignableSAMLObject implements 
     }
 
     /** {@inheritDoc} */
-    public SPSSODescriptor getSPSSODescriptor(String supportedProtocol) {
+    public SPSSODescriptor getSPSSODescriptor(final String supportedProtocol) {
         List<RoleDescriptor> descriptors = getRoleDescriptors(SPSSODescriptor.DEFAULT_ELEMENT_NAME, supportedProtocol);
         if (descriptors.size() > 0) {
             return (SPSSODescriptor) descriptors.get(0);
@@ -203,7 +203,7 @@ public class EntityDescriptorImpl extends AbstractSignableSAMLObject implements 
     }
 
     /** {@inheritDoc} */
-    public AuthnAuthorityDescriptor getAuthnAuthorityDescriptor(String supportedProtocol) {
+    public AuthnAuthorityDescriptor getAuthnAuthorityDescriptor(final String supportedProtocol) {
         List<RoleDescriptor> descriptors = getRoleDescriptors(AuthnAuthorityDescriptor.DEFAULT_ELEMENT_NAME,
                 supportedProtocol);
         if (descriptors.size() > 0) {
@@ -214,7 +214,7 @@ public class EntityDescriptorImpl extends AbstractSignableSAMLObject implements 
     }
 
     /** {@inheritDoc} */
-    public AttributeAuthorityDescriptor getAttributeAuthorityDescriptor(String supportedProtocol) {
+    public AttributeAuthorityDescriptor getAttributeAuthorityDescriptor(final String supportedProtocol) {
         List<RoleDescriptor> descriptors = getRoleDescriptors(AttributeAuthorityDescriptor.DEFAULT_ELEMENT_NAME,
                 supportedProtocol);
         if (descriptors.size() > 0) {
@@ -225,7 +225,7 @@ public class EntityDescriptorImpl extends AbstractSignableSAMLObject implements 
     }
 
     /** {@inheritDoc} */
-    public PDPDescriptor getPDPDescriptor(String supportedProtocol) {
+    public PDPDescriptor getPDPDescriptor(final String supportedProtocol) {
         List<RoleDescriptor> descriptors = getRoleDescriptors(PDPDescriptor.DEFAULT_ELEMENT_NAME, supportedProtocol);
         if (descriptors.size() > 0) {
             return (PDPDescriptor) descriptors.get(0);
@@ -240,7 +240,7 @@ public class EntityDescriptorImpl extends AbstractSignableSAMLObject implements 
     }
 
     /** {@inheritDoc} */
-    public void setAffiliationDescriptor(AffiliationDescriptor descriptor) {
+    public void setAffiliationDescriptor(final AffiliationDescriptor descriptor) {
         affiliationDescriptor = prepareForAssignment(affiliationDescriptor, descriptor);
     }
 
@@ -250,7 +250,7 @@ public class EntityDescriptorImpl extends AbstractSignableSAMLObject implements 
     }
 
     /** {@inheritDoc} */
-    public void setOrganization(Organization newOrganization) {
+    public void setOrganization(final Organization newOrganization) {
         organization = prepareForAssignment(organization, newOrganization);
     }
 

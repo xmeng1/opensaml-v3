@@ -38,7 +38,7 @@ public class EntityDescriptorMarshaller extends AbstractSAMLObjectMarshaller {
     private final Logger log = LoggerFactory.getLogger(EntityDescriptorMarshaller.class);
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject samlElement, Element domElement) {
+    protected void marshallAttributes(final XMLObject samlElement, final Element domElement) {
         EntityDescriptor entityDescriptor = (EntityDescriptor) samlElement;
 
         // Set the entityID attribute

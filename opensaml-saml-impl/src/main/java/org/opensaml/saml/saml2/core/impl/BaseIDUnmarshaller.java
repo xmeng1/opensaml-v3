@@ -33,7 +33,7 @@ import org.w3c.dom.Attr;
 public abstract class BaseIDUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject samlObject, final Attr attribute) throws UnmarshallingException {
         final BaseID baseID = (BaseID) samlObject;
         
         if (attribute.getNamespaceURI() == null) {

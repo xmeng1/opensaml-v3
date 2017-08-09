@@ -44,7 +44,7 @@ public class EncTypeBuilder extends AbstractSAMLObjectBuilder<EncType> {
     }
 
     /** {@inheritDoc} */
-    public EncType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public EncType buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new EncTypeImpl(namespaceURI, localName, namespacePrefix);
     }
 }

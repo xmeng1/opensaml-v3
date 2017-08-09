@@ -54,7 +54,7 @@ public class ConditionsImpl extends AbstractSAMLObject implements Conditions {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected ConditionsImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected ConditionsImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         conditions = new IndexedXMLObjectChildrenList<>(this);
     }
@@ -65,7 +65,7 @@ public class ConditionsImpl extends AbstractSAMLObject implements Conditions {
     }
 
     /** {@inheritDoc} */
-    public void setNotBefore(DateTime dt) {
+    public void setNotBefore(final DateTime dt) {
         notBefore = prepareForAssignment(notBefore, dt);
     }
 
@@ -75,7 +75,7 @@ public class ConditionsImpl extends AbstractSAMLObject implements Conditions {
     }
 
     /** {@inheritDoc} */
-    public void setNotOnOrAfter(DateTime dt) {
+    public void setNotOnOrAfter(final DateTime dt) {
         notOnOrAfter = prepareForAssignment(notOnOrAfter, dt);
     }
 
@@ -85,7 +85,7 @@ public class ConditionsImpl extends AbstractSAMLObject implements Conditions {
     }
 
     /** {@inheritDoc} */
-    public List<Condition> getConditions(QName typeOrName) {
+    public List<Condition> getConditions(final QName typeOrName) {
         return conditions;
     }
 

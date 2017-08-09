@@ -36,7 +36,7 @@ import org.opensaml.xmlsec.signature.Signature;
 public class ArtifactResponseUnmarshaller extends StatusResponseTypeUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
+    protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
         ArtifactResponse artifactResponse = (ArtifactResponse) parentSAMLObject;
 

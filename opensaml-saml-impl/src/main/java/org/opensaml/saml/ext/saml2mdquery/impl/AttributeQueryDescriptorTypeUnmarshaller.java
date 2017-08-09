@@ -28,7 +28,7 @@ import org.opensaml.saml.saml2.metadata.AttributeConsumingService;
 public class AttributeQueryDescriptorTypeUnmarshaller extends QueryDescriptorTypeUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
+    protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
         AttributeQueryDescriptorType descriptor = (AttributeQueryDescriptorType) parentSAMLObject;
 

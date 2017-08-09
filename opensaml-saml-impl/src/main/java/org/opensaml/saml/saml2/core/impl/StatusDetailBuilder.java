@@ -44,7 +44,7 @@ public class StatusDetailBuilder extends AbstractSAMLObjectBuilder<StatusDetail>
     /**
      * {@inheritDoc}
      */
-    public StatusDetail buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public StatusDetail buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new StatusDetailImpl(namespaceURI, localName, namespacePrefix);
     }
 }

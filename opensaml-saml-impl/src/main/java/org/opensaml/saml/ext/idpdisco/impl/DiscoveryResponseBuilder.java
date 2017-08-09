@@ -38,7 +38,7 @@ public class DiscoveryResponseBuilder extends AbstractSAMLObjectBuilder<Discover
 
     /** {@inheritDoc} */
     @Override
-    public DiscoveryResponse buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public DiscoveryResponse buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new DiscoveryResponseImpl(namespaceURI, localName, namespacePrefix);
     }
 }

@@ -47,8 +47,8 @@ public class DigestMethodImpl extends AbstractSAMLObject implements DigestMethod
      * @param elementLocalName the element local name
      * @param namespacePrefix the namespace prefix
      */
-    public DigestMethodImpl(@Nullable String namespaceURI, @Nonnull String elementLocalName,
-            @Nullable String namespacePrefix) {
+    public DigestMethodImpl(@Nullable final String namespaceURI, @Nonnull final String elementLocalName,
+            @Nullable final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         unknownChildren = new IndexedXMLObjectChildrenList<>(this);
     }
@@ -59,7 +59,7 @@ public class DigestMethodImpl extends AbstractSAMLObject implements DigestMethod
     }
 
     /** {@inheritDoc} */
-    public void setAlgorithm(@Nullable String newValue) {
+    public void setAlgorithm(@Nullable final String newValue) {
         algorithm = prepareForAssignment(algorithm, newValue);
     }
     
@@ -71,7 +71,7 @@ public class DigestMethodImpl extends AbstractSAMLObject implements DigestMethod
     }
     
     /** {@inheritDoc} */
-    public List<XMLObject> getUnknownXMLObjects(QName typeOrName) {
+    public List<XMLObject> getUnknownXMLObjects(final QName typeOrName) {
         return (List<XMLObject>) unknownChildren.subList(typeOrName);
     }
 

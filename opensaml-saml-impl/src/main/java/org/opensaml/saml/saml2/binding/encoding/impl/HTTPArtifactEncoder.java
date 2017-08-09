@@ -107,7 +107,7 @@ public class HTTPArtifactEncoder extends BaseSAML2MessageEncoder {
      * 
      * @param post true if POST encoding will be used, false if GET encoding will be used
      */
-    public void setPostEncoding(boolean post) {
+    public void setPostEncoding(final boolean post) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
         postEncoding = post;

@@ -82,7 +82,7 @@ public class AuthnRequestImpl extends RequestAbstractTypeImpl implements AuthnRe
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AuthnRequestImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AuthnRequestImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -101,7 +101,7 @@ public class AuthnRequestImpl extends RequestAbstractTypeImpl implements AuthnRe
     }
 
     /** {@inheritDoc} */
-    public void setForceAuthn(Boolean newForceAuth) {
+    public void setForceAuthn(final Boolean newForceAuth) {
         if (newForceAuth != null) {
             forceAuthn = prepareForAssignment(forceAuthn, new XSBooleanValue(newForceAuth, false));
         } else {
@@ -110,7 +110,7 @@ public class AuthnRequestImpl extends RequestAbstractTypeImpl implements AuthnRe
     }
 
     /** {@inheritDoc} */
-    public void setForceAuthn(XSBooleanValue newForceAuthn) {
+    public void setForceAuthn(final XSBooleanValue newForceAuthn) {
         forceAuthn = prepareForAssignment(this.forceAuthn, newForceAuthn);
     }
 
@@ -129,7 +129,7 @@ public class AuthnRequestImpl extends RequestAbstractTypeImpl implements AuthnRe
     }
 
     /** {@inheritDoc} */
-    public void setIsPassive(Boolean newIsPassive) {
+    public void setIsPassive(final Boolean newIsPassive) {
         if (newIsPassive != null) {
             isPassive = prepareForAssignment(isPassive, new XSBooleanValue(newIsPassive, false));
         } else {
@@ -138,7 +138,7 @@ public class AuthnRequestImpl extends RequestAbstractTypeImpl implements AuthnRe
     }
 
     /** {@inheritDoc} */
-    public void setIsPassive(XSBooleanValue newIsPassive) {
+    public void setIsPassive(final XSBooleanValue newIsPassive) {
         this.isPassive = prepareForAssignment(this.isPassive, newIsPassive);
     }
 
@@ -148,7 +148,7 @@ public class AuthnRequestImpl extends RequestAbstractTypeImpl implements AuthnRe
     }
 
     /** {@inheritDoc} */
-    public void setProtocolBinding(String newProtocolBinding) {
+    public void setProtocolBinding(final String newProtocolBinding) {
         this.protocolBinding = prepareForAssignment(this.protocolBinding, newProtocolBinding);
     }
 
@@ -158,7 +158,7 @@ public class AuthnRequestImpl extends RequestAbstractTypeImpl implements AuthnRe
     }
 
     /** {@inheritDoc} */
-    public void setAssertionConsumerServiceIndex(Integer newAssertionConsumerServiceIndex) {
+    public void setAssertionConsumerServiceIndex(final Integer newAssertionConsumerServiceIndex) {
         this.assertionConsumerServiceIndex = prepareForAssignment(this.assertionConsumerServiceIndex,
                 newAssertionConsumerServiceIndex);
     }
@@ -169,7 +169,7 @@ public class AuthnRequestImpl extends RequestAbstractTypeImpl implements AuthnRe
     }
 
     /** {@inheritDoc} */
-    public void setAssertionConsumerServiceURL(String newAssertionConsumerServiceURL) {
+    public void setAssertionConsumerServiceURL(final String newAssertionConsumerServiceURL) {
         this.assertionConsumerServiceURL = prepareForAssignment(this.assertionConsumerServiceURL,
                 newAssertionConsumerServiceURL);
     }
@@ -180,7 +180,7 @@ public class AuthnRequestImpl extends RequestAbstractTypeImpl implements AuthnRe
     }
 
     /** {@inheritDoc} */
-    public void setAttributeConsumingServiceIndex(Integer newAttributeConsumingServiceIndex) {
+    public void setAttributeConsumingServiceIndex(final Integer newAttributeConsumingServiceIndex) {
         this.attributeConsumingServiceIndex = prepareForAssignment(this.attributeConsumingServiceIndex,
                 newAttributeConsumingServiceIndex);
     }
@@ -191,7 +191,7 @@ public class AuthnRequestImpl extends RequestAbstractTypeImpl implements AuthnRe
     }
 
     /** {@inheritDoc} */
-    public void setProviderName(String newProviderName) {
+    public void setProviderName(final String newProviderName) {
         this.providerName = prepareForAssignment(this.providerName, newProviderName);
     }
 
@@ -201,7 +201,7 @@ public class AuthnRequestImpl extends RequestAbstractTypeImpl implements AuthnRe
     }
 
     /** {@inheritDoc} */
-    public void setSubject(Subject newSubject) {
+    public void setSubject(final Subject newSubject) {
         this.subject = prepareForAssignment(this.subject, newSubject);
     }
 
@@ -211,7 +211,7 @@ public class AuthnRequestImpl extends RequestAbstractTypeImpl implements AuthnRe
     }
 
     /** {@inheritDoc} */
-    public void setNameIDPolicy(NameIDPolicy newNameIDPolicy) {
+    public void setNameIDPolicy(final NameIDPolicy newNameIDPolicy) {
         this.nameIDPolicy = prepareForAssignment(this.nameIDPolicy, newNameIDPolicy);
     }
 
@@ -221,7 +221,7 @@ public class AuthnRequestImpl extends RequestAbstractTypeImpl implements AuthnRe
     }
 
     /** {@inheritDoc} */
-    public void setConditions(Conditions newConditions) {
+    public void setConditions(final Conditions newConditions) {
         this.conditions = prepareForAssignment(this.conditions, newConditions);
     }
 
@@ -231,7 +231,7 @@ public class AuthnRequestImpl extends RequestAbstractTypeImpl implements AuthnRe
     }
 
     /** {@inheritDoc} */
-    public void setRequestedAuthnContext(RequestedAuthnContext newRequestedAuthnContext) {
+    public void setRequestedAuthnContext(final RequestedAuthnContext newRequestedAuthnContext) {
         this.requestedAuthnContext = prepareForAssignment(this.requestedAuthnContext, newRequestedAuthnContext);
     }
 
@@ -241,7 +241,7 @@ public class AuthnRequestImpl extends RequestAbstractTypeImpl implements AuthnRe
     }
 
     /** {@inheritDoc} */
-    public void setScoping(Scoping newScoping) {
+    public void setScoping(final Scoping newScoping) {
         this.scoping = prepareForAssignment(this.scoping, newScoping);
     }
 

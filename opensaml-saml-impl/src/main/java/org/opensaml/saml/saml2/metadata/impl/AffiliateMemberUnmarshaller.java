@@ -27,7 +27,7 @@ import org.opensaml.saml.saml2.metadata.AffiliateMember;
 public class AffiliateMemberUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject samlObject, String elementContent) {
+    protected void processElementContent(final XMLObject samlObject, final String elementContent) {
         AffiliateMember member = (AffiliateMember) samlObject;
         member.setID(elementContent);
     }

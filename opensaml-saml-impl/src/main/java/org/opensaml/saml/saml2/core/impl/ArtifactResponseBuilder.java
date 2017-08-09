@@ -44,7 +44,7 @@ public class ArtifactResponseBuilder extends AbstractSAMLObjectBuilder<ArtifactR
     }
 
     /** {@inheritDoc} */
-    public ArtifactResponse buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public ArtifactResponse buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new ArtifactResponseImpl(namespaceURI, localName, namespacePrefix);
     }
 }

@@ -44,7 +44,7 @@ public class AssertionConsumerServiceBuilder extends AbstractSAMLObjectBuilder<A
     }
 
     /** {@inheritDoc} */
-    public AssertionConsumerService buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public AssertionConsumerService buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new AssertionConsumerServiceImpl(namespaceURI, localName, namespacePrefix);
     }
 }

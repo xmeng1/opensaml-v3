@@ -29,7 +29,7 @@ import org.w3c.dom.Element;
 public class SigningMethodMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
         SigningMethod signingMethod = (SigningMethod) xmlObject;
         
         if (signingMethod.getAlgorithm() != null) {

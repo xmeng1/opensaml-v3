@@ -32,7 +32,7 @@ import org.w3c.dom.Element;
 public class AuthnQueryMarshaller extends SubjectQueryMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject samlObject, Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject samlObject, final Element domElement) throws MarshallingException {
         AuthnQuery query = (AuthnQuery) samlObject;
 
         if (query.getSessionIndex() != null) {

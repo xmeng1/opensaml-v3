@@ -44,7 +44,7 @@ public class CompanyBuilder extends AbstractSAMLObjectBuilder<Company> {
     }
 
     /** {@inheritDoc} */
-    public Company buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Company buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new CompanyImpl(namespaceURI, localName, namespacePrefix);
     }
 }

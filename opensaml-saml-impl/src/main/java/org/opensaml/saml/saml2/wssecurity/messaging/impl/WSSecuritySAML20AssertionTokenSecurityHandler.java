@@ -163,7 +163,7 @@ public class WSSecuritySAML20AssertionTokenSecurityHandler extends AbstractMessa
      * 
      * @param flag The invalidFatal to set.
      */
-    public void setInvalidFatal(boolean flag) {
+    public void setInvalidFatal(final boolean flag) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
         invalidFatal = flag;
@@ -270,7 +270,7 @@ public class WSSecuritySAML20AssertionTokenSecurityHandler extends AbstractMessa
                 SAML20AssertionToken token = new SAML20AssertionToken(assertion);
                 processResult(validationContext, validationResult, token, messageContext);
                 wsContext.getTokens().add(token);
-            } catch (AssertionValidationException e) {
+            } catch (final AssertionValidationException e) {
                 log.warn("There was a problem determining Assertion validity: {}", e.getMessage());
                 SOAPMessagingSupport.registerSOAP11Fault(messageContext, FaultCode.SERVER, 
                         "Internal security token processing error", null, null, null);

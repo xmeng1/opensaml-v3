@@ -39,7 +39,7 @@ public class TerminateImpl extends AbstractSAMLObject implements Terminate {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected TerminateImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected TerminateImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

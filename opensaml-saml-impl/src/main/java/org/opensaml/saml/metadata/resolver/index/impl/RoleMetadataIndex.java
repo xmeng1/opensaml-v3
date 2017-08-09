@@ -45,7 +45,7 @@ public class RoleMetadataIndex implements MetadataIndex {
 
     /** {@inheritDoc} */
     @Nullable @NonnullElements @Unmodifiable @NotLive 
-    public Set<MetadataIndexKey> generateKeys(@Nonnull CriteriaSet criteriaSet) {
+    public Set<MetadataIndexKey> generateKeys(@Nonnull final CriteriaSet criteriaSet) {
         Constraint.isNotNull(criteriaSet, "CriteriaSet was null");
         EntityRoleCriterion roleCrit = criteriaSet.get(EntityRoleCriterion.class);
         if (roleCrit != null) {
@@ -59,7 +59,7 @@ public class RoleMetadataIndex implements MetadataIndex {
 
     /** {@inheritDoc} */
     @Nullable @NonnullElements @Unmodifiable @NotLive 
-    public Set<MetadataIndexKey> generateKeys(@Nonnull EntityDescriptor descriptor) {
+    public Set<MetadataIndexKey> generateKeys(@Nonnull final EntityDescriptor descriptor) {
         Constraint.isNotNull(descriptor, "EntityDescriptor was null");
         HashSet<MetadataIndexKey> result = new HashSet<>();
         for (RoleDescriptor role : descriptor.getRoleDescriptors()) {
@@ -112,7 +112,7 @@ public class RoleMetadataIndex implements MetadataIndex {
 
         /** {@inheritDoc} */
         @Override
-        public boolean equals(Object obj) {
+        public boolean equals(final Object obj) {
             if (this == obj) {
                 return true;
             }

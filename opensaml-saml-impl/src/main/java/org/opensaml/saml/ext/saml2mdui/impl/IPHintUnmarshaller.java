@@ -27,7 +27,7 @@ import org.opensaml.saml.ext.saml2mdui.IPHint;
 public class IPHintUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject samlObject, String elementContent) {
+    protected void processElementContent(final XMLObject samlObject, final String elementContent) {
         IPHint hint = (IPHint) samlObject;
 
         hint.setHint(elementContent);

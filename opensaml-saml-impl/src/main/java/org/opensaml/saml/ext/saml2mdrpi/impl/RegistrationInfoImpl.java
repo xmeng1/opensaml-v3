@@ -49,7 +49,7 @@ public class RegistrationInfoImpl extends AbstractSAMLObject implements Registra
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected RegistrationInfoImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected RegistrationInfoImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         registrationPolicies = new IndexedXMLObjectChildrenList<>(this);
     }
@@ -62,7 +62,7 @@ public class RegistrationInfoImpl extends AbstractSAMLObject implements Registra
 
     /** {@inheritDoc} */
     @Override
-    public void setRegistrationAuthority(String authority) {
+    public void setRegistrationAuthority(final String authority) {
         registrationAuthority = prepareForAssignment(registrationAuthority, authority);
     }
 
@@ -74,7 +74,7 @@ public class RegistrationInfoImpl extends AbstractSAMLObject implements Registra
 
     /** {@inheritDoc} */
     @Override
-    public void setRegistrationInstant(DateTime dateTime) {
+    public void setRegistrationInstant(final DateTime dateTime) {
         registrationInstant = prepareForAssignment(registrationInstant, dateTime);
     }
 

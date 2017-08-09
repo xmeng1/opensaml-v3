@@ -41,7 +41,7 @@ public class ConditionsBuilder extends AbstractSAMLObjectBuilder<Conditions> {
     }
 
     /** {@inheritDoc} */
-    public Conditions buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Conditions buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new ConditionsImpl(namespaceURI, localName, namespacePrefix);
     }
 }

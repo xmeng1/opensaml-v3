@@ -106,7 +106,7 @@ public class SAMLArtifactMetadataIndex implements MetadataIndex {
     }
 
     /** {@inheritDoc} */
-    @Nullable public Set<MetadataIndexKey> generateKeys(@Nonnull EntityDescriptor descriptor) {
+    @Nullable public Set<MetadataIndexKey> generateKeys(@Nonnull final EntityDescriptor descriptor) {
         Constraint.isNotNull(descriptor, "EntityDescriptor was null");
         HashSet<MetadataIndexKey> results = new HashSet<>();
         for (Function<EntityDescriptor, Set<MetadataIndexKey>> indexingFunction : indexingFunctions) {
@@ -119,7 +119,7 @@ public class SAMLArtifactMetadataIndex implements MetadataIndex {
     }
 
     /** {@inheritDoc} */
-    @Nullable public Set<MetadataIndexKey> generateKeys(@Nonnull CriteriaSet criteriaSet) {
+    @Nullable public Set<MetadataIndexKey> generateKeys(@Nonnull final CriteriaSet criteriaSet) {
         Constraint.isNotNull(criteriaSet, "CriteriaSet was null");
         ArtifactCriterion artifactCrit = criteriaSet.get(ArtifactCriterion.class);
         if (artifactCrit != null) {
@@ -169,12 +169,12 @@ public class SAMLArtifactMetadataIndex implements MetadataIndex {
                 ArtifactSourceIDMetadataIndexKey key = new ArtifactSourceIDMetadataIndexKey(sourceID);
                 log.trace("For entityID '{}' produced artifact SourceID index key: {}", entityID, key);
                 return Collections.<MetadataIndexKey>singleton(key);
-            } catch (NoSuchAlgorithmException e) {
+            } catch (final NoSuchAlgorithmException e) {
                 // SHA-1 should be supported in every JVM, so this should never happen.
                 log.error("Digest algorithm '{}' was invalid for encoding artifact SourceID", 
                         JCAConstants.DIGEST_SHA1, e);
                 return null;
-            } catch (UnsupportedEncodingException e) {
+            } catch (final UnsupportedEncodingException e) {
                 // UTF-8 should be supported in every JVM, this should never happen.
                 log.error("UTF-8 was unsupported for encoding artifact SourceID!");
                 return null;
@@ -223,7 +223,7 @@ public class SAMLArtifactMetadataIndex implements MetadataIndex {
                                     log.trace("For SourceID extension value '{}' produced index key: {}", 
                                             extSourceIDHex, key);
                                     results.add(key);
-                                } catch (DecoderException e) {
+                                } catch (final DecoderException e) {
                                     log.warn("Error decoding hexidecimal SourceID extension value '{}' for indexing", 
                                             extSourceIDHex, e);
                                 }
@@ -326,7 +326,7 @@ public class SAMLArtifactMetadataIndex implements MetadataIndex {
 
         /** {@inheritDoc} */
         @Override
-        public boolean equals(Object obj) {
+        public boolean equals(final Object obj) {
             if (this == obj) {
                 return true;
             }
@@ -367,7 +367,7 @@ public class SAMLArtifactMetadataIndex implements MetadataIndex {
                     "SAML artifact source location cannot be null or empty");
             try {
                 canonicalizedLocation = MetadataIndexSupport.canonicalizeLocationURI(location);
-            } catch (MalformedURLException e) {
+            } catch (final MalformedURLException e) {
                 // This is unlikely to happen on realistic real world inputs. If it does, don't be fatal, 
                 // just switch to alternate strategy.
                 log.warn("Input source location '{}' was a malformed URL, switching to lower case strategy", 
@@ -414,7 +414,7 @@ public class SAMLArtifactMetadataIndex implements MetadataIndex {
 
         /** {@inheritDoc} */
         @Override
-        public boolean equals(Object obj) {
+        public boolean equals(final Object obj) {
             if (this == obj) {
                 return true;
             }

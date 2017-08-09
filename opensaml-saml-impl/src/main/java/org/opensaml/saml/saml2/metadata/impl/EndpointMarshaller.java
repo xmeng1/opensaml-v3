@@ -28,7 +28,7 @@ import org.w3c.dom.Element;
 public class EndpointMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    public void marshallAttributes(XMLObject samlElement, Element domElement) {
+    public void marshallAttributes(final XMLObject samlElement, final Element domElement) {
         Endpoint endpoint = (Endpoint) samlElement;
 
         if (endpoint.getBinding() != null) {

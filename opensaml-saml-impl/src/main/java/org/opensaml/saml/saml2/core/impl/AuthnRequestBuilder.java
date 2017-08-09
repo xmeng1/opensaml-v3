@@ -44,7 +44,7 @@ public class AuthnRequestBuilder extends AbstractSAMLObjectBuilder<AuthnRequest>
     }
 
     /** {@inheritDoc} */
-    public AuthnRequest buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public AuthnRequest buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new AuthnRequestImpl(namespaceURI, localName, namespacePrefix);
     }
 }

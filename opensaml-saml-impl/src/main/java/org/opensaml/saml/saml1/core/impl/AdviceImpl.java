@@ -49,7 +49,7 @@ public class AdviceImpl extends AbstractSAMLObject implements Advice {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AdviceImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AdviceImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         assertionChildren = new IndexedXMLObjectChildrenList<>(this);
         unknownChildren = new IndexedXMLObjectChildrenList<>(this);
@@ -84,7 +84,7 @@ public class AdviceImpl extends AbstractSAMLObject implements Advice {
     
     /** {@inheritDoc} */
     @Override
-    public List<XMLObject> getUnknownXMLObjects(QName typeOrName) {
+    public List<XMLObject> getUnknownXMLObjects(final QName typeOrName) {
         return (List<XMLObject>) unknownChildren.subList(typeOrName);
     }
 

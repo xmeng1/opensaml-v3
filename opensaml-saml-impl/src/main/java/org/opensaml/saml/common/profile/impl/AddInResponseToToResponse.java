@@ -161,7 +161,7 @@ public class AddInResponseToToResponse extends AbstractConditionalProfileAction 
          * 
          * @param bindings collection of bindings
          */
-        public void setSuppressForBindings(@Nonnull @NonnullElements Collection<String> bindings) {
+        public void setSuppressForBindings(@Nonnull @NonnullElements final Collection<String> bindings) {
             Constraint.isNotNull(bindings, "Bindings collection cannot be null");
             
             suppressForBindings = new HashSet<>();

@@ -45,7 +45,7 @@ public class EndpointURLSchemeSecurityHandler extends AbstractMessageHandler {
         URI endpointUrl;
         try {
             endpointUrl = SAMLBindingSupport.getEndpointURL(messageContext);
-        } catch (BindingException e) {
+        } catch (final BindingException e) {
             throw new MessageHandlerException("Could not obtain message endpoint URL", e);
         }
         

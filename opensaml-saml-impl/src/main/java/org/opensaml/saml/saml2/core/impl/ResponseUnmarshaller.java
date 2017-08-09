@@ -33,7 +33,7 @@ import org.opensaml.saml.saml2.core.Response;
 public class ResponseUnmarshaller extends StatusResponseTypeUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
+    protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
         Response resp = (Response) parentSAMLObject;
 

@@ -41,7 +41,7 @@ public class AdviceBuilder extends AbstractSAMLObjectBuilder<Advice> {
 
     /** {@inheritDoc} */
     @Override
-    public Advice buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Advice buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new AdviceImpl(namespaceURI, localName, namespacePrefix);
     }
 }

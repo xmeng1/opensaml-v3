@@ -27,7 +27,7 @@ import org.opensaml.saml.saml1.core.StatusMessage;
 public class StatusMessageUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject samlObject, String elementContent) {
+    protected void processElementContent(final XMLObject samlObject, final String elementContent) {
         StatusMessage statusMessage = (StatusMessage) samlObject;
         statusMessage.setMessage(elementContent);
     }

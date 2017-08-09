@@ -33,7 +33,7 @@ import org.w3c.dom.Attr;
 public class StatusCodeUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
+    protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
         final StatusCode statusCode = (StatusCode) parentSAMLObject;
     
@@ -45,7 +45,7 @@ public class StatusCodeUnmarshaller extends AbstractSAMLObjectUnmarshaller {
     }
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject samlObject, final Attr attribute) throws UnmarshallingException {
         final StatusCode statusCode = (StatusCode) samlObject;
 
         if (attribute.getLocalName().equals(StatusCode.VALUE_ATTRIB_NAME) && attribute.getNamespaceURI() == null) {

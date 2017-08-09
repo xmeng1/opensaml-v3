@@ -44,7 +44,7 @@ public class SingleSignOnServiceBuilder extends AbstractSAMLObjectBuilder<Single
     }
 
     /** {@inheritDoc} */
-    public SingleSignOnService buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public SingleSignOnService buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new SingleSignOnServiceImpl(namespaceURI, localName, namespacePrefix);
     }
 }

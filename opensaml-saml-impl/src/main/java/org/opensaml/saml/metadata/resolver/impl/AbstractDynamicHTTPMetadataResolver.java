@@ -518,7 +518,7 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
                     xmlObject.getObjectMetadata().put(new XMLObjectSource(source));
                     return xmlObject;
                 }
-            } catch (IOException | UnmarshallingException e) {
+            } catch (final IOException | UnmarshallingException e) {
                 log.error("{} Error unmarshalling HTTP response stream", getLogPrefix(), e);
                 return null;
             }

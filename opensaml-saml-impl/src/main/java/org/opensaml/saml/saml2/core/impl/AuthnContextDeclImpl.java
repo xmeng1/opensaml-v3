@@ -53,7 +53,7 @@ public class AuthnContextDeclImpl extends AbstractSAMLObject implements AuthnCon
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AuthnContextDeclImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AuthnContextDeclImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
 
         unknownXMLObjects = new IndexedXMLObjectChildrenList<>(this);
@@ -66,7 +66,7 @@ public class AuthnContextDeclImpl extends AbstractSAMLObject implements AuthnCon
     }
 
     /** {@inheritDoc} */
-    public void setTextContent(String newContent) {
+    public void setTextContent(final String newContent) {
         textContent = prepareForAssignment(textContent, newContent);
     }
 
@@ -76,7 +76,7 @@ public class AuthnContextDeclImpl extends AbstractSAMLObject implements AuthnCon
     }
     
     /** {@inheritDoc} */
-    public List<XMLObject> getUnknownXMLObjects(QName typeOrName) {
+    public List<XMLObject> getUnknownXMLObjects(final QName typeOrName) {
         return (List<XMLObject>) unknownXMLObjects.subList(typeOrName);
     }
 

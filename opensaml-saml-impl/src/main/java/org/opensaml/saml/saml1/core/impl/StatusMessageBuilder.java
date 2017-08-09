@@ -40,7 +40,7 @@ public class StatusMessageBuilder extends AbstractSAMLObjectBuilder<StatusMessag
     }
 
     /** {@inheritDoc} */
-    public StatusMessage buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public StatusMessage buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new StatusMessageImpl(namespaceURI, localName, namespacePrefix);
     }
 }

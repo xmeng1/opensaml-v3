@@ -40,7 +40,7 @@ public class DomainHintBuilder extends AbstractSAMLObjectBuilder<DomainHint> {
     }
 
     /** {@inheritDoc} */
-    public DomainHint buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public DomainHint buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new DomainHintImpl(namespaceURI, localName, namespacePrefix);
     }
 }

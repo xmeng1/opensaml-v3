@@ -44,7 +44,7 @@ public class TelephoneNumberBuilder extends AbstractSAMLObjectBuilder<TelephoneN
     }
 
     /** {@inheritDoc} */
-    public TelephoneNumber buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public TelephoneNumber buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new TelephoneNumberImpl(namespaceURI, localName, namespacePrefix);
     }
 }

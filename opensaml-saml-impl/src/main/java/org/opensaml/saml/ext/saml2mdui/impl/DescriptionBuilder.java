@@ -39,7 +39,7 @@ public class DescriptionBuilder extends AbstractSAMLObjectBuilder<Description> {
     }
 
     /** {@inheritDoc} */
-    public Description buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Description buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new DescriptionImpl(namespaceURI, localName, namespacePrefix);
     }
 }

@@ -31,7 +31,7 @@ public class KeyDescriptorMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
     @Override
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
         KeyDescriptor keyDescriptor = (KeyDescriptor) xmlObject;
 
         if (keyDescriptor.getUse() != null) {

@@ -27,7 +27,7 @@ import org.opensaml.saml.saml1.core.ConfirmationMethod;
 public class ConfirmationMethodUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject samlObject, String elementContent) {
+    protected void processElementContent(final XMLObject samlObject, final String elementContent) {
         ConfirmationMethod confirmationMethod = (ConfirmationMethod) samlObject;
 
         confirmationMethod.setConfirmationMethod(elementContent);

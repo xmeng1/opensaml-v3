@@ -39,7 +39,7 @@ public class SubjectConfirmationDataUnmarshaller extends AbstractSAMLObjectUnmar
     /**
      * {@inheritDoc}
      */
-    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
+    protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
         final SubjectConfirmationData subjectCD = (SubjectConfirmationData) parentSAMLObject;
 
@@ -47,7 +47,7 @@ public class SubjectConfirmationDataUnmarshaller extends AbstractSAMLObjectUnmar
     }
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject samlObject, final Attr attribute) throws UnmarshallingException {
         final SubjectConfirmationData subjectCD = (SubjectConfirmationData) samlObject;
 
         if (attribute.getNamespaceURI() == null) {

@@ -34,7 +34,7 @@ import com.google.common.base.Strings;
 public class AuthenticationStatementUnmarshaller extends SubjectStatementUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
+    protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
 
         final AuthenticationStatement authenticationStatement = (AuthenticationStatement) parentSAMLObject;
@@ -49,7 +49,7 @@ public class AuthenticationStatementUnmarshaller extends SubjectStatementUnmarsh
     }
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject samlObject, final Attr attribute) throws UnmarshallingException {
         final AuthenticationStatement authenticationStatement = (AuthenticationStatement) samlObject;
 
         if (attribute.getNamespaceURI() == null) {

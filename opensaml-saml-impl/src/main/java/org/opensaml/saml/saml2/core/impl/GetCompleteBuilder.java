@@ -43,7 +43,7 @@ public class GetCompleteBuilder extends AbstractSAMLObjectBuilder<GetComplete> {
     }
 
     /** {@inheritDoc} */
-    public GetComplete buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public GetComplete buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new GetCompleteImpl(namespaceURI, localName, namespacePrefix);
     }
 }

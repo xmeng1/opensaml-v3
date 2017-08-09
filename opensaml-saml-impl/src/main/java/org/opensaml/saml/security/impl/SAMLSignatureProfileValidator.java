@@ -71,7 +71,7 @@ public class SAMLSignatureProfileValidator implements SignaturePrevalidator {
      * @param sigImpl the signature implementation object to validate
      * @throws SignatureException thrown if the signature is not valid with respect to the profile
      */
-    protected void validateSignatureImpl(SignatureImpl sigImpl) throws SignatureException {
+    protected void validateSignatureImpl(final SignatureImpl sigImpl) throws SignatureException {
 
         if (sigImpl.getXMLSignature() == null) {
             log.error("SignatureImpl did not contain the an Apache XMLSignature child");
@@ -104,7 +104,7 @@ public class SAMLSignatureProfileValidator implements SignaturePrevalidator {
      * @throws SignatureException thrown if the Signature does not contain exactly 1 Reference, or if there is an error
      *             obtaining the Reference instance
      */
-    protected Reference validateReference(XMLSignature apacheSig) throws SignatureException {
+    protected Reference validateReference(final XMLSignature apacheSig) throws SignatureException {
         int numReferences = apacheSig.getSignedInfo().getLength();
         if (numReferences != 1) {
             log.error("Signature SignedInfo had invalid number of References: " + numReferences);
@@ -114,7 +114,7 @@ public class SAMLSignatureProfileValidator implements SignaturePrevalidator {
         Reference ref = null;
         try {
             ref = apacheSig.getSignedInfo().item(0);
-        } catch (XMLSecurityException e) {
+        } catch (final XMLSecurityException e) {
             log.error("Apache XML Security exception obtaining Reference", e);
             throw new SignatureException("Could not obtain Reference from Signature/SignedInfo", e);
         }
@@ -136,7 +136,7 @@ public class SAMLSignatureProfileValidator implements SignaturePrevalidator {
      * @param signableObject the SignableSAMLObject whose signature is being validated
      * @throws SignatureException  if the URI is invalid or doesn't resolve to the expected DOM node
      */
-    protected void validateReferenceURI(String uri, SignableSAMLObject signableObject) throws SignatureException {
+    protected void validateReferenceURI(final String uri, final SignableSAMLObject signableObject) throws SignatureException {
         String id = signableObject.getSignatureReferenceID();
         validateReferenceURI(uri, id);
         
@@ -176,7 +176,7 @@ public class SAMLSignatureProfileValidator implements SignaturePrevalidator {
      * @param id the Signature parents ID attribute value
      * @throws SignatureException thrown if the URI or ID attribute values are invalid
      */
-    protected void validateReferenceURI(String uri, String id) throws SignatureException {
+    protected void validateReferenceURI(final String uri, final String id) throws SignatureException {
         if (!Strings.isNullOrEmpty(uri)) {
             if (!uri.startsWith("#")) {
                 log.error("Signature Reference URI was not a document fragment reference: " + uri);
@@ -201,11 +201,11 @@ public class SAMLSignatureProfileValidator implements SignaturePrevalidator {
      * @param reference the Signature reference containing the transforms to evaluate
      * @throws SignatureException thrown if the set of transforms is invalid
      */
-    protected void validateTransforms(Reference reference) throws SignatureException {
+    protected void validateTransforms(final Reference reference) throws SignatureException {
         Transforms transforms = null;
         try {
             transforms = reference.getTransforms();
-        } catch (XMLSecurityException e) {
+        } catch (final XMLSecurityException e) {
             log.error("Apache XML Security error obtaining Transforms instance", e);
             throw new SignatureException("Apache XML Security error obtaining Transforms instance", e);
         }
@@ -226,7 +226,7 @@ public class SAMLSignatureProfileValidator implements SignaturePrevalidator {
             Transform transform = null;
             try {
                 transform = transforms.item(i);
-            } catch (TransformationException e) {
+            } catch (final TransformationException e) {
                 log.error("Error obtaining transform instance", e);
                 throw new SignatureException("Error obtaining transform instance", e);
             }
@@ -255,7 +255,7 @@ public class SAMLSignatureProfileValidator implements SignaturePrevalidator {
      * @param apacheSig the Apache XML Signature instance
      * @throws SignatureException if the signature contains ds:Object children
      */
-    protected void validateObjectChildren(XMLSignature apacheSig) throws SignatureException {
+    protected void validateObjectChildren(final XMLSignature apacheSig) throws SignatureException {
         if (apacheSig.getObjectLength() > 0) {
             log.error("Signature contained {} ds:Object child element(s)", apacheSig.getObjectLength());
             throw new SignatureException("Signature contained illegal ds:Object children");

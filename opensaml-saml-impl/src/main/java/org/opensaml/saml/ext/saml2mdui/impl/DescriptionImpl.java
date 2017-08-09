@@ -32,7 +32,7 @@ public class DescriptionImpl extends LocalizedNameImpl implements Description {
      * @param elementLocalName the elementLocalName
      * @param namespacePrefix the namespacePrefix
      */
-    protected DescriptionImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected DescriptionImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

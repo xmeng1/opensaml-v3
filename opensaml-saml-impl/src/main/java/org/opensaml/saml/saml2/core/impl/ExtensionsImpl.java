@@ -43,7 +43,7 @@ public class ExtensionsImpl extends AbstractSAMLObject implements Extensions {
      * @param elementLocalName local name
      * @param namespacePrefix prefix
      */
-    protected ExtensionsImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected ExtensionsImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         unknownChildren = new IndexedXMLObjectChildrenList<>(this);
     }
@@ -56,7 +56,7 @@ public class ExtensionsImpl extends AbstractSAMLObject implements Extensions {
     }
     
     /** {@inheritDoc} */
-    public List<XMLObject> getUnknownXMLObjects(QName typeOrName) {
+    public List<XMLObject> getUnknownXMLObjects(final QName typeOrName) {
         return (List<XMLObject>) unknownChildren.subList(typeOrName);
     }
 

@@ -55,7 +55,7 @@ public abstract class EndpointImpl extends AbstractSAMLObject implements Endpoin
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected EndpointImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected EndpointImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         unknownAttributes = new AttributeMap(this);
         unknownChildren = new IndexedXMLObjectChildrenList<>(this);
@@ -67,7 +67,7 @@ public abstract class EndpointImpl extends AbstractSAMLObject implements Endpoin
     }
 
     /** {@inheritDoc} */
-    public void setBinding(String binding) {
+    public void setBinding(final String binding) {
         bindingId = prepareForAssignment(bindingId, binding);
     }
 
@@ -77,7 +77,7 @@ public abstract class EndpointImpl extends AbstractSAMLObject implements Endpoin
     }
 
     /** {@inheritDoc} */
-    public void setLocation(String theLocation) {
+    public void setLocation(final String theLocation) {
         this.location = prepareForAssignment(this.location, theLocation);
     }
 
@@ -87,7 +87,7 @@ public abstract class EndpointImpl extends AbstractSAMLObject implements Endpoin
     }
 
     /** {@inheritDoc} */
-    public void setResponseLocation(String theLocation) {
+    public void setResponseLocation(final String theLocation) {
         responseLocation = prepareForAssignment(responseLocation, theLocation);
     }
 
@@ -106,7 +106,7 @@ public abstract class EndpointImpl extends AbstractSAMLObject implements Endpoin
     }
 
     /** {@inheritDoc} */
-    public List<XMLObject> getUnknownXMLObjects(QName typeOrName) {
+    public List<XMLObject> getUnknownXMLObjects(final QName typeOrName) {
         return (List<XMLObject>) unknownChildren.subList(typeOrName);
     }
 

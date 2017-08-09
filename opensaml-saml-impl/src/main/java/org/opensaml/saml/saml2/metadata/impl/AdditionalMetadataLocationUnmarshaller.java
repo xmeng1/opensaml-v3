@@ -29,7 +29,7 @@ import org.w3c.dom.Attr;
 public class AdditionalMetadataLocationUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject samlObject, final Attr attribute) throws UnmarshallingException {
         final AdditionalMetadataLocation aml = (AdditionalMetadataLocation) samlObject;
         
         if (attribute.getLocalName().equals(AdditionalMetadataLocation.NAMESPACE_ATTRIB_NAME)
@@ -41,7 +41,7 @@ public class AdditionalMetadataLocationUnmarshaller extends AbstractSAMLObjectUn
     }
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject samlObject, String elementContent) {
+    protected void processElementContent(final XMLObject samlObject, final String elementContent) {
         final AdditionalMetadataLocation aml = (AdditionalMetadataLocation) samlObject;
         aml.setLocationURI(elementContent);
     }

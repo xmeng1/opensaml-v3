@@ -31,7 +31,7 @@ import org.w3c.dom.Attr;
 public class PublicationUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject samlObject, final Attr attribute) throws UnmarshallingException {
         final Publication info = (Publication) samlObject;
 
         if (attribute.getNamespaceURI() == null) {

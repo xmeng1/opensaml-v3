@@ -40,7 +40,7 @@ public class DisplayNameBuilder extends AbstractSAMLObjectBuilder<DisplayName> {
     }
 
     /** {@inheritDoc} */
-    public DisplayName buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public DisplayName buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new DisplayNameImpl(namespaceURI, localName, namespacePrefix);
     }
 }

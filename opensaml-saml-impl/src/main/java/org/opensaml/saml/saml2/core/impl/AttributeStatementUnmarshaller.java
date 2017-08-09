@@ -34,7 +34,7 @@ import org.opensaml.saml.saml2.core.EncryptedAttribute;
 public class AttributeStatementUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentObject, XMLObject childObject) throws UnmarshallingException {
+    protected void processChildElement(final XMLObject parentObject, final XMLObject childObject) throws UnmarshallingException {
         AttributeStatement attributeStatement = (AttributeStatement) parentObject;
 
         if (childObject instanceof Attribute) {

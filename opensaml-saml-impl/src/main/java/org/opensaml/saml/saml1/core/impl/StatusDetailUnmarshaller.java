@@ -30,7 +30,7 @@ public class StatusDetailUnmarshaller extends AbstractSAMLObjectUnmarshaller {
     /**
      * {@inheritDoc}
      */
-    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
+    protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
         StatusDetail statusDetail = (StatusDetail) parentSAMLObject;
 

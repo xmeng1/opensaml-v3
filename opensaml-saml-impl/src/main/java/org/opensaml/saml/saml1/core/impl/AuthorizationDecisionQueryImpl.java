@@ -49,7 +49,7 @@ public class AuthorizationDecisionQueryImpl extends SubjectQueryImpl implements 
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AuthorizationDecisionQueryImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AuthorizationDecisionQueryImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         setElementNamespacePrefix(SAMLConstants.SAML1P_PREFIX);
         actions = new XMLObjectChildrenList<>(this);
@@ -61,7 +61,7 @@ public class AuthorizationDecisionQueryImpl extends SubjectQueryImpl implements 
     }
 
     /** {@inheritDoc} */
-    public void setResource(String res) {
+    public void setResource(final String res) {
         resource = prepareForAssignment(resource, res);
     }
 
@@ -76,7 +76,7 @@ public class AuthorizationDecisionQueryImpl extends SubjectQueryImpl implements 
     }
 
     /** {@inheritDoc} */
-    public void setEvidence(Evidence ev) {
+    public void setEvidence(final Evidence ev) {
         evidence = prepareForAssignment(evidence, ev);
     }
 

@@ -32,7 +32,7 @@ public class EncTypeImpl extends XSStringImpl implements EncType {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected EncTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected EncTypeImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 }

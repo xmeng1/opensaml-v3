@@ -33,7 +33,7 @@ import org.opensaml.saml.saml1.core.SubjectStatement;
 public abstract class SubjectStatementUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
+    protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
         SubjectStatement statement = (SubjectStatement) parentSAMLObject;
 

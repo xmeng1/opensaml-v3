@@ -224,7 +224,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
      * 
      * @param flag true if should init from the cache in the background, false otherwise
      */
-    public void setInitializeFromPersistentCacheInBackground(boolean flag) {
+    public void setInitializeFromPersistentCacheInBackground(final boolean flag) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
         initializeFromPersistentCacheInBackground = flag;
@@ -640,7 +640,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
             throws FilterException {
         try {
             processNewMetadata(root, expectedEntityID, false);
-        } catch (ResolverException e) {
+        } catch (final ResolverException e) {
             //TODO this is kludgy, but necessary until we can change the API to add an exception to the method signature
             throw new FilterException(e);
         }
@@ -742,7 +742,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
             //   2) the object can't be successfully round-tripped (e.g signatures).
             try {
                 return XMLObjectSupport.cloneXMLObject(input, CloneOutputOption.RootDOMInNewDocument);
-            } catch (MarshallingException | UnmarshallingException e) {
+            } catch (final MarshallingException | UnmarshallingException e) {
                 log.warn("{} Error cloning XMLObject, will use input root object as filter target", getLogPrefix(), e);
                 return input;
             }

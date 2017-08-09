@@ -34,7 +34,7 @@ public class InformationURLImpl extends LocalizedURIImpl implements InformationU
      * @param elementLocalName the elementLocalName
      * @param namespacePrefix the namespacePrefix
      */
-    protected InformationURLImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected InformationURLImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

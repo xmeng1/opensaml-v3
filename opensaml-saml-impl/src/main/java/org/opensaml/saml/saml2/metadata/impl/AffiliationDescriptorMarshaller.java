@@ -43,7 +43,7 @@ public class AffiliationDescriptorMarshaller extends AbstractSAMLObjectMarshalle
     private final Logger log = LoggerFactory.getLogger(AffiliationDescriptorMarshaller.class);
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject samlElement, Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject samlElement, final Element domElement) throws MarshallingException {
         AffiliationDescriptor descriptor = (AffiliationDescriptor) samlElement;
 
         // Set affiliationOwnerID

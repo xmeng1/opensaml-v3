@@ -32,7 +32,7 @@ import org.opensaml.saml.saml2.core.AssertionIDRequest;
 public class AssertionIDRequestUnmarshaller extends RequestAbstractTypeUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
+    protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
         AssertionIDRequest idRequest = (AssertionIDRequest) parentSAMLObject;
 

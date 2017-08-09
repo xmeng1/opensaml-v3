@@ -159,7 +159,7 @@ public class AddStatusToResponse extends AbstractProfileAction {
      * 
      * @param codes list of status code values to insert
      */
-    public void setStatusCodes(@Nonnull @NonnullElements List<String> codes) {
+    public void setStatusCodes(@Nonnull @NonnullElements final List<String> codes) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         
         Constraint.isNotNull(codes, "Status code list cannot be null");

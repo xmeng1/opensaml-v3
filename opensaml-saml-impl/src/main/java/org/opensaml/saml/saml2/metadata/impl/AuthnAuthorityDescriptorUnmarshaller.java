@@ -30,7 +30,7 @@ import org.opensaml.saml.saml2.metadata.NameIDFormat;
 public class AuthnAuthorityDescriptorUnmarshaller extends RoleDescriptorUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentElement, XMLObject childElement) throws UnmarshallingException {
+    protected void processChildElement(final XMLObject parentElement, final XMLObject childElement) throws UnmarshallingException {
         AuthnAuthorityDescriptor descriptor = (AuthnAuthorityDescriptor) parentElement;
 
         if (childElement instanceof AuthnQueryService) {

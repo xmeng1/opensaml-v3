@@ -42,7 +42,7 @@ public class ScopingBuilder extends AbstractSAMLObjectBuilder<Scoping> {
     }
 
     /** {@inheritDoc} */
-    public Scoping buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Scoping buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new ScopingImpl(namespaceURI, localName, namespacePrefix);
     }
 }

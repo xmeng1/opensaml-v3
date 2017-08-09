@@ -25,7 +25,7 @@ import org.opensaml.saml.saml1.core.AssertionIDReference;
 public class AssertionIDReferenceUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject samlObject, String elementContent) {
+    protected void processElementContent(final XMLObject samlObject, final String elementContent) {
         AssertionIDReference assertionIDReference = (AssertionIDReference) samlObject;
 
         assertionIDReference.setReference(elementContent);

@@ -31,7 +31,7 @@ import org.w3c.dom.Element;
 public class IndexedEndpointMarshaller extends EndpointMarshaller {
 
     /** {@inheritDoc} */
-    public void marshallAttributes(XMLObject samlObject, Element domElement) {
+    public void marshallAttributes(final XMLObject samlObject, final Element domElement) {
         IndexedEndpoint iEndpoint = (IndexedEndpoint) samlObject;
 
         if (iEndpoint.getIndex() != null) {

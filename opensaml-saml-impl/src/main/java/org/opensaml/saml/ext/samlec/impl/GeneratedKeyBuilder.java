@@ -45,7 +45,7 @@ public class GeneratedKeyBuilder extends AbstractSAMLObjectBuilder<GeneratedKey>
     }
 
     /** {@inheritDoc} */
-    public GeneratedKey buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public GeneratedKey buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new GeneratedKeyImpl(namespaceURI, localName, namespacePrefix);
     }
 }

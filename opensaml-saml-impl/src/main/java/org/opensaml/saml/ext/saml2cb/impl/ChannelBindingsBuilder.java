@@ -44,7 +44,7 @@ public class ChannelBindingsBuilder extends AbstractSAMLObjectBuilder<ChannelBin
     }
 
     /** {@inheritDoc} */
-    public ChannelBindings buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public ChannelBindings buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new ChannelBindingsImpl(namespaceURI, localName, namespacePrefix);
     }
 }

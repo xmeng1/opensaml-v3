@@ -34,7 +34,7 @@ import org.w3c.dom.Attr;
 public class RelayStateUnmarshaller extends XSStringUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         RelayState relayState = (RelayState) xmlObject;
         
         QName attrName = QNameSupport.getNodeQName(attribute);

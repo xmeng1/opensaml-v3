@@ -39,7 +39,7 @@ public class KeywordsBuilder extends AbstractSAMLObjectBuilder<Keywords> {
     }
 
     /** {@inheritDoc} */
-    public Keywords buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Keywords buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new KeywordsImpl(namespaceURI, localName, namespacePrefix);
     }
 }

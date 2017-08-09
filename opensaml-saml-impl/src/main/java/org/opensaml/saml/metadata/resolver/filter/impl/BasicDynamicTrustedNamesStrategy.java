@@ -54,7 +54,7 @@ public class BasicDynamicTrustedNamesStrategy implements Function<XMLObject, Set
 
     /** {@inheritDoc} */
     @Override
-    @Nonnull @NonnullElements public Set<String> apply(@Nullable XMLObject input) {
+    @Nonnull @NonnullElements public Set<String> apply(@Nullable final XMLObject input) {
         if (input == null) {
             return Collections.emptySet();
         }

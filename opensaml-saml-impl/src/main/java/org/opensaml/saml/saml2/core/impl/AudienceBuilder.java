@@ -40,7 +40,7 @@ public class AudienceBuilder extends AbstractSAMLObjectBuilder<Audience> {
     }
 
     /** {@inheritDoc} */
-    public Audience buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Audience buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new AudienceImpl(namespaceURI, localName, namespacePrefix);
     }
 }

@@ -38,7 +38,7 @@ public class AssertionArtifactImpl extends AbstractSAMLObject implements Asserti
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AssertionArtifactImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AssertionArtifactImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -50,7 +50,7 @@ public class AssertionArtifactImpl extends AbstractSAMLObject implements Asserti
 
     /** {@inheritDoc} */
     @Override
-    public void setAssertionArtifact(String artifact) {
+    public void setAssertionArtifact(final String artifact) {
         assertionArtifact = prepareForAssignment(assertionArtifact, artifact);
     }
 

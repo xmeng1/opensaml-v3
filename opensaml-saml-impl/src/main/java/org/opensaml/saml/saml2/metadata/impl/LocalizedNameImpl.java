@@ -41,7 +41,7 @@ public class LocalizedNameImpl extends XSStringImpl implements LocalizedName {
      * @param elementLocalName the elementLocalName
      * @param namespacePrefix the namespacePrefix
      */
-    protected LocalizedNameImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected LocalizedNameImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -51,7 +51,7 @@ public class LocalizedNameImpl extends XSStringImpl implements LocalizedName {
     }
 
     /** {@inheritDoc} */
-    public void setXMLLang(String newLang) {
+    public void setXMLLang(final String newLang) {
         boolean hasValue = newLang != null && !Strings.isNullOrEmpty(newLang);
         language = prepareForAssignment(language, newLang);
         manageQualifiedAttributeNamespace(LangBearing.XML_LANG_ATTR_NAME, hasValue);

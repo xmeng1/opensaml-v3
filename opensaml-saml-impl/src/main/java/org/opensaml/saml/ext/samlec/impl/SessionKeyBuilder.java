@@ -44,7 +44,7 @@ public class SessionKeyBuilder extends AbstractSAMLObjectBuilder<SessionKey> {
     }
 
     /** {@inheritDoc} */
-    public SessionKey buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public SessionKey buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new SessionKeyImpl(namespaceURI, localName, namespacePrefix);
     }
 }

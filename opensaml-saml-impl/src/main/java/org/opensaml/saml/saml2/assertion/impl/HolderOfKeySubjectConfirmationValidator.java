@@ -141,7 +141,7 @@ public class HolderOfKeySubjectConfirmationValidator extends AbstractSubjectConf
         Pair<PublicKey, X509Certificate> keyCertPair = null;
         try {
             keyCertPair = getKeyAndCertificate(context);
-        } catch (IllegalArgumentException e) {
+        } catch (final IllegalArgumentException e) {
             log.warn("Problem with the validation context presenter key/cert params: {}", e.getMessage());
             context.setValidationFailureMessage("Unable to obtain presenter key/cert params from validation context");
             return ValidationResult.INDETERMINATE;
@@ -211,7 +211,7 @@ public class HolderOfKeySubjectConfirmationValidator extends AbstractSubjectConf
         try {
             presenterKey = (PublicKey) context.getStaticParameters().get(
                     SAML2AssertionValidationParameters.SC_HOK_PRESENTER_KEY);
-        } catch (ClassCastException e) {
+        } catch (final ClassCastException e) {
             throw new IllegalArgumentException(String.format(
                     "The value of the static validation parameter '%s' was not of the required type '%s'",
                     SAML2AssertionValidationParameters.SC_HOK_PRESENTER_KEY, PublicKey.class.getName()));
@@ -232,7 +232,7 @@ public class HolderOfKeySubjectConfirmationValidator extends AbstractSubjectConf
                     presenterKey = presenterCert.getPublicKey();
                 }
             }
-        } catch (ClassCastException e) {
+        } catch (final ClassCastException e) {
             throw new IllegalArgumentException(String.format(
                     "The value of the static validation parameter '%s' was not of the required type '%s'",
                     SAML2AssertionValidationParameters.SC_HOK_PRESENTER_CERT, X509Certificate.class.getName()));
@@ -341,7 +341,7 @@ public class HolderOfKeySubjectConfirmationValidator extends AbstractSubjectConf
                     log.debug("Matched KeyValue PublicKey");
                     return true;
                 }
-            } catch (KeyException e) {
+            } catch (final KeyException e) {
                 log.warn("KeyInfo contained KeyValue that can not be parsed", e);
             }
         }
@@ -384,7 +384,7 @@ public class HolderOfKeySubjectConfirmationValidator extends AbstractSubjectConf
                     log.debug("Matched DEREncodedKeyValue PublicKey");
                     return true;
                 }
-            } catch (KeyException e) {
+            } catch (final KeyException e) {
                 log.warn("KeyInfo contained DEREncodedKeyValue that can not be parsed", e);
             }
         }
@@ -441,7 +441,7 @@ public class HolderOfKeySubjectConfirmationValidator extends AbstractSubjectConf
                         log.debug("Matched X509Certificate");
                         return true;
                     }
-                } catch (CertificateException e) {
+                } catch (final CertificateException e) {
                     log.warn("KeyInfo contained Certificate value that can not be parsed", e);
                 }
             }

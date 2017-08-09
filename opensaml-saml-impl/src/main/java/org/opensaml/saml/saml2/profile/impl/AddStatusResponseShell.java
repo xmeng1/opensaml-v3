@@ -90,7 +90,7 @@ public class AddStatusResponseShell extends AbstractProfileAction {
     public AddStatusResponseShell() {
         // Default strategy is a 16-byte secure random source.
         idGeneratorLookupStrategy = new Function<ProfileRequestContext,IdentifierGenerationStrategy>() {
-            public IdentifierGenerationStrategy apply(ProfileRequestContext input) {
+            public IdentifierGenerationStrategy apply(final ProfileRequestContext input) {
                 return new SecureRandomIdentifierGenerationStrategy();
             }
         };

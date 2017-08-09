@@ -40,7 +40,7 @@ public class DiscoHintsBuilder extends AbstractSAMLObjectBuilder<DiscoHints> {
     }
 
     /** {@inheritDoc} */
-    public DiscoHints buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public DiscoHints buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new DiscoHintsImpl(namespaceURI, localName, namespacePrefix);
     }
 }

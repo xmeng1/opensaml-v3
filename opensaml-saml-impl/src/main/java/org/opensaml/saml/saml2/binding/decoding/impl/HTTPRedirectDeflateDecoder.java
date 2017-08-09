@@ -127,7 +127,7 @@ public class HTTPRedirectDeflateDecoder extends BaseHttpServletRequestXMLMessage
      * 
      * @throws MessageDecodingException thrown if the message can not be decoded
      */
-    protected InputStream decodeMessage(String message) throws MessageDecodingException {
+    protected InputStream decodeMessage(final String message) throws MessageDecodingException {
         log.debug("Base64 decoding and inflating SAML message");
 
         byte[] decodedBytes = Base64Support.decode(message);
@@ -140,7 +140,7 @@ public class HTTPRedirectDeflateDecoder extends BaseHttpServletRequestXMLMessage
             ByteArrayInputStream bytesIn = new ByteArrayInputStream(decodedBytes);
             InflaterInputStream inflater = new InflaterInputStream(bytesIn, new Inflater(true));
             return inflater;
-        } catch (Exception e) {
+        } catch (final Exception e) {
             log.error("Unable to Base64 decode and inflate SAML message", e);
             throw new MessageDecodingException("Unable to Base64 decode and inflate SAML message", e);
         }
@@ -151,7 +151,7 @@ public class HTTPRedirectDeflateDecoder extends BaseHttpServletRequestXMLMessage
      * 
      * @param messageContext the current message context
      */
-    protected void populateBindingContext(MessageContext<SAMLObject> messageContext) {
+    protected void populateBindingContext(final MessageContext<SAMLObject> messageContext) {
         SAMLBindingContext bindingContext = messageContext.getSubcontext(SAMLBindingContext.class, true);
         bindingContext.setBindingUri(getBindingURI());
         bindingContext.setBindingDescriptor(bindingDescriptor);

@@ -28,7 +28,7 @@ import org.w3c.dom.Element;
 public class AuthorizationDecisionQueryMarshaller extends SubjectQueryMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject samlElement, Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject samlElement, final Element domElement) throws MarshallingException {
         AuthorizationDecisionQuery authorizationDecisionQuery = (AuthorizationDecisionQuery) samlElement;
 
         if (authorizationDecisionQuery.getResource() != null) {

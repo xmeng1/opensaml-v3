@@ -44,7 +44,7 @@ public class ArtifactResponseImpl extends StatusResponseTypeImpl implements Arti
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected ArtifactResponseImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected ArtifactResponseImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -54,7 +54,7 @@ public class ArtifactResponseImpl extends StatusResponseTypeImpl implements Arti
     }
 
     /** {@inheritDoc} */
-    public void setMessage(SAMLObject message) {
+    public void setMessage(final SAMLObject message) {
         protocolMessage = prepareForAssignment(protocolMessage, message);
     }
 

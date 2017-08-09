@@ -36,7 +36,7 @@ import org.w3c.dom.Attr;
 public class SessionKeyUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentObject, XMLObject childObject) throws UnmarshallingException {
+    protected void processChildElement(final XMLObject parentObject, final XMLObject childObject) throws UnmarshallingException {
         SessionKey key = (SessionKey) parentObject;
 
         if (childObject instanceof EncType) {
@@ -49,7 +49,7 @@ public class SessionKeyUnmarshaller extends AbstractSAMLObjectUnmarshaller {
     }
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject samlObject, final Attr attribute) throws UnmarshallingException {
         final SessionKey key = (SessionKey) samlObject;
 
         final QName attrName = QNameSupport.getNodeQName(attribute);

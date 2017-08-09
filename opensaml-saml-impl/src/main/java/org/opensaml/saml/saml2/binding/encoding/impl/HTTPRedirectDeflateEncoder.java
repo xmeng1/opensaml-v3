@@ -89,7 +89,7 @@ public class HTTPRedirectDeflateEncoder extends BaseSAML2MessageEncoder {
 
         try {
             response.sendRedirect(redirectURL);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new MessageEncodingException("Problem sending HTTP redirect", e);
         }
     }
@@ -99,7 +99,7 @@ public class HTTPRedirectDeflateEncoder extends BaseSAML2MessageEncoder {
      * 
      * @param message current message context
      */
-    protected void removeSignature(SAMLObject message) {
+    protected void removeSignature(final SAMLObject message) {
         if (message instanceof SignableSAMLObject) {
             SignableSAMLObject signableMessage = (SignableSAMLObject) message;
             if (signableMessage.isSigned()) {
@@ -118,7 +118,7 @@ public class HTTPRedirectDeflateEncoder extends BaseSAML2MessageEncoder {
      * 
      * @throws MessageEncodingException thrown if there is a problem compressing the message
      */
-    protected String deflateAndBase64Encode(SAMLObject message) throws MessageEncodingException {
+    protected String deflateAndBase64Encode(final SAMLObject message) throws MessageEncodingException {
         log.debug("Deflating and Base64 encoding SAML message");
         try {
             String messageStr = SerializeSupport.nodeToString(marshallMessage(message));
@@ -130,7 +130,7 @@ public class HTTPRedirectDeflateEncoder extends BaseSAML2MessageEncoder {
             deflaterStream.finish();
 
             return Base64Support.encode(bytesOut.toByteArray(), Base64Support.UNCHUNKED);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new MessageEncodingException("Unable to DEFLATE and Base64 encode SAML message", e);
         }
     }
@@ -146,14 +146,14 @@ public class HTTPRedirectDeflateEncoder extends BaseSAML2MessageEncoder {
      * 
      * @throws MessageEncodingException thrown if the SAML message is neither a RequestAbstractType or Response
      */
-    protected String buildRedirectURL(MessageContext<SAMLObject> messageContext, String endpoint, String message)
+    protected String buildRedirectURL(final MessageContext<SAMLObject> messageContext, final String endpoint, final String message)
             throws MessageEncodingException {
         log.debug("Building URL to redirect client to");
         
         URLBuilder urlBuilder = null;
         try {
             urlBuilder = new URLBuilder(endpoint);
-        } catch (MalformedURLException e) {
+        } catch (final MalformedURLException e) {
             throw new MessageEncodingException("Endpoint URL " + endpoint + " is not a valid URL", e);
         }
 
@@ -203,7 +203,7 @@ public class HTTPRedirectDeflateEncoder extends BaseSAML2MessageEncoder {
      * @throws MessageEncodingException thrown if the algorithm URI is not supplied explicitly and 
      *          could not be derived from the supplied credential
      */
-    protected String getSignatureAlgorithmURI(SignatureSigningParameters signingParameters)
+    protected String getSignatureAlgorithmURI(final SignatureSigningParameters signingParameters)
             throws MessageEncodingException {
         
         if (signingParameters.getSignatureAlgorithm() != null) {
@@ -224,7 +224,7 @@ public class HTTPRedirectDeflateEncoder extends BaseSAML2MessageEncoder {
      * 
      * @throws MessageEncodingException there is an error computing the signature
      */
-    protected String generateSignature(Credential signingCredential, String algorithmURI, String queryString)
+    protected String generateSignature(final Credential signingCredential, final String algorithmURI, final String queryString)
             throws MessageEncodingException {
 
         log.debug(String.format("Generating signature with key type '%s', algorithm URI '%s' over query string '%s'",

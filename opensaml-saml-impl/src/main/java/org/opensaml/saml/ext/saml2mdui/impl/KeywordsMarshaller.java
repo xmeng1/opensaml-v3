@@ -37,7 +37,7 @@ public class KeywordsMarshaller extends AbstractSAMLObjectMarshaller {
     /**
      * {@inheritDoc}
      */
-    protected void marshallAttributes(XMLObject samlObject, Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject samlObject, final Element domElement) throws MarshallingException {
         Keywords words = (Keywords) samlObject;
 
         if (words.getXMLLang() != null) {
@@ -49,7 +49,7 @@ public class KeywordsMarshaller extends AbstractSAMLObjectMarshaller {
     }
 
     /** {@inheritDoc} */
-    protected void marshallElementContent(XMLObject samlObject, Element domElement) throws MarshallingException {
+    protected void marshallElementContent(final XMLObject samlObject, final Element domElement) throws MarshallingException {
         Keywords words = (Keywords) samlObject;
 
         if (words.getKeywords() != null) {

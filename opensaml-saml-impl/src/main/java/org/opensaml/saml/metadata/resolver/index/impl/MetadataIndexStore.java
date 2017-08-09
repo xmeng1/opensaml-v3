@@ -86,7 +86,7 @@ public class MetadataIndexStore<T> {
      * @param key the index key
      * @param item the data item to index
      */
-    public void add(MetadataIndexKey key, T item) {
+    public void add(final MetadataIndexKey key, final T item) {
         Constraint.isNotNull(key, "IndexKey was null");
         Constraint.isNotNull(item, "The indexed data element was null");
         Set<T> items = index.get(key);
@@ -103,7 +103,7 @@ public class MetadataIndexStore<T> {
      * @param key the index key
      * @param item the data item to index
      */
-    public void remove(MetadataIndexKey key, T item) {
+    public void remove(final MetadataIndexKey key, final T item) {
         Constraint.isNotNull(key, "IndexKey was null");
         Constraint.isNotNull(item, "The indexed data element was null");
         Set<T> items = index.get(key);
@@ -118,7 +118,7 @@ public class MetadataIndexStore<T> {
      * 
      * @param key the index key
      */
-    public void clear(MetadataIndexKey key) {
+    public void clear(final MetadataIndexKey key) {
         Constraint.isNotNull(key, "IndexKey was null");
         index.remove(key);
     }

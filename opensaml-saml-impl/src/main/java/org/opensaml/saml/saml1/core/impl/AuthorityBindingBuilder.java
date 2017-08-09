@@ -40,7 +40,7 @@ public class AuthorityBindingBuilder extends AbstractSAMLObjectBuilder<Authority
     }
 
     /** {@inheritDoc} */
-    public AuthorityBinding buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public AuthorityBinding buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new AuthorityBindingImpl(namespaceURI, localName, namespacePrefix);
     }
 }

@@ -29,7 +29,7 @@ import org.w3c.dom.Attr;
 public class AttributeQueryUnmarshaller extends SubjectQueryUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
+    protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
 
         final AttributeQuery attributeQuery = (AttributeQuery) parentSAMLObject;
@@ -42,7 +42,7 @@ public class AttributeQueryUnmarshaller extends SubjectQueryUnmarshaller {
     }
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject samlObject, final Attr attribute) throws UnmarshallingException {
 
         final AttributeQuery attributeQuery = (AttributeQuery) samlObject;
 

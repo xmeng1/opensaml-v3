@@ -56,7 +56,7 @@ public class PDPDescriptorImpl extends RoleDescriptorImpl implements PDPDescript
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected PDPDescriptorImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected PDPDescriptorImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         authzServices = new XMLObjectChildrenList<>(this);
         assertionIDRequestServices = new XMLObjectChildrenList<>(this);
@@ -87,7 +87,7 @@ public class PDPDescriptorImpl extends RoleDescriptorImpl implements PDPDescript
     }
     
     /** {@inheritDoc} */
-    public List<Endpoint> getEndpoints(QName type) {
+    public List<Endpoint> getEndpoints(final QName type) {
         if(type.equals(AuthzService.DEFAULT_ELEMENT_NAME)){
             return Collections.unmodifiableList(new ArrayList<Endpoint>(authzServices));
         }else if(type.equals(AssertionIDRequestService.DEFAULT_ELEMENT_NAME)){

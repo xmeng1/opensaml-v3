@@ -58,7 +58,7 @@ public class AuthnContextImpl extends AbstractSAMLObject implements AuthnContext
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AuthnContextImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AuthnContextImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         authenticatingAuthority = new XMLObjectChildrenList<>(this);
     }
@@ -69,7 +69,7 @@ public class AuthnContextImpl extends AbstractSAMLObject implements AuthnContext
     }
 
     /** {@inheritDoc} */
-    public void setAuthnContextClassRef(AuthnContextClassRef newAuthnContextClassRef) {
+    public void setAuthnContextClassRef(final AuthnContextClassRef newAuthnContextClassRef) {
         this.authnContextClassRef = prepareForAssignment(this.authnContextClassRef, newAuthnContextClassRef);
     }
 
@@ -79,7 +79,7 @@ public class AuthnContextImpl extends AbstractSAMLObject implements AuthnContext
     }
 
     /** {@inheritDoc} */
-    public void setAuthnContextDecl(AuthnContextDecl newAuthnContextDecl) {
+    public void setAuthnContextDecl(final AuthnContextDecl newAuthnContextDecl) {
         this.authnContextDecl = prepareForAssignment(this.authnContextDecl, newAuthnContextDecl);
     }
 
@@ -89,7 +89,7 @@ public class AuthnContextImpl extends AbstractSAMLObject implements AuthnContext
     }
 
     /** {@inheritDoc} */
-    public void setAuthnContextDeclRef(AuthnContextDeclRef newAuthnContextDeclRef) {
+    public void setAuthnContextDeclRef(final AuthnContextDeclRef newAuthnContextDeclRef) {
         this.authnContextDeclRef = prepareForAssignment(this.authnContextDeclRef, newAuthnContextDeclRef);
     }
 

@@ -32,7 +32,7 @@ import org.w3c.dom.Element;
 public class AuthnRequestMarshaller extends RequestAbstractTypeMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject samlObject, Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject samlObject, final Element domElement) throws MarshallingException {
         AuthnRequest req = (AuthnRequest) samlObject;
 
         if (req.isForceAuthnXSBoolean() != null) {

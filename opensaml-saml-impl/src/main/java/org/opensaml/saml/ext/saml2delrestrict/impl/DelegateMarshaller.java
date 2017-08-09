@@ -32,7 +32,7 @@ import com.google.common.base.Strings;
 public class DelegateMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
         Delegate delegate = (Delegate) xmlObject;
         
         if (delegate.getDelegationInstant() != null) {

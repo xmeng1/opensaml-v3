@@ -43,7 +43,7 @@ import com.google.common.base.Strings;
 public class AssertionUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentObject, XMLObject childObject) throws UnmarshallingException {
+    protected void processChildElement(final XMLObject parentObject, final XMLObject childObject) throws UnmarshallingException {
         final Assertion assertion = (Assertion) parentObject;
 
         if (childObject instanceof Issuer) {
@@ -64,7 +64,7 @@ public class AssertionUnmarshaller extends AbstractSAMLObjectUnmarshaller {
     }
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject samlObject, final Attr attribute) throws UnmarshallingException {
         final Assertion assertion = (Assertion) samlObject;
 
         if (attribute.getNamespaceURI() == null) {

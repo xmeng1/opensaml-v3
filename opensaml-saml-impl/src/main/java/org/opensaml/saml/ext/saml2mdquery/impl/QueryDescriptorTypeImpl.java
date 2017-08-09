@@ -46,7 +46,7 @@ public abstract class QueryDescriptorTypeImpl extends RoleDescriptorImpl impleme
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected QueryDescriptorTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected QueryDescriptorTypeImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         
         nameIDFormats = new XMLObjectChildrenList<>(this);
@@ -63,7 +63,7 @@ public abstract class QueryDescriptorTypeImpl extends RoleDescriptorImpl impleme
 
     /** {@inheritDoc} */
     @Override
-    public void setWantAssertionsSigned(Boolean newWantAssertionsSigned) {
+    public void setWantAssertionsSigned(final Boolean newWantAssertionsSigned) {
         if (newWantAssertionsSigned != null) {
             wantAssertionsSigned = prepareForAssignment(wantAssertionsSigned, 
                     new XSBooleanValue(newWantAssertionsSigned, false));
@@ -80,7 +80,7 @@ public abstract class QueryDescriptorTypeImpl extends RoleDescriptorImpl impleme
     
     /** {@inheritDoc} */
     @Override
-    public void setWantAssertionsSigned(XSBooleanValue wantAssertionSigned){
+    public void setWantAssertionsSigned(final XSBooleanValue wantAssertionSigned){
         this.wantAssertionsSigned = prepareForAssignment(this.wantAssertionsSigned, wantAssertionSigned);
     }
     

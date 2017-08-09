@@ -32,7 +32,7 @@ import org.opensaml.saml.saml2.core.AttributeQuery;
 public class AttributeQueryUnmarshaller extends SubjectQueryUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
+    protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
         AttributeQuery query = (AttributeQuery) parentSAMLObject;
 

@@ -40,7 +40,7 @@ public class PrivacyStatementURLBuilder extends AbstractSAMLObjectBuilder<Privac
     }
 
     /** {@inheritDoc} */
-    public PrivacyStatementURL buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public PrivacyStatementURL buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new PrivacyStatementURLImpl(namespaceURI, localName, namespacePrefix);
     }
 }

@@ -45,8 +45,8 @@ public class AuthzDecisionQueryDescriptorTypeImpl extends QueryDescriptorTypeImp
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AuthzDecisionQueryDescriptorTypeImpl(String namespaceURI, String elementLocalName,
-            String namespacePrefix) {
+    protected AuthzDecisionQueryDescriptorTypeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
 
         actionNamespaces = new XMLObjectChildrenList<>(this);
@@ -66,7 +66,7 @@ public class AuthzDecisionQueryDescriptorTypeImpl extends QueryDescriptorTypeImp
     
     /** {@inheritDoc} */
     @Override
-    public List<Endpoint> getEndpoints(QName type) {
+    public List<Endpoint> getEndpoints(final QName type) {
         return null;
     }
     

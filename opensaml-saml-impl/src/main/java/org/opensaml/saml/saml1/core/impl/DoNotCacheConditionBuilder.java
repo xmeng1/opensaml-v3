@@ -40,7 +40,7 @@ public class DoNotCacheConditionBuilder extends AbstractSAMLObjectBuilder<DoNotC
     }
 
     /** {@inheritDoc} */
-    public DoNotCacheCondition buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public DoNotCacheCondition buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new DoNotCacheConditionImpl(namespaceURI, localName, namespacePrefix);
     }
 }

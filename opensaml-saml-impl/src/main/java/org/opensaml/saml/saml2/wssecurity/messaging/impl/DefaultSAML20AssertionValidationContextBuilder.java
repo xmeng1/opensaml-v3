@@ -97,7 +97,7 @@ public class DefaultSAML20AssertionValidationContextBuilder
      * 
      * @param flag true if required, false if not
      */
-    public void setSignatureRequired(boolean flag) {
+    public void setSignatureRequired(final boolean flag) {
         signatureRequired = flag;
     }
 
@@ -240,7 +240,7 @@ public class DefaultSAML20AssertionValidationContextBuilder
         try {
             X509Credential credential = new ServletRequestX509CredentialAdapter(input.getHttpServletRequest());
             return ((X509Credential)credential).getEntityCertificate();
-        } catch (SecurityException e) {
+        } catch (final SecurityException e) {
             log.warn("Peer TLS X.509 certificate was not present. " 
                     + "Holder-of-key proof-of-possession via client TLS cert will not be possible");
             return null;
@@ -325,7 +325,7 @@ public class DefaultSAML20AssertionValidationContextBuilder
                 log.warn("Could not determine attester IP address. Validation of Assertion may or may not succeed");
                 return Collections.emptySet();
             }
-        } catch (UnknownHostException e) {
+        } catch (final UnknownHostException e) {
             log.warn("Processing of attester IP address failed. Validation of Assertion may or may not succeed", e);
             return Collections.emptySet();
         }

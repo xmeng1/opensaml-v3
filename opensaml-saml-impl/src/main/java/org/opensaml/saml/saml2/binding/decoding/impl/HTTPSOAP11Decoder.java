@@ -90,7 +90,7 @@ public class HTTPSOAP11Decoder extends org.opensaml.soap.soap11.decoder.http.imp
      * 
      * @param messageContext the current message context
      */
-    protected void populateBindingContext(MessageContext<SAMLObject> messageContext) {
+    protected void populateBindingContext(final MessageContext<SAMLObject> messageContext) {
         SAMLBindingContext bindingContext = messageContext.getSubcontext(SAMLBindingContext.class, true);
         bindingContext.setBindingUri(getBindingURI());
         bindingContext.setBindingDescriptor(bindingDescriptor);

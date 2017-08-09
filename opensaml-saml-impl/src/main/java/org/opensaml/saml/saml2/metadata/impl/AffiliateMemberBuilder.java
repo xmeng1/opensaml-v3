@@ -40,7 +40,7 @@ public class AffiliateMemberBuilder extends AbstractSAMLObjectBuilder<AffiliateM
     }
 
     /** {@inheritDoc} */
-    public AffiliateMember buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public AffiliateMember buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new AffiliateMemberImpl(namespaceURI, localName, namespacePrefix);
     }
 }

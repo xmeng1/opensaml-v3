@@ -28,7 +28,7 @@ import org.w3c.dom.Attr;
 public class AuthenticationQueryUnmarshaller extends SubjectQueryUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject samlObject, final Attr attribute) throws UnmarshallingException {
         final AuthenticationQuery authenticationQuery = (AuthenticationQuery) samlObject;
 
         if (AuthenticationQuery.AUTHENTICATIONMETHOD_ATTRIB_NAME.equals(attribute.getLocalName())
