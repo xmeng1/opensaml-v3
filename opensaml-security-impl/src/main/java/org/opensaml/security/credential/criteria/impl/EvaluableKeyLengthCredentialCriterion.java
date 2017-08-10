@@ -68,13 +68,13 @@ public class EvaluableKeyLengthCredentialCriterion extends AbstractTriStatePredi
             return isNullInputSatisfies();
         }
         
-        Key key = getKey(target);
+        final Key key = getKey(target);
         if (key == null) {
             log.info("Could not evaluate criteria, credential contained no key");
             return isUnevaluableSatisfies();
         }
         
-        Integer length = KeySupport.getKeyLength(key);
+        final Integer length = KeySupport.getKeyLength(key);
         if (length == null) {
             log.info("Could not evaluate criteria, cannot determine length of key");
             return isUnevaluableSatisfies();
@@ -104,7 +104,7 @@ public class EvaluableKeyLengthCredentialCriterion extends AbstractTriStatePredi
     
     /** {@inheritDoc} */
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("EvaluableKeyLengthCredentialCriterion [keyLength=");
         builder.append(keyLength);
         builder.append("]");

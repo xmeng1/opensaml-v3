@@ -119,7 +119,8 @@ public class TrustEngineTLSSocketFactory implements LayeredConnectionSocketFacto
             final HttpContext context) throws IOException {
         
         log.trace("In connectSocket");
-        Socket socket = wrappedFactory.connectSocket(connectTimeout, sock, host, remoteAddress, localAddress, context);
+        final Socket socket =
+                wrappedFactory.connectSocket(connectTimeout, sock, host, remoteAddress, localAddress, context);
         performTrustEval(socket, context);
         performHostnameVerification(socket, host.getHostName(), context);
         return socket;
@@ -131,7 +132,7 @@ public class TrustEngineTLSSocketFactory implements LayeredConnectionSocketFacto
     public Socket createLayeredSocket(final Socket socket, final String target, final int port,
             final HttpContext context) throws IOException {
         log.trace("In createLayeredSocket");
-        Socket layeredSocket = wrappedFactory.createLayeredSocket(socket, target, port, context);
+        final Socket layeredSocket = wrappedFactory.createLayeredSocket(socket, target, port, context);
         performTrustEval(layeredSocket, context);
         performHostnameVerification(layeredSocket, target, context);
         return layeredSocket;
@@ -159,7 +160,7 @@ public class TrustEngineTLSSocketFactory implements LayeredConnectionSocketFacto
         
         log.debug("Attempting to evaluate server TLS credential against supplied TrustEngine and CriteriaSet");
         
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings("unchecked") final
         TrustEngine<? super X509Credential> trustEngine = (TrustEngine<? super X509Credential>) context.getAttribute(
                 HttpClientSecurityConstants.CONTEXT_KEY_TRUST_ENGINE);
         if (trustEngine == null) {
@@ -178,7 +179,7 @@ public class TrustEngineTLSSocketFactory implements LayeredConnectionSocketFacto
             log.trace("Saw CriteriaSet: {}", criteriaSet);
         }
 
-        X509Credential credential = extractCredential(sslSocket);
+        final X509Credential credential = extractCredential(sslSocket);
         
         try {
             if (trustEngine.validate(credential, criteriaSet)) {
@@ -208,20 +209,20 @@ public class TrustEngineTLSSocketFactory implements LayeredConnectionSocketFacto
      * @throws IOException if credential data can not be extracted from the socket
      */
     @Nonnull protected X509Credential extractCredential(@Nonnull final SSLSocket sslSocket) throws IOException {
-        SSLSession session = sslSocket.getSession();
+        final SSLSession session = sslSocket.getSession();
         final Certificate[] peerCertificates = session.getPeerCertificates();
         if (peerCertificates == null || peerCertificates.length < 1) {
             throw new SSLPeerUnverifiedException("SSLSession peer certificates array was null or empty");
         }
         
-        ArrayList<X509Certificate> certChain = new ArrayList<>();
-        for (Certificate cert : peerCertificates) {
+        final ArrayList<X509Certificate> certChain = new ArrayList<>();
+        for (final Certificate cert : peerCertificates) {
             certChain.add((X509Certificate) cert);
         }
         
         final X509Certificate entityCert = certChain.get(0);
         
-        BasicX509Credential credential = new BasicX509Credential(entityCert);
+        final BasicX509Credential credential = new BasicX509Credential(entityCert);
         credential.setEntityCertificateChain(certChain);
         
         return credential;

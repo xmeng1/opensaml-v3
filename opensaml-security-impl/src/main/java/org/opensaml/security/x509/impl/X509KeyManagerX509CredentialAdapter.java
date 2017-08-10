@@ -64,7 +64,7 @@ public class X509KeyManagerX509CredentialAdapter extends AbstractCredential impl
 
     /** {@inheritDoc} */
     @Nonnull public X509Certificate getEntityCertificate() {
-        X509Certificate[] certs = keyManager.getCertificateChain(credentialAlias);
+        final X509Certificate[] certs = keyManager.getCertificateChain(credentialAlias);
         if (certs != null && certs.length > 0) {
             return certs[0];
         }
@@ -74,7 +74,7 @@ public class X509KeyManagerX509CredentialAdapter extends AbstractCredential impl
 
     /** {@inheritDoc} */
     @Nonnull public Collection<X509Certificate> getEntityCertificateChain() {
-        X509Certificate[] certs = keyManager.getCertificateChain(credentialAlias);
+        final X509Certificate[] certs = keyManager.getCertificateChain(credentialAlias);
         if (certs != null && certs.length > 0) {
             return Arrays.asList(certs);
         }

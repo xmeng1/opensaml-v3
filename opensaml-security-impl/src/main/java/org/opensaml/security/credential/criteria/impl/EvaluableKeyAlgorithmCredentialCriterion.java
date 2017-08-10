@@ -58,7 +58,7 @@ public class EvaluableKeyAlgorithmCredentialCriterion extends AbstractTriStatePr
      * @param newKeyAlgorithm the criteria value which is the basis for evaluation
      */
     public EvaluableKeyAlgorithmCredentialCriterion(@Nonnull final String newKeyAlgorithm) {
-        String trimmed = StringSupport.trimOrNull(newKeyAlgorithm);
+        final String trimmed = StringSupport.trimOrNull(newKeyAlgorithm);
         Constraint.isNotNull(trimmed, "Key algorithm cannot be null or empty");
 
         keyAlgorithm = trimmed;
@@ -71,13 +71,13 @@ public class EvaluableKeyAlgorithmCredentialCriterion extends AbstractTriStatePr
             return isNullInputSatisfies();
         }
         
-        Key key = getKey(target);
+        final Key key = getKey(target);
         if (key == null) {
             log.info("Could not evaluate criteria, credential contained no key");
             return isUnevaluableSatisfies();
         }
         
-        String algorithm = StringSupport.trimOrNull(key.getAlgorithm());
+        final String algorithm = StringSupport.trimOrNull(key.getAlgorithm());
         if (algorithm == null) {
             log.info("Could not evaluate criteria, key does not specify an algorithm via getAlgorithm()");
             return isUnevaluableSatisfies();
@@ -107,7 +107,7 @@ public class EvaluableKeyAlgorithmCredentialCriterion extends AbstractTriStatePr
     
     /** {@inheritDoc} */
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("EvaluableKeyAlgorithmCredentialCriterion [keyAlgorithm=");
         builder.append(keyAlgorithm);
         builder.append("]");

@@ -95,14 +95,14 @@ public class StaticPKIXValidationInformationResolver implements PKIXValidationIn
             return ImmutableSet.copyOf(trustedNames);
         }
         
-        HashSet<String> temp = new HashSet<>(trustedNames);
-        EntityIdCriterion entityIDCriterion = criteriaSet.get(EntityIdCriterion.class);
+        final HashSet<String> temp = new HashSet<>(trustedNames);
+        final EntityIdCriterion entityIDCriterion = criteriaSet.get(EntityIdCriterion.class);
         if (entityIDCriterion != null) {
             temp.add(entityIDCriterion.getEntityId());
         }
         
         if (supportDynamicTrustedNames) {
-            TrustedNamesCriterion trustedNamesCriterion = criteriaSet.get(TrustedNamesCriterion.class);
+            final TrustedNamesCriterion trustedNamesCriterion = criteriaSet.get(TrustedNamesCriterion.class);
             if (trustedNamesCriterion != null) {
                 temp.addAll(trustedNamesCriterion.getTrustedNames());
             }

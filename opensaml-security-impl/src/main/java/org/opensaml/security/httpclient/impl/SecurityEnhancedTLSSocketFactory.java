@@ -206,7 +206,7 @@ public class SecurityEnhancedTLSSocketFactory implements LayeredConnectionSocket
         log.trace("In connectSocket");
         try {
             setup(context);
-            Socket socket = 
+            final Socket socket = 
                     wrappedFactory.connectSocket(connectTimeout, sock, host, remoteAddress, localAddress, context);
             performTrustEval(socket, host.getHostName(), context);
             performHostnameVerification(socket, host.getHostName(), context);
@@ -223,7 +223,7 @@ public class SecurityEnhancedTLSSocketFactory implements LayeredConnectionSocket
         log.trace("In createLayeredSocket");
         try {
             setup(context);
-            Socket layeredSocket = wrappedFactory.createLayeredSocket(socket, target, port, context);
+            final Socket layeredSocket = wrappedFactory.createLayeredSocket(socket, target, port, context);
             performTrustEval(layeredSocket, target, context);
             performHostnameVerification(layeredSocket, target, context);
             return layeredSocket;
@@ -274,11 +274,11 @@ public class SecurityEnhancedTLSSocketFactory implements LayeredConnectionSocket
             log.debug("Socket was not an instance of SSLSocket, skipping trust eval");
             return;
         }
-        SSLSocket sslSocket = (SSLSocket) socket;
+        final SSLSocket sslSocket = (SSLSocket) socket;
         
         log.debug("Attempting to evaluate server TLS credential against supplied TrustEngine and CriteriaSet");
         
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings("unchecked") final
         TrustEngine<? super X509Credential> trustEngine = (TrustEngine<? super X509Credential>) context.getAttribute(
                 HttpClientSecurityConstants.CONTEXT_KEY_TRUST_ENGINE);
         if (trustEngine == null) {
@@ -306,7 +306,7 @@ public class SecurityEnhancedTLSSocketFactory implements LayeredConnectionSocket
             log.trace("Saw CriteriaSet: {}", criteriaSet);
         }
 
-        X509Credential credential = extractCredential(sslSocket);
+        final X509Credential credential = extractCredential(sslSocket);
         
         try {
             if (trustEngine.validate(credential, criteriaSet)) {
@@ -336,20 +336,20 @@ public class SecurityEnhancedTLSSocketFactory implements LayeredConnectionSocket
      * @throws IOException if credential data can not be extracted from the socket
      */
     @Nonnull protected X509Credential extractCredential(@Nonnull final SSLSocket sslSocket) throws IOException {
-        SSLSession session = sslSocket.getSession();
+        final SSLSession session = sslSocket.getSession();
         final Certificate[] peerCertificates = session.getPeerCertificates();
         if (peerCertificates == null || peerCertificates.length < 1) {
             throw new SSLPeerUnverifiedException("SSLSession peer certificates array was null or empty");
         }
         
-        ArrayList<X509Certificate> certChain = new ArrayList<>();
-        for (Certificate cert : peerCertificates) {
+        final ArrayList<X509Certificate> certChain = new ArrayList<>();
+        for (final Certificate cert : peerCertificates) {
             certChain.add((X509Certificate) cert);
         }
         
         final X509Certificate entityCert = certChain.get(0);
         
-        BasicX509Credential credential = new BasicX509Credential(entityCert);
+        final BasicX509Credential credential = new BasicX509Credential(entityCert);
         credential.setEntityCertificateChain(certChain);
         
         return credential;
@@ -383,7 +383,7 @@ public class SecurityEnhancedTLSSocketFactory implements LayeredConnectionSocket
             return;
         }
         if (!ThreadLocalX509CredentialContext.haveCurrent()) {
-            X509Credential credential = 
+            final X509Credential credential = 
                     (X509Credential) context.getAttribute(
                             HttpClientSecurityConstants.CONTEXT_KEY_CLIENT_TLS_CREDENTIAL);
             if (credential != null) {

@@ -54,7 +54,7 @@ public class ExplicitKeyTrustEvaluator {
      * @return true if trust can be established, false otherwise
      */
     public boolean validate(@Nonnull final Key untrustedKey, @Nonnull final Iterable<Key> trustedKeys) {
-        for (Key trustedKey : trustedKeys) {
+        for (final Key trustedKey : trustedKeys) {
             if (untrustedKey.equals(trustedKey)) {
                 return true;
             }
@@ -108,7 +108,7 @@ public class ExplicitKeyTrustEvaluator {
     public boolean validate(@Nonnull final Credential untrustedCredential,
             @Nonnull final Iterable<Credential> trustedCredentials) {
 
-        for (Credential trustedCredential : trustedCredentials) {
+        for (final Credential trustedCredential : trustedCredentials) {
             if (validate(untrustedCredential, trustedCredential)) {
                 return true;
             }

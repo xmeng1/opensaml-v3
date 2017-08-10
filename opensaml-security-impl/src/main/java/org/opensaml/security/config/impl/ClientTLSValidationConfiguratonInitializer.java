@@ -36,12 +36,12 @@ public class ClientTLSValidationConfiguratonInitializer implements Initializer {
 
     /** {@inheritDoc} */
     public void init() throws InitializationException {
-        CertificateNameOptions nameOptions = new CertificateNameOptions();
+        final CertificateNameOptions nameOptions = new CertificateNameOptions();
         nameOptions.setEvaluateSubjectCommonName(true);
         nameOptions.setSubjectAltNames(
                 new HashSet<>(Arrays.asList(X509Support.DNS_ALT_NAME, X509Support.URI_ALT_NAME)));
         
-        BasicClientTLSValidationConfiguration config = new BasicClientTLSValidationConfiguration();
+        final BasicClientTLSValidationConfiguration config = new BasicClientTLSValidationConfiguration();
         config.setCertificateNameOptions(nameOptions);
         
         ConfigurationService.register(ClientTLSValidationConfiguration.class, config);

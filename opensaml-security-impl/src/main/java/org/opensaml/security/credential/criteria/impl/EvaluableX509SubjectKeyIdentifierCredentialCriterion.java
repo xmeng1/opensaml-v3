@@ -76,13 +76,13 @@ public class EvaluableX509SubjectKeyIdentifierCredentialCriterion extends Abstra
             return false;
         }
         
-        X509Certificate entityCert = ((X509Credential) target).getEntityCertificate();
+        final X509Certificate entityCert = ((X509Credential) target).getEntityCertificate();
         if (entityCert == null) {
             log.info("X509Credential did not contain an entity certificate, does not satisfy criteria");
             return false;
         }
         
-        byte[] credSKI = X509Support.getSubjectKeyIdentifier(entityCert);
+        final byte[] credSKI = X509Support.getSubjectKeyIdentifier(entityCert);
         if (credSKI == null || credSKI.length == 0) {
             log.info("Could not evaluate criteria, certificate contained no subject key identifier extension");
             return isUnevaluableSatisfies();
@@ -93,7 +93,7 @@ public class EvaluableX509SubjectKeyIdentifierCredentialCriterion extends Abstra
     
     /** {@inheritDoc} */
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("EvaluableX509SubjectKeyIdentifierCredentialCriterion [ski=");
         builder.append(Hex.encodeHexString(ski));
         builder.append("]");

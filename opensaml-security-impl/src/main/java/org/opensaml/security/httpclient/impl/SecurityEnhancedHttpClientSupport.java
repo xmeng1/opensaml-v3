@@ -123,7 +123,7 @@ public final class SecurityEnhancedHttpClientSupport {
     @Nonnull public static LayeredConnectionSocketFactory buildTLSSocketFactory(final boolean supportTrustEngine, 
             final boolean supportClientTLS) {
         
-        TLSSocketFactoryBuilder wrappedFactoryBuilder = new TLSSocketFactoryBuilder();
+        final TLSSocketFactoryBuilder wrappedFactoryBuilder = new TLSSocketFactoryBuilder();
         
         if (supportTrustEngine || supportClientTLS) {
             wrappedFactoryBuilder.setHostnameVerifier(new AllowAllHostnameVerifier());

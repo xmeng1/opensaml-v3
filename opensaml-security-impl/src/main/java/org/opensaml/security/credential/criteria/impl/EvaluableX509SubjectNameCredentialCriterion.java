@@ -73,7 +73,7 @@ public class EvaluableX509SubjectNameCredentialCriterion extends AbstractTriStat
             return false;
         }
 
-        X509Certificate entityCert = ((X509Credential) target).getEntityCertificate();
+        final X509Certificate entityCert = ((X509Credential) target).getEntityCertificate();
         if (entityCert == null) {
             log.info("X509Credential did not contain an entity certificate, does not satisfy criteria");
             return false;
@@ -84,7 +84,7 @@ public class EvaluableX509SubjectNameCredentialCriterion extends AbstractTriStat
     
     /** {@inheritDoc} */
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("EvaluableX509SubjectNameCredentialCriterion [subjectName=");
         builder.append(subjectName.getName());
         builder.append("]");

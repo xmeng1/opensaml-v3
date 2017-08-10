@@ -58,7 +58,7 @@ public class EvaluableEntityIDCredentialCriterion extends AbstractTriStatePredic
      * @param entity the criteria value which is the basis for evaluation
      */
     public EvaluableEntityIDCredentialCriterion(@Nonnull final String entity) {
-        String trimmed = StringSupport.trimOrNull(entity);
+        final String trimmed = StringSupport.trimOrNull(entity);
         Constraint.isNotNull(trimmed, "EntityID criteria cannot be null or empty");
 
         entityID = trimmed;
@@ -78,7 +78,7 @@ public class EvaluableEntityIDCredentialCriterion extends AbstractTriStatePredic
     
     /** {@inheritDoc} */
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("EvaluableEntityIDCredentialCriterion [entityID=");
         builder.append(entityID);
         builder.append("]");

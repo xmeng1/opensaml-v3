@@ -50,7 +50,7 @@ public class BasicClientTLSValidationParametersResolver implements ClientTLSVali
     /** {@inheritDoc} */
     @Nonnull @NonnullElements public Iterable<ClientTLSValidationParameters> resolve(final CriteriaSet criteria) 
             throws ResolverException {
-        ClientTLSValidationParameters params = resolveSingle(criteria);
+        final ClientTLSValidationParameters params = resolveSingle(criteria);
         if (params != null) {
             return Collections.singletonList(params);
         } else {
@@ -64,7 +64,7 @@ public class BasicClientTLSValidationParametersResolver implements ClientTLSVali
         Constraint.isNotNull(criteria.get(ClientTLSValidationConfigurationCriterion.class), 
                 "Resolver requires an instance of ClientTLSValidationConfigurationCriterion");
         
-        ClientTLSValidationParameters params = new ClientTLSValidationParameters();
+        final ClientTLSValidationParameters params = new ClientTLSValidationParameters();
         
         params.setX509TrustEngine(resolveTrustEngine(criteria));
         
@@ -82,7 +82,7 @@ public class BasicClientTLSValidationParametersResolver implements ClientTLSVali
      */
     @Nullable protected TrustEngine<? super X509Credential> resolveTrustEngine(@Nonnull final CriteriaSet criteria) {
         
-        for (ClientTLSValidationConfiguration config : 
+        for (final ClientTLSValidationConfiguration config : 
             criteria.get(ClientTLSValidationConfigurationCriterion.class).getConfigurations()) {
             if (config.getX509TrustEngine() != null) {
                 return config.getX509TrustEngine();
@@ -100,7 +100,7 @@ public class BasicClientTLSValidationParametersResolver implements ClientTLSVali
      */
     @Nullable protected CertificateNameOptions resolveNameOptions(@Nonnull final CriteriaSet criteria) {
         
-        for (ClientTLSValidationConfiguration config : 
+        for (final ClientTLSValidationConfiguration config : 
             criteria.get(ClientTLSValidationConfigurationCriterion.class).getConfigurations()) {
             if (config.getCertificateNameOptions() != null) {
                 return config.getCertificateNameOptions();

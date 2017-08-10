@@ -59,8 +59,8 @@ public abstract class AbstractCriteriaFilteringCredentialResolver extends Abstra
 
     /** {@inheritDoc} */
     @Nonnull public Iterable<Credential> resolve(@Nullable final CriteriaSet criteriaSet) throws ResolverException {
-        Iterable<Credential> storeCandidates = resolveFromSource(criteriaSet);
-        Set<Predicate<Credential>> predicates = getPredicates(criteriaSet);
+        final Iterable<Credential> storeCandidates = resolveFromSource(criteriaSet);
+        final Set<Predicate<Credential>> predicates = getPredicates(criteriaSet);
         if (predicates.isEmpty()) {
             return storeCandidates;
         } else {
@@ -118,12 +118,12 @@ public abstract class AbstractCriteriaFilteringCredentialResolver extends Abstra
         if (criteriaSet == null) {
             return Collections.emptySet();
         }
-        Set<Predicate<Credential>> predicates = new HashSet<>(criteriaSet.size());
-        for (Criterion criteria : criteriaSet) {
+        final Set<Predicate<Credential>> predicates = new HashSet<>(criteriaSet.size());
+        for (final Criterion criteria : criteriaSet) {
             if (criteria instanceof EvaluableCredentialCriterion) {
                 predicates.add((EvaluableCredentialCriterion) criteria);
             } else {
-                EvaluableCredentialCriterion evaluableCriteria;
+                final EvaluableCredentialCriterion evaluableCriteria;
                 try {
                     evaluableCriteria = EvaluableCredentialCriteriaRegistry.getEvaluator(criteria);
                 } catch (final SecurityException e) {

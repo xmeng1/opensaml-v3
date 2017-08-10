@@ -182,7 +182,7 @@ public class PKIXX509CredentialTrustEngine implements PKIXTrustEngine<X509Creden
             return false;
         }
 
-        for (PKIXValidationInformation validationInfo : validationInfoSet) {
+        for (final PKIXValidationInformation validationInfo : validationInfoSet) {
             try {
                 if (getPKIXTrustEvaluator().validate(validationInfo, untrustedX509Credential)) {
                     log.debug("Credential trust established via PKIX validation");
