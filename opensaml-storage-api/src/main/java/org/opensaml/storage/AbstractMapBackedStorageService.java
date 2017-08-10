@@ -83,10 +83,10 @@ public abstract class AbstractMapBackedStorageService extends AbstractStorageSer
             }
             
             // Check for a duplicate.
-            StorageRecord record = dataMap.get(key);
+            final StorageRecord record = dataMap.get(key);
             if (record != null) {
                 // Not yet expired?
-                Long exp = record.getExpiration();
+                final Long exp = record.getExpiration();
                 if (exp == null || System.currentTimeMillis() < exp) {
                     return false;
                 }
@@ -187,8 +187,8 @@ public abstract class AbstractMapBackedStorageService extends AbstractStorageSer
             final Map<String, MutableStorageRecord> dataMap = contextMap.get(context);
             if (dataMap != null) {    
                 setDirty();
-                Long now = System.currentTimeMillis();
-                for (MutableStorageRecord record : dataMap.values()) {
+                final Long now = System.currentTimeMillis();
+                for (final MutableStorageRecord record : dataMap.values()) {
                     final Long exp = record.getExpiration();
                     if (exp == null || now < exp) {
                         record.setExpiration(expiration);
@@ -295,7 +295,7 @@ public abstract class AbstractMapBackedStorageService extends AbstractStorageSer
     @Nonnull protected Pair<Long, StorageRecord> readImpl(@Nonnull @NotEmpty final String context,
             @Nonnull @NotEmpty final String key, @Nullable final Long version) throws IOException {
 
-        Lock readLock = getLock().readLock();
+        final Lock readLock = getLock().readLock();
         try {
             readLock.lock();
             
@@ -313,12 +313,12 @@ public abstract class AbstractMapBackedStorageService extends AbstractStorageSer
                 return new Pair();
             }
 
-            StorageRecord record = dataMap.get(key);
+            final StorageRecord record = dataMap.get(key);
             if (record == null) {
                 log.debug("Read failed, key '{}' not found in context '{}'", key, context);
                 return new Pair();
             } else {
-                Long exp = record.getExpiration();
+                final Long exp = record.getExpiration();
                 if (exp != null && System.currentTimeMillis() >= exp) {
                     log.debug("Read failed, key '{}' expired in context '{}'", key, context);
                     return new Pair();
@@ -372,12 +372,12 @@ public abstract class AbstractMapBackedStorageService extends AbstractStorageSer
                 return null;
             }
             
-            MutableStorageRecord record = dataMap.get(key);
+            final MutableStorageRecord record = dataMap.get(key);
             if (record == null) {
                 log.debug("Update failed, key '{}' not found in context '{}'", key, context);
                 return null;
             } else {
-                Long exp = record.getExpiration();
+                final Long exp = record.getExpiration();
                 if (exp != null && System.currentTimeMillis() >= exp) {
                     log.debug("Update failed, key '{}' expired in context '{}'", key, context);
                     return null;
@@ -440,7 +440,7 @@ public abstract class AbstractMapBackedStorageService extends AbstractStorageSer
                 return false;
             }
 
-            MutableStorageRecord record = dataMap.get(key);
+            final MutableStorageRecord record = dataMap.get(key);
             if (record == null) {
                 log.debug("Deleting record '{}' in context '{}'....key not found", key, context);
                 return false;
@@ -475,7 +475,7 @@ public abstract class AbstractMapBackedStorageService extends AbstractStorageSer
         
         return Iterables.removeIf(dataMap.entrySet(), new Predicate<Entry<String, MutableStorageRecord>>() {
                 public boolean apply(@Nullable final Entry<String, MutableStorageRecord> entry) {
-                    Long exp = entry.getValue().getExpiration();
+                    final Long exp = entry.getValue().getExpiration();
                     return exp != null && exp <= expiration;
                 }
             }
