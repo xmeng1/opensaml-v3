@@ -539,11 +539,11 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
             keySet.removeAll(Arrays.asList(blacklistKeys.getValue().split(CTX_KEY_LIST_DELIMITER)));
         }
         final List<OperationFuture<Boolean>> results = new ArrayList<>(keySet.size());
-        for (String key : keySet) {
+        for (final String key : keySet) {
             logger.debug("Updating expiration of key {} to {}", key, expiry);
             results.add(memcacheClient.touch(key, expiry));
         }
-        for (OperationFuture<Boolean> result : results) {
+        for (final OperationFuture<Boolean> result : results) {
             handleAsyncResult(result);
         }
     }
@@ -635,7 +635,7 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
         if (parts.length > 0) {
             final StringBuilder sb = new StringBuilder();
             int i = 0;
-            for (String part : parts) {
+            for (final String part : parts) {
                 if (i++ > 0) {
                     sb.append(':');
                 }

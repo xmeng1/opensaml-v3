@@ -544,7 +544,7 @@ public class ClientStorageService extends AbstractMapBackedStorageService implem
                     }
                     
                     final JsonObject contextRecords = (JsonObject) context.getValue();
-                    for (Map.Entry<String,JsonValue> record : contextRecords.entrySet()) {
+                    for (final Map.Entry<String,JsonValue> record : contextRecords.entrySet()) {
                     
                         final JsonObject fields = (JsonObject) record.getValue();
                         Long exp = null;

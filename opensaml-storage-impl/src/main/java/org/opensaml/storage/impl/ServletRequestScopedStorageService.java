@@ -341,7 +341,7 @@ public class ServletRequestScopedStorageService extends AbstractMapBackedStorage
                 }
                 
                 final JsonObject contextRecords = (JsonObject) context.getValue();
-                for (Map.Entry<String,JsonValue> record : contextRecords.entrySet()) {
+                for (final Map.Entry<String,JsonValue> record : contextRecords.entrySet()) {
                 
                     final JsonObject fields = (JsonObject) record.getValue();
                     Long exp = null;
@@ -414,7 +414,7 @@ public class ServletRequestScopedStorageService extends AbstractMapBackedStorage
             for (final Map.Entry<String,Map<String, MutableStorageRecord>> context : contextMap.entrySet()) {
                 
                 gen.writeStartObject(context.getKey());
-                for (Map.Entry<String,MutableStorageRecord> entry : context.getValue().entrySet()) {
+                for (final Map.Entry<String,MutableStorageRecord> entry : context.getValue().entrySet()) {
                     final MutableStorageRecord record = entry.getValue();
                     final Long recexp = record.getExpiration();
                     if (recexp == null || recexp > now) {

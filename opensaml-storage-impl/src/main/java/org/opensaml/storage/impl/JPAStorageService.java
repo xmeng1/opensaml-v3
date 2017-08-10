@@ -673,7 +673,7 @@ public class JPAStorageService extends AbstractStorageService implements Storage
                     transaction = manager.getTransaction();
                     transaction.begin();
                     // cannot set lock mode on a non-select query
-                    Query queryResults;
+                    final Query queryResults;
                     if (expiration == null) {
                         queryResults = manager.createNamedQuery("JPAStorageRecord.deleteByContext");
                     } else {
@@ -810,7 +810,7 @@ public class JPAStorageService extends AbstractStorageService implements Storage
             final Query queryResults = manager.createNamedQuery(query, clazz);
             queryResults.setLockMode(lockMode);
             if (params != null && !params.isEmpty()) {
-                for (Map.Entry<String, Object> entry : params.entrySet()) {
+                for (final Map.Entry<String, Object> entry : params.entrySet()) {
                     queryResults.setParameter(entry.getKey(), entry.getValue());
                 }
             }
