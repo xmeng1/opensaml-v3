@@ -29,7 +29,8 @@ public class MissingAttributeDetailTypeImplBuilder extends AbstractXACMLObjectBu
     }
 
     /** {@inheritDoc} */
-    public MissingAttributeDetailType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public MissingAttributeDetailType buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new MissingAttributeDetailTypeImpl(namespaceURI, localName, namespacePrefix);
     }
 

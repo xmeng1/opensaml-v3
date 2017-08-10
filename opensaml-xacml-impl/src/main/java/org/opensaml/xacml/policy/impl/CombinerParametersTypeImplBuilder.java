@@ -31,7 +31,8 @@ public class CombinerParametersTypeImplBuilder extends AbstractXACMLObjectBuilde
     }
     
     /** {@inheritDoc} */
-    public CombinerParametersType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public CombinerParametersType buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new CombinerParametersTypeImpl(namespaceURI,localName,namespacePrefix);
     }
 

@@ -33,7 +33,7 @@ public class SubjectTypeUnmarshaller extends AbstractXACMLObjectUnmarshaller {
     }
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         SubjectType attrib = (SubjectType) xmlObject;
         if (attribute.getLocalName().equals(SubjectType.SUBJECT_CATEGORY_ATTTRIB_NAME)) {
             attrib.setSubjectCategory(attribute.getValue());
@@ -43,7 +43,8 @@ public class SubjectTypeUnmarshaller extends AbstractXACMLObjectUnmarshaller {
     }
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentObject, XMLObject childObject) throws UnmarshallingException {
+    protected void processChildElement(final XMLObject parentObject, final XMLObject childObject)
+            throws UnmarshallingException {
         SubjectType subject = (SubjectType) parentObject;
         if (childObject instanceof AttributeType) {
             subject.getAttributes().add((AttributeType) childObject);

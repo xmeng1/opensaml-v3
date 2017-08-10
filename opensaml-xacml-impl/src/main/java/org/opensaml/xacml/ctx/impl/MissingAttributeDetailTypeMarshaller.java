@@ -32,7 +32,7 @@ public class MissingAttributeDetailTypeMarshaller extends AbstractXACMLObjectMar
     }
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
         MissingAttributeDetailType madt = (MissingAttributeDetailType) xmlObject;
 
         if (madt.getAttributeId() != null) {

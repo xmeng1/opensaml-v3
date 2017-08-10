@@ -33,7 +33,7 @@ public class RuleCombinerParametersTypeUnmarshaller extends AbstractXACMLObjectU
 
     /** {@inheritDoc} */
     @Override
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
       
         if(attribute.getLocalName().equals(RuleCombinerParametersType.RULE_ID_REF_ATTRIB_NAME)){
             RuleCombinerParametersType ruleCombinerParametersType = (RuleCombinerParametersType)xmlObject;
@@ -45,7 +45,7 @@ public class RuleCombinerParametersTypeUnmarshaller extends AbstractXACMLObjectU
 
     /** {@inheritDoc} */
     @Override
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
         RuleCombinerParametersType ruleCombinerParametersType = (RuleCombinerParametersType) parentXMLObject;
         

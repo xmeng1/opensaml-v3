@@ -41,7 +41,8 @@ public class IdReferenceTypeImpl extends XSStringImpl implements IdReferenceType
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected IdReferenceTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected IdReferenceTypeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -62,17 +63,17 @@ public class IdReferenceTypeImpl extends XSStringImpl implements IdReferenceType
     }
 
     /** {@inheritDoc} */
-    public void setEarliestVersion(String newEarliestVersion) {
+    public void setEarliestVersion(final String newEarliestVersion) {
         this.earliestVersion = prepareForAssignment(this.earliestVersion,newEarliestVersion);
     }
 
     /** {@inheritDoc} */
-    public void setLatestVersion(String newLastestVersion) {
+    public void setLatestVersion(final String newLastestVersion) {
         this.latestVersion = prepareForAssignment(this.latestVersion,newLastestVersion);
     }
 
     /** {@inheritDoc} */
-    public void setVersion(String newVersion) {
+    public void setVersion(final String newVersion) {
        this.version = prepareForAssignment(this.version,newVersion);
     }
 

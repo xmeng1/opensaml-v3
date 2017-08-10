@@ -27,7 +27,8 @@ public class PolicySetCombinerParametersTypeImplBuilder
         extends AbstractXACMLObjectBuilder<PolicySetCombinerParametersType> {
 
     /** {@inheritDoc} */
-    public PolicySetCombinerParametersType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public PolicySetCombinerParametersType buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new PolicySetCombinerParametersTypeImpl(namespaceURI,localName,namespacePrefix);
     }
 

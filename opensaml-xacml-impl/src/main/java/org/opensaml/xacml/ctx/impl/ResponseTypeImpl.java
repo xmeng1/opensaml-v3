@@ -40,7 +40,7 @@ public class ResponseTypeImpl extends AbstractXACMLObject implements ResponseTyp
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected ResponseTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected ResponseTypeImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         results = new XMLObjectChildrenList<>(this);
     }

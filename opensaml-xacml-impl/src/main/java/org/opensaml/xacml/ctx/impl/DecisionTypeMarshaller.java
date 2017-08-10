@@ -34,7 +34,8 @@ public class DecisionTypeMarshaller extends AbstractXACMLObjectMarshaller {
     }
 
     /** {@inheritDoc} */
-    protected void marshallElementContent(XMLObject samlObject, Element domElement) throws MarshallingException {
+    protected void marshallElementContent(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
         DecisionType decision = (DecisionType) samlObject;
         ElementSupport.appendTextContent(domElement, decision.getDecision().toString());
     }

@@ -52,7 +52,7 @@ public class RequestTypeImpl extends AbstractXACMLObject implements RequestType 
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected RequestTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected RequestTypeImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         subjects = new XMLObjectChildrenList<>(this);
         resources = new XMLObjectChildrenList<>(this);
@@ -74,7 +74,7 @@ public class RequestTypeImpl extends AbstractXACMLObject implements RequestType 
     }
 
     /** {@inheritDoc} */
-    public void setEnvironment(EnvironmentType env) {
+    public void setEnvironment(final EnvironmentType env) {
         environment = prepareForAssignment(environment, env);
     }
 
@@ -84,7 +84,7 @@ public class RequestTypeImpl extends AbstractXACMLObject implements RequestType 
     }
 
     /** {@inheritDoc} */
-    public void setAction(ActionType act) {
+    public void setAction(final ActionType act) {
         action = prepareForAssignment(action, act);
     }
 

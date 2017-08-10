@@ -30,7 +30,8 @@ public class EnvironmentsTypeImplBuilder extends AbstractXACMLObjectBuilder<Envi
     }
 
     /** {@inheritDoc} */
-    public EnvironmentsType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public EnvironmentsType buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new EnvironmentsTypeImpl(namespaceURI, localName, namespacePrefix);
     }
 }

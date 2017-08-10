@@ -41,7 +41,8 @@ public class StatusCodeTypeImpl extends AbstractXACMLObject implements StatusCod
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected StatusCodeTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected StatusCodeTypeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -67,12 +68,12 @@ public class StatusCodeTypeImpl extends AbstractXACMLObject implements StatusCod
     }
 
     /** {@inheritDoc} */
-    public void setStatusCode(StatusCodeType code) {
+    public void setStatusCode(final StatusCodeType code) {
         statusCode = prepareForAssignment(statusCode, code);
     }
 
     /** {@inheritDoc} */
-    public void setValue(String newValue) {
+    public void setValue(final String newValue) {
         this.value = prepareForAssignment(this.value, newValue);
     }
 

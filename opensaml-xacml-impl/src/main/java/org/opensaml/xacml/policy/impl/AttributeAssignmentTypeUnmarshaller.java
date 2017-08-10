@@ -29,7 +29,7 @@ public class AttributeAssignmentTypeUnmarshaller extends AttributeValueTypeUnmar
 
     /** {@inheritDoc} */
     @Override
-    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject samlObject, final Attr attribute) throws UnmarshallingException {
 
         AttributeAssignmentType attrib = (AttributeAssignmentType) samlObject;
 

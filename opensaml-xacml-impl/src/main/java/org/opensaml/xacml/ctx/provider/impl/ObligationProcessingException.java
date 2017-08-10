@@ -33,7 +33,7 @@ public class ObligationProcessingException extends Exception {
      * 
      * @param message exception message
      */
-    public ObligationProcessingException(String message) {
+    public ObligationProcessingException(final String message) {
         super(message);
     }
 
@@ -42,7 +42,7 @@ public class ObligationProcessingException extends Exception {
      * 
      * @param wrappedException exception to be wrapped by this one
      */
-    public ObligationProcessingException(Exception wrappedException) {
+    public ObligationProcessingException(final Exception wrappedException) {
         super(wrappedException);
     }
 
@@ -52,7 +52,7 @@ public class ObligationProcessingException extends Exception {
      * @param message exception message
      * @param wrappedException exception to be wrapped by this one
      */
-    public ObligationProcessingException(String message, Exception wrappedException) {
+    public ObligationProcessingException(final String message, final Exception wrappedException) {
         super(message, wrappedException);
     }
 }

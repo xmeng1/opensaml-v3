@@ -40,7 +40,8 @@ public class StatusMessageTypeImplBuilder extends AbstractXACMLObjectBuilder<Sta
     }
 
     /** {@inheritDoc} */
-    public StatusMessageType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public StatusMessageType buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new StatusMessageTypeImpl(namespaceURI, localName, namespacePrefix);
     }
 

@@ -29,7 +29,8 @@ public class AttributeAssignmentTypeImplBuilder extends AbstractXACMLObjectBuild
     }
 
     /** {@inheritDoc} */
-    public AttributeAssignmentType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public AttributeAssignmentType buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new AttributeAssignmentTypeImpl(namespaceURI, localName, namespacePrefix);
     }
 }

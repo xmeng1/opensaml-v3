@@ -26,7 +26,8 @@ import org.opensaml.xacml.policy.VariableDefinitionType;
 public class VariableDefinitionTypeImplBuilder extends AbstractXACMLObjectBuilder<VariableDefinitionType> {
 
     /** {@inheritDoc} */
-    public VariableDefinitionType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public VariableDefinitionType buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new VariableDefinitionTypeImpl(namespaceURI,localName,namespacePrefix);
     }
 

@@ -32,7 +32,7 @@ public class ApplyTypeMarshaller extends AbstractXACMLObjectMarshaller {
         
     /** {@inheritDoc} */
     @Override
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
         ApplyType applyType = (ApplyType)xmlObject;
         
         if(!Strings.isNullOrEmpty(applyType.getFunctionId())){

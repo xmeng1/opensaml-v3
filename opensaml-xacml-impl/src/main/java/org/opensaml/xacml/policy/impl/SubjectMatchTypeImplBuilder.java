@@ -29,7 +29,8 @@ public class SubjectMatchTypeImplBuilder extends AbstractXACMLObjectBuilder<Subj
     }
 
     /** {@inheritDoc} */
-    public SubjectMatchType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public SubjectMatchType buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new SubjectMatchTypeImpl(namespaceURI, localName, namespacePrefix);
     }
 }

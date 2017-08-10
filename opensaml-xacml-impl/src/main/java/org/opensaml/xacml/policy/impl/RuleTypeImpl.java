@@ -55,7 +55,7 @@ public class RuleTypeImpl extends AbstractXACMLObject implements RuleType {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected RuleTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix){
+    protected RuleTypeImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix){
         super(namespaceURI,elementLocalName,namespacePrefix);
     }
     
@@ -85,27 +85,27 @@ public class RuleTypeImpl extends AbstractXACMLObject implements RuleType {
     }
 
     /** {@inheritDoc} */
-    public void setCondition(ConditionType newCondition) {
+    public void setCondition(final ConditionType newCondition) {
        this.condition = prepareForAssignment(this.condition,newCondition);
     }
 
     /** {@inheritDoc} */
-    public void setDescription(DescriptionType newDescription) {
+    public void setDescription(final DescriptionType newDescription) {
         this.description = prepareForAssignment(this.description,newDescription);
     }
 
     /** {@inheritDoc} */
-    public void setEffect(EffectType type) {
+    public void setEffect(final EffectType type) {
         this.effectType = prepareForAssignment(this.effectType,type);
     }
 
     /** {@inheritDoc} */
-    public void setRuleId(String id) {
+    public void setRuleId(final String id) {
         this.ruleId = prepareForAssignment(this.ruleId,id);
     }
 
     /** {@inheritDoc} */
-    public void setTarget(TargetType newTarget) {
+    public void setTarget(final TargetType newTarget) {
        this.target = prepareForAssignment(this.target,newTarget);
     }
 

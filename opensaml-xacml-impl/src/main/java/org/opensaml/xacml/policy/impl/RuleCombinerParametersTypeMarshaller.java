@@ -32,7 +32,7 @@ public class RuleCombinerParametersTypeMarshaller extends AbstractXACMLObjectMar
 
     /** {@inheritDoc} */
     @Override
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
         RuleCombinerParametersType ruleCombinerParametersType = (RuleCombinerParametersType)xmlObject;
         
         if(!Strings.isNullOrEmpty(ruleCombinerParametersType.getRuleIdRef())){

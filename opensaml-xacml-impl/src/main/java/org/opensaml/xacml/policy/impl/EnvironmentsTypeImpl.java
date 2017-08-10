@@ -42,7 +42,8 @@ public class EnvironmentsTypeImpl extends AbstractXACMLObject implements Environ
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected EnvironmentsTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix){
+    protected EnvironmentsTypeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI,elementLocalName,namespacePrefix);
         environments = new XMLObjectChildrenList<>(this);
     }

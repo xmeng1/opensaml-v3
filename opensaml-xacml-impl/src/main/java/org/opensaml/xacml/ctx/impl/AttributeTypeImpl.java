@@ -49,7 +49,8 @@ public class AttributeTypeImpl extends AbstractXACMLObject implements AttributeT
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AttributeTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AttributeTypeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         attributeValues = new XMLObjectChildrenList<>(this);
     }
@@ -70,17 +71,17 @@ public class AttributeTypeImpl extends AbstractXACMLObject implements AttributeT
     }
 
     /** {@inheritDoc} */
-    public void setAttributeID(String attributeId) {
+    public void setAttributeID(final String attributeId) {
         this.attributeID = prepareForAssignment(this.attributeID, attributeId);
     }
 
     /** {@inheritDoc} */
-    public void setDataType(String type) {
+    public void setDataType(final String type) {
         datatype = prepareForAssignment(datatype, type);
     }
 
     /** {@inheritDoc} */
-    public void setIssuer(String iss) {
+    public void setIssuer(final String iss) {
         issuer = prepareForAssignment(issuer, iss);
     }
 

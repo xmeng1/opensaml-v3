@@ -26,7 +26,7 @@ import org.opensaml.xacml.policy.FunctionType;
 public class FunctionTypeImplBuilder extends AbstractXACMLObjectBuilder<FunctionType>  {
 
     /** {@inheritDoc} */
-    public FunctionType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public FunctionType buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new FunctionTypeImpl(namespaceURI,localName,namespacePrefix);
     }
 

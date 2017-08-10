@@ -31,7 +31,7 @@ public class DecisionTypeUnmarshaller extends AbstractXACMLObjectUnmarshaller {
     }
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject samlObject, String elementContent) {
+    protected void processElementContent(final XMLObject samlObject, final String elementContent) {
         DecisionType decision = (DecisionType) samlObject;
         decision.setDecision(DECISION.valueOf(elementContent));
     }

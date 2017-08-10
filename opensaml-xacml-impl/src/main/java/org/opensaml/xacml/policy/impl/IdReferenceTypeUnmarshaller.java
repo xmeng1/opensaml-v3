@@ -32,7 +32,7 @@ public class IdReferenceTypeUnmarshaller extends XSStringUnmarshaller {
     
     /** {@inheritDoc} */
     @Override
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         IdReferenceType idReferenceType = (IdReferenceType)xmlObject;
      
         if(attribute.getLocalName().equals(IdReferenceType.EARLIEST_VERSION_ATTRIB_NAME)){           

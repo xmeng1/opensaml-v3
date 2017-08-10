@@ -50,7 +50,7 @@ public class ResultTypeImpl extends AbstractXACMLObject implements ResultType {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected ResultTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected ResultTypeImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -65,7 +65,7 @@ public class ResultTypeImpl extends AbstractXACMLObject implements ResultType {
     }
 
     /** {@inheritDoc} */
-    public void setObligations(ObligationsType obligationsIn) {
+    public void setObligations(final ObligationsType obligationsIn) {
         this.obligations = prepareForAssignment(this.obligations, obligationsIn);
     }
 
@@ -80,17 +80,17 @@ public class ResultTypeImpl extends AbstractXACMLObject implements ResultType {
     }
 
     /** {@inheritDoc} */
-    public void setStatus(StatusType statusIn) {
+    public void setStatus(final StatusType statusIn) {
         this.status = prepareForAssignment(this.status, statusIn);
     }
 
     /** {@inheritDoc} */
-    public void setDecision(DecisionType decisionIn) {
+    public void setDecision(final DecisionType decisionIn) {
         this.decision = prepareForAssignment(this.decision, decisionIn);
     }
 
     /** {@inheritDoc} */
-    public void setResourceId(String newResourceId) {
+    public void setResourceId(final String newResourceId) {
         resourceId = prepareForAssignment(this.resourceId, newResourceId);
     }
 

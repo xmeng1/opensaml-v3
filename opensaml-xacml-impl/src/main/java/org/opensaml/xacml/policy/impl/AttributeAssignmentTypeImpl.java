@@ -32,7 +32,8 @@ public class AttributeAssignmentTypeImpl extends AttributeValueTypeImpl implemen
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AttributeAssignmentTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AttributeAssignmentTypeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -42,7 +43,7 @@ public class AttributeAssignmentTypeImpl extends AttributeValueTypeImpl implemen
     }
 
     /** {@inheritDoc} */
-    public void setAttributeId(String newAttributeID) {
+    public void setAttributeId(final String newAttributeID) {
         attributeId = prepareForAssignment(this.attributeId, newAttributeID);
     }
 

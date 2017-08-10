@@ -31,7 +31,7 @@ import com.google.common.base.Strings;
 public class VariableReferenceTypeMarshaller extends AbstractXACMLObjectMarshaller {
     
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
         VariableReferenceType variableReferenceType = (VariableReferenceType) xmlObject;
         
         if(!Strings.isNullOrEmpty(variableReferenceType.getVariableId())){

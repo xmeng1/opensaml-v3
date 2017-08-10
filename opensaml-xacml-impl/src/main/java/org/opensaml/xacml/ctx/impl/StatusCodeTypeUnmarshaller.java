@@ -32,7 +32,7 @@ public class StatusCodeTypeUnmarshaller extends AbstractXACMLObjectUnmarshaller 
     }
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         StatusCodeType statusCode = (StatusCodeType) xmlObject;
         if (attribute.getLocalName().equals(StatusCodeType.VALUE_ATTTRIB_NAME)) {
             statusCode.setValue(attribute.getValue());
@@ -42,7 +42,8 @@ public class StatusCodeTypeUnmarshaller extends AbstractXACMLObjectUnmarshaller 
     }
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentObject, XMLObject childObject) throws UnmarshallingException {
+    protected void processChildElement(final XMLObject parentObject, final XMLObject childObject)
+            throws UnmarshallingException {
         StatusCodeType statuscode = (StatusCodeType) parentObject;
         if (childObject instanceof StatusCodeType) {
             statuscode.setStatusCode((StatusCodeType) childObject);

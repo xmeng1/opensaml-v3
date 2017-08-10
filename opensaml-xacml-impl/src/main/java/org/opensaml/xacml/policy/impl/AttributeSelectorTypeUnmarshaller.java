@@ -33,7 +33,7 @@ public class AttributeSelectorTypeUnmarshaller extends AbstractXACMLObjectUnmars
     
     /** {@inheritDoc} */
     @Override
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         AttributeSelectorType attributeSelectorType = (AttributeSelectorType) xmlObject;
         
         if (attribute.getLocalName().equals(AttributeSelectorType.REQUEST_CONTEXT_PATH_ATTRIB_NAME)){

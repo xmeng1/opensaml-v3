@@ -49,7 +49,8 @@ public class MissingAttributeDetailTypeImpl extends AbstractXACMLObject implemen
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected MissingAttributeDetailTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected MissingAttributeDetailTypeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         attributeValues = new XMLObjectChildrenList<>(this);
     }
@@ -84,17 +85,17 @@ public class MissingAttributeDetailTypeImpl extends AbstractXACMLObject implemen
     }
 
     /** {@inheritDoc} */
-    public void setAttributeId(String id) {
+    public void setAttributeId(final String id) {
         attributeId = prepareForAssignment(attributeId, id);
     }
 
     /** {@inheritDoc} */
-    public void setDataType(String type) {
+    public void setDataType(final String type) {
         dataType = prepareForAssignment(dataType, type);
     }
 
     /** {@inheritDoc} */
-    public void setIssuer(String iss) {
+    public void setIssuer(final String iss) {
         issuer = prepareForAssignment(issuer, iss);
     }
 }

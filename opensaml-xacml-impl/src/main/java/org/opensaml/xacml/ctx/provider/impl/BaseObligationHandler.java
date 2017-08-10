@@ -44,7 +44,7 @@ public abstract class BaseObligationHandler {
      * 
      * @param obligationId ID of the handled obligation
      */
-    protected BaseObligationHandler(String obligationId) {
+    protected BaseObligationHandler(final String obligationId) {
         this(obligationId, Integer.MIN_VALUE);
     }
 
@@ -54,7 +54,7 @@ public abstract class BaseObligationHandler {
      * @param obligationId ID of the handled obligation
      * @param handlerPrecedence precedence of this handler
      */
-    protected BaseObligationHandler(String obligationId, int handlerPrecedence) {
+    protected BaseObligationHandler(final String obligationId, final int handlerPrecedence) {
         id = StringSupport.trimOrNull(obligationId);
         if (id == null) {
             throw new IllegalArgumentException("Provided obligation ID may not be null or empty");
@@ -98,7 +98,7 @@ public abstract class BaseObligationHandler {
     }
 
     /** {@inheritDoc} */
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == this) {
             return true;
         }

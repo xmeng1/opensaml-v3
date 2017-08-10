@@ -34,14 +34,14 @@ public class AttributeValueTypeUnmarshaller extends AbstractXACMLObjectUnmarshal
     }
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         AttributeValueType attributeValue = (AttributeValueType) xmlObject;
 
         processUnknownAttribute(attributeValue, attribute);
     }
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
        
         AttributeValueType attributeValue = (AttributeValueType) parentXMLObject;
@@ -49,7 +49,7 @@ public class AttributeValueTypeUnmarshaller extends AbstractXACMLObjectUnmarshal
    }
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject xmlObject, String elementContent) {
+    protected void processElementContent(final XMLObject xmlObject, final String elementContent) {
         AttributeValueType attributeValue = (AttributeValueType) xmlObject;
         attributeValue.setValue(StringSupport.trimOrNull(elementContent));
     }

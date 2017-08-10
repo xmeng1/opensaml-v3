@@ -40,7 +40,8 @@ public class ObligationsTypeImpl extends AbstractXACMLObject implements Obligati
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected ObligationsTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected ObligationsTypeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         obligations = new XMLObjectChildrenList<>(this);
     }

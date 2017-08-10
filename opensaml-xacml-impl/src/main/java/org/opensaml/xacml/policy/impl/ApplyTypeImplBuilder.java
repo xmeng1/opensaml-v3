@@ -26,7 +26,7 @@ import org.opensaml.xacml.policy.ApplyType;
 public class ApplyTypeImplBuilder extends AbstractXACMLObjectBuilder<ApplyType> {
 
     /** {@inheritDoc} */
-    public ApplyType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public ApplyType buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
        return new ApplyTypeImpl(namespaceURI,localName,namespacePrefix);
     }
 

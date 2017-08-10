@@ -37,7 +37,7 @@ public class FunctionTypeImpl extends AbstractXACMLObject implements FunctionTyp
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected FunctionTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix){
+    protected FunctionTypeImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix){
         super(namespaceURI,elementLocalName,namespacePrefix);
     }
     
@@ -47,7 +47,7 @@ public class FunctionTypeImpl extends AbstractXACMLObject implements FunctionTyp
     }
 
     /** {@inheritDoc} */
-    public void setFunctionId(String id) {
+    public void setFunctionId(final String id) {
         functionId = prepareForAssignment(this.functionId,id);
 
     }

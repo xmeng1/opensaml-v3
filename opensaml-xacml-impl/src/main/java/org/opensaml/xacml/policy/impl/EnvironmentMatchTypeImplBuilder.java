@@ -29,7 +29,8 @@ public class EnvironmentMatchTypeImplBuilder extends AbstractXACMLObjectBuilder<
     }
 
     /** {@inheritDoc} */
-    public EnvironmentMatchType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public EnvironmentMatchType buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new EnvironmentMatchTypeImpl(namespaceURI, localName, namespacePrefix);
     }
 }

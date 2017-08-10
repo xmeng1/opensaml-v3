@@ -29,7 +29,8 @@ public class ObligationsTypeImplBuilder extends AbstractXACMLObjectBuilder<Oblig
     }
 
     /** {@inheritDoc} */
-    public ObligationsType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public ObligationsType buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new ObligationsTypeImpl(namespaceURI, localName, namespacePrefix);
     }
 }

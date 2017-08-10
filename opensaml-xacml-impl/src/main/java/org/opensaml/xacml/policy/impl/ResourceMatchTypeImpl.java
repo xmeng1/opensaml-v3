@@ -48,7 +48,8 @@ public class ResourceMatchTypeImpl extends AbstractXACMLObject implements Resour
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    public ResourceMatchTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public ResourceMatchTypeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         attributeChoice = new IndexedXMLObjectChildrenList<>(this);
     }
@@ -86,7 +87,7 @@ public class ResourceMatchTypeImpl extends AbstractXACMLObject implements Resour
     }
 
     /** {@inheritDoc} */
-    public void setAttributeSelector(AttributeSelectorType selector) {
+    public void setAttributeSelector(final AttributeSelectorType selector) {
         AttributeSelectorType currentSelector = getAttributeSelector();
         if (currentSelector != null) {
             attributeChoice.remove(currentSelector);
@@ -96,12 +97,12 @@ public class ResourceMatchTypeImpl extends AbstractXACMLObject implements Resour
     }
 
     /** {@inheritDoc} */
-    public void setAttributeValue(AttributeValueType value) {
+    public void setAttributeValue(final AttributeValueType value) {
         attributeValue = prepareForAssignment(attributeValue, value);
     }
 
     /** {@inheritDoc} */
-    public void setResourceAttributeDesignator(AttributeDesignatorType attribute) {
+    public void setResourceAttributeDesignator(final AttributeDesignatorType attribute) {
         AttributeDesignatorType currentDesignator = getResourceAttributeDesignator();
         if (currentDesignator != null) {
             attributeChoice.remove(currentDesignator);
@@ -111,7 +112,7 @@ public class ResourceMatchTypeImpl extends AbstractXACMLObject implements Resour
     }
 
     /** {@inheritDoc} */
-    public void setMatchId(String id) {
+    public void setMatchId(final String id) {
         matchId = prepareForAssignment(matchId, id);
     }
 

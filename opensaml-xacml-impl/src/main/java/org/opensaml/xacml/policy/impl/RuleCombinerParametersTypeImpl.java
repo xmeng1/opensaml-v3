@@ -33,7 +33,8 @@ public class RuleCombinerParametersTypeImpl extends CombinerParametersTypeImpl i
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected RuleCombinerParametersTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix){
+    protected RuleCombinerParametersTypeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI,elementLocalName,namespacePrefix);
        // combinerParameters = new XMLObjectChildrenList<CombinerParameterType>(this);
     }
@@ -44,7 +45,7 @@ public class RuleCombinerParametersTypeImpl extends CombinerParametersTypeImpl i
     }
 
     /** {@inheritDoc} */
-    public void setRuleIdRef(String ref) {
+    public void setRuleIdRef(final String ref) {
         this.ruleIdRef = prepareForAssignment(this.ruleIdRef, ref);
     }
 }

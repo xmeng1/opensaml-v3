@@ -31,7 +31,7 @@ public class RuleTypeImplBuilder extends AbstractXACMLObjectBuilder<RuleType> {
     }
     
     /** {@inheritDoc} */
-    public RuleType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public RuleType buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new RuleTypeImpl(namespaceURI,localName,namespacePrefix);
     }
 

@@ -32,7 +32,8 @@ public class ResultTypeMarshaller extends AbstractXACMLObjectMarshaller {
     }
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject samlElement, Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject samlElement, final Element domElement)
+            throws MarshallingException {
         ResultType result = (ResultType) samlElement;
 
         if (result.getResourceId() != null) {

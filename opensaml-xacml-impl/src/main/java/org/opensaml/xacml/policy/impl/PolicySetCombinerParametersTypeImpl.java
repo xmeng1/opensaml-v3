@@ -28,7 +28,7 @@ import org.opensaml.xacml.policy.PolicySetCombinerParametersType;
 public class PolicySetCombinerParametersTypeImpl extends CombinerParametersTypeImpl implements
         PolicySetCombinerParametersType {
 
-    /**Policy indentity reference.*/
+    /**Policy identity reference.*/
     private String policySetIdRef;
     
     /**
@@ -37,7 +37,8 @@ public class PolicySetCombinerParametersTypeImpl extends CombinerParametersTypeI
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected PolicySetCombinerParametersTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix){
+    protected PolicySetCombinerParametersTypeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI,elementLocalName,namespacePrefix);        
     }
     
@@ -47,7 +48,7 @@ public class PolicySetCombinerParametersTypeImpl extends CombinerParametersTypeI
     }
 
     /** {@inheritDoc} */
-    public void setPolicySetIdRef(String ref) {
+    public void setPolicySetIdRef(final String ref) {
         this.policySetIdRef = prepareForAssignment(this.policySetIdRef,ref);
 
     }

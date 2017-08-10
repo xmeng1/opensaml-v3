@@ -26,7 +26,8 @@ import org.opensaml.xacml.policy.PolicyCombinerParametersType;
 public class PolicyCombinerParametersTypeImplBuilder extends AbstractXACMLObjectBuilder<PolicyCombinerParametersType> {
 
     /** {@inheritDoc} */
-    public PolicyCombinerParametersType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public PolicyCombinerParametersType buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new PolicyCombinerParametersTypeImpl(namespaceURI,localName,namespacePrefix);
     }
 

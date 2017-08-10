@@ -32,7 +32,7 @@ public class FunctionTypeUnmarshaller extends AbstractXACMLObjectUnmarshaller {
     
     /** {@inheritDoc} */
     @Override
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         
         if(attribute.getLocalName().equals(FunctionType.FUNCTION_ID_ATTRIB_NAME)){
             FunctionType functionType = (FunctionType) xmlObject;

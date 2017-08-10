@@ -33,7 +33,7 @@ public class MissingAttributeDetailTypeUnmarshaller extends AbstractXACMLObjectU
     }
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         MissingAttributeDetailType madt = (MissingAttributeDetailType) xmlObject;
 
         if (attribute.getLocalName().equals(MissingAttributeDetailType.ATTRIBUTE_ID_ATTRIB_NAME)) {
@@ -48,7 +48,7 @@ public class MissingAttributeDetailTypeUnmarshaller extends AbstractXACMLObjectU
     }
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
         MissingAttributeDetailType madt = (MissingAttributeDetailType) parentXMLObject;
         if (childXMLObject instanceof AttributeValueType) {

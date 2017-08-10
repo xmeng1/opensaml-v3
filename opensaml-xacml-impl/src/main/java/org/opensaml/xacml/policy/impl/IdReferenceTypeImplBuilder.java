@@ -31,7 +31,8 @@ public class IdReferenceTypeImplBuilder extends AbstractXACMLObjectBuilder<IdRef
     }
 
     /** {@inheritDoc} */
-    public IdReferenceType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public IdReferenceType buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new IdReferenceTypeImpl(namespaceURI, localName,namespacePrefix);
     }
 }

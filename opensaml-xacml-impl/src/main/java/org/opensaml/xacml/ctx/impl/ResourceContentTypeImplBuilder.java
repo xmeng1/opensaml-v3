@@ -29,7 +29,8 @@ public class ResourceContentTypeImplBuilder extends AbstractXACMLObjectBuilder<R
     }
 
     /** {@inheritDoc} */
-    public ResourceContentType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public ResourceContentType buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new ResourceContentTypeImpl(namespaceURI, localName, namespacePrefix);
     }
 

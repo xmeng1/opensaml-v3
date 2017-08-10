@@ -30,7 +30,8 @@ public class ObligationTypeUnmarshaller extends AbstractXACMLObjectUnmarshaller 
 
     /** {@inheritDoc} */
     @Override
-    protected void processChildElement(XMLObject parentObject, XMLObject childObject) throws UnmarshallingException {
+    protected void processChildElement(final XMLObject parentObject, final XMLObject childObject)
+            throws UnmarshallingException {
         ObligationType obligation = (ObligationType) parentObject;
 
         if (childObject instanceof AttributeAssignmentType) {
@@ -42,7 +43,7 @@ public class ObligationTypeUnmarshaller extends AbstractXACMLObjectUnmarshaller 
 
     /** {@inheritDoc} */
     @Override
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
 
         ObligationType obligation = (ObligationType) xmlObject;
 

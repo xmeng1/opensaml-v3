@@ -53,7 +53,8 @@ public class AttributeDesignatorTypeImpl extends AbstractXACMLObject implements 
      * @param namespacePrefix
      *                the prefix for the given namespace
      */
-    protected AttributeDesignatorTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AttributeDesignatorTypeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         mustBePresentXS = XSBooleanValue.valueOf("false");
     }
@@ -87,28 +88,28 @@ public class AttributeDesignatorTypeImpl extends AbstractXACMLObject implements 
     }
 
     /** {@inheritDoc} */
-    public void setAttributeId(String id) {
+    public void setAttributeId(final String id) {
         this.attributeId = prepareForAssignment(this.attributeId, id);
     }
 
     /** {@inheritDoc} */
-    public void setDataType(String type) {
+    public void setDataType(final String type) {
         this.dataType = prepareForAssignment(this.dataType, type);
     }
 
     /** {@inheritDoc} */
-    public void setIssuer(String newIssuer) {
+    public void setIssuer(final String newIssuer) {
         this.issuer = prepareForAssignment(this.issuer, newIssuer);
     }
 
     /** {@inheritDoc} */
-    public void setMustBePresentXSBoolean(XSBooleanValue present) {
+    public void setMustBePresentXSBoolean(final XSBooleanValue present) {
         this.mustBePresentXS = prepareForAssignment(this.mustBePresentXS,
                 present);
     }
 
     /** {@inheritDoc} */
-    public void setMustBePresent(Boolean present) {
+    public void setMustBePresent(final Boolean present) {
         if (present != null) {
             mustBePresentXS = prepareForAssignment(mustBePresentXS, new XSBooleanValue(present, false));
         } else {

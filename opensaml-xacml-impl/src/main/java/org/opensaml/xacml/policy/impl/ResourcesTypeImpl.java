@@ -42,7 +42,7 @@ public class ResourcesTypeImpl extends AbstractXACMLObject implements ResourcesT
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    public ResourcesTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix){
+    public ResourcesTypeImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix){
         super(namespaceURI,elementLocalName,namespacePrefix);
     
         resource = new XMLObjectChildrenList<>(this);

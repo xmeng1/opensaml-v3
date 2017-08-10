@@ -37,7 +37,7 @@ public class PolicySetTypeUnmarshaller extends AbstractXACMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
     @Override
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         PolicySetType policySet = (PolicySetType) xmlObject;
 
         if (attribute.getLocalName().equals(PolicySetType.POLICY_SET_ID_ATTRIB_NAME)) {
@@ -54,7 +54,7 @@ public class PolicySetTypeUnmarshaller extends AbstractXACMLObjectUnmarshaller {
 // Checkstyle: CyclomaticComplexity OFF
     /** {@inheritDoc} */
     @Override
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
         PolicySetType policySet = (PolicySetType) parentXMLObject;
 

@@ -34,14 +34,15 @@ public class AttributeValueTypeMarshaller extends AbstractXACMLObjectMarshaller 
     }
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
         AttributeValueType attributeValue = (AttributeValueType) xmlObject;
 
         marshallUnknownAttributes(attributeValue, domElement);
     }
 
     /** {@inheritDoc} */
-    protected void marshallElementContent(XMLObject xmlObject, Element domElement) throws MarshallingException {
+    protected void marshallElementContent(final XMLObject xmlObject, final Element domElement)
+            throws MarshallingException {
         AttributeValueType attributeValue = (AttributeValueType) xmlObject;
 
         if (attributeValue.getValue() != null) {

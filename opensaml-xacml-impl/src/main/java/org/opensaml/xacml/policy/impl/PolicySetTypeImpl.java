@@ -59,7 +59,7 @@ public class PolicySetTypeImpl extends AbstractXACMLObject implements PolicySetT
     /** Version of this policy set. */
     private String version;
 
-    /** Policy combinging algorithm ID. */
+    /** Policy combining algorithm ID. */
     private String combiningAlgo;
 
     /**
@@ -69,7 +69,8 @@ public class PolicySetTypeImpl extends AbstractXACMLObject implements PolicySetT
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected PolicySetTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected PolicySetTypeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         choiceGroup = new IndexedXMLObjectChildrenList<>(this);
         version = DEFAULT_VERSION;
@@ -172,37 +173,37 @@ public class PolicySetTypeImpl extends AbstractXACMLObject implements PolicySetT
     }
 
     /** {@inheritDoc} */
-    public void setDescription(DescriptionType newDescription) {
+    public void setDescription(final DescriptionType newDescription) {
         this.description = prepareForAssignment(this.description, newDescription);
     }
 
     /** {@inheritDoc} */
-    public void setObligations(ObligationsType newObligations) {
+    public void setObligations(final ObligationsType newObligations) {
         this.obligations = prepareForAssignment(this.obligations, newObligations);
     }
 
     /** {@inheritDoc} */
-    public void setPolicyCombiningAlgoId(String id) {
+    public void setPolicyCombiningAlgoId(final String id) {
         combiningAlgo = prepareForAssignment(combiningAlgo, id);
     }
 
     /** {@inheritDoc} */
-    public void setPolicySetDefaults(DefaultsType defaults) {
+    public void setPolicySetDefaults(final DefaultsType defaults) {
         policySetDefaults = prepareForAssignment(policySetDefaults, defaults);
     }
 
     /** {@inheritDoc} */
-    public void setPolicySetId(String id) {
+    public void setPolicySetId(final String id) {
         policySetId = prepareForAssignment(policySetId, id);
     }
 
     /** {@inheritDoc} */
-    public void setTarget(TargetType newTarget) {
+    public void setTarget(final TargetType newTarget) {
         this.target = prepareForAssignment(this.target, newTarget);
     }
 
     /** {@inheritDoc} */
-    public void setVersion(String newVersion) {
+    public void setVersion(final String newVersion) {
         this.version = prepareForAssignment(this.version, newVersion);
     }
 

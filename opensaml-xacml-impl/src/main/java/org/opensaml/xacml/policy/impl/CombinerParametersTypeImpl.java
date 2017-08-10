@@ -41,7 +41,8 @@ public class CombinerParametersTypeImpl extends AbstractXACMLObject implements C
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected CombinerParametersTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix){
+    protected CombinerParametersTypeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI,elementLocalName,namespacePrefix);
         combinerParameters = new XMLObjectChildrenList<>(this);
     }

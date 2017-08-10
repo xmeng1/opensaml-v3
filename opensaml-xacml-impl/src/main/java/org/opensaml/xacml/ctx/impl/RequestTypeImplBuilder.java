@@ -34,7 +34,7 @@ public class RequestTypeImplBuilder extends AbstractXACMLObjectBuilder<RequestTy
     }
 
     /** {@inheritDoc} */
-    public RequestType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public RequestType buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new RequestTypeImpl(namespaceURI, localName, namespacePrefix);
     }
 }

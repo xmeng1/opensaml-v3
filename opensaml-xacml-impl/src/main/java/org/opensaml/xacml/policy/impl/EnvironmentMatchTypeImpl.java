@@ -48,7 +48,8 @@ public class EnvironmentMatchTypeImpl extends AbstractXACMLObject implements Env
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    public EnvironmentMatchTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public EnvironmentMatchTypeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         attributeChoice = new IndexedXMLObjectChildrenList<>(this);
     }
@@ -86,7 +87,7 @@ public class EnvironmentMatchTypeImpl extends AbstractXACMLObject implements Env
     }
 
     /** {@inheritDoc} */
-    public void setAttributeSelector(AttributeSelectorType selector) {
+    public void setAttributeSelector(final AttributeSelectorType selector) {
         AttributeSelectorType currentSelector = getAttributeSelector();
         if (currentSelector != null) {
             attributeChoice.remove(currentSelector);
@@ -96,12 +97,12 @@ public class EnvironmentMatchTypeImpl extends AbstractXACMLObject implements Env
     }
 
     /** {@inheritDoc} */
-    public void setAttributeValue(AttributeValueType value) {
+    public void setAttributeValue(final AttributeValueType value) {
         attributeValue = prepareForAssignment(attributeValue, value);
     }
 
     /** {@inheritDoc} */
-    public void setEnvironmentAttributeDesignator(AttributeDesignatorType attribute) {
+    public void setEnvironmentAttributeDesignator(final AttributeDesignatorType attribute) {
         AttributeDesignatorType currentDesignator = getEnvironmentAttributeDesignator();
         if (currentDesignator != null) {
             attributeChoice.remove(currentDesignator);
@@ -111,7 +112,7 @@ public class EnvironmentMatchTypeImpl extends AbstractXACMLObject implements Env
     }
 
     /** {@inheritDoc} */
-    public void setMatchId(String id) {
+    public void setMatchId(final String id) {
         matchId = prepareForAssignment(matchId, id);
     }
 

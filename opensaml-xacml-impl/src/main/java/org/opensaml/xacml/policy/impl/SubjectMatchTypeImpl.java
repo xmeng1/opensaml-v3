@@ -48,7 +48,8 @@ public class SubjectMatchTypeImpl extends AbstractXACMLObject implements Subject
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    public SubjectMatchTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public SubjectMatchTypeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         attributeChoice = new IndexedXMLObjectChildrenList<>(this);
     }
@@ -86,7 +87,7 @@ public class SubjectMatchTypeImpl extends AbstractXACMLObject implements Subject
     }
 
     /** {@inheritDoc} */
-    public void setAttributeSelector(AttributeSelectorType selector) {
+    public void setAttributeSelector(final AttributeSelectorType selector) {
         AttributeSelectorType currentSelector = getAttributeSelector();
         if (currentSelector != null) {
             attributeChoice.remove(currentSelector);
@@ -96,12 +97,12 @@ public class SubjectMatchTypeImpl extends AbstractXACMLObject implements Subject
     }
 
     /** {@inheritDoc} */
-    public void setAttributeValue(AttributeValueType value) {
+    public void setAttributeValue(final AttributeValueType value) {
         attributeValue = prepareForAssignment(attributeValue, value);
     }
 
     /** {@inheritDoc} */
-    public void setSubjectAttributeDesignator(AttributeDesignatorType attribute) {
+    public void setSubjectAttributeDesignator(final AttributeDesignatorType attribute) {
         AttributeDesignatorType currentDesignator = getSubjectAttributeDesignator();
         if (currentDesignator != null) {
             attributeChoice.remove(currentDesignator);
@@ -111,7 +112,7 @@ public class SubjectMatchTypeImpl extends AbstractXACMLObject implements Subject
     }
 
     /** {@inheritDoc} */
-    public void setMatchId(String id) {
+    public void setMatchId(final String id) {
         matchId = prepareForAssignment(matchId, id);
     }
 

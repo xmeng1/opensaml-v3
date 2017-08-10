@@ -29,7 +29,7 @@ public class PolicyTypeImplBuilder extends AbstractXACMLObjectBuilder<PolicyType
     }
 
     /** {@inheritDoc} */
-    public PolicyType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public PolicyType buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new PolicyTypeImpl(namespaceURI, localName, namespacePrefix);
     }
 }

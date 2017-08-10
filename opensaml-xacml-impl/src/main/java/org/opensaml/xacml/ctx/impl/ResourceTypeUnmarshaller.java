@@ -33,7 +33,8 @@ public class ResourceTypeUnmarshaller extends AbstractXACMLObjectUnmarshaller {
     }
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentObject, XMLObject childObject) throws UnmarshallingException {
+    protected void processChildElement(final XMLObject parentObject, final XMLObject childObject)
+            throws UnmarshallingException {
         ResourceType resource = (ResourceType) parentObject;
 
         if (childObject instanceof ResourceContentType) {

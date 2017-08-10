@@ -32,7 +32,8 @@ public class DescriptionTypeMarshaller extends AbstractXACMLObjectMarshaller {
 
     /** {@inheritDoc} */
     @Override
-    protected void marshallElementContent(XMLObject xmlobject, Element domElement) throws MarshallingException {
+    protected void marshallElementContent(final XMLObject xmlobject, final Element domElement)
+            throws MarshallingException {
         DescriptionType message = (DescriptionType) xmlobject;
 
         if (message.getValue() != null) {

@@ -33,7 +33,7 @@ public class AttributeDesignatorTypeUnmarshaller extends AbstractXACMLObjectUnma
     
     /** {@inheritDoc} */
     @Override
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         
         AttributeDesignatorType attributeDesignatorType = (AttributeDesignatorType) xmlObject;
         

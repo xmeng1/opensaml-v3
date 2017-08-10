@@ -64,7 +64,7 @@ public class ObligationService {
      * 
      * @param handler the handler to add to the list of registered handlers.
      */
-    public void addObligationhandler(BaseObligationHandler handler) {
+    public void addObligationhandler(final BaseObligationHandler handler) {
         if (handler == null) {
             return;
         }
@@ -85,7 +85,7 @@ public class ObligationService {
      * 
      * @param handlers the collection of handlers to add to the list of registered handlers.
      */
-    public void addObligationhandler(Collection<BaseObligationHandler> handlers) {
+    public void addObligationhandler(final Collection<BaseObligationHandler> handlers) {
         if (handlers == null || handlers.isEmpty()) {
             return;
         }
@@ -106,7 +106,7 @@ public class ObligationService {
      * 
      * @param handler the handler to remove from the list of registered handlers.
      */
-    public void removeObligationHandler(BaseObligationHandler handler) {
+    public void removeObligationHandler(final BaseObligationHandler handler) {
         if (handler == null) {
             return;
         }
@@ -129,7 +129,7 @@ public class ObligationService {
      * 
      * @throws ObligationProcessingException thrown if there is a problem evaluating an obligation
      */
-    public void processObligations(ObligationProcessingContext context) throws ObligationProcessingException {
+    public void processObligations(final ObligationProcessingContext context) throws ObligationProcessingException {
         Lock readLock = rwLock.readLock();
         readLock.lock();
         try {
@@ -157,7 +157,7 @@ public class ObligationService {
      * 
      * @return preprocessed obligations
      */
-    protected Map<String, ObligationType> preprocessObligations(ObligationProcessingContext context) {
+    protected Map<String, ObligationType> preprocessObligations(final ObligationProcessingContext context) {
         HashMap<String, ObligationType> effectiveObligations = new HashMap<>();
 
         ObligationsType obligations = context.getAuthorizationDecisionResult().getObligations();
@@ -185,7 +185,7 @@ public class ObligationService {
     private class ObligationHandlerComparator implements Comparator<BaseObligationHandler> {
 
         /** {@inheritDoc} */
-        public int compare(BaseObligationHandler o1, BaseObligationHandler o2) {
+        public int compare(final BaseObligationHandler o1, final BaseObligationHandler o2) {
             if (o1.getHandlerPrecedence() == o2.getHandlerPrecedence()) {
                 // If they have the same precedence sort lexigraphically
                 return o1.getObligationId().compareTo(o2.getObligationId());
