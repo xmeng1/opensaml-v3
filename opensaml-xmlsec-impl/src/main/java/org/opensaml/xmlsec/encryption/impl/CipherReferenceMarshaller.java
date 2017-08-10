@@ -29,7 +29,7 @@ public class CipherReferenceMarshaller extends AbstractXMLEncryptionMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        CipherReference cr = (CipherReference) xmlObject;
+        final CipherReference cr = (CipherReference) xmlObject;
 
         if (cr.getURI() != null) {
             domElement.setAttributeNS(null, CipherReference.URI_ATTRIB_NAME, cr.getURI());

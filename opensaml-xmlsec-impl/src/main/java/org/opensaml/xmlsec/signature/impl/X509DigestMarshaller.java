@@ -30,7 +30,7 @@ public class X509DigestMarshaller extends XSBase64BinaryMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        X509Digest xd = (X509Digest) xmlObject;
+        final X509Digest xd = (X509Digest) xmlObject;
 
         if (xd.getAlgorithm() != null) {
             domElement.setAttributeNS(null, X509Digest.ALGORITHM_ATTRIB_NAME, xd.getAlgorithm());

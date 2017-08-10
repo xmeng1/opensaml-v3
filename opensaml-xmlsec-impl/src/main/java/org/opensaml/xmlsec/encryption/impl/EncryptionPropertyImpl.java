@@ -77,7 +77,7 @@ public class EncryptionPropertyImpl extends AbstractXMLObject implements
 
     /** {@inheritDoc} */
     public void setID(final String newID) {
-        String oldID = this.id;
+        final String oldID = this.id;
         this.id = prepareForAssignment(this.id, newID);
         registerOwnID(oldID, this.id);
     }
@@ -98,7 +98,7 @@ public class EncryptionPropertyImpl extends AbstractXMLObject implements
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         
         children.addAll((List<XMLObject>) unknownChildren);
         

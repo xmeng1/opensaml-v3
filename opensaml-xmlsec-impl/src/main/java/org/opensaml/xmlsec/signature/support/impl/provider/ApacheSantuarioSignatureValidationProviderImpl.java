@@ -50,13 +50,13 @@ public class ApacheSantuarioSignatureValidationProviderImpl implements Signature
         log.debug("Attempting to validate signature using key from supplied credential");
         Constraint.isNotNull(validationCredential, "Validation credential cannot be null");
 
-        XMLSignature xmlSig = getXMLSignature(signature);
+        final XMLSignature xmlSig = getXMLSignature(signature);
         if (xmlSig == null) {
             log.debug("No native XMLSignature object associated with Signature XMLObject");
             throw new SignatureException("Native XMLSignature object not available for validation");
         }
 
-        Key validationKey = CredentialSupport.extractVerificationKey(validationCredential);
+        final Key validationKey = CredentialSupport.extractVerificationKey(validationCredential);
         if (validationKey == null) {
             log.debug("Supplied credential contained no key suitable for signature validation");
             throw new SignatureException("No key available to validate signature");

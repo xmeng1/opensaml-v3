@@ -72,7 +72,7 @@ public class X509IssuerSerialImpl extends AbstractXMLObject implements X509Issue
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         
         if (issuerName != null) {
             children.add(issuerName);

@@ -64,7 +64,7 @@ public class DefaultSecurityConfigurationBootstrap {
      * @return a new basic configuration with reasonable default values
      */
     @Nonnull public static BasicEncryptionConfiguration buildDefaultEncryptionConfiguration() {
-        BasicEncryptionConfiguration config = new BasicEncryptionConfiguration();
+        final BasicEncryptionConfiguration config = new BasicEncryptionConfiguration();
         
         config.setBlacklistedAlgorithms(Collections.singletonList(
                 EncryptionConstants.ALGO_ID_KEYTRANSPORT_RSA15
@@ -109,7 +109,7 @@ public class DefaultSecurityConfigurationBootstrap {
      * @return a new basic configuration with reasonable default values
      */
     @Nonnull public static BasicDecryptionConfiguration buildDefaultDecryptionConfiguration() {
-        BasicDecryptionConfiguration config = new BasicDecryptionConfiguration();
+        final BasicDecryptionConfiguration config = new BasicDecryptionConfiguration();
         
         config.setBlacklistedAlgorithms(Collections.singletonList(
                 EncryptionConstants.ALGO_ID_KEYTRANSPORT_RSA15
@@ -126,7 +126,7 @@ public class DefaultSecurityConfigurationBootstrap {
      * @return a new basic configuration with reasonable default values
      */
     @Nonnull public static BasicSignatureSigningConfiguration buildDefaultSignatureSigningConfiguration() {
-        BasicSignatureSigningConfiguration config = new BasicSignatureSigningConfiguration();
+        final BasicSignatureSigningConfiguration config = new BasicSignatureSigningConfiguration();
         
         config.setBlacklistedAlgorithms(Arrays.asList(
                 SignatureConstants.ALGO_ID_DIGEST_NOT_RECOMMENDED_MD5,
@@ -181,7 +181,7 @@ public class DefaultSecurityConfigurationBootstrap {
      * @return a new basic configuration with reasonable default values
      */
     @Nonnull public static BasicSignatureValidationConfiguration buildDefaultSignatureValidationConfiguration() {
-        BasicSignatureValidationConfiguration config = new BasicSignatureValidationConfiguration();
+        final BasicSignatureValidationConfiguration config = new BasicSignatureValidationConfiguration();
         
         config.setBlacklistedAlgorithms(Arrays.asList(
                 SignatureConstants.ALGO_ID_DIGEST_NOT_RECOMMENDED_MD5,
@@ -198,7 +198,7 @@ public class DefaultSecurityConfigurationBootstrap {
      * @return an EncryptedKey resolver instance
      */
     protected static EncryptedKeyResolver buildBasicEncryptedKeyResolver() {
-        List<EncryptedKeyResolver> resolverChain = new ArrayList<>();
+        final List<EncryptedKeyResolver> resolverChain = new ArrayList<>();
         resolverChain.add(new InlineEncryptedKeyResolver()); 
         resolverChain.add(new SimpleRetrievalMethodEncryptedKeyResolver());
         resolverChain.add(new SimpleKeyInfoReferenceEncryptedKeyResolver());
@@ -213,13 +213,13 @@ public class DefaultSecurityConfigurationBootstrap {
      */
     public static KeyInfoCredentialResolver buildBasicInlineKeyInfoCredentialResolver() {
         // Basic resolver for inline info
-        ArrayList<KeyInfoProvider> providers = new ArrayList<>();
+        final ArrayList<KeyInfoProvider> providers = new ArrayList<>();
         providers.add( new RSAKeyValueProvider() );
         providers.add( new DSAKeyValueProvider() );
         providers.add( new DEREncodedKeyValueProvider() );
         providers.add( new InlineX509DataProvider() );
         
-        KeyInfoCredentialResolver resolver = new BasicProviderKeyInfoCredentialResolver(providers);
+        final KeyInfoCredentialResolver resolver = new BasicProviderKeyInfoCredentialResolver(providers);
         return resolver;
     }
 
@@ -250,19 +250,19 @@ public class DefaultSecurityConfigurationBootstrap {
      * @return a named KeyInfo generator manager instance
      */
     protected static NamedKeyInfoGeneratorManager buildSignatureKeyInfoGeneratorManager() {
-        NamedKeyInfoGeneratorManager namedManager = new NamedKeyInfoGeneratorManager();
+        final NamedKeyInfoGeneratorManager namedManager = new NamedKeyInfoGeneratorManager();
         
         namedManager.setUseDefaultManager(true);
-        KeyInfoGeneratorManager defaultManager = namedManager.getDefaultManager();
+        final KeyInfoGeneratorManager defaultManager = namedManager.getDefaultManager();
         
         // Generator for basic Credentials
-        BasicKeyInfoGeneratorFactory basicFactory = new BasicKeyInfoGeneratorFactory();
+        final BasicKeyInfoGeneratorFactory basicFactory = new BasicKeyInfoGeneratorFactory();
         basicFactory.setEmitPublicKeyValue(true);
         basicFactory.setEmitPublicDEREncodedKeyValue(true);
         basicFactory.setEmitKeyNames(true);
         
         // Generator for X509Credentials
-        X509KeyInfoGeneratorFactory x509Factory = new X509KeyInfoGeneratorFactory();
+        final X509KeyInfoGeneratorFactory x509Factory = new X509KeyInfoGeneratorFactory();
         x509Factory.setEmitEntityCertificate(true);
         x509Factory.setEmitEntityCertificateChain(true);
         
@@ -278,19 +278,19 @@ public class DefaultSecurityConfigurationBootstrap {
      * @return a named KeyInfo generator manager instance
      */
     public static NamedKeyInfoGeneratorManager buildBasicKeyInfoGeneratorManager() {
-        NamedKeyInfoGeneratorManager namedManager = new NamedKeyInfoGeneratorManager();
+        final NamedKeyInfoGeneratorManager namedManager = new NamedKeyInfoGeneratorManager();
         
         namedManager.setUseDefaultManager(true);
-        KeyInfoGeneratorManager defaultManager = namedManager.getDefaultManager();
+        final KeyInfoGeneratorManager defaultManager = namedManager.getDefaultManager();
         
         // Generator for basic Credentials
-        BasicKeyInfoGeneratorFactory basicFactory = new BasicKeyInfoGeneratorFactory();
+        final BasicKeyInfoGeneratorFactory basicFactory = new BasicKeyInfoGeneratorFactory();
         basicFactory.setEmitPublicKeyValue(true);
         basicFactory.setEmitPublicDEREncodedKeyValue(true);
         basicFactory.setEmitKeyNames(true);
         
         // Generator for X509Credentials
-        X509KeyInfoGeneratorFactory x509Factory = new X509KeyInfoGeneratorFactory();
+        final X509KeyInfoGeneratorFactory x509Factory = new X509KeyInfoGeneratorFactory();
         x509Factory.setEmitEntityCertificate(true);
         
         defaultManager.registerFactory(basicFactory);

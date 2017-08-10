@@ -31,7 +31,7 @@ public class X509IssuerSerialUnmarshaller extends AbstractXMLSignatureUnmarshall
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        X509IssuerSerial keyValue = (X509IssuerSerial) parentXMLObject;
+        final X509IssuerSerial keyValue = (X509IssuerSerial) parentXMLObject;
 
         if (childXMLObject instanceof X509IssuerName) {
             keyValue.setX509IssuerName((X509IssuerName) childXMLObject);

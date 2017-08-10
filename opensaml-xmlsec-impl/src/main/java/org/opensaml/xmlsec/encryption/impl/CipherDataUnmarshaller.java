@@ -31,7 +31,7 @@ public class CipherDataUnmarshaller extends AbstractXMLEncryptionUnmarshaller {
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        CipherData cipherData = (CipherData) parentXMLObject;
+        final CipherData cipherData = (CipherData) parentXMLObject;
 
         if (childXMLObject instanceof CipherValue) {
             cipherData.setCipherValue((CipherValue) childXMLObject);

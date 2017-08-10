@@ -378,13 +378,13 @@ public class InlineX509DataProvider extends AbstractKeyInfoProvider {
         
         for (final X509Digest digest : digests) {
             if (!Strings.isNullOrEmpty(digest.getValue()) && !Strings.isNullOrEmpty(digest.getAlgorithm())) {
-                String alg = AlgorithmSupport.getAlgorithmID(digest.getAlgorithm());
+                final String alg = AlgorithmSupport.getAlgorithmID(digest.getAlgorithm());
                 if (alg == null) {
                     log.warn("Algorithm {} not supported", digest.getAlgorithm());
                     continue;
                 }
                 final byte[] xmlValue = Base64Support.decode(digest.getValue());
-                for (X509Certificate cert : certs) {
+                for (final X509Certificate cert : certs) {
                     try {
                         final byte[] certValue = X509Support.getX509Digest(cert, alg);
                         if (certValue != null && Arrays.equals(xmlValue, certValue)) {

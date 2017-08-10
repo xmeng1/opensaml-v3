@@ -29,7 +29,7 @@ public class ReferenceTypeMarshaller extends AbstractXMLEncryptionMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        ReferenceType rt = (ReferenceType) xmlObject;
+        final ReferenceType rt = (ReferenceType) xmlObject;
 
         if (rt.getURI() != null) {
             domElement.setAttributeNS(null, ReferenceType.URI_ATTRIB_NAME, rt.getURI());

@@ -30,7 +30,7 @@ public class RetrievalMethodUnmarshaller extends AbstractXMLSignatureUnmarshalle
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        RetrievalMethod rm = (RetrievalMethod) xmlObject;
+        final RetrievalMethod rm = (RetrievalMethod) xmlObject;
 
         if (attribute.getLocalName().equals(RetrievalMethod.URI_ATTRIB_NAME)) {
             rm.setURI(attribute.getValue());
@@ -44,7 +44,7 @@ public class RetrievalMethodUnmarshaller extends AbstractXMLSignatureUnmarshalle
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        RetrievalMethod rm = (RetrievalMethod) parentXMLObject;
+        final RetrievalMethod rm = (RetrievalMethod) parentXMLObject;
 
         if (childXMLObject instanceof Transforms) {
             rm.setTransforms((Transforms) childXMLObject);

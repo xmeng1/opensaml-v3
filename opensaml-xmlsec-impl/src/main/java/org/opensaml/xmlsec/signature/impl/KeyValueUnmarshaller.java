@@ -32,7 +32,7 @@ public class KeyValueUnmarshaller extends AbstractXMLSignatureUnmarshaller {
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        KeyValue keyValue = (KeyValue) parentXMLObject;
+        final KeyValue keyValue = (KeyValue) parentXMLObject;
 
         if (childXMLObject instanceof DSAKeyValue) {
             keyValue.setDSAKeyValue((DSAKeyValue) childXMLObject);

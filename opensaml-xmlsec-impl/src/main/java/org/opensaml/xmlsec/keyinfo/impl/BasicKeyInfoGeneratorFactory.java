@@ -71,7 +71,7 @@ public class BasicKeyInfoGeneratorFactory implements KeyInfoGeneratorFactory {
     /** {@inheritDoc} */
     @Nonnull public KeyInfoGenerator newInstance() {
         //TODO lock options during cloning ?
-        BasicOptions newOptions = options.clone();
+        final BasicOptions newOptions = options.clone();
         return new BasicKeyInfoGenerator(newOptions);
     }
     
@@ -197,13 +197,13 @@ public class BasicKeyInfoGeneratorFactory implements KeyInfoGeneratorFactory {
                 return null;
             }
             
-            KeyInfo keyInfo = keyInfoBuilder.buildObject(KeyInfo.DEFAULT_ELEMENT_NAME);
+            final KeyInfo keyInfo = keyInfoBuilder.buildObject(KeyInfo.DEFAULT_ELEMENT_NAME);
             
             processKeyNames(keyInfo, credential);
             processEntityID(keyInfo, credential);
             processPublicKey(keyInfo, credential);
             
-            List<XMLObject> children = keyInfo.getOrderedChildren();
+            final List<XMLObject> children = keyInfo.getOrderedChildren();
             if (children != null && children.size() > 0) {
                 return keyInfo;
             } else {
@@ -218,7 +218,7 @@ public class BasicKeyInfoGeneratorFactory implements KeyInfoGeneratorFactory {
          */
         protected void processKeyNames(@Nonnull final KeyInfo keyInfo, @Nonnull final Credential credential) {
             if (options.emitKeyNames) {
-                for (String keyNameValue : credential.getKeyNames()) {
+                for (final String keyNameValue : credential.getKeyNames()) {
                     if (!Strings.isNullOrEmpty(keyNameValue)) {
                         KeyInfoSupport.addKeyName(keyInfo, keyNameValue);
                     }
@@ -233,7 +233,7 @@ public class BasicKeyInfoGeneratorFactory implements KeyInfoGeneratorFactory {
          */
         protected void processEntityID(@Nonnull final KeyInfo keyInfo, @Nonnull final Credential credential) {
             if (options.emitEntityIDAsKeyName) {
-                String keyNameValue = credential.getEntityId();
+                final String keyNameValue = credential.getEntityId();
                 if (!Strings.isNullOrEmpty(keyNameValue)) {
                     KeyInfoSupport.addKeyName(keyInfo, keyNameValue);
                 }

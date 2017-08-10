@@ -35,7 +35,7 @@ public class DHKeyValueUnmarshaller extends AbstractXMLEncryptionUnmarshaller {
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        DHKeyValue keyValue = (DHKeyValue) parentXMLObject;
+        final DHKeyValue keyValue = (DHKeyValue) parentXMLObject;
 
         if (childXMLObject instanceof P) {
             keyValue.setP((P) childXMLObject);

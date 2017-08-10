@@ -30,7 +30,7 @@ public class TransformsUnmarshaller extends AbstractXMLSignatureUnmarshaller {
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        Transforms transforms = (Transforms) parentXMLObject;
+        final Transforms transforms = (Transforms) parentXMLObject;
 
         if (childXMLObject instanceof Transform) {
             transforms.getTransforms().add((Transform) childXMLObject);

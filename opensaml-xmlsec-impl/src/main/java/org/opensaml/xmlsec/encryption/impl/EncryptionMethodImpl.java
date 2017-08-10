@@ -102,7 +102,7 @@ public class EncryptionMethodImpl extends AbstractXMLObject implements Encryptio
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         
         if (keySize != null) {
             children.add(keySize);

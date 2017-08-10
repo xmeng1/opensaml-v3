@@ -29,7 +29,7 @@ public class TransformMarshaller extends AbstractXMLSignatureMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        Transform transform = (Transform) xmlObject;
+        final Transform transform = (Transform) xmlObject;
 
         if (transform.getAlgorithm() != null) {
             domElement.setAttributeNS(null, Transform.ALGORITHM_ATTRIB_NAME, transform.getAlgorithm());

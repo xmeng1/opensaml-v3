@@ -31,7 +31,7 @@ public class ReferenceListUnmarshaller extends AbstractXMLEncryptionUnmarshaller
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        ReferenceList rl = (ReferenceList) parentXMLObject;
+        final ReferenceList rl = (ReferenceList) parentXMLObject;
 
         if (childXMLObject instanceof DataReference) {
             rl.getReferences().add((DataReference) childXMLObject);

@@ -29,7 +29,7 @@ public class ReferenceTypeUnmarshaller extends AbstractXMLEncryptionUnmarshaller
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        ReferenceType rt = (ReferenceType) xmlObject;
+        final ReferenceType rt = (ReferenceType) xmlObject;
 
         if (attribute.getLocalName().equals(ReferenceType.URI_ATTRIB_NAME)) {
             rt.setURI(attribute.getValue());
@@ -41,7 +41,7 @@ public class ReferenceTypeUnmarshaller extends AbstractXMLEncryptionUnmarshaller
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        ReferenceType rt = (ReferenceType) parentXMLObject;
+        final ReferenceType rt = (ReferenceType) parentXMLObject;
 
         rt.getUnknownXMLObjects().add(childXMLObject);
     }

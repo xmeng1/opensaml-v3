@@ -31,7 +31,7 @@ public class PGPDataUnmarshaller extends AbstractXMLSignatureUnmarshaller {
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        PGPData pgpData = (PGPData) parentXMLObject;
+        final PGPData pgpData = (PGPData) parentXMLObject;
 
         if (childXMLObject instanceof PGPKeyID) {
             pgpData.setPGPKeyID((PGPKeyID) childXMLObject);

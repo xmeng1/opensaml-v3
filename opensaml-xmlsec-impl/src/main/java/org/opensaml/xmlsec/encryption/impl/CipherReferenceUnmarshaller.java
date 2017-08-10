@@ -30,7 +30,7 @@ public class CipherReferenceUnmarshaller extends AbstractXMLEncryptionUnmarshall
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        CipherReference cr = (CipherReference) xmlObject;
+        final CipherReference cr = (CipherReference) xmlObject;
 
         if (attribute.getLocalName().equals(CipherReference.URI_ATTRIB_NAME)) {
             cr.setURI(attribute.getValue());
@@ -42,7 +42,7 @@ public class CipherReferenceUnmarshaller extends AbstractXMLEncryptionUnmarshall
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        CipherReference cr = (CipherReference) parentXMLObject;
+        final CipherReference cr = (CipherReference) parentXMLObject;
 
         if (childXMLObject instanceof Transforms) {
             cr.setTransforms((Transforms) childXMLObject);

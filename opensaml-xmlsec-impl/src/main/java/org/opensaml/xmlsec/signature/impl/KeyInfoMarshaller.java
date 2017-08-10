@@ -29,7 +29,7 @@ public class KeyInfoMarshaller extends AbstractXMLSignatureMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        KeyInfo keyInfo = (KeyInfo ) xmlObject;
+        final KeyInfo keyInfo = (KeyInfo ) xmlObject;
 
         if (keyInfo.getID() != null) {
             domElement.setAttributeNS(null, KeyInfo.ID_ATTRIB_NAME, keyInfo.getID());

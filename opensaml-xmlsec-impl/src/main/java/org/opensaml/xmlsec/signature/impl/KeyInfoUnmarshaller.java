@@ -29,7 +29,7 @@ public class KeyInfoUnmarshaller extends AbstractXMLSignatureUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        KeyInfo keyInfo = (KeyInfo) xmlObject;
+        final KeyInfo keyInfo = (KeyInfo) xmlObject;
 
         if (attribute.getLocalName().equals(KeyInfo.ID_ATTRIB_NAME)) {
             keyInfo.setID(attribute.getValue());
@@ -42,7 +42,7 @@ public class KeyInfoUnmarshaller extends AbstractXMLSignatureUnmarshaller {
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        KeyInfo keyInfo = (KeyInfo) parentXMLObject;
+        final KeyInfo keyInfo = (KeyInfo) parentXMLObject;
 
         // KeyInfoType contains a range of specific types, but also
         // support <any>, with an unbounded choice over all (no ordering)

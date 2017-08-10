@@ -29,7 +29,7 @@ public class NamedCurveMarshaller extends AbstractXMLSignatureMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        NamedCurve nc = (NamedCurve) xmlObject;
+        final NamedCurve nc = (NamedCurve) xmlObject;
 
         if (nc.getURI() != null) {
             domElement.setAttributeNS(null, NamedCurve.URI_ATTRIB_NAME, nc.getURI());

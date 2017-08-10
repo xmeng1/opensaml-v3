@@ -29,7 +29,7 @@ public class AgreementMethodMarshaller extends AbstractXMLEncryptionMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        AgreementMethod am = (AgreementMethod) xmlObject;
+        final AgreementMethod am = (AgreementMethod) xmlObject;
 
         if (am.getAlgorithm() != null) {
             domElement.setAttributeNS(null, AgreementMethod.ALGORITHM_ATTRIBUTE_NAME, am.getAlgorithm());

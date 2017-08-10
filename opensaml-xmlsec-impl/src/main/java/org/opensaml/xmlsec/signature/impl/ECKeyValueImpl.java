@@ -62,7 +62,7 @@ public class ECKeyValueImpl extends AbstractXMLObject implements ECKeyValue {
 
     /** {@inheritDoc} */
     public void setID(final String newID) {
-        String oldID = id;
+        final String oldID = id;
         id = prepareForAssignment(id, newID);
         registerOwnID(oldID, id);
     }
@@ -99,7 +99,7 @@ public class ECKeyValueImpl extends AbstractXMLObject implements ECKeyValue {
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         
         if (ecParams != null) {
             children.add(ecParams);

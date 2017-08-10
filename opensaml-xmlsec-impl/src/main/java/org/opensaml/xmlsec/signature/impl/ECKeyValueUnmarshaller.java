@@ -38,7 +38,7 @@ public class ECKeyValueUnmarshaller extends AbstractXMLSignatureUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        ECKeyValue ec = (ECKeyValue) xmlObject;
+        final ECKeyValue ec = (ECKeyValue) xmlObject;
 
         if (attribute.getLocalName().equals(ECKeyValue.ID_ATTRIB_NAME)) {
             ec.setID(attribute.getValue());
@@ -51,7 +51,7 @@ public class ECKeyValueUnmarshaller extends AbstractXMLSignatureUnmarshaller {
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        ECKeyValue keyValue = (ECKeyValue) parentXMLObject;
+        final ECKeyValue keyValue = (ECKeyValue) parentXMLObject;
 
         if (childXMLObject instanceof NamedCurve) {
             keyValue.setNamedCurve((NamedCurve) childXMLObject);

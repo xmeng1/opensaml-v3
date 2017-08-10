@@ -47,7 +47,7 @@ public class DEREncodedKeyValueImpl extends XSBase64BinaryImpl implements DEREnc
 
     /** {@inheritDoc} */
     public void setID(final String newID) {
-        String oldID = id;
+        final String oldID = id;
         id = prepareForAssignment(id, newID);
         registerOwnID(oldID, id);
     }

@@ -29,7 +29,7 @@ public class TransformUnmarshaller extends AbstractXMLSignatureUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        Transform transform = (Transform) xmlObject;
+        final Transform transform = (Transform) xmlObject;
 
         if (attribute.getLocalName().equals(Transform.ALGORITHM_ATTRIB_NAME)) {
             transform.setAlgorithm(attribute.getValue());
@@ -41,7 +41,7 @@ public class TransformUnmarshaller extends AbstractXMLSignatureUnmarshaller {
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        Transform transform = (Transform) parentXMLObject;
+        final Transform transform = (Transform) parentXMLObject;
 
         // Has <any> open content model + XPath children
         transform.getAllChildren().add(childXMLObject);

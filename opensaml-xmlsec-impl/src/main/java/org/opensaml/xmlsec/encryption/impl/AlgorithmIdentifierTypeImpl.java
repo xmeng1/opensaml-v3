@@ -72,7 +72,7 @@ public abstract class AlgorithmIdentifierTypeImpl extends AbstractXMLObject impl
     
     /** {@inheritDoc} */
     @Nullable public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         
         if (parameters != null) {
             children.add(parameters);

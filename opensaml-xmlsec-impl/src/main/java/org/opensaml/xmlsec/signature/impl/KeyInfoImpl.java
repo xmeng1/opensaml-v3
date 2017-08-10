@@ -69,7 +69,7 @@ public class KeyInfoImpl extends AbstractXMLObject implements KeyInfo {
 
     /** {@inheritDoc} */
     public void setID(final String newID) {
-        String oldID = this.id;
+        final String oldID = this.id;
         this.id = prepareForAssignment(this.id, newID);
         registerOwnID(oldID, this.id);
     }
@@ -141,7 +141,7 @@ public class KeyInfoImpl extends AbstractXMLObject implements KeyInfo {
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         
         children.addAll(indexedChildren);
         

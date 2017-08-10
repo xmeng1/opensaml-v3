@@ -31,7 +31,7 @@ public class RSAKeyValueUnmarshaller extends AbstractXMLSignatureUnmarshaller {
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        RSAKeyValue keyValue = (RSAKeyValue) parentXMLObject;
+        final RSAKeyValue keyValue = (RSAKeyValue) parentXMLObject;
 
         if (childXMLObject instanceof Modulus) {
             keyValue.setModulus((Modulus) childXMLObject);

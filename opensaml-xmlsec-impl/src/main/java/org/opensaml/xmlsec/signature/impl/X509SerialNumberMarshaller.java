@@ -38,7 +38,7 @@ public class X509SerialNumberMarshaller extends AbstractXMLObjectMarshaller {
     /** {@inheritDoc} */
     protected void marshallElementContent(final XMLObject xmlObject, final Element domElement)
             throws MarshallingException {
-        X509SerialNumber x509SerialNumber = (X509SerialNumber) xmlObject;
+        final X509SerialNumber x509SerialNumber = (X509SerialNumber) xmlObject;
         
         if (x509SerialNumber.getValue() != null) {
             ElementSupport.appendTextContent(domElement, x509SerialNumber.getValue().toString());

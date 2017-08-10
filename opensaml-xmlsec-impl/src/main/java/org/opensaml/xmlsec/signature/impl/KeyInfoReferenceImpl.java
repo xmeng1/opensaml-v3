@@ -53,7 +53,7 @@ public class KeyInfoReferenceImpl extends AbstractXMLObject implements KeyInfoRe
 
     /** {@inheritDoc} */
     public void setID(final String newID) {
-        String oldID = id;
+        final String oldID = id;
         id = prepareForAssignment(id, newID);
         registerOwnID(oldID, id);
     }

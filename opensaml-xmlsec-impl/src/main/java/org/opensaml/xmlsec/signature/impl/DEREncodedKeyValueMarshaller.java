@@ -30,7 +30,7 @@ public class DEREncodedKeyValueMarshaller extends XSBase64BinaryMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        DEREncodedKeyValue der = (DEREncodedKeyValue) xmlObject;
+        final DEREncodedKeyValue der = (DEREncodedKeyValue) xmlObject;
 
         if (der.getID() != null) {
             domElement.setAttributeNS(null, DEREncodedKeyValue.ID_ATTRIB_NAME, der.getID());

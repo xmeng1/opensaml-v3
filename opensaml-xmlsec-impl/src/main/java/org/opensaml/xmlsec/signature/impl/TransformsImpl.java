@@ -54,7 +54,7 @@ public class TransformsImpl extends AbstractXMLObject implements Transforms {
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         
         children.addAll((List<Transform>) transforms);
         

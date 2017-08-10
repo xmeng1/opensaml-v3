@@ -29,7 +29,7 @@ public abstract class EncryptedTypeMarshaller extends AbstractXMLEncryptionMarsh
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        EncryptedType et = (EncryptedType) xmlObject;
+        final EncryptedType et = (EncryptedType) xmlObject;
 
         if (et.getID() != null) {
             domElement.setAttributeNS(null, EncryptedType.ID_ATTRIB_NAME, et.getID());

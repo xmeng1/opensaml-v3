@@ -55,7 +55,7 @@ public class BasicSignatureValidationParametersResolver
     @Nonnull public Iterable<SignatureValidationParameters> resolve(@Nonnull final CriteriaSet criteria) 
             throws ResolverException {
         
-        SignatureValidationParameters params = resolveSingle(criteria);
+        final SignatureValidationParameters params = resolveSingle(criteria);
         if (params != null) {
             return Collections.singletonList(params);
         } else {
@@ -70,7 +70,7 @@ public class BasicSignatureValidationParametersResolver
         Constraint.isNotNull(criteria.get(SignatureValidationConfigurationCriterion.class), 
                 "Resolver requires an instance of SignatureValidationConfigurationCriterion");
         
-        SignatureValidationParameters params = new SignatureValidationParameters();
+        final SignatureValidationParameters params = new SignatureValidationParameters();
         
         resolveAndPopulateWhiteAndBlacklists(params, criteria, 
                 criteria.get(SignatureValidationConfigurationCriterion.class).getConfigurations());
@@ -108,7 +108,8 @@ public class BasicSignatureValidationParametersResolver
      */
     @Nullable protected SignatureTrustEngine resolveSignatureTrustEngine(@Nonnull final CriteriaSet criteria) {
         
-        for (SignatureValidationConfiguration config : criteria.get(SignatureValidationConfigurationCriterion.class)
+        for (final SignatureValidationConfiguration config : criteria
+                .get(SignatureValidationConfigurationCriterion.class)
                 .getConfigurations()) {
             if (config.getSignatureTrustEngine() != null) {
                 return config.getSignatureTrustEngine();

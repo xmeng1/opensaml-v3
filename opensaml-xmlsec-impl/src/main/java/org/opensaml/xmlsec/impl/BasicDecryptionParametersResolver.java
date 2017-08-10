@@ -55,7 +55,7 @@ public class BasicDecryptionParametersResolver extends AbstractSecurityParameter
     @Nonnull public Iterable<DecryptionParameters> resolve(@Nonnull final CriteriaSet criteria) 
             throws ResolverException {
         
-        DecryptionParameters params = resolveSingle(criteria);
+        final DecryptionParameters params = resolveSingle(criteria);
         if (params != null) {
             return Collections.singletonList(params);
         } else {
@@ -69,7 +69,7 @@ public class BasicDecryptionParametersResolver extends AbstractSecurityParameter
         Constraint.isNotNull(criteria.get(DecryptionConfigurationCriterion.class), 
                 "Resolver requires an instance of DecryptionConfigurationCriterion");
         
-        DecryptionParameters params = new DecryptionParameters();
+        final DecryptionParameters params = new DecryptionParameters();
         
         resolveAndPopulateWhiteAndBlacklists(params, criteria, 
                 criteria.get(DecryptionConfigurationCriterion.class).getConfigurations());
@@ -114,7 +114,7 @@ public class BasicDecryptionParametersResolver extends AbstractSecurityParameter
      */
     @Nullable protected EncryptedKeyResolver resolveEncryptedKeyResolver(@Nonnull final CriteriaSet criteria) {
         
-        for (DecryptionConfiguration config : criteria.get(DecryptionConfigurationCriterion.class)
+        for (final DecryptionConfiguration config : criteria.get(DecryptionConfigurationCriterion.class)
                 .getConfigurations()) {
             if (config.getEncryptedKeyResolver() != null) {
                 return config.getEncryptedKeyResolver();
@@ -133,7 +133,7 @@ public class BasicDecryptionParametersResolver extends AbstractSecurityParameter
     @Nullable protected KeyInfoCredentialResolver resolveKEKKeyInfoCredentialResolver(
             @Nonnull final CriteriaSet criteria) {
         
-        for (DecryptionConfiguration config : criteria.get(DecryptionConfigurationCriterion.class)
+        for (final DecryptionConfiguration config : criteria.get(DecryptionConfigurationCriterion.class)
                 .getConfigurations()) {
             if (config.getKEKKeyInfoCredentialResolver() != null) {
                 return config.getKEKKeyInfoCredentialResolver();
@@ -152,7 +152,7 @@ public class BasicDecryptionParametersResolver extends AbstractSecurityParameter
     @Nullable protected KeyInfoCredentialResolver resolveDataKeyInfoCredentialResolver(
             @Nonnull final CriteriaSet criteria) {
         
-        for (DecryptionConfiguration config : criteria.get(DecryptionConfigurationCriterion.class)
+        for (final DecryptionConfiguration config : criteria.get(DecryptionConfigurationCriterion.class)
                 .getConfigurations()) {
             if (config.getDataKeyInfoCredentialResolver() != null) {
                 return config.getDataKeyInfoCredentialResolver();

@@ -31,7 +31,7 @@ public class EncryptionMethodUnmarshaller extends AbstractXMLEncryptionUnmarshal
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        EncryptionMethod em = (EncryptionMethod) xmlObject;
+        final EncryptionMethod em = (EncryptionMethod) xmlObject;
 
         if (attribute.getLocalName().equals(EncryptionMethod.ALGORITHM_ATTRIB_NAME)) {
             em.setAlgorithm(attribute.getValue());
@@ -43,7 +43,7 @@ public class EncryptionMethodUnmarshaller extends AbstractXMLEncryptionUnmarshal
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        EncryptionMethod em = (EncryptionMethod) parentXMLObject;
+        final EncryptionMethod em = (EncryptionMethod) parentXMLObject;
         if (childXMLObject instanceof KeySize) {
             em.setKeySize((KeySize) childXMLObject);
         } else if (childXMLObject instanceof OAEPparams) {

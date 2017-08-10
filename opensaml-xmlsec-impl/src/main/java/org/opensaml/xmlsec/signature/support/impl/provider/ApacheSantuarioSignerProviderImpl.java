@@ -47,7 +47,7 @@ public class ApacheSantuarioSignerProviderImpl implements SignerProvider {
         Constraint.isTrue(Init.isInitialized(), "Apache XML security library is not initialized");
         
         try {
-            XMLSignature xmlSignature = ((SignatureImpl) signature).getXMLSignature();
+            final XMLSignature xmlSignature = ((SignatureImpl) signature).getXMLSignature();
 
             if (xmlSignature == null) {
                 log.error("Unable to compute signature, Signature XMLObject does not have the XMLSignature "

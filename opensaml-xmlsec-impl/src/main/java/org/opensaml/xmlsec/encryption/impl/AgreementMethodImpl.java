@@ -115,7 +115,7 @@ public class AgreementMethodImpl extends AbstractXMLObject implements AgreementM
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         
         if (kaNonce != null) {
             children.add(kaNonce);

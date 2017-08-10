@@ -29,7 +29,7 @@ public class DigestMethodUnmarshaller extends AbstractXMLSignatureUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        DigestMethod dm = (DigestMethod) xmlObject;
+        final DigestMethod dm = (DigestMethod) xmlObject;
 
         if (attribute.getLocalName().equals(DigestMethod.ALGORITHM_ATTRIB_NAME)) {
             dm.setAlgorithm(attribute.getValue());
@@ -41,7 +41,7 @@ public class DigestMethodUnmarshaller extends AbstractXMLSignatureUnmarshaller {
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        DigestMethod dm = (DigestMethod) parentXMLObject;
+        final DigestMethod dm = (DigestMethod) parentXMLObject;
         dm.getUnknownXMLObjects().add(childXMLObject);
     }
 

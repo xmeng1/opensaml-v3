@@ -29,7 +29,7 @@ public class EncryptionMethodMarshaller extends AbstractXMLEncryptionMarshaller 
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        EncryptionMethod em = (EncryptionMethod) xmlObject;
+        final EncryptionMethod em = (EncryptionMethod) xmlObject;
 
         if (em.getAlgorithm() != null) {
             domElement.setAttributeNS(null, EncryptionMethod.ALGORITHM_ATTRIB_NAME, em.getAlgorithm());

@@ -29,7 +29,7 @@ public class ECKeyValueMarshaller extends AbstractXMLSignatureMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        ECKeyValue ec = (ECKeyValue) xmlObject;
+        final ECKeyValue ec = (ECKeyValue) xmlObject;
 
         if (ec.getID() != null) {
             domElement.setAttributeNS(null, ECKeyValue.ID_ATTRIB_NAME, ec.getID());

@@ -29,7 +29,7 @@ public class KeyInfoReferenceUnmarshaller extends AbstractXMLSignatureUnmarshall
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        KeyInfoReference ref = (KeyInfoReference) xmlObject;
+        final KeyInfoReference ref = (KeyInfoReference) xmlObject;
 
         if (attribute.getLocalName().equals(KeyInfoReference.ID_ATTRIB_NAME)) {
             ref.setID(attribute.getValue());

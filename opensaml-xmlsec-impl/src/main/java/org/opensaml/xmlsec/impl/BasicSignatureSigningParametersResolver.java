@@ -100,7 +100,7 @@ public class BasicSignatureSigningParametersResolver
     /** {@inheritDoc} */
     @Nonnull
     public Iterable<SignatureSigningParameters> resolve(@Nonnull final CriteriaSet criteria) throws ResolverException {
-        SignatureSigningParameters params = resolveSingle(criteria);
+        final SignatureSigningParameters params = resolveSingle(criteria);
         if (params != null) {
             return Collections.singletonList(params);
         } else {
@@ -115,9 +115,9 @@ public class BasicSignatureSigningParametersResolver
         Constraint.isNotNull(criteria.get(SignatureSigningConfigurationCriterion.class), 
                 "Resolver requires an instance of SignatureSigningConfigurationCriterion");
         
-        Predicate<String> whitelistBlacklistPredicate = getWhitelistBlacklistPredicate(criteria);
+        final Predicate<String> whitelistBlacklistPredicate = getWhitelistBlacklistPredicate(criteria);
         
-        SignatureSigningParameters params = new SignatureSigningParameters();
+        final SignatureSigningParameters params = new SignatureSigningParameters();
         
         resolveAndPopulateCredentialAndSignatureAlgorithm(params, criteria, whitelistBlacklistPredicate);
         
@@ -148,7 +148,7 @@ public class BasicSignatureSigningParametersResolver
         if (log.isDebugEnabled()) {
             log.debug("Resolved SignatureSigningParameters:");
             
-            Key signingKey = CredentialSupport.extractSigningKey(params.getSigningCredential());
+            final Key signingKey = CredentialSupport.extractSigningKey(params.getSigningCredential());
             if (signingKey != null) {
                 log.debug("\tSigning credential with key algorithm: {}", signingKey.getAlgorithm());
             } else {
@@ -216,16 +216,16 @@ public class BasicSignatureSigningParametersResolver
     protected void resolveAndPopulateCredentialAndSignatureAlgorithm(@Nonnull final SignatureSigningParameters params, 
             @Nonnull final CriteriaSet criteria, final Predicate<String> whitelistBlacklistPredicate) {
         
-        List<Credential> credentials = getEffectiveSigningCredentials(criteria);
-        List<String> algorithms = getEffectiveSignatureAlgorithms(criteria, whitelistBlacklistPredicate);
+        final List<Credential> credentials = getEffectiveSigningCredentials(criteria);
+        final List<String> algorithms = getEffectiveSignatureAlgorithms(criteria, whitelistBlacklistPredicate);
         log.trace("Resolved effective signature algorithms: {}", algorithms);
         
-        for (Credential credential : credentials) {
+        for (final Credential credential : credentials) {
             if (log.isTraceEnabled()) {
-                Key key = CredentialSupport.extractSigningKey(credential);
+                final Key key = CredentialSupport.extractSigningKey(credential);
                 log.trace("Evaluating credential of type: {}", key != null ? key.getAlgorithm() : "n/a");
             }
-            for (String algorithm : algorithms) {
+            for (final String algorithm : algorithms) {
                 log.trace("Evaluating credential against algorithm: {}", algorithm);
                 if (credentialSupportsAlgorithm(credential, algorithm)) {
                     log.trace("Credential passed eval against algorithm: {}", algorithm);
@@ -271,8 +271,8 @@ public class BasicSignatureSigningParametersResolver
      * @return the list of credentials
      */
     @Nonnull protected List<Credential> getEffectiveSigningCredentials(@Nonnull final CriteriaSet criteria) {
-        ArrayList<Credential> accumulator = new ArrayList<>();
-        for (SignatureSigningConfiguration config : criteria.get(SignatureSigningConfigurationCriterion.class)
+        final ArrayList<Credential> accumulator = new ArrayList<>();
+        for (final SignatureSigningConfiguration config : criteria.get(SignatureSigningConfigurationCriterion.class)
                 .getConfigurations()) {
             
             accumulator.addAll(config.getSigningCredentials());
@@ -291,8 +291,8 @@ public class BasicSignatureSigningParametersResolver
      */
     @Nonnull protected List<String> getEffectiveSignatureAlgorithms(@Nonnull final CriteriaSet criteria, 
             @Nonnull final Predicate<String> whitelistBlacklistPredicate) {
-        ArrayList<String> accumulator = new ArrayList<>();
-        for (SignatureSigningConfiguration config : criteria.get(SignatureSigningConfigurationCriterion.class)
+        final ArrayList<String> accumulator = new ArrayList<>();
+        for (final SignatureSigningConfiguration config : criteria.get(SignatureSigningConfigurationCriterion.class)
                 .getConfigurations()) {
             
             accumulator.addAll(Collections2.filter(config.getSignatureAlgorithms(), 
@@ -311,10 +311,10 @@ public class BasicSignatureSigningParametersResolver
      */
     @Nullable protected String resolveReferenceDigestMethod(@Nonnull final CriteriaSet criteria, 
             @Nonnull final Predicate<String> whitelistBlacklistPredicate) {
-        for (SignatureSigningConfiguration config : criteria.get(SignatureSigningConfigurationCriterion.class)
+        for (final SignatureSigningConfiguration config : criteria.get(SignatureSigningConfigurationCriterion.class)
                 .getConfigurations()) {
             
-            for (String digestMethod : config.getSignatureReferenceDigestMethods()) {
+            for (final String digestMethod : config.getSignatureReferenceDigestMethods()) {
                 if (getAlgorithmRuntimeSupportedPredicate().apply(digestMethod) 
                         && whitelistBlacklistPredicate.apply(digestMethod)) {
                     return digestMethod;
@@ -332,7 +332,7 @@ public class BasicSignatureSigningParametersResolver
      * @return the canonicalization algorithm URI
      */
     @Nullable protected String resolveCanonicalizationAlgorithm(@Nonnull final CriteriaSet criteria) {
-        for (SignatureSigningConfiguration config : criteria.get(SignatureSigningConfigurationCriterion.class)
+        for (final SignatureSigningConfiguration config : criteria.get(SignatureSigningConfigurationCriterion.class)
                 .getConfigurations()) {
             
             if (config.getSignatureCanonicalizationAlgorithm() != null) {
@@ -358,10 +358,11 @@ public class BasicSignatureSigningParametersResolver
             name = criteria.get(KeyInfoGenerationProfileCriterion.class).getName();
         }
         
-        for (SignatureSigningConfiguration config : criteria.get(SignatureSigningConfigurationCriterion.class)
+        for (final SignatureSigningConfiguration config : criteria.get(SignatureSigningConfigurationCriterion.class)
                 .getConfigurations()) {
             
-            KeyInfoGenerator kig = lookupKeyInfoGenerator(signingCredential, config.getKeyInfoGeneratorManager(), name);
+            final KeyInfoGenerator kig =
+                    lookupKeyInfoGenerator(signingCredential, config.getKeyInfoGeneratorManager(), name);
             if (kig != null) {
                 return kig;
             }
@@ -384,7 +385,7 @@ public class BasicSignatureSigningParametersResolver
             @Nonnull final Credential signingCredential, @Nonnull @NotEmpty final String algorithmURI) {
         
         if (AlgorithmSupport.isHMAC(algorithmURI)) {
-            for (SignatureSigningConfiguration config : criteria.get(SignatureSigningConfigurationCriterion.class)
+            for (final SignatureSigningConfiguration config : criteria.get(SignatureSigningConfigurationCriterion.class)
                     .getConfigurations()) {
                 if (config.getSignatureHMACOutputLength() != null) {
                     return config.getSignatureHMACOutputLength();

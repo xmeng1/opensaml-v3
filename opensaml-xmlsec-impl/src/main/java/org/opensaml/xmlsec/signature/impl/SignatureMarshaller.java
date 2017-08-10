@@ -59,7 +59,7 @@ public class SignatureMarshaller implements Marshaller {
     /** {@inheritDoc} */
     public Element marshall(final XMLObject xmlObject) throws MarshallingException {
         try {
-            Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+            final Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
             return marshall(xmlObject, document);
         } catch (final ParserConfigurationException e) {
             throw new MarshallingException("Unable to create Document to place marshalled elements in", e);
@@ -68,16 +68,17 @@ public class SignatureMarshaller implements Marshaller {
 
     /** {@inheritDoc} */
     public Element marshall(final XMLObject xmlObject, final Element parentElement) throws MarshallingException {
-        Element signatureElement = createSignatureElement((SignatureImpl) xmlObject, parentElement.getOwnerDocument());
+        final Element signatureElement =
+                createSignatureElement((SignatureImpl) xmlObject, parentElement.getOwnerDocument());
         ElementSupport.appendChildElement(parentElement, signatureElement);
         return signatureElement;
     }
 
     /** {@inheritDoc} */
     public Element marshall(final XMLObject xmlObject, final Document document) throws MarshallingException {
-        Element signatureElement = createSignatureElement((SignatureImpl) xmlObject, document);
+        final Element signatureElement = createSignatureElement((SignatureImpl) xmlObject, document);
 
-        Element documentRoot = document.getDocumentElement();
+        final Element documentRoot = document.getDocumentElement();
         if (documentRoot != null) {
             document.replaceChild(signatureElement, documentRoot);
         } else {
@@ -113,16 +114,16 @@ public class SignatureMarshaller implements Marshaller {
             }
 
             log.debug("Adding content to XMLSignature.");
-            for (ContentReference contentReference : signature.getContentReferences()) {
+            for (final ContentReference contentReference : signature.getContentReferences()) {
                 contentReference.createReference(dsig);
             }
 
             log.debug("Creating Signature DOM element");
-            Element signatureElement = dsig.getElement();
+            final Element signatureElement = dsig.getElement();
 
             if (signature.getKeyInfo() != null) {
-                Marshaller keyInfoMarshaller = XMLObjectProviderRegistrySupport.getMarshallerFactory().getMarshaller(
-                        KeyInfo.DEFAULT_ELEMENT_NAME);
+                final Marshaller keyInfoMarshaller = XMLObjectProviderRegistrySupport.getMarshallerFactory()
+                        .getMarshaller(KeyInfo.DEFAULT_ELEMENT_NAME);
                 keyInfoMarshaller.marshall(signature.getKeyInfo(), signatureElement);
             }
 

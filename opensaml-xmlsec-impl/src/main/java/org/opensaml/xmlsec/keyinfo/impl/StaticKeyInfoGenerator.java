@@ -104,7 +104,7 @@ public class StaticKeyInfoGenerator implements KeyInfoGenerator {
         //   1) marshall the original (if necessary)
         //   2) unmarshall a new object around the cached or newly marshalled DOM.
         //   3) ensure only one of them caches the DOM (original or marshalled)
-        Element origDOM = origKeyInfo.getDOM();
+        final Element origDOM = origKeyInfo.getDOM();
         if (origDOM == null) {
             try {
                 getMarshaller().marshall(origKeyInfo);

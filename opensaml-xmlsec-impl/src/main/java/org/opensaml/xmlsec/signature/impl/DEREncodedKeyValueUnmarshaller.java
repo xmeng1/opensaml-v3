@@ -30,7 +30,7 @@ public class DEREncodedKeyValueUnmarshaller extends XSBase64BinaryUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        DEREncodedKeyValue der = (DEREncodedKeyValue) xmlObject;
+        final DEREncodedKeyValue der = (DEREncodedKeyValue) xmlObject;
 
         if (attribute.getLocalName().equals(DEREncodedKeyValue.ID_ATTRIB_NAME)) {
             der.setID(attribute.getValue());

@@ -45,7 +45,7 @@ public class X509SerialNumberUnmarshaller extends AbstractXMLObjectUnmarshaller 
 
     /** {@inheritDoc} */
     protected void processElementContent(final XMLObject xmlObject, final String elementContent) {
-        X509SerialNumber x509SerialNumber = (X509SerialNumber) xmlObject;
+        final X509SerialNumber x509SerialNumber = (X509SerialNumber) xmlObject;
         
         if(!Strings.isNullOrEmpty(elementContent)){
             x509SerialNumber.setValue( new BigInteger(elementContent) );

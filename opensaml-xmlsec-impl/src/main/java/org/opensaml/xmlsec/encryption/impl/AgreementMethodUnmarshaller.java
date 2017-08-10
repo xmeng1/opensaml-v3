@@ -32,7 +32,7 @@ public class AgreementMethodUnmarshaller extends AbstractXMLEncryptionUnmarshall
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        AgreementMethod am = (AgreementMethod) xmlObject;
+        final AgreementMethod am = (AgreementMethod) xmlObject;
 
         if (attribute.getLocalName().equals(AgreementMethod.ALGORITHM_ATTRIBUTE_NAME)) {
             am.setAlgorithm(attribute.getValue());
@@ -44,7 +44,7 @@ public class AgreementMethodUnmarshaller extends AbstractXMLEncryptionUnmarshall
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        AgreementMethod am = (AgreementMethod) parentXMLObject;
+        final AgreementMethod am = (AgreementMethod) parentXMLObject;
 
         if (childXMLObject instanceof KANonce) {
             am.setKANonce((KANonce) childXMLObject);

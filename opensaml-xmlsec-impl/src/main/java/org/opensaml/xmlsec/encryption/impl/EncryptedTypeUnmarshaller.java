@@ -34,7 +34,7 @@ public abstract class EncryptedTypeUnmarshaller extends AbstractXMLEncryptionUnm
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        EncryptedType et = (EncryptedType) parentXMLObject;
+        final EncryptedType et = (EncryptedType) parentXMLObject;
 
         if (childXMLObject instanceof EncryptionMethod) {
             et.setEncryptionMethod((EncryptionMethod) childXMLObject);
@@ -52,7 +52,7 @@ public abstract class EncryptedTypeUnmarshaller extends AbstractXMLEncryptionUnm
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        EncryptedType et = (EncryptedType) xmlObject;
+        final EncryptedType et = (EncryptedType) xmlObject;
 
         if (attribute.getLocalName().equals(EncryptedType.ID_ATTRIB_NAME)) {
             et.setID(attribute.getValue());

@@ -29,7 +29,7 @@ public class DigestMethodMarshaller extends AbstractXMLSignatureMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        DigestMethod dm = (DigestMethod) xmlObject;
+        final DigestMethod dm = (DigestMethod) xmlObject;
 
         if (dm.getAlgorithm() != null) {
             domElement.setAttributeNS(null, DigestMethod.ALGORITHM_ATTRIB_NAME, dm.getAlgorithm());
