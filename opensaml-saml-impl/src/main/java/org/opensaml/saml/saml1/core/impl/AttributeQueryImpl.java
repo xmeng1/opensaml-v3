@@ -44,7 +44,8 @@ public class AttributeQueryImpl extends SubjectQueryImpl implements AttributeQue
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AttributeQueryImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
+    protected AttributeQueryImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         attributeDesignators = new XMLObjectChildrenList<>(this);
     }

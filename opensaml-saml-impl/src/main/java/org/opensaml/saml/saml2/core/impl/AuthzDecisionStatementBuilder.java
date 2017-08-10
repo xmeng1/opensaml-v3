@@ -42,7 +42,8 @@ public class AuthzDecisionStatementBuilder extends AbstractSAMLObjectBuilder<Aut
     }
 
     /** {@inheritDoc} */
-    public AuthzDecisionStatement buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
+    public AuthzDecisionStatement buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new AuthzDecisionStatementImpl(namespaceURI, localName, namespacePrefix);
     }
 }

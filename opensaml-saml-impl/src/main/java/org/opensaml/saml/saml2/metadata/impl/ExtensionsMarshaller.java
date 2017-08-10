@@ -44,7 +44,8 @@ public class ExtensionsMarshaller extends AbstractSAMLObjectMarshaller {
     /**
      * {@inheritDoc}
      */
-    protected void marshallElementContent(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
+    protected void marshallElementContent(final XMLObject xmlObject, final Element domElement)
+            throws MarshallingException {
         // no content
     }
 }

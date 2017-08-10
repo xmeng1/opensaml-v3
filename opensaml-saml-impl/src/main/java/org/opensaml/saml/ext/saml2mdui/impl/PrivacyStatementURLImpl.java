@@ -35,7 +35,8 @@ public class PrivacyStatementURLImpl extends LocalizedURIImpl implements Privacy
      * @param elementLocalName the elementLocalName
      * @param namespacePrefix the namespacePrefix
      */
-    protected PrivacyStatementURLImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
+    protected PrivacyStatementURLImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

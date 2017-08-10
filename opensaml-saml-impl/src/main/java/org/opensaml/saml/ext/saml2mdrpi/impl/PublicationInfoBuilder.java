@@ -34,7 +34,8 @@ public class PublicationInfoBuilder extends AbstractSAMLObjectBuilder<Publicatio
     }
 
     /** {@inheritDoc} */
-    public PublicationInfo buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
+    public PublicationInfo buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new PublicationInfoImpl(namespaceURI, localName, namespacePrefix);
     }
 }

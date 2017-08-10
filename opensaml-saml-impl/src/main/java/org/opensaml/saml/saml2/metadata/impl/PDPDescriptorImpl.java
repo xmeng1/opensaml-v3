@@ -56,7 +56,8 @@ public class PDPDescriptorImpl extends RoleDescriptorImpl implements PDPDescript
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected PDPDescriptorImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
+    protected PDPDescriptorImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         authzServices = new XMLObjectChildrenList<>(this);
         assertionIDRequestServices = new XMLObjectChildrenList<>(this);

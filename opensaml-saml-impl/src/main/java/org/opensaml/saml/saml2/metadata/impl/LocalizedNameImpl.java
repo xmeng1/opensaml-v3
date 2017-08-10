@@ -41,7 +41,8 @@ public class LocalizedNameImpl extends XSStringImpl implements LocalizedName {
      * @param elementLocalName the elementLocalName
      * @param namespacePrefix the namespacePrefix
      */
-    protected LocalizedNameImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
+    protected LocalizedNameImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

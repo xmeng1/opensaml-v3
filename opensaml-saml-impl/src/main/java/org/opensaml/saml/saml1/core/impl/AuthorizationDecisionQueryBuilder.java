@@ -40,7 +40,8 @@ public class AuthorizationDecisionQueryBuilder extends AbstractSAMLObjectBuilder
     }
 
     /** {@inheritDoc} */
-    public AuthorizationDecisionQuery buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
+    public AuthorizationDecisionQuery buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new AuthorizationDecisionQueryImpl(namespaceURI, localName, namespacePrefix);
     }
 }

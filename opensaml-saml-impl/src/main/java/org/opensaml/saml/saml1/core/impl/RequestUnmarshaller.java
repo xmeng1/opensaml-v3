@@ -30,7 +30,8 @@ import org.opensaml.saml.saml1.core.Request;
 public class RequestUnmarshaller extends RequestAbstractTypeUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(final XMLObject parentElement, final XMLObject childElement) throws UnmarshallingException {
+    protected void processChildElement(final XMLObject parentElement, final XMLObject childElement)
+            throws UnmarshallingException {
         final Request request = (Request) parentElement;
 
         try {

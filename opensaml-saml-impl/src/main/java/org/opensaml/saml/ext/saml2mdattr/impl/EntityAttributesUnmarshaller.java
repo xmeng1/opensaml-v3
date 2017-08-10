@@ -28,7 +28,8 @@ import org.opensaml.saml.saml2.core.Attribute;
 public class EntityAttributesUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(final XMLObject parentObject, final XMLObject childObject) throws UnmarshallingException {
+    protected void processChildElement(final XMLObject parentObject, final XMLObject childObject)
+            throws UnmarshallingException {
         final EntityAttributes entityAttrs = (EntityAttributes) parentObject;
 
         if (childObject instanceof Attribute) {

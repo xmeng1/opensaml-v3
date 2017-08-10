@@ -61,7 +61,8 @@ public class LogoutRequestImpl extends RequestAbstractTypeImpl implements Logout
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected LogoutRequestImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
+    protected LogoutRequestImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         sessionIndexes = new XMLObjectChildrenList<>(this);
     }

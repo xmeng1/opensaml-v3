@@ -36,7 +36,8 @@ import org.w3c.dom.Attr;
 public class AuthzDecisionStatementUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(final XMLObject parentObject, final XMLObject childObject) throws UnmarshallingException {
+    protected void processChildElement(final XMLObject parentObject, final XMLObject childObject)
+            throws UnmarshallingException {
         final AuthzDecisionStatement authzDS = (AuthzDecisionStatement) parentObject;
 
         if (childObject instanceof Action) {

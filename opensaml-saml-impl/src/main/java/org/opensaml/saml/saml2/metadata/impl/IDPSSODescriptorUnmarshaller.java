@@ -38,7 +38,8 @@ import org.w3c.dom.Attr;
 public class IDPSSODescriptorUnmarshaller extends SSODescriptorUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(final XMLObject parentObject, final XMLObject childObject) throws UnmarshallingException {
+    protected void processChildElement(final XMLObject parentObject, final XMLObject childObject)
+            throws UnmarshallingException {
         final IDPSSODescriptor descriptor = (IDPSSODescriptor) parentObject;
 
         if (childObject instanceof SingleSignOnService) {

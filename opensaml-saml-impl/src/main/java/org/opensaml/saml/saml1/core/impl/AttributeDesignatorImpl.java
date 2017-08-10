@@ -45,7 +45,8 @@ public class AttributeDesignatorImpl extends AbstractSAMLObject implements Attri
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AttributeDesignatorImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
+    protected AttributeDesignatorImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

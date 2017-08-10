@@ -33,7 +33,8 @@ import com.google.common.base.Strings;
 public class ActionNamespaceMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallElementContent(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
+    protected void marshallElementContent(final XMLObject xmlObject, final Element domElement)
+            throws MarshallingException {
         final ActionNamespace actionNamespace = (ActionNamespace) xmlObject;
 
         if (!Strings.isNullOrEmpty(actionNamespace.getValue())) {

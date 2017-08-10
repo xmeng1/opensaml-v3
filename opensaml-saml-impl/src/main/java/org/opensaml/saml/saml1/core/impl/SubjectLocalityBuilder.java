@@ -40,7 +40,8 @@ public class SubjectLocalityBuilder extends AbstractSAMLObjectBuilder<SubjectLoc
     }
 
     /** {@inheritDoc} */
-    public SubjectLocality buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
+    public SubjectLocality buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new SubjectLocalityImpl(namespaceURI, localName, namespacePrefix);
     }
 }

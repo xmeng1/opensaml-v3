@@ -35,7 +35,8 @@ public class AssertionIDRequestServiceImpl extends EndpointImpl implements Asser
      * @param elementLocalName local name
      * @param namespacePrefix prefix
      */
-    protected AssertionIDRequestServiceImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
+    protected AssertionIDRequestServiceImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 }

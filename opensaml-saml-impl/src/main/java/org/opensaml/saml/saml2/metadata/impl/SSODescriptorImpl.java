@@ -61,7 +61,8 @@ public abstract class SSODescriptorImpl extends RoleDescriptorImpl implements SS
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected SSODescriptorImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
+    protected SSODescriptorImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         artifactResolutionServices = new XMLObjectChildrenList<>(this);
         singleLogoutServices = new XMLObjectChildrenList<>(this);

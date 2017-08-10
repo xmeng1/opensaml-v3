@@ -32,7 +32,7 @@ import org.opensaml.saml.saml2.metadata.Endpoint;
 import org.opensaml.saml.saml2.metadata.NameIDFormat;
 
 /**
- * Concreate implementation of {@link org.opensaml.saml.saml2.metadata.AuthnAuthorityDescriptor}.
+ * Concrete implementation of {@link org.opensaml.saml.saml2.metadata.AuthnAuthorityDescriptor}.
  */
 public class AuthnAuthorityDescriptorImpl extends RoleDescriptorImpl implements AuthnAuthorityDescriptor {
 
@@ -52,7 +52,8 @@ public class AuthnAuthorityDescriptorImpl extends RoleDescriptorImpl implements 
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AuthnAuthorityDescriptorImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
+    protected AuthnAuthorityDescriptorImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         authnQueryServices = new XMLObjectChildrenList<>(this);
         assertionIDRequestServices = new XMLObjectChildrenList<>(this);

@@ -42,7 +42,8 @@ public abstract class IndexedEndpointImpl extends EndpointImpl implements Indexe
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected IndexedEndpointImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
+    protected IndexedEndpointImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

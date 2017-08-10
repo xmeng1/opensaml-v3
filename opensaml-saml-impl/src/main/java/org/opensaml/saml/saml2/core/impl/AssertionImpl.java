@@ -176,7 +176,8 @@ public class AssertionImpl extends AbstractSignableSAMLObject implements Asserti
 
     /** {@inheritDoc} */
     public List<AuthzDecisionStatement> getAuthzDecisionStatements() {
-        final QName statementQName = new QName(SAMLConstants.SAML20_NS, AuthzDecisionStatement.DEFAULT_ELEMENT_LOCAL_NAME,
+        final QName statementQName = new QName(SAMLConstants.SAML20_NS,
+                AuthzDecisionStatement.DEFAULT_ELEMENT_LOCAL_NAME,
                 SAMLConstants.SAML20_PREFIX);
         return (List<AuthzDecisionStatement>) statements.subList(statementQName);
     }

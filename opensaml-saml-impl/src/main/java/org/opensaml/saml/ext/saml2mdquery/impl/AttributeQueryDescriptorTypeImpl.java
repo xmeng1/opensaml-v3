@@ -44,7 +44,8 @@ public class AttributeQueryDescriptorTypeImpl extends QueryDescriptorTypeImpl im
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AttributeQueryDescriptorTypeImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
+    protected AttributeQueryDescriptorTypeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
 
         attributeConsumingServices = new XMLObjectChildrenList<>(this);

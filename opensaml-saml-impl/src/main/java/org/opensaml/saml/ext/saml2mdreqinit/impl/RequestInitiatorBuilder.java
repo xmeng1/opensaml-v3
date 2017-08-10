@@ -44,7 +44,8 @@ public class RequestInitiatorBuilder extends AbstractSAMLObjectBuilder<RequestIn
     }
 
     /** {@inheritDoc} */
-    public RequestInitiator buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
+    public RequestInitiator buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new RequestInitiatorImpl(namespaceURI, localName, namespacePrefix);
     }
 }

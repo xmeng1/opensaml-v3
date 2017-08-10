@@ -31,7 +31,8 @@ import org.opensaml.saml.saml2.metadata.SingleLogoutService;
 public abstract class SSODescriptorUnmarshaller extends RoleDescriptorUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(final XMLObject parentElement, final XMLObject childElement) throws UnmarshallingException {
+    protected void processChildElement(final XMLObject parentElement, final XMLObject childElement)
+            throws UnmarshallingException {
         final SSODescriptor descriptor = (SSODescriptor) parentElement;
         if (childElement instanceof ArtifactResolutionService) {
             descriptor.getArtifactResolutionServices().add((ArtifactResolutionService) childElement);

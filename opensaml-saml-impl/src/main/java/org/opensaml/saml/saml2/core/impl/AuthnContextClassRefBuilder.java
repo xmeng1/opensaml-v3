@@ -42,7 +42,8 @@ public class AuthnContextClassRefBuilder extends AbstractSAMLObjectBuilder<Authn
     }
 
     /** {@inheritDoc} */
-    public AuthnContextClassRef buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
+    public AuthnContextClassRef buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new AuthnContextClassRefImpl(namespaceURI, localName, namespacePrefix);
     }
 }

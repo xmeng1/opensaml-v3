@@ -42,7 +42,8 @@ public class SubjectConfirmationDataBuilder extends AbstractSAMLObjectBuilder<Su
     }
 
     /** {@inheritDoc} */
-    public SubjectConfirmationData buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
+    public SubjectConfirmationData buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new SubjectConfirmationDataImpl(namespaceURI, localName, namespacePrefix);
     }
 }

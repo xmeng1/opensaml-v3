@@ -60,7 +60,8 @@ public class AttributeAuthorityDescriptorImpl extends RoleDescriptorImpl impleme
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AttributeAuthorityDescriptorImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
+    protected AttributeAuthorityDescriptorImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         attributeServices = new XMLObjectChildrenList<>(this);
         assertionIDRequestServices = new XMLObjectChildrenList<>(this);

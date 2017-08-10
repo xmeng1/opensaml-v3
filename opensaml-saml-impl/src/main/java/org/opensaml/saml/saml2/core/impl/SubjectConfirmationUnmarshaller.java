@@ -33,7 +33,8 @@ import org.w3c.dom.Attr;
 public class SubjectConfirmationUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(final XMLObject parentObject, final XMLObject childObject) throws UnmarshallingException {
+    protected void processChildElement(final XMLObject parentObject, final XMLObject childObject)
+            throws UnmarshallingException {
         final SubjectConfirmation subjectConfirmation = (SubjectConfirmation) parentObject;
 
         if (childObject instanceof BaseID) {

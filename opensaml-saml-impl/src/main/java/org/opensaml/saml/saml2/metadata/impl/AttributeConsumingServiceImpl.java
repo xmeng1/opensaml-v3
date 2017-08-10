@@ -61,7 +61,8 @@ public class AttributeConsumingServiceImpl extends AbstractSAMLObject implements
      * @param elementLocalName local name
      * @param namespacePrefix prefix
      */
-    protected AttributeConsumingServiceImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
+    protected AttributeConsumingServiceImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         serviceNames = new XMLObjectChildrenList<>(this);
         serviceDescriptions = new XMLObjectChildrenList<>(this);

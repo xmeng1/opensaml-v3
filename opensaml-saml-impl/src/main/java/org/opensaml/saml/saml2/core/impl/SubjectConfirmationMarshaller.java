@@ -33,7 +33,8 @@ import org.w3c.dom.Element;
 public class SubjectConfirmationMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(final XMLObject samlObject, final Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
         final SubjectConfirmation subjectConfirmation = (SubjectConfirmation) samlObject;
 
         if (subjectConfirmation.getMethod() != null) {

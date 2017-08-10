@@ -40,7 +40,8 @@ public class AuthnAuthorityDescriptorBuilder extends AbstractSAMLObjectBuilder<A
     }
 
     /** {@inheritDoc} */
-    public AuthnAuthorityDescriptor buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
+    public AuthnAuthorityDescriptor buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new AuthnAuthorityDescriptorImpl(namespaceURI, localName, namespacePrefix);
     }
 }

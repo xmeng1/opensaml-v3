@@ -50,7 +50,8 @@ public class AbstractNameIDType extends AbstractSAMLObject implements NameIDType
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AbstractNameIDType(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
+    protected AbstractNameIDType(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

@@ -34,7 +34,8 @@ import org.w3c.dom.Element;
 public class SubjectConfirmationDataMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(final XMLObject samlObject, final Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
         final SubjectConfirmationData subjectCD = (SubjectConfirmationData) samlObject;
 
         if (subjectCD.getNotBefore() != null) {
@@ -43,7 +44,8 @@ public class SubjectConfirmationDataMarshaller extends AbstractSAMLObjectMarshal
         }
 
         if (subjectCD.getNotOnOrAfter() != null) {
-            final String notOnOrAfterStr = SAMLConfigurationSupport.getSAMLDateFormatter().print(subjectCD.getNotOnOrAfter());
+            final String notOnOrAfterStr =
+                    SAMLConfigurationSupport.getSAMLDateFormatter().print(subjectCD.getNotOnOrAfter());
             domElement.setAttributeNS(null, SubjectConfirmationData.NOT_ON_OR_AFTER_ATTRIB_NAME, notOnOrAfterStr);
         }
 

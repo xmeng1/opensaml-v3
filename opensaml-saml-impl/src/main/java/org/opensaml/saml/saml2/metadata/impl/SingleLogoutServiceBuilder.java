@@ -44,7 +44,8 @@ public class SingleLogoutServiceBuilder extends AbstractSAMLObjectBuilder<Single
     }
 
     /** {@inheritDoc} */
-    public SingleLogoutService buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
+    public SingleLogoutService buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new SingleLogoutServiceImpl(namespaceURI, localName, namespacePrefix);
     }
 }

@@ -26,7 +26,7 @@ import org.opensaml.saml.common.AbstractSAMLObject;
 import org.opensaml.saml.saml1.core.AuthorityBinding;
 
 /**
- * A concrete impementation of the {@link org.opensaml.saml.saml1.core.SubjectLocality} interface.
+ * A concrete implementation of the {@link org.opensaml.saml.saml1.core.SubjectLocality} interface.
  */
 public class AuthorityBindingImpl extends AbstractSAMLObject implements AuthorityBinding {
 
@@ -46,7 +46,8 @@ public class AuthorityBindingImpl extends AbstractSAMLObject implements Authorit
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AuthorityBindingImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
+    protected AuthorityBindingImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
    }
     

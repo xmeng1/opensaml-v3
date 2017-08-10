@@ -34,11 +34,13 @@ import org.w3c.dom.Element;
 public class ConditionsMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(final XMLObject samlObject, final Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
         final Conditions conditions = (Conditions) samlObject;
 
         if (conditions.getNotBefore() != null) {
-            final String notBeforeStr = SAMLConfigurationSupport.getSAMLDateFormatter().print(conditions.getNotBefore());
+            final String notBeforeStr =
+                    SAMLConfigurationSupport.getSAMLDateFormatter().print(conditions.getNotBefore());
             domElement.setAttributeNS(null, Conditions.NOT_BEFORE_ATTRIB_NAME, notBeforeStr);
         }
 

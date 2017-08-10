@@ -182,7 +182,8 @@ public class EndpointMetadataIndex implements MetadataIndex {
      * @param location the location to process
      * @return the variants of the location to be indexed 
      */
-    @Nonnull private Set<String> processLocation(@Nonnull final CriteriaSet criteriaSet, @Nonnull final String location) {
+    @Nonnull private Set<String> processLocation(@Nonnull final CriteriaSet criteriaSet,
+            @Nonnull final String location) {
         boolean generateStartsWithVariants = false;
         final StartsWithLocationCriterion startsWithCrit = criteriaSet.get(StartsWithLocationCriterion.class);
         if (startsWithCrit != null) {

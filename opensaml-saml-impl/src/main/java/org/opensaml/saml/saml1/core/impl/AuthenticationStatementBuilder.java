@@ -40,7 +40,8 @@ public class AuthenticationStatementBuilder extends AbstractSAMLObjectBuilder<Au
     }
 
     /** {@inheritDoc} */
-    public AuthenticationStatement buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
+    public AuthenticationStatement buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new AuthenticationStatementImpl(namespaceURI, localName, namespacePrefix);
     }
 }

@@ -34,7 +34,8 @@ import org.w3c.dom.Element;
 public class GeneratedKeyMarshaller extends XSBase64BinaryMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(final XMLObject samlObject, final Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
         final GeneratedKey key = (GeneratedKey) samlObject;
 
         if (key.isSOAP11MustUnderstandXSBoolean() != null) {

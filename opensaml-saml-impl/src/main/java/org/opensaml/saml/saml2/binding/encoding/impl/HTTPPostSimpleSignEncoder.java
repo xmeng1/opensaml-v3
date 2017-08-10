@@ -66,7 +66,8 @@ public class HTTPPostSimpleSignEncoder extends HTTPPostEncoder {
     }
 
     /** {@inheritDoc} */
-    protected void populateVelocityContext(final VelocityContext velocityContext, final MessageContext<SAMLObject> messageContext,
+    protected void populateVelocityContext(final VelocityContext velocityContext,
+            final MessageContext<SAMLObject> messageContext,
             final String endpointURL) throws MessageEncodingException {
 
         super.populateVelocityContext(velocityContext, messageContext, endpointURL);
@@ -110,7 +111,8 @@ public class HTTPPostSimpleSignEncoder extends HTTPPostEncoder {
         try {
             final KeyInfo keyInfo = kiGenerator.generate(signingCredential);
             if (keyInfo != null) {
-                final Marshaller marshaller = XMLObjectProviderRegistrySupport.getMarshallerFactory().getMarshaller(keyInfo);
+                final Marshaller marshaller =
+                        XMLObjectProviderRegistrySupport.getMarshallerFactory().getMarshaller(keyInfo);
                 if (marshaller == null) {
                     log.error("No KeyInfo marshaller available from configuration");
                     throw new MessageEncodingException("No KeyInfo marshaller was configured");
@@ -140,7 +142,8 @@ public class HTTPPostSimpleSignEncoder extends HTTPPostEncoder {
      * 
      * @return the form control data string for signature computation
      */
-    protected String buildFormDataToSign(final VelocityContext velocityContext, final MessageContext<SAMLObject> messageContext,
+    protected String buildFormDataToSign(final VelocityContext velocityContext,
+            final MessageContext<SAMLObject> messageContext,
             final String sigAlgURI) {
         final StringBuilder builder = new StringBuilder();
 
@@ -210,7 +213,8 @@ public class HTTPPostSimpleSignEncoder extends HTTPPostEncoder {
      * 
      * @throws MessageEncodingException there is an error computing the signature
      */
-    protected String generateSignature(final Credential signingCredential, final String algorithmURI, final String formData)
+    protected String generateSignature(final Credential signingCredential, final String algorithmURI,
+            final String formData)
             throws MessageEncodingException {
 
         log.debug(String.format(

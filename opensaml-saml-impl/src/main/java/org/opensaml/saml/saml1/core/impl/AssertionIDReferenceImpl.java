@@ -38,7 +38,8 @@ public class AssertionIDReferenceImpl extends AbstractSAMLObject implements Asse
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AssertionIDReferenceImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
+    protected AssertionIDReferenceImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

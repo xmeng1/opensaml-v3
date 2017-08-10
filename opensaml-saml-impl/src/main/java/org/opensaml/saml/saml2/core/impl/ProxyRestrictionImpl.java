@@ -49,7 +49,8 @@ public class ProxyRestrictionImpl extends AbstractSAMLObject implements ProxyRes
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected ProxyRestrictionImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
+    protected ProxyRestrictionImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         audiences = new XMLObjectChildrenList<>(this);
     }

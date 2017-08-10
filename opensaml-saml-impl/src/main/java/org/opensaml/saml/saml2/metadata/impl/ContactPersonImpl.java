@@ -73,7 +73,8 @@ public class ContactPersonImpl extends AbstractSAMLObject implements ContactPers
      * @param elementLocalName local name
      * @param namespacePrefix prefix
      */
-    protected ContactPersonImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
+    protected ContactPersonImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         unknownAttributes = new AttributeMap(this);
         emailAddresses = new XMLObjectChildrenList<>(this);

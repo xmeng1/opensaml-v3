@@ -27,7 +27,8 @@ import org.w3c.dom.Element;
 public class AttributeDesignatorMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(final XMLObject samlElement, final Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject samlElement, final Element domElement)
+            throws MarshallingException {
         final AttributeDesignator designator = (AttributeDesignator) samlElement;
 
         if (designator.getAttributeName() != null) {

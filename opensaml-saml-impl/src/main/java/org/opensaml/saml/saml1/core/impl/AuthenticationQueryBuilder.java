@@ -40,7 +40,8 @@ public class AuthenticationQueryBuilder extends AbstractSAMLObjectBuilder<Authen
     }
 
     /** {@inheritDoc} */
-    public AuthenticationQuery buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
+    public AuthenticationQuery buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new AuthenticationQueryImpl(namespaceURI, localName, namespacePrefix);
     }
 }

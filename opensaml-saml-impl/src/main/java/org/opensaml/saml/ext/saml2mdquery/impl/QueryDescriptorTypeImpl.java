@@ -46,7 +46,8 @@ public abstract class QueryDescriptorTypeImpl extends RoleDescriptorImpl impleme
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected QueryDescriptorTypeImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
+    protected QueryDescriptorTypeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         
         nameIDFormats = new XMLObjectChildrenList<>(this);

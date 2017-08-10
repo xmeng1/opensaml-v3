@@ -40,7 +40,8 @@ public class GeolocationHintBuilder extends AbstractSAMLObjectBuilder<Geolocatio
     }
 
     /** {@inheritDoc} */
-    public GeolocationHint buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
+    public GeolocationHint buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new GeolocationHintImpl(namespaceURI, localName, namespacePrefix);
     }
 }

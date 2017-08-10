@@ -33,7 +33,8 @@ import org.w3c.dom.Element;
 public class RequestedAuthnContextMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(final XMLObject samlObject, final Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
         final RequestedAuthnContext rac = (RequestedAuthnContext) samlObject;
 
         if (rac.getComparison() != null) {

@@ -31,7 +31,8 @@ import org.w3c.dom.Attr;
 public class SigningMethodUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(@Nonnull final XMLObject parentXMLObject, @Nonnull final XMLObject childXMLObject)
+    protected void processChildElement(@Nonnull final XMLObject parentXMLObject,
+            @Nonnull final XMLObject childXMLObject)
             throws UnmarshallingException {
         final SigningMethod signingMethod = (SigningMethod) parentXMLObject;
         signingMethod.getUnknownXMLObjects().add(childXMLObject);

@@ -43,7 +43,8 @@ import com.google.common.base.Strings;
 public class AssertionUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(final XMLObject parentObject, final XMLObject childObject) throws UnmarshallingException {
+    protected void processChildElement(final XMLObject parentObject, final XMLObject childObject)
+            throws UnmarshallingException {
         final Assertion assertion = (Assertion) parentObject;
 
         if (childObject instanceof Issuer) {

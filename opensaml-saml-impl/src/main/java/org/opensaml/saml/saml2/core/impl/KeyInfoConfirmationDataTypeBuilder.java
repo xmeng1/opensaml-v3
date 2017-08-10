@@ -41,7 +41,8 @@ public class KeyInfoConfirmationDataTypeBuilder extends AbstractSAMLObjectBuilde
     }
 
     /** {@inheritDoc} */
-    public KeyInfoConfirmationDataType buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
+    public KeyInfoConfirmationDataType buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new KeyInfoConfirmationDataTypeImpl(namespaceURI, localName, namespacePrefix);
     }
 }

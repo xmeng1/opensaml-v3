@@ -28,7 +28,8 @@ import org.w3c.dom.Element;
 public class AuthenticationQueryMarshaller extends SubjectQueryMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(final XMLObject samlObject, final Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
         final AuthenticationQuery authenticationQuery = (AuthenticationQuery) samlObject;
 
         if (authenticationQuery.getAuthenticationMethod() != null) {

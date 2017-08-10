@@ -40,7 +40,8 @@ public class AffiliationDescriptorBuilder extends AbstractSAMLObjectBuilder<Affi
     }
 
     /** {@inheritDoc} */
-    public AffiliationDescriptor buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
+    public AffiliationDescriptor buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new AffiliationDescriptorImpl(namespaceURI, localName, namespacePrefix);
     }
 }

@@ -37,11 +37,13 @@ public class KeywordsMarshaller extends AbstractSAMLObjectMarshaller {
     /**
      * {@inheritDoc}
      */
-    protected void marshallAttributes(final XMLObject samlObject, final Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
         final Keywords words = (Keywords) samlObject;
 
         if (words.getXMLLang() != null) {
-            final Attr attribute = AttributeSupport.constructAttribute(domElement.getOwnerDocument(), XMLConstants.XML_NS,
+            final Attr attribute = AttributeSupport.constructAttribute(domElement.getOwnerDocument(),
+                    XMLConstants.XML_NS,
                     LangBearing.XML_LANG_ATTR_LOCAL_NAME, XMLConstants.XML_PREFIX);
             attribute.setValue(words.getXMLLang());
             domElement.setAttributeNodeNS(attribute);
@@ -49,7 +51,8 @@ public class KeywordsMarshaller extends AbstractSAMLObjectMarshaller {
     }
 
     /** {@inheritDoc} */
-    protected void marshallElementContent(final XMLObject samlObject, final Element domElement) throws MarshallingException {
+    protected void marshallElementContent(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
         final Keywords words = (Keywords) samlObject;
 
         if (words.getKeywords() != null) {

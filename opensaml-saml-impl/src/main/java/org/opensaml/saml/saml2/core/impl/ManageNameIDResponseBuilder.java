@@ -44,7 +44,8 @@ public class ManageNameIDResponseBuilder extends AbstractSAMLObjectBuilder<Manag
     }
 
     /** {@inheritDoc} */
-    public ManageNameIDResponse buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
+    public ManageNameIDResponse buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new ManageNameIDResponseImpl(namespaceURI, localName, namespacePrefix);
     }
 }

@@ -58,7 +58,8 @@ public class AuthnContextDeclMarshaller extends AbstractSAMLObjectMarshaller {
     }
 
     /** {@inheritDoc} */
-    protected void marshallElementContent(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
+    protected void marshallElementContent(final XMLObject xmlObject, final Element domElement)
+            throws MarshallingException {
         final AuthnContextDecl authnCtxDecl = (AuthnContextDecl) xmlObject;
 
         if (authnCtxDecl.getTextContent() != null) {

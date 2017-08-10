@@ -66,7 +66,8 @@ public class SubjectConfirmationDataImpl extends AbstractSAMLObject implements S
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected SubjectConfirmationDataImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
+    protected SubjectConfirmationDataImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         unknownAttributes = new AttributeMap(this);
         unknownChildren = new IndexedXMLObjectChildrenList<>(this);

@@ -44,7 +44,8 @@ public class AttributeProfileBuilder extends AbstractSAMLObjectBuilder<Attribute
     }
 
     /** {@inheritDoc} */
-    public AttributeProfile buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
+    public AttributeProfile buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new AttributeProfileImpl(namespaceURI, localName, namespacePrefix);
     }
 }

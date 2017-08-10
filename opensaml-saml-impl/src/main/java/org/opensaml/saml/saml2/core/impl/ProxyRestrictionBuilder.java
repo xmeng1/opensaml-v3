@@ -41,7 +41,8 @@ public class ProxyRestrictionBuilder extends AbstractSAMLObjectBuilder<ProxyRest
     }
 
     /** {@inheritDoc} */
-    public ProxyRestriction buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
+    public ProxyRestriction buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new ProxyRestrictionImpl(namespaceURI, localName, namespacePrefix);
     }
 }

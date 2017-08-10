@@ -42,7 +42,8 @@ public class RequestedAttributeBuilder extends AbstractSAMLObjectBuilder<Request
     }
 
     /** {@inheritDoc} */
-    public RequestedAttribute buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
+    public RequestedAttribute buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new RequestedAttributeImpl(namespaceURI, localName, namespacePrefix);
     }
 }

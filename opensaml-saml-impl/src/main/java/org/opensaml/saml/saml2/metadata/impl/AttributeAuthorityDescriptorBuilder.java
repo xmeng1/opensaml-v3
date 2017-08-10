@@ -44,7 +44,8 @@ public class AttributeAuthorityDescriptorBuilder extends AbstractSAMLObjectBuild
     }
 
     /** {@inheritDoc} */
-    public AttributeAuthorityDescriptor buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
+    public AttributeAuthorityDescriptor buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new AttributeAuthorityDescriptorImpl(namespaceURI, localName, namespacePrefix);
     }
 }

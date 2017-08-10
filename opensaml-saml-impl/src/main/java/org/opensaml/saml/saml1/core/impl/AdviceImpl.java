@@ -60,11 +60,12 @@ public class AdviceImpl extends AbstractSAMLObject implements Advice {
     public List<AssertionIDReference> getAssertionIDReferences() {
         //
         // The cast in the line below is unsafe. (it's checking against the erasure of l - which is List.
-        // We are, howeverever guaranteed by sublist that although l is 'just' a List it
+        // We are, however guaranteed by sublist that although l is 'just' a List it
         // will only contain <AssertionIDReferences> explicit code in IndexedXMLObjectChildrenList$ListView.indexCheck
         // helps us be sure.
 
-        final QName assertionIDRefQName = new QName(SAMLConstants.SAML1_NS, AssertionIDReference.DEFAULT_ELEMENT_LOCAL_NAME);
+        final QName assertionIDRefQName =
+                new QName(SAMLConstants.SAML1_NS, AssertionIDReference.DEFAULT_ELEMENT_LOCAL_NAME);
         return (List<AssertionIDReference>) assertionChildren.subList(assertionIDRefQName);
     }
 

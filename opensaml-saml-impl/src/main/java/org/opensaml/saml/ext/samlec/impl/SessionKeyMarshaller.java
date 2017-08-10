@@ -35,7 +35,8 @@ import org.w3c.dom.Element;
 public class SessionKeyMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(final XMLObject samlObject, final Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
         final SessionKey key = (SessionKey) samlObject;
 
         if (key.isSOAP11MustUnderstandXSBoolean() != null) {

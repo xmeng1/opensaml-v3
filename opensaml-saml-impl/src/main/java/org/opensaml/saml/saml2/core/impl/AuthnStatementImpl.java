@@ -59,7 +59,8 @@ public class AuthnStatementImpl extends AbstractSAMLObject implements AuthnState
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AuthnStatementImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
+    protected AuthnStatementImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

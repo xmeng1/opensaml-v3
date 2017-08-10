@@ -33,7 +33,8 @@ import org.w3c.dom.Element;
 public class IDPEntryMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(final XMLObject samlObject, final Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
         final IDPEntry entry = (IDPEntry) samlObject;
 
         if (entry.getProviderID() != null) {

@@ -35,7 +35,8 @@ public class AssertionConsumerServiceImpl extends IndexedEndpointImpl implements
      * @param elementLocalName local name
      * @param namespacePrefix prefix
      */
-    protected AssertionConsumerServiceImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
+    protected AssertionConsumerServiceImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 }

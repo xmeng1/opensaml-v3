@@ -60,7 +60,8 @@ public class EntitiesDescriptorImpl extends AbstractSignableSAMLObject implement
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected EntitiesDescriptorImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
+    protected EntitiesDescriptorImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         orderedDescriptors = new IndexedXMLObjectChildrenList<>(this);
     }

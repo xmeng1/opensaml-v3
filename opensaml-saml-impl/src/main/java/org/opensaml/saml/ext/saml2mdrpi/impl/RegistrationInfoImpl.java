@@ -49,7 +49,8 @@ public class RegistrationInfoImpl extends AbstractSAMLObject implements Registra
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected RegistrationInfoImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
+    protected RegistrationInfoImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         registrationPolicies = new IndexedXMLObjectChildrenList<>(this);
     }

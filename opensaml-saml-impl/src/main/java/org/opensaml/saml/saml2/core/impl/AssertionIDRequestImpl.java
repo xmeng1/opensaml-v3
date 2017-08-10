@@ -45,7 +45,8 @@ public class AssertionIDRequestImpl extends RequestAbstractTypeImpl implements A
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AssertionIDRequestImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
+    protected AssertionIDRequestImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         assertionIDRefs = new XMLObjectChildrenList<>(this);
     }

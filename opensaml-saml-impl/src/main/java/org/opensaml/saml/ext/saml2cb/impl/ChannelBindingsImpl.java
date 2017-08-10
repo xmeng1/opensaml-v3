@@ -45,7 +45,8 @@ public class ChannelBindingsImpl extends XSBase64BinaryImpl implements ChannelBi
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected ChannelBindingsImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
+    protected ChannelBindingsImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

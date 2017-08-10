@@ -44,7 +44,8 @@ public class ArtifactResolveImpl extends RequestAbstractTypeImpl implements Arti
      * @param elementLocalName element name
      * @param namespacePrefix namespace prefix
      */
-    protected ArtifactResolveImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
+    protected ArtifactResolveImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

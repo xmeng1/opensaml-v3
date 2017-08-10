@@ -136,7 +136,8 @@ public class SAMLSignatureProfileValidator implements SignaturePrevalidator {
      * @param signableObject the SignableSAMLObject whose signature is being validated
      * @throws SignatureException  if the URI is invalid or doesn't resolve to the expected DOM node
      */
-    protected void validateReferenceURI(final String uri, final SignableSAMLObject signableObject) throws SignatureException {
+    protected void validateReferenceURI(final String uri, final SignableSAMLObject signableObject)
+            throws SignatureException {
         final String id = signableObject.getSignatureReferenceID();
         validateReferenceURI(uri, id);
         

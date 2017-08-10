@@ -44,7 +44,8 @@ public class ManageNameIDServiceBuilder extends AbstractSAMLObjectBuilder<Manage
     }
 
     /** {@inheritDoc} */
-    public ManageNameIDService buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
+    public ManageNameIDService buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new ManageNameIDServiceImpl(namespaceURI, localName, namespacePrefix);
     }
 }

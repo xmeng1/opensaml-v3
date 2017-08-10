@@ -360,7 +360,8 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
      * @param artifactResolveEndpointURL
      * @return
      */
-    private SAMLObject dereferenceArtifact(final SAML2Artifact artifact, final RoleDescriptor peerRoleDescriptor, final ArtifactResolutionService ars) 
+    private SAMLObject dereferenceArtifact(final SAML2Artifact artifact, final RoleDescriptor peerRoleDescriptor,
+            final ArtifactResolutionService ars) 
             throws MessageDecodingException {
         
         final MessageContext<SAMLObject> outbound = new MessageContext<>();
@@ -389,7 +390,8 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
      * @param peerRoleDescriptor 
      * @return
      */
-    private ArtifactResolve buildArtifactResolveRequestMessage(final SAML2Artifact artifact, final String endpoint, final RoleDescriptor peerRoleDescriptor) {
+    private ArtifactResolve buildArtifactResolveRequestMessage(final SAML2Artifact artifact, final String endpoint,
+            final RoleDescriptor peerRoleDescriptor) {
         final ArtifactResolve request = 
                 (ArtifactResolve) XMLObjectSupport.buildXMLObject(ArtifactResolve.DEFAULT_ELEMENT_NAME);
         
@@ -422,7 +424,8 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
      * @param peerRoleDescriptor
      * @return
      */
-    private ArtifactResolutionService resolveArtifactEndpoint(final SAML2Artifact artifact, final RoleDescriptor peerRoleDescriptor) throws MessageDecodingException {
+    private ArtifactResolutionService resolveArtifactEndpoint(final SAML2Artifact artifact,
+            final RoleDescriptor peerRoleDescriptor) throws MessageDecodingException {
         final RoleDescriptorCriterion roleDescriptorCriterion = new RoleDescriptorCriterion(peerRoleDescriptor);
 
         final ArtifactResolutionService arsTemplate = 

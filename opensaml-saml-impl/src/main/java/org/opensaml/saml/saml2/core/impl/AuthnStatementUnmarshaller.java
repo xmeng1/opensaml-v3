@@ -39,7 +39,8 @@ import com.google.common.base.Strings;
 public class AuthnStatementUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(final XMLObject parentObject, final XMLObject childObject) throws UnmarshallingException {
+    protected void processChildElement(final XMLObject parentObject, final XMLObject childObject)
+            throws UnmarshallingException {
         final AuthnStatement authnStatement = (AuthnStatement) parentObject;
         if (childObject instanceof SubjectLocality) {
             authnStatement.setSubjectLocality((SubjectLocality) childObject);

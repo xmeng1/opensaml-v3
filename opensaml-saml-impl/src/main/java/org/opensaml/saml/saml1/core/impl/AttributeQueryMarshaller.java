@@ -28,7 +28,8 @@ import org.w3c.dom.Element;
 public class AttributeQueryMarshaller extends SubjectQueryMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(final XMLObject samlElement, final Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject samlElement, final Element domElement)
+            throws MarshallingException {
 
         final AttributeQuery attributeQuery = (AttributeQuery) samlElement;
 

@@ -33,7 +33,8 @@ import org.w3c.dom.Element;
 public class SubjectLocalityMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(final XMLObject samlObject, final Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
         final SubjectLocality subjectLocality = (SubjectLocality) samlObject;
         if (subjectLocality.getAddress() != null) {
             domElement.setAttributeNS(null, SubjectLocality.ADDRESS_ATTRIB_NAME, subjectLocality.getAddress());

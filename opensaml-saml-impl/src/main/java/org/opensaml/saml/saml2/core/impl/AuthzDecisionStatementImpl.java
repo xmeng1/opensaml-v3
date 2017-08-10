@@ -57,7 +57,8 @@ public class AuthzDecisionStatementImpl extends AbstractSAMLObject implements Au
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AuthzDecisionStatementImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
+    protected AuthzDecisionStatementImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         actions = new XMLObjectChildrenList<>(this);
     }

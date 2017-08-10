@@ -29,7 +29,8 @@ import org.w3c.dom.Element;
 public class AuthenticationStatementMarshaller extends SubjectStatementMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(final XMLObject samlElement, final Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject samlElement, final Element domElement)
+            throws MarshallingException {
         final AuthenticationStatement authenticationStatement = (AuthenticationStatement) samlElement;
 
         if (authenticationStatement.getAuthenticationMethod() != null) {

@@ -41,7 +41,8 @@ public class AttributeStatementImpl extends SubjectStatementImpl implements Attr
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AttributeStatementImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
+    protected AttributeStatementImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         attributes = new XMLObjectChildrenList<>(this);
     }

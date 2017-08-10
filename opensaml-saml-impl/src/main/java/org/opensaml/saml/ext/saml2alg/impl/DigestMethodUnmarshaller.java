@@ -31,7 +31,8 @@ import org.w3c.dom.Attr;
 public class DigestMethodUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(@Nonnull final XMLObject parentXMLObject, @Nonnull final XMLObject childXMLObject)
+    protected void processChildElement(@Nonnull final XMLObject parentXMLObject,
+            @Nonnull final XMLObject childXMLObject)
             throws UnmarshallingException {
         final DigestMethod digestMethod = (DigestMethod) parentXMLObject;
         digestMethod.getUnknownXMLObjects().add(childXMLObject);

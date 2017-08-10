@@ -44,7 +44,8 @@ public class SPSSODescriptorBuilder extends AbstractSAMLObjectBuilder<SPSSODescr
     }
 
     /** {@inheritDoc} */
-    public SPSSODescriptor buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
+    public SPSSODescriptor buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new SPSSODescriptorImpl(namespaceURI, localName, namespacePrefix);
     }
 }

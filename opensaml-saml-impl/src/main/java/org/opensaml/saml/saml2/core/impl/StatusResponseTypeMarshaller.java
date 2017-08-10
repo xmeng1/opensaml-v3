@@ -34,7 +34,8 @@ import org.w3c.dom.Element;
 public abstract class StatusResponseTypeMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(final XMLObject samlObject, final Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
         final StatusResponseType sr = (StatusResponseType) samlObject;
 
         if (sr.getVersion() != null) {

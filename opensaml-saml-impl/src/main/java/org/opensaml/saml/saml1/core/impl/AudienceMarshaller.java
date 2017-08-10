@@ -31,7 +31,8 @@ import org.w3c.dom.Element;
 public class AudienceMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallElementContent(final XMLObject samlObject, final Element domElement) throws MarshallingException {
+    protected void marshallElementContent(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
         final Audience audience = (Audience) samlObject;
 
         ElementSupport.appendTextContent(domElement, audience.getUri());

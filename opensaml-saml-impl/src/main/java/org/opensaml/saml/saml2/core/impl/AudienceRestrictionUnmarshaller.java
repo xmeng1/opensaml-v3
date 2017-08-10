@@ -33,7 +33,8 @@ import org.opensaml.saml.saml2.core.AudienceRestriction;
 public class AudienceRestrictionUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(final XMLObject parentObject, final XMLObject childObject) throws UnmarshallingException {
+    protected void processChildElement(final XMLObject parentObject, final XMLObject childObject)
+            throws UnmarshallingException {
         final AudienceRestriction audienceRestriction = (AudienceRestriction) parentObject;
 
         if (childObject instanceof Audience) {

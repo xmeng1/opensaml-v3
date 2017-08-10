@@ -44,7 +44,8 @@ public class AttributeConsumingServiceBuilder extends AbstractSAMLObjectBuilder<
     }
 
     /** {@inheritDoc} */
-    public AttributeConsumingService buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
+    public AttributeConsumingService buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new AttributeConsumingServiceImpl(namespaceURI, localName, namespacePrefix);
     }
 }

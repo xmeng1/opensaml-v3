@@ -71,7 +71,8 @@ public class AffiliationDescriptorImpl extends AbstractSignableSAMLObject implem
      * @param elementLocalName localname
      * @param namespacePrefix prefix
      */
-    protected AffiliationDescriptorImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
+    protected AffiliationDescriptorImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         unknownAttributes = new AttributeMap(this);
         members = new XMLObjectChildrenList<>(this);

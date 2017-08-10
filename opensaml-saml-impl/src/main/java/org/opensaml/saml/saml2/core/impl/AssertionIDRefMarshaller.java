@@ -35,7 +35,8 @@ import org.w3c.dom.Element;
 public class AssertionIDRefMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallElementContent(final XMLObject samlObject, final Element domElement) throws MarshallingException {
+    protected void marshallElementContent(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
         final AssertionIDRef assertionIDRef = (AssertionIDRef) samlObject;
         ElementSupport.appendTextContent(domElement, assertionIDRef.getAssertionID());
     }

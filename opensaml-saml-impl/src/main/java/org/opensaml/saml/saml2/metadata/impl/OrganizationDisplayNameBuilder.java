@@ -44,7 +44,8 @@ public class OrganizationDisplayNameBuilder extends AbstractSAMLObjectBuilder<Or
     }
 
     /** {@inheritDoc} */
-    public OrganizationDisplayName buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
+    public OrganizationDisplayName buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new OrganizationDisplayNameImpl(namespaceURI, localName, namespacePrefix);
     }
 }

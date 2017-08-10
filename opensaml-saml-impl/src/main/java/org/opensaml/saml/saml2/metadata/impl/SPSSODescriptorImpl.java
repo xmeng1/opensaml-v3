@@ -61,7 +61,8 @@ public class SPSSODescriptorImpl extends SSODescriptorImpl implements SPSSODescr
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected SPSSODescriptorImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
+    protected SPSSODescriptorImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         assertionConsumerServices = new XMLObjectChildrenList<>(this);
         attributeConsumingServices = new XMLObjectChildrenList<>(this);

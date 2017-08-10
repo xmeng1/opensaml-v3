@@ -43,7 +43,8 @@ public class AssertionIDRequestBuilder extends AbstractSAMLObjectBuilder<Asserti
     }
 
     /** {@inheritDoc} */
-    public AssertionIDRequest buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
+    public AssertionIDRequest buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new AssertionIDRequestImpl(namespaceURI, localName, namespacePrefix);
     }
 }

@@ -185,7 +185,8 @@ public class HTTPPostEncoder extends BaseSAML2MessageEncoder {
      * @param endpointURL endpoint URL to which to encode message
      * @throws MessageEncodingException thrown if there is a problem encoding the message
      */
-    protected void populateVelocityContext(final VelocityContext velocityContext, final MessageContext<SAMLObject> messageContext,
+    protected void populateVelocityContext(final VelocityContext velocityContext,
+            final MessageContext<SAMLObject> messageContext,
             final String endpointURL) throws MessageEncodingException {
 
         final String encodedEndpointURL = HTMLEncoder.encodeForHTMLAttribute(endpointURL);

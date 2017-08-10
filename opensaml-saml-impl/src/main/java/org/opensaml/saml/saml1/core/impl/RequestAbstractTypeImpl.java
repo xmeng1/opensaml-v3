@@ -37,7 +37,7 @@ public abstract class RequestAbstractTypeImpl extends AbstractSignableSAMLObject
     /** Contains the ID. */
     private String id;
 
-    /** Containt the IssueInstant. */
+    /** Contains the IssueInstant. */
     private DateTime issueInstant;
 
     /** Version of this SAML message. */
@@ -53,7 +53,8 @@ public abstract class RequestAbstractTypeImpl extends AbstractSignableSAMLObject
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected RequestAbstractTypeImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
+    protected RequestAbstractTypeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         version = SAMLVersion.VERSION_11;
         respondWiths = new XMLObjectChildrenList<>(this);

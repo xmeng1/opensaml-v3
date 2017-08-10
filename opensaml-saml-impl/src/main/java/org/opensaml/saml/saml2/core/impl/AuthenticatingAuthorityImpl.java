@@ -28,7 +28,7 @@ import org.opensaml.saml.common.AbstractSAMLObject;
 import org.opensaml.saml.saml2.core.AuthenticatingAuthority;
 
 /**
- * A concrete implemenation of {@link org.opensaml.saml.saml2.core.AuthenticatingAuthority}.
+ * A concrete implementation of {@link org.opensaml.saml.saml2.core.AuthenticatingAuthority}.
  */
 public class AuthenticatingAuthorityImpl extends AbstractSAMLObject implements AuthenticatingAuthority {
 
@@ -42,7 +42,8 @@ public class AuthenticatingAuthorityImpl extends AbstractSAMLObject implements A
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AuthenticatingAuthorityImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
+    protected AuthenticatingAuthorityImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

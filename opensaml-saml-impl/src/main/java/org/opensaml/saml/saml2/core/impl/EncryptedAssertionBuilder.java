@@ -40,7 +40,8 @@ public class EncryptedAssertionBuilder extends AbstractSAMLObjectBuilder<Encrypt
     }
 
     /** {@inheritDoc} */
-    public EncryptedAssertion buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
+    public EncryptedAssertion buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new EncryptedAssertionImpl(namespaceURI, localName, namespacePrefix);
     }
 

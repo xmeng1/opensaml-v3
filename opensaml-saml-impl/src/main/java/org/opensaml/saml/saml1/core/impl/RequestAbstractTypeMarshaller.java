@@ -35,7 +35,8 @@ import org.w3c.dom.Element;
 public class RequestAbstractTypeMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(final XMLObject samlElement, final Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject samlElement, final Element domElement)
+            throws MarshallingException {
         final RequestAbstractType request = (RequestAbstractType) samlElement;
 
         if (request.getID() != null) {

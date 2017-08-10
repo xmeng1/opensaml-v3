@@ -46,7 +46,8 @@ public class AudienceRestrictionImpl extends AbstractSAMLObject implements Audie
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AudienceRestrictionImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
+    protected AudienceRestrictionImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         audience = new XMLObjectChildrenList<>(this);
     }

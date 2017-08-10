@@ -43,7 +43,8 @@ public class RequestedAuthnContextBuilder extends AbstractSAMLObjectBuilder<Requ
     }
 
     /** {@inheritDoc} */
-    public RequestedAuthnContext buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
+    public RequestedAuthnContext buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new RequestedAuthnContextImpl(namespaceURI, localName, namespacePrefix);
     }
 }

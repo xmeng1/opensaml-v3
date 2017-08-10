@@ -146,7 +146,8 @@ public class HTTPRedirectDeflateEncoder extends BaseSAML2MessageEncoder {
      * 
      * @throws MessageEncodingException thrown if the SAML message is neither a RequestAbstractType or Response
      */
-    protected String buildRedirectURL(final MessageContext<SAMLObject> messageContext, final String endpoint, final String message)
+    protected String buildRedirectURL(final MessageContext<SAMLObject> messageContext, final String endpoint,
+            final String message)
             throws MessageEncodingException {
         log.debug("Building URL to redirect client to");
         
@@ -224,7 +225,8 @@ public class HTTPRedirectDeflateEncoder extends BaseSAML2MessageEncoder {
      * 
      * @throws MessageEncodingException there is an error computing the signature
      */
-    protected String generateSignature(final Credential signingCredential, final String algorithmURI, final String queryString)
+    protected String generateSignature(final Credential signingCredential, final String algorithmURI,
+            final String queryString)
             throws MessageEncodingException {
 
         log.debug(String.format("Generating signature with key type '%s', algorithm URI '%s' over query string '%s'",

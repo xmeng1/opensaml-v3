@@ -50,7 +50,8 @@ public class KeyDescriptorImpl extends AbstractSAMLObject implements KeyDescript
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected KeyDescriptorImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
+    protected KeyDescriptorImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         encryptionMethods = new XMLObjectChildrenList<>(this);
         keyUseType = UsageType.UNSPECIFIED;

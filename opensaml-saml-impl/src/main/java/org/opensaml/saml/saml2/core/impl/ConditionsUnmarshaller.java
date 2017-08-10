@@ -38,7 +38,8 @@ import com.google.common.base.Strings;
 public class ConditionsUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(final XMLObject parentObject, final XMLObject childObject) throws UnmarshallingException {
+    protected void processChildElement(final XMLObject parentObject, final XMLObject childObject)
+            throws UnmarshallingException {
         final Conditions conditions = (Conditions) parentObject;
 
         if (childObject instanceof Condition) {

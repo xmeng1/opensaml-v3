@@ -40,7 +40,8 @@ public class StatusMessageImpl extends AbstractSAMLObject implements StatusMessa
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected StatusMessageImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
+    protected StatusMessageImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

@@ -34,7 +34,8 @@ import org.w3c.dom.Attr;
 public class ProxyRestrictionUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(final XMLObject parentObject, final XMLObject childObject) throws UnmarshallingException {
+    protected void processChildElement(final XMLObject parentObject, final XMLObject childObject)
+            throws UnmarshallingException {
         final ProxyRestriction proxyRestriction = (ProxyRestriction) parentObject;
 
         if (childObject instanceof Audience) {

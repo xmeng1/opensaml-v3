@@ -48,7 +48,8 @@ public class AuthnContextDeclUnmarshaller extends AbstractSAMLObjectUnmarshaller
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         final AuthnContextDecl authnCtcDecl = (AuthnContextDecl) xmlObject;
 
-        final QName attribQName = QNameSupport.constructQName(attribute.getNamespaceURI(), attribute.getLocalName(), attribute
+        final QName attribQName = QNameSupport.constructQName(attribute.getNamespaceURI(), attribute.getLocalName(),
+                attribute
                 .getPrefix());
 
         if (attribute.isId()) {

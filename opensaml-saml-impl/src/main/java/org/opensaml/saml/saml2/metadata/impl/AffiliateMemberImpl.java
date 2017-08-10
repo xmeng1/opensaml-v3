@@ -38,7 +38,8 @@ public class AffiliateMemberImpl extends AbstractSAMLObject implements Affiliate
      * @param elementLocalName local name
      * @param namespacePrefix prefix
      */
-    protected AffiliateMemberImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
+    protected AffiliateMemberImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

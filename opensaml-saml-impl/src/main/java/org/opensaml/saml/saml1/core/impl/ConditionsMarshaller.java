@@ -30,7 +30,8 @@ import org.w3c.dom.Element;
 public class ConditionsMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(final XMLObject samlElement, final Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject samlElement, final Element domElement)
+            throws MarshallingException {
 
         final Conditions conditions = (Conditions) samlElement;
 

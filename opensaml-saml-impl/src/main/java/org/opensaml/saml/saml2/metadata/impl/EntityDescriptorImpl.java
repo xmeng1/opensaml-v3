@@ -87,7 +87,8 @@ public class EntityDescriptorImpl extends AbstractSignableSAMLObject implements 
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected EntityDescriptorImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
+    protected EntityDescriptorImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         roleDescriptors = new IndexedXMLObjectChildrenList<>(this);
         contactPersons = new XMLObjectChildrenList<>(this);
@@ -184,7 +185,8 @@ public class EntityDescriptorImpl extends AbstractSignableSAMLObject implements 
 
     /** {@inheritDoc} */
     public IDPSSODescriptor getIDPSSODescriptor(final String supportedProtocol) {
-        final List<RoleDescriptor> descriptors = getRoleDescriptors(IDPSSODescriptor.DEFAULT_ELEMENT_NAME, supportedProtocol);
+        final List<RoleDescriptor> descriptors =
+                getRoleDescriptors(IDPSSODescriptor.DEFAULT_ELEMENT_NAME, supportedProtocol);
         if (descriptors.size() > 0) {
             return (IDPSSODescriptor) descriptors.get(0);
         }
@@ -194,7 +196,8 @@ public class EntityDescriptorImpl extends AbstractSignableSAMLObject implements 
 
     /** {@inheritDoc} */
     public SPSSODescriptor getSPSSODescriptor(final String supportedProtocol) {
-        final List<RoleDescriptor> descriptors = getRoleDescriptors(SPSSODescriptor.DEFAULT_ELEMENT_NAME, supportedProtocol);
+        final List<RoleDescriptor> descriptors =
+                getRoleDescriptors(SPSSODescriptor.DEFAULT_ELEMENT_NAME, supportedProtocol);
         if (descriptors.size() > 0) {
             return (SPSSODescriptor) descriptors.get(0);
         }
@@ -226,7 +229,8 @@ public class EntityDescriptorImpl extends AbstractSignableSAMLObject implements 
 
     /** {@inheritDoc} */
     public PDPDescriptor getPDPDescriptor(final String supportedProtocol) {
-        final List<RoleDescriptor> descriptors = getRoleDescriptors(PDPDescriptor.DEFAULT_ELEMENT_NAME, supportedProtocol);
+        final List<RoleDescriptor> descriptors =
+                getRoleDescriptors(PDPDescriptor.DEFAULT_ELEMENT_NAME, supportedProtocol);
         if (descriptors.size() > 0) {
             return (PDPDescriptor) descriptors.get(0);
         }
