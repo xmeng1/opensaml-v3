@@ -35,7 +35,8 @@ public class RecipientKeyInfoBuilder extends AbstractXMLObjectBuilder<RecipientK
     }
 
     /** {@inheritDoc} */
-    public RecipientKeyInfo buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public RecipientKeyInfo buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new RecipientKeyInfoImpl(namespaceURI, localName, namespacePrefix);
     }
 

@@ -53,7 +53,8 @@ public class EncryptionPropertyImpl extends AbstractXMLObject implements
      * @param elementLocalName local name
      * @param namespacePrefix namespace prefix
      */
-    protected EncryptionPropertyImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected EncryptionPropertyImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         unknownChildren = new IndexedXMLObjectChildrenList<>(this);
         unknownAttributes =  new AttributeMap(this);
@@ -65,7 +66,7 @@ public class EncryptionPropertyImpl extends AbstractXMLObject implements
     }
 
     /** {@inheritDoc} */
-    public void setTarget(String newTarget) {
+    public void setTarget(final String newTarget) {
         this.target = prepareForAssignment(this.target, newTarget);
     }
 
@@ -75,7 +76,7 @@ public class EncryptionPropertyImpl extends AbstractXMLObject implements
     }
 
     /** {@inheritDoc} */
-    public void setID(String newID) {
+    public void setID(final String newID) {
         String oldID = this.id;
         this.id = prepareForAssignment(this.id, newID);
         registerOwnID(oldID, this.id);
@@ -91,7 +92,7 @@ public class EncryptionPropertyImpl extends AbstractXMLObject implements
         return (List<XMLObject>) unknownChildren;
     }
     /** {@inheritDoc} */
-    public List<XMLObject> getUnknownXMLObjects(QName typeOrName) {
+    public List<XMLObject> getUnknownXMLObjects(final QName typeOrName) {
         return (List<XMLObject>) unknownChildren.subList(typeOrName);
     }
 

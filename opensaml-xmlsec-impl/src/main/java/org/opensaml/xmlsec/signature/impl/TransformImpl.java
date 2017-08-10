@@ -47,7 +47,7 @@ public class TransformImpl extends AbstractXMLObject implements Transform {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected TransformImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected TransformImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         indexedChildren = new IndexedXMLObjectChildrenList<>(this);
     }
@@ -58,7 +58,7 @@ public class TransformImpl extends AbstractXMLObject implements Transform {
     }
 
     /** {@inheritDoc} */
-    public void setAlgorithm(String newAlgorithm) {
+    public void setAlgorithm(final String newAlgorithm) {
         this.algorithm = prepareForAssignment(this.algorithm, newAlgorithm);
     }
 
@@ -68,7 +68,7 @@ public class TransformImpl extends AbstractXMLObject implements Transform {
     }
 
     /** {@inheritDoc} */
-    public List<XMLObject> getXMLObjects(QName typeOrName) {
+    public List<XMLObject> getXMLObjects(final QName typeOrName) {
         return (List<XMLObject>) indexedChildren.subList(typeOrName);
     }
 

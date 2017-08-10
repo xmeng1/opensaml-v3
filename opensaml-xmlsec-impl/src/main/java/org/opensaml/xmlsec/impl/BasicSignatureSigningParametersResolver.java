@@ -214,7 +214,7 @@ public class BasicSignatureSigningParametersResolver
      *          candidate signing method algorithm URIs
      */
     protected void resolveAndPopulateCredentialAndSignatureAlgorithm(@Nonnull final SignatureSigningParameters params, 
-            @Nonnull final CriteriaSet criteria, Predicate<String> whitelistBlacklistPredicate) {
+            @Nonnull final CriteriaSet criteria, final Predicate<String> whitelistBlacklistPredicate) {
         
         List<Credential> credentials = getEffectiveSigningCredentials(criteria);
         List<String> algorithms = getEffectiveSignatureAlgorithms(criteria, whitelistBlacklistPredicate);

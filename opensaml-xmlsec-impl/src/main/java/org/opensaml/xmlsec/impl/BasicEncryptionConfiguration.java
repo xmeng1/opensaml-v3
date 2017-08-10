@@ -229,7 +229,7 @@ public class BasicEncryptionConfiguration extends BasicWhitelistBlacklistConfigu
      * 
      * @param flag true if should merge, false otherwise
      */
-    public void setRSAOAEPParametersMerge(boolean flag) {
+    public void setRSAOAEPParametersMerge(final boolean flag) {
         rsaOAEPParametersMerge = flag;
     }
     
@@ -244,7 +244,7 @@ public class BasicEncryptionConfiguration extends BasicWhitelistBlacklistConfigu
      * 
      * @param predicate the new predicate instance
      */
-    public void setKeyTransportAlgorithmPredicate(KeyTransportAlgorithmPredicate predicate) {
+    public void setKeyTransportAlgorithmPredicate(final KeyTransportAlgorithmPredicate predicate) {
         keyTransportPredicate = predicate;
     }
 

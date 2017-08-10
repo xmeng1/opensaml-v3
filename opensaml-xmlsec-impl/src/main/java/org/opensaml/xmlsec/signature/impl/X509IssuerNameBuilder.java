@@ -35,7 +35,7 @@ public class X509IssuerNameBuilder extends AbstractXMLObjectBuilder<X509IssuerNa
     }
 
     /** {@inheritDoc} */
-    public X509IssuerName buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public X509IssuerName buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new X509IssuerNameImpl(namespaceURI, localName, namespacePrefix);
     }
 

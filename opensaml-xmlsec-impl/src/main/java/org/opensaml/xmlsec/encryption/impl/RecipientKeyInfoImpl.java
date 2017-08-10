@@ -32,7 +32,8 @@ public class RecipientKeyInfoImpl extends KeyInfoImpl implements RecipientKeyInf
      * @param elementLocalName local name
      * @param namespacePrefix namespace prefix
      */
-    protected RecipientKeyInfoImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected RecipientKeyInfoImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

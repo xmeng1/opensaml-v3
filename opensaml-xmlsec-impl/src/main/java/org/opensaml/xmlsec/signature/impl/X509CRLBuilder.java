@@ -34,7 +34,7 @@ public class X509CRLBuilder extends AbstractXMLObjectBuilder<X509CRL> implements
     }
 
     /** {@inheritDoc} */
-    public X509CRL buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public X509CRL buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new X509CRLImpl(namespaceURI, localName, namespacePrefix);
     }
 

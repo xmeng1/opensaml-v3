@@ -33,7 +33,7 @@ public class DataReferenceBuilder extends AbstractXMLObjectBuilder<DataReference
     }
 
     /** {@inheritDoc} */
-    public DataReference buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public DataReference buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new DataReferenceImpl(namespaceURI, localName, namespacePrefix);
     }
 

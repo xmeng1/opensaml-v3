@@ -34,7 +34,7 @@ import org.opensaml.xmlsec.signature.Y;
 public class DSAKeyValueUnmarshaller extends AbstractXMLSignatureUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
         DSAKeyValue keyValue = (DSAKeyValue) parentXMLObject;
 

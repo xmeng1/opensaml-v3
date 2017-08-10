@@ -28,7 +28,7 @@ import org.w3c.dom.Element;
 public class ReferenceTypeMarshaller extends AbstractXMLEncryptionMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
         ReferenceType rt = (ReferenceType) xmlObject;
 
         if (rt.getURI() != null) {

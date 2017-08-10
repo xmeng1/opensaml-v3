@@ -29,7 +29,7 @@ import org.opensaml.xmlsec.encryption.CipherValue;
 public class CipherDataUnmarshaller extends AbstractXMLEncryptionUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
         CipherData cipherData = (CipherData) parentXMLObject;
 

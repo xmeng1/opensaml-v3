@@ -68,7 +68,7 @@ public class DEREncodedKeyValueProvider extends AbstractKeyInfoProvider {
         PublicKey pubKey = null;
         try {
             pubKey = KeyInfoSupport.getKey(keyValue);
-        } catch (KeyException e) {
+        } catch (final KeyException e) {
             log.error("Error extracting DER-encoded key value", e);
             throw new SecurityException("Error extracting DER-encoded key value", e);
         }

@@ -31,7 +31,7 @@ public class ModulusImpl extends CryptoBinaryImpl implements Modulus {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected ModulusImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected ModulusImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

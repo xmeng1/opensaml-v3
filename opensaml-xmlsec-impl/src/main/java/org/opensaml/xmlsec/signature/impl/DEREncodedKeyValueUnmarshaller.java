@@ -29,7 +29,7 @@ import org.w3c.dom.Attr;
 public class DEREncodedKeyValueUnmarshaller extends XSBase64BinaryUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         DEREncodedKeyValue der = (DEREncodedKeyValue) xmlObject;
 
         if (attribute.getLocalName().equals(DEREncodedKeyValue.ID_ATTRIB_NAME)) {

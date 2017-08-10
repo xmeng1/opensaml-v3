@@ -61,7 +61,7 @@ public class DHKeyValueImpl extends AbstractXMLObject implements DHKeyValue {
      * @param elementLocalName local name
      * @param namespacePrefix namespace prefix
      */
-    protected DHKeyValueImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected DHKeyValueImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -71,7 +71,7 @@ public class DHKeyValueImpl extends AbstractXMLObject implements DHKeyValue {
     }
 
     /** {@inheritDoc} */
-    public void setP(P newP) {
+    public void setP(final P newP) {
         this.p = prepareForAssignment(this.p, newP);
     }
 
@@ -81,7 +81,7 @@ public class DHKeyValueImpl extends AbstractXMLObject implements DHKeyValue {
     }
 
     /** {@inheritDoc} */
-    public void setQ(Q newQ) {
+    public void setQ(final Q newQ) {
         this.q = prepareForAssignment(this.q, newQ);
     }
 
@@ -91,7 +91,7 @@ public class DHKeyValueImpl extends AbstractXMLObject implements DHKeyValue {
     }
 
     /** {@inheritDoc} */
-    public void setGenerator(Generator newGenerator) {
+    public void setGenerator(final Generator newGenerator) {
         this.generator = prepareForAssignment(this.generator, newGenerator);
     }
 
@@ -101,7 +101,7 @@ public class DHKeyValueImpl extends AbstractXMLObject implements DHKeyValue {
     }
 
     /** {@inheritDoc} */
-    public void setPublic(Public newPublic) {
+    public void setPublic(final Public newPublic) {
         this.publicChild = prepareForAssignment(this.publicChild, newPublic);
     }
 
@@ -111,7 +111,7 @@ public class DHKeyValueImpl extends AbstractXMLObject implements DHKeyValue {
     }
 
     /** {@inheritDoc} */
-    public void setSeed(Seed newSeed) {
+    public void setSeed(final Seed newSeed) {
         this.seed = prepareForAssignment(this.seed, newSeed);
     }
 
@@ -121,7 +121,7 @@ public class DHKeyValueImpl extends AbstractXMLObject implements DHKeyValue {
     }
 
     /** {@inheritDoc} */
-    public void setPgenCounter(PgenCounter newPgenCounter) {
+    public void setPgenCounter(final PgenCounter newPgenCounter) {
         this.pgenCounter = prepareForAssignment(this.pgenCounter, newPgenCounter);
     }
 

@@ -44,7 +44,8 @@ public class ReferenceListImpl extends AbstractXMLObject implements ReferenceLis
      * @param elementLocalName local name
      * @param namespacePrefix namespace prefix
      */
-    protected ReferenceListImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected ReferenceListImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         indexedChildren = new IndexedXMLObjectChildrenList<ReferenceType>(this);
     }

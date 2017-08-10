@@ -47,7 +47,7 @@ public class EncryptedKeyImpl extends EncryptedTypeImpl implements EncryptedKey 
      * @param elementLocalName local name
      * @param namespacePrefix namespace prefix
      */
-    protected EncryptedKeyImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected EncryptedKeyImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -57,7 +57,7 @@ public class EncryptedKeyImpl extends EncryptedTypeImpl implements EncryptedKey 
     }
 
     /** {@inheritDoc} */
-    public void setRecipient(String newRecipient) {
+    public void setRecipient(final String newRecipient) {
         this.recipient = prepareForAssignment(this.recipient, newRecipient);
     }
 
@@ -67,7 +67,7 @@ public class EncryptedKeyImpl extends EncryptedTypeImpl implements EncryptedKey 
     }
 
     /** {@inheritDoc} */
-    public void setReferenceList(ReferenceList newReferenceList) {
+    public void setReferenceList(final ReferenceList newReferenceList) {
         this.referenceList = prepareForAssignment(this.referenceList, newReferenceList);
     }
 
@@ -77,7 +77,7 @@ public class EncryptedKeyImpl extends EncryptedTypeImpl implements EncryptedKey 
     }
 
     /** {@inheritDoc} */
-    public void setCarriedKeyName(CarriedKeyName newCarriedKeyName) {
+    public void setCarriedKeyName(final CarriedKeyName newCarriedKeyName) {
         this.carriedKeyName = prepareForAssignment(this.carriedKeyName, newCarriedKeyName);
     }
 

@@ -33,7 +33,7 @@ public class CipherValueBuilder extends AbstractXMLObjectBuilder<CipherValue> im
     }
 
     /** {@inheritDoc} */
-    public CipherValue buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public CipherValue buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new CipherValueImpl(namespaceURI, localName, namespacePrefix);
     }
 

@@ -32,7 +32,7 @@ public class XPathImpl extends XSStringImpl implements XPath {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected XPathImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected XPathImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

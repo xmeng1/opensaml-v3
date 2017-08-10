@@ -35,7 +35,8 @@ public class DEREncodedKeyValueImpl extends XSBase64BinaryImpl implements DEREnc
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected DEREncodedKeyValueImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected DEREncodedKeyValueImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -45,7 +46,7 @@ public class DEREncodedKeyValueImpl extends XSBase64BinaryImpl implements DEREnc
     }
 
     /** {@inheritDoc} */
-    public void setID(String newID) {
+    public void setID(final String newID) {
         String oldID = id;
         id = prepareForAssignment(id, newID);
         registerOwnID(oldID, id);

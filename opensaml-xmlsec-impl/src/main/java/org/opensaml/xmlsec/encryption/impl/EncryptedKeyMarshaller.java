@@ -28,7 +28,7 @@ import org.w3c.dom.Element;
 public class EncryptedKeyMarshaller extends EncryptedTypeMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
         EncryptedKey ek = (EncryptedKey) xmlObject;
 
         if (ek.getRecipient() != null) {

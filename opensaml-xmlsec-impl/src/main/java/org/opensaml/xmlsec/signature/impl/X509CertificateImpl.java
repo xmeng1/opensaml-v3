@@ -43,7 +43,8 @@ public class X509CertificateImpl extends AbstractXMLObject implements X509Certif
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected X509CertificateImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected X509CertificateImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -55,7 +56,7 @@ public class X509CertificateImpl extends AbstractXMLObject implements X509Certif
 
     /** {@inheritDoc} */
     @Override
-    public void setValue(String newValue) {
+    public void setValue(final String newValue) {
         // Dump our cached DOM if the new value really is new
         final String currentCert = B64_CERT_STORE.get(b64CertIndex);
         final String b64Cert = prepareForAssignment(currentCert, newValue);

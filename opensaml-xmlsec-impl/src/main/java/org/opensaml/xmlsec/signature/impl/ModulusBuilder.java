@@ -34,7 +34,7 @@ public class ModulusBuilder extends AbstractXMLObjectBuilder<Modulus> implements
     }
 
     /** {@inheritDoc} */
-    public Modulus buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Modulus buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new ModulusImpl(namespaceURI, localName, namespacePrefix);
     }
 

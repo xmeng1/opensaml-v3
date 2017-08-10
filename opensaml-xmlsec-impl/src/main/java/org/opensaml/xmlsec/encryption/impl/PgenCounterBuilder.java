@@ -35,7 +35,7 @@ public class PgenCounterBuilder extends AbstractXMLObjectBuilder<PgenCounter> im
     }
 
     /** {@inheritDoc} */
-    public PgenCounter buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public PgenCounter buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new PgenCounterImpl(namespaceURI, localName, namespacePrefix);
     }
 

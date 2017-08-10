@@ -45,7 +45,7 @@ public class CipherDataImpl extends AbstractXMLObject implements CipherData {
      * @param elementLocalName local name
      * @param namespacePrefix namespace prefix
      */
-    protected  CipherDataImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected  CipherDataImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -55,7 +55,7 @@ public class CipherDataImpl extends AbstractXMLObject implements CipherData {
     }
 
     /** {@inheritDoc} */
-    public void setCipherValue(CipherValue newCipherValue) {
+    public void setCipherValue(final CipherValue newCipherValue) {
         this.cipherValue = prepareForAssignment(this.cipherValue, newCipherValue);
     }
 
@@ -65,7 +65,7 @@ public class CipherDataImpl extends AbstractXMLObject implements CipherData {
     }
 
     /** {@inheritDoc} */
-    public void setCipherReference(CipherReference newCipherReference) {
+    public void setCipherReference(final CipherReference newCipherReference) {
         this.cipherReference = prepareForAssignment(this.cipherReference, newCipherReference);
     }
 

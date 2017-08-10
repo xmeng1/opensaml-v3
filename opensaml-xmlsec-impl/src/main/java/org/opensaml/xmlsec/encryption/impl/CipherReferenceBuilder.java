@@ -33,7 +33,8 @@ public class CipherReferenceBuilder extends AbstractXMLObjectBuilder<CipherRefer
     }
 
     /** {@inheritDoc} */
-    public CipherReference buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public CipherReference buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new CipherReferenceImpl(namespaceURI, localName, namespacePrefix);
     }
 

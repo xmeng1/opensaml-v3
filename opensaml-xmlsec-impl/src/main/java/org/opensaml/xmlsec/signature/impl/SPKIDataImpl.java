@@ -44,7 +44,7 @@ public class SPKIDataImpl extends AbstractXMLObject implements SPKIData {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected SPKIDataImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected SPKIDataImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         indexedChildren = new IndexedXMLObjectChildrenList(this);
     }
@@ -55,7 +55,7 @@ public class SPKIDataImpl extends AbstractXMLObject implements SPKIData {
     }
 
     /** {@inheritDoc} */
-    public List<XMLObject> getXMLObjects(QName typeOrName) {
+    public List<XMLObject> getXMLObjects(final QName typeOrName) {
         return (List<XMLObject>) this.indexedChildren.subList(typeOrName);
     }
 

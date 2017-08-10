@@ -32,7 +32,7 @@ import org.w3c.dom.Attr;
 public abstract class EncryptedTypeUnmarshaller extends AbstractXMLEncryptionUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
         EncryptedType et = (EncryptedType) parentXMLObject;
 
@@ -51,7 +51,7 @@ public abstract class EncryptedTypeUnmarshaller extends AbstractXMLEncryptionUnm
     }
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         EncryptedType et = (EncryptedType) xmlObject;
 
         if (attribute.getLocalName().equals(EncryptedType.ID_ATTRIB_NAME)) {

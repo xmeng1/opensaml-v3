@@ -99,7 +99,7 @@ public class KeyInfoReferenceProvider extends AbstractKeyInfoProvider {
                 }
                 return result;
             }
-        } catch (ResolverException e) {
+        } catch (final ResolverException e) {
             log.error("Exception while resolving credentials from KeyInfoReference referent", e);
         }
         

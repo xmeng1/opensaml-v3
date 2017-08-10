@@ -101,7 +101,7 @@ public class X509KeyInfoGeneratorFactory extends BasicKeyInfoGeneratorFactory {
      * 
      * @param newValue the new option value
      */
-    public void setEmitCRLs(boolean newValue) {
+    public void setEmitCRLs(final boolean newValue) {
         options.emitCRLs = newValue;
     }
 
@@ -119,7 +119,7 @@ public class X509KeyInfoGeneratorFactory extends BasicKeyInfoGeneratorFactory {
      *
      * @param newValue the new option value
      */
-    public void setEmitEntityCertificate(boolean newValue) {
+    public void setEmitEntityCertificate(final boolean newValue) {
         options.emitEntityCertificate = newValue;
     }
 
@@ -137,7 +137,7 @@ public class X509KeyInfoGeneratorFactory extends BasicKeyInfoGeneratorFactory {
      * 
      * @param newValue the new option value
      */
-    public void setEmitEntityCertificateChain(boolean newValue) {
+    public void setEmitEntityCertificateChain(final boolean newValue) {
         options.emitEntityCertificateChain = newValue;
     }
 
@@ -155,7 +155,7 @@ public class X509KeyInfoGeneratorFactory extends BasicKeyInfoGeneratorFactory {
      * 
      * @param newValue the new option value
      */
-    public void setEmitSubjectAltNamesAsKeyNames(boolean newValue) {
+    public void setEmitSubjectAltNamesAsKeyNames(final boolean newValue) {
         options.emitSubjectAltNamesAsKeyNames = newValue;
     }
 
@@ -173,7 +173,7 @@ public class X509KeyInfoGeneratorFactory extends BasicKeyInfoGeneratorFactory {
      * 
      * @param newValue the new option value
      */
-    public void setEmitSubjectCNAsKeyName(boolean newValue) {
+    public void setEmitSubjectCNAsKeyName(final boolean newValue) {
         options.emitSubjectCNAsKeyName = newValue;
     }
 
@@ -191,7 +191,7 @@ public class X509KeyInfoGeneratorFactory extends BasicKeyInfoGeneratorFactory {
      * 
      * @param newValue the new option value
      */
-    public void setEmitSubjectDNAsKeyName(boolean newValue) {
+    public void setEmitSubjectDNAsKeyName(final boolean newValue) {
         options.emitSubjectDNAsKeyName = newValue;
     }
 
@@ -211,7 +211,7 @@ public class X509KeyInfoGeneratorFactory extends BasicKeyInfoGeneratorFactory {
      * 
      * @param newValue the new option value
      */
-    public void setEmitX509IssuerSerial(boolean newValue) {
+    public void setEmitX509IssuerSerial(final boolean newValue) {
         options.emitX509IssuerSerial = newValue;
     }
 
@@ -229,7 +229,7 @@ public class X509KeyInfoGeneratorFactory extends BasicKeyInfoGeneratorFactory {
      * 
      * @param newValue the new option value
      */
-    public void setEmitX509SKI(boolean newValue) {
+    public void setEmitX509SKI(final boolean newValue) {
         options.emitX509SKI = newValue;
     }
 
@@ -247,7 +247,7 @@ public class X509KeyInfoGeneratorFactory extends BasicKeyInfoGeneratorFactory {
      * 
      * @param newValue the new option value
      */
-    public void setEmitX509Digest(boolean newValue) {
+    public void setEmitX509Digest(final boolean newValue) {
         options.emitX509Digest = newValue;
     }
 
@@ -287,7 +287,7 @@ public class X509KeyInfoGeneratorFactory extends BasicKeyInfoGeneratorFactory {
      * 
      * @param newValue the new option value
      */
-    public void setEmitX509SubjectName(boolean newValue) {
+    public void setEmitX509SubjectName(final boolean newValue) {
         options.emitX509SubjectName = newValue;
     }
 
@@ -407,7 +407,7 @@ public class X509KeyInfoGeneratorFactory extends BasicKeyInfoGeneratorFactory {
          * 
          * @param newOptions the options to be used by the generator
          */
-        protected X509KeyInfoGenerator(X509Options newOptions) {
+        protected X509KeyInfoGenerator(final X509Options newOptions) {
             super(newOptions);
             options = newOptions;
             
@@ -476,7 +476,7 @@ public class X509KeyInfoGeneratorFactory extends BasicKeyInfoGeneratorFactory {
                 try {
                     X509Certificate xmlCert = KeyInfoSupport.buildX509Certificate(javaCert);
                     x509Data.getX509Certificates().add(xmlCert);
-                } catch (CertificateEncodingException e) {
+                } catch (final CertificateEncodingException e) {
                     throw new SecurityException("Error generating X509Certificate element " 
                             + "from credential's end-entity certificate", e);
                 }
@@ -576,9 +576,9 @@ public class X509KeyInfoGeneratorFactory extends BasicKeyInfoGeneratorFactory {
             if (options.emitX509Digest) {
                 try {
                     x509Data.getX509Digests().add(KeyInfoSupport.buildX509Digest(cert, options.x509DigestAlgorithmURI));
-                } catch (CertificateEncodingException e) {
+                } catch (final CertificateEncodingException e) {
                     throw new SecurityException("Can't digest certificate, certificate encoding error", e);
-                } catch (NoSuchAlgorithmException e) {
+                } catch (final NoSuchAlgorithmException e) {
                     throw new SecurityException("Can't digest certificate, unsupported digest algorithm", e);
                 }
             }
@@ -701,7 +701,7 @@ public class X509KeyInfoGeneratorFactory extends BasicKeyInfoGeneratorFactory {
                     try {
                         X509Certificate xmlCert = KeyInfoSupport.buildX509Certificate(javaCert);
                         x509Data.getX509Certificates().add(xmlCert);
-                    } catch (CertificateEncodingException e) {
+                    } catch (final CertificateEncodingException e) {
                         throw new SecurityException("Error generating X509Certificate element " 
                                 + "from a certificate in credential's certificate chain", e);
                     }
@@ -724,7 +724,7 @@ public class X509KeyInfoGeneratorFactory extends BasicKeyInfoGeneratorFactory {
                     try {
                         X509CRL xmlCRL = KeyInfoSupport.buildX509CRL(javaCRL);
                         x509Data.getX509CRLs().add(xmlCRL);
-                    } catch (CRLException e) {
+                    } catch (final CRLException e) {
                         throw new SecurityException("Error generating X509CRL element " 
                                 + "from a CRL in credential's CRL list", e);
                     }

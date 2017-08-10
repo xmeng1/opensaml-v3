@@ -35,7 +35,7 @@ public class GeneratorBuilder extends AbstractXMLObjectBuilder<Generator> implem
     }
 
     /** {@inheritDoc} */
-    public Generator buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Generator buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new GeneratorImpl(namespaceURI, localName, namespacePrefix);
     }
 

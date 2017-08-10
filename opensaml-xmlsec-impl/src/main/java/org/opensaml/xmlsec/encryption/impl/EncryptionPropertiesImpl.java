@@ -45,7 +45,8 @@ public class EncryptionPropertiesImpl extends AbstractXMLObject implements Encry
      * @param elementLocalName local name
      * @param namespacePrefix namespace prefix
      */
-    protected EncryptionPropertiesImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected EncryptionPropertiesImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         encryptionProperties = new XMLObjectChildrenList<EncryptionProperty>(this);
     }
@@ -56,7 +57,7 @@ public class EncryptionPropertiesImpl extends AbstractXMLObject implements Encry
     }
 
     /** {@inheritDoc} */
-    public void setID(String newID) {
+    public void setID(final String newID) {
         String oldID = this.id;
         this.id = prepareForAssignment(this.id, newID);
         registerOwnID(oldID, this.id);

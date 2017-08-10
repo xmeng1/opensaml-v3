@@ -29,7 +29,7 @@ import org.opensaml.xmlsec.signature.PGPKeyPacket;
 public class PGPDataUnmarshaller extends AbstractXMLSignatureUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
         PGPData pgpData = (PGPData) parentXMLObject;
 

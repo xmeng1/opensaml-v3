@@ -53,7 +53,7 @@ public class SignatureUnmarshaller implements Unmarshaller {
     }
 
     /** {@inheritDoc} */
-    public Signature unmarshall(Element signatureElement) throws UnmarshallingException {
+    public Signature unmarshall(final Element signatureElement) throws UnmarshallingException {
         log.debug("Starting to unmarshall Apache XML-Security-based SignatureImpl element");
 
         SignatureImpl signature =
@@ -83,7 +83,7 @@ public class SignatureUnmarshaller implements Unmarshaller {
             signature.setXMLSignature(xmlSignature);
             signature.setDOM(signatureElement);
             return signature;
-        } catch (XMLSecurityException e) {
+        } catch (final XMLSecurityException e) {
             log.error("Error constructing Apache XMLSignature instance from Signature element: {}", e.getMessage());
             throw new UnmarshallingException("Unable to unmarshall Signature with Apache XMLSignature", e);
         }
@@ -95,7 +95,7 @@ public class SignatureUnmarshaller implements Unmarshaller {
      * @param signatureMethodElement the ds:SignatureMethod element
      * @return the HMAC output length value, or null if not present
      */
-    private Integer getHMACOutputLengthValue(Element signatureMethodElement) {
+    private Integer getHMACOutputLengthValue(final Element signatureMethodElement) {
         if (signatureMethodElement == null) {
             return null;
         }

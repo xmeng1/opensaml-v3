@@ -28,7 +28,7 @@ import org.w3c.dom.Element;
 public class EncryptionPropertiesMarshaller extends AbstractXMLEncryptionMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
         EncryptionProperties ep = (EncryptionProperties) xmlObject;
 
         if (ep.getID() != null) {

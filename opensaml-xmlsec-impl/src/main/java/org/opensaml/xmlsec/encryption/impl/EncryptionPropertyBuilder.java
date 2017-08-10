@@ -35,7 +35,8 @@ public class EncryptionPropertyBuilder extends AbstractXMLObjectBuilder<Encrypti
     }
 
     /** {@inheritDoc} */
-    public EncryptionProperty buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public EncryptionProperty buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new EncryptionPropertyImpl(namespaceURI, localName, namespacePrefix);
     }
 

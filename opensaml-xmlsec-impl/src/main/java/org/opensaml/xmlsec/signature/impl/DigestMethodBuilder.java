@@ -36,7 +36,7 @@ public class DigestMethodBuilder extends AbstractXMLObjectBuilder<DigestMethod> 
     }
 
     /** {@inheritDoc} */
-    public DigestMethod buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public DigestMethod buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new DigestMethodImpl(namespaceURI, localName, namespacePrefix);
     }
 

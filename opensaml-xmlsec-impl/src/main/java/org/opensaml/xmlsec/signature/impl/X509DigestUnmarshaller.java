@@ -29,7 +29,7 @@ import org.w3c.dom.Attr;
 public class X509DigestUnmarshaller extends XSBase64BinaryUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         X509Digest xd = (X509Digest) xmlObject;
 
         if (attribute.getLocalName().equals(X509Digest.ALGORITHM_ATTRIB_NAME)) {

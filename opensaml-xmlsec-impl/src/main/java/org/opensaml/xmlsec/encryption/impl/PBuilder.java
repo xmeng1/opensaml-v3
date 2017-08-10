@@ -34,7 +34,7 @@ public class PBuilder extends AbstractXMLObjectBuilder<P> implements XMLEncrypti
     }
 
     /** {@inheritDoc} */
-    public P buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public P buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new PImpl(namespaceURI, localName, namespacePrefix);
     }
 

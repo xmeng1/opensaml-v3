@@ -33,7 +33,7 @@ public class CarriedKeyNameBuilder extends AbstractXMLObjectBuilder<CarriedKeyNa
     }
 
     /** {@inheritDoc} */
-    public CarriedKeyName buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public CarriedKeyName buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new CarriedKeyNameImpl(namespaceURI, localName, namespacePrefix);
     }
 

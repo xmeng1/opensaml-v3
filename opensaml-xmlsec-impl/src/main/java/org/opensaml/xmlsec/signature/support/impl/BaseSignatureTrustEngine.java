@@ -96,7 +96,7 @@ public abstract class BaseSignatureTrustEngine<TrustBasisType> implements Signat
                     new SignatureAlgorithmValidator(validationCriterion.getSignatureValidationParameters());
             try {
                 algorithmValidator.validate(signature);
-            } catch (SignatureException e) {
+            } catch (final SignatureException e) {
                 log.warn("XML signature failed algorithm whitelist/blacklist validation");
                 return false;
             }
@@ -206,7 +206,7 @@ public abstract class BaseSignatureTrustEngine<TrustBasisType> implements Signat
                         }
                     }
                 }
-            } catch (ResolverException e) {
+            } catch (final ResolverException e) {
                 throw new SecurityException("Error resolving KeyInfo from KeyInfoResolver", e);
             }
         } else {
@@ -240,7 +240,7 @@ public abstract class BaseSignatureTrustEngine<TrustBasisType> implements Signat
     protected boolean verifySignature(@Nonnull final Signature signature, @Nonnull final Credential credential) {
         try {
             SignatureValidator.validate(signature, credential);
-        } catch (SignatureException e) {
+        } catch (final SignatureException e) {
             log.debug("Signature validation using candidate validation credential failed", e);
             return false;
         }

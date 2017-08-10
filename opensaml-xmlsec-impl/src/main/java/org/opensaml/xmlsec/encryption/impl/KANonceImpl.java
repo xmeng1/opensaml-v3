@@ -32,7 +32,7 @@ public class KANonceImpl extends XSBase64BinaryImpl implements KANonce {
      * @param elementLocalName local name
      * @param namespacePrefix namespace prefix
      */
-    protected KANonceImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected KANonceImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

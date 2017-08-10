@@ -28,7 +28,7 @@ import org.w3c.dom.Element;
 public class TransformMarshaller extends AbstractXMLSignatureMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
         Transform transform = (Transform) xmlObject;
 
         if (transform.getAlgorithm() != null) {

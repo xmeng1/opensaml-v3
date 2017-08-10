@@ -29,7 +29,7 @@ import org.opensaml.xmlsec.signature.RSAKeyValue;
 public class RSAKeyValueUnmarshaller extends AbstractXMLSignatureUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
         RSAKeyValue keyValue = (RSAKeyValue) parentXMLObject;
 

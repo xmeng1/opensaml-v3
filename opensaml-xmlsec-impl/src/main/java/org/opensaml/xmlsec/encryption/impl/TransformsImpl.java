@@ -42,7 +42,7 @@ public class TransformsImpl extends AbstractXMLObject implements Transforms {
      * @param elementLocalName local name
      * @param namespacePrefix namespace prefix
      */
-    protected TransformsImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected TransformsImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         transforms = new XMLObjectChildrenList<Transform>(this);
     }

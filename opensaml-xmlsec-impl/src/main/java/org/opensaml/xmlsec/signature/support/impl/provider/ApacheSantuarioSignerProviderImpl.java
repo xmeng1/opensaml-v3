@@ -57,7 +57,7 @@ public class ApacheSantuarioSignerProviderImpl implements SignerProvider {
             }
             log.debug("Computing signature over XMLSignature object");
             xmlSignature.sign(CredentialSupport.extractSigningKey(signature.getSigningCredential()));
-        } catch (XMLSecurityException e) {
+        } catch (final XMLSecurityException e) {
             log.error("An error occured computing the digital signature", e);
             throw new SignatureException("Signature computation error", e);
         }

@@ -31,7 +31,7 @@ public class MGFImpl extends AlgorithmIdentifierTypeImpl implements MGF {
      * @param elementLocalName local name
      * @param namespacePrefix namespace prefix
      */
-    protected MGFImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected MGFImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

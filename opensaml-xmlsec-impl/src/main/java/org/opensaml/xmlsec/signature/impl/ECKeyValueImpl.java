@@ -51,7 +51,7 @@ public class ECKeyValueImpl extends AbstractXMLObject implements ECKeyValue {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected ECKeyValueImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected ECKeyValueImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -61,7 +61,7 @@ public class ECKeyValueImpl extends AbstractXMLObject implements ECKeyValue {
     }
 
     /** {@inheritDoc} */
-    public void setID(String newID) {
+    public void setID(final String newID) {
         String oldID = id;
         id = prepareForAssignment(id, newID);
         registerOwnID(oldID, id);
@@ -73,7 +73,7 @@ public class ECKeyValueImpl extends AbstractXMLObject implements ECKeyValue {
     }
 
     /** {@inheritDoc} */
-    public void setECParameters(XMLObject newParams) {
+    public void setECParameters(final XMLObject newParams) {
         ecParams = prepareForAssignment(ecParams, newParams);
     }
     
@@ -83,7 +83,7 @@ public class ECKeyValueImpl extends AbstractXMLObject implements ECKeyValue {
     }
 
     /** {@inheritDoc} */
-    public void setNamedCurve(NamedCurve newCurve) {
+    public void setNamedCurve(final NamedCurve newCurve) {
         namedCurve = prepareForAssignment(namedCurve, newCurve);
     }
 
@@ -93,7 +93,7 @@ public class ECKeyValueImpl extends AbstractXMLObject implements ECKeyValue {
     }
 
     /** {@inheritDoc} */
-    public void setPublicKey(PublicKey newKey) {
+    public void setPublicKey(final PublicKey newKey) {
         publicKey = prepareForAssignment(publicKey, newKey);
     }
 

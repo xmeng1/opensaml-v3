@@ -51,7 +51,7 @@ public class PGPDataImpl extends AbstractXMLObject implements PGPData {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected PGPDataImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected PGPDataImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         xmlChildren = new IndexedXMLObjectChildrenList(this);
     }
@@ -62,7 +62,7 @@ public class PGPDataImpl extends AbstractXMLObject implements PGPData {
     }
 
     /** {@inheritDoc} */
-    public void setPGPKeyID(PGPKeyID newPGPKeyID) {
+    public void setPGPKeyID(final PGPKeyID newPGPKeyID) {
         this.pgpKeyID = prepareForAssignment(this.pgpKeyID, newPGPKeyID);
     }
 
@@ -72,7 +72,7 @@ public class PGPDataImpl extends AbstractXMLObject implements PGPData {
     }
 
     /** {@inheritDoc} */
-    public void setPGPKeyPacket(PGPKeyPacket newPGPKeyPacket) {
+    public void setPGPKeyPacket(final PGPKeyPacket newPGPKeyPacket) {
         this.pgpKeyPacket = prepareForAssignment(this.pgpKeyPacket, newPGPKeyPacket);
     }
 
@@ -81,7 +81,7 @@ public class PGPDataImpl extends AbstractXMLObject implements PGPData {
         return (List<XMLObject>) xmlChildren;
     }
     /** {@inheritDoc} */
-    public List<XMLObject> getUnknownXMLObjects(QName typeOrName) {
+    public List<XMLObject> getUnknownXMLObjects(final QName typeOrName) {
         return (List<XMLObject>) xmlChildren.subList(typeOrName);
     }
 

@@ -34,7 +34,7 @@ public class SPKISexpBuilder extends AbstractXMLObjectBuilder<SPKISexp> implemen
     }
 
     /** {@inheritDoc} */
-    public SPKISexp buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public SPKISexp buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new SPKISexpImpl(namespaceURI, localName, namespacePrefix);
     }
 

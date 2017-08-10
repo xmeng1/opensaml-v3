@@ -29,7 +29,7 @@ import org.w3c.dom.Attr;
 public class CipherReferenceUnmarshaller extends AbstractXMLEncryptionUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         CipherReference cr = (CipherReference) xmlObject;
 
         if (attribute.getLocalName().equals(CipherReference.URI_ATTRIB_NAME)) {
@@ -40,7 +40,7 @@ public class CipherReferenceUnmarshaller extends AbstractXMLEncryptionUnmarshall
     }
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
         CipherReference cr = (CipherReference) parentXMLObject;
 

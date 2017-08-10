@@ -67,7 +67,7 @@ public abstract class AbstractSecurityParametersResolver<ProductType>
      * @return the resolved KeyInfo generator instance, or null
      */
     @Nullable protected KeyInfoGenerator lookupKeyInfoGenerator(@Nonnull final Credential credential, 
-            @Nullable final NamedKeyInfoGeneratorManager manager, @Nullable String keyInfoProfileName) {
+            @Nullable final NamedKeyInfoGeneratorManager manager, @Nullable final String keyInfoProfileName) {
         Constraint.isNotNull(credential, "Credential may not be null");
         
         if (manager == null) {

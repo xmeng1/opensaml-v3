@@ -71,7 +71,7 @@ public class ApacheSantuarioSignatureValidationProviderImpl implements Signature
                 log.debug("Signature validated with key from supplied credential");
                 return;
             }
-        } catch (XMLSignatureException e) {
+        } catch (final XMLSignatureException e) {
             throw new SignatureException("Unable to evaluate key against signature", e);
         }
 

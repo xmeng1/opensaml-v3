@@ -32,7 +32,7 @@ public class X509SKIImpl extends XSBase64BinaryImpl implements X509SKI {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected X509SKIImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected X509SKIImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

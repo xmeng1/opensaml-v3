@@ -62,7 +62,7 @@ public class SignatureImpl extends AbstractXMLObject implements Signature {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected SignatureImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected SignatureImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         contentReferences = new LinkedList<>();
     }
@@ -73,7 +73,7 @@ public class SignatureImpl extends AbstractXMLObject implements Signature {
     }
 
     /** {@inheritDoc} */
-    public void setCanonicalizationAlgorithm(String newAlgorithm) {
+    public void setCanonicalizationAlgorithm(final String newAlgorithm) {
         canonicalizationAlgorithm = prepareForAssignment(canonicalizationAlgorithm, newAlgorithm);
     }
 
@@ -83,7 +83,7 @@ public class SignatureImpl extends AbstractXMLObject implements Signature {
     }
 
     /** {@inheritDoc} */
-    public void setSignatureAlgorithm(String newAlgorithm) {
+    public void setSignatureAlgorithm(final String newAlgorithm) {
         signatureAlgorithm = prepareForAssignment(signatureAlgorithm, newAlgorithm);
     }
 
@@ -93,7 +93,7 @@ public class SignatureImpl extends AbstractXMLObject implements Signature {
     }
 
     /** {@inheritDoc} */
-    public void setHMACOutputLength(Integer length) {
+    public void setHMACOutputLength(final Integer length) {
         hmacOutputLength = prepareForAssignment(hmacOutputLength, length);
     }
 
@@ -103,7 +103,7 @@ public class SignatureImpl extends AbstractXMLObject implements Signature {
     }
 
     /** {@inheritDoc} */
-    public void setSigningCredential(Credential newCredential) {
+    public void setSigningCredential(final Credential newCredential) {
         signingCredential = prepareForAssignment(signingCredential, newCredential);
     }
 
@@ -113,7 +113,7 @@ public class SignatureImpl extends AbstractXMLObject implements Signature {
     }
 
     /** {@inheritDoc} */
-    public void setKeyInfo(KeyInfo newKeyInfo) {
+    public void setKeyInfo(final KeyInfo newKeyInfo) {
         keyInfo = prepareForAssignment(keyInfo, newKeyInfo);
     }
 
@@ -158,7 +158,7 @@ public class SignatureImpl extends AbstractXMLObject implements Signature {
      * 
      * @param signature an Apache XML Security signature object
      */
-    public void setXMLSignature(XMLSignature signature) {
+    public void setXMLSignature(final XMLSignature signature) {
         xmlSignature = prepareForAssignment(xmlSignature, signature);
     }
 }

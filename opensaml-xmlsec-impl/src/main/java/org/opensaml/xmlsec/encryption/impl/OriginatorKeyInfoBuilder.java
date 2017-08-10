@@ -35,7 +35,8 @@ public class OriginatorKeyInfoBuilder extends AbstractXMLObjectBuilder<Originato
     }
 
     /** {@inheritDoc} */
-    public OriginatorKeyInfo buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public OriginatorKeyInfo buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new OriginatorKeyInfoImpl(namespaceURI, localName, namespacePrefix);
     }
 

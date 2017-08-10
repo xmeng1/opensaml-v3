@@ -108,7 +108,7 @@ public class StaticKeyInfoGenerator implements KeyInfoGenerator {
         if (origDOM == null) {
             try {
                 getMarshaller().marshall(origKeyInfo);
-            } catch (MarshallingException e) {
+            } catch (final MarshallingException e) {
                 throw new SecurityException("Error marshalling the original KeyInfo during cloning", e);
             }
         }
@@ -116,7 +116,7 @@ public class StaticKeyInfoGenerator implements KeyInfoGenerator {
         KeyInfo newKeyInfo = null;
         try {
             newKeyInfo = (KeyInfo) getUnmarshaller().unmarshall(origKeyInfo.getDOM());
-        } catch (UnmarshallingException e) {
+        } catch (final UnmarshallingException e) {
             throw new SecurityException("Error unmarshalling the new KeyInfo during cloning", e);
         }
         

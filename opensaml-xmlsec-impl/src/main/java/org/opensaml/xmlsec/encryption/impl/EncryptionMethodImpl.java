@@ -54,7 +54,8 @@ public class EncryptionMethodImpl extends AbstractXMLObject implements Encryptio
      * @param elementLocalName local name
      * @param namespacePrefix namespace prefix
      */
-    protected EncryptionMethodImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected EncryptionMethodImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         
         unknownChildren = new IndexedXMLObjectChildrenList<>(this);
@@ -66,7 +67,7 @@ public class EncryptionMethodImpl extends AbstractXMLObject implements Encryptio
     }
 
     /** {@inheritDoc} */
-    public void setAlgorithm(String newAlgorithm) {
+    public void setAlgorithm(final String newAlgorithm) {
         this.algorithm = prepareForAssignment(this.algorithm, newAlgorithm);
     }
 
@@ -76,7 +77,7 @@ public class EncryptionMethodImpl extends AbstractXMLObject implements Encryptio
     }
 
     /** {@inheritDoc} */
-    public void setKeySize(KeySize newKeySize) {
+    public void setKeySize(final KeySize newKeySize) {
         this.keySize = prepareForAssignment(this.keySize, newKeySize);
     }
 
@@ -86,7 +87,7 @@ public class EncryptionMethodImpl extends AbstractXMLObject implements Encryptio
     }
 
     /** {@inheritDoc} */
-    public void setOAEPparams(OAEPparams newOAEPparams) {
+    public void setOAEPparams(final OAEPparams newOAEPparams) {
         this.oaepParams = prepareForAssignment(this.oaepParams, newOAEPparams);
     }
 
@@ -95,7 +96,7 @@ public class EncryptionMethodImpl extends AbstractXMLObject implements Encryptio
         return this.unknownChildren;
     }
     /** {@inheritDoc} */
-    public List<XMLObject> getUnknownXMLObjects(QName typeOrName) {
+    public List<XMLObject> getUnknownXMLObjects(final QName typeOrName) {
         return (List<XMLObject>) unknownChildren.subList(typeOrName);
     }
 

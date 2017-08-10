@@ -39,7 +39,7 @@ public class EncryptedDataBuilder extends AbstractXMLObjectBuilder<EncryptedData
     }
 
     /** {@inheritDoc} */
-    public EncryptedData buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public EncryptedData buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new EncryptedDataImpl(namespaceURI, localName, namespacePrefix);
     }
 

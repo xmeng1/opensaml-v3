@@ -34,7 +34,7 @@ public class GBuilder extends AbstractXMLObjectBuilder<G> implements XMLSignatur
     }
 
     /** {@inheritDoc} */
-    public G buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public G buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new GImpl(namespaceURI, localName, namespacePrefix);
     }
 

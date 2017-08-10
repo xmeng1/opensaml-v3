@@ -65,7 +65,7 @@ public class DSAKeyValueImpl extends AbstractXMLObject implements DSAKeyValue {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected DSAKeyValueImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected DSAKeyValueImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -75,7 +75,7 @@ public class DSAKeyValueImpl extends AbstractXMLObject implements DSAKeyValue {
     }
 
     /** {@inheritDoc} */
-    public void setP(P newP) {
+    public void setP(final P newP) {
         this.p = prepareForAssignment(this.p, newP);
     }
 
@@ -85,7 +85,7 @@ public class DSAKeyValueImpl extends AbstractXMLObject implements DSAKeyValue {
     }
 
     /** {@inheritDoc} */
-    public void setQ(Q newQ) {
+    public void setQ(final Q newQ) {
         this.q = prepareForAssignment(this.q, newQ);
     }
 
@@ -95,7 +95,7 @@ public class DSAKeyValueImpl extends AbstractXMLObject implements DSAKeyValue {
     }
 
     /** {@inheritDoc} */
-    public void setG(G newG) {
+    public void setG(final G newG) {
         this.g = prepareForAssignment(this.g, newG);
     }
 
@@ -105,7 +105,7 @@ public class DSAKeyValueImpl extends AbstractXMLObject implements DSAKeyValue {
     }
 
     /** {@inheritDoc} */
-    public void setY(Y newY) {
+    public void setY(final Y newY) {
         this.y = prepareForAssignment(this.y, newY);
     }
 
@@ -115,7 +115,7 @@ public class DSAKeyValueImpl extends AbstractXMLObject implements DSAKeyValue {
     }
 
     /** {@inheritDoc} */
-    public void setJ(J newJ) {
+    public void setJ(final J newJ) {
         this.j = prepareForAssignment(this.j, newJ);
     }
 
@@ -125,7 +125,7 @@ public class DSAKeyValueImpl extends AbstractXMLObject implements DSAKeyValue {
     }
 
     /** {@inheritDoc} */
-    public void setSeed(Seed newSeed) {
+    public void setSeed(final Seed newSeed) {
         this.seed = prepareForAssignment(this.seed, newSeed);
     }
 
@@ -135,7 +135,7 @@ public class DSAKeyValueImpl extends AbstractXMLObject implements DSAKeyValue {
     }
 
     /** {@inheritDoc} */
-    public void setPgenCounter(PgenCounter newPgenCounter) {
+    public void setPgenCounter(final PgenCounter newPgenCounter) {
         this.pgenCounter = prepareForAssignment(this.pgenCounter, newPgenCounter);
     }
 

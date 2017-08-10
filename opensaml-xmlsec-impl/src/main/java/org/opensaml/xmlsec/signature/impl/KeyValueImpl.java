@@ -52,7 +52,7 @@ public class KeyValueImpl extends AbstractXMLObject implements KeyValue {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected KeyValueImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected KeyValueImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -62,7 +62,7 @@ public class KeyValueImpl extends AbstractXMLObject implements KeyValue {
     }
 
     /** {@inheritDoc} */
-    public void setDSAKeyValue(DSAKeyValue newDSAKeyValue) {
+    public void setDSAKeyValue(final DSAKeyValue newDSAKeyValue) {
         dsaKeyValue = prepareForAssignment(dsaKeyValue, newDSAKeyValue);
     }
 
@@ -72,7 +72,7 @@ public class KeyValueImpl extends AbstractXMLObject implements KeyValue {
     }
 
     /** {@inheritDoc} */
-    public void setRSAKeyValue(RSAKeyValue newRSAKeyValue) {
+    public void setRSAKeyValue(final RSAKeyValue newRSAKeyValue) {
         rsaKeyValue = prepareForAssignment(rsaKeyValue, newRSAKeyValue);
     }
 
@@ -82,7 +82,7 @@ public class KeyValueImpl extends AbstractXMLObject implements KeyValue {
     }
 
     /** {@inheritDoc} */
-    public void setECKeyValue(ECKeyValue newECKeyValue) {
+    public void setECKeyValue(final ECKeyValue newECKeyValue) {
         ecKeyValue = prepareForAssignment(ecKeyValue, newECKeyValue);
     }
     
@@ -92,7 +92,7 @@ public class KeyValueImpl extends AbstractXMLObject implements KeyValue {
     }
 
     /** {@inheritDoc} */
-    public void setUnknownXMLObject(XMLObject newXMLObject) {
+    public void setUnknownXMLObject(final XMLObject newXMLObject) {
         unknownXMLObject = prepareForAssignment(unknownXMLObject, newXMLObject);
     }
 

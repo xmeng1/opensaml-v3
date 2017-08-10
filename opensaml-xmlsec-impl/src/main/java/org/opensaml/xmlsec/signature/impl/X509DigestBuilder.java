@@ -35,7 +35,7 @@ public class X509DigestBuilder extends AbstractXMLObjectBuilder<X509Digest>
     }
 
     /** {@inheritDoc} */
-    public X509Digest buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public X509Digest buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new X509DigestImpl(namespaceURI, localName, namespacePrefix);
     }
 

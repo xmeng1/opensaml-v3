@@ -35,7 +35,7 @@ public class RSAKeyValueBuilder extends AbstractXMLObjectBuilder<RSAKeyValue> im
     }
 
     /** {@inheritDoc} */
-    public RSAKeyValue buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public RSAKeyValue buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new RSAKeyValueImpl(namespaceURI, localName, namespacePrefix);
     }
 

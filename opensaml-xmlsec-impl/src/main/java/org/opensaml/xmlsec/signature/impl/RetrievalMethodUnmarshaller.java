@@ -29,7 +29,7 @@ import org.w3c.dom.Attr;
 public class RetrievalMethodUnmarshaller extends AbstractXMLSignatureUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         RetrievalMethod rm = (RetrievalMethod) xmlObject;
 
         if (attribute.getLocalName().equals(RetrievalMethod.URI_ATTRIB_NAME)) {
@@ -42,7 +42,7 @@ public class RetrievalMethodUnmarshaller extends AbstractXMLSignatureUnmarshalle
     }
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
         RetrievalMethod rm = (RetrievalMethod) parentXMLObject;
 

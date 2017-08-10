@@ -33,7 +33,7 @@ public class PgenCounterImpl extends CryptoBinaryImpl implements PgenCounter {
      * @param elementLocalName local name
      * @param namespacePrefix namespace prefix
      */
-    protected PgenCounterImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected PgenCounterImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

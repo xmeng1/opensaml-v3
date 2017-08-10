@@ -39,7 +39,7 @@ public class EncryptedKeyBuilder extends AbstractXMLObjectBuilder<EncryptedKey> 
     }
 
     /** {@inheritDoc} */
-    public EncryptedKey buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public EncryptedKey buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new EncryptedKeyImpl(namespaceURI, localName, namespacePrefix);
     }
 

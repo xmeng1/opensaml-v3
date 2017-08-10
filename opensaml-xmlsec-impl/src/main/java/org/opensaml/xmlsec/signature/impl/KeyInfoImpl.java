@@ -57,7 +57,7 @@ public class KeyInfoImpl extends AbstractXMLObject implements KeyInfo {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected KeyInfoImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected KeyInfoImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         indexedChildren = new IndexedXMLObjectChildrenList(this);
     }
@@ -68,7 +68,7 @@ public class KeyInfoImpl extends AbstractXMLObject implements KeyInfo {
     }
 
     /** {@inheritDoc} */
-    public void setID(String newID) {
+    public void setID(final String newID) {
         String oldID = this.id;
         this.id = prepareForAssignment(this.id, newID);
         registerOwnID(oldID, this.id);
@@ -80,7 +80,7 @@ public class KeyInfoImpl extends AbstractXMLObject implements KeyInfo {
     }
 
     /** {@inheritDoc} */
-    public List<XMLObject> getXMLObjects(QName typeOrName) {
+    public List<XMLObject> getXMLObjects(final QName typeOrName) {
         return (List<XMLObject>) indexedChildren.subList(typeOrName);
     }
 

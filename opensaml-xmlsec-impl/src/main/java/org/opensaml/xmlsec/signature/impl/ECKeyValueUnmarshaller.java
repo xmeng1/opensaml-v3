@@ -37,7 +37,7 @@ public class ECKeyValueUnmarshaller extends AbstractXMLSignatureUnmarshaller {
     public static final QName ECPARAMETERS_ELEMENT_NAME = new QName(SignatureConstants.XMLSIG11_NS, "ECParameters");
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         ECKeyValue ec = (ECKeyValue) xmlObject;
 
         if (attribute.getLocalName().equals(ECKeyValue.ID_ATTRIB_NAME)) {
@@ -49,7 +49,7 @@ public class ECKeyValueUnmarshaller extends AbstractXMLSignatureUnmarshaller {
     }
     
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
         ECKeyValue keyValue = (ECKeyValue) parentXMLObject;
 

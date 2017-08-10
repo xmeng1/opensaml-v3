@@ -46,7 +46,8 @@ public class ReferenceTypeImpl extends AbstractXMLObject implements ReferenceTyp
      * @param elementLocalName local name
      * @param namespacePrefix namespace prefix
      */
-    protected ReferenceTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected ReferenceTypeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         xmlChildren = new IndexedXMLObjectChildrenList<>(this);
     }
@@ -57,7 +58,7 @@ public class ReferenceTypeImpl extends AbstractXMLObject implements ReferenceTyp
     }
 
     /** {@inheritDoc} */
-    public void setURI(String newURI) {
+    public void setURI(final String newURI) {
         this.uri = prepareForAssignment(this.uri, newURI);
     }
 
@@ -67,7 +68,7 @@ public class ReferenceTypeImpl extends AbstractXMLObject implements ReferenceTyp
     }
     
     /** {@inheritDoc} */
-    public List<XMLObject> getUnknownXMLObjects(QName typeOrName) {
+    public List<XMLObject> getUnknownXMLObjects(final QName typeOrName) {
         return (List<XMLObject>) xmlChildren.subList(typeOrName);
     }
 

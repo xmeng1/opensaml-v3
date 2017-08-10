@@ -35,7 +35,7 @@ public class TransformsBuilder
     }
 
     /** {@inheritDoc} */
-    public Transforms buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Transforms buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new TransformsImpl(namespaceURI, localName, namespacePrefix);
     }
 

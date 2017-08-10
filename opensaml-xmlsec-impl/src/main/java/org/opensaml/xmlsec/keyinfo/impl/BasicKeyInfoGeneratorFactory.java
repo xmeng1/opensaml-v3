@@ -89,7 +89,7 @@ public class BasicKeyInfoGeneratorFactory implements KeyInfoGeneratorFactory {
      * 
      * @param newValue the new option value to set
      */
-    public void setEmitEntityIDAsKeyName(boolean newValue) {
+    public void setEmitEntityIDAsKeyName(final boolean newValue) {
         options.emitEntityIDAsKeyName = newValue;
     }
 
@@ -107,7 +107,7 @@ public class BasicKeyInfoGeneratorFactory implements KeyInfoGeneratorFactory {
      * 
      * @param newValue the new option value to set
      */
-    public void setEmitKeyNames(boolean newValue) {
+    public void setEmitKeyNames(final boolean newValue) {
         options.emitKeyNames = newValue;
     }
 
@@ -125,7 +125,7 @@ public class BasicKeyInfoGeneratorFactory implements KeyInfoGeneratorFactory {
      * 
      * @param newValue the new option value to set
      */
-    public void setEmitPublicKeyValue(boolean newValue) {
+    public void setEmitPublicKeyValue(final boolean newValue) {
         options.emitPublicKeyValue = newValue;
     }
     
@@ -143,7 +143,7 @@ public class BasicKeyInfoGeneratorFactory implements KeyInfoGeneratorFactory {
      *
      * @param newValue the new option value to set
      */
-    public void setEmitPublicDEREncodedKeyValue(boolean newValue) {
+    public void setEmitPublicDEREncodedKeyValue(final boolean newValue) {
         options.emitPublicDEREncodedKeyValue = newValue;
     }
     
@@ -255,9 +255,9 @@ public class BasicKeyInfoGeneratorFactory implements KeyInfoGeneratorFactory {
                 if (options.emitPublicDEREncodedKeyValue) {
                     try {
                         KeyInfoSupport.addDEREncodedPublicKey(keyInfo, credential.getPublicKey());
-                    } catch (NoSuchAlgorithmException e) {
+                    } catch (final NoSuchAlgorithmException e) {
                         throw new SecurityException("Can't DER-encode key, unsupported key algorithm", e);
-                    } catch (InvalidKeySpecException e) {
+                    } catch (final InvalidKeySpecException e) {
                         throw new SecurityException("Can't DER-encode key, invalid key specification", e);
                     }
                 }
@@ -286,7 +286,7 @@ public class BasicKeyInfoGeneratorFactory implements KeyInfoGeneratorFactory {
         protected BasicOptions clone() {
             try {
                 return (BasicOptions) super.clone();
-            } catch (CloneNotSupportedException e) {
+            } catch (final CloneNotSupportedException e) {
                 // we know we're cloneable, so this will never happen
                 return null;
             }

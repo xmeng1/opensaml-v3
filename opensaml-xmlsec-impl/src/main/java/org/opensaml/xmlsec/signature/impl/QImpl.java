@@ -31,7 +31,7 @@ public class QImpl extends CryptoBinaryImpl implements Q {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected QImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected QImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

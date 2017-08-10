@@ -41,17 +41,18 @@ public class StaticSignatureValidationParametersResolver implements SignatureVal
      *
      * @param parameters the static parameters instance to return
      */
-    public StaticSignatureValidationParametersResolver(SignatureValidationParameters parameters) {
+    public StaticSignatureValidationParametersResolver(final SignatureValidationParameters parameters) {
         params = Constraint.isNotNull(parameters, "Parameters instance may not be null");
     }
 
     /** {@inheritDoc} */
-    @Nonnull public Iterable<SignatureValidationParameters> resolve(CriteriaSet criteria) throws ResolverException {
+    @Nonnull public Iterable<SignatureValidationParameters> resolve(final CriteriaSet criteria)
+            throws ResolverException {
         return Collections.singleton(params);
     }
 
     /** {@inheritDoc} */
-    @Nonnull public SignatureValidationParameters resolveSingle(CriteriaSet criteria) throws ResolverException {
+    @Nonnull public SignatureValidationParameters resolveSingle(final CriteriaSet criteria) throws ResolverException {
         return params;
     }
 

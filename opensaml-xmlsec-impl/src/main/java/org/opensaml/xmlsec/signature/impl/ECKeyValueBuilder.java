@@ -35,7 +35,7 @@ public class ECKeyValueBuilder extends AbstractXMLObjectBuilder<ECKeyValue>
     }
 
     /** {@inheritDoc} */
-    public ECKeyValue buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public ECKeyValue buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new ECKeyValueImpl(namespaceURI, localName, namespacePrefix);
     }
 

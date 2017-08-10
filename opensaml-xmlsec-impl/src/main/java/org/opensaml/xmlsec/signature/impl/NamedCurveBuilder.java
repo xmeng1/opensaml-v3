@@ -35,7 +35,7 @@ public class NamedCurveBuilder extends AbstractXMLObjectBuilder<NamedCurve>
     }
 
     /** {@inheritDoc} */
-    public NamedCurve buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public NamedCurve buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new NamedCurveImpl(namespaceURI, localName, namespacePrefix);
     }
 

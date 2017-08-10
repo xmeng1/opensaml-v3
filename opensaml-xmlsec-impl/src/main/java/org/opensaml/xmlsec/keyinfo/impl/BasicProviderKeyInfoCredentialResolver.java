@@ -318,7 +318,7 @@ public class BasicProviderKeyInfoCredentialResolver extends AbstractCriteriaFilt
             Collection<Credential> creds;
             try {
                 creds = provider.process(this, keyInfoChild, criteriaSet, kiContext);
-            } catch (SecurityException e) {
+            } catch (final SecurityException e) {
                 throw new ResolverException("Error processing KeyInfo child element", e);
             }
 

@@ -67,12 +67,12 @@ public class JavaCryptoValidationInitializer implements Initializer {
         
         try {
             Cipher.getInstance("AES/CBC/ISO10126Padding");
-        } catch (NoSuchAlgorithmException e) {
+        } catch (final NoSuchAlgorithmException e) {
             // IBM JCE returns this as the top-level exception even for the unsupported padding case. :-(
             // Otherwise would be nice to make the error msg more specific.
             log.warn(errorMsgAESPadding);
             valid = false;
-        } catch (NoSuchPaddingException e) {
+        } catch (final NoSuchPaddingException e) {
             log.warn(errorMsgAESPadding);
             valid = false;
         }

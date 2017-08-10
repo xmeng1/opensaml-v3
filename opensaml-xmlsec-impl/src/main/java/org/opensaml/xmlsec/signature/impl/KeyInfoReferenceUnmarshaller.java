@@ -28,7 +28,7 @@ import org.w3c.dom.Attr;
 public class KeyInfoReferenceUnmarshaller extends AbstractXMLSignatureUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         KeyInfoReference ref = (KeyInfoReference) xmlObject;
 
         if (attribute.getLocalName().equals(KeyInfoReference.ID_ATTRIB_NAME)) {

@@ -32,7 +32,7 @@ public class OAEPparamsImpl extends XSBase64BinaryImpl implements OAEPparams {
      * @param elementLocalName local name
      * @param namespacePrefix namespace prefix
      */
-    protected OAEPparamsImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected OAEPparamsImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

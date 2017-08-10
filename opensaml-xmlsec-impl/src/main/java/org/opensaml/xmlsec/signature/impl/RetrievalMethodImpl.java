@@ -47,7 +47,8 @@ public class RetrievalMethodImpl extends AbstractXMLObject implements RetrievalM
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected RetrievalMethodImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected RetrievalMethodImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -57,7 +58,7 @@ public class RetrievalMethodImpl extends AbstractXMLObject implements RetrievalM
     }
 
     /** {@inheritDoc} */
-    public void setURI(String newURI) {
+    public void setURI(final String newURI) {
         this.uri = prepareForAssignment(this.uri, newURI);
     }
 
@@ -67,7 +68,7 @@ public class RetrievalMethodImpl extends AbstractXMLObject implements RetrievalM
     }
 
     /** {@inheritDoc} */
-    public void setType(String newType) {
+    public void setType(final String newType) {
         this.type = prepareForAssignment(this.type, newType);
     }
 
@@ -77,7 +78,7 @@ public class RetrievalMethodImpl extends AbstractXMLObject implements RetrievalM
     }
 
     /** {@inheritDoc} */
-    public void setTransforms(Transforms newTransforms) {
+    public void setTransforms(final Transforms newTransforms) {
         this.transforms = prepareForAssignment(this.transforms, newTransforms);
     }
 

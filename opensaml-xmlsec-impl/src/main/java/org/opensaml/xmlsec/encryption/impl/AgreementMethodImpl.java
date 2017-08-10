@@ -58,7 +58,8 @@ public class AgreementMethodImpl extends AbstractXMLObject implements AgreementM
      * @param elementLocalName element local name
      * @param namespacePrefix namespace prefix
      */
-    protected AgreementMethodImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AgreementMethodImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         xmlChildren = new IndexedXMLObjectChildrenList(this);
     }
@@ -69,7 +70,7 @@ public class AgreementMethodImpl extends AbstractXMLObject implements AgreementM
     }
 
     /** {@inheritDoc} */
-    public void setAlgorithm(String newAlgorithm) {
+    public void setAlgorithm(final String newAlgorithm) {
         this.algorithm = prepareForAssignment(this.algorithm, newAlgorithm);
     }
 
@@ -79,7 +80,7 @@ public class AgreementMethodImpl extends AbstractXMLObject implements AgreementM
     }
 
     /** {@inheritDoc} */
-    public void setKANonce(KANonce newKANonce) {
+    public void setKANonce(final KANonce newKANonce) {
         this.kaNonce = prepareForAssignment(this.kaNonce, newKANonce);
     }
 
@@ -89,7 +90,7 @@ public class AgreementMethodImpl extends AbstractXMLObject implements AgreementM
     }
 
     /** {@inheritDoc} */
-    public void setOriginatorKeyInfo(OriginatorKeyInfo newOriginatorKeyInfo) {
+    public void setOriginatorKeyInfo(final OriginatorKeyInfo newOriginatorKeyInfo) {
         this.originatorKeyInfo = prepareForAssignment(this.originatorKeyInfo, newOriginatorKeyInfo);
     }
 
@@ -99,7 +100,7 @@ public class AgreementMethodImpl extends AbstractXMLObject implements AgreementM
     }
 
     /** {@inheritDoc} */
-    public void setRecipientKeyInfo(RecipientKeyInfo newRecipientKeyInfo) {
+    public void setRecipientKeyInfo(final RecipientKeyInfo newRecipientKeyInfo) {
         this.recipientKeyInfo = prepareForAssignment(this.recipientKeyInfo, newRecipientKeyInfo);
     }
 
@@ -108,7 +109,7 @@ public class AgreementMethodImpl extends AbstractXMLObject implements AgreementM
         return (List<XMLObject>) this.xmlChildren;
     }
     /** {@inheritDoc} */
-    public List<XMLObject> getUnknownXMLObjects(QName typeOrName) {
+    public List<XMLObject> getUnknownXMLObjects(final QName typeOrName) {
         return (List<XMLObject>) this.xmlChildren.subList(typeOrName);
     }
 
