@@ -31,7 +31,7 @@ public class ReasonBuilder extends AbstractWSTrustObjectBuilder<Reason> {
     }
 
     /** {@inheritDoc} */
-    public Reason buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Reason buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new ReasonImpl(namespaceURI, localName, namespacePrefix);
     }
 

@@ -30,7 +30,7 @@ import org.w3c.dom.Element;
 public class SecurityMarshaller extends AbstractWSSecurityObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
         Security security = (Security) xmlObject;
         XMLObjectSupport.marshallAttributeMap(security.getUnknownAttributes(), domElement);
     }

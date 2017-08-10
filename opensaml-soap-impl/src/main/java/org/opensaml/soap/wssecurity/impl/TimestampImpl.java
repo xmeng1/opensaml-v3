@@ -59,7 +59,7 @@ public class TimestampImpl extends AbstractWSSecurityObject implements Timestamp
      * @param elementLocalName name of the element
      * @param namespacePrefix namespace prefix of the element
      */
-    public TimestampImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public TimestampImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         unknownAttributes = new AttributeMap(this);
         unknownChildren = new IndexedXMLObjectChildrenList<>(this);
@@ -76,12 +76,12 @@ public class TimestampImpl extends AbstractWSSecurityObject implements Timestamp
     }
 
     /** {@inheritDoc} */
-    public void setCreated(Created newCreated) {
+    public void setCreated(final Created newCreated) {
         created = prepareForAssignment(created, newCreated);
     }
 
     /** {@inheritDoc} */
-    public void setExpires(Expires newExpires) {
+    public void setExpires(final Expires newExpires) {
         expires = prepareForAssignment(expires, newExpires);
     }
  
@@ -91,7 +91,7 @@ public class TimestampImpl extends AbstractWSSecurityObject implements Timestamp
     }
 
     /** {@inheritDoc} */
-    public void setWSUId(String newId) {
+    public void setWSUId(final String newId) {
         String oldId = id;
         id = prepareForAssignment(id, newId);
         registerOwnID(oldId, id);
@@ -109,7 +109,7 @@ public class TimestampImpl extends AbstractWSSecurityObject implements Timestamp
     }
 
     /** {@inheritDoc} */
-    public List<XMLObject> getUnknownXMLObjects(QName typeOrName) {
+    public List<XMLObject> getUnknownXMLObjects(final QName typeOrName) {
         return (List<XMLObject>) unknownChildren.subList(typeOrName);
     }
     

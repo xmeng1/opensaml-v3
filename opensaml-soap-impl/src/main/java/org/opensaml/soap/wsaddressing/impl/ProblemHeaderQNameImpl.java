@@ -31,7 +31,8 @@ public class ProblemHeaderQNameImpl extends AttributedQNameImpl implements Probl
      * @param elementLocalName The local name of the element
      * @param namespacePrefix The namespace prefix of the element
      */
-    public ProblemHeaderQNameImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public ProblemHeaderQNameImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

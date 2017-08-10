@@ -33,7 +33,7 @@ public class RequestTypeImpl extends XSURIImpl implements RequestType {
      * @param elementLocalName The local name of the element
      * @param namespacePrefix The namespace prefix of the element
      */
-    public RequestTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public RequestTypeImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

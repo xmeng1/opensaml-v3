@@ -30,7 +30,7 @@ import org.w3c.dom.Element;
 public class PolicyReferenceMarshaller extends AbstractWSPolicyObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
         PolicyReference pr = (PolicyReference) xmlObject;
         
         if (pr.getURI() != null) {

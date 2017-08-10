@@ -31,7 +31,7 @@ public class ComputedKeyBuilder extends AbstractWSTrustObjectBuilder<ComputedKey
     }
 
     /** {@inheritDoc} */
-    public ComputedKey buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public ComputedKey buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new ComputedKeyImpl(namespaceURI, localName, namespacePrefix);
     }
 

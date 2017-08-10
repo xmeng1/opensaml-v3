@@ -33,7 +33,7 @@ public class CombinedHashBuilder extends AbstractWSTrustObjectBuilder<CombinedHa
 
     /** {@inheritDoc} */
     @Override
-    public CombinedHash buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public CombinedHash buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new CombinedHashImpl(namespaceURI, localName, namespacePrefix);
     }
 

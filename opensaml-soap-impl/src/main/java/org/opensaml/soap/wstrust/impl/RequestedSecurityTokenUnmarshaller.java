@@ -29,7 +29,7 @@ import org.opensaml.soap.wstrust.RequestedSecurityToken;
 public class RequestedSecurityTokenUnmarshaller extends AbstractWSTrustObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
         RequestedSecurityToken reqToken = (RequestedSecurityToken) parentXMLObject;
         reqToken.setUnknownXMLObject(childXMLObject);

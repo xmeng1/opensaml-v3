@@ -31,7 +31,8 @@ public class ComputedKeyAlgorithmBuilder extends AbstractWSTrustObjectBuilder<Co
     }
 
     /** {@inheritDoc} */
-    public ComputedKeyAlgorithm buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public ComputedKeyAlgorithm buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new ComputedKeyAlgorithmImpl(namespaceURI, localName, namespacePrefix);
     }
 

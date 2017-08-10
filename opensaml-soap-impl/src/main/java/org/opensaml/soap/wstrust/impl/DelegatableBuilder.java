@@ -31,7 +31,7 @@ public class DelegatableBuilder extends AbstractWSTrustObjectBuilder<Delegatable
     }
 
     /** {@inheritDoc} */
-    public Delegatable buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Delegatable buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new DelegatableImpl(namespaceURI, localName, namespacePrefix);
     }
 

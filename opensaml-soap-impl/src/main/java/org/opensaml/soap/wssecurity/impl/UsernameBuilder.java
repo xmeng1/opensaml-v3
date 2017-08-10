@@ -30,7 +30,7 @@ public class UsernameBuilder extends AbstractWSSecurityObjectBuilder<Username> {
     }
 
     /** {@inheritDoc} */
-    public Username buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Username buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new UsernameImpl(namespaceURI, localName, namespacePrefix);
     }
 

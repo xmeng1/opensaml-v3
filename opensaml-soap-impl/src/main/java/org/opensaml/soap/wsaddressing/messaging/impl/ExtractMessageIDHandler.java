@@ -47,7 +47,7 @@ public class ExtractMessageIDHandler extends AbstractMessageHandler {
     private Logger log = LoggerFactory.getLogger(ExtractMessageIDHandler.class);
 
     /** {@inheritDoc} */
-    protected void doInvoke(MessageContext messageContext) throws MessageHandlerException {
+    protected void doInvoke(final MessageContext messageContext) throws MessageHandlerException {
         MessageID header = getMessageID(messageContext);
         String headerValue = header != null ? StringSupport.trimOrNull(header.getValue()) : null;
         log.debug("Extracted inbound WS-Addressing MessageID value: {}", headerValue);

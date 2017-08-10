@@ -31,7 +31,7 @@ public class FromBuilder extends AbstractWSAddressingObjectBuilder<From> {
     }
 
     /** {@inheritDoc} */
-    public From buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public From buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new FromImpl(namespaceURI, localName, namespacePrefix);
     }
 

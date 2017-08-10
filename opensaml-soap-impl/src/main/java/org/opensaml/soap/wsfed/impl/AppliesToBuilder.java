@@ -37,7 +37,7 @@ public class AppliesToBuilder extends AbstractXMLObjectBuilder<AppliesTo> implem
     }
 
     /** {@inheritDoc} */
-    public AppliesTo buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public AppliesTo buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new AppliesToImpl(namespaceURI, localName, namespacePrefix);
     }
 }

@@ -43,7 +43,7 @@ public class PolicyImpl extends OperatorContentTypeImpl implements Policy {
      * @param elementLocalName The local name of the element
      * @param namespacePrefix The namespace prefix of the element
      */
-    protected PolicyImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected PolicyImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         unknownAttributes = new AttributeMap(this);
     }
@@ -55,7 +55,7 @@ public class PolicyImpl extends OperatorContentTypeImpl implements Policy {
     }
 
     /** {@inheritDoc} */
-    public void setName(String newName) {
+    public void setName(final String newName) {
         name = prepareForAssignment(name, newName);
     }
 
@@ -65,7 +65,7 @@ public class PolicyImpl extends OperatorContentTypeImpl implements Policy {
     }
 
     /** {@inheritDoc} */
-    public void setWSUId(String newId) {
+    public void setWSUId(final String newId) {
         String oldId = id;
         id = prepareForAssignment(id, newId);
         registerOwnID(oldId, id);

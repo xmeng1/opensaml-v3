@@ -45,7 +45,7 @@ public class EnvelopeImpl extends AbstractExtensibleSOAPObject implements Envelo
      * @param elementLocalName name of the element
      * @param namespacePrefix namespace prefix of the element
      */
-    protected EnvelopeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected EnvelopeImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -55,7 +55,7 @@ public class EnvelopeImpl extends AbstractExtensibleSOAPObject implements Envelo
     }
 
     /** {@inheritDoc} */
-    public void setHeader(Header newHeader) {
+    public void setHeader(final Header newHeader) {
         header = prepareForAssignment(header, newHeader);
     }
 
@@ -65,7 +65,7 @@ public class EnvelopeImpl extends AbstractExtensibleSOAPObject implements Envelo
     }
 
     /** {@inheritDoc} */
-    public void setBody(Body newBody) {
+    public void setBody(final Body newBody) {
         body = prepareForAssignment(body, newBody);
     }
 

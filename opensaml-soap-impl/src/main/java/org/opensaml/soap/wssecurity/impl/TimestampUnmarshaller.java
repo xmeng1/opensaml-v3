@@ -37,7 +37,7 @@ import org.w3c.dom.Attr;
 public class TimestampUnmarshaller extends AbstractWSSecurityObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
         Timestamp timestamp = (Timestamp) parentXMLObject;
         
@@ -51,7 +51,7 @@ public class TimestampUnmarshaller extends AbstractWSSecurityObjectUnmarshaller 
     }
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         Timestamp timestamp = (Timestamp) xmlObject;
         
         QName attrName =

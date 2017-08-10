@@ -30,7 +30,7 @@ import org.w3c.dom.Element;
 public class RequestSecurityTokenResponseMarshaller extends AbstractWSTrustObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
         RequestSecurityTokenResponse rstr= (RequestSecurityTokenResponse) xmlObject;
         if (rstr.getContext() != null) {
             domElement.setAttributeNS(null, RequestSecurityTokenResponse.CONTEXT_ATTRIB_NAME, rstr.getContext());

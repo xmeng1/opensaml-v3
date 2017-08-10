@@ -31,7 +31,7 @@ public class MessageIDBuilder extends AbstractWSAddressingObjectBuilder<MessageI
     }
 
     /** {@inheritDoc} */
-    public MessageID buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public MessageID buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new MessageIDImpl(namespaceURI, localName, namespacePrefix);
     }
 

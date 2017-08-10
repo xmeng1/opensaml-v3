@@ -31,7 +31,7 @@ public class ChallengeBuilder extends AbstractWSTrustObjectBuilder<Challenge> {
     }
 
     /** {@inheritDoc} */
-    public Challenge buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Challenge buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new ChallengeImpl(namespaceURI, localName, namespacePrefix);
     }
 

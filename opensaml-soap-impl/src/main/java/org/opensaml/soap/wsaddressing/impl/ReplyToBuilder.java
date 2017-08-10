@@ -31,7 +31,7 @@ public class ReplyToBuilder extends AbstractWSAddressingObjectBuilder<ReplyTo> {
     }
 
     /** {@inheritDoc} */
-    public ReplyTo buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public ReplyTo buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new ReplyToImpl(namespaceURI, localName, namespacePrefix);
     }
 

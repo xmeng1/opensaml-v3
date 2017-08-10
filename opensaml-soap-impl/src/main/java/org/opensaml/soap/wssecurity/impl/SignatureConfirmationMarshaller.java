@@ -31,7 +31,7 @@ import com.google.common.base.Strings;
 public class SignatureConfirmationMarshaller extends AbstractWSSecurityObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
         SignatureConfirmation sc = (SignatureConfirmation) xmlObject;
         
         if (!Strings.isNullOrEmpty(sc.getWSUId())) {

@@ -30,7 +30,7 @@ import org.w3c.dom.Attr;
 public class AttributedQNameUnmarshaller extends XSQNameUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         AttributedQName attributedQName = (AttributedQName) xmlObject;
         XMLObjectSupport.unmarshallToAttributeMap(attributedQName.getUnknownAttributes(), attribute);
     }

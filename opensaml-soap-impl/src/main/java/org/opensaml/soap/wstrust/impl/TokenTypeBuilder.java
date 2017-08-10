@@ -33,7 +33,7 @@ public class TokenTypeBuilder extends AbstractWSTrustObjectBuilder<TokenType> {
     }
 
     /** {@inheritDoc} */
-    public TokenType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public TokenType buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new TokenTypeImpl(namespaceURI, localName, namespacePrefix);
     }
 

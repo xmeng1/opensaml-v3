@@ -110,7 +110,7 @@ public class AddSOAPFault extends AbstractProfileAction {
      * 
      * @param flag true if should nullify, false if not
      */
-    public void setNullifyOutboundMessage(boolean flag) {
+    public void setNullifyOutboundMessage(final boolean flag) {
         nullifyOutboundMessage = flag;
     }
     
@@ -164,7 +164,7 @@ public class AddSOAPFault extends AbstractProfileAction {
      * 
      * @param code faultcode
      */
-    public void setFaultCode(@Nonnull QName code) {
+    public void setFaultCode(@Nonnull final QName code) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         
         defaultFaultCode = Constraint.isNotNull(code, "Faultcode cannot be null");
@@ -385,7 +385,7 @@ public class AddSOAPFault extends AbstractProfileAction {
 
         /** {@inheritDoc} */
         @Nullable
-        public Fault apply(@Nullable ProfileRequestContext input) {
+        public Fault apply(@Nullable final ProfileRequestContext input) {
             if (input == null) {
                 return null;
             }

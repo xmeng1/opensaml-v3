@@ -55,7 +55,8 @@ public class SecurityTokenReferenceImpl extends AbstractWSSecurityObject impleme
      * @param elementLocalName name of the element
      * @param namespacePrefix namespace prefix of the element
      */
-    public SecurityTokenReferenceImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public SecurityTokenReferenceImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         usages = new ArrayList<>();
         unknownAttributes = new AttributeMap(this);
@@ -69,7 +70,7 @@ public class SecurityTokenReferenceImpl extends AbstractWSSecurityObject impleme
     }
 
     /** {@inheritDoc} */
-    public void setWSSEUsages(List<String> newUsages) {
+    public void setWSSEUsages(final List<String> newUsages) {
         usages = prepareForAssignment(usages, newUsages);
         manageQualifiedAttributeNamespace(UsageBearing.WSSE_USAGE_ATTR_NAME, !usages.isEmpty());
     }
@@ -80,7 +81,7 @@ public class SecurityTokenReferenceImpl extends AbstractWSSecurityObject impleme
     }
 
     /** {@inheritDoc} */
-    public void setWSUId(String newId) {
+    public void setWSUId(final String newId) {
         String oldId = id;
         id = prepareForAssignment(id, newId);
         registerOwnID(oldId, id);
@@ -99,7 +100,7 @@ public class SecurityTokenReferenceImpl extends AbstractWSSecurityObject impleme
     }
 
     /** {@inheritDoc} */
-    public List<XMLObject> getUnknownXMLObjects(QName typeOrName) {
+    public List<XMLObject> getUnknownXMLObjects(final QName typeOrName) {
         return (List<XMLObject>) unknownChildren.subList(typeOrName);
     }
     

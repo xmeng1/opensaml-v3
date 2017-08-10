@@ -31,7 +31,8 @@ public class KeyWrapAlgorithmBuilder extends AbstractWSTrustObjectBuilder<KeyWra
     }
 
     /** {@inheritDoc} */
-    public KeyWrapAlgorithm buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public KeyWrapAlgorithm buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new KeyWrapAlgorithmImpl(namespaceURI, localName, namespacePrefix);
     }
 

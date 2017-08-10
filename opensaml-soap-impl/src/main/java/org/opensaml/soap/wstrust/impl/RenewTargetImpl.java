@@ -40,7 +40,7 @@ public class RenewTargetImpl extends AbstractWSTrustObject implements RenewTarge
      * @param elementLocalName The local name of the element
      * @param namespacePrefix The namespace prefix of the element
      */
-    public RenewTargetImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public RenewTargetImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -50,7 +50,7 @@ public class RenewTargetImpl extends AbstractWSTrustObject implements RenewTarge
     }
 
     /** {@inheritDoc} */
-    public void setUnknownXMLObject(XMLObject unknownObject) {
+    public void setUnknownXMLObject(final XMLObject unknownObject) {
         unknownChild = unknownObject;
     }
 

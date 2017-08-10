@@ -31,7 +31,7 @@ public class EntropyBuilder extends AbstractWSTrustObjectBuilder<Entropy> {
     }
 
     /** {@inheritDoc} */
-    public Entropy buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Entropy buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new EntropyImpl(namespaceURI, localName, namespacePrefix);
     }
 

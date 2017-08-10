@@ -30,7 +30,7 @@ import org.opensaml.soap.wstrust.CombinedHash;
 public class AuthenticatorUnmarshaller extends AbstractWSTrustObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject) 
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject) 
             throws UnmarshallingException {
         Authenticator authenticator = (Authenticator) parentXMLObject;
         

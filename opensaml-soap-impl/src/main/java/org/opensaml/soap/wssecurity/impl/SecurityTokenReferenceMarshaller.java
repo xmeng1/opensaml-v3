@@ -34,7 +34,7 @@ import com.google.common.base.Strings;
 public class SecurityTokenReferenceMarshaller extends AbstractWSSecurityObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
         SecurityTokenReference str = (SecurityTokenReference) xmlObject;
         
         if (!Strings.isNullOrEmpty(str.getWSUId())) {

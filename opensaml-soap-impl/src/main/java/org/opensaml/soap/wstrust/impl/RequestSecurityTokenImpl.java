@@ -50,7 +50,8 @@ public class RequestSecurityTokenImpl extends AbstractWSTrustObject implements R
      * @param elementLocalName The local name of the element
      * @param namespacePrefix The namespace prefix of the element
      */
-    public RequestSecurityTokenImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public RequestSecurityTokenImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         unknownChildren = new IndexedXMLObjectChildrenList<>(this);
         unknownAttributes = new AttributeMap(this);
@@ -62,7 +63,7 @@ public class RequestSecurityTokenImpl extends AbstractWSTrustObject implements R
     }
 
     /** {@inheritDoc} */
-    public void setContext(String newContext) {
+    public void setContext(final String newContext) {
         context = prepareForAssignment(context, newContext);
     }
 
@@ -72,7 +73,7 @@ public class RequestSecurityTokenImpl extends AbstractWSTrustObject implements R
     }
 
     /** {@inheritDoc} */
-    public List<XMLObject> getUnknownXMLObjects(QName typeOrName) {
+    public List<XMLObject> getUnknownXMLObjects(final QName typeOrName) {
         return (List<XMLObject>) unknownChildren.subList(typeOrName);
     }
 

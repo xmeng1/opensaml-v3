@@ -26,18 +26,18 @@ import org.w3c.dom.Attr;
 public class AddressUnmarshaller extends AbstractXMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject fedObject, String elementContent) {
+    protected void processElementContent(final XMLObject fedObject, final String elementContent) {
         Address address = (Address) fedObject;
         address.setValue(elementContent);
     }
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject fedObject, Attr attribute) {
+    protected void processAttribute(final XMLObject fedObject, final Attr attribute) {
 
     }
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject fedObject, XMLObject child) {
+    protected void processChildElement(final XMLObject fedObject, final XMLObject child) {
 
     }
 }

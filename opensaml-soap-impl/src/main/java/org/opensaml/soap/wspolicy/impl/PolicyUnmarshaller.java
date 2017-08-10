@@ -36,7 +36,7 @@ import org.w3c.dom.Attr;
 public class PolicyUnmarshaller extends OperatorContentTypeUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         Policy policy = (Policy) xmlObject;
         
         QName nameQName = new QName(Policy.NAME_ATTRIB_NAME);

@@ -33,7 +33,8 @@ import org.w3c.dom.Element;
 public class DelegatableMarshaller extends AbstractWSTrustObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallElementContent(XMLObject xmlObject, Element domElement) throws MarshallingException {
+    protected void marshallElementContent(final XMLObject xmlObject, final Element domElement)
+            throws MarshallingException {
         Delegatable delegatable = (Delegatable) xmlObject;
         XSBooleanValue value= delegatable.getValue();
         ElementSupport.appendTextContent(domElement, value.toString());

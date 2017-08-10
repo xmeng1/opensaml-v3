@@ -34,7 +34,7 @@ public class EncodedStringImpl extends AttributedStringImpl implements EncodedSt
      * @param elementLocalName name of the element
      * @param namespacePrefix namespace prefix of the element
      */
-    public EncodedStringImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public EncodedStringImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -44,7 +44,7 @@ public class EncodedStringImpl extends AttributedStringImpl implements EncodedSt
     }
 
     /** {@inheritDoc} */
-    public void setEncodingType(String newEncodingType) {
+    public void setEncodingType(final String newEncodingType) {
         encodingType = prepareForAssignment(encodingType, newEncodingType);
     }
 

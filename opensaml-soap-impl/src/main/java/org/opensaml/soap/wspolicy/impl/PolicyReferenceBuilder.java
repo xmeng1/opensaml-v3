@@ -31,7 +31,8 @@ public class PolicyReferenceBuilder extends AbstractWSPolicyObjectBuilder<Policy
     }
 
     /** {@inheritDoc} */
-    public PolicyReference buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public PolicyReference buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new PolicyReferenceImpl(namespaceURI, localName, namespacePrefix);
     }
 

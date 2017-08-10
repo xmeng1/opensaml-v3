@@ -32,7 +32,7 @@ import org.w3c.dom.Element;
 public class RelatesToMarshaller extends XSURIMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
         RelatesTo relatesTo = (RelatesTo) xmlObject;
         
         String relationshipType = StringSupport.trimOrNull(relatesTo.getRelationshipType());

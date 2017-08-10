@@ -30,7 +30,7 @@ public class SaltBuilder extends AbstractWSSecurityObjectBuilder<Salt> {
     }
 
     /** {@inheritDoc} */
-    public Salt buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Salt buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new SaltImpl(namespaceURI, localName, namespacePrefix);
     }
 

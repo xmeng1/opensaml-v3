@@ -27,7 +27,7 @@ import org.opensaml.soap.soap11.FaultActor;
 public class FaultActorBuilder extends AbstractXMLObjectBuilder<FaultActor> implements SOAPObjectBuilder<FaultActor> {
 
     /** {@inheritDoc} */
-    public FaultActor buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public FaultActor buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new FaultActorImpl(namespaceURI, localName, namespacePrefix);
     }
 

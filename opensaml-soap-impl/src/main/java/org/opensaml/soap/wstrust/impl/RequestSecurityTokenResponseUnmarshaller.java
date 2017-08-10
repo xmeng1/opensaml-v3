@@ -32,7 +32,7 @@ import org.w3c.dom.Attr;
 public class RequestSecurityTokenResponseUnmarshaller extends AbstractWSTrustObjectUnmarshaller {
     
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         RequestSecurityTokenResponse rstr = (RequestSecurityTokenResponse) xmlObject;
         if (RequestSecurityTokenResponse.CONTEXT_ATTRIB_NAME.equals(attribute.getLocalName())) {
             rstr.setContext(attribute.getValue());
@@ -42,7 +42,7 @@ public class RequestSecurityTokenResponseUnmarshaller extends AbstractWSTrustObj
     }
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
         RequestSecurityTokenResponse rstr = (RequestSecurityTokenResponse) parentXMLObject;
         rstr.getUnknownXMLObjects().add(childXMLObject);

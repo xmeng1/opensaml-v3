@@ -32,7 +32,7 @@ import com.google.common.base.Strings;
 public class TimestampMarshaller extends AbstractWSSecurityObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
         Timestamp timestamp = (Timestamp) xmlObject;
         
         if (!Strings.isNullOrEmpty(timestamp.getWSUId())) {

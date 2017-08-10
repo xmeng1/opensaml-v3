@@ -32,7 +32,7 @@ public class AllImpl extends OperatorContentTypeImpl implements All {
      * @param elementLocalName The local name of the element
      * @param namespacePrefix The namespace prefix of the element
      */
-    protected AllImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AllImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

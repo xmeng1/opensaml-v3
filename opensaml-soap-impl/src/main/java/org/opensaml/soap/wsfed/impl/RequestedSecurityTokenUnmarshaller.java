@@ -26,18 +26,18 @@ import org.w3c.dom.Attr;
 public class RequestedSecurityTokenUnmarshaller extends AbstractXMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject) {
+    protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject) {
         RequestedSecurityToken requestedSecurityToken = (RequestedSecurityToken) parentSAMLObject;
         requestedSecurityToken.getSecurityTokens().add(childSAMLObject);
     }
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject fedObject, Attr attribute) {
+    protected void processAttribute(final XMLObject fedObject, final Attr attribute) {
 
     }
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject fedObject, String content) {
+    protected void processElementContent(final XMLObject fedObject, final String content) {
 
     }
 }

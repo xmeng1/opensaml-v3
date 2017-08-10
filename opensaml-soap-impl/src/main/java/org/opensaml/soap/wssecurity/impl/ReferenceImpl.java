@@ -42,7 +42,7 @@ public class ReferenceImpl extends AbstractWSSecurityObject implements Reference
      * @param elementLocalName name of the element
      * @param namespacePrefix namespace prefix of the element
      */
-    public ReferenceImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public ReferenceImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         unknownAttributes = new AttributeMap(this);
     }
@@ -53,7 +53,7 @@ public class ReferenceImpl extends AbstractWSSecurityObject implements Reference
     }
 
     /** {@inheritDoc} */
-    public void setURI(String newURI) {
+    public void setURI(final String newURI) {
         uri = prepareForAssignment(uri, newURI);
     }
 
@@ -63,7 +63,7 @@ public class ReferenceImpl extends AbstractWSSecurityObject implements Reference
     }
 
     /** {@inheritDoc} */
-    public void setValueType(String newValueType) {
+    public void setValueType(final String newValueType) {
         valueType = prepareForAssignment(valueType, newValueType);
     }
 

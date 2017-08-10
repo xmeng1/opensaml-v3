@@ -30,13 +30,13 @@ import org.w3c.dom.Attr;
 public class MetadataUnmarshaller extends AbstractWSAddressingObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         Metadata metadata = (Metadata) xmlObject;
         XMLObjectSupport.unmarshallToAttributeMap(metadata.getUnknownAttributes(), attribute);
     }
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
         Metadata metadata = (Metadata) parentXMLObject;
         metadata.getUnknownXMLObjects().add(childXMLObject);

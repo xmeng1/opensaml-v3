@@ -31,7 +31,8 @@ public class EncryptionAlgorithmBuilder extends AbstractWSTrustObjectBuilder<Enc
     }
 
     /** {@inheritDoc} */
-    public EncryptionAlgorithm buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public EncryptionAlgorithm buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new EncryptionAlgorithmImpl(namespaceURI, localName, namespacePrefix);
     }
 

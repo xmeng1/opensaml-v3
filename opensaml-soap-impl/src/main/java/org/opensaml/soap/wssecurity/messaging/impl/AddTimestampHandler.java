@@ -121,7 +121,7 @@ public class AddTimestampHandler extends AbstractHeaderGeneratingMessageHandler 
      * 
      * @param flag true if should use currnet time, false if not
      */
-    public void setUseCurrentTimeAsDefaultCreated(boolean flag) {
+    public void setUseCurrentTimeAsDefaultCreated(final boolean flag) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
         useCurrentTimeAsDefaultCreated = flag;

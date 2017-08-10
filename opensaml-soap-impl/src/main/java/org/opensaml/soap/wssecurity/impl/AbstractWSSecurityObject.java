@@ -35,7 +35,8 @@ public abstract class AbstractWSSecurityObject extends AbstractXMLObject impleme
      * @param elementLocalName name of the element
      * @param namespacePrefix namespace prefix of the element
      */
-    public AbstractWSSecurityObject(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public AbstractWSSecurityObject(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

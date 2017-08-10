@@ -51,7 +51,8 @@ public class SignChallengeTypeImpl extends AbstractWSTrustObject implements Sign
      * @param elementLocalName name of the element
      * @param namespacePrefix namespace prefix of the element
      */
-    public SignChallengeTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public SignChallengeTypeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         unknownChildren = new IndexedXMLObjectChildrenList<>(this);
         unknownAttributes = new AttributeMap(this);
@@ -63,7 +64,7 @@ public class SignChallengeTypeImpl extends AbstractWSTrustObject implements Sign
     }
 
     /** {@inheritDoc} */
-    public void setChallenge(Challenge newChallenge) {
+    public void setChallenge(final Challenge newChallenge) {
         challenge = prepareForAssignment(challenge, newChallenge);
     }
 
@@ -78,7 +79,7 @@ public class SignChallengeTypeImpl extends AbstractWSTrustObject implements Sign
     }
 
     /** {@inheritDoc} */
-    public List<XMLObject> getUnknownXMLObjects(QName typeOrName) {
+    public List<XMLObject> getUnknownXMLObjects(final QName typeOrName) {
         return (List<XMLObject>) unknownChildren.subList(typeOrName);
     }
     

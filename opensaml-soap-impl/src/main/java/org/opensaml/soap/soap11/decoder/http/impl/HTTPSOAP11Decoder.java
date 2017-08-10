@@ -81,7 +81,7 @@ public class HTTPSOAP11Decoder<MessageType extends XMLObject>
      * 
      * @param newBodyHandler The bodyHandler to set.
      */
-    public void setBodyHandler(MessageHandler<MessageType> newBodyHandler) {
+    public void setBodyHandler(final MessageHandler<MessageType> newBodyHandler) {
         bodyHandler = newBodyHandler;
     }
 
@@ -100,14 +100,14 @@ public class HTTPSOAP11Decoder<MessageType extends XMLObject>
         try {
             soapMessage = (Envelope) unmarshallMessage(request.getInputStream());
             messageContext.getSubcontext(SOAP11Context.class, true).setEnvelope(soapMessage);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             log.error("Unable to obtain input stream from HttpServletRequest", e);
             throw new MessageDecodingException("Unable to obtain input stream from HttpServletRequest", e);
         }
         
         try {
             getBodyHandler().invoke(messageContext);
-        } catch (MessageHandlerException e) {
+        } catch (final MessageHandlerException e) {
             log.error("Error processing SOAP Envelope body", e);
             throw new MessageDecodingException("Error processing SOAP Envelope body", e);
         }
@@ -139,7 +139,7 @@ public class HTTPSOAP11Decoder<MessageType extends XMLObject>
 
     /** {@inheritDoc} */
     @Override
-    protected void validateHttpRequest(HttpServletRequest request) throws MessageDecodingException {
+    protected void validateHttpRequest(final HttpServletRequest request) throws MessageDecodingException {
         super.validateHttpRequest(request);
         
         if (!HttpServletSupport.validateContentType(request, SUPPORTED_MEDIA_TYPES, false, false)) {

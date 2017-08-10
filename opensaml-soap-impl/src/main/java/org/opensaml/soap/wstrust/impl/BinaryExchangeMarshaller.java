@@ -35,7 +35,7 @@ import org.w3c.dom.Element;
 public class BinaryExchangeMarshaller extends XSStringMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
         BinaryExchange binaryExchange = (BinaryExchange) xmlObject;
         
         String valueType = StringSupport.trimOrNull(binaryExchange.getValueType());

@@ -33,7 +33,7 @@ import org.w3c.dom.Attr;
 public class AttributedURIUnmarshaller extends AbstractWSSecurityObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         AttributedURI attributedURI = (AttributedURI) xmlObject;
         
         QName attribQName = 
@@ -47,7 +47,7 @@ public class AttributedURIUnmarshaller extends AbstractWSSecurityObjectUnmarshal
     }
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject xmlObject, String elementContent) {
+    protected void processElementContent(final XMLObject xmlObject, final String elementContent) {
         AttributedURI attributedURI = (AttributedURI) xmlObject;
         attributedURI.setValue(elementContent);
     }

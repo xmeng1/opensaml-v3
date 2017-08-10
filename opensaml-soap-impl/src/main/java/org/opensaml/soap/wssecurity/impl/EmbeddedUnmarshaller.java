@@ -30,7 +30,7 @@ import org.w3c.dom.Attr;
 public class EmbeddedUnmarshaller extends AbstractWSSecurityObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         Embedded embedded = (Embedded) xmlObject;
         String attrName = attribute.getLocalName();
         if (Embedded.VALUE_TYPE_ATTRIB_NAME.equals(attrName)) {
@@ -41,7 +41,7 @@ public class EmbeddedUnmarshaller extends AbstractWSSecurityObjectUnmarshaller {
     }
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
         Embedded embedded = (Embedded) parentXMLObject;
         embedded.getUnknownXMLObjects().add(childXMLObject);

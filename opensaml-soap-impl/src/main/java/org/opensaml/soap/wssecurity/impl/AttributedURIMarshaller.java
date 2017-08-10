@@ -33,7 +33,7 @@ import com.google.common.base.Strings;
 public class AttributedURIMarshaller extends AbstractWSSecurityObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
         AttributedURI attributedURI = (AttributedURI) xmlObject;
         
         if (!Strings.isNullOrEmpty(attributedURI.getWSUId())) {
@@ -46,7 +46,8 @@ public class AttributedURIMarshaller extends AbstractWSSecurityObjectMarshaller 
     }
 
     /** {@inheritDoc} */
-    protected void marshallElementContent(XMLObject xmlObject, Element domElement) throws MarshallingException {
+    protected void marshallElementContent(final XMLObject xmlObject, final Element domElement)
+            throws MarshallingException {
         AttributedURI attributedURI = (AttributedURI) xmlObject;
         ElementSupport.appendTextContent(domElement, attributedURI.getValue());
     }

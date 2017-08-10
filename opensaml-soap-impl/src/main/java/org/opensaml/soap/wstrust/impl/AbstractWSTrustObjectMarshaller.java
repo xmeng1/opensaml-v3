@@ -39,13 +39,14 @@ public abstract class AbstractWSTrustObjectMarshaller extends AbstractXMLObjectM
     }
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
         log.debug("{} has no more attribute to marshall.", xmlObject.getElementQName().getLocalPart());
 
     }
 
     /** {@inheritDoc} */
-    protected void marshallElementContent(XMLObject xmlObject, Element domElement) throws MarshallingException {
+    protected void marshallElementContent(final XMLObject xmlObject, final Element domElement)
+            throws MarshallingException {
         log.debug("{} has no content to marshall.", xmlObject.getElementQName().getLocalPart());
     }
 }

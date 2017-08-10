@@ -32,7 +32,7 @@ import com.google.common.base.Strings;
 public class KeyIdentifierMarshaller extends EncodedStringMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
         KeyIdentifier keyIdentifier = (KeyIdentifier) xmlObject;
         if (!Strings.isNullOrEmpty(keyIdentifier.getValueType())) {
             domElement.setAttributeNS(null, KeyIdentifier.VALUE_TYPE_ATTRIB_NAME, keyIdentifier.getValueType());

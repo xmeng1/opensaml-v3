@@ -28,7 +28,7 @@ public class FaultStringBuilder extends AbstractXMLObjectBuilder<FaultString>
     implements SOAPObjectBuilder<FaultString> {
 
     /** {@inheritDoc} */
-    public FaultString buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public FaultString buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new FaultStringImpl(namespaceURI, localName, namespacePrefix);
     }
 

@@ -42,8 +42,8 @@ public class CreatedBuilder extends AbstractWSSecurityObjectBuilder<Created> {
      *      java.lang.String, java.lang.String)
      */
     @Override
-    public Created buildObject(String namespaceURI, String localName,
-            String namespacePrefix) {
+    public Created buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new CreatedImpl(namespaceURI, localName, namespacePrefix);
     }
 

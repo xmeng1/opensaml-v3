@@ -31,7 +31,8 @@ public class SecurityTokenReferenceBuilder extends AbstractWSSecurityObjectBuild
     }
 
     /** {@inheritDoc} */
-    public SecurityTokenReference buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public SecurityTokenReference buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new SecurityTokenReferenceImpl(namespaceURI, localName, namespacePrefix);
     }
 

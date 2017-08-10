@@ -32,7 +32,7 @@ public class FaultCodeImpl extends XSQNameImpl implements FaultCode {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected FaultCodeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected FaultCodeImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 }

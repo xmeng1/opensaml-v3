@@ -41,7 +41,7 @@ import org.w3c.dom.Element;
 public class EnvelopeMarshaller extends AbstractXMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
         Envelope envelope = (Envelope) xmlObject;
 
         Attr attribute;
@@ -57,7 +57,8 @@ public class EnvelopeMarshaller extends AbstractXMLObjectMarshaller {
     }
 
     /** {@inheritDoc} */
-    protected void marshallElementContent(XMLObject xmlObject, Element domElement) throws MarshallingException {
+    protected void marshallElementContent(final XMLObject xmlObject, final Element domElement)
+            throws MarshallingException {
         // nothing to do, not element content
     }
 }

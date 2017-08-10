@@ -32,8 +32,8 @@ public class RequestSecurityTokenResponseCollectionBuilder extends
     }
 
     /** {@inheritDoc} */
-    public RequestSecurityTokenResponseCollection buildObject( String namespaceURI, String localName, 
-            String namespacePrefix) {
+    public RequestSecurityTokenResponseCollection buildObject( final String namespaceURI, final String localName, 
+            final String namespacePrefix) {
         return new RequestSecurityTokenResponseCollectionImpl(namespaceURI, localName, namespacePrefix);
     }
 

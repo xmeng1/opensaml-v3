@@ -32,7 +32,7 @@ public class ReplyToImpl extends EndpointReferenceTypeImpl implements ReplyTo {
      * @param elementLocalName The local name of the element
      * @param namespacePrefix The namespace prefix of the element
      */
-    public ReplyToImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public ReplyToImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

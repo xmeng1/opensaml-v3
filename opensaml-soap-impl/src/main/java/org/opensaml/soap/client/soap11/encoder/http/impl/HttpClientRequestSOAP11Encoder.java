@@ -90,7 +90,7 @@ public class HttpClientRequestSOAP11Encoder<MessageType extends XMLObject>
      * 
      * <p>This encoder implementation only operates on instances of {@link HttpPost}.</p>
      */
-    public synchronized void setHttpRequest(HttpRequest httpRequest) {
+    public synchronized void setHttpRequest(final HttpRequest httpRequest) {
         if (!(httpRequest instanceof HttpPost)) {
             throw new IllegalArgumentException("HttpClient SOAP message encoder only operates on HttpPost");
         }
@@ -149,7 +149,7 @@ public class HttpClientRequestSOAP11Encoder<MessageType extends XMLObject>
      * 
      * @param envelope the SOAP envelope
      */
-    protected void storeSOAPEnvelope(Envelope envelope) {
+    protected void storeSOAPEnvelope(final Envelope envelope) {
         getMessageContext().getSubcontext(SOAP11Context.class, true).setEnvelope(envelope);
     }
 

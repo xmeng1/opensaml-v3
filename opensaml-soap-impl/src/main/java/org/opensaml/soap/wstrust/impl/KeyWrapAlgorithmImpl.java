@@ -33,7 +33,8 @@ public class KeyWrapAlgorithmImpl extends XSStringImpl implements KeyWrapAlgorit
      * @param elementLocalName The local name of the element
      * @param namespacePrefix The namespace prefix of the element
      */
-    public KeyWrapAlgorithmImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public KeyWrapAlgorithmImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

@@ -31,7 +31,7 @@ public class ExactlyOneBuilder extends AbstractWSPolicyObjectBuilder<ExactlyOne>
     }
 
     /** {@inheritDoc} */
-    public ExactlyOne buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public ExactlyOne buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new ExactlyOneImpl(namespaceURI, localName, namespacePrefix);
     }
 

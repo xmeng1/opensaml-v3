@@ -27,7 +27,7 @@ import org.opensaml.soap.wssecurity.Salt;
 public class SaltUnmarshaller extends AbstractWSSecurityObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject xmlObject, String elementContent) {
+    protected void processElementContent(final XMLObject xmlObject, final String elementContent) {
         Salt salt = (Salt) xmlObject;
         salt.setValue(elementContent);
     }

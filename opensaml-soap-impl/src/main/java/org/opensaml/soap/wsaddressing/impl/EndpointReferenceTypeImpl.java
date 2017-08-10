@@ -59,7 +59,8 @@ public class EndpointReferenceTypeImpl extends AbstractWSAddressingObject implem
      * @param elementLocalName The local name of the element
      * @param namespacePrefix The namespace prefix of the element
      */
-    public EndpointReferenceTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public EndpointReferenceTypeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         unknownChildren = new IndexedXMLObjectChildrenList<>(this);
         unknownAttributes = new AttributeMap(this);
@@ -71,7 +72,7 @@ public class EndpointReferenceTypeImpl extends AbstractWSAddressingObject implem
     }
 
     /** {@inheritDoc} */
-    public void setAddress(Address newAddress) {
+    public void setAddress(final Address newAddress) {
         address = prepareForAssignment(address, newAddress);
     }
 
@@ -81,7 +82,7 @@ public class EndpointReferenceTypeImpl extends AbstractWSAddressingObject implem
     }
 
     /** {@inheritDoc} */
-    public void setMetadata(Metadata newMetadata) {
+    public void setMetadata(final Metadata newMetadata) {
         metadata = prepareForAssignment(metadata, newMetadata);
     }
 
@@ -91,7 +92,7 @@ public class EndpointReferenceTypeImpl extends AbstractWSAddressingObject implem
     }
 
     /** {@inheritDoc} */
-    public void setReferenceParameters(ReferenceParameters newReferenceParameters) {
+    public void setReferenceParameters(final ReferenceParameters newReferenceParameters) {
         referenceParameters = prepareForAssignment(referenceParameters, newReferenceParameters);
     }
 
@@ -106,7 +107,7 @@ public class EndpointReferenceTypeImpl extends AbstractWSAddressingObject implem
     }
 
     /** {@inheritDoc} */
-    public List<XMLObject> getUnknownXMLObjects(QName typeOrName) {
+    public List<XMLObject> getUnknownXMLObjects(final QName typeOrName) {
         return (List<XMLObject>) unknownChildren.subList(typeOrName);
     }
     

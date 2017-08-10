@@ -31,7 +31,8 @@ public class ProofEncryptionBuilder extends AbstractWSTrustObjectBuilder<ProofEn
     }
 
     /** {@inheritDoc} */
-    public ProofEncryption buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public ProofEncryption buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new ProofEncryptionImpl(namespaceURI, localName, namespacePrefix);
     }
 

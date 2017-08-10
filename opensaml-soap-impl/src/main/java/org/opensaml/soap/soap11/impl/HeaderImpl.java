@@ -32,7 +32,7 @@ public class HeaderImpl extends AbstractExtensibleSOAPObject implements Header {
      * @param elementLocalName name of the element
      * @param namespacePrefix namespace prefix of the element
      */
-    protected HeaderImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected HeaderImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 }

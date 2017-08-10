@@ -42,7 +42,7 @@ public class RenewingImpl extends AbstractWSTrustObject implements Renewing {
      * @param elementLocalName The local name of the element
      * @param namespacePrefix The namespace prefix of the element
      */
-    public RenewingImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public RenewingImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -62,7 +62,7 @@ public class RenewingImpl extends AbstractWSTrustObject implements Renewing {
     }
 
     /** {@inheritDoc} */
-    public void setAllow(Boolean newAllow) {
+    public void setAllow(final Boolean newAllow) {
         if (newAllow != null) {
             allow = prepareForAssignment(allow, new XSBooleanValue(newAllow, false));
         } else {
@@ -71,7 +71,7 @@ public class RenewingImpl extends AbstractWSTrustObject implements Renewing {
     }
 
     /** {@inheritDoc} */
-    public void setAllow(XSBooleanValue newAllow) {
+    public void setAllow(final XSBooleanValue newAllow) {
         allow = prepareForAssignment(allow, newAllow);
     }
 
@@ -91,7 +91,7 @@ public class RenewingImpl extends AbstractWSTrustObject implements Renewing {
     }
 
     /** {@inheritDoc} */
-    public void setOK(Boolean newOK) {
+    public void setOK(final Boolean newOK) {
         if (newOK != null) {
             ok = prepareForAssignment(ok, new XSBooleanValue(newOK, false));
         } else {
@@ -100,7 +100,7 @@ public class RenewingImpl extends AbstractWSTrustObject implements Renewing {
     }
 
     /** {@inheritDoc} */
-    public void setOK(XSBooleanValue newOK) {
+    public void setOK(final XSBooleanValue newOK) {
         ok = prepareForAssignment(ok, newOK);
     }
 

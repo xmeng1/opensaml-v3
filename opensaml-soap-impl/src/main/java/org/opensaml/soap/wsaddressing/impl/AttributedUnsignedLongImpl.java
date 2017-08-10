@@ -38,7 +38,8 @@ public class AttributedUnsignedLongImpl extends AbstractWSAddressingObject imple
      * @param elementLocalName The local name of the element
      * @param namespacePrefix The namespace prefix of the element
      */
-    public AttributedUnsignedLongImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public AttributedUnsignedLongImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         unknownAttributes = new AttributeMap(this);
     }
@@ -54,7 +55,7 @@ public class AttributedUnsignedLongImpl extends AbstractWSAddressingObject imple
     }
 
     /** {@inheritDoc} */
-    public void setValue(Long newValue) {
+    public void setValue(final Long newValue) {
         value = prepareForAssignment(value, newValue);
     }
 

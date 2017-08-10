@@ -31,7 +31,7 @@ public class SignChallengeBuilder extends AbstractWSTrustObjectBuilder<SignChall
     }
 
     /** {@inheritDoc} */
-    public SignChallenge buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public SignChallenge buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new SignChallengeImpl(namespaceURI, localName, namespacePrefix);
     }
 

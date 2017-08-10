@@ -31,7 +31,7 @@ public class NonceBuilder extends AbstractWSSecurityObjectBuilder<Nonce> {
     }
 
     /** {@inheritDoc} */
-    public Nonce buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Nonce buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new NonceImpl(namespaceURI, localName, namespacePrefix);
     }
 

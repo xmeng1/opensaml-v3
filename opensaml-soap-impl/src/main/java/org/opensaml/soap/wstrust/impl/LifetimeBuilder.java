@@ -31,7 +31,7 @@ public class LifetimeBuilder extends AbstractWSTrustObjectBuilder<Lifetime> {
     }
 
     /** {@inheritDoc} */
-    public Lifetime buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Lifetime buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new LifetimeImpl(namespaceURI, localName, namespacePrefix);
     }
 

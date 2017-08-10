@@ -31,7 +31,7 @@ public class SecurityBuilder extends AbstractWSSecurityObjectBuilder<Security> {
     }
 
     /** {@inheritDoc} */
-    public Security buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Security buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new SecurityImpl(namespaceURI, localName, namespacePrefix);
     }
 

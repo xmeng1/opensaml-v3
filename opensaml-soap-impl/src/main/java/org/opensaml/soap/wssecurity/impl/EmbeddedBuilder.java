@@ -31,7 +31,7 @@ public class EmbeddedBuilder extends AbstractWSSecurityObjectBuilder<Embedded> {
     }
 
     /** {@inheritDoc} */
-    public Embedded buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Embedded buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new EmbeddedImpl(namespaceURI, localName, namespacePrefix);
     }
 

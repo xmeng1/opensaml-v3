@@ -37,7 +37,7 @@ public class AttributedURIImpl extends XSURIImpl implements AttributedURI {
      * @param elementLocalName The local name of the element
      * @param namespacePrefix The namespace prefix of the element
      */
-    public AttributedURIImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public AttributedURIImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         unknownAttributes = new AttributeMap(this);
 

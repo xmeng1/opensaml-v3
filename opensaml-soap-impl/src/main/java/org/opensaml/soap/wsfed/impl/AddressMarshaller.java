@@ -28,12 +28,12 @@ import org.w3c.dom.Element;
 public class AddressMarshaller extends AbstractXMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject fedObject, Element domElement) {
+    protected void marshallAttributes(final XMLObject fedObject, final Element domElement) {
 
     }
 
     /** {@inheritDoc} */
-    protected void marshallElementContent(XMLObject fedObject, Element domElement) {
+    protected void marshallElementContent(final XMLObject fedObject, final Element domElement) {
         Address address = (Address) fedObject;
 
         if (address.getValue() != null) {

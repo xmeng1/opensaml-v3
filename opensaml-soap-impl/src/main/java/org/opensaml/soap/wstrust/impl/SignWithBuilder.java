@@ -31,7 +31,7 @@ public class SignWithBuilder extends AbstractWSTrustObjectBuilder<SignWith> {
     }
 
     /** {@inheritDoc} */
-    public SignWith buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public SignWith buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new SignWithImpl(namespaceURI, localName, namespacePrefix);
     }
 

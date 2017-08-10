@@ -33,7 +33,7 @@ import org.w3c.dom.Attr;
 public class BinaryExchangeUnmarshaller extends XSStringUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         BinaryExchange binaryExchange = (BinaryExchange) xmlObject;
         
         String attrName = attribute.getLocalName();

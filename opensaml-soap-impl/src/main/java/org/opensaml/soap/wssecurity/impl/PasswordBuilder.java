@@ -31,7 +31,7 @@ public class PasswordBuilder extends AbstractWSSecurityObjectBuilder<Password> {
     }
 
     /** {@inheritDoc} */
-    public Password buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Password buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new PasswordImpl(namespaceURI, localName, namespacePrefix);
     }
 

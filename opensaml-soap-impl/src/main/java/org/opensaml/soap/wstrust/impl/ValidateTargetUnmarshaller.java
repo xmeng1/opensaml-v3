@@ -29,7 +29,7 @@ import org.opensaml.soap.wstrust.ValidateTarget;
 public class ValidateTargetUnmarshaller extends AbstractWSTrustObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
         ValidateTarget vt = (ValidateTarget) parentXMLObject;
         vt.setUnknownXMLObject(childXMLObject);

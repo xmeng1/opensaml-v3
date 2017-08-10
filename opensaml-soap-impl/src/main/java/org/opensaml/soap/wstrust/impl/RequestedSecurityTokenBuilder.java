@@ -31,7 +31,8 @@ public class RequestedSecurityTokenBuilder extends AbstractWSTrustObjectBuilder<
     }
 
     /** {@inheritDoc} */
-    public RequestedSecurityToken buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public RequestedSecurityToken buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new RequestedSecurityTokenImpl(namespaceURI, localName, namespacePrefix);
     }
 

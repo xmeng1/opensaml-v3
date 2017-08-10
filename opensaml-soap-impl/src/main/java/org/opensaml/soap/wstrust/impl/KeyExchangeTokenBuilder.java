@@ -31,7 +31,8 @@ public class KeyExchangeTokenBuilder extends AbstractWSTrustObjectBuilder<KeyExc
     }
 
     /** {@inheritDoc} */
-    public KeyExchangeToken buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public KeyExchangeToken buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new KeyExchangeTokenImpl(namespaceURI, localName, namespacePrefix);
     }
 

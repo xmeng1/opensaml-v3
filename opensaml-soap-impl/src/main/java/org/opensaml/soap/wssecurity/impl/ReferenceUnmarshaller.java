@@ -30,7 +30,7 @@ import org.w3c.dom.Attr;
 public class ReferenceUnmarshaller extends AbstractWSSecurityObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         Reference reference = (Reference) xmlObject;
         String attrName = attribute.getLocalName();
         if (Reference.URI_ATTRIB_NAME.equals(attrName)) {

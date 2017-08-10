@@ -31,7 +31,7 @@ public class ActionBuilder extends AbstractWSAddressingObjectBuilder<Action> {
     }
 
     /** {@inheritDoc} */
-    public Action buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Action buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new ActionImpl(namespaceURI, localName, namespacePrefix);
     }
 

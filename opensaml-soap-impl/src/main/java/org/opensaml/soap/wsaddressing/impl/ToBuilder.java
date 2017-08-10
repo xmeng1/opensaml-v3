@@ -31,7 +31,7 @@ public class ToBuilder extends AbstractWSAddressingObjectBuilder<To> {
     }
 
     /** {@inheritDoc} */
-    public To buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public To buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new ToImpl(namespaceURI, localName, namespacePrefix);
     }
 

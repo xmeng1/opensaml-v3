@@ -31,7 +31,8 @@ public class ProblemHeaderQNameBuilder extends AbstractWSAddressingObjectBuilder
     }
 
     /** {@inheritDoc} */
-    public ProblemHeaderQName buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public ProblemHeaderQName buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new ProblemHeaderQNameImpl(namespaceURI, localName, namespacePrefix);
     }
 

@@ -55,7 +55,8 @@ public class PolicyAttachmentImpl extends AbstractWSPolicyObject implements Poli
      * @param elementLocalName The local name of the element
      * @param namespacePrefix The namespace prefix of the element
      */
-    public PolicyAttachmentImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public PolicyAttachmentImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         policiesAndReferences = new IndexedXMLObjectChildrenList<>(this);
         unknownChildren = new IndexedXMLObjectChildrenList<>(this);
@@ -68,7 +69,7 @@ public class PolicyAttachmentImpl extends AbstractWSPolicyObject implements Poli
     }
 
     /** {@inheritDoc} */
-    public void setAppliesTo(AppliesTo newAppliesTo) {
+    public void setAppliesTo(final AppliesTo newAppliesTo) {
         appliesTo = prepareForAssignment(appliesTo, newAppliesTo);
     }
 
@@ -88,7 +89,7 @@ public class PolicyAttachmentImpl extends AbstractWSPolicyObject implements Poli
     }
 
     /** {@inheritDoc} */
-    public List<XMLObject> getUnknownXMLObjects(QName typeOrName) {
+    public List<XMLObject> getUnknownXMLObjects(final QName typeOrName) {
         return (List<XMLObject>) unknownChildren.subList(typeOrName);
     }
 

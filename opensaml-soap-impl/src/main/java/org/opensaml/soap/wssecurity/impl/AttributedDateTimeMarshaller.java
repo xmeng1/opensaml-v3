@@ -34,7 +34,7 @@ import com.google.common.base.Strings;
 public class AttributedDateTimeMarshaller extends AbstractWSSecurityObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
         AttributedDateTime dateTime = (AttributedDateTime) xmlObject;
         
         if (!Strings.isNullOrEmpty(dateTime.getWSUId())) {
@@ -47,7 +47,8 @@ public class AttributedDateTimeMarshaller extends AbstractWSSecurityObjectMarsha
     }
 
     /** {@inheritDoc} */
-    protected void marshallElementContent(XMLObject xmlObject, Element domElement) throws MarshallingException {
+    protected void marshallElementContent(final XMLObject xmlObject, final Element domElement)
+            throws MarshallingException {
         AttributedDateTime dateTime = (AttributedDateTime) xmlObject;
         ElementSupport.appendTextContent(domElement, dateTime.getValue());
     }

@@ -31,7 +31,7 @@ public class CodeBuilder extends AbstractWSTrustObjectBuilder<Code> {
     }
 
     /** {@inheritDoc} */
-    public Code buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Code buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new CodeImpl(namespaceURI, localName, namespacePrefix);
     }
 

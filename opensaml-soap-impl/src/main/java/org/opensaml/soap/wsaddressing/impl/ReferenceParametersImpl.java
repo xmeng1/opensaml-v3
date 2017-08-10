@@ -47,7 +47,8 @@ public class ReferenceParametersImpl extends AbstractWSAddressingObject implemen
      * @param elementLocalName The local name of the element
      * @param namespacePrefix The namespace prefix of the element
      */
-    public ReferenceParametersImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public ReferenceParametersImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         unknownAttributes = new AttributeMap(this);
         unknownChildren = new IndexedXMLObjectChildrenList<>(this);
@@ -64,7 +65,7 @@ public class ReferenceParametersImpl extends AbstractWSAddressingObject implemen
     }
 
     /** {@inheritDoc} */
-    public List<XMLObject> getUnknownXMLObjects(QName typeOrName) {
+    public List<XMLObject> getUnknownXMLObjects(final QName typeOrName) {
         return (List<XMLObject>) unknownChildren.subList(typeOrName);
     }
 

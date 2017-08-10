@@ -31,7 +31,7 @@ public class MetadataBuilder extends AbstractWSAddressingObjectBuilder<Metadata>
     }
 
     /** {@inheritDoc} */
-    public Metadata buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Metadata buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new MetadataImpl(namespaceURI, localName, namespacePrefix);
     }
 

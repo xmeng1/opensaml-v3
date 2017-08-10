@@ -33,7 +33,7 @@ import com.google.common.base.Strings;
 public class ReferenceMarshaller extends AbstractWSSecurityObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
         Reference reference = (Reference) xmlObject;
         
         if (!Strings.isNullOrEmpty(reference.getURI())) {

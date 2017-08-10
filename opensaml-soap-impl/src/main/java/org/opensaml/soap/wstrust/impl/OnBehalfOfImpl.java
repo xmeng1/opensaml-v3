@@ -43,7 +43,7 @@ public class OnBehalfOfImpl extends AbstractWSTrustObject implements OnBehalfOf 
      * @param elementLocalName The local name of the element
      * @param namespacePrefix The namespace prefix of the element
      */
-    public OnBehalfOfImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public OnBehalfOfImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         unknownChildren = new IndexedXMLObjectChildrenList<>(this);
     }
@@ -54,7 +54,7 @@ public class OnBehalfOfImpl extends AbstractWSTrustObject implements OnBehalfOf 
     }
 
     /** {@inheritDoc} */
-    public List<XMLObject> getUnknownXMLObjects(QName typeOrName) {
+    public List<XMLObject> getUnknownXMLObjects(final QName typeOrName) {
         return (List<XMLObject>) unknownChildren.subList(typeOrName);
     }
     

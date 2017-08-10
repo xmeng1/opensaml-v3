@@ -44,7 +44,8 @@ public class RequestSecurityTokenResponseImpl extends AbstractXMLObject implemen
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    RequestSecurityTokenResponseImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    RequestSecurityTokenResponseImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         requestedSecurityTokens = new XMLObjectChildrenList<>(this);
     }
@@ -60,7 +61,7 @@ public class RequestSecurityTokenResponseImpl extends AbstractXMLObject implemen
     }
 
     /** {@inheritDoc} */
-    public void setAppliesTo(AppliesTo newappliesTo) {
+    public void setAppliesTo(final AppliesTo newappliesTo) {
         this.appliesTo = prepareForAssignment(this.appliesTo, newappliesTo);
     }
 

@@ -64,7 +64,7 @@ public class AddRelatesToHandler extends AbstractHeaderGeneratingMessageHandler 
      * 
      * @param lookup the lookup function
      */
-    public void setRelatesToURILookup(ContextDataLookupFunction<MessageContext, String> lookup) {
+    public void setRelatesToURILookup(final ContextDataLookupFunction<MessageContext, String> lookup) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
         relatesToURILookup = lookup;
@@ -84,7 +84,7 @@ public class AddRelatesToHandler extends AbstractHeaderGeneratingMessageHandler 
      * 
      * @param value the relationship type
      */
-    public void setRelationshipType(String value) {
+    public void setRelationshipType(final String value) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
         relationshipType = StringSupport.trimOrNull(value);
@@ -116,7 +116,7 @@ public class AddRelatesToHandler extends AbstractHeaderGeneratingMessageHandler 
     }
 
     /** {@inheritDoc} */
-    protected void doInvoke(MessageContext messageContext) throws MessageHandlerException {
+    protected void doInvoke(final MessageContext messageContext) throws MessageHandlerException {
         log.debug("Issuing WS-Addressing RelatesTo header with URI '{}' and RelationshipType '{}'", 
                 relatesToURI, relationshipType);
         RelatesTo relatesTo = (RelatesTo) XMLObjectSupport.buildXMLObject(RelatesTo.ELEMENT_NAME);

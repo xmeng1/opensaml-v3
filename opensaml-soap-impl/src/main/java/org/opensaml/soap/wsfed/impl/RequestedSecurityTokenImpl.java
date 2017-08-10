@@ -39,7 +39,8 @@ public class RequestedSecurityTokenImpl extends AbstractXMLObject implements Req
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    public RequestedSecurityTokenImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public RequestedSecurityTokenImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         tokens = new XMLObjectChildrenList<>(this);
     }

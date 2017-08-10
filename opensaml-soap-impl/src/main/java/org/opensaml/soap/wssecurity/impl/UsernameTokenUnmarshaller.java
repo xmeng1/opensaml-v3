@@ -34,7 +34,7 @@ import org.w3c.dom.Attr;
 public class UsernameTokenUnmarshaller extends AbstractWSSecurityObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
         UsernameToken token = (UsernameToken) parentXMLObject;
         if (childXMLObject instanceof Username) {
@@ -45,7 +45,7 @@ public class UsernameTokenUnmarshaller extends AbstractWSSecurityObjectUnmarshal
     }
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         UsernameToken token = (UsernameToken) xmlObject;
         
         QName attribQName = 

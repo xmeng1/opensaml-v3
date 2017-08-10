@@ -32,7 +32,7 @@ public class NonceImpl extends EncodedStringImpl implements Nonce {
      * @param elementLocalName name of the element
      * @param namespacePrefix namespace prefix of the element
      */
-    public NonceImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public NonceImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

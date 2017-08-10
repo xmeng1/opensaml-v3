@@ -53,7 +53,8 @@ public class AttributedDateTimeImpl extends AbstractWSSecurityObject implements 
      * @param elementLocalName name of the element
      * @param namespacePrefix namespace prefix of the element
      */
-    public AttributedDateTimeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public AttributedDateTimeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         formatter = ISODateTimeFormat.dateTime().withChronology(ISOChronology.getInstanceUTC());
         unknownAttributes = new AttributeMap(this);
@@ -65,7 +66,7 @@ public class AttributedDateTimeImpl extends AbstractWSSecurityObject implements 
     }
 
     /** {@inheritDoc} */
-    public void setDateTime(DateTime newDateTime) {
+    public void setDateTime(final DateTime newDateTime) {
         dateTimeValue = newDateTime;
         String formattedDateTime = formatter.print(dateTimeValue);
         stringValue = prepareForAssignment(stringValue, formattedDateTime);
@@ -77,7 +78,7 @@ public class AttributedDateTimeImpl extends AbstractWSSecurityObject implements 
     }
 
     /** {@inheritDoc} */
-    public void setValue(String newValue) {
+    public void setValue(final String newValue) {
         dateTimeValue = new DateTime(newValue).withChronology(ISOChronology.getInstanceUTC());
         stringValue = prepareForAssignment(stringValue, newValue);
     }
@@ -88,7 +89,7 @@ public class AttributedDateTimeImpl extends AbstractWSSecurityObject implements 
     }
 
     /** {@inheritDoc} */
-    public void setWSUId(String newId) {
+    public void setWSUId(final String newId) {
         String oldID = id;
         id = prepareForAssignment(id, newId);
         registerOwnID(oldID, id);
@@ -106,7 +107,7 @@ public class AttributedDateTimeImpl extends AbstractWSSecurityObject implements 
     }
 
     /** {@inheritDoc} */
-    public void setDateTimeFormatter(DateTimeFormatter newFormatter) {
+    public void setDateTimeFormatter(final DateTimeFormatter newFormatter) {
         if (newFormatter == null) {
             throw new IllegalArgumentException("The specified DateTimeFormatter may not be null");
         }

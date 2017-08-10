@@ -31,7 +31,8 @@ public class EndpointReferenceBuilder extends AbstractWSAddressingObjectBuilder<
     }
 
     /** {@inheritDoc} */
-    public EndpointReference buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public EndpointReference buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new EndpointReferenceImpl(namespaceURI, localName, namespacePrefix);
     }
 

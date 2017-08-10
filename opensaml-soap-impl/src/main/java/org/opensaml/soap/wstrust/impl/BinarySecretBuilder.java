@@ -31,7 +31,7 @@ public class BinarySecretBuilder extends AbstractWSTrustObjectBuilder<BinarySecr
     }
 
     /** {@inheritDoc} */
-    public BinarySecret buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public BinarySecret buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new BinarySecretImpl(namespaceURI, localName, namespacePrefix);
     }
 

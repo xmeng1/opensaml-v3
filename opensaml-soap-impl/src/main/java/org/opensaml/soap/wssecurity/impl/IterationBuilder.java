@@ -31,7 +31,7 @@ public class IterationBuilder extends AbstractWSSecurityObjectBuilder<Iteration>
     }
 
     /** {@inheritDoc} */
-    public Iteration buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Iteration buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new IterationImpl(namespaceURI, localName, namespacePrefix);
     }
 

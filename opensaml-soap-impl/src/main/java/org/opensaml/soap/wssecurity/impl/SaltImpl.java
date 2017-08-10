@@ -33,7 +33,7 @@ public class SaltImpl extends XSBase64BinaryImpl implements Salt {
      * @param elementLocalName name of the element
      * @param namespacePrefix namespace prefix of the element
      */
-    protected SaltImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected SaltImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

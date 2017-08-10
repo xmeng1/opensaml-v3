@@ -31,7 +31,8 @@ public class SignatureConfirmationBuilder extends AbstractWSSecurityObjectBuilde
     }
 
     /** {@inheritDoc} */
-    public SignatureConfirmation buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public SignatureConfirmation buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new SignatureConfirmationImpl(namespaceURI, localName, namespacePrefix);
     }
 

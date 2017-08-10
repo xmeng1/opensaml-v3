@@ -31,7 +31,8 @@ public class CanonicalizationAlgorithmBuilder extends AbstractWSTrustObjectBuild
     }
 
     /** {@inheritDoc} */
-    public CanonicalizationAlgorithm buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public CanonicalizationAlgorithm buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new CanonicalizationAlgorithmImpl(namespaceURI, localName, namespacePrefix);
     }
 

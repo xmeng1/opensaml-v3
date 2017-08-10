@@ -29,7 +29,7 @@ import org.w3c.dom.Element;
 public class PolicyAttachmentMarshaller extends AbstractWSPolicyObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
         PolicyAttachment pa = (PolicyAttachment) xmlObject;
         XMLObjectSupport.marshallAttributeMap(pa.getUnknownAttributes(), domElement);
     }

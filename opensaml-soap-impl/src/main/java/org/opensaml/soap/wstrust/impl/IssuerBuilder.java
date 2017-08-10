@@ -31,7 +31,7 @@ public class IssuerBuilder extends AbstractWSTrustObjectBuilder<Issuer> {
     }
 
     /** {@inheritDoc} */
-    public Issuer buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Issuer buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new IssuerImpl(namespaceURI, localName, namespacePrefix);
     }
 

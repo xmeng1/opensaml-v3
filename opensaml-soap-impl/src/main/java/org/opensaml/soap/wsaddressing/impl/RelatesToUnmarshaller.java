@@ -32,7 +32,7 @@ import org.w3c.dom.Attr;
 public class RelatesToUnmarshaller extends XSURIUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         RelatesTo relatesTo = (RelatesTo) xmlObject;
         
         if (RelatesTo.RELATIONSHIP_TYPE_ATTRIB_NAME.equals(attribute.getLocalName())) {

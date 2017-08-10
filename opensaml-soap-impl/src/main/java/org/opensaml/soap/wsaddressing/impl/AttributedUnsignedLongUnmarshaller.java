@@ -29,13 +29,13 @@ import org.w3c.dom.Attr;
 public class AttributedUnsignedLongUnmarshaller extends AbstractWSAddressingObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         AttributedUnsignedLong aul = (AttributedUnsignedLong) xmlObject;
         XMLObjectSupport.unmarshallToAttributeMap(aul.getUnknownAttributes(), attribute);
     }
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject xmlObject, String elementContent) {
+    protected void processElementContent(final XMLObject xmlObject, final String elementContent) {
         AttributedUnsignedLong aul = (AttributedUnsignedLong) xmlObject;
         if (elementContent != null) {
             aul.setValue(Long.valueOf(elementContent.trim()));

@@ -109,7 +109,7 @@ public class HTTPSOAP11Encoder<MessageType extends XMLObject>
 
         try {
             SerializeSupport.writeNode(envelopeElem, getHttpServletResponse().getOutputStream());
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new MessageEncodingException("Problem writing SOAP envelope to servlet output stream", e);
         }
     }
@@ -119,7 +119,7 @@ public class HTTPSOAP11Encoder<MessageType extends XMLObject>
      * 
      * @param envelope the SOAP envelope
      */
-    protected void storeSOAPEnvelope(Envelope envelope) {
+    protected void storeSOAPEnvelope(final Envelope envelope) {
         getMessageContext().getSubcontext(SOAP11Context.class, true).setEnvelope(envelope);
     }
 

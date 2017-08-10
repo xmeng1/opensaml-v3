@@ -33,7 +33,7 @@ import org.w3c.dom.Attr;
 public class EndpointReferenceTypeUnmarshaller extends AbstractWSAddressingObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
         throws UnmarshallingException {
         EndpointReferenceType epr = (EndpointReferenceType) parentXMLObject;
         if (childXMLObject instanceof Address) {
@@ -48,7 +48,7 @@ public class EndpointReferenceTypeUnmarshaller extends AbstractWSAddressingObjec
     }
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         EndpointReferenceType epr = (EndpointReferenceType) xmlObject;
         XMLObjectSupport.unmarshallToAttributeMap(epr.getUnknownAttributes(), attribute);
     }

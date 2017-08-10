@@ -30,7 +30,7 @@ import org.opensaml.soap.wstrust.RequestSecurityTokenCollection;
 public class RequestSecurityTokenCollectionUnmarshaller extends AbstractWSTrustObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
         RequestSecurityTokenCollection rstc = (RequestSecurityTokenCollection) parentXMLObject;
         if (childXMLObject instanceof RequestSecurityToken) {

@@ -34,7 +34,7 @@ import org.w3c.dom.Attr;
 public class PolicyReferenceUnmarshaller extends AbstractWSPolicyObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         PolicyReference pr = (PolicyReference) xmlObject;
 
         QName uriName = new QName(PolicyReference.URI_ATTRIB_NAME);
