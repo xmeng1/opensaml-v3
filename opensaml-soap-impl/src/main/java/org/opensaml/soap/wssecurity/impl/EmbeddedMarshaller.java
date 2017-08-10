@@ -33,7 +33,7 @@ public class EmbeddedMarshaller extends AbstractWSSecurityObjectMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        Embedded embedded = (Embedded) xmlObject;
+        final Embedded embedded = (Embedded) xmlObject;
         if (!Strings.isNullOrEmpty(embedded.getValueType())) {
             domElement.setAttributeNS(null, Embedded.VALUE_TYPE_ATTRIB_NAME, embedded.getValueType());
         }

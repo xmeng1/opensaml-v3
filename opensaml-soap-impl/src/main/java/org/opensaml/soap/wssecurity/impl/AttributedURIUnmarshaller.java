@@ -34,9 +34,9 @@ public class AttributedURIUnmarshaller extends AbstractWSSecurityObjectUnmarshal
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        AttributedURI attributedURI = (AttributedURI) xmlObject;
+        final AttributedURI attributedURI = (AttributedURI) xmlObject;
         
-        QName attribQName = 
+        final QName attribQName = 
             QNameSupport.constructQName(attribute.getNamespaceURI(), attribute.getLocalName(), attribute.getPrefix());
         if (AttributedURI.WSU_ID_ATTR_NAME.equals(attribQName)) {
             attributedURI.setWSUId(attribute.getValue());
@@ -48,7 +48,7 @@ public class AttributedURIUnmarshaller extends AbstractWSSecurityObjectUnmarshal
 
     /** {@inheritDoc} */
     protected void processElementContent(final XMLObject xmlObject, final String elementContent) {
-        AttributedURI attributedURI = (AttributedURI) xmlObject;
+        final AttributedURI attributedURI = (AttributedURI) xmlObject;
         attributedURI.setValue(elementContent);
     }
     

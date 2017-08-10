@@ -32,7 +32,7 @@ public class BinarySecretUnmarshaller extends XSBase64BinaryUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        BinarySecret bs = (BinarySecret) xmlObject;
+        final BinarySecret bs = (BinarySecret) xmlObject;
         if (BinarySecret.TYPE_ATTRIB_NAME.equals(attribute.getLocalName())) {
             bs.setType(attribute.getValue());
         } else {

@@ -84,7 +84,7 @@ public class ParticipantsImpl extends AbstractWSTrustObject implements Participa
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        List<XMLObject> children = new ArrayList<>();
+        final List<XMLObject> children = new ArrayList<>();
         if (primary != null) {
             children.add(primary);
         }

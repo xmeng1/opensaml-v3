@@ -31,7 +31,7 @@ public class KeyExchangeTokenUnmarshaller extends AbstractWSTrustObjectUnmarshal
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        KeyExchangeToken ket = (KeyExchangeToken) parentXMLObject;
+        final KeyExchangeToken ket = (KeyExchangeToken) parentXMLObject;
         ket.getUnknownXMLObjects().add(childXMLObject);
     }
 

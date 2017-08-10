@@ -30,7 +30,7 @@ public class EncryptedHeaderMarshaller extends AbstractWSSecurityObjectMarshalle
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        EncryptedHeader eh = (EncryptedHeader) xmlObject;
+        final EncryptedHeader eh = (EncryptedHeader) xmlObject;
         
         if (eh.getWSUId() != null) {
             XMLObjectSupport.marshallAttribute(EncryptedHeader.WSU_ID_ATTR_NAME, 

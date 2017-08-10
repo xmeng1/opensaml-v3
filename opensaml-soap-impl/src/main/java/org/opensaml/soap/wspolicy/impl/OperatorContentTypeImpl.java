@@ -84,7 +84,7 @@ public class OperatorContentTypeImpl extends AbstractWSPolicyObject implements O
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         children.addAll(xmlObjects);
         return Collections.unmodifiableList(children);
     }

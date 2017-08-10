@@ -31,7 +31,7 @@ public class EncodedStringMarshaller extends AttributedStringMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        EncodedString encodedString = (EncodedString) xmlObject;
+        final EncodedString encodedString = (EncodedString) xmlObject;
         if (!Strings.isNullOrEmpty(encodedString.getEncodingType())){
             domElement.setAttributeNS(null, EncodedString.ENCODING_TYPE_ATTRIB_NAME, encodedString.getEncodingType());
         }

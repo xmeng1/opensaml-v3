@@ -31,7 +31,7 @@ public class ValidateTargetUnmarshaller extends AbstractWSTrustObjectUnmarshalle
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        ValidateTarget vt = (ValidateTarget) parentXMLObject;
+        final ValidateTarget vt = (ValidateTarget) parentXMLObject;
         vt.setUnknownXMLObject(childXMLObject);
     }
 

@@ -35,8 +35,8 @@ public class DelegatableMarshaller extends AbstractWSTrustObjectMarshaller {
     /** {@inheritDoc} */
     protected void marshallElementContent(final XMLObject xmlObject, final Element domElement)
             throws MarshallingException {
-        Delegatable delegatable = (Delegatable) xmlObject;
-        XSBooleanValue value= delegatable.getValue();
+        final Delegatable delegatable = (Delegatable) xmlObject;
+        final XSBooleanValue value= delegatable.getValue();
         ElementSupport.appendTextContent(domElement, value.toString());
     }
 

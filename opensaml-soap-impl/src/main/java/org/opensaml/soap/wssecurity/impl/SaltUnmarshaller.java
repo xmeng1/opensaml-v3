@@ -28,7 +28,7 @@ public class SaltUnmarshaller extends AbstractWSSecurityObjectUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processElementContent(final XMLObject xmlObject, final String elementContent) {
-        Salt salt = (Salt) xmlObject;
+        final Salt salt = (Salt) xmlObject;
         salt.setValue(elementContent);
     }
 

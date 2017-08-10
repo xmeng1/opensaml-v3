@@ -66,7 +66,7 @@ public class RequestSecurityTokenResponseCollectionImpl extends AbstractWSTrustO
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        List<XMLObject> children = new ArrayList<>();
+        final List<XMLObject> children = new ArrayList<>();
         children.addAll(requestSecurityTokenResponses);
         return Collections.unmodifiableList(children);
     }

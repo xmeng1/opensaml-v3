@@ -31,8 +31,8 @@ public class EmbeddedUnmarshaller extends AbstractWSSecurityObjectUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        Embedded embedded = (Embedded) xmlObject;
-        String attrName = attribute.getLocalName();
+        final Embedded embedded = (Embedded) xmlObject;
+        final String attrName = attribute.getLocalName();
         if (Embedded.VALUE_TYPE_ATTRIB_NAME.equals(attrName)) {
             embedded.setValueType(attribute.getValue());
         } else {
@@ -43,7 +43,7 @@ public class EmbeddedUnmarshaller extends AbstractWSSecurityObjectUnmarshaller {
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        Embedded embedded = (Embedded) parentXMLObject;
+        final Embedded embedded = (Embedded) parentXMLObject;
         embedded.getUnknownXMLObjects().add(childXMLObject);
     }
 

@@ -42,10 +42,10 @@ public class EnvelopeMarshaller extends AbstractXMLObjectMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        Envelope envelope = (Envelope) xmlObject;
+        final Envelope envelope = (Envelope) xmlObject;
 
         Attr attribute;
-        for (Entry<QName, String> entry : envelope.getUnknownAttributes().entrySet()) {
+        for (final Entry<QName, String> entry : envelope.getUnknownAttributes().entrySet()) {
             attribute = AttributeSupport.constructAttribute(domElement.getOwnerDocument(), entry.getKey());
             attribute.setValue(entry.getValue());
             domElement.setAttributeNodeNS(attribute);

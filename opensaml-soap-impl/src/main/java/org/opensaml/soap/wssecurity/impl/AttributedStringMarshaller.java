@@ -34,7 +34,7 @@ public class AttributedStringMarshaller extends AbstractWSSecurityObjectMarshall
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        AttributedString attributedString = (AttributedString) xmlObject;
+        final AttributedString attributedString = (AttributedString) xmlObject;
         
         if (!Strings.isNullOrEmpty(attributedString.getWSUId())) {
             XMLObjectSupport.marshallAttribute(AttributedString.WSU_ID_ATTR_NAME, attributedString.getWSUId(),
@@ -48,7 +48,7 @@ public class AttributedStringMarshaller extends AbstractWSSecurityObjectMarshall
     /** {@inheritDoc} */
     protected void marshallElementContent(final XMLObject xmlObject, final Element domElement)
             throws MarshallingException {
-        AttributedString attributedString = (AttributedString) xmlObject;
+        final AttributedString attributedString = (AttributedString) xmlObject;
         ElementSupport.appendTextContent(domElement, attributedString.getValue());
     }
     

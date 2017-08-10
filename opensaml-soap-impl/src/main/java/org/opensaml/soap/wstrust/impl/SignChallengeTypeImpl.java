@@ -85,7 +85,7 @@ public class SignChallengeTypeImpl extends AbstractWSTrustObject implements Sign
     
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        List<XMLObject> children = new ArrayList<>();
+        final List<XMLObject> children = new ArrayList<>();
         if (challenge != null) {
             children.add(challenge);
         }

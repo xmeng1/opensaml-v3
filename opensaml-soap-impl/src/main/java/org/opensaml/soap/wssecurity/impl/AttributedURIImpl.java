@@ -64,7 +64,7 @@ public class AttributedURIImpl extends AbstractWSSecurityObject implements Attri
 
     /** {@inheritDoc} */
     public void setWSUId(final String newId) {
-        String oldId = id;
+        final String oldId = id;
         id = prepareForAssignment(id, newId);
         registerOwnID(oldId, id);
         manageQualifiedAttributeNamespace(IdBearing.WSU_ID_ATTR_NAME, id != null);

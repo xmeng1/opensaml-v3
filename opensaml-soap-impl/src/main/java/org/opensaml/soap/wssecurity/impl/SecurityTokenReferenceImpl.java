@@ -82,7 +82,7 @@ public class SecurityTokenReferenceImpl extends AbstractWSSecurityObject impleme
 
     /** {@inheritDoc} */
     public void setWSUId(final String newId) {
-        String oldId = id;
+        final String oldId = id;
         id = prepareForAssignment(id, newId);
         registerOwnID(oldId, id);
         manageQualifiedAttributeNamespace(IdBearing.WSU_ID_ATTR_NAME, id != null);
@@ -106,7 +106,7 @@ public class SecurityTokenReferenceImpl extends AbstractWSSecurityObject impleme
     
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        List<XMLObject> children = new ArrayList<>();
+        final List<XMLObject> children = new ArrayList<>();
 
         if (!getUnknownXMLObjects().isEmpty()) {
             children.addAll(getUnknownXMLObjects());

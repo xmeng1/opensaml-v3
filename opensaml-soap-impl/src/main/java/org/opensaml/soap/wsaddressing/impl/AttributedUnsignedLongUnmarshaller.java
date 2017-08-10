@@ -30,13 +30,13 @@ public class AttributedUnsignedLongUnmarshaller extends AbstractWSAddressingObje
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        AttributedUnsignedLong aul = (AttributedUnsignedLong) xmlObject;
+        final AttributedUnsignedLong aul = (AttributedUnsignedLong) xmlObject;
         XMLObjectSupport.unmarshallToAttributeMap(aul.getUnknownAttributes(), attribute);
     }
 
     /** {@inheritDoc} */
     protected void processElementContent(final XMLObject xmlObject, final String elementContent) {
-        AttributedUnsignedLong aul = (AttributedUnsignedLong) xmlObject;
+        final AttributedUnsignedLong aul = (AttributedUnsignedLong) xmlObject;
         if (elementContent != null) {
             aul.setValue(Long.valueOf(elementContent.trim()));
         }

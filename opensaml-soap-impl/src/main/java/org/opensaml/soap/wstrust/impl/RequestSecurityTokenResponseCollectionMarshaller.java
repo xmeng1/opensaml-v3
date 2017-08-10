@@ -31,7 +31,7 @@ public class RequestSecurityTokenResponseCollectionMarshaller extends AbstractWS
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        RequestSecurityTokenResponseCollection rstrc = (RequestSecurityTokenResponseCollection) xmlObject;
+        final RequestSecurityTokenResponseCollection rstrc = (RequestSecurityTokenResponseCollection) xmlObject;
         XMLObjectSupport.marshallAttributeMap(rstrc.getUnknownAttributes(), domElement);
     }
 

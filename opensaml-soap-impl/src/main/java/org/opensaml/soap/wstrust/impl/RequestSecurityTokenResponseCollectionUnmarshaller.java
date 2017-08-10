@@ -33,14 +33,14 @@ public class RequestSecurityTokenResponseCollectionUnmarshaller extends Abstract
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        RequestSecurityTokenResponseCollection rstrc = (RequestSecurityTokenResponseCollection) xmlObject;
+        final RequestSecurityTokenResponseCollection rstrc = (RequestSecurityTokenResponseCollection) xmlObject;
         XMLObjectSupport.unmarshallToAttributeMap(rstrc.getUnknownAttributes(), attribute);
     }
 
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        RequestSecurityTokenResponseCollection rstrc = (RequestSecurityTokenResponseCollection) parentXMLObject;
+        final RequestSecurityTokenResponseCollection rstrc = (RequestSecurityTokenResponseCollection) parentXMLObject;
         if (childXMLObject instanceof RequestSecurityTokenResponse) {
             rstrc.getRequestSecurityTokenResponses().add((RequestSecurityTokenResponse) childXMLObject);
         } else {

@@ -37,7 +37,7 @@ public class EnvelopeUnmarshaller extends AbstractXMLObjectUnmarshaller {
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        Envelope envelope = (Envelope) parentXMLObject;
+        final Envelope envelope = (Envelope) parentXMLObject;
 
         if (childXMLObject instanceof Header) {
             envelope.setHeader((Header) childXMLObject);
@@ -50,9 +50,9 @@ public class EnvelopeUnmarshaller extends AbstractXMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        Envelope envelope = (Envelope) xmlObject;
-        QName attribQName = QNameSupport.constructQName(attribute.getNamespaceURI(), attribute.getLocalName(), attribute
-                .getPrefix());
+        final Envelope envelope = (Envelope) xmlObject;
+        final QName attribQName = QNameSupport.constructQName(attribute.getNamespaceURI(), attribute.getLocalName(),
+                attribute.getPrefix());
         if (attribute.isId()) {
             envelope.getUnknownAttributes().registerID(attribQName);
         }

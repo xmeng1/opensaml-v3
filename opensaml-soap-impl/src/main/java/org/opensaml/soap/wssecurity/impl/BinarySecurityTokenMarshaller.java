@@ -31,7 +31,7 @@ public class BinarySecurityTokenMarshaller extends EncodedStringMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        BinarySecurityToken token = (BinarySecurityToken) xmlObject;
+        final BinarySecurityToken token = (BinarySecurityToken) xmlObject;
         if (!Strings.isNullOrEmpty(token.getValueType())) {
             domElement.setAttributeNS(null, BinarySecurityToken.ENCODING_TYPE_ATTRIB_NAME, token.getValueType());
         }

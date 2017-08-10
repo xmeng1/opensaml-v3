@@ -35,15 +35,15 @@ public class DetailUnmarshaller extends AbstractXMLObjectUnmarshaller {
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        Detail detail = (Detail) parentXMLObject;
+        final Detail detail = (Detail) parentXMLObject;
         detail.getUnknownXMLObjects().add(childXMLObject);
     }
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        Detail detail = (Detail) xmlObject;
-        QName attribQName = QNameSupport.constructQName(attribute.getNamespaceURI(), attribute.getLocalName(), attribute
-                .getPrefix());
+        final Detail detail = (Detail) xmlObject;
+        final QName attribQName = QNameSupport.constructQName(attribute.getNamespaceURI(), attribute.getLocalName(),
+                attribute.getPrefix());
         if (attribute.isId()) {
             detail.getUnknownAttributes().registerID(attribQName);
         }

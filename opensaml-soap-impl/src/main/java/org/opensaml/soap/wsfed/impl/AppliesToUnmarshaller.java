@@ -29,7 +29,7 @@ public class AppliesToUnmarshaller extends AbstractXMLObjectUnmarshaller {
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentFedObject, final XMLObject childFedObject) {
 
-        AppliesTo appliesTo = (AppliesTo) parentFedObject;
+        final AppliesTo appliesTo = (AppliesTo) parentFedObject;
 
         if (childFedObject instanceof EndPointReference) {
             appliesTo.setEndPointReference((EndPointReference) childFedObject);

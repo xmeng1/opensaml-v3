@@ -35,7 +35,7 @@ public class AttributedDateTimeMarshaller extends AbstractWSSecurityObjectMarsha
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        AttributedDateTime dateTime = (AttributedDateTime) xmlObject;
+        final AttributedDateTime dateTime = (AttributedDateTime) xmlObject;
         
         if (!Strings.isNullOrEmpty(dateTime.getWSUId())) {
             XMLObjectSupport.marshallAttribute(AttributedDateTime.WSU_ID_ATTR_NAME, dateTime.getWSUId(), domElement,
@@ -49,7 +49,7 @@ public class AttributedDateTimeMarshaller extends AbstractWSSecurityObjectMarsha
     /** {@inheritDoc} */
     protected void marshallElementContent(final XMLObject xmlObject, final Element domElement)
             throws MarshallingException {
-        AttributedDateTime dateTime = (AttributedDateTime) xmlObject;
+        final AttributedDateTime dateTime = (AttributedDateTime) xmlObject;
         ElementSupport.appendTextContent(domElement, dateTime.getValue());
     }
     

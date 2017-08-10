@@ -34,14 +34,14 @@ public class SignChallengeTypeUnmarshaller extends AbstractWSTrustObjectUnmarsha
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        SignChallengeType signChallengeType= (SignChallengeType) xmlObject;
+        final SignChallengeType signChallengeType= (SignChallengeType) xmlObject;
         XMLObjectSupport.unmarshallToAttributeMap(signChallengeType.getUnknownAttributes(), attribute);
     }
 
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        SignChallengeType signChallengeType= (SignChallengeType) parentXMLObject;
+        final SignChallengeType signChallengeType= (SignChallengeType) parentXMLObject;
         
         if (childXMLObject instanceof Challenge) {
             signChallengeType.setChallenge((Challenge) childXMLObject);

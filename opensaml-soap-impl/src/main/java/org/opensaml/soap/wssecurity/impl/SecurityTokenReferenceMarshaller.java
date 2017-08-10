@@ -35,14 +35,14 @@ public class SecurityTokenReferenceMarshaller extends AbstractWSSecurityObjectMa
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        SecurityTokenReference str = (SecurityTokenReference) xmlObject;
+        final SecurityTokenReference str = (SecurityTokenReference) xmlObject;
         
         if (!Strings.isNullOrEmpty(str.getWSUId())) {
             XMLObjectSupport.marshallAttribute(SecurityTokenReference.WSU_ID_ATTR_NAME, str.getWSUId(), domElement,
                     true);
         }
         
-        List<String> usages = str.getWSSEUsages();
+        final List<String> usages = str.getWSSEUsages();
         if (usages != null && ! usages.isEmpty()) {
             XMLObjectSupport.marshallAttribute(SecurityTokenReference.WSSE_USAGE_ATTR_NAME, usages, domElement, false);
         }

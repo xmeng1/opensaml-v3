@@ -31,7 +31,7 @@ public class EndpointReferenceTypeMarshaller extends AbstractWSAddressingObjectM
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        EndpointReferenceType eprType = (EndpointReferenceType) xmlObject;
+        final EndpointReferenceType eprType = (EndpointReferenceType) xmlObject;
         XMLObjectSupport.marshallAttributeMap(eprType.getUnknownAttributes(), domElement);
     }
 

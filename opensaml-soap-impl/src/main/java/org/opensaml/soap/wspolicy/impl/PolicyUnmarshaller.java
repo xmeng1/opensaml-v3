@@ -37,11 +37,11 @@ public class PolicyUnmarshaller extends OperatorContentTypeUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        Policy policy = (Policy) xmlObject;
+        final Policy policy = (Policy) xmlObject;
         
-        QName nameQName = new QName(Policy.NAME_ATTRIB_NAME);
+        final QName nameQName = new QName(Policy.NAME_ATTRIB_NAME);
         
-        QName attribQName = 
+        final QName attribQName = 
             QNameSupport.constructQName(attribute.getNamespaceURI(), attribute.getLocalName(), attribute.getPrefix());
         
         if (nameQName.equals(attribQName)) {

@@ -31,7 +31,7 @@ public class RequestedProofTokenUnmarshaller extends AbstractWSTrustObjectUnmars
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        RequestedProofToken rpt = (RequestedProofToken) parentXMLObject;
+        final RequestedProofToken rpt = (RequestedProofToken) parentXMLObject;
         rpt.setUnknownXMLObject(childXMLObject);
     }
 

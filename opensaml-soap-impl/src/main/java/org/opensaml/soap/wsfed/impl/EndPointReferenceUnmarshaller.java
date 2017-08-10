@@ -28,7 +28,7 @@ public class EndPointReferenceUnmarshaller extends AbstractXMLObjectUnmarshaller
 
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject) {
-        EndPointReference endPointReference = (EndPointReference) parentSAMLObject;
+        final EndPointReference endPointReference = (EndPointReference) parentSAMLObject;
 
         if (childSAMLObject instanceof Address) {
             endPointReference.setAddress((Address) childSAMLObject);

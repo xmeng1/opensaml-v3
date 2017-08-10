@@ -34,7 +34,7 @@ public class IterationMarshaller extends AbstractWSSecurityObjectMarshaller {
     /** {@inheritDoc} */
     protected void marshallElementContent(final XMLObject xmlObject, final Element domElement)
             throws MarshallingException {
-        Iteration iteration = (Iteration) xmlObject;
+        final Iteration iteration = (Iteration) xmlObject;
         
         if (iteration.getValue() != null) {
             ElementSupport.appendTextContent(domElement, iteration.getValue().toString());

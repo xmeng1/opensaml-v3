@@ -29,7 +29,7 @@ public class RequestSecurityTokenResponseUnmarshaller extends AbstractXMLObjectU
 
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject) {
-        RequestSecurityTokenResponse response = (RequestSecurityTokenResponse) parentSAMLObject;
+        final RequestSecurityTokenResponse response = (RequestSecurityTokenResponse) parentSAMLObject;
 
         if (childSAMLObject instanceof RequestedSecurityToken) {
             response.getRequestedSecurityToken().add((RequestedSecurityToken) childSAMLObject);

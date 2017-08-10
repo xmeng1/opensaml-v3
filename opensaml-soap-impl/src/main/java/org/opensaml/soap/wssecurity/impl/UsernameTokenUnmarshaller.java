@@ -36,7 +36,7 @@ public class UsernameTokenUnmarshaller extends AbstractWSSecurityObjectUnmarshal
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        UsernameToken token = (UsernameToken) parentXMLObject;
+        final UsernameToken token = (UsernameToken) parentXMLObject;
         if (childXMLObject instanceof Username) {
             token.setUsername((Username) childXMLObject);
         } else {
@@ -46,9 +46,9 @@ public class UsernameTokenUnmarshaller extends AbstractWSSecurityObjectUnmarshal
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        UsernameToken token = (UsernameToken) xmlObject;
+        final UsernameToken token = (UsernameToken) xmlObject;
         
-        QName attribQName = 
+        final QName attribQName = 
             QNameSupport.constructQName(attribute.getNamespaceURI(), attribute.getLocalName(), attribute.getPrefix());
         if (UsernameToken.WSU_ID_ATTR_NAME.equals(attribQName)) {
             token.setWSUId(attribute.getValue());

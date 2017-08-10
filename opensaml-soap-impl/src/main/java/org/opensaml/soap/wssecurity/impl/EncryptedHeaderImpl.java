@@ -86,7 +86,7 @@ public class EncryptedHeaderImpl extends AbstractWSSecurityObject implements Enc
 
     /** {@inheritDoc} */
     public void setWSUId(final String newId) {
-        String oldId = wsuId;
+        final String oldId = wsuId;
         wsuId = prepareForAssignment(wsuId, newId);
         registerOwnID(oldId, wsuId);
         manageQualifiedAttributeNamespace(IdBearing.WSU_ID_ATTR_NAME, wsuId != null);
@@ -208,7 +208,7 @@ public class EncryptedHeaderImpl extends AbstractWSSecurityObject implements Enc
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        LazyList<XMLObject> children = new LazyList<>();
+        final LazyList<XMLObject> children = new LazyList<>();
         if (encryptedData != null) {
             children.add(encryptedData);
         }

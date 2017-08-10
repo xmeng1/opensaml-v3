@@ -100,7 +100,7 @@ public class PolicyAttachmentImpl extends AbstractWSPolicyObject implements Poli
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         if (appliesTo != null) {
             children.add(appliesTo);
         }

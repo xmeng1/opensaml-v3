@@ -31,7 +31,7 @@ public class TransformationParametersMarshaller extends AbstractWSSecurityObject
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        TransformationParameters tp = (TransformationParameters) xmlObject;
+        final TransformationParameters tp = (TransformationParameters) xmlObject;
         XMLObjectSupport.marshallAttributeMap(tp.getUnknownAttributes(), domElement);
     }
 

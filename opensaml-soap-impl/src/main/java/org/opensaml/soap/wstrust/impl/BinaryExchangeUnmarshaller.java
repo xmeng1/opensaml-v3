@@ -34,9 +34,9 @@ public class BinaryExchangeUnmarshaller extends XSStringUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        BinaryExchange binaryExchange = (BinaryExchange) xmlObject;
+        final BinaryExchange binaryExchange = (BinaryExchange) xmlObject;
         
-        String attrName = attribute.getLocalName();
+        final String attrName = attribute.getLocalName();
         if (BinaryExchange.VALUE_TYPE_ATTRIB_NAME.equals(attrName)) {
             binaryExchange.setValueType(attribute.getValue());
         } else if (BinaryExchange.ENCODING_TYPE_ATTRIB_NAME.equals(attrName)) {

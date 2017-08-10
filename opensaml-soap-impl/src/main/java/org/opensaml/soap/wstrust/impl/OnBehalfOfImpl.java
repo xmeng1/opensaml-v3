@@ -60,7 +60,7 @@ public class OnBehalfOfImpl extends AbstractWSTrustObject implements OnBehalfOf 
     
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        List<XMLObject> children = new ArrayList<>();
+        final List<XMLObject> children = new ArrayList<>();
         children.addAll(unknownChildren);
         return Collections.unmodifiableList(children);
     }

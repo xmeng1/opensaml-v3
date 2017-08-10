@@ -31,14 +31,14 @@ public class ReferenceParametersUnmarshaller extends AbstractWSAddressingObjectU
     
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        ReferenceParameters rp = (ReferenceParameters) xmlObject;
+        final ReferenceParameters rp = (ReferenceParameters) xmlObject;
         XMLObjectSupport.unmarshallToAttributeMap(rp.getUnknownAttributes(), attribute);
     }
 
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        ReferenceParameters rp = (ReferenceParameters) parentXMLObject;
+        final ReferenceParameters rp = (ReferenceParameters) parentXMLObject;
         rp.getUnknownXMLObjects().add(childXMLObject);
     }
 

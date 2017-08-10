@@ -31,8 +31,8 @@ public class DelegatableUnmarshaller extends AbstractWSTrustObjectUnmarshaller {
     /** {@inheritDoc} */
     protected void processElementContent(final XMLObject xmlObject, final String elementContent) {
         if (elementContent != null) {
-            Delegatable delegatable = (Delegatable) xmlObject;
-            XSBooleanValue value = XSBooleanValue.valueOf(elementContent);
+            final Delegatable delegatable = (Delegatable) xmlObject;
+            final XSBooleanValue value = XSBooleanValue.valueOf(elementContent);
             delegatable.setValue(value);
         }
     }

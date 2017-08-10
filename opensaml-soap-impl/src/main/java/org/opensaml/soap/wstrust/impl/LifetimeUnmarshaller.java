@@ -33,7 +33,7 @@ public class LifetimeUnmarshaller extends AbstractWSTrustObjectUnmarshaller {
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        Lifetime lifetime = (Lifetime) parentXMLObject;
+        final Lifetime lifetime = (Lifetime) parentXMLObject;
         if (childXMLObject instanceof Created) {
             lifetime.setCreated((Created) childXMLObject);
         } else if (childXMLObject instanceof Expires) {

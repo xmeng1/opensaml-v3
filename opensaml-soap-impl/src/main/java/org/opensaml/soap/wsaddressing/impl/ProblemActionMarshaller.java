@@ -30,7 +30,7 @@ public class ProblemActionMarshaller extends AbstractWSAddressingObjectMarshalle
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        ProblemAction pa = (ProblemAction) xmlObject;
+        final ProblemAction pa = (ProblemAction) xmlObject;
         XMLObjectSupport.marshallAttributeMap(pa.getUnknownAttributes(), domElement);
     }
 

@@ -38,10 +38,10 @@ public class HeaderMarshaller extends AbstractXMLObjectMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        Header header = (Header) xmlObject;
+        final Header header = (Header) xmlObject;
 
         Attr attribute;
-        for (Entry<QName, String> entry : header.getUnknownAttributes().entrySet()) {
+        for (final Entry<QName, String> entry : header.getUnknownAttributes().entrySet()) {
             attribute = AttributeSupport.constructAttribute(domElement.getOwnerDocument(), entry.getKey());
             attribute.setValue(entry.getValue());
             domElement.setAttributeNodeNS(attribute);

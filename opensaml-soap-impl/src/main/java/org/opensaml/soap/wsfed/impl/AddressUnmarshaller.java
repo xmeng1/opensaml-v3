@@ -27,7 +27,7 @@ public class AddressUnmarshaller extends AbstractXMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processElementContent(final XMLObject fedObject, final String elementContent) {
-        Address address = (Address) fedObject;
+        final Address address = (Address) fedObject;
         address.setValue(elementContent);
     }
 

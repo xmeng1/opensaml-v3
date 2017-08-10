@@ -32,7 +32,7 @@ public class ClaimsMarshaller extends AbstractWSTrustObjectMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        Claims claims = (Claims) xmlObject;
+        final Claims claims = (Claims) xmlObject;
         if (claims.getDialect() != null) {
             domElement.setAttributeNS(null, Claims.DIALECT_ATTRIB_NAME, claims.getDialect());
         }

@@ -31,7 +31,7 @@ public class ProofEncryptionUnmarshaller extends AbstractWSTrustObjectUnmarshall
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        ProofEncryption pe = (ProofEncryption) parentXMLObject;
+        final ProofEncryption pe = (ProofEncryption) parentXMLObject;
         pe.setUnknownXMLObject(childXMLObject);
     }
 

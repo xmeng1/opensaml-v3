@@ -33,7 +33,7 @@ public class RelatesToUnmarshaller extends XSURIUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        RelatesTo relatesTo = (RelatesTo) xmlObject;
+        final RelatesTo relatesTo = (RelatesTo) xmlObject;
         
         if (RelatesTo.RELATIONSHIP_TYPE_ATTRIB_NAME.equals(attribute.getLocalName())) {
             relatesTo.setRelationshipType(StringSupport.trimOrNull(attribute.getValue()));

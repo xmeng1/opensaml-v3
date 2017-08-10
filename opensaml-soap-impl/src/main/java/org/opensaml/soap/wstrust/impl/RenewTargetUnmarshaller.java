@@ -32,7 +32,7 @@ public class RenewTargetUnmarshaller extends AbstractWSTrustObjectUnmarshaller {
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        RenewTarget rt = (RenewTarget) parentXMLObject;
+        final RenewTarget rt = (RenewTarget) parentXMLObject;
         rt.setUnknownXMLObject(childXMLObject);
     }
 

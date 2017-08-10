@@ -32,7 +32,7 @@ public class RequestSecurityTokenCollectionUnmarshaller extends AbstractWSTrustO
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        RequestSecurityTokenCollection rstc = (RequestSecurityTokenCollection) parentXMLObject;
+        final RequestSecurityTokenCollection rstc = (RequestSecurityTokenCollection) parentXMLObject;
         if (childXMLObject instanceof RequestSecurityToken) {
             rstc.getRequestSecurityTokens().add((RequestSecurityToken) childXMLObject);
         } else {

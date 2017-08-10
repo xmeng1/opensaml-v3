@@ -35,7 +35,7 @@ public class EndpointReferenceTypeUnmarshaller extends AbstractWSAddressingObjec
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
         throws UnmarshallingException {
-        EndpointReferenceType epr = (EndpointReferenceType) parentXMLObject;
+        final EndpointReferenceType epr = (EndpointReferenceType) parentXMLObject;
         if (childXMLObject instanceof Address) {
             epr.setAddress((Address) childXMLObject);
         } else if (childXMLObject instanceof Metadata) {
@@ -49,7 +49,7 @@ public class EndpointReferenceTypeUnmarshaller extends AbstractWSAddressingObjec
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        EndpointReferenceType epr = (EndpointReferenceType) xmlObject;
+        final EndpointReferenceType epr = (EndpointReferenceType) xmlObject;
         XMLObjectSupport.unmarshallToAttributeMap(epr.getUnknownAttributes(), attribute);
     }
 

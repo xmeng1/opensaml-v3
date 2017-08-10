@@ -33,7 +33,7 @@ public class SaltMarshaller extends AbstractWSSecurityObjectMarshaller {
     /** {@inheritDoc} */
     protected void marshallElementContent(final XMLObject xmlObject, final Element domElement)
             throws MarshallingException {
-        Salt salt = (Salt) xmlObject;
+        final Salt salt = (Salt) xmlObject;
         ElementSupport.appendTextContent(domElement, salt.getValue());
     }
 

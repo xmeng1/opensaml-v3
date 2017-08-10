@@ -38,10 +38,10 @@ public class DetailMarshaller extends AbstractXMLObjectMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        Detail detail = (Detail) xmlObject;
+        final Detail detail = (Detail) xmlObject;
 
         Attr attribute;
-        for (Entry<QName, String> entry : detail.getUnknownAttributes().entrySet()) {
+        for (final Entry<QName, String> entry : detail.getUnknownAttributes().entrySet()) {
             attribute = AttributeSupport.constructAttribute(domElement.getOwnerDocument(), entry.getKey());
             attribute.setValue(entry.getValue());
             domElement.setAttributeNodeNS(attribute);

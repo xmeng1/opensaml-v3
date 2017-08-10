@@ -37,9 +37,9 @@ public class AttributedDateTimeUnmarshaller extends AbstractWSSecurityObjectUnma
     
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        AttributedDateTime dateTime = (AttributedDateTime) xmlObject;
+        final AttributedDateTime dateTime = (AttributedDateTime) xmlObject;
         
-        QName attrName =
+        final QName attrName =
             QNameSupport.constructQName(attribute.getNamespaceURI(), attribute.getLocalName(), attribute.getPrefix());
         if (AttributedDateTime.WSU_ID_ATTR_NAME.equals(attrName)) {
             dateTime.setWSUId(attribute.getValue());
@@ -51,7 +51,7 @@ public class AttributedDateTimeUnmarshaller extends AbstractWSSecurityObjectUnma
 
     /** {@inheritDoc} */
     protected void processElementContent(final XMLObject xmlObject, final String elementContent) {
-        AttributedDateTime dateTime = (AttributedDateTime) xmlObject;
+        final AttributedDateTime dateTime = (AttributedDateTime) xmlObject;
         if (!Strings.isNullOrEmpty(elementContent)) {
             dateTime.setValue(elementContent);
         }

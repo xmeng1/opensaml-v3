@@ -38,7 +38,7 @@ public class FaultUnmarshaller extends AbstractXMLObjectUnmarshaller {
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        Fault fault = (Fault) parentXMLObject;
+        final Fault fault = (Fault) parentXMLObject;
         
         if(childXMLObject instanceof XSQName){
             fault.setCode((FaultCode) childXMLObject);

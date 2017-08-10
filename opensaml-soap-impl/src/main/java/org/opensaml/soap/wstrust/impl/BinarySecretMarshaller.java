@@ -34,7 +34,7 @@ public class BinarySecretMarshaller extends XSBase64BinaryMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        BinarySecret bs = (BinarySecret) xmlObject;
+        final BinarySecret bs = (BinarySecret) xmlObject;
         if (bs.getType() != null) {
             domElement.setAttributeNS(null, BinarySecret.TYPE_ATTRIB_NAME, bs.getType());
         }

@@ -32,14 +32,14 @@ public class ProblemActionUnmarshaller extends AbstractWSAddressingObjectUnmarsh
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        ProblemAction pa = (ProblemAction) xmlObject;
+        final ProblemAction pa = (ProblemAction) xmlObject;
         XMLObjectSupport.unmarshallToAttributeMap(pa.getUnknownAttributes(), attribute);
     }
 
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        ProblemAction pa = (ProblemAction) parentXMLObject;
+        final ProblemAction pa = (ProblemAction) parentXMLObject;
         
         if (childXMLObject instanceof Action) {
             pa.setAction((Action) childXMLObject);

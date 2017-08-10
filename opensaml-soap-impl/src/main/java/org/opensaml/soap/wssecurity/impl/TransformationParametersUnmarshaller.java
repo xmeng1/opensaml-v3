@@ -31,14 +31,14 @@ public class TransformationParametersUnmarshaller extends AbstractWSSecurityObje
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        TransformationParameters tp = (TransformationParameters) xmlObject;
+        final TransformationParameters tp = (TransformationParameters) xmlObject;
         XMLObjectSupport.unmarshallToAttributeMap(tp.getUnknownAttributes(), attribute);
     }
 
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        TransformationParameters tp = (TransformationParameters) parentXMLObject;
+        final TransformationParameters tp = (TransformationParameters) parentXMLObject;
         tp.getUnknownXMLObjects().add(childXMLObject);
     }
 

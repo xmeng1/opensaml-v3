@@ -81,7 +81,7 @@ public class ValidateActionHandler extends AbstractMessageHandler {
         }
         
         // A non-null subcontext value will override what is statically configured
-        WSAddressingContext addressing = messageContext.getSubcontext(WSAddressingContext.class, false);
+        final WSAddressingContext addressing = messageContext.getSubcontext(WSAddressingContext.class, false);
         if (addressing != null && addressing.getActionURI() != null) {
             expectedActionURI = addressing.getActionURI();
         }
@@ -94,8 +94,8 @@ public class ValidateActionHandler extends AbstractMessageHandler {
 
     /** {@inheritDoc} */
     protected void doInvoke(final MessageContext messageContext) throws MessageHandlerException {
-        Action header = getAction(messageContext);
-        String headerValue = header != null ? StringSupport.trimOrNull(header.getValue()) : null;
+        final Action header = getAction(messageContext);
+        final String headerValue = header != null ? StringSupport.trimOrNull(header.getValue()) : null;
         log.debug("Checking inbound message WS-Addressing Action URI value: {}", headerValue);
         if (Objects.equals(getExpectedActionURI(), headerValue)) {
             log.debug("Inbound WS-Addressing Action URI matched expected value");
@@ -117,7 +117,7 @@ public class ValidateActionHandler extends AbstractMessageHandler {
      * @return the message Action header
      */
     protected Action getAction(@Nonnull final MessageContext messageContext) {
-        List<XMLObject> actions = SOAPMessagingSupport.getInboundHeaderBlock(messageContext, Action.ELEMENT_NAME);
+        final List<XMLObject> actions = SOAPMessagingSupport.getInboundHeaderBlock(messageContext, Action.ELEMENT_NAME);
         if (actions != null && !actions.isEmpty()) {
             return (Action) actions.get(0);
         }

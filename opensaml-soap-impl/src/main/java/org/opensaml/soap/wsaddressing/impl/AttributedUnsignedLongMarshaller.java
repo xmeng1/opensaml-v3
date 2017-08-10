@@ -32,14 +32,14 @@ public class AttributedUnsignedLongMarshaller extends AbstractWSAddressingObject
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        AttributedUnsignedLong aul = (AttributedUnsignedLong) xmlObject;
+        final AttributedUnsignedLong aul = (AttributedUnsignedLong) xmlObject;
         XMLObjectSupport.marshallAttributeMap(aul.getUnknownAttributes(), domElement);
     }
 
     /** {@inheritDoc} */
     protected void marshallElementContent(final XMLObject xmlObject, final Element domElement)
             throws MarshallingException {
-        AttributedUnsignedLong aul = (AttributedUnsignedLong) xmlObject;
+        final AttributedUnsignedLong aul = (AttributedUnsignedLong) xmlObject;
         if (aul.getValue() != null) {
             ElementSupport.appendTextContent(domElement, aul.getValue().toString());
         }

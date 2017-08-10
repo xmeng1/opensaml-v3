@@ -29,7 +29,7 @@ public class BinarySecurityTokenUnmarshaller extends EncodedStringUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        BinarySecurityToken token = (BinarySecurityToken) xmlObject;
+        final BinarySecurityToken token = (BinarySecurityToken) xmlObject;
         if (BinarySecurityToken.VALUE_TYPE_ATTRIB_NAME.equals(attribute.getLocalName())) {
             token.setValueType(attribute.getValue());
         } else {

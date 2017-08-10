@@ -33,7 +33,7 @@ public class RequestedReferenceTypeUnmarshaller extends AbstractWSTrustObjectUnm
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        RequestedReferenceType rrt = (RequestedReferenceType) parentXMLObject;
+        final RequestedReferenceType rrt = (RequestedReferenceType) parentXMLObject;
         if (childXMLObject instanceof SecurityTokenReference) {
             rrt.setSecurityTokenReference((SecurityTokenReference) childXMLObject);
         } else {

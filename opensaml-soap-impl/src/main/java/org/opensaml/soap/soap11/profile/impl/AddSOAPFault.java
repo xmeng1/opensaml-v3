@@ -224,7 +224,7 @@ public class AddSOAPFault extends AbstractProfileAction {
             return null;
         }
         
-        Fault fault = contextFaultStrategy.apply(profileRequestContext);
+        final Fault fault = contextFaultStrategy.apply(profileRequestContext);
         
         if (fault != null) {
             log.debug("{} Resolved Fault instance via context strategy", getLogPrefix());

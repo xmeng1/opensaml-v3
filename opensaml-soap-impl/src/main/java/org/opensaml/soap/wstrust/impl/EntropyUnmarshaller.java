@@ -33,14 +33,14 @@ public class EntropyUnmarshaller extends AbstractWSTrustObjectUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        Claims claims = (Claims) xmlObject;
+        final Claims claims = (Claims) xmlObject;
         XMLObjectSupport.unmarshallToAttributeMap(claims.getUnknownAttributes(), attribute);
     }
 
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        Claims claims = (Claims) parentXMLObject;
+        final Claims claims = (Claims) parentXMLObject;
         claims.getUnknownXMLObjects().add(childXMLObject);
     }
     

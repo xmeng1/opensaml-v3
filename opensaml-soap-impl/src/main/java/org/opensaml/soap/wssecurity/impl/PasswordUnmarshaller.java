@@ -31,7 +31,7 @@ public class PasswordUnmarshaller extends AttributedStringUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        Password password= (Password) xmlObject;
+        final Password password= (Password) xmlObject;
         if (Password.TYPE_ATTRIB_NAME.equals(attribute.getLocalName())) {
             password.setType(attribute.getValue());
         } else {

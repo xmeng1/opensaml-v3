@@ -31,7 +31,7 @@ public class RequestSecurityTokenMarshaller extends AbstractWSTrustObjectMarshal
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        RequestSecurityToken rst = (RequestSecurityToken) xmlObject;
+        final RequestSecurityToken rst = (RequestSecurityToken) xmlObject;
         if (rst.getContext() != null) {
             domElement.setAttributeNS(null, RequestSecurityToken.CONTEXT_ATTRIB_NAME, rst.getContext());
         }

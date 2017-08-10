@@ -32,7 +32,7 @@ public class ReferenceParametersMarshaller extends AbstractWSAddressingObjectMar
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        ReferenceParameters rp = (ReferenceParameters) xmlObject;
+        final ReferenceParameters rp = (ReferenceParameters) xmlObject;
         XMLObjectSupport.marshallAttributeMap(rp.getUnknownAttributes(), domElement);
     }
 

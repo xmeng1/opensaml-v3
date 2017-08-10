@@ -36,13 +36,13 @@ public class BinaryExchangeMarshaller extends XSStringMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        BinaryExchange binaryExchange = (BinaryExchange) xmlObject;
+        final BinaryExchange binaryExchange = (BinaryExchange) xmlObject;
         
-        String valueType = StringSupport.trimOrNull(binaryExchange.getValueType());
+        final String valueType = StringSupport.trimOrNull(binaryExchange.getValueType());
         if (valueType != null) {
             domElement.setAttributeNS(null, BinaryExchange.VALUE_TYPE_ATTRIB_NAME, valueType);
         }
-        String encodingType = StringSupport.trimOrNull(binaryExchange.getEncodingType());
+        final String encodingType = StringSupport.trimOrNull(binaryExchange.getEncodingType());
         if (encodingType != null) {
             domElement.setAttributeNS(null, BinaryExchange.ENCODING_TYPE_ATTRIB_NAME, encodingType);
         }

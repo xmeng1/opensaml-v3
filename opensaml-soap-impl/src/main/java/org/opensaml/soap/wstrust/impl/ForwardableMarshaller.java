@@ -35,8 +35,8 @@ public class ForwardableMarshaller extends AbstractWSTrustObjectMarshaller {
     /** {@inheritDoc} */
     protected void marshallElementContent(final XMLObject xmlObject, final Element domElement)
             throws MarshallingException {
-        Forwardable forwardable = (Forwardable) xmlObject;
-        XSBooleanValue value= forwardable.getValue();
+        final Forwardable forwardable = (Forwardable) xmlObject;
+        final XSBooleanValue value= forwardable.getValue();
         ElementSupport.appendTextContent(domElement, value.toString());
     }
 }

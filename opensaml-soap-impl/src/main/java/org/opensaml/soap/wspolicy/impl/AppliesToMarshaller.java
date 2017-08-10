@@ -32,7 +32,7 @@ public class AppliesToMarshaller extends AbstractWSPolicyObjectMarshaller {
     
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        AppliesTo at = (AppliesTo) xmlObject;
+        final AppliesTo at = (AppliesTo) xmlObject;
         XMLObjectSupport.marshallAttributeMap(at.getUnknownAttributes(), domElement);
     }
 

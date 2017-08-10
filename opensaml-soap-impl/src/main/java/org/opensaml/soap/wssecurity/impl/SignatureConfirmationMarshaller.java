@@ -32,7 +32,7 @@ public class SignatureConfirmationMarshaller extends AbstractWSSecurityObjectMar
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        SignatureConfirmation sc = (SignatureConfirmation) xmlObject;
+        final SignatureConfirmation sc = (SignatureConfirmation) xmlObject;
         
         if (!Strings.isNullOrEmpty(sc.getWSUId())) {
             XMLObjectSupport.marshallAttribute(SignatureConfirmation.WSU_ID_ATTR_NAME, sc.getWSUId(), domElement, true);

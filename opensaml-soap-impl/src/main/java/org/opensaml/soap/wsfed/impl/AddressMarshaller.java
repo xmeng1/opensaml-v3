@@ -34,7 +34,7 @@ public class AddressMarshaller extends AbstractXMLObjectMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallElementContent(final XMLObject fedObject, final Element domElement) {
-        Address address = (Address) fedObject;
+        final Address address = (Address) fedObject;
 
         if (address.getValue() != null) {
             ElementSupport.appendTextContent(domElement, address.getValue());

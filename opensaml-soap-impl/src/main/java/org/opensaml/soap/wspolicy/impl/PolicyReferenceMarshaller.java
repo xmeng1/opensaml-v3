@@ -31,7 +31,7 @@ public class PolicyReferenceMarshaller extends AbstractWSPolicyObjectMarshaller 
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        PolicyReference pr = (PolicyReference) xmlObject;
+        final PolicyReference pr = (PolicyReference) xmlObject;
         
         if (pr.getURI() != null) {
             domElement.setAttributeNS(null, PolicyReference.URI_ATTRIB_NAME, pr.getURI());

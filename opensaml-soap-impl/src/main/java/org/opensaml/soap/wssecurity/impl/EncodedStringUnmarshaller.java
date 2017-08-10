@@ -29,7 +29,7 @@ public class EncodedStringUnmarshaller extends AttributedStringUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        EncodedString encodedString= (EncodedString) xmlObject;
+        final EncodedString encodedString= (EncodedString) xmlObject;
         if (EncodedString.ENCODING_TYPE_ATTRIB_NAME.equals(attribute.getLocalName())) {
             encodedString.setEncodingType(attribute.getValue());
         } else {

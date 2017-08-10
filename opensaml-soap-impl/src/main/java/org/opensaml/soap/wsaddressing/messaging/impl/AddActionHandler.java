@@ -113,9 +113,9 @@ public class AddActionHandler extends AbstractHeaderGeneratingMessageHandler {
             return false;
         }
         
-        WSAddressingContext addressingContext = messageContext.getSubcontext(WSAddressingContext.class);
+        final WSAddressingContext addressingContext = messageContext.getSubcontext(WSAddressingContext.class);
         
-        Fault fault = SOAPMessagingSupport.getSOAP11Fault(messageContext);
+        final Fault fault = SOAPMessagingSupport.getSOAP11Fault(messageContext);
         if (fault != null) {
             log.debug("Saw SOAP Fault registered in message context, selecting Fault Action URI");
             if (addressingContext != null && addressingContext.getFaultActionURI() != null) {
@@ -162,7 +162,7 @@ public class AddActionHandler extends AbstractHeaderGeneratingMessageHandler {
     /** {@inheritDoc} */
     protected void doInvoke(@Nonnull final MessageContext messageContext) throws MessageHandlerException {
         log.debug("Issuing WS-Addressing Action header with URI value: {}", sendURI);
-        Action action = (Action) XMLObjectSupport.buildXMLObject(Action.ELEMENT_NAME);
+        final Action action = (Action) XMLObjectSupport.buildXMLObject(Action.ELEMENT_NAME);
         action.setValue(sendURI);
         decorateGeneratedHeader(messageContext, action);
         SOAPMessagingSupport.addHeaderBlock(messageContext, action);

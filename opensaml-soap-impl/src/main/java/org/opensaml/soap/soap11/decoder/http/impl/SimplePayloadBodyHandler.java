@@ -42,8 +42,8 @@ public class SimplePayloadBodyHandler<MessageType extends XMLObject> extends Abs
 
     /** {@inheritDoc} */
     protected void doInvoke(final MessageContext messageContext) throws MessageHandlerException {
-        Envelope env = (Envelope) messageContext.getSubcontext(SOAP11Context.class).getEnvelope();
-        List<XMLObject> bodyChildren = env.getBody().getUnknownXMLObjects();
+        final Envelope env = (Envelope) messageContext.getSubcontext(SOAP11Context.class).getEnvelope();
+        final List<XMLObject> bodyChildren = env.getBody().getUnknownXMLObjects();
         if (bodyChildren == null || bodyChildren.isEmpty()) {
             throw new MessageHandlerException("SOAP Envelope Body contained no children");
         } else if (bodyChildren.size() > 1) {

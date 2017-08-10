@@ -35,13 +35,13 @@ public class AttributedURIMarshaller extends AbstractWSAddressingObjectMarshalle
     /** {@inheritDoc} */
     protected void marshallElementContent(final XMLObject xmlObject, final Element domElement)
             throws MarshallingException {
-        AttributedURI attributedURI = (AttributedURI) xmlObject;
+        final AttributedURI attributedURI = (AttributedURI) xmlObject;
         ElementSupport.appendTextContent(domElement, attributedURI.getValue());
     }
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        AttributedURI attributedURI = (AttributedURI) xmlObject;
+        final AttributedURI attributedURI = (AttributedURI) xmlObject;
         XMLObjectSupport.marshallAttributeMap(attributedURI.getUnknownAttributes(), domElement);
     }
 }

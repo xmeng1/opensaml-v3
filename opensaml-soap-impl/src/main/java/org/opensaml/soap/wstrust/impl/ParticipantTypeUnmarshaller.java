@@ -30,7 +30,7 @@ public class ParticipantTypeUnmarshaller extends AbstractWSTrustObjectUnmarshall
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        ParticipantType pt = (ParticipantType) parentXMLObject;
+        final ParticipantType pt = (ParticipantType) parentXMLObject;
         pt.setUnknownXMLObject(childXMLObject);
     }
 

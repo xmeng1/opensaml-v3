@@ -96,7 +96,7 @@ public class AddRelatesToHandler extends AbstractHeaderGeneratingMessageHandler 
             return false;
         }
         
-        WSAddressingContext addressing = messageContext.getSubcontext(WSAddressingContext.class, false);
+        final WSAddressingContext addressing = messageContext.getSubcontext(WSAddressingContext.class, false);
         if (addressing != null) {
             relatesToURI = addressing.getRelatesToURI();
             if (relationshipType == null) {
@@ -119,7 +119,7 @@ public class AddRelatesToHandler extends AbstractHeaderGeneratingMessageHandler 
     protected void doInvoke(final MessageContext messageContext) throws MessageHandlerException {
         log.debug("Issuing WS-Addressing RelatesTo header with URI '{}' and RelationshipType '{}'", 
                 relatesToURI, relationshipType);
-        RelatesTo relatesTo = (RelatesTo) XMLObjectSupport.buildXMLObject(RelatesTo.ELEMENT_NAME);
+        final RelatesTo relatesTo = (RelatesTo) XMLObjectSupport.buildXMLObject(RelatesTo.ELEMENT_NAME);
         relatesTo.setValue(relatesToURI);
         relatesTo.setRelationshipType(relationshipType);
         decorateGeneratedHeader(messageContext, relatesTo);

@@ -33,7 +33,7 @@ public class TimestampMarshaller extends AbstractWSSecurityObjectMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        Timestamp timestamp = (Timestamp) xmlObject;
+        final Timestamp timestamp = (Timestamp) xmlObject;
         
         if (!Strings.isNullOrEmpty(timestamp.getWSUId())) {
             XMLObjectSupport.marshallAttribute(Timestamp.WSU_ID_ATTR_NAME, timestamp.getWSUId(), domElement, true);

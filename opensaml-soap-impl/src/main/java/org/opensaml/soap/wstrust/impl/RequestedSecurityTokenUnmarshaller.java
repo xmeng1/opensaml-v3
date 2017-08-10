@@ -31,7 +31,7 @@ public class RequestedSecurityTokenUnmarshaller extends AbstractWSTrustObjectUnm
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        RequestedSecurityToken reqToken = (RequestedSecurityToken) parentXMLObject;
+        final RequestedSecurityToken reqToken = (RequestedSecurityToken) parentXMLObject;
         reqToken.setUnknownXMLObject(childXMLObject);
     }
 

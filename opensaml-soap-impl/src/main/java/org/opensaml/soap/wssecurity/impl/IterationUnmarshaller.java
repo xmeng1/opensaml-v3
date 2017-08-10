@@ -29,7 +29,7 @@ public class IterationUnmarshaller extends AbstractWSSecurityObjectUnmarshaller 
 
     /** {@inheritDoc} */
     protected void processElementContent(final XMLObject xmlObject, final String elementContent) {
-        Iteration iteration = (Iteration) xmlObject;
+        final Iteration iteration = (Iteration) xmlObject;
         if (elementContent != null) {
             iteration.setValue(Integer.valueOf(elementContent));
         }

@@ -34,9 +34,9 @@ public class AttributedStringUnmarshaller extends AbstractWSSecurityObjectUnmars
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        AttributedString attributedString = (AttributedString) xmlObject;
+        final AttributedString attributedString = (AttributedString) xmlObject;
         
-        QName attribQName = 
+        final QName attribQName = 
             QNameSupport.constructQName(attribute.getNamespaceURI(), attribute.getLocalName(), attribute.getPrefix());
         if (AttributedString.WSU_ID_ATTR_NAME.equals(attribQName)) {
             attributedString.setWSUId(attribute.getValue());
@@ -48,7 +48,7 @@ public class AttributedStringUnmarshaller extends AbstractWSSecurityObjectUnmars
 
     /** {@inheritDoc} */
     protected void processElementContent(final XMLObject xmlObject, final String elementContent) {
-        AttributedString attributedString = (AttributedString) xmlObject;
+        final AttributedString attributedString = (AttributedString) xmlObject;
         attributedString.setValue(elementContent);
     }
     

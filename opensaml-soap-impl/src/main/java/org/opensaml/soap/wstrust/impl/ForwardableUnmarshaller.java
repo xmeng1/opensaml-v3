@@ -31,8 +31,8 @@ public class ForwardableUnmarshaller extends AbstractWSTrustObjectUnmarshaller {
     /** {@inheritDoc} */
     protected void processElementContent(final XMLObject xmlObject, final String elementContent) {
         if (elementContent != null) {
-            Forwardable forwardable = (Forwardable) xmlObject;
-            XSBooleanValue value = XSBooleanValue.valueOf(elementContent);
+            final Forwardable forwardable = (Forwardable) xmlObject;
+            final XSBooleanValue value = XSBooleanValue.valueOf(elementContent);
             forwardable.setValue(value);
         }
     }

@@ -67,7 +67,7 @@ public class RequestSecurityTokenResponseImpl extends AbstractXMLObject implemen
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>(1 + requestedSecurityTokens.size());
+        final ArrayList<XMLObject> children = new ArrayList<>(1 + requestedSecurityTokens.size());
 
         children.addAll(requestedSecurityTokens);
         children.add(appliesTo);

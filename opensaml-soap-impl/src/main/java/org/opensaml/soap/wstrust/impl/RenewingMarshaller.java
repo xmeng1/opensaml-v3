@@ -31,7 +31,7 @@ public class RenewingMarshaller extends AbstractWSTrustObjectMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        Renewing renewing = (Renewing) xmlObject;
+        final Renewing renewing = (Renewing) xmlObject;
         
         if (renewing.isAllowXSBoolean() != null) {
             domElement.setAttributeNS(null, Renewing.ALLOW_ATTRIB_NAME, renewing.isAllowXSBoolean().toString());

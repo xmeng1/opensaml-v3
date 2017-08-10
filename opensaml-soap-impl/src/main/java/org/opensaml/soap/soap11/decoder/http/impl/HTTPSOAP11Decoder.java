@@ -88,15 +88,15 @@ public class HTTPSOAP11Decoder<MessageType extends XMLObject>
     /** {@inheritDoc} */
     @Override
     protected void doDecode() throws MessageDecodingException {
-        MessageContext<MessageType> messageContext = new MessageContext<>();
-        HttpServletRequest request = getHttpServletRequest();
+        final MessageContext<MessageType> messageContext = new MessageContext<>();
+        final HttpServletRequest request = getHttpServletRequest();
 
         if (!"POST".equalsIgnoreCase(request.getMethod())) {
             throw new MessageDecodingException("This message decoder only supports the HTTP POST method");
         }
 
         log.debug("Unmarshalling SOAP message");
-        Envelope soapMessage;
+        final Envelope soapMessage;
         try {
             soapMessage = (Envelope) unmarshallMessage(request.getInputStream());
             messageContext.getSubcontext(SOAP11Context.class, true).setEnvelope(soapMessage);

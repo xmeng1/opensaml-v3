@@ -35,8 +35,8 @@ public class EncryptedHeaderUnmarshaller extends AbstractWSSecurityObjectUnmarsh
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        EncryptedHeader eh = (EncryptedHeader) xmlObject;
-        QName attrName = QNameSupport.getNodeQName(attribute);
+        final EncryptedHeader eh = (EncryptedHeader) xmlObject;
+        final QName attrName = QNameSupport.getNodeQName(attribute);
         if (EncryptedHeader.WSU_ID_ATTR_NAME.equals(attrName)) {
             eh.setWSUId(attribute.getValue());
             attribute.getOwnerElement().setIdAttributeNode(attribute, true);
@@ -58,7 +58,7 @@ public class EncryptedHeaderUnmarshaller extends AbstractWSSecurityObjectUnmarsh
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        EncryptedHeader eh = (EncryptedHeader) parentXMLObject;
+        final EncryptedHeader eh = (EncryptedHeader) parentXMLObject;
         if (childXMLObject instanceof EncryptedData) {
             eh.setEncryptedData((EncryptedData) childXMLObject);
         } else {

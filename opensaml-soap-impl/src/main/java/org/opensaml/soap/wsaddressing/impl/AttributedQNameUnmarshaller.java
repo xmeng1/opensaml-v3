@@ -31,7 +31,7 @@ public class AttributedQNameUnmarshaller extends XSQNameUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        AttributedQName attributedQName = (AttributedQName) xmlObject;
+        final AttributedQName attributedQName = (AttributedQName) xmlObject;
         XMLObjectSupport.unmarshallToAttributeMap(attributedQName.getUnknownAttributes(), attribute);
     }
 

@@ -65,7 +65,7 @@ public class HTTPSOAP11Encoder<MessageType extends XMLObject>
     /** Constructor. */
     public HTTPSOAP11Encoder() {
         super();
-        XMLObjectBuilderFactory builderFactory = XMLObjectProviderRegistrySupport.getBuilderFactory();
+        final XMLObjectBuilderFactory builderFactory = XMLObjectProviderRegistrySupport.getBuilderFactory();
         envBuilder = (SOAPObjectBuilder<Envelope>) builderFactory.getBuilder(Envelope.DEFAULT_ELEMENT_NAME);
         bodyBuilder = (SOAPObjectBuilder<Body>) builderFactory.getBuilder(Body.DEFAULT_ELEMENT_NAME);
         
@@ -75,10 +75,10 @@ public class HTTPSOAP11Encoder<MessageType extends XMLObject>
     
     /** {@inheritDoc} */
     public void prepareContext() throws MessageEncodingException {
-        MessageContext<MessageType> messageContext = getMessageContext();
+        final MessageContext<MessageType> messageContext = getMessageContext();
         XMLObject payload = null;
         
-        Fault fault = SOAPMessagingSupport.getSOAP11Fault(messageContext);
+        final Fault fault = SOAPMessagingSupport.getSOAP11Fault(messageContext);
         if (fault != null) {
             log.debug("Saw SOAP 1.1 Fault payload with fault code, replacing any existing context message: {}", 
                     fault.getCode() != null ? fault.getCode().getValue() : null);
@@ -102,8 +102,8 @@ public class HTTPSOAP11Encoder<MessageType extends XMLObject>
 
     /** {@inheritDoc} */
     protected void doEncode() throws MessageEncodingException {
-        Envelope envelope = getSOAPEnvelope();
-        Element envelopeElem = marshallMessage(envelope);
+        final Envelope envelope = getSOAPEnvelope();
+        final Element envelopeElem = marshallMessage(envelope);
         
         prepareHttpServletResponse();
 
@@ -179,12 +179,12 @@ public class HTTPSOAP11Encoder<MessageType extends XMLObject>
      * @throws MessageEncodingException thrown if there is a problem preprocessing the transport
      */
     protected void prepareHttpServletResponse() throws MessageEncodingException {
-        HttpServletResponse response = getHttpServletResponse();
+        final HttpServletResponse response = getHttpServletResponse();
         HttpServletSupport.addNoCacheHeaders(response);
         HttpServletSupport.setUTF8Encoding(response);
         HttpServletSupport.setContentType(response, "text/xml");
         
-        String soapAction = getSOAPAction();
+        final String soapAction = getSOAPAction();
         if (soapAction != null) {
             response.setHeader("SOAPAction", soapAction);
         } else {
@@ -205,12 +205,12 @@ public class HTTPSOAP11Encoder<MessageType extends XMLObject>
      * @return a SOAPAction HTTP header URI value
      */
     protected String getSOAPAction() {
-        Envelope env = getSOAPEnvelope();
-        Header header = env.getHeader();
+        final Envelope env = getSOAPEnvelope();
+        final Header header = env.getHeader();
         if (header == null) {
             return null;
         }
-        List<XMLObject> objList = header.getUnknownXMLObjects(Action.ELEMENT_NAME);
+        final List<XMLObject> objList = header.getUnknownXMLObjects(Action.ELEMENT_NAME);
         if (objList == null || objList.isEmpty()) {
             return null;
         } else {
@@ -224,15 +224,16 @@ public class HTTPSOAP11Encoder<MessageType extends XMLObject>
      * @return the HTTP response status code
      */
     protected int getHTTPResponseStatusCode() {
-        Integer contextStatus = getMessageContext().getSubcontext(SOAP11Context.class, true).getHTTPResponseStatus();
+        final Integer contextStatus =
+                getMessageContext().getSubcontext(SOAP11Context.class, true).getHTTPResponseStatus();
         if (contextStatus != null) {
             return contextStatus;
         }
         
-        Envelope envelope = getSOAPEnvelope();
+        final Envelope envelope = getSOAPEnvelope();
         if (envelope != null && envelope.getBody() != null) {
-            Body body = envelope.getBody();
-            List<XMLObject> faults = body.getUnknownXMLObjects(Fault.DEFAULT_ELEMENT_NAME);
+            final Body body = envelope.getBody();
+            final List<XMLObject> faults = body.getUnknownXMLObjects(Fault.DEFAULT_ELEMENT_NAME);
             if (!faults.isEmpty()) {
                 return HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
             }

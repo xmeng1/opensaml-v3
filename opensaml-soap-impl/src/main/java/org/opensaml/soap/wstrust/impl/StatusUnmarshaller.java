@@ -33,7 +33,7 @@ public class StatusUnmarshaller extends AbstractWSTrustObjectUnmarshaller {
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject) 
             throws UnmarshallingException {
-        Status status= (Status) parentXMLObject;
+        final Status status= (Status) parentXMLObject;
         
         if (childXMLObject instanceof Code) {
             status.setCode((Code) childXMLObject);

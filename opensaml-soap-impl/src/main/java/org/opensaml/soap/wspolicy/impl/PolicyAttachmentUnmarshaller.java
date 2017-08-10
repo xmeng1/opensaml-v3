@@ -33,14 +33,14 @@ public class PolicyAttachmentUnmarshaller extends AbstractWSPolicyObjectUnmarsha
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        PolicyAttachment pa = (PolicyAttachment) xmlObject;
+        final PolicyAttachment pa = (PolicyAttachment) xmlObject;
         XMLObjectSupport.unmarshallToAttributeMap(pa.getUnknownAttributes(), attribute);
     }
 
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        PolicyAttachment pa = (PolicyAttachment) parentXMLObject;
+        final PolicyAttachment pa = (PolicyAttachment) parentXMLObject;
         
         if (childXMLObject instanceof AppliesTo) {
             pa.setAppliesTo((AppliesTo) childXMLObject);

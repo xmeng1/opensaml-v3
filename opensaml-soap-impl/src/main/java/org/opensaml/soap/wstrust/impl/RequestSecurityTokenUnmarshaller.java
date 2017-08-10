@@ -32,7 +32,7 @@ public class RequestSecurityTokenUnmarshaller extends AbstractWSTrustObjectUnmar
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        RequestSecurityToken rst = (RequestSecurityToken) xmlObject;
+        final RequestSecurityToken rst = (RequestSecurityToken) xmlObject;
         if (RequestSecurityToken.CONTEXT_ATTRIB_NAME.equals(attribute.getLocalName())) {
             rst.setContext(attribute.getValue());
         } else {
@@ -43,7 +43,7 @@ public class RequestSecurityTokenUnmarshaller extends AbstractWSTrustObjectUnmar
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        RequestSecurityToken rst = (RequestSecurityToken) parentXMLObject;
+        final RequestSecurityToken rst = (RequestSecurityToken) parentXMLObject;
         rst.getUnknownXMLObjects().add(childXMLObject);
     }
 

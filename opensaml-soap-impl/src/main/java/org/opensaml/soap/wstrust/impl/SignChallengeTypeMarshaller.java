@@ -32,7 +32,7 @@ public class SignChallengeTypeMarshaller extends AbstractWSTrustObjectMarshaller
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        SignChallengeType signChallengeType = (SignChallengeType) xmlObject;
+        final SignChallengeType signChallengeType = (SignChallengeType) xmlObject;
         XMLObjectSupport.marshallAttributeMap(signChallengeType.getUnknownAttributes(), domElement);
     }
 

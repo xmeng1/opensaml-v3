@@ -38,10 +38,10 @@ public class BodyMarshaller extends AbstractXMLObjectMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        Body body = (Body) xmlObject;
+        final Body body = (Body) xmlObject;
 
         Attr attribute;
-        for (Entry<QName, String> entry : body.getUnknownAttributes().entrySet()) {
+        for (final Entry<QName, String> entry : body.getUnknownAttributes().entrySet()) {
             attribute = AttributeSupport.constructAttribute(domElement.getOwnerDocument(), entry.getKey());
             attribute.setValue(entry.getValue());
             domElement.setAttributeNodeNS(attribute);

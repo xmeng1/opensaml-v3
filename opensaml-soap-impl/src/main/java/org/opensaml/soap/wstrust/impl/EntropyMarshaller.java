@@ -32,7 +32,7 @@ public class EntropyMarshaller extends AbstractWSTrustObjectMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        Entropy entropy = (Entropy) xmlObject;
+        final Entropy entropy = (Entropy) xmlObject;
         XMLObjectSupport.marshallAttributeMap(entropy.getUnknownAttributes(), domElement);
     }
 

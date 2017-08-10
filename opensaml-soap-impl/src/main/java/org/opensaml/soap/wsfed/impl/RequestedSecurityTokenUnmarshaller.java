@@ -27,7 +27,7 @@ public class RequestedSecurityTokenUnmarshaller extends AbstractXMLObjectUnmarsh
 
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject) {
-        RequestedSecurityToken requestedSecurityToken = (RequestedSecurityToken) parentSAMLObject;
+        final RequestedSecurityToken requestedSecurityToken = (RequestedSecurityToken) parentSAMLObject;
         requestedSecurityToken.getSecurityTokens().add(childSAMLObject);
     }
 

@@ -85,16 +85,16 @@ public class HttpClientResponseSOAP11Decoder<MessageType extends XMLObject>
 
     /** {@inheritDoc} */
     protected void doDecode() throws MessageDecodingException {
-        MessageContext<MessageType> messageContext = new MessageContext<>();
-        HttpResponse response = getHttpResponse();
+        final MessageContext<MessageType> messageContext = new MessageContext<>();
+        final HttpResponse response = getHttpResponse();
         
         log.debug("Unmarshalling SOAP message");
         try {
-            int responseStatusCode = response.getStatusLine().getStatusCode();
+            final int responseStatusCode = response.getStatusLine().getStatusCode();
             
             switch(responseStatusCode) {
                 case HttpStatus.SC_OK:
-                    SOAP11Context soapContext = messageContext.getSubcontext(SOAP11Context.class, true);
+                    final SOAP11Context soapContext = messageContext.getSubcontext(SOAP11Context.class, true);
                     processSuccessResponse(response, soapContext);
                     break;
                 case HttpStatus.SC_INTERNAL_SERVER_ERROR:
@@ -148,10 +148,10 @@ public class HttpClientResponseSOAP11Decoder<MessageType extends XMLObject>
         if (httpResponse.getEntity() == null) {
             throw new MessageDecodingException("No response body from server");
         }
-        Envelope soapMessage = (Envelope) unmarshallMessage(httpResponse.getEntity().getContent());
+        final Envelope soapMessage = (Envelope) unmarshallMessage(httpResponse.getEntity().getContent());
         
         // Defensive sanity check, otherwise body handler could later fail non-gracefully with runtime exception
-        Fault fault = getFault(soapMessage);
+        final Fault fault = getFault(soapMessage);
         if (fault != null) {
             throw new SOAP11FaultDecodingException(fault);
         }
@@ -175,9 +175,9 @@ public class HttpClientResponseSOAP11Decoder<MessageType extends XMLObject>
         if (response.getEntity() == null) {
             throw new MessageDecodingException("No response body from server");
         }
-        Envelope soapMessage = (Envelope) unmarshallMessage(response.getEntity().getContent());
+        final Envelope soapMessage = (Envelope) unmarshallMessage(response.getEntity().getContent());
         
-        Fault fault = getFault(soapMessage);
+        final Fault fault = getFault(soapMessage);
         if (fault == null) {
             throw new MessageDecodingException("HTTP status code was 500 but SOAP response did not contain a Fault");
         }
@@ -203,7 +203,7 @@ public class HttpClientResponseSOAP11Decoder<MessageType extends XMLObject>
      */
     protected Fault getFault(final Envelope soapMessage) {
         if (soapMessage.getBody() != null) {
-            List<XMLObject> faults = soapMessage.getBody().getUnknownXMLObjects(Fault.DEFAULT_ELEMENT_NAME);
+            final List<XMLObject> faults = soapMessage.getBody().getUnknownXMLObjects(Fault.DEFAULT_ELEMENT_NAME);
             if (!faults.isEmpty()) {
                 return (Fault) faults.get(0);
             } else {

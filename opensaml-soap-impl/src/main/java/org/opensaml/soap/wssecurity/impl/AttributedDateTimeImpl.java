@@ -68,7 +68,7 @@ public class AttributedDateTimeImpl extends AbstractWSSecurityObject implements 
     /** {@inheritDoc} */
     public void setDateTime(final DateTime newDateTime) {
         dateTimeValue = newDateTime;
-        String formattedDateTime = formatter.print(dateTimeValue);
+        final String formattedDateTime = formatter.print(dateTimeValue);
         stringValue = prepareForAssignment(stringValue, formattedDateTime);
     }
 
@@ -90,7 +90,7 @@ public class AttributedDateTimeImpl extends AbstractWSSecurityObject implements 
 
     /** {@inheritDoc} */
     public void setWSUId(final String newId) {
-        String oldID = id;
+        final String oldID = id;
         id = prepareForAssignment(id, newId);
         registerOwnID(oldID, id);
         manageQualifiedAttributeNamespace(IdBearing.WSU_ID_ATTR_NAME, id != null);

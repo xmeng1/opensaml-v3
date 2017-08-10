@@ -113,7 +113,7 @@ public class EndpointReferenceTypeImpl extends AbstractWSAddressingObject implem
     
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         if (address != null) {
             children.add(address);
         }

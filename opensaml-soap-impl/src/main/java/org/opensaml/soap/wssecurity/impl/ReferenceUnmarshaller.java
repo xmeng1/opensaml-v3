@@ -31,8 +31,8 @@ public class ReferenceUnmarshaller extends AbstractWSSecurityObjectUnmarshaller 
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        Reference reference = (Reference) xmlObject;
-        String attrName = attribute.getLocalName();
+        final Reference reference = (Reference) xmlObject;
+        final String attrName = attribute.getLocalName();
         if (Reference.URI_ATTRIB_NAME.equals(attrName)) {
             reference.setURI(attribute.getValue());
         } else if (Reference.VALUE_TYPE_ATTRIB_NAME.equals(attrName)) {

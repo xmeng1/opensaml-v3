@@ -30,7 +30,7 @@ public class PolicyAttachmentMarshaller extends AbstractWSPolicyObjectMarshaller
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        PolicyAttachment pa = (PolicyAttachment) xmlObject;
+        final PolicyAttachment pa = (PolicyAttachment) xmlObject;
         XMLObjectSupport.marshallAttributeMap(pa.getUnknownAttributes(), domElement);
     }
 

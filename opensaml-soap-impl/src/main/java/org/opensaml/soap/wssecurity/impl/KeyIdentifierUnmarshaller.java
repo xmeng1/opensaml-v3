@@ -30,7 +30,7 @@ public class KeyIdentifierUnmarshaller extends EncodedStringUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        KeyIdentifier keyIdentifier = (KeyIdentifier) xmlObject;
+        final KeyIdentifier keyIdentifier = (KeyIdentifier) xmlObject;
         if (KeyIdentifier.VALUE_TYPE_ATTRIB_NAME.equals(attribute.getLocalName())) {
             keyIdentifier.setValueType(attribute.getValue());
         } else {

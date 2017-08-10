@@ -34,7 +34,7 @@ public class ReferenceMarshaller extends AbstractWSSecurityObjectMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        Reference reference = (Reference) xmlObject;
+        final Reference reference = (Reference) xmlObject;
         
         if (!Strings.isNullOrEmpty(reference.getURI())) {
             domElement.setAttributeNS(null, Reference.URI_ATTRIB_NAME, reference.getURI());

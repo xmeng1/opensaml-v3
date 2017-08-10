@@ -31,7 +31,7 @@ public class OnBehalfOfUnmarshaller extends AbstractWSTrustObjectUnmarshaller {
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject) 
             throws UnmarshallingException {
-        OnBehalfOf obo = (OnBehalfOf) parentXMLObject;
+        final OnBehalfOf obo = (OnBehalfOf) parentXMLObject;
         obo.getUnknownXMLObjects().add(childXMLObject);
     }
 

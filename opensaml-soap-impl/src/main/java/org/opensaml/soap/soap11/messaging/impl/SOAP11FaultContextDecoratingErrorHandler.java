@@ -100,7 +100,7 @@ public class SOAP11FaultContextDecoratingErrorHandler<MessageType> implements Ty
     public boolean handleError(@Nonnull final Throwable t, @Nonnull final MessageContext<MessageType> messageContext) {
         //TODO can support details?
         //TODO add Function<MessageContext,Fault> support?
-        Fault fault = SOAPSupport.buildSOAP11Fault(faultCode, faultString, faultActor, null, null);
+        final Fault fault = SOAPSupport.buildSOAP11Fault(faultCode, faultString, faultActor, null, null);
         
         SOAPMessagingSupport.registerSOAP11Fault(messageContext, fault);
         

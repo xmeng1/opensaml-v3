@@ -32,7 +32,7 @@ public class RenewingUnmarshaller extends AbstractWSTrustObjectUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        Renewing renewing = (Renewing) xmlObject;
+        final Renewing renewing = (Renewing) xmlObject;
         
         if (attribute.getLocalName().equals(Renewing.ALLOW_ATTRIB_NAME)) {
             renewing.setAllow(XSBooleanValue.valueOf(attribute.getValue()));

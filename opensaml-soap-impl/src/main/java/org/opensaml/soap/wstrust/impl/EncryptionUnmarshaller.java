@@ -32,7 +32,7 @@ public class EncryptionUnmarshaller extends AbstractWSTrustObjectUnmarshaller {
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        Encryption enc = (Encryption) parentXMLObject;
+        final Encryption enc = (Encryption) parentXMLObject;
         enc.setUnknownXMLObject(childXMLObject);
     }
 

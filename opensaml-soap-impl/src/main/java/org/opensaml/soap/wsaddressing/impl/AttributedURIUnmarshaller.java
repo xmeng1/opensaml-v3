@@ -32,14 +32,14 @@ public class AttributedURIUnmarshaller extends AbstractWSAddressingObjectUnmarsh
     /** {@inheritDoc} */
     protected void processElementContent(final XMLObject xmlObject, final String elementContent) {
         if (elementContent != null) {
-            AttributedURI attributedURI = (AttributedURI) xmlObject;
+            final AttributedURI attributedURI = (AttributedURI) xmlObject;
             attributedURI.setValue(elementContent);
         }
     }
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        AttributedURI attributedURI = (AttributedURI) xmlObject;
+        final AttributedURI attributedURI = (AttributedURI) xmlObject;
         XMLObjectSupport.unmarshallToAttributeMap(attributedURI.getUnknownAttributes(), attribute);
     }
 

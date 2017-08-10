@@ -33,7 +33,7 @@ public class ClaimsUnmarshaller extends AbstractWSTrustObjectUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        Claims claims = (Claims) xmlObject;
+        final Claims claims = (Claims) xmlObject;
         if (Claims.DIALECT_ATTRIB_NAME.equals(attribute.getLocalName())) {
             claims.setDialect(attribute.getValue());
         } else {
@@ -44,7 +44,7 @@ public class ClaimsUnmarshaller extends AbstractWSTrustObjectUnmarshaller {
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        Claims claims = (Claims) parentXMLObject;
+        final Claims claims = (Claims) parentXMLObject;
         claims.getUnknownXMLObjects().add(childXMLObject);
     }
 

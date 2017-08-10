@@ -31,14 +31,14 @@ public class MetadataUnmarshaller extends AbstractWSAddressingObjectUnmarshaller
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        Metadata metadata = (Metadata) xmlObject;
+        final Metadata metadata = (Metadata) xmlObject;
         XMLObjectSupport.unmarshallToAttributeMap(metadata.getUnknownAttributes(), attribute);
     }
 
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        Metadata metadata = (Metadata) parentXMLObject;
+        final Metadata metadata = (Metadata) parentXMLObject;
         metadata.getUnknownXMLObjects().add(childXMLObject);
     }
 
