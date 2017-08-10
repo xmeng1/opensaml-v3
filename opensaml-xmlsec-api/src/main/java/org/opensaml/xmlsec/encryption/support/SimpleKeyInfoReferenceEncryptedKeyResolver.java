@@ -91,7 +91,7 @@ public class SimpleKeyInfoReferenceEncryptedKeyResolver extends AbstractEncrypte
      * 
      * @param limit limit to set
      */
-    public void setDepthLimit(int limit) {
+    public void setDepthLimit(final int limit) {
         depthLimit = Math.max(1, limit);
     }
     
@@ -110,7 +110,7 @@ public class SimpleKeyInfoReferenceEncryptedKeyResolver extends AbstractEncrypte
      * @param limit depth of references to follow
      * @return  encrypted keys
      */
-    @Nonnull protected Iterable<EncryptedKey> resolveKeyInfo(@Nullable final KeyInfo keyInfo, int limit) {
+    @Nonnull protected Iterable<EncryptedKey> resolveKeyInfo(@Nullable final KeyInfo keyInfo, final int limit) {
         List<EncryptedKey> resolvedEncKeys = new ArrayList<>();
         
         if (keyInfo == null) {

@@ -43,7 +43,7 @@ public class RSAOAEPParameters {
      * @param  mgf the mask generation function (MGF)
      * @param params the OAEPParms (base64-encoded)
      */
-    public RSAOAEPParameters(String digest, String mgf, String params) {
+    public RSAOAEPParameters(final String digest, final String mgf, final String params) {
         setDigestMethod(digest);
         setMaskGenerationFunction(mgf);
         setOAEPparams(params);
@@ -81,7 +81,7 @@ public class RSAOAEPParameters {
      * 
      * @param value the new digest method URI
      */
-    public void setDigestMethod(String value) {
+    public void setDigestMethod(final String value) {
         digestMethod = StringSupport.trimOrNull(value);
     }
 
@@ -99,7 +99,7 @@ public class RSAOAEPParameters {
      * 
      * @param value the new MGF algorithm URI
      */
-    public void setMaskGenerationFunction(String value) {
+    public void setMaskGenerationFunction(final String value) {
         maskGenerationFunction = StringSupport.trimOrNull(value);
     }
 
@@ -117,7 +117,7 @@ public class RSAOAEPParameters {
      * 
      * @param value the new base64-encoded OAEPParams value
      */
-    public void setOAEPparams(String value) {
+    public void setOAEPparams(final String value) {
         oaepParams = StringSupport.trimOrNull(value);
     }
 

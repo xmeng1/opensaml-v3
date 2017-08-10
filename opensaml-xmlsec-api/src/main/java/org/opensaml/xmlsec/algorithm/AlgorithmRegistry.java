@@ -199,7 +199,7 @@ public class AlgorithmRegistry {
      * 
      * @param descriptor the algorithm
      */
-    private void index(AlgorithmDescriptor descriptor) {
+    private void index(final AlgorithmDescriptor descriptor) {
         if (checkRuntimeSupports(descriptor)) {
             runtimeSupported.add(descriptor.getURI());
         } else {
@@ -225,7 +225,7 @@ public class AlgorithmRegistry {
      * 
      * @param descriptor the algorithm
      */
-    private void deindex(AlgorithmDescriptor descriptor) {
+    private void deindex(final AlgorithmDescriptor descriptor) {
         runtimeSupported.remove(descriptor.getURI());
         
         if (descriptor instanceof DigestAlgorithm) {
@@ -246,7 +246,7 @@ public class AlgorithmRegistry {
      * @return true if runtime supports the algorithm, false otherwise
      */
     // Checkstyle: CyclomaticComplexity OFF
-    private boolean checkRuntimeSupports(AlgorithmDescriptor descriptor) {
+    private boolean checkRuntimeSupports(final AlgorithmDescriptor descriptor) {
         
         try {
             switch(descriptor.getType()) {
@@ -276,13 +276,13 @@ public class AlgorithmRegistry {
                             descriptor.getClass().getName());
                 
             }
-        } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
+        } catch (final NoSuchAlgorithmException | NoSuchPaddingException e) {
             if (!checkSpecialCasesRuntimeSupport(descriptor)) {
                 log.debug(String.format("AlgorithmDescriptor failed runtime support check: %s", 
                         descriptor.getURI()), e);
                 return false;
             }
-        } catch (Throwable t) {
+        } catch (final Throwable t) {
             log.error("Fatal error evaluating algorithm runtime support", t);
             return false;
         }
@@ -299,7 +299,8 @@ public class AlgorithmRegistry {
      * @return true if key length supported, false otherwise
      * @throws NoSuchAlgorithmException if the associated JCA algorithm is not supported by the runtime
      */
-    private boolean checkCipherSupportedKeyLength(AlgorithmDescriptor descriptor) throws NoSuchAlgorithmException {
+    private boolean checkCipherSupportedKeyLength(final AlgorithmDescriptor descriptor)
+            throws NoSuchAlgorithmException {
         if (descriptor instanceof KeyLengthSpecifiedAlgorithm) {
             int algoLength = ((KeyLengthSpecifiedAlgorithm)descriptor).getKeyLength();
             int cipherMaxLength = Cipher.getMaxAllowedKeyLength(descriptor.getJCAAlgorithmID());
@@ -319,7 +320,7 @@ public class AlgorithmRegistry {
      * 
      * @return true if algorithm is supported by the runtime environment, false otherwise
      */
-    private boolean checkSpecialCasesRuntimeSupport(AlgorithmDescriptor descriptor) {
+    private boolean checkSpecialCasesRuntimeSupport(final AlgorithmDescriptor descriptor) {
         log.trace("Checking runtime support failure for special cases: {}", descriptor.getURI());
         try {
             // Per Santuario XMLCipher: Some JDKs don't support RSA/ECB/OAEPPadding.
@@ -371,7 +372,7 @@ public class AlgorithmRegistry {
 
         /** {@inheritDoc} */
         @Override
-        public boolean equals(Object obj) {
+        public boolean equals(final Object obj) {
             if (obj == this) {
                 return true;
             }

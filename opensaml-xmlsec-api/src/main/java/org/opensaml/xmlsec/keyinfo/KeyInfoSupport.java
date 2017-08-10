@@ -280,7 +280,7 @@ public class KeyInfoSupport {
 
         try {
             return X509Support.decodeCRL(xmlCRL.getValue());
-        } catch (CertificateException e) {
+        } catch (final CertificateException e) {
             throw new CRLException("Certificate error attempting to decode CRL", e);
         }
     }
@@ -345,7 +345,8 @@ public class KeyInfoSupport {
      * @throws CertificateEncodingException thrown when there is an error converting the Java certificate representation
      *             to the XMLObject representation
      */
-    @Nonnull public static org.opensaml.xmlsec.signature.X509Certificate buildX509Certificate(X509Certificate cert)
+    @Nonnull public static org.opensaml.xmlsec.signature.X509Certificate
+            buildX509Certificate(final X509Certificate cert)
             throws CertificateEncodingException {
         Constraint.isNotNull(cert, "X.509 certificate cannot be null");
         
@@ -370,7 +371,7 @@ public class KeyInfoSupport {
      * @throws CRLException thrown when there is an error converting the Java CRL representation to the XMLObject
      *             representation
      */
-    @Nonnull public static org.opensaml.xmlsec.signature.X509CRL buildX509CRL(X509CRL crl) throws CRLException {
+    @Nonnull public static org.opensaml.xmlsec.signature.X509CRL buildX509CRL(final X509CRL crl) throws CRLException {
         Constraint.isNotNull(crl, "X.509 CRL cannot be null");
         
         XMLObjectBuilder<org.opensaml.xmlsec.signature.X509CRL> xmlCRLBuilder =

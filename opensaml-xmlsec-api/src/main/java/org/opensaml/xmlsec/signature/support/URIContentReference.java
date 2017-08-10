@@ -95,9 +95,9 @@ public class URIContentReference implements ConfigurableContentReference {
                 dsigTransforms.addTransform(transform);
             }
             signature.addDocument(referenceID, dsigTransforms, digestAlgorithm);
-        } catch (TransformationException e) {
+        } catch (final TransformationException e) {
             log.error("Error while creating transforms", e);
-        } catch (XMLSignatureException e) {
+        } catch (final XMLSignatureException e) {
             log.error("Error while adding content reference", e);
         }
     }

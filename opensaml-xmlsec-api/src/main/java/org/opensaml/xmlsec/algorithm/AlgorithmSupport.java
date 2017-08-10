@@ -92,7 +92,7 @@ public final class AlgorithmSupport {
      * @param algorithm the algorithm descriptor to evaluate
      * @return true if the algorithm may be used for key encryption, false otherwise
      */
-    public static boolean isDataEncryptionAlgorithm(@Nullable AlgorithmDescriptor algorithm) {
+    public static boolean isDataEncryptionAlgorithm(@Nullable final AlgorithmDescriptor algorithm) {
         if (algorithm == null) {
             return false;
         }
@@ -351,7 +351,7 @@ public final class AlgorithmSupport {
      * @throws NoSuchProviderException  provider not found
      * @throws NoSuchAlgorithmException  algorithm not found
      */
-    @Nonnull public static KeyPair generateKeyPair(@Nonnull final String algoURI, int keyLength) 
+    @Nonnull public static KeyPair generateKeyPair(@Nonnull final String algoURI, final int keyLength) 
             throws NoSuchAlgorithmException, NoSuchProviderException {
         String jceAlgorithmName = getKeyAlgorithm(algoURI);
         return KeySupport.generateKeyPair(jceAlgorithmName, keyLength, null);
@@ -381,8 +381,9 @@ public final class AlgorithmSupport {
      * @throws NoSuchAlgorithmException algorithm not found
      * @throws NoSuchProviderException provider not found
      */
-    @Nonnull public static Credential generateKeyPairAndCredential(@Nonnull final String algorithmURI, int keyLength,
-            boolean includePrivate) throws NoSuchAlgorithmException, NoSuchProviderException {
+    @Nonnull public static Credential generateKeyPairAndCredential(@Nonnull final String algorithmURI,
+            final int keyLength,
+            final boolean includePrivate) throws NoSuchAlgorithmException, NoSuchProviderException {
         KeyPair keyPair = generateKeyPair(algorithmURI, keyLength);
         BasicCredential credential = new BasicCredential(keyPair.getPublic());
         if (includePrivate) {

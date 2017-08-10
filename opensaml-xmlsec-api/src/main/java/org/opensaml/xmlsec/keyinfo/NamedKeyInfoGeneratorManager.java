@@ -62,7 +62,7 @@ public class NamedKeyInfoGeneratorManager {
      * 
      * @param newValue the new option value
      */
-    public void setUseDefaultManager(boolean newValue) {
+    public void setUseDefaultManager(final boolean newValue) {
         useDefaultManager = newValue;
     }
     

@@ -303,7 +303,7 @@ public class Encrypter {
                     .getClass().getName());
             try {
                 encryptedKey.setKeyInfo(generator.generate(kekParams.getEncryptionCredential()));
-            } catch (SecurityException e) {
+            } catch (final SecurityException e) {
                 log.error("Error during EncryptedKey KeyInfo generation", e);
                 throw new EncryptionException("Error during EncryptedKey KeyInfo generation", e);
             }
@@ -347,7 +347,7 @@ public class Encrypter {
         XMLCipher xmlCipher;
         try {
             xmlCipher = buildXMLCipher(encryptionKey, encryptionAlgorithmURI, rsaOAEPParams);
-        } catch (XMLEncryptionException e) {
+        } catch (final XMLEncryptionException e) {
             log.error("Error initializing cipher instance on key encryption", e);
             throw new EncryptionException("Error initializing cipher instance on key encryption", e);
         }
@@ -363,7 +363,7 @@ public class Encrypter {
             }
             postProcessApacheEncryptedKey(apacheEncryptedKey, targetKey, encryptionKey, encryptionAlgorithmURI,
                     containingDocument);
-        } catch (XMLEncryptionException e) {
+        } catch (final XMLEncryptionException e) {
             log.error("Error encrypting element on key encryption", e);
             throw new EncryptionException("Error encrypting element on key encryption", e);
         }
@@ -371,7 +371,7 @@ public class Encrypter {
         try {
             Element encKeyElement = xmlCipher.martial(containingDocument, apacheEncryptedKey);
             return (EncryptedKey) encryptedKeyUnmarshaller.unmarshall(encKeyElement);
-        } catch (UnmarshallingException e) {
+        } catch (final UnmarshallingException e) {
             log.error("Error unmarshalling EncryptedKey element", e);
             throw new EncryptionException("Error unmarshalling EncryptedKey element");
         }
@@ -451,7 +451,7 @@ public class Encrypter {
             } else {
                 return null;
             }
-        } catch (RuntimeException e) {
+        } catch (final RuntimeException e) {
             throw new EncryptionException(String.format("Error decoding OAEPParams data '%s'", base64Params), e);
         }
     }
@@ -504,8 +504,8 @@ public class Encrypter {
      * @throws EncryptionException exception thrown on encryption errors
      */
     @Nonnull protected EncryptedData encryptElement(@Nonnull final XMLObject xmlObject,
-            @Nonnull final Key encryptionKey, @Nonnull final String encryptionAlgorithmURI, boolean encryptContentMode)
-                    throws EncryptionException {
+            @Nonnull final Key encryptionKey, @Nonnull final String encryptionAlgorithmURI,
+            final boolean encryptContentMode) throws EncryptionException {
 
         if (xmlObject == null) {
             log.error("XMLObject for encryption was null");
@@ -530,7 +530,7 @@ public class Encrypter {
                 xmlCipher = XMLCipher.getInstance(encryptionAlgorithmURI);
             }
             xmlCipher.init(XMLCipher.ENCRYPT_MODE, encryptionKey);
-        } catch (XMLEncryptionException e) {
+        } catch (final XMLEncryptionException e) {
             log.error("Error initializing cipher instance on XMLObject encryption", e);
             throw new EncryptionException("Error initializing cipher instance", e);
         }
@@ -538,7 +538,7 @@ public class Encrypter {
         org.apache.xml.security.encryption.EncryptedData apacheEncryptedData;
         try {
             apacheEncryptedData = xmlCipher.encryptData(ownerDocument, targetElement, encryptContentMode);
-        } catch (Exception e) {
+        } catch (final Exception e) {
             log.error("Error encrypting XMLObject", e);
             throw new EncryptionException("Error encrypting XMLObject", e);
         }
@@ -546,7 +546,7 @@ public class Encrypter {
         try {
             Element encDataElement = xmlCipher.martial(ownerDocument, apacheEncryptedData);
             return (EncryptedData) encryptedDataUnmarshaller.unmarshall(encDataElement);
-        } catch (UnmarshallingException e) {
+        } catch (final UnmarshallingException e) {
             log.error("Error unmarshalling EncryptedData element", e);
             throw new EncryptionException("Error unmarshalling EncryptedData element", e);
         }
@@ -566,7 +566,7 @@ public class Encrypter {
      */
     @Nonnull private EncryptedData encryptElement(@Nonnull final XMLObject xmlObject,
             @Nonnull final DataEncryptionParameters encParams,
-            @Nonnull final List<KeyEncryptionParameters> kekParamsList, boolean encryptContentMode)
+            @Nonnull final List<KeyEncryptionParameters> kekParamsList, final boolean encryptContentMode)
                     throws EncryptionException {
 
         checkParams(encParams, kekParamsList);
@@ -587,7 +587,7 @@ public class Encrypter {
                     .getClass().getName());
             try {
                 encryptedData.setKeyInfo(generator.generate(encParams.getEncryptionCredential()));
-            } catch (SecurityException e) {
+            } catch (final SecurityException e) {
                 log.error("Error during EncryptedData KeyInfo generation", e);
                 throw new EncryptionException("Error during EncryptedData KeyInfo generation", e);
             }
@@ -621,7 +621,7 @@ public class Encrypter {
                     throw new MarshallingException("No marshaller available for " + xmlObject.getElementQName());
                 }
                 targetElement = marshaller.marshall(xmlObject);
-            } catch (MarshallingException e) {
+            } catch (final MarshallingException e) {
                 log.error("Error marshalling target XMLObject", e);
                 throw new EncryptionException("Error marshalling target XMLObject", e);
             }
@@ -653,7 +653,7 @@ public class Encrypter {
      * 
      * @throws EncryptionException thrown if any parameters are missing or have invalid values
      */
-    protected void checkParams(@Nullable final KeyEncryptionParameters kekParams, boolean allowEmpty)
+    protected void checkParams(@Nullable final KeyEncryptionParameters kekParams, final boolean allowEmpty)
             throws EncryptionException {
         if (kekParams == null) {
             if (allowEmpty) {
@@ -687,7 +687,7 @@ public class Encrypter {
      * 
      * @throws EncryptionException thrown if any parameters are missing or have invalid values
      */
-    protected void checkParams(@Nullable final List<KeyEncryptionParameters> kekParamsList, boolean allowEmpty)
+    protected void checkParams(@Nullable final List<KeyEncryptionParameters> kekParamsList, final boolean allowEmpty)
             throws EncryptionException {
         if (kekParamsList == null || kekParamsList.isEmpty()) {
             if (allowEmpty) {
@@ -736,11 +736,11 @@ public class Encrypter {
         try {
             log.debug("Generating random symmetric data encryption key from algorithm URI: {}", encryptionAlgorithmURI);
             return AlgorithmSupport.generateSymmetricKey(encryptionAlgorithmURI);
-        } catch (NoSuchAlgorithmException e) {
+        } catch (final NoSuchAlgorithmException e) {
             log.error("Could not generate encryption key, algorithm URI was invalid: " + encryptionAlgorithmURI);
             throw new EncryptionException("Could not generate encryption key, algorithm URI was invalid: "
                     + encryptionAlgorithmURI);
-        } catch (KeyException e) {
+        } catch (final KeyException e) {
             log.error("Could not generate encryption key from algorithm URI: " + encryptionAlgorithmURI);
             throw new EncryptionException("Could not generate encryption key from algorithm URI: "
                     + encryptionAlgorithmURI);

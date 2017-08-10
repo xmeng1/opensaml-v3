@@ -53,7 +53,7 @@ public class KeyEncryptionParameters extends DataEncryptionParameters {
      * @param params the encryption parameters instance
      * @param recipientId the recipient of the key
      */
-    public KeyEncryptionParameters(EncryptionParameters params, String recipientId) {
+    public KeyEncryptionParameters(final EncryptionParameters params, final String recipientId) {
         this();
         Constraint.isNotNull(params, "EncryptionParameters instance was null");
         setEncryptionCredential(params.getKeyTransportEncryptionCredential());

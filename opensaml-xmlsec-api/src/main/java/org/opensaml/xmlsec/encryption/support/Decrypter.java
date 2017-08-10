@@ -232,7 +232,7 @@ public class Decrypter {
      *
      * @param params decryption parameters to use
      */
-    public Decrypter(DecryptionParameters params) {
+    public Decrypter(final DecryptionParameters params) {
         this(   params.getDataKeyInfoCredentialResolver(), 
                 params.getKEKKeyInfoCredentialResolver(),
                 params.getEncryptedKeyResolver(),
@@ -311,7 +311,7 @@ public class Decrypter {
      * 
      * @param flag the current value of the flag for this decrypter instance
      */
-    public void setRootInNewDocument(boolean flag) {
+    public void setRootInNewDocument(final boolean flag) {
        defaultRootInNewDocument = flag; 
     }
 
@@ -357,7 +357,7 @@ public class Decrypter {
      * 
      * @param newCriteria the static criteria set to use
      */
-    public void setKeyResolverCriteria(CriteriaSet newCriteria) {
+    public void setKeyResolverCriteria(final CriteriaSet newCriteria) {
         resolverCriteria = newCriteria;
     }
 
@@ -377,7 +377,7 @@ public class Decrypter {
      * 
      * @param newCriteria the static criteria set to use
      */
-    public void setKEKResolverCriteria(CriteriaSet newCriteria) {
+    public void setKEKResolverCriteria(final CriteriaSet newCriteria) {
         kekResolverCriteria = newCriteria;
     }
 
@@ -407,7 +407,7 @@ public class Decrypter {
      *             contained more than one top-level Element, or some non-Element Node type.
      */
     @Nonnull public XMLObject decryptData(@Nonnull final EncryptedData encryptedData,
-            boolean rootInNewDocument) throws DecryptionException {
+            final boolean rootInNewDocument) throws DecryptionException {
 
         List<XMLObject> xmlObjects = decryptDataToList(encryptedData, rootInNewDocument);
         if (xmlObjects.size() != 1) {
@@ -446,7 +446,7 @@ public class Decrypter {
      *             contained DOM nodes other than type of Element
      */
     @Nonnull public List<XMLObject> decryptDataToList(@Nonnull final EncryptedData encryptedData,
-            boolean rootInNewDocument) throws DecryptionException {
+            final boolean rootInNewDocument) throws DecryptionException {
         List<XMLObject> xmlObjects = new LinkedList<>();
 
         DocumentFragment docFragment = decryptDataToDOM(encryptedData);
@@ -467,7 +467,7 @@ public class Decrypter {
                     Document newDoc = null;
                     try {
                         newDoc = parserPool.newDocument();
-                    } catch (XMLParserException e) {
+                    } catch (final XMLParserException e) {
                         log.error("There was an error creating a new DOM Document", e);
                         throw new DecryptionException("Error creating new DOM Document", e);
                     }
@@ -491,7 +491,7 @@ public class Decrypter {
                     }
                 }
                 xmlObject = unmarshaller.unmarshall(element);
-            } catch (UnmarshallingException e) {
+            } catch (final UnmarshallingException e) {
                 log.error("There was an error during unmarshalling of the decrypted element", e);
                 throw new DecryptionException("Unmarshalling error during decryption", e);
             }
@@ -577,7 +577,7 @@ public class Decrypter {
         
         try {
             checkAndMarshall(encryptedData);
-        } catch (DecryptionException e) {
+        } catch (final DecryptionException e) {
             log.error("Error marshalling EncryptedData for decryption", e);
             throw e;
         }
@@ -591,7 +591,7 @@ public class Decrypter {
                 xmlCipher = XMLCipher.getInstance();
             }
             xmlCipher.init(XMLCipher.DECRYPT_MODE, dataEncKey);
-        } catch (XMLEncryptionException e) {
+        } catch (final XMLEncryptionException e) {
             log.error("Error initialzing cipher instance on data decryption", e);
             throw new DecryptionException("Error initialzing cipher instance on data decryption", e);
         }
@@ -599,10 +599,10 @@ public class Decrypter {
         byte[] bytes = null;
         try {
             bytes = xmlCipher.decryptToByteArray(targetElement);
-        } catch (XMLEncryptionException e) {
+        } catch (final XMLEncryptionException e) {
             log.error("Error decrypting the encrypted data element", e);
             throw new DecryptionException("Error decrypting the encrypted data element", e);
-        } catch (Exception e) {
+        } catch (final Exception e) {
             // Catch anything else, esp. unchecked RuntimeException, and convert to our checked type.
             // BouncyCastle in particular is known to throw unchecked exceptions for what we would 
             // consider "routine" failures.
@@ -641,13 +641,13 @@ public class Decrypter {
             for (Credential cred : kekResolver.resolve(criteriaSet)) {
                 try {
                     return decryptKey(encryptedKey, algorithm, CredentialSupport.extractDecryptionKey(cred));
-                } catch (DecryptionException e) {
+                } catch (final DecryptionException e) {
                     String msg = "Attempt to decrypt EncryptedKey using credential from KEK KeyInfo resolver failed: ";
                     log.debug(msg, e);
                     continue;
                 }
             }
-        } catch (ResolverException e) {
+        } catch (final ResolverException e) {
             log.error("Error resolving credentials from EncryptedKey KeyInfo", e);
         }
 
@@ -679,7 +679,7 @@ public class Decrypter {
 
         try {
             checkAndMarshall(encryptedKey);
-        } catch (DecryptionException e) {
+        } catch (final DecryptionException e) {
             log.error("Error marshalling EncryptedKey for decryption", e);
             throw e;
         }
@@ -693,7 +693,7 @@ public class Decrypter {
                 xmlCipher = XMLCipher.getInstance();
             }
             xmlCipher.init(XMLCipher.UNWRAP_MODE, kek);
-        } catch (XMLEncryptionException e) {
+        } catch (final XMLEncryptionException e) {
             log.error("Error initialzing cipher instance on key decryption", e);
             throw new DecryptionException("Error initialzing cipher instance on key decryption", e);
         }
@@ -702,7 +702,7 @@ public class Decrypter {
         try {
             Element targetElement = encryptedKey.getDOM();
             encKey = xmlCipher.loadEncryptedKey(targetElement.getOwnerDocument(), targetElement);
-        } catch (XMLEncryptionException e) {
+        } catch (final XMLEncryptionException e) {
             log.error("Error when loading library native encrypted key representation", e);
             throw new DecryptionException("Error when loading library native encrypted key representation", e);
         } 
@@ -713,10 +713,10 @@ public class Decrypter {
                 throw new DecryptionException("Key could not be decrypted");
             }
             return key;
-        } catch (XMLEncryptionException e) {
+        } catch (final XMLEncryptionException e) {
             log.error("Error decrypting encrypted key", e);
             throw new DecryptionException("Error decrypting encrypted key", e);
-        }  catch (Exception e) {
+        }  catch (final Exception e) {
             // Catch anything else, esp. unchecked RuntimeException, and convert to our checked type.
             // BouncyCastle in particular is known to throw unchecked exceptions for what we would 
             // consider "routine" failures.
@@ -752,13 +752,13 @@ public class Decrypter {
                 for (Credential cred : resolver.resolve(criteriaSet)) {
                     try {
                         return decryptDataToDOM(encryptedData, CredentialSupport.extractDecryptionKey(cred));
-                    } catch (DecryptionException e) {
+                    } catch (final DecryptionException e) {
                         String msg = "Decryption attempt using credential from standard KeyInfo resolver failed: ";
                         log.debug(msg, e);
                         continue;
                     }
                 }
-            } catch (ResolverException e) {
+            } catch (final ResolverException e) {
                 log.error("Error resolving credentials from EncryptedData KeyInfo", e);
             }
         }
@@ -780,7 +780,7 @@ public class Decrypter {
                 try {
                     Key decryptedKey = decryptKey(encryptedKey, algorithm);
                     return decryptDataToDOM(encryptedData, decryptedKey);
-                } catch (DecryptionException e) {
+                } catch (final DecryptionException e) {
                     String msg = "Attempt to decrypt EncryptedData using key extracted from EncryptedKey failed: ";
                     log.debug(msg, e);
                     continue;
@@ -808,7 +808,7 @@ public class Decrypter {
         Document newDocument = null;
         try {
             newDocument = parserPool.parse(input);
-        } catch (XMLParserException e) {
+        } catch (final XMLParserException e) {
             log.error("Error parsing decrypted input stream", e);
             throw new DecryptionException("Error parsing input stream", e);
         }
@@ -961,7 +961,7 @@ public class Decrypter {
             }
             try {
                 targetElement = marshaller.marshall(xmlObject);
-            } catch (MarshallingException e) {
+            } catch (final MarshallingException e) {
                 log.error("Error marshalling target XMLObject", e);
                 throw new DecryptionException("Error marshalling target XMLObject", e);
             }
@@ -997,7 +997,7 @@ public class Decrypter {
         try {
             pp.initialize();
             return pp;
-        } catch (ComponentInitializationException e) {
+        } catch (final ComponentInitializationException e) {
             throw new XMLRuntimeException("Problem initializing Decrypter internal ParserPool", e);
         }
     }
