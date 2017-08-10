@@ -198,11 +198,11 @@ public abstract class AbstractPipelineHttpSOAPClient<OutboundMessageType, Inboun
                 pipeline.getOutboundPayloadMessageHandler().invoke(operationContext.getOutboundMessageContext());
             }
             
-            HttpUriRequest httpRequest = buildHttpRequest(endpoint, operationContext);
-            HttpClientContext httpContext = buildHttpContext(httpRequest, operationContext);
+            final HttpUriRequest httpRequest = buildHttpRequest(endpoint, operationContext);
+            final HttpClientContext httpContext = buildHttpContext(httpRequest, operationContext);
             
             // Request encoding + outbound transport handling
-            HttpClientRequestMessageEncoder<OutboundMessageType> encoder = pipeline.getEncoder();
+            final HttpClientRequestMessageEncoder<OutboundMessageType> encoder = pipeline.getEncoder();
             encoder.setHttpRequest(httpRequest);
             encoder.setMessageContext(operationContext.getOutboundMessageContext());
             encoder.initialize();
@@ -213,11 +213,11 @@ public abstract class AbstractPipelineHttpSOAPClient<OutboundMessageType, Inboun
             encoder.encode();
             
             // HttpClient execution
-            HttpResponse httpResponse = getHttpClient().execute(httpRequest, httpContext);
+            final HttpResponse httpResponse = getHttpClient().execute(httpRequest, httpContext);
             HttpClientSecuritySupport.checkTLSCredentialEvaluated(httpContext, httpRequest.getURI().getScheme());
             
             // Response decoding
-            HttpClientResponseMessageDecoder<InboundMessageType> decoder = pipeline.getDecoder();
+            final HttpClientResponseMessageDecoder<InboundMessageType> decoder = pipeline.getDecoder();
             decoder.setHttpResponse(httpResponse);
             decoder.initialize();
             decoder.decode();
@@ -229,7 +229,7 @@ public abstract class AbstractPipelineHttpSOAPClient<OutboundMessageType, Inboun
             }
             
         } catch (final SOAP11FaultDecodingException e) {
-            SOAPFaultException faultException = new SOAPFaultException(e.getMessage(), e);
+            final SOAPFaultException faultException = new SOAPFaultException(e.getMessage(), e);
             faultException.setFault(e.getFault());
             throw faultException;
         } catch (final SSLException e) {
@@ -337,9 +337,10 @@ public abstract class AbstractPipelineHttpSOAPClient<OutboundMessageType, Inboun
     @Nonnull protected HttpClientContext buildHttpContext(@Nonnull final HttpUriRequest request, 
             @Nonnull final InOutOperationContext operationContext) {
         
-        HttpClientContext clientContext = resolveClientContext(operationContext);
+        final HttpClientContext clientContext = resolveClientContext(operationContext);
         
-        HttpClientSecurityParameters contextSecurityParameters = resolveContextSecurityParameters(operationContext);
+        final HttpClientSecurityParameters contextSecurityParameters =
+                resolveContextSecurityParameters(operationContext);
         
         HttpClientSecuritySupport.marshalSecurityParameters(clientContext, contextSecurityParameters, false);
         
@@ -376,7 +377,7 @@ public abstract class AbstractPipelineHttpSOAPClient<OutboundMessageType, Inboun
      */
     protected HttpClientSecurityParameters resolveContextSecurityParameters(
             @Nonnull final InOutOperationContext operationContext) {
-        HttpClientSecurityContext securityContext = 
+        final HttpClientSecurityContext securityContext = 
                 operationContext.getOutboundMessageContext().getSubcontext(HttpClientSecurityContext.class);
         if (securityContext != null) {
             return securityContext.getSecurityParameters();
@@ -404,7 +405,7 @@ public abstract class AbstractPipelineHttpSOAPClient<OutboundMessageType, Inboun
      * @return the effective client context instance to use
      */
     @Nonnull protected HttpClientContext resolveClientContext(@Nonnull final InOutOperationContext operationContext) {
-        HttpClientRequestContext requestContext = 
+        final HttpClientRequestContext requestContext = 
                 operationContext.getOutboundMessageContext().getSubcontext(HttpClientRequestContext.class);
         if (requestContext != null && requestContext.getHttpClientContext() != null) {
             return requestContext.getHttpClientContext();
@@ -423,9 +424,9 @@ public abstract class AbstractPipelineHttpSOAPClient<OutboundMessageType, Inboun
     @Nonnull protected CriteriaSet buildTLSCriteriaSet(@Nonnull final HttpUriRequest request, 
             @Nonnull final InOutOperationContext operationContext) {
         
-        CriteriaSet criteriaSet = new CriteriaSet();
+        final CriteriaSet criteriaSet = new CriteriaSet();
         if (getTLSCriteriaSetStrategy() != null) {
-            CriteriaSet resolved = getTLSCriteriaSetStrategy().apply(operationContext);
+            final CriteriaSet resolved = getTLSCriteriaSetStrategy().apply(operationContext);
             if (resolved != null) {
                 criteriaSet.addAll(resolved);
             }

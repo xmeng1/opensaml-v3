@@ -93,13 +93,13 @@ public final class SOAPSupport {
      */
     public static boolean getSOAP11MustUnderstandAttribute(@Nonnull final XMLObject soapObject) {
         if (soapObject instanceof MustUnderstandBearing) {
-            XSBooleanValue value = ((MustUnderstandBearing) soapObject).isSOAP11MustUnderstandXSBoolean();
+            final XSBooleanValue value = ((MustUnderstandBearing) soapObject).isSOAP11MustUnderstandXSBoolean();
             if (value != null) {
                 return value.getValue();
             }
         }
         if (soapObject instanceof AttributeExtensibleXMLObject) {
-            String value = StringSupport.trimOrNull(((AttributeExtensibleXMLObject) soapObject)
+            final String value = StringSupport.trimOrNull(((AttributeExtensibleXMLObject) soapObject)
                     .getUnknownAttributes().get(MustUnderstandBearing.SOAP11_MUST_UNDERSTAND_ATTR_NAME));
             return Objects.equals("1", value) || Objects.equals("true", value);
         }
@@ -113,7 +113,8 @@ public final class SOAPSupport {
      * @param actorURI the URI of the actor
      */
     public static void addSOAP11ActorAttribute(@Nonnull final XMLObject soapObject, @Nonnull final String actorURI) {
-        String value = Constraint.isNotNull(StringSupport.trimOrNull(actorURI), "Actor URI cannot be null or empty");
+        final String value =
+                Constraint.isNotNull(StringSupport.trimOrNull(actorURI), "Actor URI cannot be null or empty");
         if (soapObject instanceof ActorBearing) {
             ((ActorBearing) soapObject).setSOAP11Actor(value);
         } else if (soapObject instanceof AttributeExtensibleXMLObject) {
@@ -156,10 +157,10 @@ public final class SOAPSupport {
      */
     public static void addSOAP11EncodingStyle(@Nonnull final XMLObject soapObject,
             @Nonnull final String encodingStyle) {
-        String value = Constraint.isNotNull(StringSupport.trimOrNull(encodingStyle),
+        final String value = Constraint.isNotNull(StringSupport.trimOrNull(encodingStyle),
                 "Encoding style to add cannot be null or empty");
         if (soapObject instanceof EncodingStyleBearing) {
-            EncodingStyleBearing esb = (EncodingStyleBearing) soapObject;
+            final EncodingStyleBearing esb = (EncodingStyleBearing) soapObject;
             List<String> list = esb.getSOAP11EncodingStyles();
             if (list == null) {
                 list = new LazyList<>();
@@ -167,7 +168,7 @@ public final class SOAPSupport {
             }
             list.add(value);
         } else if (soapObject instanceof AttributeExtensibleXMLObject) {
-            AttributeMap am = ((AttributeExtensibleXMLObject) soapObject).getUnknownAttributes();
+            final AttributeMap am = ((AttributeExtensibleXMLObject) soapObject).getUnknownAttributes();
             String list = am.get(EncodingStyleBearing.SOAP11_ENCODING_STYLE_ATTR_NAME);
             if (list == null) {
                 list = value;
@@ -212,13 +213,13 @@ public final class SOAPSupport {
      */
     @Nullable public static List<String> getSOAP11EncodingStyles(@Nonnull final XMLObject soapObject) {
         if (soapObject instanceof EncodingStyleBearing) {
-            List<String> value = ((EncodingStyleBearing) soapObject).getSOAP11EncodingStyles();
+            final List<String> value = ((EncodingStyleBearing) soapObject).getSOAP11EncodingStyles();
             if (value != null) {
                 return value;
             }
         }
         if (soapObject instanceof AttributeExtensibleXMLObject) {
-            String value = StringSupport.trimOrNull(((AttributeExtensibleXMLObject) soapObject)
+            final String value = StringSupport.trimOrNull(((AttributeExtensibleXMLObject) soapObject)
                     .getUnknownAttributes().get(EncodingStyleBearing.SOAP11_ENCODING_STYLE_ATTR_NAME));
             if (value != null) {
                 StringSupport.stringToList(value, XMLConstants.LIST_DELIMITERS);
@@ -235,7 +236,7 @@ public final class SOAPSupport {
      */
     public static void addSOAP12EncodingStyleAttribute(@Nonnull final XMLObject soapObject,
             @Nonnull final String style) {
-        String value = Constraint.isNotNull(StringSupport.trimOrNull(style),
+        final String value = Constraint.isNotNull(StringSupport.trimOrNull(style),
                 "Encoding style to add cannot be null or empty");
         
         if (soapObject instanceof org.opensaml.soap.soap12.EncodingStyleBearing) {
@@ -301,14 +302,14 @@ public final class SOAPSupport {
      */
     public static boolean getSOAP12MustUnderstandAttribute(@Nonnull final XMLObject soapObject) {
         if (soapObject instanceof org.opensaml.soap.soap12.MustUnderstandBearing) {
-            XSBooleanValue value = ((org.opensaml.soap.soap12.MustUnderstandBearing) soapObject)
+            final XSBooleanValue value = ((org.opensaml.soap.soap12.MustUnderstandBearing) soapObject)
                     .isSOAP12MustUnderstandXSBoolean();
             if (value != null) {
                 return value.getValue();
             }
         }
         if (soapObject instanceof AttributeExtensibleXMLObject) {
-            String value = StringSupport.trimOrNull(((AttributeExtensibleXMLObject) soapObject)
+            final String value = StringSupport.trimOrNull(((AttributeExtensibleXMLObject) soapObject)
                     .getUnknownAttributes().get(
                             org.opensaml.soap.soap12.MustUnderstandBearing.SOAP12_MUST_UNDERSTAND_ATTR_NAME));
             return Objects.equals("1", value) || Objects.equals("true", value);
@@ -343,13 +344,13 @@ public final class SOAPSupport {
      */
     public static boolean getSOAP12RelayAttribute(@Nonnull final XMLObject soapObject) {
         if (soapObject instanceof org.opensaml.soap.soap12.RelayBearing) {
-            XSBooleanValue value = ((org.opensaml.soap.soap12.RelayBearing) soapObject).isSOAP12RelayXSBoolean();
+            final XSBooleanValue value = ((org.opensaml.soap.soap12.RelayBearing) soapObject).isSOAP12RelayXSBoolean();
             if (value != null) {
                 return value.getValue();
             }
         }
         if (soapObject instanceof AttributeExtensibleXMLObject) {
-            String value = StringSupport.trimOrNull(((AttributeExtensibleXMLObject) soapObject)
+            final String value = StringSupport.trimOrNull(((AttributeExtensibleXMLObject) soapObject)
                     .getUnknownAttributes().get(org.opensaml.soap.soap12.RelayBearing.SOAP12_RELAY_ATTR_LOCAL_NAME));
             return Objects.equals("1", value) || Objects.equals("true", value);
         }
@@ -363,7 +364,7 @@ public final class SOAPSupport {
      * @param role the role
      */
     public static void addSOAP12RoleAttribute(@Nonnull final XMLObject soapObject, @Nonnull final String role) {
-        String value = Constraint.isNotNull(StringSupport.trimOrNull(role), "Role cannot be null or empty");
+        final String value = Constraint.isNotNull(StringSupport.trimOrNull(role), "Role cannot be null or empty");
         
         if (soapObject instanceof org.opensaml.soap.soap12.RoleBearing) {
             ((org.opensaml.soap.soap12.RoleBearing) soapObject).setSOAP12Role(value);
@@ -508,7 +509,7 @@ public final class SOAPSupport {
         Constraint.isNotNull(faultCode, "faultcode cannot be null");
         Constraint.isNotNull(faultString, "faultstring cannot be null");
         
-        XMLObjectBuilderFactory builderFactory = XMLObjectProviderRegistrySupport.getBuilderFactory(); 
+        final XMLObjectBuilderFactory builderFactory = XMLObjectProviderRegistrySupport.getBuilderFactory(); 
         
         final Fault faultObj =  (Fault) builderFactory.getBuilder(Fault.DEFAULT_ELEMENT_NAME)
             .buildObject(Fault.DEFAULT_ELEMENT_NAME);
@@ -534,7 +535,7 @@ public final class SOAPSupport {
         if (detailChildren != null && !detailChildren.isEmpty()) {
             detailObj = (Detail) builderFactory.getBuilder(Detail.DEFAULT_ELEMENT_NAME)
                 .buildObject(Detail.DEFAULT_ELEMENT_NAME);
-            for (XMLObject xo : Iterables.filter(detailChildren, Predicates.notNull())) {
+            for (final XMLObject xo : Iterables.filter(detailChildren, Predicates.notNull())) {
                 detailObj.getUnknownXMLObjects().add(xo);
             }
         }

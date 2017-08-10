@@ -60,7 +60,7 @@ public abstract class AbstractExtensibleSOAPObject extends AbstractXMLObject imp
 
     /** {@inheritDoc} */
     @Nullable public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         children.addAll(unknownXMLObjects);
 

@@ -130,7 +130,7 @@ public final class WSSecuritySupport {
      */
     public static void addWSSEUsage(final XMLObject soapObject, final String usage) {
         if (soapObject instanceof UsageBearing) {
-            UsageBearing usageBearing = (UsageBearing) soapObject;
+            final UsageBearing usageBearing = (UsageBearing) soapObject;
             List<String> list = usageBearing.getWSSEUsages();
             if (list == null) {
                 list = new LazyList<>();
@@ -138,7 +138,7 @@ public final class WSSecuritySupport {
             }
             list.add(usage);
         } else if (soapObject instanceof AttributeExtensibleXMLObject) {
-            AttributeMap am =  ((AttributeExtensibleXMLObject)soapObject).getUnknownAttributes();
+            final AttributeMap am =  ((AttributeExtensibleXMLObject)soapObject).getUnknownAttributes();
             String list = am.get(UsageBearing.WSSE_USAGE_ATTR_NAME);
             if (list == null) {
                 list = usage;
@@ -178,13 +178,13 @@ public final class WSSecuritySupport {
      */
     public static List<String> getWSSEUsages(final XMLObject soapObject) {
         if (soapObject instanceof UsageBearing) {
-            List<String> value = ((UsageBearing)soapObject).getWSSEUsages();
+            final List<String> value = ((UsageBearing)soapObject).getWSSEUsages();
             if (value != null) {
                 return value;
             }
         }
         if (soapObject instanceof AttributeExtensibleXMLObject) {
-            String value = StringSupport.trimOrNull(((AttributeExtensibleXMLObject)soapObject)
+            final String value = StringSupport.trimOrNull(((AttributeExtensibleXMLObject)soapObject)
                     .getUnknownAttributes().get(UsageBearing.WSSE_USAGE_ATTR_NAME));
             if (value != null) {
                 StringSupport.stringToList(value, XMLConstants.LIST_DELIMITERS);

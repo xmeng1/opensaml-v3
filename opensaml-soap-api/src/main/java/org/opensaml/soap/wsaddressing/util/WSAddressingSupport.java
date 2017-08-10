@@ -66,13 +66,13 @@ public final class WSAddressingSupport {
      */
     public static boolean getWSAIsReferenceParameter(final XMLObject soapObject) {
         if (soapObject instanceof IsReferenceParameterBearing) {
-            XSBooleanValue value = ((IsReferenceParameterBearing)soapObject).isWSAIsReferenceParameterXSBoolean();
+            final XSBooleanValue value = ((IsReferenceParameterBearing)soapObject).isWSAIsReferenceParameterXSBoolean();
             if (value != null) {
                 return value.getValue();
             }
         }
         if (soapObject instanceof AttributeExtensibleXMLObject) {
-            String valueStr = StringSupport.trimOrNull(((AttributeExtensibleXMLObject)soapObject)
+            final String valueStr = StringSupport.trimOrNull(((AttributeExtensibleXMLObject)soapObject)
                     .getUnknownAttributes().get(IsReferenceParameterBearing.WSA_IS_REFERENCE_PARAMETER_ATTR_NAME)); 
             return Objects.equals("1", valueStr) || Objects.equals("true", valueStr);
         }

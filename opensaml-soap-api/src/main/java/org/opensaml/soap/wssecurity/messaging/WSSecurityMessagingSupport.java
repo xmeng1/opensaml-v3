@@ -74,14 +74,15 @@ public final class WSSecurityMessagingSupport {
         Constraint.isNotNull(messageContext, "Message context cannot be null");
         Constraint.isNotNull(securitySubHeader, "Security sub-header context cannot be null");
 
-        List<XMLObject> securityHeaders = SOAPMessagingSupport.getHeaderBlock(messageContext, Security.ELEMENT_NAME, 
+        final List<XMLObject> securityHeaders =
+                SOAPMessagingSupport.getHeaderBlock(messageContext, Security.ELEMENT_NAME,
                 targetNode != null ? Collections.singleton(targetNode) : null, 
                 isFinalDestination);
         
         Security security = null;
-        for (XMLObject header : securityHeaders) {
-            Security candidate = (Security) header;
-            boolean candidateMustUnderstand = SOAPMessagingSupport.isMustUnderstand(messageContext, candidate);
+        for (final XMLObject header : securityHeaders) {
+            final Security candidate = (Security) header;
+            final boolean candidateMustUnderstand = SOAPMessagingSupport.isMustUnderstand(messageContext, candidate);
             if (mustUnderstand == candidateMustUnderstand) {
                 security = candidate;
                 break;
