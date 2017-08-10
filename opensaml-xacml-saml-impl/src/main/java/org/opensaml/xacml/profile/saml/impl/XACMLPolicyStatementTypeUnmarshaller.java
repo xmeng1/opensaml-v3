@@ -31,7 +31,8 @@ import org.opensaml.xacml.profile.saml.XACMLPolicyStatementType;
 public class XACMLPolicyStatementTypeUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentObject, XMLObject childObject) throws UnmarshallingException {
+    protected void processChildElement(final XMLObject parentObject, final XMLObject childObject)
+            throws UnmarshallingException {
         XACMLPolicyStatementType xacmlpolicystatement = (XACMLPolicyStatementType) parentObject;
 
         if (childObject instanceof PolicyType) {

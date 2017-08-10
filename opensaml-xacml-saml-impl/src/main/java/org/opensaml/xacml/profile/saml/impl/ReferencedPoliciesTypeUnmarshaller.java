@@ -30,7 +30,8 @@ import org.opensaml.xacml.profile.saml.ReferencedPoliciesType;
 public class ReferencedPoliciesTypeUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentObject, XMLObject childObject) throws UnmarshallingException {
+    protected void processChildElement(final XMLObject parentObject, final XMLObject childObject)
+            throws UnmarshallingException {
         ReferencedPoliciesType referencedpoliciesType = (ReferencedPoliciesType) parentObject;
 
         if (childObject instanceof PolicyType) {

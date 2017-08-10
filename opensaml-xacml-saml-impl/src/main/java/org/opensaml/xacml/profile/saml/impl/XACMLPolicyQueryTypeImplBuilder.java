@@ -34,7 +34,8 @@ public class XACMLPolicyQueryTypeImplBuilder extends AbstractSAMLObjectBuilder<X
     }
 
     /** {@inheritDoc} */
-    public XACMLPolicyQueryType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public XACMLPolicyQueryType buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new XACMLPolicyQueryTypeImpl(namespaceURI, localName, namespacePrefix);
     }
 

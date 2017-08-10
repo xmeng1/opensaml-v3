@@ -42,7 +42,8 @@ public class XACMLPolicyQueryTypeImpl extends RequestAbstractTypeImpl implements
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    public XACMLPolicyQueryTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public XACMLPolicyQueryTypeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         setElementNamespacePrefix(namespacePrefix);
         choiceGroup = new IndexedXMLObjectChildrenList<>(this);
