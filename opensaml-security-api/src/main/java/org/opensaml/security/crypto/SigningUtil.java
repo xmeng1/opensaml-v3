@@ -60,7 +60,8 @@ public final class SigningUtil {
      * @throws SecurityException throw if the computation process results in an error
      */
     @Nonnull public static byte[] sign(@Nonnull final Credential signingCredential,
-            @Nonnull final String jcaAlgorithmID, boolean isMAC, @Nonnull final byte[] input) throws SecurityException {
+            @Nonnull final String jcaAlgorithmID, final boolean isMAC, @Nonnull final byte[] input)
+            throws SecurityException {
         Logger log = getLogger();
 
         Key signingKey = CredentialSupport.extractSigningKey(signingCredential);
@@ -108,7 +109,7 @@ public final class SigningUtil {
             byte[] rawSignature = signature.sign();
             log.debug("Computed signature: {}", Hex.encodeHex(rawSignature));
             return rawSignature;
-        } catch (GeneralSecurityException e) {
+        } catch (final GeneralSecurityException e) {
             log.error("Error during signature generation", e);
             throw new SecurityException("Error during signature generation", e);
         }
@@ -143,7 +144,7 @@ public final class SigningUtil {
             byte[] rawMAC = mac.doFinal();
             log.debug("Computed MAC: {}", Hex.encodeHexString(rawMAC));
             return rawMAC;
-        } catch (GeneralSecurityException e) {
+        } catch (final GeneralSecurityException e) {
             log.error("Error during MAC generation", e);
             throw new SecurityException("Error during MAC generation", e);
         }
@@ -165,7 +166,7 @@ public final class SigningUtil {
      * @throws SecurityException thrown if the signature computation or verification process results in an error
      */
     public static boolean verify(@Nonnull final Credential verificationCredential,
-            @Nonnull final String jcaAlgorithmID, boolean isMAC, @Nonnull final byte[] signature,
+            @Nonnull final String jcaAlgorithmID, final boolean isMAC, @Nonnull final byte[] signature,
             @Nonnull final byte[] input) throws SecurityException {
         Logger log = getLogger();
 
@@ -215,7 +216,7 @@ public final class SigningUtil {
             sig.initVerify(verificationKey);
             sig.update(input);
             return sig.verify(signature);
-        } catch (GeneralSecurityException e) {
+        } catch (final GeneralSecurityException e) {
             log.error("Error during signature verification", e);
             throw new SecurityException("Error during signature verification", e);
         }

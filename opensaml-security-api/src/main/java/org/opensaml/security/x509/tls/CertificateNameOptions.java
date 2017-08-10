@@ -80,7 +80,7 @@ public class CertificateNameOptions implements Cloneable {
      * 
      * @param flag new new evaluateSubjectCommonName value.
      */
-    public void setEvaluateSubjectCommonName(boolean flag) {
+    public void setEvaluateSubjectCommonName(final boolean flag) {
         evaluateSubjectCommonName = flag;
     }
 
@@ -98,7 +98,7 @@ public class CertificateNameOptions implements Cloneable {
      * 
      * @param flag the new evaluateSubjectDN value.
      */
-    public void setEvaluateSubjectDN(boolean flag) {
+    public void setEvaluateSubjectDN(final boolean flag) {
         evaluateSubjectDN = flag;
     }
     
@@ -144,7 +144,7 @@ public class CertificateNameOptions implements Cloneable {
      * 
      * @param handler the new x500DNHandler value.
      */
-    public void setX500DNHandler(X500DNHandler handler) {
+    public void setX500DNHandler(final X500DNHandler handler) {
         if (handler == null) {
             throw new IllegalArgumentException("X500DNHandler may not be null");
         }
@@ -165,7 +165,7 @@ public class CertificateNameOptions implements Cloneable {
      * 
      * @param format the new x500SubjectDNFormat value.
      */
-    public void setX500SubjectDNFormat(String format) {
+    public void setX500SubjectDNFormat(final String format) {
         x500SubjectDNFormat = format;
     }
     
@@ -174,7 +174,7 @@ public class CertificateNameOptions implements Cloneable {
         CertificateNameOptions clonedOptions;
         try {
             clonedOptions = (CertificateNameOptions) super.clone();
-        } catch (CloneNotSupportedException e) {
+        } catch (final CloneNotSupportedException e) {
             // we know we're cloneable, so this will never happen
             return null;
         }

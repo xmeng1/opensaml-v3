@@ -124,7 +124,7 @@ public final class HttpClientSecuritySupport {
      * @param replace whether a non-null security parameter value should replace an existing context value
      */
     public static void marshalSecurityParameters(@Nonnull final HttpClientContext context, 
-            @Nullable final HttpClientSecurityParameters securityParameters, boolean replace) {
+            @Nullable final HttpClientSecurityParameters securityParameters, final boolean replace) {
         if (securityParameters == null) {
             return;
         }
@@ -165,7 +165,7 @@ public final class HttpClientSecuritySupport {
      * @param replace whether a non-null argument value should replace an existing context value
      */
     public static void setContextValue(@Nonnull final HttpClientContext context, 
-            @Nonnull final String attributeName, @Nullable Object attributeValue, boolean replace) {
+            @Nonnull final String attributeName, @Nullable final Object attributeValue, final boolean replace) {
         if (attributeValue == null) {
             return;
         }

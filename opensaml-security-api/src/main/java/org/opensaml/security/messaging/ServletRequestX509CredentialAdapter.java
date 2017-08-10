@@ -54,7 +54,7 @@ public class ServletRequestX509CredentialAdapter extends AbstractCredential impl
      * @throws SecurityException if request does not contain an X.509 client certificate in 
      *  request attribute 'javax.servlet.request.X509Certificate'
      */
-    public ServletRequestX509CredentialAdapter(ServletRequest request) throws SecurityException {
+    public ServletRequestX509CredentialAdapter(final ServletRequest request) throws SecurityException {
         X509Certificate[] chain = (X509Certificate[]) request.getAttribute(X509_CERT_REQUEST_ATTRIBUTE);
         if (chain == null || chain.length == 0) {
             throw new SecurityException("Servlet request does not contain X.509 certificates in attribute "
