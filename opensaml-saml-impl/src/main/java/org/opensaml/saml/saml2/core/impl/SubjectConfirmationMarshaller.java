@@ -34,7 +34,7 @@ public class SubjectConfirmationMarshaller extends AbstractSAMLObjectMarshaller 
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject samlObject, final Element domElement) throws MarshallingException {
-        SubjectConfirmation subjectConfirmation = (SubjectConfirmation) samlObject;
+        final SubjectConfirmation subjectConfirmation = (SubjectConfirmation) samlObject;
 
         if (subjectConfirmation.getMethod() != null) {
             domElement.setAttributeNS(null, SubjectConfirmation.METHOD_ATTRIB_NAME, subjectConfirmation.getMethod());

@@ -32,7 +32,7 @@ public class GetCompleteUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processElementContent(final XMLObject samlObject, final String elementContent) {
-        GetComplete gc = (GetComplete) samlObject;
+        final GetComplete gc = (GetComplete) samlObject;
 
         gc.setGetComplete(elementContent);
     }

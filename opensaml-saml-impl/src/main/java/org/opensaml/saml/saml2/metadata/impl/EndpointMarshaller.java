@@ -29,7 +29,7 @@ public class EndpointMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
     public void marshallAttributes(final XMLObject samlElement, final Element domElement) {
-        Endpoint endpoint = (Endpoint) samlElement;
+        final Endpoint endpoint = (Endpoint) samlElement;
 
         if (endpoint.getBinding() != null) {
             domElement.setAttributeNS(null, Endpoint.BINDING_ATTRIB_NAME, endpoint.getBinding().toString());

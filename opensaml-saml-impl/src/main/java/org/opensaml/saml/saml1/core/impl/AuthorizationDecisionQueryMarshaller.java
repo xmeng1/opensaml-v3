@@ -29,7 +29,7 @@ public class AuthorizationDecisionQueryMarshaller extends SubjectQueryMarshaller
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject samlElement, final Element domElement) throws MarshallingException {
-        AuthorizationDecisionQuery authorizationDecisionQuery = (AuthorizationDecisionQuery) samlElement;
+        final AuthorizationDecisionQuery authorizationDecisionQuery = (AuthorizationDecisionQuery) samlElement;
 
         if (authorizationDecisionQuery.getResource() != null) {
             domElement.setAttributeNS(null, AuthorizationDecisionQuery.RESOURCE_ATTRIB_NAME, authorizationDecisionQuery

@@ -42,7 +42,7 @@ public class EndpointURLSchemeSecurityHandler extends AbstractMessageHandler {
     /** {@inheritDoc} */
     @Override
     protected void doInvoke(@Nonnull final MessageContext messageContext) throws MessageHandlerException {
-        URI endpointUrl;
+        final URI endpointUrl;
         try {
             endpointUrl = SAMLBindingSupport.getEndpointURL(messageContext);
         } catch (final BindingException e) {

@@ -34,14 +34,14 @@ public class LogoutRequestMarshaller extends RequestAbstractTypeMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject samlObject, final Element domElement) throws MarshallingException {
-        LogoutRequest req = (LogoutRequest) samlObject;
+        final LogoutRequest req = (LogoutRequest) samlObject;
 
         if (req.getReason() != null) {
             domElement.setAttributeNS(null, LogoutRequest.REASON_ATTRIB_NAME, req.getReason());
         }
 
         if (req.getNotOnOrAfter() != null) {
-            String noaStr = SAMLConfigurationSupport.getSAMLDateFormatter().print(req.getNotOnOrAfter());
+            final String noaStr = SAMLConfigurationSupport.getSAMLDateFormatter().print(req.getNotOnOrAfter());
             domElement.setAttributeNS(null, LogoutRequest.NOT_ON_OR_AFTER_ATTRIB_NAME, noaStr);
         }
 

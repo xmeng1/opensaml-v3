@@ -87,7 +87,7 @@ public class KeyDescriptorImpl extends AbstractSAMLObject implements KeyDescript
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         children.add(keyInfo);
         children.addAll(encryptionMethods);

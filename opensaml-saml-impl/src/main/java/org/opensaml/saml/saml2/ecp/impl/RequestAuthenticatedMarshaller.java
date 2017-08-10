@@ -31,7 +31,7 @@ public class RequestAuthenticatedMarshaller extends AbstractSAMLObjectMarshaller
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        RequestAuthenticated ra = (RequestAuthenticated) xmlObject;
+        final RequestAuthenticated ra = (RequestAuthenticated) xmlObject;
         
         if (ra.isSOAP11MustUnderstandXSBoolean() != null) {
             XMLObjectSupport.marshallAttribute(RequestAuthenticated.SOAP11_MUST_UNDERSTAND_ATTR_NAME, 

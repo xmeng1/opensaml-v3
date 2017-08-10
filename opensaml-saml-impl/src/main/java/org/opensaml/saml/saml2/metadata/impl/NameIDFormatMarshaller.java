@@ -36,7 +36,7 @@ public class NameIDFormatMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallElementContent(final XMLObject samlObject, final Element domElement) throws MarshallingException {
-        NameIDFormat format = (NameIDFormat) samlObject;
+        final NameIDFormat format = (NameIDFormat) samlObject;
 
         if (format.getFormat() != null) {
             ElementSupport.appendTextContent(domElement, format.getFormat());

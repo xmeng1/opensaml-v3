@@ -32,7 +32,7 @@ public class CompanyUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processElementContent(final XMLObject samlObject, final String elementContent) {
-        Company company = (Company) samlObject;
+        final Company company = (Company) samlObject;
 
         company.setName(elementContent);
     }

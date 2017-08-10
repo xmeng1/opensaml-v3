@@ -544,7 +544,7 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
         lastUpdate = refreshStart;
         trackRefreshSuccess = true;
         
-        long nextRefreshDelay;
+        final long nextRefreshDelay;
         if (metadataExpirationTime.isBeforeNow()) {
             expirationTime = new DateTime(ISOChronology.getInstanceUTC()).plus(getMinRefreshDelay());
             nextRefreshDelay = getMaxRefreshDelay();

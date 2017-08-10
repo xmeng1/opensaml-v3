@@ -34,7 +34,7 @@ public class IdentityEntityIDGenerator implements Function<CriteriaSet, String> 
             return null;
         }
         
-        EntityIdCriterion entityIDCrit = input.get(EntityIdCriterion.class);
+        final EntityIdCriterion entityIDCrit = input.get(EntityIdCriterion.class);
         if (entityIDCrit == null) {
             return null;
         }

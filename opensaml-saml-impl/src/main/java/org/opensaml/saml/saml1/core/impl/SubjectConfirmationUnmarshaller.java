@@ -33,7 +33,7 @@ public class SubjectConfirmationUnmarshaller extends AbstractSAMLObjectUnmarshal
     protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
 
-        SubjectConfirmation subjectConfirmation = (SubjectConfirmation) parentSAMLObject;
+        final SubjectConfirmation subjectConfirmation = (SubjectConfirmation) parentSAMLObject;
 
         if (childSAMLObject instanceof ConfirmationMethod) {
             subjectConfirmation.getConfirmationMethods().add((ConfirmationMethod) childSAMLObject);

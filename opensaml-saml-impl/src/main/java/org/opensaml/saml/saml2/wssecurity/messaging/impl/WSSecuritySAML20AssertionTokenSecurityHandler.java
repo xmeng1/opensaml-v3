@@ -246,16 +246,16 @@ public class WSSecuritySAML20AssertionTokenSecurityHandler extends AbstractMessa
             return;
         }
         
-        List<Assertion> assertions = resolveAssertions(messageContext);
+        final List<Assertion> assertions = resolveAssertions(messageContext);
         if (assertions == null || assertions.isEmpty()) {
             log.info("Inbound SOAP envelope contained no Assertion tokens. Skipping further processing");
             return;
         }
         
-        WSSecurityContext wsContext = messageContext.getSubcontext(WSSecurityContext.class, true);
+        final WSSecurityContext wsContext = messageContext.getSubcontext(WSSecurityContext.class, true);
         
-        for (Assertion assertion : assertions) {
-            SAML20AssertionValidator validator = resolveValidator(messageContext, assertion);
+        for (final Assertion assertion : assertions) {
+            final SAML20AssertionValidator validator = resolveValidator(messageContext, assertion);
             if (validator == null) {
                 log.warn("No SAML20AssertionValidator was available, terminating");
                 SOAPMessagingSupport.registerSOAP11Fault(messageContext, FaultCode.SERVER, 
@@ -263,11 +263,11 @@ public class WSSecuritySAML20AssertionTokenSecurityHandler extends AbstractMessa
                 throw new MessageHandlerException("No SAML20AssertionValidator was available");
             }
         
-            ValidationContext validationContext = buildValidationContext(messageContext, assertion);
+            final ValidationContext validationContext = buildValidationContext(messageContext, assertion);
             
             try { 
-                ValidationResult validationResult = validator.validate(assertion, validationContext);
-                SAML20AssertionToken token = new SAML20AssertionToken(assertion);
+                final ValidationResult validationResult = validator.validate(assertion, validationContext);
+                final SAML20AssertionToken token = new SAML20AssertionToken(assertion);
                 processResult(validationContext, validationResult, token, messageContext);
                 wsContext.getTokens().add(token);
             } catch (final AssertionValidationException e) {
@@ -356,7 +356,7 @@ public class WSSecuritySAML20AssertionTokenSecurityHandler extends AbstractMessa
         
         if (getAssertionValidatorLookup() != null) {
             log.debug("Attempting to resolve SAML 2 Assertion validator via lookup function");
-            SAML20AssertionValidator validator = getAssertionValidatorLookup().apply(
+            final SAML20AssertionValidator validator = getAssertionValidatorLookup().apply(
                     new Pair<>(messageContext, assertion));
             if (validator != null) {
                 log.debug("Resolved SAML 2 Assertion validator via lookup function");
@@ -386,7 +386,7 @@ public class WSSecuritySAML20AssertionTokenSecurityHandler extends AbstractMessa
     @Nonnull protected ValidationContext buildValidationContext(@Nonnull final MessageContext messageContext, 
             @Nonnull final Assertion assertion) throws MessageHandlerException {
         
-        ValidationContext validationContext = getValidationContextBuilder().apply(
+        final ValidationContext validationContext = getValidationContextBuilder().apply(
                 new SAML20AssertionTokenValidationInput(messageContext, getHttpServletRequest(), assertion));
         
         if (validationContext == null) {
@@ -407,21 +407,21 @@ public class WSSecuritySAML20AssertionTokenSecurityHandler extends AbstractMessa
      * @return the list of resolved Assertions, or an empty list
      */
     @Nonnull protected List<Assertion> resolveAssertions(@Nonnull final MessageContext messageContext) {
-        List<XMLObject> securityHeaders = SOAPMessagingSupport.getInboundHeaderBlock(messageContext,
+        final List<XMLObject> securityHeaders = SOAPMessagingSupport.getInboundHeaderBlock(messageContext,
                 Security.ELEMENT_NAME);
         if (securityHeaders == null || securityHeaders.isEmpty()) {
             log.debug("No WS-Security Security header found in inbound SOAP message. Skipping further processing.");
             return Collections.emptyList();
         }
         
-        LazyList<Assertion> assertions = new LazyList<>();
+        final LazyList<Assertion> assertions = new LazyList<>();
         
         // There could be multiple Security headers targeted to this node, so process all of them
-        for (XMLObject header : securityHeaders) {
-            Security securityHeader = (Security) header;
-            List<XMLObject> xmlObjects = securityHeader.getUnknownXMLObjects(Assertion.DEFAULT_ELEMENT_NAME);
+        for (final XMLObject header : securityHeaders) {
+            final Security securityHeader = (Security) header;
+            final List<XMLObject> xmlObjects = securityHeader.getUnknownXMLObjects(Assertion.DEFAULT_ELEMENT_NAME);
             if (xmlObjects != null && !xmlObjects.isEmpty()) {
-                for (XMLObject xmlObject : xmlObjects) {
+                for (final XMLObject xmlObject : xmlObjects) {
                     assertions.add((Assertion) xmlObject);
                 }
             }

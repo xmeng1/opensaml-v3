@@ -303,10 +303,10 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
     
     /** {@inheritDoc} */
     protected void doDecode() throws MessageDecodingException {
-        MessageContext<SAMLObject> messageContext = new MessageContext<>();
-        HttpServletRequest request = getHttpServletRequest();
+        final MessageContext<SAMLObject> messageContext = new MessageContext<>();
+        final HttpServletRequest request = getHttpServletRequest();
 
-        String relayState = StringSupport.trim(request.getParameter("RelayState"));
+        final String relayState = StringSupport.trim(request.getParameter("RelayState"));
         log.debug("Decoded SAML relay state of: {}", relayState);
         SAMLBindingSupport.setRelayState(messageContext, relayState);
         
@@ -328,23 +328,23 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
      */
     private void processArtifact(final MessageContext messageContext, final HttpServletRequest request) 
             throws MessageDecodingException {
-        String encodedArtifact = StringSupport.trimOrNull(request.getParameter("SAMLart"));
+        final String encodedArtifact = StringSupport.trimOrNull(request.getParameter("SAMLart"));
         if (encodedArtifact == null) {
             log.error("URL SAMLart parameter was missing or did not contain a value.");
             throw new MessageDecodingException("URL SAMLart parameter was missing or did not contain a value.");
         }
         
         try {
-            SAML2Artifact artifact = parseArtifact(encodedArtifact);
+            final SAML2Artifact artifact = parseArtifact(encodedArtifact);
             
-            RoleDescriptor peerRoleDescriptor = resolvePeerRoleDescriptor(artifact);
+            final RoleDescriptor peerRoleDescriptor = resolvePeerRoleDescriptor(artifact);
             if (peerRoleDescriptor == null) {
                 throw new MessageDecodingException("Failed to resolve peer RoleDescriptor based on inbound artifact");
             }
 
-            ArtifactResolutionService ars = resolveArtifactEndpoint(artifact, peerRoleDescriptor);
+            final ArtifactResolutionService ars = resolveArtifactEndpoint(artifact, peerRoleDescriptor);
 
-            SAMLObject inboundMessage = dereferenceArtifact(artifact, peerRoleDescriptor, ars);
+            final SAMLObject inboundMessage = dereferenceArtifact(artifact, peerRoleDescriptor, ars);
 
             messageContext.setMessage(inboundMessage);
         } catch (final MessageDecodingException e) {
@@ -363,7 +363,7 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
     private SAMLObject dereferenceArtifact(final SAML2Artifact artifact, final RoleDescriptor peerRoleDescriptor, final ArtifactResolutionService ars) 
             throws MessageDecodingException {
         
-        MessageContext<SAMLObject> outbound = new MessageContext<>();
+        final MessageContext<SAMLObject> outbound = new MessageContext<>();
         outbound.setMessage(buildArtifactResolveRequestMessage(artifact, ars.getLocation(), peerRoleDescriptor));
         //TODO more population of context
         //  - signing params
@@ -372,7 +372,7 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
         //TODO what components needed to support signing and client TLS, and how do we get them?
         //TODO probably support optional static injected creds and params, as well as injected resolution strategies
         
-        InOutOperationContext<SAMLObject, SAMLObject> opContext = new InOutOperationContext<>(null, outbound);
+        final InOutOperationContext<SAMLObject, SAMLObject> opContext = new InOutOperationContext<>(null, outbound);
         
         try {
             log.trace("Executing ArtifactResolve over SOAP 1.1 binding to endpoint: {}", ars.getLocation());
@@ -390,10 +390,10 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
      * @return
      */
     private ArtifactResolve buildArtifactResolveRequestMessage(final SAML2Artifact artifact, final String endpoint, final RoleDescriptor peerRoleDescriptor) {
-        ArtifactResolve request = 
+        final ArtifactResolve request = 
                 (ArtifactResolve) XMLObjectSupport.buildXMLObject(ArtifactResolve.DEFAULT_ELEMENT_NAME);
         
-        Artifact requestArtifact = (Artifact) XMLObjectSupport.buildXMLObject(Artifact.DEFAULT_ELEMENT_NAME);
+        final Artifact requestArtifact = (Artifact) XMLObjectSupport.buildXMLObject(Artifact.DEFAULT_ELEMENT_NAME);
         requestArtifact.setArtifact(Base64Support.encode(artifact.getArtifactBytes(), false));
         request.setArtifact(requestArtifact);
         
@@ -410,7 +410,7 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
      * @return
      */
     private Issuer buildIssuer(final RoleDescriptor peerRoleDescriptor) {
-        Issuer issuer = (Issuer) XMLObjectSupport.buildXMLObject(Issuer.DEFAULT_ELEMENT_NAME);
+        final Issuer issuer = (Issuer) XMLObjectSupport.buildXMLObject(Issuer.DEFAULT_ELEMENT_NAME);
         //TODO how do we get our own entityID?
         //     probably support optional static injected self entityID as well as injected resolution strategy
         //issuer.setValue("TODO");
@@ -423,9 +423,9 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
      * @return
      */
     private ArtifactResolutionService resolveArtifactEndpoint(final SAML2Artifact artifact, final RoleDescriptor peerRoleDescriptor) throws MessageDecodingException {
-        RoleDescriptorCriterion roleDescriptorCriterion = new RoleDescriptorCriterion(peerRoleDescriptor);
+        final RoleDescriptorCriterion roleDescriptorCriterion = new RoleDescriptorCriterion(peerRoleDescriptor);
 
-        ArtifactResolutionService arsTemplate = 
+        final ArtifactResolutionService arsTemplate = 
                 (ArtifactResolutionService) XMLObjectSupport.buildXMLObject(
                         ArtifactResolutionService.DEFAULT_ELEMENT_NAME);
         
@@ -435,16 +435,16 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
             arsTemplate.setLocation(((SAMLSourceLocationArtifact)artifact).getSourceLocation());
         }
         
-        Integer endpointIndex = SAMLBindingSupport.convertSAML2ArtifactEndpointIndex(artifact.getEndpointIndex());
+        final Integer endpointIndex = SAMLBindingSupport.convertSAML2ArtifactEndpointIndex(artifact.getEndpointIndex());
         arsTemplate.setIndex(endpointIndex);
         
-        EndpointCriterion<ArtifactResolutionService> endpointCriterion = 
+        final EndpointCriterion<ArtifactResolutionService> endpointCriterion = 
                 new EndpointCriterion<>(arsTemplate, false);
 
-        CriteriaSet criteriaSet = new CriteriaSet(roleDescriptorCriterion, endpointCriterion);
+        final CriteriaSet criteriaSet = new CriteriaSet(roleDescriptorCriterion, endpointCriterion);
 
         try {
-            ArtifactResolutionService ars = artifactEndpointResolver.resolveSingle(criteriaSet);
+            final ArtifactResolutionService ars = artifactEndpointResolver.resolveSingle(criteriaSet);
             if (ars != null) {
                 return ars;
             } else {
@@ -461,7 +461,7 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
      */
     private RoleDescriptor resolvePeerRoleDescriptor(final SAML2Artifact artifact) throws MessageDecodingException {
 
-        CriteriaSet criteriaSet = new CriteriaSet(
+        final CriteriaSet criteriaSet = new CriteriaSet(
                 new ArtifactCriterion(artifact),
                 new ProtocolCriterion(SAMLConstants.SAML20P_NS),
                 new EntityRoleCriterion(getPeerEntityRole()));
@@ -486,7 +486,7 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
      * @param messageContext the current message context
      */
     protected void populateBindingContext(final MessageContext<SAMLObject> messageContext) {
-        SAMLBindingContext bindingContext = messageContext.getSubcontext(SAMLBindingContext.class, true);
+        final SAMLBindingContext bindingContext = messageContext.getSubcontext(SAMLBindingContext.class, true);
         bindingContext.setBindingUri(getBindingURI());
         bindingContext.setBindingDescriptor(bindingDescriptor);
         bindingContext.setHasBindingSignature(false);

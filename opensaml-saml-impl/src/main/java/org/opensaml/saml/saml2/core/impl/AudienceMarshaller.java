@@ -36,7 +36,7 @@ public class AudienceMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallElementContent(final XMLObject samlObject, final Element domElement) throws MarshallingException {
-        Audience audience = (Audience) samlObject;
+        final Audience audience = (Audience) samlObject;
         ElementSupport.appendTextContent(domElement, audience.getAudienceURI());
     }
 }

@@ -35,9 +35,9 @@ public class ResponseUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject samlObject, final Attr attribute) throws UnmarshallingException {
-        Response response = (Response) samlObject;
+        final Response response = (Response) samlObject;
         
-        QName attrName = QNameSupport.getNodeQName(attribute);
+        final QName attrName = QNameSupport.getNodeQName(attribute);
         if (Response.SOAP11_MUST_UNDERSTAND_ATTR_NAME.equals(attrName)) {
             response.setSOAP11MustUnderstand(XSBooleanValue.valueOf(attribute.getValue()));
         } else if (Response.SOAP11_ACTOR_ATTR_NAME.equals(attrName)) {

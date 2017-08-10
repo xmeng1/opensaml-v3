@@ -36,7 +36,7 @@ public class SubjectConfirmationUnmarshaller extends AbstractSAMLObjectUnmarshal
 
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentObject, final XMLObject childObject) throws UnmarshallingException {
-        SubjectConfirmation sc = (SubjectConfirmation) parentObject;
+        final SubjectConfirmation sc = (SubjectConfirmation) parentObject;
 
         if (childObject instanceof SubjectConfirmationData) {
             sc.setSubjectConfirmationData((SubjectConfirmationData) childObject);
@@ -47,9 +47,9 @@ public class SubjectConfirmationUnmarshaller extends AbstractSAMLObjectUnmarshal
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject samlObject, final Attr attribute) throws UnmarshallingException {
-        SubjectConfirmation sc = (SubjectConfirmation) samlObject;
+        final SubjectConfirmation sc = (SubjectConfirmation) samlObject;
 
-        QName attrName = QNameSupport.getNodeQName(attribute);
+        final QName attrName = QNameSupport.getNodeQName(attribute);
         if (SubjectConfirmation.SOAP11_MUST_UNDERSTAND_ATTR_NAME.equals(attrName)) {
             sc.setSOAP11MustUnderstand(XSBooleanValue.valueOf(attribute.getValue()));
         } else if (SubjectConfirmation.SOAP11_ACTOR_ATTR_NAME.equals(attrName)) {

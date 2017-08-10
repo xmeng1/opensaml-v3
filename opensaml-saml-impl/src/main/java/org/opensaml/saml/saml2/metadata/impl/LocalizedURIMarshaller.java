@@ -38,10 +38,10 @@ public class LocalizedURIMarshaller extends AbstractSAMLObjectMarshaller {
      * {@inheritDoc}
      */
     protected void marshallAttributes(final XMLObject samlObject, final Element domElement) throws MarshallingException {
-        LocalizedURI name = (LocalizedURI) samlObject;
+        final LocalizedURI name = (LocalizedURI) samlObject;
 
         if (name.getXMLLang() != null) {
-            Attr attribute = AttributeSupport.constructAttribute(domElement.getOwnerDocument(), XMLConstants.XML_NS,
+            final Attr attribute = AttributeSupport.constructAttribute(domElement.getOwnerDocument(), XMLConstants.XML_NS,
                     LangBearing.XML_LANG_ATTR_LOCAL_NAME, XMLConstants.XML_PREFIX);
             attribute.setValue(name.getXMLLang());
             domElement.setAttributeNodeNS(attribute);
@@ -50,7 +50,7 @@ public class LocalizedURIMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallElementContent(final XMLObject samlObject, final Element domElement) throws MarshallingException {
-        LocalizedURI name = (LocalizedURI) samlObject;
+        final LocalizedURI name = (LocalizedURI) samlObject;
 
         if (name.getValue() != null) {
             ElementSupport.appendTextContent(domElement, name.getValue());

@@ -31,7 +31,7 @@ public class PublicationPathUnmarshaller extends AbstractSAMLObjectUnmarshaller 
 
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentObject, final XMLObject childObject) throws UnmarshallingException {
-        PublicationPath pPath = (PublicationPath) parentObject;
+        final PublicationPath pPath = (PublicationPath) parentObject;
 
         if (childObject instanceof Publication) {
             pPath.getPublications().add((Publication)childObject);

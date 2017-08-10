@@ -32,7 +32,7 @@ public class NewIDUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processElementContent(final XMLObject samlObject, final String elementContent) {
-        NewID newID = (NewID) samlObject;
+        final NewID newID = (NewID) samlObject;
 
         newID.setNewID(elementContent);
     }

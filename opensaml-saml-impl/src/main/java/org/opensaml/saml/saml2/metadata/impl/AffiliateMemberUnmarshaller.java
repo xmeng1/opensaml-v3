@@ -28,7 +28,7 @@ public class AffiliateMemberUnmarshaller extends AbstractSAMLObjectUnmarshaller 
 
     /** {@inheritDoc} */
     protected void processElementContent(final XMLObject samlObject, final String elementContent) {
-        AffiliateMember member = (AffiliateMember) samlObject;
+        final AffiliateMember member = (AffiliateMember) samlObject;
         member.setID(elementContent);
     }
 }

@@ -51,8 +51,8 @@ public class SAMLOutboundDestinationHandler extends AbstractMessageHandler {
         final SAMLObject samlMessage = (SAMLObject) messageContext.getMessage();
         
         try {
-            URI endpointURI = SAMLBindingSupport.getEndpointURL(messageContext);
-            String endpointURL = endpointURI.toString();
+            final URI endpointURI = SAMLBindingSupport.getEndpointURL(messageContext);
+            final String endpointURL = endpointURI.toString();
             
             if (samlMessage instanceof org.opensaml.saml.saml1.core.ResponseAbstractType) {
                 log.debug("Adding recipient to outbound SAML 1 protocol message: {}", endpointURL);

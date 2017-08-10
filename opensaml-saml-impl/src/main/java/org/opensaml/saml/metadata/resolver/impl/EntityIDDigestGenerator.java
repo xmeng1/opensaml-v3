@@ -92,7 +92,7 @@ public class EntityIDDigestGenerator implements Function<CriteriaSet, String> {
             return null;
         }
         
-        EntityIdCriterion entityIDCrit = input.get(EntityIdCriterion.class);
+        final EntityIdCriterion entityIDCrit = input.get(EntityIdCriterion.class);
         if (entityIDCrit == null) { 
             return null;
         }
@@ -102,12 +102,12 @@ public class EntityIDDigestGenerator implements Function<CriteriaSet, String> {
             return null;
         }
         
-        String digested = digester.apply(entityID);
+        final String digested = digester.apply(entityID);
         
         if (prefix == null && suffix == null) {
             return digested;
         } else {
-            StringBuffer buffer = new StringBuffer();
+            final StringBuffer buffer = new StringBuffer();
             if (prefix != null) {
                 buffer.append(prefix);
                 if (separator != null) {

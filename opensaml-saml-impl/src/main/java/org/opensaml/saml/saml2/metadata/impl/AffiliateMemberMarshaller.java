@@ -34,7 +34,7 @@ public class AffiliateMemberMarshaller extends AbstractSAMLObjectMarshaller {
     protected void marshallElementContent(final XMLObject samlObject, final Element domElement) throws MarshallingException {
         super.marshallElementContent(samlObject, domElement);
 
-        AffiliateMember member = (AffiliateMember) samlObject;
+        final AffiliateMember member = (AffiliateMember) samlObject;
         if (member.getID() != null) {
             domElement.appendChild(domElement.getOwnerDocument().createTextNode(member.getID()));
         }

@@ -47,9 +47,9 @@ public class RoleMetadataIndex implements MetadataIndex {
     @Nullable @NonnullElements @Unmodifiable @NotLive 
     public Set<MetadataIndexKey> generateKeys(@Nonnull final CriteriaSet criteriaSet) {
         Constraint.isNotNull(criteriaSet, "CriteriaSet was null");
-        EntityRoleCriterion roleCrit = criteriaSet.get(EntityRoleCriterion.class);
+        final EntityRoleCriterion roleCrit = criteriaSet.get(EntityRoleCriterion.class);
         if (roleCrit != null) {
-            HashSet<MetadataIndexKey> result = new HashSet<>();
+            final HashSet<MetadataIndexKey> result = new HashSet<>();
             result.add(new RoleMetadataIndexKey(roleCrit.getRole()));
             return result;
         } else {
@@ -61,9 +61,9 @@ public class RoleMetadataIndex implements MetadataIndex {
     @Nullable @NonnullElements @Unmodifiable @NotLive 
     public Set<MetadataIndexKey> generateKeys(@Nonnull final EntityDescriptor descriptor) {
         Constraint.isNotNull(descriptor, "EntityDescriptor was null");
-        HashSet<MetadataIndexKey> result = new HashSet<>();
-        for (RoleDescriptor role : descriptor.getRoleDescriptors()) {
-            QName type = role.getSchemaType();
+        final HashSet<MetadataIndexKey> result = new HashSet<>();
+        for (final RoleDescriptor role : descriptor.getRoleDescriptors()) {
+            final QName type = role.getSchemaType();
             if (type != null) {
                 result.add(new RoleMetadataIndexKey(type));
             } else {

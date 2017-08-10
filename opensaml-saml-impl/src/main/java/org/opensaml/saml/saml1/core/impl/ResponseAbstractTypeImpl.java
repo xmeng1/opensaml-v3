@@ -66,7 +66,7 @@ public abstract class ResponseAbstractTypeImpl extends AbstractSignableSAMLObjec
 
     /** {@inheritDoc} */
     public void setID(final String newID) {
-        String oldID = id;
+        final String oldID = id;
         id = prepareForAssignment(id, newID);
         registerOwnID(oldID, id);
     }
@@ -119,7 +119,7 @@ public abstract class ResponseAbstractTypeImpl extends AbstractSignableSAMLObjec
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        List<XMLObject> children = new ArrayList<>();
+        final List<XMLObject> children = new ArrayList<>();
         
         if(getSignature() != null){
             children.add(getSignature());

@@ -32,7 +32,7 @@ public class AuthenticatingAuthorityUnmarshaller extends AbstractSAMLObjectUnmar
 
     /** {@inheritDoc} */
     protected void processElementContent(final XMLObject samlObject, final String elementContent) {
-        AuthenticatingAuthority authenticatingAuthority = (AuthenticatingAuthority) samlObject;
+        final AuthenticatingAuthority authenticatingAuthority = (AuthenticatingAuthority) samlObject;
         authenticatingAuthority.setURI(elementContent);
     }
 }

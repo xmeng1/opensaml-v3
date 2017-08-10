@@ -30,7 +30,7 @@ public class DiscoHintsUnmarshaller extends AbstractSAMLObjectUnmarshaller {
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
-        DiscoHints info = (DiscoHints) parentSAMLObject;
+        final DiscoHints info = (DiscoHints) parentSAMLObject;
         info.getXMLObjects().add(childSAMLObject);
     }
 

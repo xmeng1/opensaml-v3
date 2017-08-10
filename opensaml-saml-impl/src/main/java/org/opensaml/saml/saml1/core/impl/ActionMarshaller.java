@@ -33,7 +33,7 @@ public class ActionMarshaller extends AbstractSAMLObjectMarshaller {
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject samlElement, final Element domElement) throws MarshallingException {
 
-        Action action = (Action) samlElement;
+        final Action action = (Action) samlElement;
 
         if (action.getNamespace() != null) {
             domElement.setAttributeNS(null, Action.NAMESPACE_ATTRIB_NAME, action.getNamespace());
@@ -42,7 +42,7 @@ public class ActionMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallElementContent(final XMLObject samlObject, final Element domElement) throws MarshallingException {
-        Action action = (Action) samlObject;
+        final Action action = (Action) samlObject;
 
         if (action.getContents() != null) {
             ElementSupport.appendTextContent(domElement, action.getContents());

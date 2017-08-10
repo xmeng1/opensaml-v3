@@ -73,7 +73,7 @@ public class AuthzDecisionQueryDescriptorTypeImpl extends QueryDescriptorTypeImp
     /** {@inheritDoc} */
     @Override
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         
         children.addAll(super.getOrderedChildren());
         children.addAll(actionNamespaces);

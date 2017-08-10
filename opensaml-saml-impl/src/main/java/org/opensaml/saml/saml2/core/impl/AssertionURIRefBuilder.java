@@ -42,7 +42,8 @@ public class AssertionURIRefBuilder extends AbstractSAMLObjectBuilder<AssertionU
     }
 
     /** {@inheritDoc} */
-    public AssertionURIRef buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
+    public AssertionURIRef buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new AssertionURIRefImpl(namespaceURI, localName, namespacePrefix);
     }
 }

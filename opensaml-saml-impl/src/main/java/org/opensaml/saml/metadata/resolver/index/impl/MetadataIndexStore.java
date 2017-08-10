@@ -72,7 +72,7 @@ public class MetadataIndexStore<T> {
     @Nonnull @NonnullElements @Unmodifiable @NotLive 
     public Set<T> lookup(@Nonnull final MetadataIndexKey key) {
         Constraint.isNotNull(key, "IndexKey was null");
-        Set<T> items = index.get(key);
+        final Set<T> items = index.get(key);
         if (items == null) {
             return Collections.emptySet();
         } else {
@@ -106,7 +106,7 @@ public class MetadataIndexStore<T> {
     public void remove(final MetadataIndexKey key, final T item) {
         Constraint.isNotNull(key, "IndexKey was null");
         Constraint.isNotNull(item, "The indexed data element was null");
-        Set<T> items = index.get(key);
+        final Set<T> items = index.get(key);
         if (items == null) {
             return;
         }

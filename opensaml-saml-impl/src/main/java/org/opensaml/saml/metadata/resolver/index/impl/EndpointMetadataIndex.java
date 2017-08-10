@@ -130,10 +130,10 @@ public class EndpointMetadataIndex implements MetadataIndex {
     @Nullable @NonnullElements @Unmodifiable @NotLive
     public Set<MetadataIndexKey> generateKeys(@Nonnull final CriteriaSet criteriaSet) {
         Constraint.isNotNull(criteriaSet, "CriteriaSet was null");
-        EntityRoleCriterion roleCrit = criteriaSet.get(EntityRoleCriterion.class);
-        EndpointCriterion<Endpoint> endpointCrit = criteriaSet.get(EndpointCriterion.class);
+        final EntityRoleCriterion roleCrit = criteriaSet.get(EntityRoleCriterion.class);
+        final EndpointCriterion<Endpoint> endpointCrit = criteriaSet.get(EndpointCriterion.class);
         if (roleCrit != null && endpointCrit != null) {
-            HashSet<MetadataIndexKey> result = new HashSet<>();
+            final HashSet<MetadataIndexKey> result = new HashSet<>();
             result.addAll(processCriteria(criteriaSet, roleCrit.getRole(), endpointCrit.getEndpoint()));
             return result;
         } else {
@@ -184,18 +184,18 @@ public class EndpointMetadataIndex implements MetadataIndex {
      */
     @Nonnull private Set<String> processLocation(@Nonnull final CriteriaSet criteriaSet, @Nonnull final String location) {
         boolean generateStartsWithVariants = false;
-        StartsWithLocationCriterion startsWithCrit = criteriaSet.get(StartsWithLocationCriterion.class);
+        final StartsWithLocationCriterion startsWithCrit = criteriaSet.get(StartsWithLocationCriterion.class);
         if (startsWithCrit != null) {
             generateStartsWithVariants = startsWithCrit.isMatchStartsWith();
         }
         if (generateStartsWithVariants) {
             log.trace("Saw indication to produce path-trimmed key variants for startsWith eval from '{}'", location);
-            HashSet<String> result = new HashSet<>();
+            final HashSet<String> result = new HashSet<>();
             result.add(location);
             log.trace("Produced value '{}'", location);
             try {
                 String currentURL = null;
-                URLBuilder urlBuilder = new URLBuilder(location);
+                final URLBuilder urlBuilder = new URLBuilder(location);
                 String currentPath = MetadataIndexSupport.trimURLPathSegment(urlBuilder.getPath());
                 while (currentPath != null) {
                     urlBuilder.setPath(currentPath);

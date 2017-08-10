@@ -34,15 +34,16 @@ import org.w3c.dom.Element;
 public class AssertionMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(final XMLObject samlObject, final Element domElement) throws MarshallingException {
-        Assertion assertion = (Assertion) samlObject;
+    protected void marshallAttributes(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
+        final Assertion assertion = (Assertion) samlObject;
 
         if (assertion.getVersion() != null) {
             domElement.setAttributeNS(null, Assertion.VERSION_ATTRIB_NAME, assertion.getVersion().toString());
         }
 
         if (assertion.getIssueInstant() != null) {
-            String issueInstantStr = SAMLConfigurationSupport.getSAMLDateFormatter().print(assertion.getIssueInstant());
+            final String issueInstantStr = SAMLConfigurationSupport.getSAMLDateFormatter().print(assertion.getIssueInstant());
             domElement.setAttributeNS(null, Assertion.ISSUE_INSTANT_ATTRIB_NAME, issueInstantStr);
         }
 

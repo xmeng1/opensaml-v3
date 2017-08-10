@@ -35,9 +35,9 @@ public class RequestAuthenticatedUnmarshaller extends AbstractSAMLObjectUnmarsha
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        RequestAuthenticated ra = (RequestAuthenticated) xmlObject;
+        final RequestAuthenticated ra = (RequestAuthenticated) xmlObject;
         
-        QName attrName = QNameSupport.getNodeQName(attribute);
+        final QName attrName = QNameSupport.getNodeQName(attribute);
         if (RequestAuthenticated.SOAP11_MUST_UNDERSTAND_ATTR_NAME.equals(attrName)) {
             ra.setSOAP11MustUnderstand(XSBooleanValue.valueOf(attribute.getValue()));
         } else if (RequestAuthenticated.SOAP11_ACTOR_ATTR_NAME.equals(attrName)) {

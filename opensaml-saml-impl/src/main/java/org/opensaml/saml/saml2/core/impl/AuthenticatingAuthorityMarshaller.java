@@ -36,7 +36,7 @@ public class AuthenticatingAuthorityMarshaller extends AbstractSAMLObjectMarshal
 
     /** {@inheritDoc} */
     protected void marshallElementContent(final XMLObject samlObject, final Element domElement) throws MarshallingException {
-        AuthenticatingAuthority authenticatingAuthority = (AuthenticatingAuthority) samlObject;
+        final AuthenticatingAuthority authenticatingAuthority = (AuthenticatingAuthority) samlObject;
         ElementSupport.appendTextContent(domElement, authenticatingAuthority.getURI());
     }
 }

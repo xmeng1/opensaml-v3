@@ -37,7 +37,7 @@ public class SessionKeyUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentObject, final XMLObject childObject) throws UnmarshallingException {
-        SessionKey key = (SessionKey) parentObject;
+        final SessionKey key = (SessionKey) parentObject;
 
         if (childObject instanceof EncType) {
             key.getEncTypes().add((EncType) childObject);

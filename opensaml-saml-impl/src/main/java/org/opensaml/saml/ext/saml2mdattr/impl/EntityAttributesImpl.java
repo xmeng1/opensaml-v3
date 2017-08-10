@@ -72,7 +72,7 @@ public class EntityAttributesImpl extends AbstractSAMLObject implements EntityAt
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         if (attributeInfo.size() == 0) {
             return null;

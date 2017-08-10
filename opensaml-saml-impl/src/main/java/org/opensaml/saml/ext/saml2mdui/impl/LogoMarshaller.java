@@ -38,10 +38,10 @@ public class LogoMarshaller extends AbstractSAMLObjectMarshaller {
      * {@inheritDoc}
      */
     protected void marshallAttributes(final XMLObject samlObject, final Element domElement) throws MarshallingException {
-        Logo logo = (Logo) samlObject;
+        final Logo logo = (Logo) samlObject;
 
         if (logo.getXMLLang() != null) {
-            Attr attribute = AttributeSupport.constructAttribute(domElement.getOwnerDocument(), XMLConstants.XML_NS,
+            final Attr attribute = AttributeSupport.constructAttribute(domElement.getOwnerDocument(), XMLConstants.XML_NS,
                     LangBearing.XML_LANG_ATTR_LOCAL_NAME, XMLConstants.XML_PREFIX);
             attribute.setValue(logo.getXMLLang());
             domElement.setAttributeNodeNS(attribute);
@@ -56,7 +56,7 @@ public class LogoMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallElementContent(final XMLObject samlObject, final Element domElement) throws MarshallingException {
-        Logo logo = (Logo) samlObject;
+        final Logo logo = (Logo) samlObject;
 
         if (logo.getURL() != null) {
             ElementSupport.appendTextContent(domElement, logo.getURL());

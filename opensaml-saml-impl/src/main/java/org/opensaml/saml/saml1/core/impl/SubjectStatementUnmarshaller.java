@@ -35,7 +35,7 @@ public abstract class SubjectStatementUnmarshaller extends AbstractSAMLObjectUnm
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
-        SubjectStatement statement = (SubjectStatement) parentSAMLObject;
+        final SubjectStatement statement = (SubjectStatement) parentSAMLObject;
 
         if (childSAMLObject instanceof Subject) {
             statement.setSubject((Subject) childSAMLObject);

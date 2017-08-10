@@ -32,7 +32,7 @@ public class AuthnContextClassRefUnmarshaller extends AbstractSAMLObjectUnmarsha
 
     /** {@inheritDoc} */
     protected void processElementContent(final XMLObject samlObject, final String elementContent) {
-        AuthnContextClassRef authnContextClassRef = (AuthnContextClassRef) samlObject;
+        final AuthnContextClassRef authnContextClassRef = (AuthnContextClassRef) samlObject;
         authnContextClassRef.setAuthnContextClassRef(elementContent);
     }
 }

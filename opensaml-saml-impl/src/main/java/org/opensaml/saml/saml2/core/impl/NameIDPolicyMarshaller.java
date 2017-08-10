@@ -34,7 +34,7 @@ public class NameIDPolicyMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject samlObject, final Element domElement) throws MarshallingException {
-        NameIDPolicy policy = (NameIDPolicy) samlObject;
+        final NameIDPolicy policy = (NameIDPolicy) samlObject;
 
         if (policy.getFormat() != null) {
             domElement.setAttributeNS(null, NameIDPolicy.FORMAT_ATTRIB_NAME, policy.getFormat());

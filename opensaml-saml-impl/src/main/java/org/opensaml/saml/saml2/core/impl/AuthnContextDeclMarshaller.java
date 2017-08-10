@@ -43,10 +43,10 @@ public class AuthnContextDeclMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        AuthnContextDecl authnCtxDecl = (AuthnContextDecl) xmlObject;
+        final AuthnContextDecl authnCtxDecl = (AuthnContextDecl) xmlObject;
 
         Attr attribute;
-        for (Entry<QName, String> entry : authnCtxDecl.getUnknownAttributes().entrySet()) {
+        for (final Entry<QName, String> entry : authnCtxDecl.getUnknownAttributes().entrySet()) {
             attribute = AttributeSupport.constructAttribute(domElement.getOwnerDocument(), entry.getKey());
             attribute.setValue(entry.getValue());
             domElement.setAttributeNodeNS(attribute);
@@ -59,7 +59,7 @@ public class AuthnContextDeclMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallElementContent(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        AuthnContextDecl authnCtxDecl = (AuthnContextDecl) xmlObject;
+        final AuthnContextDecl authnCtxDecl = (AuthnContextDecl) xmlObject;
 
         if (authnCtxDecl.getTextContent() != null) {
             ElementSupport.appendTextContent(domElement, authnCtxDecl.getTextContent());

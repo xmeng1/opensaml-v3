@@ -33,7 +33,7 @@ public class AuthnRequestMarshaller extends RequestAbstractTypeMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject samlObject, final Element domElement) throws MarshallingException {
-        AuthnRequest req = (AuthnRequest) samlObject;
+        final AuthnRequest req = (AuthnRequest) samlObject;
 
         if (req.isForceAuthnXSBoolean() != null) {
             domElement.setAttributeNS(null, AuthnRequest.FORCE_AUTHN_ATTRIB_NAME, req.isForceAuthnXSBoolean()

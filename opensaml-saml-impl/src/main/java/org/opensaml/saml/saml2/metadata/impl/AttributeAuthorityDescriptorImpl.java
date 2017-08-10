@@ -96,7 +96,7 @@ public class AttributeAuthorityDescriptorImpl extends RoleDescriptorImpl impleme
     
     /** {@inheritDoc} */
     public List<Endpoint> getEndpoints() {
-        List<Endpoint> endpoints = new ArrayList<>();
+        final List<Endpoint> endpoints = new ArrayList<>();
         endpoints.addAll(attributeServices);
         endpoints.addAll(assertionIDRequestServices);
         return Collections.unmodifiableList(endpoints);
@@ -115,7 +115,7 @@ public class AttributeAuthorityDescriptorImpl extends RoleDescriptorImpl impleme
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         children.addAll(super.getOrderedChildren());
         children.addAll(attributeServices);

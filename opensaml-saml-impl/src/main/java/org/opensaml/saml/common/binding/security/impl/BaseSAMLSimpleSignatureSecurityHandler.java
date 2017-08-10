@@ -279,7 +279,7 @@ public abstract class BaseSAMLSimpleSignatureSecurityHandler extends AbstractMes
                     return false;
                 }
             } else {
-                for (Credential cred : candidateCredentials) {
+                for (final Credential cred : candidateCredentials) {
                     if (engine.validate(signature, signedContent, algorithmURI, criteriaSet, cred)) {
                         log.debug("{} Simple signature validation succeeded with a request-derived credential",
                                 getLogPrefix());
@@ -320,7 +320,7 @@ public abstract class BaseSAMLSimpleSignatureSecurityHandler extends AbstractMes
      * @throws MessageHandlerException thrown if there is an error during request processing
      */
     @Nullable protected byte[] getSignature() throws MessageHandlerException {
-        String signature = getHttpServletRequest().getParameter("Signature");
+        final String signature = getHttpServletRequest().getParameter("Signature");
         if (Strings.isNullOrEmpty(signature)) {
             return null;
         }

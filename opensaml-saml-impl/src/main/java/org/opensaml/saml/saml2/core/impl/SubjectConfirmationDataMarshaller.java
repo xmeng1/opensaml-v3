@@ -35,15 +35,15 @@ public class SubjectConfirmationDataMarshaller extends AbstractSAMLObjectMarshal
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject samlObject, final Element domElement) throws MarshallingException {
-        SubjectConfirmationData subjectCD = (SubjectConfirmationData) samlObject;
+        final SubjectConfirmationData subjectCD = (SubjectConfirmationData) samlObject;
 
         if (subjectCD.getNotBefore() != null) {
-            String notBeforeStr = SAMLConfigurationSupport.getSAMLDateFormatter().print(subjectCD.getNotBefore());
+            final String notBeforeStr = SAMLConfigurationSupport.getSAMLDateFormatter().print(subjectCD.getNotBefore());
             domElement.setAttributeNS(null, SubjectConfirmationData.NOT_BEFORE_ATTRIB_NAME, notBeforeStr);
         }
 
         if (subjectCD.getNotOnOrAfter() != null) {
-            String notOnOrAfterStr = SAMLConfigurationSupport.getSAMLDateFormatter().print(subjectCD.getNotOnOrAfter());
+            final String notOnOrAfterStr = SAMLConfigurationSupport.getSAMLDateFormatter().print(subjectCD.getNotOnOrAfter());
             domElement.setAttributeNS(null, SubjectConfirmationData.NOT_ON_OR_AFTER_ATTRIB_NAME, notOnOrAfterStr);
         }
 

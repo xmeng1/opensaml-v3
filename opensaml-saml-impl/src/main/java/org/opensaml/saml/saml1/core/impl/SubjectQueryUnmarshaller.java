@@ -35,7 +35,7 @@ public abstract class SubjectQueryUnmarshaller extends AbstractSAMLObjectUnmarsh
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
-        SubjectQuery query = (SubjectQuery) parentSAMLObject;
+        final SubjectQuery query = (SubjectQuery) parentSAMLObject;
 
         if (childSAMLObject instanceof Subject) {
             query.setSubject((Subject) childSAMLObject);

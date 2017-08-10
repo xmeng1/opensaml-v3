@@ -30,7 +30,7 @@ public class DigestMethodMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        DigestMethod digestMethod = (DigestMethod) xmlObject;
+        final DigestMethod digestMethod = (DigestMethod) xmlObject;
         
         if (digestMethod.getAlgorithm() != null) {
             domElement.setAttributeNS(null, DigestMethod.ALGORITHM_ATTRIB_NAME, digestMethod.getAlgorithm());

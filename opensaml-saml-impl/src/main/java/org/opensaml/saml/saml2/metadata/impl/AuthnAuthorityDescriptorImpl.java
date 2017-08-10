@@ -76,7 +76,7 @@ public class AuthnAuthorityDescriptorImpl extends RoleDescriptorImpl implements 
     
     /** {@inheritDoc} */
     public List<Endpoint> getEndpoints() {
-        List<Endpoint> endpoints = new ArrayList<>();
+        final List<Endpoint> endpoints = new ArrayList<>();
         endpoints.addAll(authnQueryServices);
         endpoints.addAll(assertionIDRequestServices);
         return Collections.unmodifiableList(endpoints);
@@ -95,7 +95,7 @@ public class AuthnAuthorityDescriptorImpl extends RoleDescriptorImpl implements 
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         children.addAll(super.getOrderedChildren());
         children.addAll(authnQueryServices);

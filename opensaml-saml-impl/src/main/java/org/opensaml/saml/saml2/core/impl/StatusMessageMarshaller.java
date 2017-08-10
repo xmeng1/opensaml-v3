@@ -36,7 +36,7 @@ public class StatusMessageMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallElementContent(final XMLObject samlObject, final Element domElement) throws MarshallingException {
-        StatusMessage message = (StatusMessage) samlObject;
+        final StatusMessage message = (StatusMessage) samlObject;
 
         if (message.getMessage() != null) {
             ElementSupport.appendTextContent(domElement, message.getMessage());

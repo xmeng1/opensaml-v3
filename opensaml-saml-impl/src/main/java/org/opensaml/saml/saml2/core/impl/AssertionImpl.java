@@ -112,7 +112,7 @@ public class AssertionImpl extends AbstractSignableSAMLObject implements Asserti
 
     /** {@inheritDoc} */
     public void setID(final String newID) {
-        String oldID = this.id;
+        final String oldID = this.id;
         this.id = prepareForAssignment(this.id, newID);
         registerOwnID(oldID, this.id);
     }
@@ -169,21 +169,21 @@ public class AssertionImpl extends AbstractSignableSAMLObject implements Asserti
 
     /** {@inheritDoc} */
     public List<AuthnStatement> getAuthnStatements() {
-        QName statementQName = new QName(SAMLConstants.SAML20_NS, AuthnStatement.DEFAULT_ELEMENT_LOCAL_NAME,
+        final QName statementQName = new QName(SAMLConstants.SAML20_NS, AuthnStatement.DEFAULT_ELEMENT_LOCAL_NAME,
                 SAMLConstants.SAML20_PREFIX);
         return (List<AuthnStatement>) statements.subList(statementQName);
     }
 
     /** {@inheritDoc} */
     public List<AuthzDecisionStatement> getAuthzDecisionStatements() {
-        QName statementQName = new QName(SAMLConstants.SAML20_NS, AuthzDecisionStatement.DEFAULT_ELEMENT_LOCAL_NAME,
+        final QName statementQName = new QName(SAMLConstants.SAML20_NS, AuthzDecisionStatement.DEFAULT_ELEMENT_LOCAL_NAME,
                 SAMLConstants.SAML20_PREFIX);
         return (List<AuthzDecisionStatement>) statements.subList(statementQName);
     }
 
     /** {@inheritDoc} */
     public List<AttributeStatement> getAttributeStatements() {
-        QName statementQName = new QName(SAMLConstants.SAML20_NS, AttributeStatement.DEFAULT_ELEMENT_LOCAL_NAME,
+        final QName statementQName = new QName(SAMLConstants.SAML20_NS, AttributeStatement.DEFAULT_ELEMENT_LOCAL_NAME,
                 SAMLConstants.SAML20_PREFIX);
         return (List<AttributeStatement>) statements.subList(statementQName);
     }
@@ -195,7 +195,7 @@ public class AssertionImpl extends AbstractSignableSAMLObject implements Asserti
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         children.add(issuer);
         

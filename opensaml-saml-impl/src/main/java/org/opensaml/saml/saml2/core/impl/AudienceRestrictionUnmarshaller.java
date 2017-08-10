@@ -34,7 +34,7 @@ public class AudienceRestrictionUnmarshaller extends AbstractSAMLObjectUnmarshal
 
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentObject, final XMLObject childObject) throws UnmarshallingException {
-        AudienceRestriction audienceRestriction = (AudienceRestriction) parentObject;
+        final AudienceRestriction audienceRestriction = (AudienceRestriction) parentObject;
 
         if (childObject instanceof Audience) {
             audienceRestriction.getAudiences().add((Audience) childObject);

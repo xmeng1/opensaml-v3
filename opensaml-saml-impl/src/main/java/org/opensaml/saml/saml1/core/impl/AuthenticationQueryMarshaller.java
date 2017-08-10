@@ -29,7 +29,7 @@ public class AuthenticationQueryMarshaller extends SubjectQueryMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject samlObject, final Element domElement) throws MarshallingException {
-        AuthenticationQuery authenticationQuery = (AuthenticationQuery) samlObject;
+        final AuthenticationQuery authenticationQuery = (AuthenticationQuery) samlObject;
 
         if (authenticationQuery.getAuthenticationMethod() != null) {
             domElement.setAttributeNS(null, AuthenticationQuery.AUTHENTICATIONMETHOD_ATTRIB_NAME, authenticationQuery

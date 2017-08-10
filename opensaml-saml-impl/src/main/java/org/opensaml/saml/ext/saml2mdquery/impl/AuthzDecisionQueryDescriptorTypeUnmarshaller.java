@@ -28,7 +28,7 @@ public class AuthzDecisionQueryDescriptorTypeUnmarshaller extends QueryDescripto
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
-        AuthzDecisionQueryDescriptorType descriptor = (AuthzDecisionQueryDescriptorType) parentSAMLObject;
+        final AuthzDecisionQueryDescriptorType descriptor = (AuthzDecisionQueryDescriptorType) parentSAMLObject;
 
         if (childSAMLObject instanceof ActionNamespace) {
             descriptor.getActionNamespaces().add((ActionNamespace) childSAMLObject);

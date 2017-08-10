@@ -169,7 +169,7 @@ public class OneTimeUseConditionValidator implements ConditionValidator {
              
         log.debug("Effective one-time use cache expires of: {}", expires);
         
-        long computedExpiration = System.currentTimeMillis() + expires;
+        final long computedExpiration = System.currentTimeMillis() + expires;
         log.debug("Computed one-time use cache effective expiration time of: {}", computedExpiration);
         return computedExpiration;
     }
@@ -197,7 +197,7 @@ public class OneTimeUseConditionValidator implements ConditionValidator {
             id = "NoID";
         }
         
-        String value = String.format("%s--%s", issuer, id);
+        final String value = String.format("%s--%s", issuer, id);
         log.debug("Generated one-time use cache value of: {}", value);
         return value;
     }

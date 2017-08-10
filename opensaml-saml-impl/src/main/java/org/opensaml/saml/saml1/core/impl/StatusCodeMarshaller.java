@@ -34,9 +34,9 @@ public class StatusCodeMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject samlElement, final Element domElement) throws MarshallingException {
-        StatusCode statusCode = (StatusCode) samlElement;
+        final StatusCode statusCode = (StatusCode) samlElement;
 
-        QName statusValue = statusCode.getValue();
+        final QName statusValue = statusCode.getValue();
         if (statusValue != null) {
             domElement.setAttributeNS(null, StatusCode.VALUE_ATTRIB_NAME,
                     QNameSupport.qnameToContentString(statusValue));

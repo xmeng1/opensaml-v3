@@ -36,7 +36,7 @@ public class IDPListUnmarshaller extends AbstractSAMLObjectUnmarshaller {
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
-        IDPList list = (IDPList) parentSAMLObject;
+        final IDPList list = (IDPList) parentSAMLObject;
 
         if (childSAMLObject instanceof IDPEntry) {
             list.getIDPEntrys().add((IDPEntry) childSAMLObject);

@@ -32,7 +32,7 @@ public abstract class SSODescriptorUnmarshaller extends RoleDescriptorUnmarshall
 
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentElement, final XMLObject childElement) throws UnmarshallingException {
-        SSODescriptor descriptor = (SSODescriptor) parentElement;
+        final SSODescriptor descriptor = (SSODescriptor) parentElement;
         if (childElement instanceof ArtifactResolutionService) {
             descriptor.getArtifactResolutionServices().add((ArtifactResolutionService) childElement);
         } else if (childElement instanceof SingleLogoutService) {

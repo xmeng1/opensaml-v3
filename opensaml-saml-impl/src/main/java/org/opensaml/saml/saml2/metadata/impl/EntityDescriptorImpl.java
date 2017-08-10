@@ -115,7 +115,7 @@ public class EntityDescriptorImpl extends AbstractSignableSAMLObject implements 
 
     /** {@inheritDoc} */
     public void setID(final String newID) {
-        String oldID = this.id;
+        final String oldID = this.id;
         this.id = prepareForAssignment(this.id, newID);
         registerOwnID(oldID, this.id);
     }
@@ -126,7 +126,7 @@ public class EntityDescriptorImpl extends AbstractSignableSAMLObject implements 
             return true;
         }
 
-        DateTime now = new DateTime();
+        final DateTime now = new DateTime();
         return now.isBefore(validUntil);
     }
 
@@ -172,8 +172,8 @@ public class EntityDescriptorImpl extends AbstractSignableSAMLObject implements 
 
     /** {@inheritDoc} */
     public List<RoleDescriptor> getRoleDescriptors(final QName type, final String supportedProtocol) {
-        ArrayList<RoleDescriptor> supportingRoleDescriptors = new ArrayList<>();
-        for (RoleDescriptor descriptor : roleDescriptors.subList(type)) {
+        final ArrayList<RoleDescriptor> supportingRoleDescriptors = new ArrayList<>();
+        for (final RoleDescriptor descriptor : roleDescriptors.subList(type)) {
             if (descriptor.isSupportedProtocol(supportedProtocol)) {
                 supportingRoleDescriptors.add(descriptor);
             }
@@ -184,7 +184,7 @@ public class EntityDescriptorImpl extends AbstractSignableSAMLObject implements 
 
     /** {@inheritDoc} */
     public IDPSSODescriptor getIDPSSODescriptor(final String supportedProtocol) {
-        List<RoleDescriptor> descriptors = getRoleDescriptors(IDPSSODescriptor.DEFAULT_ELEMENT_NAME, supportedProtocol);
+        final List<RoleDescriptor> descriptors = getRoleDescriptors(IDPSSODescriptor.DEFAULT_ELEMENT_NAME, supportedProtocol);
         if (descriptors.size() > 0) {
             return (IDPSSODescriptor) descriptors.get(0);
         }
@@ -194,7 +194,7 @@ public class EntityDescriptorImpl extends AbstractSignableSAMLObject implements 
 
     /** {@inheritDoc} */
     public SPSSODescriptor getSPSSODescriptor(final String supportedProtocol) {
-        List<RoleDescriptor> descriptors = getRoleDescriptors(SPSSODescriptor.DEFAULT_ELEMENT_NAME, supportedProtocol);
+        final List<RoleDescriptor> descriptors = getRoleDescriptors(SPSSODescriptor.DEFAULT_ELEMENT_NAME, supportedProtocol);
         if (descriptors.size() > 0) {
             return (SPSSODescriptor) descriptors.get(0);
         }
@@ -204,7 +204,7 @@ public class EntityDescriptorImpl extends AbstractSignableSAMLObject implements 
 
     /** {@inheritDoc} */
     public AuthnAuthorityDescriptor getAuthnAuthorityDescriptor(final String supportedProtocol) {
-        List<RoleDescriptor> descriptors = getRoleDescriptors(AuthnAuthorityDescriptor.DEFAULT_ELEMENT_NAME,
+        final List<RoleDescriptor> descriptors = getRoleDescriptors(AuthnAuthorityDescriptor.DEFAULT_ELEMENT_NAME,
                 supportedProtocol);
         if (descriptors.size() > 0) {
             return (AuthnAuthorityDescriptor) descriptors.get(0);
@@ -215,7 +215,7 @@ public class EntityDescriptorImpl extends AbstractSignableSAMLObject implements 
 
     /** {@inheritDoc} */
     public AttributeAuthorityDescriptor getAttributeAuthorityDescriptor(final String supportedProtocol) {
-        List<RoleDescriptor> descriptors = getRoleDescriptors(AttributeAuthorityDescriptor.DEFAULT_ELEMENT_NAME,
+        final List<RoleDescriptor> descriptors = getRoleDescriptors(AttributeAuthorityDescriptor.DEFAULT_ELEMENT_NAME,
                 supportedProtocol);
         if (descriptors.size() > 0) {
             return (AttributeAuthorityDescriptor) descriptors.get(0);
@@ -226,7 +226,7 @@ public class EntityDescriptorImpl extends AbstractSignableSAMLObject implements 
 
     /** {@inheritDoc} */
     public PDPDescriptor getPDPDescriptor(final String supportedProtocol) {
-        List<RoleDescriptor> descriptors = getRoleDescriptors(PDPDescriptor.DEFAULT_ELEMENT_NAME, supportedProtocol);
+        final List<RoleDescriptor> descriptors = getRoleDescriptors(PDPDescriptor.DEFAULT_ELEMENT_NAME, supportedProtocol);
         if (descriptors.size() > 0) {
             return (PDPDescriptor) descriptors.get(0);
         }
@@ -278,7 +278,7 @@ public class EntityDescriptorImpl extends AbstractSignableSAMLObject implements 
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         if (getSignature() != null) {
             children.add(getSignature());

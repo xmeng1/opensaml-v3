@@ -28,7 +28,7 @@ public class ActionNamespaceUnmarshaller extends AbstractSAMLObjectUnmarshaller 
 
     /** {@inheritDoc} */
     protected void processElementContent(final XMLObject samlObject, final String elementContent) {
-        ActionNamespace actionNamespace = (ActionNamespace) samlObject;
+        final ActionNamespace actionNamespace = (ActionNamespace) samlObject;
 
         actionNamespace.setValue(elementContent);
     }

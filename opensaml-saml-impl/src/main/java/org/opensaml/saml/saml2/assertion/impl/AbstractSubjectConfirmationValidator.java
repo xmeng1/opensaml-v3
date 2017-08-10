@@ -123,9 +123,9 @@ public abstract class AbstractSubjectConfirmationValidator implements SubjectCon
     @Nonnull protected ValidationResult validateNotBefore(@Nonnull final SubjectConfirmation confirmation, 
             @Nonnull final Assertion assertion, @Nonnull final ValidationContext context) 
                     throws AssertionValidationException {
-        DateTime skewedNow = new DateTime(ISOChronology.getInstanceUTC()).plus(SAML20AssertionValidator
+        final DateTime skewedNow = new DateTime(ISOChronology.getInstanceUTC()).plus(SAML20AssertionValidator
                 .getClockSkew(context));
-        DateTime notBefore = confirmation.getSubjectConfirmationData().getNotBefore();
+        final DateTime notBefore = confirmation.getSubjectConfirmationData().getNotBefore();
         
         log.debug("Evaluating SubjectConfirmationData NotBefore '{}' against 'skewed now' time '{}'",
                 notBefore, skewedNow);
@@ -153,9 +153,9 @@ public abstract class AbstractSubjectConfirmationValidator implements SubjectCon
     @Nonnull protected ValidationResult validateNotOnOrAfter(@Nonnull final SubjectConfirmation confirmation, 
             @Nonnull final Assertion assertion, @Nonnull final ValidationContext context) 
                     throws AssertionValidationException {
-        DateTime skewedNow = new DateTime(ISOChronology.getInstanceUTC()).minus(SAML20AssertionValidator
+        final DateTime skewedNow = new DateTime(ISOChronology.getInstanceUTC()).minus(SAML20AssertionValidator
                 .getClockSkew(context));
-        DateTime notOnOrAfter = confirmation.getSubjectConfirmationData().getNotOnOrAfter();
+        final DateTime notOnOrAfter = confirmation.getSubjectConfirmationData().getNotOnOrAfter();
         
         log.debug("Evaluating SubjectConfirmationData NotOnOrAfter '{}' against 'skewed now' time '{}'",
                 notOnOrAfter, skewedNow);
@@ -183,14 +183,14 @@ public abstract class AbstractSubjectConfirmationValidator implements SubjectCon
     @Nonnull protected ValidationResult validateRecipient(@Nonnull final SubjectConfirmation confirmation, 
             @Nonnull final Assertion assertion, @Nonnull final ValidationContext context) 
                     throws AssertionValidationException {
-        String recipient = StringSupport.trimOrNull(confirmation.getSubjectConfirmationData().getRecipient());
+        final String recipient = StringSupport.trimOrNull(confirmation.getSubjectConfirmationData().getRecipient());
         if (recipient == null) {
             return ValidationResult.VALID;
         }
         
         log.debug("Evaluating SubjectConfirmationData@Recipient of : {}", recipient);
 
-        Set<String> validRecipients;
+        final Set<String> validRecipients;
         try {
             validRecipients = (Set<String>) context.getStaticParameters().get(
                     SAML2AssertionValidationParameters.SC_VALID_RECIPIENTS);
@@ -239,14 +239,14 @@ public abstract class AbstractSubjectConfirmationValidator implements SubjectCon
     @Nonnull protected ValidationResult validateAddress(@Nonnull final SubjectConfirmation confirmation, 
             @Nonnull final Assertion assertion, @Nonnull final ValidationContext context) 
                     throws AssertionValidationException {
-        String address = StringSupport.trimOrNull(confirmation.getSubjectConfirmationData().getAddress());
+        final String address = StringSupport.trimOrNull(confirmation.getSubjectConfirmationData().getAddress());
         if (address == null) {
             return ValidationResult.VALID;
         }
         
         log.debug("Evaluating SubjectConfirmationData@Address of : {}", address);
 
-        InetAddress[] confirmingAddresses;
+        final InetAddress[] confirmingAddresses;
         try {
             confirmingAddresses = InetAddress.getAllByName(address);
         } catch (final UnknownHostException e) {
@@ -262,7 +262,7 @@ public abstract class AbstractSubjectConfirmationValidator implements SubjectCon
                     Arrays.asList(confirmingAddresses));
         }
 
-        Set<InetAddress> validAddresses;
+        final Set<InetAddress> validAddresses;
         try {
             validAddresses = (Set<InetAddress>) context.getStaticParameters().get(
                     SAML2AssertionValidationParameters.SC_VALID_ADDRESSES);
@@ -279,7 +279,7 @@ public abstract class AbstractSubjectConfirmationValidator implements SubjectCon
             return ValidationResult.INDETERMINATE;
         }
 
-        for (InetAddress confirmingAddress : confirmingAddresses) {
+        for (final InetAddress confirmingAddress : confirmingAddresses) {
             if (validAddresses.contains(confirmingAddress)) {
                 log.debug("Matched SubjectConfirmationData address '{}' to valid address",
                         confirmingAddress.getHostAddress());

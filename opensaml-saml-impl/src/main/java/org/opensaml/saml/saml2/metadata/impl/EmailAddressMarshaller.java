@@ -36,7 +36,7 @@ public class EmailAddressMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallElementContent(final XMLObject samlObject, final Element domElement) throws MarshallingException {
-        EmailAddress address = (EmailAddress) samlObject;
+        final EmailAddress address = (EmailAddress) samlObject;
 
         if (address.getAddress() != null) {
             ElementSupport.appendTextContent(domElement, address.getAddress());

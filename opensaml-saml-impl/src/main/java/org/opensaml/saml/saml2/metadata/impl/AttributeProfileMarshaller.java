@@ -36,7 +36,7 @@ public class AttributeProfileMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallElementContent(final XMLObject samlObject, final Element domElement) throws MarshallingException {
-        AttributeProfile profile = (AttributeProfile) samlObject;
+        final AttributeProfile profile = (AttributeProfile) samlObject;
         if (profile.getProfileURI() != null) {
             ElementSupport.appendTextContent(domElement, profile.getProfileURI());
         }

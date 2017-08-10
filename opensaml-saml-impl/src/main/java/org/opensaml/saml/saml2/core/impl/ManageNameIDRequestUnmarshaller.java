@@ -38,7 +38,7 @@ public class ManageNameIDRequestUnmarshaller extends RequestAbstractTypeUnmarsha
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
-        ManageNameIDRequest req = (ManageNameIDRequest) parentSAMLObject;
+        final ManageNameIDRequest req = (ManageNameIDRequest) parentSAMLObject;
 
         if (childSAMLObject instanceof NameID) {
             req.setNameID((NameID) childSAMLObject);

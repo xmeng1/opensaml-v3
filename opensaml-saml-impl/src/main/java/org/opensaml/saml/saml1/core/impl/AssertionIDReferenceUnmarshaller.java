@@ -26,7 +26,7 @@ public class AssertionIDReferenceUnmarshaller extends AbstractSAMLObjectUnmarsha
 
     /** {@inheritDoc} */
     protected void processElementContent(final XMLObject samlObject, final String elementContent) {
-        AssertionIDReference assertionIDReference = (AssertionIDReference) samlObject;
+        final AssertionIDReference assertionIDReference = (AssertionIDReference) samlObject;
 
         assertionIDReference.setReference(elementContent);
     }

@@ -82,7 +82,7 @@ public class HttpClientResponseSOAP11Decoder
         
         populateBindingContext(getMessageContext());
         
-        SAMLObject samlMessage = getMessageContext().getMessage();
+        final SAMLObject samlMessage = getMessageContext().getMessage();
         log.debug("Decoded SOAP message which included SAML message of type {}", samlMessage.getElementQName());
     }
     
@@ -92,7 +92,7 @@ public class HttpClientResponseSOAP11Decoder
      * @param messageContext the current message context
      */
     protected void populateBindingContext(final MessageContext<SAMLObject> messageContext) {
-        SAMLBindingContext bindingContext = messageContext.getSubcontext(SAMLBindingContext.class, true);
+        final SAMLBindingContext bindingContext = messageContext.getSubcontext(SAMLBindingContext.class, true);
         bindingContext.setBindingUri(getBindingURI());
         bindingContext.setBindingDescriptor(bindingDescriptor);
         bindingContext.setHasBindingSignature(false);

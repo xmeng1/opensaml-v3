@@ -86,7 +86,7 @@ public class ScopingImpl extends AbstractSAMLObject implements Scoping {
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         if (idpList != null) {
             children.add(idpList);

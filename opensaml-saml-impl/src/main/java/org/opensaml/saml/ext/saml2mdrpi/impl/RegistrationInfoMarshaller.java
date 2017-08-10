@@ -31,7 +31,7 @@ import org.w3c.dom.Element;
 public class RegistrationInfoMarshaller extends AbstractSAMLObjectMarshaller {
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject samlObject, final Element domElement) throws MarshallingException {
-        RegistrationInfo info = (RegistrationInfo) samlObject;
+        final RegistrationInfo info = (RegistrationInfo) samlObject;
 
         if (info.getRegistrationAuthority() != null) {
             domElement.setAttributeNS(null, RegistrationInfo.REGISTRATION_AUTHORITY_ATTRIB_NAME,
@@ -39,7 +39,7 @@ public class RegistrationInfoMarshaller extends AbstractSAMLObjectMarshaller {
         }
 
         if (info.getRegistrationInstant() != null) {
-            String registrationInstant = ISODateTimeFormat.dateTime().print(info.getRegistrationInstant());
+            final String registrationInstant = ISODateTimeFormat.dateTime().print(info.getRegistrationInstant());
             domElement.setAttributeNS(null, RegistrationInfo.REGISTRATION_INSTANT_ATTRIB_NAME, registrationInstant);
         }
     }

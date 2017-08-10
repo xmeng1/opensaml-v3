@@ -93,7 +93,7 @@ public abstract class RoleDescriptorImpl extends AbstractSignableSAMLObject impl
     /** {@inheritDoc} */
     @Override
     public void setID(final String newID) {
-        String oldID = this.id;
+        final String oldID = this.id;
         this.id = prepareForAssignment(this.id, newID);
         registerOwnID(oldID, this.id);
     }
@@ -105,7 +105,7 @@ public abstract class RoleDescriptorImpl extends AbstractSignableSAMLObject impl
             return true;
         }
         
-        DateTime now = new DateTime();
+        final DateTime now = new DateTime();
         return now.isBefore(validUntil);
     }
 
@@ -168,7 +168,7 @@ public abstract class RoleDescriptorImpl extends AbstractSignableSAMLObject impl
     /** {@inheritDoc} */
     @Override
     public void removeSupportedProtocols(final Collection<String> protocols) {
-        for (String protocol : protocols) {
+        for (final String protocol : protocols) {
             removeSupportedProtocol(protocol);
         }
     }
@@ -243,7 +243,7 @@ public abstract class RoleDescriptorImpl extends AbstractSignableSAMLObject impl
     /** {@inheritDoc} */
     @Override
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         if (getSignature() != null) {
             children.add(getSignature());

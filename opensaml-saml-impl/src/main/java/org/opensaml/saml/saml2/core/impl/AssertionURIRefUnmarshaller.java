@@ -32,7 +32,7 @@ public class AssertionURIRefUnmarshaller extends AbstractSAMLObjectUnmarshaller 
 
     /** {@inheritDoc} */
     protected void processElementContent(final XMLObject samlObject, final String elementContent) {
-        AssertionURIRef assertionURIRef = (AssertionURIRef) samlObject;
+        final AssertionURIRef assertionURIRef = (AssertionURIRef) samlObject;
         assertionURIRef.setAssertionURI(elementContent);
     }
 }

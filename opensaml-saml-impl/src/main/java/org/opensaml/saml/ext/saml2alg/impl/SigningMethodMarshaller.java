@@ -30,7 +30,7 @@ public class SigningMethodMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        SigningMethod signingMethod = (SigningMethod) xmlObject;
+        final SigningMethod signingMethod = (SigningMethod) xmlObject;
         
         if (signingMethod.getAlgorithm() != null) {
             domElement.setAttributeNS(null, SigningMethod.ALGORITHM_ATTRIB_NAME, signingMethod.getAlgorithm());

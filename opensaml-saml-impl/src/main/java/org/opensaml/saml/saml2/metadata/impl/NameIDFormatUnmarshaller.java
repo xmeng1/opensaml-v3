@@ -32,7 +32,7 @@ public class NameIDFormatUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processElementContent(final XMLObject samlObject, final String elementContent) {
-        NameIDFormat format = (NameIDFormat) samlObject;
+        final NameIDFormat format = (NameIDFormat) samlObject;
 
         format.setFormat(elementContent);
     }

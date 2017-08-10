@@ -36,7 +36,7 @@ public class RequesterIDMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallElementContent(final XMLObject samlObject, final Element domElement) throws MarshallingException {
-        RequesterID reqID = (RequesterID) samlObject;
+        final RequesterID reqID = (RequesterID) samlObject;
 
         if (reqID.getRequesterID() != null) {
             ElementSupport.appendTextContent(domElement, reqID.getRequesterID());

@@ -33,7 +33,7 @@ public class SubjectUnmarshaller extends AbstractSAMLObjectUnmarshaller {
     protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
 
-        Subject subject = (Subject) parentSAMLObject;
+        final Subject subject = (Subject) parentSAMLObject;
 
         if (childSAMLObject instanceof NameIdentifier) {
             subject.setNameIdentifier((NameIdentifier) childSAMLObject);

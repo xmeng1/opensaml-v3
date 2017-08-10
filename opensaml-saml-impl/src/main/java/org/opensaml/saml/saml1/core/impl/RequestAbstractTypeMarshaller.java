@@ -36,7 +36,7 @@ public class RequestAbstractTypeMarshaller extends AbstractSAMLObjectMarshaller 
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject samlElement, final Element domElement) throws MarshallingException {
-        RequestAbstractType request = (RequestAbstractType) samlElement;
+        final RequestAbstractType request = (RequestAbstractType) samlElement;
 
         if (request.getID() != null) {
             domElement.setAttributeNS(null, RequestAbstractType.ID_ATTRIB_NAME, request.getID());
@@ -46,7 +46,7 @@ public class RequestAbstractTypeMarshaller extends AbstractSAMLObjectMarshaller 
         }
 
         if (request.getIssueInstant() != null) {
-            String date = SAMLConfigurationSupport.getSAMLDateFormatter().print(request.getIssueInstant());
+            final String date = SAMLConfigurationSupport.getSAMLDateFormatter().print(request.getIssueInstant());
             domElement.setAttributeNS(null, RequestAbstractType.ISSUEINSTANT_ATTRIB_NAME, date);
         }
 

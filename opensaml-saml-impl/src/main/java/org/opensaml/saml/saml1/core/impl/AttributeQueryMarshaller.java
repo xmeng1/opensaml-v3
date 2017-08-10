@@ -30,7 +30,7 @@ public class AttributeQueryMarshaller extends SubjectQueryMarshaller {
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject samlElement, final Element domElement) throws MarshallingException {
 
-        AttributeQuery attributeQuery = (AttributeQuery) samlElement;
+        final AttributeQuery attributeQuery = (AttributeQuery) samlElement;
 
         if (attributeQuery.getResource() != null) {
             domElement.setAttributeNS(null, AttributeQuery.RESOURCE_ATTRIB_NAME, attributeQuery.getResource());

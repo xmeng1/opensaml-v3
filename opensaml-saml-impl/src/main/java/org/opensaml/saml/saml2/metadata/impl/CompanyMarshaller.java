@@ -36,7 +36,7 @@ public class CompanyMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallElementContent(final XMLObject samlObject, final Element domElement) throws MarshallingException {
-        Company company = (Company) samlObject;
+        final Company company = (Company) samlObject;
 
         if (company.getName() != null) {
             ElementSupport.appendTextContent(domElement, company.getName());

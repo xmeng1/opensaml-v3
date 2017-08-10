@@ -35,15 +35,15 @@ public class ConditionsMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject samlObject, final Element domElement) throws MarshallingException {
-        Conditions conditions = (Conditions) samlObject;
+        final Conditions conditions = (Conditions) samlObject;
 
         if (conditions.getNotBefore() != null) {
-            String notBeforeStr = SAMLConfigurationSupport.getSAMLDateFormatter().print(conditions.getNotBefore());
+            final String notBeforeStr = SAMLConfigurationSupport.getSAMLDateFormatter().print(conditions.getNotBefore());
             domElement.setAttributeNS(null, Conditions.NOT_BEFORE_ATTRIB_NAME, notBeforeStr);
         }
 
         if (conditions.getNotOnOrAfter() != null) {
-            String notOnOrAfterStr = SAMLConfigurationSupport.getSAMLDateFormatter().print(
+            final String notOnOrAfterStr = SAMLConfigurationSupport.getSAMLDateFormatter().print(
                     conditions.getNotOnOrAfter());
             domElement.setAttributeNS(null, Conditions.NOT_ON_OR_AFTER_ATTRIB_NAME, notOnOrAfterStr);
         }

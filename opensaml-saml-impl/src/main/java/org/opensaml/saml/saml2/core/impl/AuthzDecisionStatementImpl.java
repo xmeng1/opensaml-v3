@@ -99,7 +99,7 @@ public class AuthzDecisionStatementImpl extends AbstractSAMLObject implements Au
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         children.addAll(actions);
         children.add(evidence);

@@ -59,7 +59,7 @@ public class KeywordsImpl extends AbstractSAMLObject implements Keywords {
 
     /** {@inheritDoc} */
     public void setXMLLang(final String newLang) {
-        boolean hasValue = newLang != null && !Strings.isNullOrEmpty(newLang);
+        final boolean hasValue = newLang != null && !Strings.isNullOrEmpty(newLang);
         lang = prepareForAssignment(lang, newLang);
         manageQualifiedAttributeNamespace(LangBearing.XML_LANG_ATTR_NAME, hasValue);
     }
@@ -79,7 +79,7 @@ public class KeywordsImpl extends AbstractSAMLObject implements Keywords {
      */
     public int hashCode() {
         int hash = lang.hashCode();
-        for (String s: data) {
+        for (final String s: data) {
             hash = hash * 31 + s.hashCode();
         }
         return hash; 

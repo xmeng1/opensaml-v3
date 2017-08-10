@@ -35,9 +35,9 @@ public class GeneratedKeyUnmarshaller extends XSBase64BinaryUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject samlObject, final Attr attribute) throws UnmarshallingException {
-        GeneratedKey key = (GeneratedKey) samlObject;
+        final GeneratedKey key = (GeneratedKey) samlObject;
 
-        QName attrName = QNameSupport.getNodeQName(attribute);
+        final QName attrName = QNameSupport.getNodeQName(attribute);
         if (GeneratedKey.SOAP11_MUST_UNDERSTAND_ATTR_NAME.equals(attrName)) {
             key.setSOAP11MustUnderstand(XSBooleanValue.valueOf(attribute.getValue()));
         } else if (GeneratedKey.SOAP11_ACTOR_ATTR_NAME.equals(attrName)) {

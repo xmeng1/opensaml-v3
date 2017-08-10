@@ -82,7 +82,7 @@ public class AssertionUnmarshaller extends AbstractSAMLObjectUnmarshaller {
                     && !Strings.isNullOrEmpty(attribute.getValue())) {
                 assertion.setIssueInstant(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));
             } else if (Assertion.MAJORVERSION_ATTRIB_NAME.equals(attribute.getLocalName())) {
-                int major;
+                final int major;
                 try {
                     major = Integer.parseInt(attribute.getValue());
                     if (major != 1) {
@@ -92,7 +92,7 @@ public class AssertionUnmarshaller extends AbstractSAMLObjectUnmarshaller {
                     throw new UnmarshallingException(n);
                 }
             } else if (Assertion.MINORVERSION_ATTRIB_NAME.equals(attribute.getLocalName())) {
-                int minor;
+                final int minor;
                 try {
                     minor = Integer.parseInt(attribute.getValue());
                 } catch (final NumberFormatException n) {

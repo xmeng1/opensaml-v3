@@ -33,7 +33,7 @@ public class AdviceUnmarshaller extends AbstractSAMLObjectUnmarshaller {
     protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
 
-        Advice advice = (Advice) parentSAMLObject;
+        final Advice advice = (Advice) parentSAMLObject;
 
         if (childSAMLObject instanceof Assertion) {
             advice.getAssertions().add((Assertion) childSAMLObject);

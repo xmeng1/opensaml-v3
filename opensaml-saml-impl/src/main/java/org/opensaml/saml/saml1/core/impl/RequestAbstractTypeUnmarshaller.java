@@ -81,10 +81,10 @@ public abstract class RequestAbstractTypeUnmarshaller extends AbstractSAMLObject
                 request.setID(attribute.getValue());
             } else if (RequestAbstractType.ISSUEINSTANT_ATTRIB_NAME.equals(attribute.getLocalName())
                     && !Strings.isNullOrEmpty(attribute.getValue())) {
-                DateTime cal = new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC());
+                final DateTime cal = new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC());
                 request.setIssueInstant(cal);
             } else if (attribute.getLocalName().equals(RequestAbstractType.MAJORVERSION_ATTRIB_NAME)) {
-                int major;
+                final int major;
                 try {
                     major = Integer.parseInt(attribute.getValue());
                     if (major != 1) {
@@ -95,7 +95,7 @@ public abstract class RequestAbstractTypeUnmarshaller extends AbstractSAMLObject
                     throw new UnmarshallingException(n);
                 }
             } else if (RequestAbstractType.MINORVERSION_ATTRIB_NAME.equals(attribute.getLocalName())) {
-                int minor;
+                final int minor;
                 try {
                     minor = Integer.parseInt(attribute.getValue());
                 } catch (final NumberFormatException n) {

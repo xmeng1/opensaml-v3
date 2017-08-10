@@ -36,7 +36,7 @@ public class SurNameMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallElementContent(final XMLObject samlObject, final Element domElement) throws MarshallingException {
-        SurName name = (SurName) samlObject;
+        final SurName name = (SurName) samlObject;
 
         if (name.getName() != null) {
             ElementSupport.appendTextContent(domElement, name.getName());

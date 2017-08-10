@@ -28,7 +28,7 @@ public class ConfirmationMethodUnmarshaller extends AbstractSAMLObjectUnmarshall
 
     /** {@inheritDoc} */
     protected void processElementContent(final XMLObject samlObject, final String elementContent) {
-        ConfirmationMethod confirmationMethod = (ConfirmationMethod) samlObject;
+        final ConfirmationMethod confirmationMethod = (ConfirmationMethod) samlObject;
 
         confirmationMethod.setConfirmationMethod(elementContent);
     }

@@ -156,7 +156,7 @@ public class ReceivedEndpointSecurityHandler extends AbstractMessageHandler {
         Constraint.isNotNull(comparator, "URIComparator may not be null");
         log.debug("{} Checking SAML message intended destination endpoint against receiver endpoint", getLogPrefix());
         
-        String messageDestination;
+        final String messageDestination;
         try {
             messageDestination = StringSupport.trimOrNull(
                     SAMLBindingSupport.getIntendedDestinationEndpointURI(messageContext));
@@ -179,7 +179,7 @@ public class ReceivedEndpointSecurityHandler extends AbstractMessageHandler {
             }
         }
         
-        String receiverEndpoint;
+        final String receiverEndpoint;
         try {
             receiverEndpoint = StringSupport.trimOrNull(
                     SAMLBindingSupport.getActualReceiverEndpointURI(messageContext, getHttpServletRequest()));
@@ -190,7 +190,7 @@ public class ReceivedEndpointSecurityHandler extends AbstractMessageHandler {
         log.debug("{} Intended message destination endpoint: {}", getLogPrefix(), messageDestination);
         log.debug("{} Actual message receiver endpoint: {}", getLogPrefix(), receiverEndpoint);
         
-        boolean matched;
+        final boolean matched;
         try {
             matched = compareEndpointURIs(messageDestination, receiverEndpoint, comparator);
         } catch (final URIException e) {

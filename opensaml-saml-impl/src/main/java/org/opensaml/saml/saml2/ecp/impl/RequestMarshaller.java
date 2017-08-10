@@ -31,7 +31,7 @@ public class RequestMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        Request request = (Request) xmlObject;
+        final Request request = (Request) xmlObject;
         
         if (request.getProviderName() != null) {
             domElement.setAttributeNS(null, Request.PROVIDER_NAME_ATTRIB_NAME, request.getProviderName());

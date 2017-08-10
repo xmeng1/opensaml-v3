@@ -32,7 +32,7 @@ public class ArtifactUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processElementContent(final XMLObject samlObject, final String elementContent) {
-        Artifact artifact = (Artifact) samlObject;
+        final Artifact artifact = (Artifact) samlObject;
 
         artifact.setArtifact(elementContent);
     }

@@ -100,7 +100,7 @@ public class AuthnContextImpl extends AbstractSAMLObject implements AuthnContext
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         children.add(authnContextClassRef);
         children.add(authnContextDecl);

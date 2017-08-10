@@ -81,7 +81,7 @@ public class DiscoHintsImpl extends AbstractSAMLObject implements DiscoHints {
     /** {@inheritDoc} */
     @Override
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         children.addAll(discoHintsChildren);
         return children;

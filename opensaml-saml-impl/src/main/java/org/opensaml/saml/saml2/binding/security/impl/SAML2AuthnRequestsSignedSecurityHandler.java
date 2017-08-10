@@ -45,20 +45,20 @@ public class SAML2AuthnRequestsSignedSecurityHandler extends AbstractMessageHand
 // Checkstyle: ReturnCount OFF
     /** {@inheritDoc} */
     public void doInvoke(@Nonnull final MessageContext<SAMLObject> messageContext) throws MessageHandlerException {
-        SAMLObject samlMessage = messageContext.getMessage();
+        final SAMLObject samlMessage = messageContext.getMessage();
         if (! (samlMessage instanceof AuthnRequest) ) {
             log.debug("Inbound message is not an instance of AuthnRequest, skipping evaluation...");
             return;
         }
         
-        SAMLPeerEntityContext peerContext = messageContext.getSubcontext(SAMLPeerEntityContext.class, true);
+        final SAMLPeerEntityContext peerContext = messageContext.getSubcontext(SAMLPeerEntityContext.class, true);
         if (peerContext == null || Strings.isNullOrEmpty(peerContext.getEntityId())) {
             log.warn("SAML peer entityID was not available, unable to evaluate rule");
             return;
         }
-        String messageIssuer = peerContext.getEntityId();
+        final String messageIssuer = peerContext.getEntityId();
         
-        SAMLMetadataContext metadataContext = peerContext.getSubcontext(SAMLMetadataContext.class, false);
+        final SAMLMetadataContext metadataContext = peerContext.getSubcontext(SAMLMetadataContext.class, false);
         if (metadataContext == null || metadataContext.getRoleDescriptor() == null) {
             log.warn("SAMLPeerContext did not contain either a SAMLMetadataContext or a RoleDescriptor, " 
                     + "unable to evaluate rule");
@@ -71,7 +71,7 @@ public class SAML2AuthnRequestsSignedSecurityHandler extends AbstractMessageHand
             return;
         }
         
-        SPSSODescriptor spssoRole = (SPSSODescriptor) metadataContext.getRoleDescriptor();
+        final SPSSODescriptor spssoRole = (SPSSODescriptor) metadataContext.getRoleDescriptor();
         
         if (spssoRole.isAuthnRequestsSigned() == Boolean.TRUE) {
             if (! isMessageSigned(messageContext)) {

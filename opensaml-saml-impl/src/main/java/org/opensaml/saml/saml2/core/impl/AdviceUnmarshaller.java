@@ -33,7 +33,7 @@ public class AdviceUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentObject, final XMLObject childObject) throws UnmarshallingException {
-        Advice advice = (Advice) parentObject;
+        final Advice advice = (Advice) parentObject;
 
         // This is an unbounded choice over several unrelated elements, and the <any> wildcard element.
         advice.getChildren().add(childObject);

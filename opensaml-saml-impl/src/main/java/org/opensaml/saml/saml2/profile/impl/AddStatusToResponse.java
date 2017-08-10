@@ -300,7 +300,7 @@ public class AddStatusToResponse extends AbstractProfileAction {
             Constraint.isNotNull(mappings, "Status code mappings cannot be null");
             
             codeMappings = new HashMap<>(mappings.size());
-            for (Map.Entry<String,List<String>> entry : mappings.entrySet()) {
+            for (final Map.Entry<String,List<String>> entry : mappings.entrySet()) {
                 final String event = StringSupport.trimOrNull(entry.getKey());
                 if (event != null && entry.getValue() != null) {
                     codeMappings.put(event, new ArrayList<>(Collections2.filter(entry.getValue(),

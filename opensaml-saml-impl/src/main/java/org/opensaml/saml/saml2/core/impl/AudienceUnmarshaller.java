@@ -32,7 +32,7 @@ public class AudienceUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processElementContent(final XMLObject samlObject, final String elementContent) {
-        Audience audience = (Audience) samlObject;
+        final Audience audience = (Audience) samlObject;
         audience.setAudienceURI(elementContent);
     }
 }

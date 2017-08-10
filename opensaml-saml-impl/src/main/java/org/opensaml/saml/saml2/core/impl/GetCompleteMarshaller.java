@@ -36,7 +36,7 @@ public class GetCompleteMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallElementContent(final XMLObject samlObject, final Element domElement) throws MarshallingException {
-        GetComplete gc = (GetComplete) samlObject;
+        final GetComplete gc = (GetComplete) samlObject;
 
         if (gc.getGetComplete() != null) {
             ElementSupport.appendTextContent(domElement, gc.getGetComplete());

@@ -94,7 +94,7 @@ public class AuthorizationDecisionStatementImpl extends SubjectStatementImpl imp
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        List<XMLObject> list = new ArrayList<>(actions.size() + 2);
+        final List<XMLObject> list = new ArrayList<>(actions.size() + 2);
 
         if (super.getOrderedChildren() != null) {
             list.addAll(super.getOrderedChildren());

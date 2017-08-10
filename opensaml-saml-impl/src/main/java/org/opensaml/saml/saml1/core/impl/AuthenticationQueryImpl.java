@@ -55,7 +55,7 @@ public class AuthenticationQueryImpl extends SubjectQueryImpl implements Authent
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        List<XMLObject> list = new ArrayList<>();
+        final List<XMLObject> list = new ArrayList<>();
 
         if (super.getOrderedChildren() != null) {
             list.addAll(super.getOrderedChildren());

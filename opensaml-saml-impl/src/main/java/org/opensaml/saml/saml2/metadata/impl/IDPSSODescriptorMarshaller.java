@@ -33,7 +33,7 @@ public class IDPSSODescriptorMarshaller extends SSODescriptorMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject samlObject, final Element domElement) throws MarshallingException {
-        IDPSSODescriptor descriptor = (IDPSSODescriptor) samlObject;
+        final IDPSSODescriptor descriptor = (IDPSSODescriptor) samlObject;
 
         if (descriptor.getWantAuthnRequestsSignedXSBoolean() != null) {
             domElement.setAttributeNS(null, IDPSSODescriptor.WANT_AUTHN_REQ_SIGNED_ATTRIB_NAME, descriptor

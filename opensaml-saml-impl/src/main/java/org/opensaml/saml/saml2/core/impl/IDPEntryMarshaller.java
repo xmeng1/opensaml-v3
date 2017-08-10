@@ -34,7 +34,7 @@ public class IDPEntryMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject samlObject, final Element domElement) throws MarshallingException {
-        IDPEntry entry = (IDPEntry) samlObject;
+        final IDPEntry entry = (IDPEntry) samlObject;
 
         if (entry.getProviderID() != null) {
             domElement.setAttributeNS(null, IDPEntry.PROVIDER_ID_ATTRIB_NAME, entry.getProviderID());

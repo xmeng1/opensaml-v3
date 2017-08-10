@@ -58,7 +58,7 @@ public class AudienceRestrictionConditionImpl extends AbstractSAMLObject impleme
         if (audiences.size() == 0) {
             return null;
         }
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         children.addAll(audiences);
         return Collections.unmodifiableList(children);
     }

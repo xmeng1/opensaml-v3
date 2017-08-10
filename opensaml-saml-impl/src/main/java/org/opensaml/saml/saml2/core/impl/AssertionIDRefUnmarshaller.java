@@ -32,7 +32,7 @@ public class AssertionIDRefUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processElementContent(final XMLObject samlObject, final String elementContent) {
-        AssertionIDRef assertionIDRef = (AssertionIDRef) samlObject;
+        final AssertionIDRef assertionIDRef = (AssertionIDRef) samlObject;
         assertionIDRef.setAssertionID(elementContent);
     }
 }

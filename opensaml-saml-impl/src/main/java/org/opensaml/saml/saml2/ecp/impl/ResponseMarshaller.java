@@ -31,7 +31,7 @@ public class ResponseMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        Response response = (Response) xmlObject;
+        final Response response = (Response) xmlObject;
         
         if (response.getAssertionConsumerServiceURL() != null) {
             domElement.setAttributeNS(null, Response.ASSERTION_CONSUMER_SERVICE_URL_ATTRIB_NAME,

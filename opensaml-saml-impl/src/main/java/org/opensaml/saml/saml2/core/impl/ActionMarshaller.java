@@ -35,8 +35,9 @@ import org.w3c.dom.Element;
 public class ActionMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(final XMLObject samlObject, final Element domElement) throws MarshallingException {
-        Action action = (Action) samlObject;
+    protected void marshallAttributes(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
+        final Action action = (Action) samlObject;
 
         if (action.getNamespace() != null) {
             domElement.setAttributeNS(null, Action.NAMEPSACE_ATTRIB_NAME, action.getNamespace());
@@ -44,8 +45,9 @@ public class ActionMarshaller extends AbstractSAMLObjectMarshaller {
     }
 
     /** {@inheritDoc} */
-    protected void marshallElementContent(final XMLObject samlObject, final Element domElement) throws MarshallingException {
-        Action action = (Action) samlObject;
+    protected void marshallElementContent(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
+        final Action action = (Action) samlObject;
         ElementSupport.appendTextContent(domElement, action.getAction());
     }
 }

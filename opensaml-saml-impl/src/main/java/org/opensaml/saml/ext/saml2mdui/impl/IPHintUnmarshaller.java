@@ -28,7 +28,7 @@ public class IPHintUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processElementContent(final XMLObject samlObject, final String elementContent) {
-        IPHint hint = (IPHint) samlObject;
+        final IPHint hint = (IPHint) samlObject;
 
         hint.setHint(elementContent);
     }

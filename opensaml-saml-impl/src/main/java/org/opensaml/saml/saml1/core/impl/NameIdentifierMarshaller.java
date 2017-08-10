@@ -32,7 +32,7 @@ public class NameIdentifierMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject samlElement, final Element domElement) throws MarshallingException {
-        NameIdentifier nameIdentifier = (NameIdentifier) samlElement;
+        final NameIdentifier nameIdentifier = (NameIdentifier) samlElement;
 
         if (nameIdentifier.getNameQualifier() != null) {
             domElement
@@ -46,7 +46,7 @@ public class NameIdentifierMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallElementContent(final XMLObject samlObject, final Element domElement) throws MarshallingException {
-        NameIdentifier nameIdentifier = (NameIdentifier) samlObject;
+        final NameIdentifier nameIdentifier = (NameIdentifier) samlObject;
 
         if (nameIdentifier.getValue() != null) {
             ElementSupport.appendTextContent(domElement, nameIdentifier.getValue());

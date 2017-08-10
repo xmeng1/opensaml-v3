@@ -31,7 +31,7 @@ public class ChannelBindingsMarshaller extends XSBase64BinaryMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        ChannelBindings cb = (ChannelBindings) xmlObject;
+        final ChannelBindings cb = (ChannelBindings) xmlObject;
 
         if (cb.getType() != null) {
             domElement.setAttributeNS(null, ChannelBindings.TYPE_ATTRIB_NAME, cb.getType());

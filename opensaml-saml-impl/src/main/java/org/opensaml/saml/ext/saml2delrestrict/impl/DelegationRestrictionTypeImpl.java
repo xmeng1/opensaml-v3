@@ -54,7 +54,7 @@ public class DelegationRestrictionTypeImpl extends AbstractSAMLObject implements
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         children.addAll(delegates);
         return Collections.unmodifiableList(children);
     }

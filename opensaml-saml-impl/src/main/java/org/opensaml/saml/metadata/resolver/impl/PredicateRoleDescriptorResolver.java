@@ -380,7 +380,7 @@ public class PredicateRoleDescriptorResolver extends AbstractIdentifiedInitializ
         
         log.trace("Resolved {} Predicates: {}", predicates.size(), predicates);
         
-        boolean satisfyAny;
+        final boolean satisfyAny;
         final SatisfyAnyCriterion satisfyAnyCriterion = criteria.get(SatisfyAnyCriterion.class);
         if (satisfyAnyCriterion  != null) {
             log.trace("CriteriaSet contained SatisfyAnyCriterion");

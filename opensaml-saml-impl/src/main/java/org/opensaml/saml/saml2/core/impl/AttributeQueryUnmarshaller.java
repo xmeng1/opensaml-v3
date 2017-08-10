@@ -34,7 +34,7 @@ public class AttributeQueryUnmarshaller extends SubjectQueryUnmarshaller {
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
-        AttributeQuery query = (AttributeQuery) parentSAMLObject;
+        final AttributeQuery query = (AttributeQuery) parentSAMLObject;
 
         if (childSAMLObject instanceof Attribute) {
             query.getAttributes().add((Attribute) childSAMLObject);

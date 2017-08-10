@@ -29,7 +29,7 @@ public class EntityAttributesUnmarshaller extends AbstractSAMLObjectUnmarshaller
 
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentObject, final XMLObject childObject) throws UnmarshallingException {
-        EntityAttributes entityAttrs = (EntityAttributes) parentObject;
+        final EntityAttributes entityAttrs = (EntityAttributes) parentObject;
 
         if (childObject instanceof Attribute) {
             entityAttrs.getAttributes().add((Attribute) childObject);

@@ -43,7 +43,7 @@ public class ExtensionsUnmarshaller extends AbstractSAMLObjectUnmarshaller {
      */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        Extensions extensions = (Extensions) parentXMLObject;
+        final Extensions extensions = (Extensions) parentXMLObject;
 
         extensions.getUnknownXMLObjects().add(childXMLObject);
     }

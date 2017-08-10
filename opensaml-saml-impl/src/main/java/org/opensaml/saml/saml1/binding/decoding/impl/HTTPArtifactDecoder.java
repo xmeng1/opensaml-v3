@@ -75,8 +75,8 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
 
     /** {@inheritDoc} */
     protected void doDecode() throws MessageDecodingException {
-        MessageContext<SAMLObject> messageContext = new MessageContext<>();
-        HttpServletRequest request = getHttpServletRequest();
+        final MessageContext<SAMLObject> messageContext = new MessageContext<>();
+        final HttpServletRequest request = getHttpServletRequest();
         
         decodeTarget(messageContext, request);
         processArtifacts(messageContext, request);
@@ -96,7 +96,7 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
      */
     protected void decodeTarget(final MessageContext messageContext, final HttpServletRequest request) 
             throws MessageDecodingException {
-        String target = StringSupport.trim(request.getParameter("TARGET"));
+        final String target = StringSupport.trim(request.getParameter("TARGET"));
         if (target == null) {
             log.error("URL TARGET parameter was missing or did not contain a value.");
             throw new MessageDecodingException("URL TARGET parameter was missing or did not contain a value.");
@@ -115,7 +115,7 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
      */
     protected void processArtifacts(final MessageContext messageContext, final HttpServletRequest request) 
             throws MessageDecodingException {
-        String[] encodedArtifacts = request.getParameterValues("SAMLart");
+        final String[] encodedArtifacts = request.getParameterValues("SAMLart");
         if (encodedArtifacts == null || encodedArtifacts.length == 0) {
             log.error("URL SAMLart parameter was missing or did not contain a value.");
             throw new MessageDecodingException("URL SAMLart parameter was missing or did not contain a value.");
@@ -132,7 +132,7 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
      * @param messageContext the current message context
      */
     protected void populateBindingContext(final MessageContext<SAMLObject> messageContext) {
-        SAMLBindingContext bindingContext = messageContext.getSubcontext(SAMLBindingContext.class, true);
+        final SAMLBindingContext bindingContext = messageContext.getSubcontext(SAMLBindingContext.class, true);
         bindingContext.setBindingUri(getBindingURI());
         bindingContext.setBindingDescriptor(bindingDescriptor);
         bindingContext.setHasBindingSignature(false);

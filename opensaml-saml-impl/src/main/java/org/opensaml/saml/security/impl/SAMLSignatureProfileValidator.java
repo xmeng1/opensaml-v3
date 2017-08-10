@@ -77,15 +77,15 @@ public class SAMLSignatureProfileValidator implements SignaturePrevalidator {
             log.error("SignatureImpl did not contain the an Apache XMLSignature child");
             throw new SignatureException("Apache XMLSignature does not exist on SignatureImpl");
         }
-        XMLSignature apacheSig = sigImpl.getXMLSignature();
+        final XMLSignature apacheSig = sigImpl.getXMLSignature();
 
         if (!(sigImpl.getParent() instanceof SignableSAMLObject)) {
             log.error("Signature is not an immedidate child of a SignableSAMLObject");
             throw new SignatureException("Signature is not an immediate child of a SignableSAMLObject.");
         }
-        SignableSAMLObject signableObject = (SignableSAMLObject) sigImpl.getParent();
+        final SignableSAMLObject signableObject = (SignableSAMLObject) sigImpl.getParent();
 
-        Reference ref = validateReference(apacheSig);
+        final Reference ref = validateReference(apacheSig);
 
         validateReferenceURI(ref.getURI(), signableObject);
 
@@ -105,7 +105,7 @@ public class SAMLSignatureProfileValidator implements SignaturePrevalidator {
      *             obtaining the Reference instance
      */
     protected Reference validateReference(final XMLSignature apacheSig) throws SignatureException {
-        int numReferences = apacheSig.getSignedInfo().getLength();
+        final int numReferences = apacheSig.getSignedInfo().getLength();
         if (numReferences != 1) {
             log.error("Signature SignedInfo had invalid number of References: " + numReferences);
             throw new SignatureException("Signature SignedInfo must have exactly 1 Reference element");
@@ -137,23 +137,23 @@ public class SAMLSignatureProfileValidator implements SignaturePrevalidator {
      * @throws SignatureException  if the URI is invalid or doesn't resolve to the expected DOM node
      */
     protected void validateReferenceURI(final String uri, final SignableSAMLObject signableObject) throws SignatureException {
-        String id = signableObject.getSignatureReferenceID();
+        final String id = signableObject.getSignatureReferenceID();
         validateReferenceURI(uri, id);
         
         if (Strings.isNullOrEmpty(uri)) {
             return;
         }
         
-        String uriID = uri.substring(1);
+        final String uriID = uri.substring(1);
         
-        Element expected = signableObject.getDOM();
+        final Element expected = signableObject.getDOM();
         if (expected == null) {
             log.error("SignableSAMLObject does not have a cached DOM Element.");
             throw new SignatureException("SignableSAMLObject does not have a cached DOM Element.");
         }
-        Document doc = expected.getOwnerDocument();
+        final Document doc = expected.getOwnerDocument();
         
-        Element resolved = IdResolver.getElementById(doc, uriID);
+        final Element resolved = IdResolver.getElementById(doc, uriID);
         if (resolved == null) {
             log.error("Apache xmlsec IdResolver could not resolve the Element for id reference: {}", uriID);
             throw new SignatureException("Apache xmlsec IdResolver could not resolve the Element for id reference: "
@@ -215,7 +215,7 @@ public class SAMLSignatureProfileValidator implements SignaturePrevalidator {
             throw new SignatureException("Transforms instance was null");
         }
 
-        int numTransforms = transforms.getLength();
+        final int numTransforms = transforms.getLength();
         if (numTransforms > 2) {
             log.error("Invalid number of Transforms was present: " + numTransforms);
             throw new SignatureException("Invalid number of transforms");
@@ -230,7 +230,7 @@ public class SAMLSignatureProfileValidator implements SignaturePrevalidator {
                 log.error("Error obtaining transform instance", e);
                 throw new SignatureException("Error obtaining transform instance", e);
             }
-            String uri = transform.getURI();
+            final String uri = transform.getURI();
             if (Transforms.TRANSFORM_ENVELOPED_SIGNATURE.equals(uri)) {
                 log.debug("Saw Enveloped signature transform");
                 sawEnveloped = true;

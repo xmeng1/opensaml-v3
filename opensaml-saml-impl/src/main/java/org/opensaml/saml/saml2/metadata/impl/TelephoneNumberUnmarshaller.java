@@ -32,7 +32,7 @@ public class TelephoneNumberUnmarshaller extends AbstractSAMLObjectUnmarshaller 
 
     /** {@inheritDoc} */
     protected void processElementContent(final XMLObject samlObject, final String elementContent) {
-        TelephoneNumber number = (TelephoneNumber) samlObject;
+        final TelephoneNumber number = (TelephoneNumber) samlObject;
 
         number.setNumber(elementContent);
     }

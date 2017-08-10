@@ -33,7 +33,7 @@ public class EvidenceUnmarshaller extends AbstractSAMLObjectUnmarshaller {
     protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
 
-        Evidence evidence = (Evidence) parentSAMLObject;
+        final Evidence evidence = (Evidence) parentSAMLObject;
 
         if (childSAMLObject instanceof AssertionIDReference) {
             evidence.getAssertionIDReferences().add((AssertionIDReference) childSAMLObject);

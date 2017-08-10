@@ -188,7 +188,9 @@ public class AddSubjectConfirmationToSubjects extends AbstractProfileAction {
     protected void doExecute(@Nonnull final ProfileRequestContext profileRequestContext) {
 
         final SubjectConfirmation confirmation = confirmationBuilder.buildObject();
+// Checkstyle: FinalLocalVariable OFF
         for (String method : confirmationMethods) {
+// Checkstyle: FinalLocalVariable ON
             if (artifactProfile && ConfirmationMethod.METHOD_BEARER.equals(method)) {
 // Checkstyle: ModifiedControlVariable OFF
                 method = ConfirmationMethod.METHOD_ARTIFACT;

@@ -36,7 +36,7 @@ public class ArtifactMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallElementContent(final XMLObject samlObject, final Element domElement) throws MarshallingException {
-        Artifact artifact = (Artifact) samlObject;
+        final Artifact artifact = (Artifact) samlObject;
 
         if (artifact.getArtifact() != null) {
             ElementSupport.appendTextContent(domElement, artifact.getArtifact());

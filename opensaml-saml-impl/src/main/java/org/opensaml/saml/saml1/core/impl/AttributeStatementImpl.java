@@ -53,7 +53,7 @@ public class AttributeStatementImpl extends SubjectStatementImpl implements Attr
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        List<XMLObject> list = new ArrayList<>(attributes.size() + 1);
+        final List<XMLObject> list = new ArrayList<>(attributes.size() + 1);
 
         if (super.getOrderedChildren() != null) {
             list.addAll(super.getOrderedChildren());

@@ -38,7 +38,7 @@ public class ArtifactResponseUnmarshaller extends StatusResponseTypeUnmarshaller
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
-        ArtifactResponse artifactResponse = (ArtifactResponse) parentSAMLObject;
+        final ArtifactResponse artifactResponse = (ArtifactResponse) parentSAMLObject;
 
         if (childSAMLObject instanceof Issuer) {
             artifactResponse.setIssuer((Issuer) childSAMLObject);

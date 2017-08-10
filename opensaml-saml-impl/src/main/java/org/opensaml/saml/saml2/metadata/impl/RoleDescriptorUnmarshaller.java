@@ -77,7 +77,7 @@ public abstract class RoleDescriptorUnmarshaller extends AbstractSAMLObjectUnmar
             } else if (attribute.getLocalName().equals(CacheableSAMLObject.CACHE_DURATION_ATTRIB_NAME)) {
                 roleDescriptor.setCacheDuration(DOMTypeSupport.durationToLong(attribute.getValue()));
             } else if (attribute.getLocalName().equals(RoleDescriptor.PROTOCOL_ENUMERATION_ATTRIB_NAME)) {
-                StringTokenizer protocolTokenizer = new StringTokenizer(attribute.getValue(), " ");
+                final StringTokenizer protocolTokenizer = new StringTokenizer(attribute.getValue(), " ");
                 while (protocolTokenizer.hasMoreTokens()) {
                     roleDescriptor.addSupportedProtocol(protocolTokenizer.nextToken());
                 }

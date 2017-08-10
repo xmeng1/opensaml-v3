@@ -32,7 +32,7 @@ public class AssertionIDReferenceMarshaller extends AbstractSAMLObjectMarshaller
 
     /** {@inheritDoc} */
     protected void marshallElementContent(final XMLObject samlObject, final Element domElement) throws MarshallingException {
-        AssertionIDReference assertionIDReference = (AssertionIDReference) samlObject;
+        final AssertionIDReference assertionIDReference = (AssertionIDReference) samlObject;
         if (assertionIDReference.getReference() != null) {
             ElementSupport.appendTextContent(domElement, assertionIDReference.getReference());
         }

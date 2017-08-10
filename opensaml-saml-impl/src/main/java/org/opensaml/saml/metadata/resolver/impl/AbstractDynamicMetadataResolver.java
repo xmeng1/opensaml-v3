@@ -502,7 +502,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
         ComponentSupport.ifNotInitializedThrowUninitializedComponentException(this);
         ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
         
-        Context contextResolve = MetricsSupport.startTimer(timerResolve);
+        final Context contextResolve = MetricsSupport.startTimer(timerResolve);
         try {
             final EntityIdCriterion entityIdCriterion = criteria.get(EntityIdCriterion.class);
             if (entityIdCriterion == null || Strings.isNullOrEmpty(entityIdCriterion.getEntityId())) {
@@ -576,7 +576,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
                 log.debug("{} Resolving metadata dynamically for entity ID: {}", getLogPrefix(), entityID);
             }
             
-            Context contextFetchFromOriginSource = MetricsSupport.startTimer(timerFetchFromOriginSource);
+            final Context contextFetchFromOriginSource = MetricsSupport.startTimer(timerFetchFromOriginSource);
             XMLObject root = null;
             try {
                 root = fetchFromOriginSource(criteria);
@@ -877,7 +877,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
                 if (isInitializeFromPersistentCacheInBackground()) {
                     log.debug("{} Initializing from the persistent cache in the background in {} ms", 
                             getLogPrefix(), getBackgroundInitializationFromCacheDelay());
-                    TimerTask initTask = new TimerTask() {
+                    final TimerTask initTask = new TimerTask() {
                         public void run() {
                             initializeFromPersistentCache();
                         }
@@ -953,7 +953,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
             log.trace("{} Attempting to load and process entities from the persistent cache", getLogPrefix());
         }
         
-        long start = System.nanoTime();
+        final long start = System.nanoTime();
         try {
             for (final Pair<String, EntityDescriptor> cacheEntry: getPersistentCacheManager().listAll()) {
                 persistentCacheInitMetrics.entriesTotal++;

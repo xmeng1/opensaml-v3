@@ -31,7 +31,7 @@ import org.w3c.dom.Element;
 public class PublicationInfoMarshaller extends AbstractSAMLObjectMarshaller {
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject samlObject, final Element domElement) throws MarshallingException {
-        PublicationInfo info = (PublicationInfo) samlObject;
+        final PublicationInfo info = (PublicationInfo) samlObject;
 
         if (info.getPublisher() != null) {
             domElement.setAttributeNS(null, PublicationInfo.PUBLISHER_ATTRIB_NAME,
@@ -45,7 +45,7 @@ public class PublicationInfoMarshaller extends AbstractSAMLObjectMarshaller {
 
 
         if (info.getCreationInstant() != null) {
-            String creationInstant = ISODateTimeFormat.dateTime().print(info.getCreationInstant());
+            final String creationInstant = ISODateTimeFormat.dateTime().print(info.getCreationInstant());
             domElement.setAttributeNS(null, PublicationInfo.CREATION_INSTANT_ATTRIB_NAME, creationInstant);
         }
     }

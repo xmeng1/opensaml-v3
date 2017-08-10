@@ -30,7 +30,7 @@ public class SubjectLocalityMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
     public void marshallAttributes(final XMLObject samlElement, final Element domElement) throws MarshallingException {
-        SubjectLocality subjectLocality = (SubjectLocality) samlElement;
+        final SubjectLocality subjectLocality = (SubjectLocality) samlElement;
 
         if (subjectLocality.getIPAddress() != null) {
             domElement.setAttributeNS(null, SubjectLocality.IPADDRESS_ATTRIB_NAME, subjectLocality.getIPAddress());

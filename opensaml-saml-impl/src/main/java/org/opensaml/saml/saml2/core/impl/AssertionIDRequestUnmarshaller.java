@@ -34,7 +34,7 @@ public class AssertionIDRequestUnmarshaller extends RequestAbstractTypeUnmarshal
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
-        AssertionIDRequest idRequest = (AssertionIDRequest) parentSAMLObject;
+        final AssertionIDRequest idRequest = (AssertionIDRequest) parentSAMLObject;
 
         if (childSAMLObject instanceof AssertionIDRef) {
             idRequest.getAssertionIDRefs().add((AssertionIDRef) childSAMLObject);

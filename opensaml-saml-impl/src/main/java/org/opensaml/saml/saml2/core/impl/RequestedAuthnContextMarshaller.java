@@ -34,7 +34,7 @@ public class RequestedAuthnContextMarshaller extends AbstractSAMLObjectMarshalle
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject samlObject, final Element domElement) throws MarshallingException {
-        RequestedAuthnContext rac = (RequestedAuthnContext) samlObject;
+        final RequestedAuthnContext rac = (RequestedAuthnContext) samlObject;
 
         if (rac.getComparison() != null) {
             domElement.setAttributeNS(null, RequestedAuthnContext.COMPARISON_ATTRIB_NAME, rac.getComparison()

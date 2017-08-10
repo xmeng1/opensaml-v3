@@ -32,7 +32,7 @@ public class GivenNameUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processElementContent(final XMLObject samlObject, final String elementContent) {
-        GivenName name = (GivenName) samlObject;
+        final GivenName name = (GivenName) samlObject;
 
         name.setName(elementContent);
     }

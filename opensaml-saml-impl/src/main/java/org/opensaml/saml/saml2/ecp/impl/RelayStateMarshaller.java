@@ -31,7 +31,7 @@ public class RelayStateMarshaller extends XSStringMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        RelayState relayState = (RelayState) xmlObject;
+        final RelayState relayState = (RelayState) xmlObject;
         
         if (relayState.isSOAP11MustUnderstandXSBoolean() != null) {
             XMLObjectSupport.marshallAttribute(RelayState.SOAP11_MUST_UNDERSTAND_ATTR_NAME, 

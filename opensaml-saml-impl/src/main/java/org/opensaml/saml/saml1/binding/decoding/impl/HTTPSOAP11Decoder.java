@@ -81,7 +81,7 @@ public class HTTPSOAP11Decoder extends org.opensaml.soap.soap11.decoder.http.imp
         
         populateBindingContext(getMessageContext());
         
-        SAMLObject samlMessage = getMessageContext().getMessage();
+        final SAMLObject samlMessage = getMessageContext().getMessage();
         log.debug("Decoded SOAP messaged which included SAML message of type {}", samlMessage.getElementQName());
     }
     
@@ -91,7 +91,7 @@ public class HTTPSOAP11Decoder extends org.opensaml.soap.soap11.decoder.http.imp
      * @param messageContext the current message context
      */
     protected void populateBindingContext(final MessageContext<SAMLObject> messageContext) {
-        SAMLBindingContext bindingContext = messageContext.getSubcontext(SAMLBindingContext.class, true);
+        final SAMLBindingContext bindingContext = messageContext.getSubcontext(SAMLBindingContext.class, true);
         bindingContext.setBindingUri(getBindingURI());
         bindingContext.setBindingDescriptor(bindingDescriptor);
         bindingContext.setHasBindingSignature(false);

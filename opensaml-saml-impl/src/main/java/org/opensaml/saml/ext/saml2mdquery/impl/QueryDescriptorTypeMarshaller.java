@@ -31,7 +31,7 @@ public abstract class QueryDescriptorTypeMarshaller extends RoleDescriptorMarsha
     /** {@inheritDoc} */
     @Override
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        QueryDescriptorType descriptor = (QueryDescriptorType) xmlObject;
+        final QueryDescriptorType descriptor = (QueryDescriptorType) xmlObject;
 
         if (descriptor.getWantAssertionsSignedXSBoolean() != null) {
             domElement.setAttributeNS(null, QueryDescriptorType.WANT_ASSERTIONS_SIGNED_ATTRIB_NAME, descriptor

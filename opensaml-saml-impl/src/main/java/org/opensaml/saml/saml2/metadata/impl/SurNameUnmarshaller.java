@@ -32,7 +32,7 @@ public class SurNameUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processElementContent(final XMLObject samlObject, final String elementContent) {
-        SurName name = (SurName) samlObject;
+        final SurName name = (SurName) samlObject;
 
         name.setName(elementContent);
     }

@@ -34,10 +34,10 @@ public class AuthorityBindingMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
     public void marshallAttributes(final XMLObject samlElement, final Element domElement) throws MarshallingException {
-        AuthorityBinding authorityBinding = (AuthorityBinding) samlElement;
+        final AuthorityBinding authorityBinding = (AuthorityBinding) samlElement;
 
         if (authorityBinding.getAuthorityKind() != null) {
-            QName authKind = authorityBinding.getAuthorityKind();
+            final QName authKind = authorityBinding.getAuthorityKind();
             domElement.setAttributeNS(null, AuthorityBinding.AUTHORITYKIND_ATTRIB_NAME, QNameSupport
                     .qnameToContentString(authKind));
         }

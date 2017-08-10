@@ -36,7 +36,7 @@ public class OrganizationMarshaller extends AbstractSAMLObjectMarshaller {
      * {@inheritDoc}
      */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        Organization org = (Organization) xmlObject;
+        final Organization org = (Organization) xmlObject;
 
         marshallUnknownAttributes(org, domElement);
     }

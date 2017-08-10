@@ -133,7 +133,7 @@ public class IDPSSODescriptorImpl extends SSODescriptorImpl implements IDPSSODes
 
     /** {@inheritDoc} */
     public List<Endpoint> getEndpoints() {
-        List<Endpoint> endpoints = new ArrayList<>();
+        final List<Endpoint> endpoints = new ArrayList<>();
         endpoints.addAll(super.getEndpoints());
         endpoints.addAll(singleSignOnServices);
         endpoints.addAll(nameIDMappingServices);
@@ -156,7 +156,7 @@ public class IDPSSODescriptorImpl extends SSODescriptorImpl implements IDPSSODes
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         children.addAll(super.getOrderedChildren());
         children.addAll(singleSignOnServices);

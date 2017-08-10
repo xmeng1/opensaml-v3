@@ -155,7 +155,7 @@ public abstract class AbstractBatchMetadataResolver extends AbstractMetadataReso
 
     /** {@inheritDoc} */
     @Nullable public DateTime getRootValidUntil() {
-        XMLObject cached = getBackingStore().getCachedOriginalMetadata();
+        final XMLObject cached = getBackingStore().getCachedOriginalMetadata();
         if (cached != null && cached instanceof TimeBoundSAMLObject) {
             return ((TimeBoundSAMLObject)cached).getValidUntil();
         } else {
@@ -165,7 +165,7 @@ public abstract class AbstractBatchMetadataResolver extends AbstractMetadataReso
 
     /** {@inheritDoc} */
     @Nullable public Boolean isRootValid() {
-        XMLObject cached = getBackingStore().getCachedOriginalMetadata();
+        final XMLObject cached = getBackingStore().getCachedOriginalMetadata();
         if (cached == null) {
             return null;
         } else {
@@ -193,7 +193,7 @@ public abstract class AbstractBatchMetadataResolver extends AbstractMetadataReso
                 log.debug("{} Resolved {} candidates via secondary index lookup", 
                         getLogPrefix(), Iterables.size(indexedCandidates.get()));
             } else {
-                log.debug("{} Resolved no candidates via secondary index lookup (Optional indicated result was absent)", 
+                log.debug("{} Resolved no candidates via secondary index lookup (Optional indicated result was absent)",
                         getLogPrefix());
             }
         }

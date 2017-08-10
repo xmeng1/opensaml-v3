@@ -39,7 +39,7 @@ public class EntityDescriptorMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject samlElement, final Element domElement) {
-        EntityDescriptor entityDescriptor = (EntityDescriptor) samlElement;
+        final EntityDescriptor entityDescriptor = (EntityDescriptor) samlElement;
 
         // Set the entityID attribute
         if (entityDescriptor.getEntityID() != null) {
@@ -55,7 +55,7 @@ public class EntityDescriptorMarshaller extends AbstractSAMLObjectMarshaller {
         // Set the validUntil attribute
         if (entityDescriptor.getValidUntil() != null) {
             log.debug("Writting validUntil attribute to EntityDescriptor DOM element");
-            String validUntilStr =
+            final String validUntilStr =
                     SAMLConfigurationSupport.getSAMLDateFormatter().print(entityDescriptor.getValidUntil());
             domElement.setAttributeNS(null, TimeBoundSAMLObject.VALID_UNTIL_ATTRIB_NAME, validUntilStr);
         }
@@ -63,7 +63,7 @@ public class EntityDescriptorMarshaller extends AbstractSAMLObjectMarshaller {
         // Set the cacheDuration attribute
         if (entityDescriptor.getCacheDuration() != null) {
             log.debug("Writting cacheDuration attribute to EntityDescriptor DOM element");
-            String cacheDuration = DOMTypeSupport.longToDuration(entityDescriptor.getCacheDuration());
+            final String cacheDuration = DOMTypeSupport.longToDuration(entityDescriptor.getCacheDuration());
             domElement.setAttributeNS(null, CacheableSAMLObject.CACHE_DURATION_ATTRIB_NAME, cacheDuration);
         }
 

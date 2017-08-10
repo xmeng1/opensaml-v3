@@ -93,7 +93,7 @@ public class LogoImpl extends AbstractSAMLObject implements Logo {
 
     /** {@inheritDoc} */
     public void setXMLLang(final String newLang) {
-        boolean hasValue = newLang != null && !Strings.isNullOrEmpty(newLang);
+        final boolean hasValue = newLang != null && !Strings.isNullOrEmpty(newLang);
         lang = prepareForAssignment(lang, newLang);
         manageQualifiedAttributeNamespace(LangBearing.XML_LANG_ATTR_NAME, hasValue);
     }

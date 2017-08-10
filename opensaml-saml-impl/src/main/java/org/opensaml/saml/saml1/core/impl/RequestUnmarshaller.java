@@ -31,7 +31,7 @@ public class RequestUnmarshaller extends RequestAbstractTypeUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentElement, final XMLObject childElement) throws UnmarshallingException {
-        Request request = (Request) parentElement;
+        final Request request = (Request) parentElement;
 
         try {
             if (childElement instanceof Query) {

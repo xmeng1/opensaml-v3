@@ -96,7 +96,7 @@ public abstract class SSODescriptorImpl extends RoleDescriptorImpl implements SS
     
     /** {@inheritDoc} */
     public List<Endpoint> getEndpoints() {
-        List<Endpoint> endpoints = new ArrayList<>();
+        final List<Endpoint> endpoints = new ArrayList<>();
         endpoints.addAll(artifactResolutionServices);
         endpoints.addAll(singleLogoutServices);
         endpoints.addAll(manageNameIDServices);
@@ -118,7 +118,7 @@ public abstract class SSODescriptorImpl extends RoleDescriptorImpl implements SS
     
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         
         children.addAll(super.getOrderedChildren());
         children.addAll(artifactResolutionServices);

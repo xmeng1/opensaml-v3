@@ -31,7 +31,7 @@ public class NameIDMappingResponseUnmarshaller extends StatusResponseTypeUnmarsh
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
-        NameIDMappingResponse resp = (NameIDMappingResponse) parentSAMLObject;
+        final NameIDMappingResponse resp = (NameIDMappingResponse) parentSAMLObject;
 
         if (childSAMLObject instanceof NameID) {
             resp.setNameID((NameID) childSAMLObject);

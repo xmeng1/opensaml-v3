@@ -32,7 +32,7 @@ public class RequesterIDUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processElementContent(final XMLObject samlObject, final String elementContent) {
-        RequesterID reqID = (RequesterID) samlObject;
+        final RequesterID reqID = (RequesterID) samlObject;
 
         reqID.setRequesterID(elementContent);
     }

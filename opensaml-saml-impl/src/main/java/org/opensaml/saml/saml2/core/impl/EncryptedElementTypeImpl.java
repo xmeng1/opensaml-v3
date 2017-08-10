@@ -68,7 +68,7 @@ public class EncryptedElementTypeImpl extends AbstractSAMLObject implements Encr
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         
         if (encryptedData != null) {
             children.add(encryptedData);

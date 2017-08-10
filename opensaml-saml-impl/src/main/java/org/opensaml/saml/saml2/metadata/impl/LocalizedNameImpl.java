@@ -52,7 +52,7 @@ public class LocalizedNameImpl extends XSStringImpl implements LocalizedName {
 
     /** {@inheritDoc} */
     public void setXMLLang(final String newLang) {
-        boolean hasValue = newLang != null && !Strings.isNullOrEmpty(newLang);
+        final boolean hasValue = newLang != null && !Strings.isNullOrEmpty(newLang);
         language = prepareForAssignment(language, newLang);
         manageQualifiedAttributeNamespace(LangBearing.XML_LANG_ATTR_NAME, hasValue);
     }

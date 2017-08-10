@@ -33,7 +33,7 @@ public class NameIDMappingRequestUnmarshaller extends RequestAbstractTypeUnmarsh
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
-        NameIDMappingRequest req = (NameIDMappingRequest) parentSAMLObject;
+        final NameIDMappingRequest req = (NameIDMappingRequest) parentSAMLObject;
 
         if (childSAMLObject instanceof BaseID) {
             req.setBaseID((BaseID) childSAMLObject);

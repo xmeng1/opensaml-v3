@@ -35,7 +35,7 @@ public class ResponseUnmarshaller extends StatusResponseTypeUnmarshaller {
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
-        Response resp = (Response) parentSAMLObject;
+        final Response resp = (Response) parentSAMLObject;
 
         if (childSAMLObject instanceof Assertion) {
             resp.getAssertions().add((Assertion) childSAMLObject);

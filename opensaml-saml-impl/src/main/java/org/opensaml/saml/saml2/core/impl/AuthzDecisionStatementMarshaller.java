@@ -34,7 +34,7 @@ public class AuthzDecisionStatementMarshaller extends AbstractSAMLObjectMarshall
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject samlObject, final Element domElement) throws MarshallingException {
-        AuthzDecisionStatement authzDS = (AuthzDecisionStatement) samlObject;
+        final AuthzDecisionStatement authzDS = (AuthzDecisionStatement) samlObject;
 
         if (authzDS.getResource() != null) {
             domElement.setAttributeNS(null, AuthzDecisionStatement.RESOURCE_ATTRIB_NAME, authzDS.getResource());

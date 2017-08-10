@@ -32,7 +32,7 @@ public class AssertionArtifactMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallElementContent(final XMLObject samlObject, final Element domElement) throws MarshallingException {
-        AssertionArtifact assertionArtifact = (AssertionArtifact) samlObject;
+        final AssertionArtifact assertionArtifact = (AssertionArtifact) samlObject;
         if (assertionArtifact.getAssertionArtifact() != null) {
             ElementSupport.appendTextContent(domElement, assertionArtifact.getAssertionArtifact());
         }

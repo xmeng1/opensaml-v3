@@ -37,7 +37,7 @@ public abstract class ResponseAbstractTypeMarshaller extends AbstractSAMLObjectM
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject samlElement, final Element domElement) throws MarshallingException {
-        ResponseAbstractType response = (ResponseAbstractType) samlElement;
+        final ResponseAbstractType response = (ResponseAbstractType) samlElement;
 
         if (response.getID() != null) {
             domElement.setAttributeNS(null, ResponseAbstractType.ID_ATTRIB_NAME, response.getID());
@@ -51,7 +51,7 @@ public abstract class ResponseAbstractTypeMarshaller extends AbstractSAMLObjectM
         }
 
         if (response.getIssueInstant() != null) {
-            String date = SAMLConfigurationSupport.getSAMLDateFormatter().print(response.getIssueInstant());
+            final String date = SAMLConfigurationSupport.getSAMLDateFormatter().print(response.getIssueInstant());
             domElement.setAttributeNS(null, ResponseAbstractType.ISSUEINSTANT_ATTRIB_NAME, date);
         }
 

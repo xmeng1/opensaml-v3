@@ -30,7 +30,7 @@ public class UIInfoUnmarshaller extends AbstractSAMLObjectUnmarshaller {
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
-        UIInfo info = (UIInfo) parentSAMLObject;
+        final UIInfo info = (UIInfo) parentSAMLObject;
         info.getXMLObjects().add(childSAMLObject);
     }
 }

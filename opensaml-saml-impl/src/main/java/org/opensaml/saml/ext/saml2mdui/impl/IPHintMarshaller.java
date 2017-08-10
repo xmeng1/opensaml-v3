@@ -32,7 +32,7 @@ public class IPHintMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallElementContent(final XMLObject samlObject, final Element domElement) throws MarshallingException {
-        IPHint name = (IPHint) samlObject;
+        final IPHint name = (IPHint) samlObject;
 
         if (name.getHint() != null) {
             ElementSupport.appendTextContent(domElement, name.getHint());

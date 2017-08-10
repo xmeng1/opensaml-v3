@@ -34,7 +34,7 @@ public abstract class BaseIDMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject samlObject, final Element domElement) throws MarshallingException {
-        BaseID baseID = (BaseID) samlObject;
+        final BaseID baseID = (BaseID) samlObject;
         if (baseID.getNameQualifier() != null) {
             domElement.setAttributeNS(null, BaseID.NAME_QUALIFIER_ATTRIB_NAME, baseID.getNameQualifier());
         }

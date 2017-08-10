@@ -66,7 +66,7 @@ public class AttributeQueryImpl extends SubjectQueryImpl implements AttributeQue
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        List<XMLObject> list = new ArrayList<>(attributeDesignators.size() + 1);
+        final List<XMLObject> list = new ArrayList<>(attributeDesignators.size() + 1);
         
         if (super.getOrderedChildren() != null) {
             list.addAll(super.getOrderedChildren());

@@ -32,7 +32,7 @@ public class EncryptedElementTypeUnmarshaller extends AbstractSAMLObjectUnmarsha
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
-        EncryptedElementType eet = (EncryptedElementType) parentSAMLObject;
+        final EncryptedElementType eet = (EncryptedElementType) parentSAMLObject;
 
         if (childSAMLObject instanceof EncryptedData) {
             eet.setEncryptedData((EncryptedData) childSAMLObject);

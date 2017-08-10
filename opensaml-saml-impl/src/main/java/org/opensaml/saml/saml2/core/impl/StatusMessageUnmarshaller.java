@@ -33,7 +33,7 @@ public class StatusMessageUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processElementContent(final XMLObject samlObject, final String elementContent) {
-        StatusMessage message = (StatusMessage) samlObject;
+        final StatusMessage message = (StatusMessage) samlObject;
 
         message.setMessage(elementContent);
     }

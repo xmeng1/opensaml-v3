@@ -82,7 +82,7 @@ public class SubjectConfirmationImpl extends AbstractSAMLObject implements Subje
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
 
-        List<XMLObject> list = new ArrayList<>(confirmationMethods.size() + 1);
+        final List<XMLObject> list = new ArrayList<>(confirmationMethods.size() + 1);
 
         list.addAll(confirmationMethods);
 

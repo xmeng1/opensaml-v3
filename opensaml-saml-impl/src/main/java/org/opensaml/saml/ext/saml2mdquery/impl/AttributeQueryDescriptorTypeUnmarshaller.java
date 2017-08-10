@@ -30,7 +30,7 @@ public class AttributeQueryDescriptorTypeUnmarshaller extends QueryDescriptorTyp
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
-        AttributeQueryDescriptorType descriptor = (AttributeQueryDescriptorType) parentSAMLObject;
+        final AttributeQueryDescriptorType descriptor = (AttributeQueryDescriptorType) parentSAMLObject;
 
         if (childSAMLObject instanceof AttributeConsumingService) {
             descriptor.getAttributeConsumingServices().add((AttributeConsumingService) childSAMLObject);

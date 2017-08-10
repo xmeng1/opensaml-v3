@@ -32,7 +32,7 @@ public class AudienceRestrictionConditionUnmarshaller extends AbstractSAMLObject
     protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
 
-        AudienceRestrictionCondition audienceRestrictionCondition = (AudienceRestrictionCondition) parentSAMLObject;
+        final AudienceRestrictionCondition audienceRestrictionCondition = (AudienceRestrictionCondition) parentSAMLObject;
 
         if (childSAMLObject instanceof Audience) {
             audienceRestrictionCondition.getAudiences().add((Audience) childSAMLObject);

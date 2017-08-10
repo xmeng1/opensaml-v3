@@ -32,7 +32,7 @@ public class EmailAddressUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processElementContent(final XMLObject samlObject, final String elementContent) {
-        EmailAddress address = (EmailAddress) samlObject;
+        final EmailAddress address = (EmailAddress) samlObject;
 
         address.setAddress(elementContent);
     }

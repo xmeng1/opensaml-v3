@@ -84,7 +84,7 @@ public class AuthzDecisionQueryImpl extends SubjectQueryImpl implements AuthzDec
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         if (super.getOrderedChildren() != null) {
             children.addAll(super.getOrderedChildren());

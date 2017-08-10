@@ -29,7 +29,7 @@ public class AuthorizationDecisionStatementMarshaller extends SubjectStatementMa
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject samlElement, final Element domElement) throws MarshallingException {
-        AuthorizationDecisionStatement authorizationDecisionStatement;
+        final AuthorizationDecisionStatement authorizationDecisionStatement;
 
         authorizationDecisionStatement = (AuthorizationDecisionStatement) samlElement;
 

@@ -35,7 +35,7 @@ public class AttributeStatementUnmarshaller extends AbstractSAMLObjectUnmarshall
 
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentObject, final XMLObject childObject) throws UnmarshallingException {
-        AttributeStatement attributeStatement = (AttributeStatement) parentObject;
+        final AttributeStatement attributeStatement = (AttributeStatement) parentObject;
 
         if (childObject instanceof Attribute) {
             attributeStatement.getAttributes().add((Attribute) childObject);

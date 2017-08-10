@@ -338,7 +338,7 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
         if (! getSupportedContentTypes().isEmpty()) {
             supportedContentTypesValue = StringSupport.listToStringValue(getSupportedContentTypes(), ", ");
             supportedMediaTypes = new LazySet<>();
-            for (String contentType : getSupportedContentTypes()) {
+            for (final String contentType : getSupportedContentTypes()) {
                 supportedMediaTypes.add(MediaType.parse(contentType));
             }
         } else {
@@ -512,9 +512,9 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
             
             try {
                 final InputStream ins = response.getEntity().getContent();
-                byte[] source = ByteStreams.toByteArray(ins);
+                final byte[] source = ByteStreams.toByteArray(ins);
                 try (ByteArrayInputStream bais = new ByteArrayInputStream(source)) {
-                    XMLObject xmlObject = unmarshallMetadata(bais);
+                    final XMLObject xmlObject = unmarshallMetadata(bais);
                     xmlObject.getObjectMetadata().put(new XMLObjectSource(source));
                     return xmlObject;
                 }

@@ -594,7 +594,7 @@ public abstract class AbstractMetadataResolver extends AbstractIdentifiableIniti
         
         log.trace("{} Resolved {} Predicates: {}", getLogPrefix(), predicates.size(), predicates);
         
-        boolean satisfyAny;
+        final boolean satisfyAny;
         final SatisfyAnyCriterion satisfyAnyCriterion = criteria.get(SatisfyAnyCriterion.class);
         if (satisfyAnyCriterion  != null) {
             log.trace("{} CriteriaSet contained SatisfyAnyCriterion", getLogPrefix());

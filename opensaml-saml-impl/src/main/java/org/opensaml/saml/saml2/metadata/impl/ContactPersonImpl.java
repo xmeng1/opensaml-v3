@@ -161,7 +161,7 @@ public class ContactPersonImpl extends AbstractSAMLObject implements ContactPers
     /** {@inheritDoc} */
     @Override
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         children.add(extensions);
         children.add(company);

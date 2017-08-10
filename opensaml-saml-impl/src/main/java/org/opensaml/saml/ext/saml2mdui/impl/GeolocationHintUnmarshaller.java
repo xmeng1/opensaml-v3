@@ -28,7 +28,7 @@ public class GeolocationHintUnmarshaller extends AbstractSAMLObjectUnmarshaller 
 
     /** {@inheritDoc} */
     protected void processElementContent(final XMLObject samlObject, final String elementContent) {
-        GeolocationHint hint = (GeolocationHint) samlObject;
+        final GeolocationHint hint = (GeolocationHint) samlObject;
 
         hint.setHint(elementContent);
     }

@@ -91,13 +91,13 @@ public class ConditionsImpl extends AbstractSAMLObject implements Conditions {
 
     /** {@inheritDoc} */
     public List<AudienceRestrictionCondition> getAudienceRestrictionConditions() {
-        QName qname = new QName(SAMLConstants.SAML1_NS, AudienceRestrictionCondition.DEFAULT_ELEMENT_LOCAL_NAME);
+        final QName qname = new QName(SAMLConstants.SAML1_NS, AudienceRestrictionCondition.DEFAULT_ELEMENT_LOCAL_NAME);
         return (List<AudienceRestrictionCondition>) conditions.subList(qname);
     }
 
     /** {@inheritDoc} */
     public List<DoNotCacheCondition> getDoNotCacheConditions() {
-        QName qname = new QName(SAMLConstants.SAML1_NS, DoNotCacheCondition.DEFAULT_ELEMENT_LOCAL_NAME);
+        final QName qname = new QName(SAMLConstants.SAML1_NS, DoNotCacheCondition.DEFAULT_ELEMENT_LOCAL_NAME);
         return (List<DoNotCacheCondition>) conditions.subList(qname);
     }
 
@@ -106,7 +106,7 @@ public class ConditionsImpl extends AbstractSAMLObject implements Conditions {
         if (conditions.size() == 0) {
             return null;
         }
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         children.addAll(conditions);
         return Collections.unmodifiableList(children);
     }

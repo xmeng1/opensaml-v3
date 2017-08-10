@@ -37,7 +37,7 @@ public class EvidenceUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentObject, final XMLObject childObject) throws UnmarshallingException {
-        Evidence evidence = (Evidence) parentObject;
+        final Evidence evidence = (Evidence) parentObject;
 
         if (childObject instanceof AssertionIDRef) {
             evidence.getAssertionIDReferences().add((AssertionIDRef) childObject);

@@ -28,7 +28,7 @@ public class AssertionArtifactUnmarshaller extends AbstractSAMLObjectUnmarshalle
 
     /** {@inheritDoc} */
     protected void processElementContent(final XMLObject samlObject, final String elementContent) {
-        AssertionArtifact assertionArtifact = (AssertionArtifact) samlObject;
+        final AssertionArtifact assertionArtifact = (AssertionArtifact) samlObject;
 
         assertionArtifact.setAssertionArtifact(elementContent);
     }

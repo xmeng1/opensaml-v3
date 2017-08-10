@@ -82,7 +82,7 @@ public class RequestedAuthnContextImpl extends AbstractSAMLObject implements Req
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         children.addAll(authnContextClassRefs);
         children.addAll(authnContextDeclRefs);

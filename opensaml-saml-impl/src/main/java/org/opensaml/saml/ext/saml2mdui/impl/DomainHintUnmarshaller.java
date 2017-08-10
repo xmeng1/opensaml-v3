@@ -28,7 +28,7 @@ public class DomainHintUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
     protected void processElementContent(final XMLObject samlObject, final String elementContent) {
-        DomainHint hint = (DomainHint) samlObject;
+        final DomainHint hint = (DomainHint) samlObject;
 
         hint.setHint(elementContent);
     }

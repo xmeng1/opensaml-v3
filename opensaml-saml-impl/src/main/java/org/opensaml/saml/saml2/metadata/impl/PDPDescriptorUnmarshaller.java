@@ -36,7 +36,7 @@ public class PDPDescriptorUnmarshaller extends RoleDescriptorUnmarshaller {
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
-        PDPDescriptor descriptor = (PDPDescriptor) parentSAMLObject;
+        final PDPDescriptor descriptor = (PDPDescriptor) parentSAMLObject;
 
         if (childSAMLObject instanceof AuthzService) {
             descriptor.getAuthzServices().add((AuthzService) childSAMLObject);

@@ -40,7 +40,7 @@ public class KeywordsUnmarshaller extends AbstractSAMLObjectUnmarshaller {
     protected void processAttribute(final XMLObject samlObject, final Attr attribute) throws UnmarshallingException {
         if (attribute.getLocalName().equals(LangBearing.XML_LANG_ATTR_LOCAL_NAME)
                 && XMLConstants.XML_NS.equals(attribute.getNamespaceURI())) {
-            Keywords keywords = (Keywords) samlObject;
+            final Keywords keywords = (Keywords) samlObject;
 
             keywords.setXMLLang(attribute.getValue());
         }
@@ -49,11 +49,11 @@ public class KeywordsUnmarshaller extends AbstractSAMLObjectUnmarshaller {
     /** {@inheritDoc} */
     @Override
     protected void processElementContent(final XMLObject samlObject, final String elementContent) {
-        Keywords keywords = (Keywords) samlObject;
-        String[] words = elementContent.split("\\s+");
-        ArrayList<String> wordlist = new ArrayList<>(words.length);
+        final Keywords keywords = (Keywords) samlObject;
+        final String[] words = elementContent.split("\\s+");
+        final ArrayList<String> wordlist = new ArrayList<>(words.length);
         
-        for (String s : words) {
+        for (final String s : words) {
             wordlist.add(s);
         }
 

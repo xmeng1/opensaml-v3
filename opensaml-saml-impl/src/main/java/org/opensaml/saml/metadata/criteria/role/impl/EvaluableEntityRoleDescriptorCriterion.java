@@ -65,7 +65,7 @@ public class EvaluableEntityRoleDescriptorCriterion implements EvaluableRoleDesc
             return false;
         }
         
-        QName schemaType = input.getSchemaType();
+        final QName schemaType = input.getSchemaType();
         if (schemaType != null && Objects.equals(role, schemaType)) {
             return true;
         }

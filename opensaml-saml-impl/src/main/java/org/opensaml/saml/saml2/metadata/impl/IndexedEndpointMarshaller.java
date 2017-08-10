@@ -32,7 +32,7 @@ public class IndexedEndpointMarshaller extends EndpointMarshaller {
 
     /** {@inheritDoc} */
     public void marshallAttributes(final XMLObject samlObject, final Element domElement) {
-        IndexedEndpoint iEndpoint = (IndexedEndpoint) samlObject;
+        final IndexedEndpoint iEndpoint = (IndexedEndpoint) samlObject;
 
         if (iEndpoint.getIndex() != null) {
             domElement.setAttributeNS(null, IndexedEndpoint.INDEX_ATTRIB_NAME, iEndpoint.getIndex().toString());

@@ -72,7 +72,7 @@ public class IDPListImpl extends AbstractSAMLObject implements IDPList {
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         children.addAll(idpEntries);
         children.add(getComplete);
         if (children.size() > 0) {

@@ -164,7 +164,7 @@ public class StorageServiceSAMLArtifactMapEntryFactory extends AbstractInitializ
                         + QNameSupport.getNodeQName(rootElement.getFirstChild()));
             }
             
-            XMLObject message = unmarshaller.unmarshall((Element) rootElement.removeChild(messageElement));
+            final XMLObject message = unmarshaller.unmarshall((Element) rootElement.removeChild(messageElement));
             rootElement.getOwnerDocument().replaceChild(messageElement, rootElement);
             if (!(message instanceof SAMLObject)) {
                 throw new IOException("SAMLArtifactMapEntry's XMLObject was not a SAML message");

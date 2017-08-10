@@ -38,7 +38,7 @@ public class DelegateUnmarshaller extends AbstractSAMLObjectUnmarshaller {
         final Delegate delegate = (Delegate) samlObject;
 
         if (attribute.getNamespaceURI() == null) {
-            String attrName = attribute.getLocalName();
+            final String attrName = attribute.getLocalName();
             if (Delegate.CONFIRMATION_METHOD_ATTRIB_NAME.equals(attrName)) {
                 delegate.setConfirmationMethod(attribute.getValue());
             } else if (Delegate.DELEGATION_INSTANT_ATTRIB_NAME.equals(attrName)) {
@@ -54,7 +54,7 @@ public class DelegateUnmarshaller extends AbstractSAMLObjectUnmarshaller {
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
-        Delegate delegate = (Delegate) parentSAMLObject;
+        final Delegate delegate = (Delegate) parentSAMLObject;
         
         if (childSAMLObject instanceof BaseID) {
             delegate.setBaseID((BaseID) childSAMLObject);

@@ -54,13 +54,13 @@ public class EvidenceImpl extends AbstractSAMLObject implements Evidence {
 
     /** {@inheritDoc} */
     public List<AssertionIDReference> getAssertionIDReferences() {
-        QName qname = new QName(SAMLConstants.SAML1_NS, AssertionIDReference.DEFAULT_ELEMENT_LOCAL_NAME);
+        final QName qname = new QName(SAMLConstants.SAML1_NS, AssertionIDReference.DEFAULT_ELEMENT_LOCAL_NAME);
         return (List<AssertionIDReference>) evidence.subList(qname);
     }
 
     /** {@inheritDoc} */
     public List<Assertion> getAssertions() {
-        QName qname = new QName(SAMLConstants.SAML1_NS, Assertion.DEFAULT_ELEMENT_LOCAL_NAME);
+        final QName qname = new QName(SAMLConstants.SAML1_NS, Assertion.DEFAULT_ELEMENT_LOCAL_NAME);
         return (List<Assertion>) evidence.subList(qname);
     }
 
@@ -75,7 +75,7 @@ public class EvidenceImpl extends AbstractSAMLObject implements Evidence {
             return null;
         }
 
-        ArrayList<XMLObject> list = new ArrayList<>();
+        final ArrayList<XMLObject> list = new ArrayList<>();
         list.addAll(evidence);
 
         return Collections.unmodifiableList(list);

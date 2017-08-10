@@ -83,7 +83,7 @@ public abstract class ResponseAbstractTypeUnmarshaller extends AbstractSAMLObjec
                     && !Strings.isNullOrEmpty(attribute.getValue())) {
                 response.setIssueInstant(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));
             } else if (attribute.getLocalName().equals(ResponseAbstractType.MAJORVERSION_ATTRIB_NAME)) {
-                int major;
+                final int major;
                 try {
                     major = Integer.parseInt(attribute.getValue());
                     if (major != 1) {
@@ -94,7 +94,7 @@ public abstract class ResponseAbstractTypeUnmarshaller extends AbstractSAMLObjec
                     throw new UnmarshallingException(n);
                 }
             } else if (attribute.getLocalName().equals(ResponseAbstractType.MINORVERSION_ATTRIB_NAME)) {
-                int minor;
+                final int minor;
                 try {
                     minor = Integer.parseInt(attribute.getValue());
                 } catch (final NumberFormatException n) {

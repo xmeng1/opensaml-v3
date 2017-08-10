@@ -71,7 +71,7 @@ public class HTTPPostSimpleSignEncoder extends HTTPPostEncoder {
 
         super.populateVelocityContext(velocityContext, messageContext, endpointURL);
 
-        SignatureSigningParameters signingParameters = 
+        final SignatureSigningParameters signingParameters = 
                 SAMLMessageSecuritySupport.getContextSigningParameters(messageContext);
         
         if (signingParameters == null || signingParameters.getSigningCredential() == null) {
@@ -79,17 +79,17 @@ public class HTTPPostSimpleSignEncoder extends HTTPPostEncoder {
             return;
         }
 
-        String sigAlgURI = getSignatureAlgorithmURI(signingParameters);
+        final String sigAlgURI = getSignatureAlgorithmURI(signingParameters);
         velocityContext.put("SigAlg", sigAlgURI);
 
-        String formControlData = buildFormDataToSign(velocityContext, messageContext, sigAlgURI);
+        final String formControlData = buildFormDataToSign(velocityContext, messageContext, sigAlgURI);
         velocityContext.put("Signature", generateSignature(signingParameters.getSigningCredential(), 
                 sigAlgURI, formControlData));
 
         
-        KeyInfoGenerator kiGenerator = signingParameters.getKeyInfoGenerator();
+        final KeyInfoGenerator kiGenerator = signingParameters.getKeyInfoGenerator();
         if (kiGenerator != null) {
-            String kiBase64 = buildKeyInfo(signingParameters.getSigningCredential(), kiGenerator);
+            final String kiBase64 = buildKeyInfo(signingParameters.getSigningCredential(), kiGenerator);
             if (!Strings.isNullOrEmpty(kiBase64)) {
                 velocityContext.put("KeyInfo", kiBase64);
             }
@@ -108,15 +108,15 @@ public class HTTPPostSimpleSignEncoder extends HTTPPostEncoder {
             throws MessageEncodingException {
 
         try {
-            KeyInfo keyInfo = kiGenerator.generate(signingCredential);
+            final KeyInfo keyInfo = kiGenerator.generate(signingCredential);
             if (keyInfo != null) {
-                Marshaller marshaller = XMLObjectProviderRegistrySupport.getMarshallerFactory().getMarshaller(keyInfo);
+                final Marshaller marshaller = XMLObjectProviderRegistrySupport.getMarshallerFactory().getMarshaller(keyInfo);
                 if (marshaller == null) {
                     log.error("No KeyInfo marshaller available from configuration");
                     throw new MessageEncodingException("No KeyInfo marshaller was configured");
                 }
-                String kiXML = SerializeSupport.nodeToString(marshaller.marshall(keyInfo));
-                String kiBase64 = Base64Support.encode(kiXML.getBytes(), Base64Support.UNCHUNKED);
+                final String kiXML = SerializeSupport.nodeToString(marshaller.marshall(keyInfo));
+                final String kiBase64 = Base64Support.encode(kiXML.getBytes(), Base64Support.UNCHUNKED);
                 return kiBase64;
             } else {
                 return null;
@@ -142,14 +142,14 @@ public class HTTPPostSimpleSignEncoder extends HTTPPostEncoder {
      */
     protected String buildFormDataToSign(final VelocityContext velocityContext, final MessageContext<SAMLObject> messageContext,
             final String sigAlgURI) {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
 
         boolean isRequest = false;
         if (velocityContext.get("SAMLRequest") != null) {
             isRequest = true;
         }
 
-        String msgB64;
+        final String msgB64;
         if (isRequest) {
             msgB64 = (String) velocityContext.get("SAMLRequest");
         } else {
@@ -169,7 +169,7 @@ public class HTTPPostSimpleSignEncoder extends HTTPPostEncoder {
             builder.append("SAMLResponse=" + msg);
         }
 
-        String relayState = SAMLBindingSupport.getRelayState(messageContext);
+        final String relayState = SAMLBindingSupport.getRelayState(messageContext);
         if (relayState != null) {
             builder.append("&RelayState=" + relayState);
         }
@@ -219,7 +219,7 @@ public class HTTPPostSimpleSignEncoder extends HTTPPostEncoder {
 
         String b64Signature = null;
         try {
-            byte[] rawSignature =
+            final byte[] rawSignature =
                     XMLSigningUtil.signWithURI(signingCredential, algorithmURI, formData.getBytes("UTF-8"));
             b64Signature = Base64Support.encode(rawSignature, Base64Support.UNCHUNKED);
             log.debug("Generated digital signature value (base64-encoded) {}", b64Signature);

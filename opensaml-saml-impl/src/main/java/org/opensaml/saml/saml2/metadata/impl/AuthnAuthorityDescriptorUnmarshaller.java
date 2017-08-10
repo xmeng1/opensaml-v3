@@ -31,7 +31,7 @@ public class AuthnAuthorityDescriptorUnmarshaller extends RoleDescriptorUnmarsha
 
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentElement, final XMLObject childElement) throws UnmarshallingException {
-        AuthnAuthorityDescriptor descriptor = (AuthnAuthorityDescriptor) parentElement;
+        final AuthnAuthorityDescriptor descriptor = (AuthnAuthorityDescriptor) parentElement;
 
         if (childElement instanceof AuthnQueryService) {
             descriptor.getAuthnQueryServices().add((AuthnQueryService) childElement);

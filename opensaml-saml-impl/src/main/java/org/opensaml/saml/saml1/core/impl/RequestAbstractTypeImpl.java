@@ -66,7 +66,7 @@ public abstract class RequestAbstractTypeImpl extends AbstractSignableSAMLObject
 
     /** {@inheritDoc} */
     public void setID(final String newID) {
-        String oldID = id;
+        final String oldID = id;
         id = prepareForAssignment(id, newID);
         registerOwnID(oldID, id);
     }
@@ -103,7 +103,7 @@ public abstract class RequestAbstractTypeImpl extends AbstractSignableSAMLObject
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        List<XMLObject> children = new ArrayList<>();
+        final List<XMLObject> children = new ArrayList<>();
 
         children.addAll(respondWiths);
         

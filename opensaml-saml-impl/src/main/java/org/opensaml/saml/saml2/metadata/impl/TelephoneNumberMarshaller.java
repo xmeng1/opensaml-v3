@@ -36,7 +36,7 @@ public class TelephoneNumberMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
     protected void marshallElementContent(final XMLObject samlObject, final Element domElement) throws MarshallingException {
-        TelephoneNumber number = (TelephoneNumber) samlObject;
+        final TelephoneNumber number = (TelephoneNumber) samlObject;
 
         if (number.getNumber() != null) {
             ElementSupport.appendTextContent(domElement, number.getNumber());
