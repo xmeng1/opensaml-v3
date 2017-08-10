@@ -55,7 +55,7 @@ public class ActionMatchTypeImpl extends AbstractXACMLObject implements ActionMa
 
     /** {@inheritDoc} */
     public AttributeSelectorType getAttributeSelector() {
-        List<XACMLObject> selectors = (List<XACMLObject>) attributeChoice
+        final List<XACMLObject> selectors = (List<XACMLObject>) attributeChoice
                 .subList(AttributeSelectorType.DEFAULT_ELEMENT_NAME);
         if (selectors != null && !selectors.isEmpty()) {
             return (AttributeSelectorType) selectors.get(0);
@@ -71,7 +71,7 @@ public class ActionMatchTypeImpl extends AbstractXACMLObject implements ActionMa
 
     /** {@inheritDoc} */
     public AttributeDesignatorType getActionAttributeDesignator() {
-        List<XACMLObject> selectors = (List<XACMLObject>) attributeChoice
+        final List<XACMLObject> selectors = (List<XACMLObject>) attributeChoice
                 .subList(AttributeDesignatorType.ACTION_ATTRIBUTE_DESIGNATOR_ELEMENT_NAME);
         if (selectors != null && !selectors.isEmpty()) {
             return (AttributeDesignatorType) selectors.get(0);
@@ -87,7 +87,7 @@ public class ActionMatchTypeImpl extends AbstractXACMLObject implements ActionMa
 
     /** {@inheritDoc} */
     public void setAttributeSelector(final AttributeSelectorType selector) {
-        AttributeSelectorType currentSelector = getAttributeSelector();
+        final AttributeSelectorType currentSelector = getAttributeSelector();
         if (currentSelector != null) {
             attributeChoice.remove(currentSelector);
         }
@@ -102,7 +102,7 @@ public class ActionMatchTypeImpl extends AbstractXACMLObject implements ActionMa
 
     /** {@inheritDoc} */
     public void setActionAttributeDesignator(final AttributeDesignatorType attribute) {
-        AttributeDesignatorType currentDesignator = getActionAttributeDesignator();
+        final AttributeDesignatorType currentDesignator = getActionAttributeDesignator();
         if (currentDesignator != null) {
             attributeChoice.remove(currentDesignator);
         }
@@ -117,7 +117,7 @@ public class ActionMatchTypeImpl extends AbstractXACMLObject implements ActionMa
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         children.add(attributeValue);
         if (!attributeChoice.isEmpty()) {
             children.addAll(attributeChoice);

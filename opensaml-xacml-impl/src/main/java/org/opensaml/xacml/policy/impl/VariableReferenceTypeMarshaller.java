@@ -32,7 +32,7 @@ public class VariableReferenceTypeMarshaller extends AbstractXACMLObjectMarshall
     
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        VariableReferenceType variableReferenceType = (VariableReferenceType) xmlObject;
+        final VariableReferenceType variableReferenceType = (VariableReferenceType) xmlObject;
         
         if(!Strings.isNullOrEmpty(variableReferenceType.getVariableId())){
             domElement.setAttributeNS(null, VariableReferenceType.VARIABLE_ID_ATTRIB_NAME,

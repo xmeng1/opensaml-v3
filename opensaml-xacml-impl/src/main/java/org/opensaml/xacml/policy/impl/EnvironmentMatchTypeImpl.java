@@ -56,7 +56,7 @@ public class EnvironmentMatchTypeImpl extends AbstractXACMLObject implements Env
 
     /** {@inheritDoc} */
     public AttributeSelectorType getAttributeSelector() {
-        List<XACMLObject> selectors = (List<XACMLObject>) attributeChoice
+        final List<XACMLObject> selectors = (List<XACMLObject>) attributeChoice
                 .subList(AttributeSelectorType.DEFAULT_ELEMENT_NAME);
         if (selectors != null && !selectors.isEmpty()) {
             return (AttributeSelectorType) selectors.get(0);
@@ -72,7 +72,7 @@ public class EnvironmentMatchTypeImpl extends AbstractXACMLObject implements Env
 
     /** {@inheritDoc} */
     public AttributeDesignatorType getEnvironmentAttributeDesignator() {
-        List<XACMLObject> selectors = (List<XACMLObject>) attributeChoice
+        final List<XACMLObject> selectors = (List<XACMLObject>) attributeChoice
                 .subList(AttributeDesignatorType.ENVIRONMENT_ATTRIBUTE_DESIGNATOR_ELEMENT_NAME);
         if (selectors != null && !selectors.isEmpty()) {
             return (AttributeDesignatorType) selectors.get(0);
@@ -88,7 +88,7 @@ public class EnvironmentMatchTypeImpl extends AbstractXACMLObject implements Env
 
     /** {@inheritDoc} */
     public void setAttributeSelector(final AttributeSelectorType selector) {
-        AttributeSelectorType currentSelector = getAttributeSelector();
+        final AttributeSelectorType currentSelector = getAttributeSelector();
         if (currentSelector != null) {
             attributeChoice.remove(currentSelector);
         }
@@ -103,7 +103,7 @@ public class EnvironmentMatchTypeImpl extends AbstractXACMLObject implements Env
 
     /** {@inheritDoc} */
     public void setEnvironmentAttributeDesignator(final AttributeDesignatorType attribute) {
-        AttributeDesignatorType currentDesignator = getEnvironmentAttributeDesignator();
+        final AttributeDesignatorType currentDesignator = getEnvironmentAttributeDesignator();
         if (currentDesignator != null) {
             attributeChoice.remove(currentDesignator);
         }
@@ -118,7 +118,7 @@ public class EnvironmentMatchTypeImpl extends AbstractXACMLObject implements Env
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         children.add(attributeValue);
         if (!attributeChoice.isEmpty()) {
             children.addAll(attributeChoice);

@@ -166,7 +166,7 @@ public class PolicyTypeImpl extends AbstractXACMLObject implements PolicyType {
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         if (description != null) {
             children.add(description);
         }

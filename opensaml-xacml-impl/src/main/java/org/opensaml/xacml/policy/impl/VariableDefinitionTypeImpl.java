@@ -72,7 +72,7 @@ public class VariableDefinitionTypeImpl extends AbstractXACMLObject implements V
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         if(expression != null){
             children.add(expression);

@@ -35,7 +35,7 @@ public class StatusDetailTypeUnmarshaller extends AbstractXACMLObjectUnmarshalle
      */
     protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
-        StatusDetailType statusDetail = (StatusDetailType) parentSAMLObject;
+        final StatusDetailType statusDetail = (StatusDetailType) parentSAMLObject;
         statusDetail.getUnknownXMLObjects().add(childSAMLObject);
     }
 

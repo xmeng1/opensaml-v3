@@ -35,7 +35,7 @@ public class AttributeValueTypeMarshaller extends AbstractXACMLObjectMarshaller 
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        AttributeValueType attributeValue = (AttributeValueType) xmlObject;
+        final AttributeValueType attributeValue = (AttributeValueType) xmlObject;
 
         marshallUnknownAttributes(attributeValue, domElement);
     }
@@ -43,7 +43,7 @@ public class AttributeValueTypeMarshaller extends AbstractXACMLObjectMarshaller 
     /** {@inheritDoc} */
     protected void marshallElementContent(final XMLObject xmlObject, final Element domElement)
             throws MarshallingException {
-        AttributeValueType attributeValue = (AttributeValueType) xmlObject;
+        final AttributeValueType attributeValue = (AttributeValueType) xmlObject;
 
         if (attributeValue.getValue() != null) {
             ElementSupport.appendTextContent(domElement, attributeValue.getValue());

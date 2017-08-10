@@ -31,7 +31,7 @@ public class SubjectMatchTypeMarshaller extends AbstractXACMLObjectMarshaller {
     /** {@inheritDoc} */
     @Override
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        SubjectMatchType matchType = (SubjectMatchType) xmlObject;
+        final SubjectMatchType matchType = (SubjectMatchType) xmlObject;
 
         if (!Strings.isNullOrEmpty(matchType.getMatchId())) {
             domElement.setAttributeNS(null, SubjectMatchType.MATCH_ID_ATTRIB_NAME, matchType.getMatchId());

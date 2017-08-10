@@ -34,7 +34,7 @@ public class SubjectTypeMarshaller extends AbstractXACMLObjectMarshaller {
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject samlElement, final Element domElement)
             throws MarshallingException {
-        SubjectType attribute = (SubjectType) samlElement;
+        final SubjectType attribute = (SubjectType) samlElement;
         if (attribute.getSubjectCategory() != null) {
             domElement.setAttributeNS(null, SubjectType.SUBJECT_CATEGORY_ATTTRIB_NAME, attribute.getSubjectCategory());
         }

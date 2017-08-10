@@ -36,7 +36,7 @@ public class ApplyTypeUnmarshaller extends AbstractXACMLObjectUnmarshaller {
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
 
         if (attribute.getLocalName().equals(ApplyType.FUNCTION_ID_ATTRIB_NAME)) {
-            ApplyType applyType = (ApplyType) xmlObject;
+            final ApplyType applyType = (ApplyType) xmlObject;
             applyType.setFunctionId(StringSupport.trimOrNull(attribute.getValue()));
         } else {
             super.processAttribute(xmlObject, attribute);
@@ -48,9 +48,9 @@ public class ApplyTypeUnmarshaller extends AbstractXACMLObjectUnmarshaller {
     @Override
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        ApplyType applayType = (ApplyType) parentXMLObject;
+        final ApplyType applayType = (ApplyType) parentXMLObject;
         if (childXMLObject instanceof ExpressionType) {
-            ExpressionType expression = (ExpressionType) childXMLObject;
+            final ExpressionType expression = (ExpressionType) childXMLObject;
             applayType.getExpressions().add(expression);
         } else {
             super.processChildElement(parentXMLObject, childXMLObject);

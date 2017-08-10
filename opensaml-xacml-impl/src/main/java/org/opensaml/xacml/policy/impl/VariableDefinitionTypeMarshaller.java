@@ -33,7 +33,7 @@ public class VariableDefinitionTypeMarshaller extends AbstractXACMLObjectMarshal
     /** {@inheritDoc} */
     @Override
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        VariableDefinitionType variableDefinitionType = (VariableDefinitionType) xmlObject;
+        final VariableDefinitionType variableDefinitionType = (VariableDefinitionType) xmlObject;
         
         if(!Strings.isNullOrEmpty(variableDefinitionType.getVariableId())){
             domElement.setAttributeNS(null, VariableDefinitionType.VARIABLE_ID_ATTRIB_NAME,

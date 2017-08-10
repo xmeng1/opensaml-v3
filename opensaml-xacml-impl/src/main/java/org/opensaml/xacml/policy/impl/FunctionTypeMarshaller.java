@@ -33,7 +33,7 @@ public class FunctionTypeMarshaller extends AbstractXACMLObjectMarshaller {
     /** {@inheritDoc} */
     @Override
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        FunctionType functionType = (FunctionType) xmlObject;
+        final FunctionType functionType = (FunctionType) xmlObject;
         if(!Strings.isNullOrEmpty(functionType.getFunctionId())){
             domElement.setAttributeNS(null, FunctionType.FUNCTION_ID_ATTRIB_NAME,functionType.getFunctionId());
         }

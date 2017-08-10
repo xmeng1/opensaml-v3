@@ -35,7 +35,7 @@ public class AttributeDesignatorTypeUnmarshaller extends AbstractXACMLObjectUnma
     @Override
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         
-        AttributeDesignatorType attributeDesignatorType = (AttributeDesignatorType) xmlObject;
+        final AttributeDesignatorType attributeDesignatorType = (AttributeDesignatorType) xmlObject;
         
         if (attribute.getLocalName().equals(AttributeDesignatorType.ATTRIBUTE_ID_ATTRIB_NAME)){
             attributeDesignatorType.setAttributeId(StringSupport.trimOrNull(attribute.getValue()));

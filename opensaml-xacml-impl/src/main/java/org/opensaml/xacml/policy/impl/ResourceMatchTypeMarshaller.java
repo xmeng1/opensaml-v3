@@ -31,7 +31,7 @@ public class ResourceMatchTypeMarshaller extends AbstractXACMLObjectMarshaller {
     /** {@inheritDoc} */
     @Override
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        ResourceMatchType matchType = (ResourceMatchType) xmlObject;
+        final ResourceMatchType matchType = (ResourceMatchType) xmlObject;
 
         if (!Strings.isNullOrEmpty(matchType.getMatchId())) {
             domElement.setAttributeNS(null, ResourceMatchType.MATCH_ID_ATTRIB_NAME, matchType.getMatchId());

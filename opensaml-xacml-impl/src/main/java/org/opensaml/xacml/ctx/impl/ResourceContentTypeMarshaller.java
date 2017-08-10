@@ -35,7 +35,7 @@ public class ResourceContentTypeMarshaller extends AbstractXACMLObjectMarshaller
 
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        ResourceContentType resourceContent  = (ResourceContentType)xmlObject;
+        final ResourceContentType resourceContent  = (ResourceContentType)xmlObject;
         
         marshallUnknownAttributes(resourceContent, domElement);
     }
@@ -43,7 +43,7 @@ public class ResourceContentTypeMarshaller extends AbstractXACMLObjectMarshaller
     /** {@inheritDoc} */
     protected void marshallElementContent(final XMLObject xmlObject, final Element domElement)
             throws MarshallingException {
-        ResourceContentType resourceContent = (ResourceContentType) xmlObject;
+        final ResourceContentType resourceContent = (ResourceContentType) xmlObject;
         
         if(resourceContent.getValue() != null){
             ElementSupport.appendTextContent(domElement, resourceContent.getValue());

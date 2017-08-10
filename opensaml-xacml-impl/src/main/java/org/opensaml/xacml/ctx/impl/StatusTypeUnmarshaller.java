@@ -36,7 +36,7 @@ public class StatusTypeUnmarshaller extends AbstractXACMLObjectUnmarshaller {
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentObject, final XMLObject childObject)
             throws UnmarshallingException {
-        StatusType status = (StatusType) parentObject;
+        final StatusType status = (StatusType) parentObject;
 
         if (childObject instanceof StatusCodeType) {
             status.setStatusCode((StatusCodeType) childObject);

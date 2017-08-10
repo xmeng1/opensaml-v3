@@ -28,7 +28,7 @@ public class StatusMessageTypeUnmarshaller extends AbstractXACMLObjectUnmarshall
 
     /** {@inheritDoc} */
     protected void processElementContent(final XMLObject xmlObject, final String content) {
-        StatusMessageType message = (StatusMessageType)xmlObject;
+        final StatusMessageType message = (StatusMessageType)xmlObject;
         message.setValue(content);
     }
 }

@@ -35,7 +35,7 @@ public class ActionMatchTypeUnmarshaller extends AbstractXACMLObjectUnmarshaller
     @Override
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         if (attribute.getLocalName().equals(ActionMatchType.MATCH_ID_ATTRIB_NAME)) {
-            ActionMatchType matchType = (ActionMatchType) xmlObject;
+            final ActionMatchType matchType = (ActionMatchType) xmlObject;
             matchType.setMatchId(StringSupport.trimOrNull(attribute.getValue()));
         } else {
             super.processAttribute(xmlObject, attribute);
@@ -46,7 +46,7 @@ public class ActionMatchTypeUnmarshaller extends AbstractXACMLObjectUnmarshaller
     @Override
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        ActionMatchType matchType = (ActionMatchType) parentXMLObject;
+        final ActionMatchType matchType = (ActionMatchType) parentXMLObject;
       
         if (childXMLObject instanceof AttributeValueType) {
             matchType.setAttributeValue((AttributeValueType) childXMLObject);

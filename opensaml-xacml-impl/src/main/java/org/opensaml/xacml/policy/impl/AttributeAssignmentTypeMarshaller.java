@@ -31,7 +31,7 @@ public class AttributeAssignmentTypeMarshaller extends AttributeValueTypeMarshal
     @Override
     protected void marshallAttributes(final XMLObject samlElement, final Element domElement)
             throws MarshallingException {
-        AttributeAssignmentType attributeAssignment = (AttributeAssignmentType) samlElement;
+        final AttributeAssignmentType attributeAssignment = (AttributeAssignmentType) samlElement;
 
         if (!Strings.isNullOrEmpty(attributeAssignment.getAttributeId())) {
             domElement.setAttributeNS(null, AttributeAssignmentType.ATTR_ID_ATTRIB_NAME, attributeAssignment

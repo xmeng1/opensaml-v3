@@ -33,7 +33,7 @@ public class StatusMessageTypeMarshaller extends AbstractXACMLObjectMarshaller {
     /** {@inheritDoc} */
     protected void marshallElementContent(final XMLObject xmlObject, final Element domElement)
             throws MarshallingException {
-        StatusMessageType message = (StatusMessageType)xmlObject;
+        final StatusMessageType message = (StatusMessageType)xmlObject;
 
         if(message.getValue() != null){
             ElementSupport.appendTextContent(domElement, message.getValue());

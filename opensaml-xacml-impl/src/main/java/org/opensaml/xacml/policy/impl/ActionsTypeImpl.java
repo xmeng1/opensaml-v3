@@ -53,7 +53,7 @@ public class ActionsTypeImpl extends AbstractXACMLObject implements ActionsType 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
         
-        ArrayList<XMLObject> children = new ArrayList<>();        
+        final ArrayList<XMLObject> children = new ArrayList<>();        
         
         children.addAll(action);      
                 

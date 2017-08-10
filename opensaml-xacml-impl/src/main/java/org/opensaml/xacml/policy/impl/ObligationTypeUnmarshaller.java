@@ -32,7 +32,7 @@ public class ObligationTypeUnmarshaller extends AbstractXACMLObjectUnmarshaller 
     @Override
     protected void processChildElement(final XMLObject parentObject, final XMLObject childObject)
             throws UnmarshallingException {
-        ObligationType obligation = (ObligationType) parentObject;
+        final ObligationType obligation = (ObligationType) parentObject;
 
         if (childObject instanceof AttributeAssignmentType) {
             obligation.getAttributeAssignments().add((AttributeAssignmentType) childObject);
@@ -45,7 +45,7 @@ public class ObligationTypeUnmarshaller extends AbstractXACMLObjectUnmarshaller 
     @Override
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
 
-        ObligationType obligation = (ObligationType) xmlObject;
+        final ObligationType obligation = (ObligationType) xmlObject;
 
         if (attribute.getLocalName().equals(ObligationType.OBLIGATION_ID_ATTRIB_NAME)) {
             obligation.setObligationId(attribute.getValue());

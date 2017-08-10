@@ -34,7 +34,7 @@ public class EnvironmentTypeUnmarshaller extends AbstractXACMLObjectUnmarshaller
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentObject, final XMLObject childObject)
             throws UnmarshallingException {
-        EnvironmentType environment = (EnvironmentType) parentObject;
+        final EnvironmentType environment = (EnvironmentType) parentObject;
        
         if (childObject instanceof AttributeType) {
             environment.getAttributes().add((AttributeType) childObject);

@@ -37,7 +37,7 @@ public class RuleTypeUnmarshaller extends AbstractXACMLObjectUnmarshaller {
     /** {@inheritDoc} */
     @Override
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        RuleType ruleType = (RuleType) xmlObject;
+        final RuleType ruleType = (RuleType) xmlObject;
       
         if(attribute.getLocalName().equals(RuleType.EFFECT_ATTRIB_NAME)){
             ruleType.setEffect(EffectType.valueOf(
@@ -54,7 +54,7 @@ public class RuleTypeUnmarshaller extends AbstractXACMLObjectUnmarshaller {
     @Override
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        RuleType ruleType = (RuleType) parentXMLObject;
+        final RuleType ruleType = (RuleType) parentXMLObject;
         
         if(childXMLObject instanceof TargetType){
             ruleType.setTarget((TargetType)childXMLObject);

@@ -34,7 +34,7 @@ public class StatusCodeTypeMarshaller extends AbstractXACMLObjectMarshaller {
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject samlElement, final Element domElement)
             throws MarshallingException {
-        StatusCodeType attribute = (StatusCodeType) samlElement;
+        final StatusCodeType attribute = (StatusCodeType) samlElement;
         if (attribute.getValue() != null) {
             domElement.setAttributeNS(null, StatusCodeType.VALUE_ATTTRIB_NAME, attribute.getValue());
         }

@@ -93,7 +93,7 @@ public class PolicySetTypeImpl extends AbstractXACMLObject implements PolicySetT
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         if (description != null) {
             children.add(description);
         }

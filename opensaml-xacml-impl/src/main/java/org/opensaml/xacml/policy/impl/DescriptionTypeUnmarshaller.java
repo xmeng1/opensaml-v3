@@ -29,7 +29,7 @@ public class DescriptionTypeUnmarshaller extends AbstractXACMLObjectUnmarshaller
     /** {@inheritDoc} */
     @Override
     protected void processElementContent(final XMLObject xmlObject, final String elementContent) {
-        DescriptionType description = (DescriptionType) xmlObject;
+        final DescriptionType description = (DescriptionType) xmlObject;
         description.setValue(elementContent);
     }
 

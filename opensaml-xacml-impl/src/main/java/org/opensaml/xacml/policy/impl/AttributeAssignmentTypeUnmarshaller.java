@@ -31,7 +31,7 @@ public class AttributeAssignmentTypeUnmarshaller extends AttributeValueTypeUnmar
     @Override
     protected void processAttribute(final XMLObject samlObject, final Attr attribute) throws UnmarshallingException {
 
-        AttributeAssignmentType attrib = (AttributeAssignmentType) samlObject;
+        final AttributeAssignmentType attrib = (AttributeAssignmentType) samlObject;
 
         if (attribute.getLocalName().equals(AttributeAssignmentType.ATTR_ID_ATTRIB_NAME)) {
             attrib.setAttributeId(StringSupport.trimOrNull(attribute.getValue()));

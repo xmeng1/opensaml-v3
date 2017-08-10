@@ -55,7 +55,7 @@ public class ResourceTypeImpl extends AbstractXACMLObject implements ResourceTyp
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
         
-        ArrayList<XMLObject> children = new ArrayList<>();        
+        final ArrayList<XMLObject> children = new ArrayList<>();        
         
         children.addAll(resourceMatch);      
                 

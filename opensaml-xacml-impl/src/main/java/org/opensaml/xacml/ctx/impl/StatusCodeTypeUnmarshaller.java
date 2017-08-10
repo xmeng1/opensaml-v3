@@ -33,7 +33,7 @@ public class StatusCodeTypeUnmarshaller extends AbstractXACMLObjectUnmarshaller 
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        StatusCodeType statusCode = (StatusCodeType) xmlObject;
+        final StatusCodeType statusCode = (StatusCodeType) xmlObject;
         if (attribute.getLocalName().equals(StatusCodeType.VALUE_ATTTRIB_NAME)) {
             statusCode.setValue(attribute.getValue());
         } else {
@@ -44,7 +44,7 @@ public class StatusCodeTypeUnmarshaller extends AbstractXACMLObjectUnmarshaller 
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentObject, final XMLObject childObject)
             throws UnmarshallingException {
-        StatusCodeType statuscode = (StatusCodeType) parentObject;
+        final StatusCodeType statuscode = (StatusCodeType) parentObject;
         if (childObject instanceof StatusCodeType) {
             statuscode.setStatusCode((StatusCodeType) childObject);
         } else {

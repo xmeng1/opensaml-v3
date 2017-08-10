@@ -36,7 +36,7 @@ public class VariableReferenceTypeUnmarshaller extends AbstractXACMLObjectUnmars
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         
         if(attribute.getLocalName().equals(VariableReferenceType.VARIABLE_ID_ATTRIB_NAME)){
-            VariableReferenceType variableReferenceType = (VariableReferenceType) xmlObject;
+            final VariableReferenceType variableReferenceType = (VariableReferenceType) xmlObject;
             variableReferenceType.setVariableId(StringSupport.trimOrNull(attribute.getValue()));
         } else {
             super.processAttribute(xmlObject, attribute);
@@ -49,7 +49,7 @@ public class VariableReferenceTypeUnmarshaller extends AbstractXACMLObjectUnmars
             throws UnmarshallingException {
         
         if(childXMLObject instanceof ExpressionType){
-            VariableReferenceType variableReferenceType = (VariableReferenceType) parentXMLObject;
+            final VariableReferenceType variableReferenceType = (VariableReferenceType) parentXMLObject;
             variableReferenceType.getExpressions().add((ExpressionType)childXMLObject);
         } else {
             super.processChildElement(parentXMLObject, childXMLObject);

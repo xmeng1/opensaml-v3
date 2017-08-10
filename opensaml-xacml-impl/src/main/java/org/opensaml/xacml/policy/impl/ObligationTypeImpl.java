@@ -80,7 +80,7 @@ public class ObligationTypeImpl extends AbstractXACMLObject implements Obligatio
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         if (!attributeAssignments.isEmpty()) {
             children.addAll(attributeAssignments);

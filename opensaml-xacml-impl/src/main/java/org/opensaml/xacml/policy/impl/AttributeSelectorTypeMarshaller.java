@@ -34,7 +34,7 @@ public class AttributeSelectorTypeMarshaller extends AbstractXACMLObjectMarshall
     /** {@inheritDoc} */
     @Override
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        AttributeSelectorType attributeSelectorType = (AttributeSelectorType) xmlObject;
+        final AttributeSelectorType attributeSelectorType = (AttributeSelectorType) xmlObject;
         
         if(!Strings.isNullOrEmpty(attributeSelectorType.getDataType())){
             domElement.setAttributeNS(null, AttributeSelectorType.DATA_TYPE_ATTRIB_NAME, 

@@ -33,7 +33,7 @@ public class ObligationTypeMarshaller extends AbstractXACMLObjectMarshaller {
     @Override
     protected void marshallAttributes(final XMLObject samlElement, final Element domElement)
             throws MarshallingException {
-        ObligationType obligation = (ObligationType) samlElement;
+        final ObligationType obligation = (ObligationType) samlElement;
 
         if (!Strings.isNullOrEmpty(obligation.getObligationId())) {
             domElement.setAttributeNS(null, ObligationType.OBLIGATION_ID_ATTRIB_NAME, obligation.getObligationId());

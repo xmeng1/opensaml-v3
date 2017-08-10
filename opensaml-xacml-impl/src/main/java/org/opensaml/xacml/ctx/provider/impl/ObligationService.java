@@ -69,7 +69,7 @@ public class ObligationService {
             return;
         }
 
-        Lock writeLock = rwLock.writeLock();
+        final Lock writeLock = rwLock.writeLock();
         writeLock.lock();
         try {
             obligationHandlers.add(handler);
@@ -90,7 +90,7 @@ public class ObligationService {
             return;
         }
 
-        Lock writeLock = rwLock.writeLock();
+        final Lock writeLock = rwLock.writeLock();
         writeLock.lock();
         try {
             obligationHandlers.addAll(handlers);
@@ -111,7 +111,7 @@ public class ObligationService {
             return;
         }
 
-        Lock writeLock = rwLock.writeLock();
+        final Lock writeLock = rwLock.writeLock();
         writeLock.lock();
         try {
             obligationHandlers.remove(handler);
@@ -130,11 +130,11 @@ public class ObligationService {
      * @throws ObligationProcessingException thrown if there is a problem evaluating an obligation
      */
     public void processObligations(final ObligationProcessingContext context) throws ObligationProcessingException {
-        Lock readLock = rwLock.readLock();
+        final Lock readLock = rwLock.readLock();
         readLock.lock();
         try {
-            Iterator<BaseObligationHandler> handlerItr = obligationHandlers.iterator();
-            Map<String, ObligationType> effectiveObligations = preprocessObligations(context);
+            final Iterator<BaseObligationHandler> handlerItr = obligationHandlers.iterator();
+            final Map<String, ObligationType> effectiveObligations = preprocessObligations(context);
 
             BaseObligationHandler handler;
             while (handlerItr.hasNext()) {
@@ -158,21 +158,21 @@ public class ObligationService {
      * @return preprocessed obligations
      */
     protected Map<String, ObligationType> preprocessObligations(final ObligationProcessingContext context) {
-        HashMap<String, ObligationType> effectiveObligations = new HashMap<>();
+        final HashMap<String, ObligationType> effectiveObligations = new HashMap<>();
 
-        ObligationsType obligations = context.getAuthorizationDecisionResult().getObligations();
+        final ObligationsType obligations = context.getAuthorizationDecisionResult().getObligations();
         if (obligations == null || obligations.getObligations() == null) {
             return effectiveObligations;
         }
 
-        EffectType activeEffect;
+        final EffectType activeEffect;
         if (context.getAuthorizationDecisionResult().getDecision().getDecision() == DECISION.Permit) {
             activeEffect = EffectType.Permit;
         } else {
             activeEffect = EffectType.Deny;
         }
 
-        for (ObligationType obligation : obligations.getObligations()) {
+        for (final ObligationType obligation : obligations.getObligations()) {
             if (obligation != null && obligation.getFulfillOn() == activeEffect) {
                 effectiveObligations.put(obligation.getObligationId(), obligation);
             }

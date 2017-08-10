@@ -32,7 +32,8 @@ public class PolicySetCombinerParametersTypeMarshaller extends CombinerParameter
     /** {@inheritDoc} */
     @Override
     protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
-        PolicySetCombinerParametersType policySetCombinerParametersType = (PolicySetCombinerParametersType)xmlObject;
+        final PolicySetCombinerParametersType policySetCombinerParametersType =
+                (PolicySetCombinerParametersType) xmlObject;
         
         if(!Strings.isNullOrEmpty(policySetCombinerParametersType.getPolicySetIdRef())){
             domElement.setAttributeNS(null, PolicySetCombinerParametersType.POLICY_SET_ID_REF_ATTRIB_NAME,

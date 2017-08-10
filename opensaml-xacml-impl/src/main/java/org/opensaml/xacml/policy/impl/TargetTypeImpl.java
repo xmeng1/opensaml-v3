@@ -60,7 +60,7 @@ public class TargetTypeImpl extends AbstractXACMLObject implements TargetType {
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         if(subjects != null){
             children.add(subjects);  

@@ -35,7 +35,7 @@ public class ResourceContentTypeUnmarshaller extends AbstractXACMLObjectUnmarsha
 
     /** {@inheritDoc} */
     protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
-        ResourceContentType resourceContent = (ResourceContentType) xmlObject;
+        final ResourceContentType resourceContent = (ResourceContentType) xmlObject;
 
         processUnknownAttribute(resourceContent, attribute);
     }
@@ -43,13 +43,13 @@ public class ResourceContentTypeUnmarshaller extends AbstractXACMLObjectUnmarsha
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        ResourceContentType resourceContent = (ResourceContentType) parentXMLObject;
+        final ResourceContentType resourceContent = (ResourceContentType) parentXMLObject;
         resourceContent.getUnknownXMLObjects().add(childXMLObject);
     }
 
     /** {@inheritDoc} */
     protected void processElementContent(final XMLObject xmlObject, final String elementContent) {
-        ResourceContentType resourceContent = (ResourceContentType) xmlObject;
+        final ResourceContentType resourceContent = (ResourceContentType) xmlObject;
         resourceContent.setValue(StringSupport.trimOrNull(elementContent));
     }
 }

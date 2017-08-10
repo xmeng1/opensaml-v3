@@ -67,7 +67,7 @@ public class ApplyTypeImpl extends AbstractXACMLObject implements ApplyType {
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren(){   
-        ArrayList<XMLObject> children = new ArrayList<>();        
+        final ArrayList<XMLObject> children = new ArrayList<>();        
             
         if(!expressions.isEmpty()){
             children.addAll(expressions);
