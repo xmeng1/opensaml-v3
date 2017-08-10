@@ -74,7 +74,7 @@ public class CertPathPKIXValidationOptions extends PKIXValidationOptions {
      * 
      * @param flag whether to force revocation behavior
      */
-    public void setForceRevocationEnabled(boolean flag) {
+    public void setForceRevocationEnabled(final boolean flag) {
         forceRevocationEnabled = flag;
     }
 
@@ -100,7 +100,7 @@ public class CertPathPKIXValidationOptions extends PKIXValidationOptions {
      * 
      * @param flag whether to force revocation if forcing is enabled
      */
-    public void setRevocationEnabled(boolean flag) {
+    public void setRevocationEnabled(final boolean flag) {
         revocationEnabled = flag;
     }
 
@@ -121,7 +121,7 @@ public class CertPathPKIXValidationOptions extends PKIXValidationOptions {
      * 
      * @param flag the policyMappingInhibit boolean to set.
      */
-    public void setPolicyMappingInhibit(boolean flag) {
+    public void setPolicyMappingInhibit(final boolean flag) {
         policyMappingInhibit = flag;
     }
 
@@ -142,7 +142,7 @@ public class CertPathPKIXValidationOptions extends PKIXValidationOptions {
      * 
      * @param flag the anyPolicyInhibit boolean to set.
      */
-    public void setAnyPolicyInhibit(boolean flag) {
+    public void setAnyPolicyInhibit(final boolean flag) {
         anyPolicyInhibit = flag;
      }
 
@@ -163,7 +163,7 @@ public class CertPathPKIXValidationOptions extends PKIXValidationOptions {
      * 
      * @param newPolicies the initial set of policy identifiers (OID strings)
      */
-    public void setInitialPolicies(Set<String> newPolicies) {
+    public void setInitialPolicies(final Set<String> newPolicies) {
         initialPolicies = newPolicies;
     }    
 }

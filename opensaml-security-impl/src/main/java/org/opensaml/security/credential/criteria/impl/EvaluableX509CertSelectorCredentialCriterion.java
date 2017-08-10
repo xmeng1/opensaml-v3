@@ -88,7 +88,7 @@ public class EvaluableX509CertSelectorCredentialCriterion extends AbstractTriSta
     }
 
     /** {@inheritDoc} */
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }

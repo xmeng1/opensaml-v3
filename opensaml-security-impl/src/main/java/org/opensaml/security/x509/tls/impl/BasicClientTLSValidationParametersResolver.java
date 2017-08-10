@@ -48,7 +48,7 @@ import org.opensaml.security.x509.tls.ClientTLSValidationParametersResolver;
 public class BasicClientTLSValidationParametersResolver implements ClientTLSValidationParametersResolver {
 
     /** {@inheritDoc} */
-    @Nonnull @NonnullElements public Iterable<ClientTLSValidationParameters> resolve(CriteriaSet criteria) 
+    @Nonnull @NonnullElements public Iterable<ClientTLSValidationParameters> resolve(final CriteriaSet criteria) 
             throws ResolverException {
         ClientTLSValidationParameters params = resolveSingle(criteria);
         if (params != null) {
@@ -59,7 +59,7 @@ public class BasicClientTLSValidationParametersResolver implements ClientTLSVali
     }
 
     /** {@inheritDoc} */
-    @Nonnull public ClientTLSValidationParameters resolveSingle(CriteriaSet criteria) throws ResolverException {
+    @Nonnull public ClientTLSValidationParameters resolveSingle(final CriteriaSet criteria) throws ResolverException {
         Constraint.isNotNull(criteria, "CriteriaSet was null");
         Constraint.isNotNull(criteria.get(ClientTLSValidationConfigurationCriterion.class), 
                 "Resolver requires an instance of ClientTLSValidationConfigurationCriterion");

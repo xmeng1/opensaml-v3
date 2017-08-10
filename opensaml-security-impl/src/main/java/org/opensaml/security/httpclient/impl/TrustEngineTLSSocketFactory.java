@@ -100,22 +100,23 @@ public class TrustEngineTLSSocketFactory implements LayeredConnectionSocketFacto
      * @param factory the underlying HttpClient socket factory wrapped by this implementation.
      * @param verifier the hostname verifier evaluated by this implementation
      */
-    public TrustEngineTLSSocketFactory(LayeredConnectionSocketFactory factory, X509HostnameVerifier verifier) {
+    public TrustEngineTLSSocketFactory(final LayeredConnectionSocketFactory factory,
+            final X509HostnameVerifier verifier) {
         wrappedFactory = Constraint.isNotNull(factory, "Socket factory was null");
         hostnameVerifier = verifier;
     }
 
     /** {@inheritDoc} */
-    public Socket createSocket(HttpContext context) throws IOException {
+    public Socket createSocket(final HttpContext context) throws IOException {
         log.trace("In createSocket");
         return wrappedFactory.createSocket(context);
     }
 
 // Checkstyle: ParameterNumber OFF
     /** {@inheritDoc} */
-    public Socket connectSocket(int connectTimeout, Socket sock, HttpHost host,
-            InetSocketAddress remoteAddress, InetSocketAddress localAddress,
-            HttpContext context) throws IOException {
+    public Socket connectSocket(final int connectTimeout, final Socket sock, final HttpHost host,
+            final InetSocketAddress remoteAddress, final InetSocketAddress localAddress,
+            final HttpContext context) throws IOException {
         
         log.trace("In connectSocket");
         Socket socket = wrappedFactory.connectSocket(connectTimeout, sock, host, remoteAddress, localAddress, context);
@@ -127,7 +128,8 @@ public class TrustEngineTLSSocketFactory implements LayeredConnectionSocketFacto
 // Checkstyle: ParameterNumber ON
 
     /** {@inheritDoc} */
-    public Socket createLayeredSocket(Socket socket, String target, int port, HttpContext context) throws IOException {
+    public Socket createLayeredSocket(final Socket socket, final String target, final int port,
+            final HttpContext context) throws IOException {
         log.trace("In createLayeredSocket");
         Socket layeredSocket = wrappedFactory.createLayeredSocket(socket, target, port, context);
         performTrustEval(layeredSocket, context);
@@ -189,7 +191,7 @@ public class TrustEngineTLSSocketFactory implements LayeredConnectionSocketFacto
                         Boolean.FALSE);
                 throw new SSLPeerUnverifiedException("Trust engine could not establish trust of server TLS credential");
             }
-        } catch (SecurityException e) {
+        } catch (final SecurityException e) {
             log.error("Trust engine error evaluating credential", e);
             throw new IOException("Trust engine error evaluating credential", e);
         }
@@ -233,7 +235,8 @@ public class TrustEngineTLSSocketFactory implements LayeredConnectionSocketFacto
      * @param context the current HttpClient context instance
      * @throws IOException if an I/O error occurs or the verification process fails
      */
-    protected void performHostnameVerification(Socket socket, String hostname, HttpContext context) throws IOException {
+    protected void performHostnameVerification(final Socket socket, final String hostname, final HttpContext context)
+            throws IOException {
         if (hostnameVerifier != null && socket instanceof SSLSocket) {
             hostnameVerifier.verify(hostname, (SSLSocket) socket);
         }

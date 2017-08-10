@@ -73,7 +73,7 @@ public class StaticPKIXValidationInformationResolver implements PKIXValidationIn
      *        from an instance of {@link TrustedNamesCriterion} in the criteria set
      */
     public StaticPKIXValidationInformationResolver(@Nullable final List<PKIXValidationInformation> info,
-            @Nullable final Set<String> names, boolean supportDynamicNames) {
+            @Nullable final Set<String> names, final boolean supportDynamicNames) {
         if (info != null) {
             pkixInfo = new ArrayList<>(info);
         } else {

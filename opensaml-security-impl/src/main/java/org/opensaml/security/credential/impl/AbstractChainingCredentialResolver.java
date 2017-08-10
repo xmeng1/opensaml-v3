@@ -77,7 +77,7 @@ public abstract class AbstractChainingCredentialResolver<ResolverType extends Cr
     }
 
     /** {@inheritDoc} */
-    @Nonnull public Iterable<Credential> resolve(@Nullable CriteriaSet criteriaSet) throws ResolverException {
+    @Nonnull public Iterable<Credential> resolve(@Nullable final CriteriaSet criteriaSet) throws ResolverException {
         if (resolvers.isEmpty()) {
             log.warn("Chaining credential resolver resolution was attempted with an empty resolver chain");
             throw new IllegalStateException("The resolver chain is empty");
@@ -207,7 +207,7 @@ public abstract class AbstractChainingCredentialResolver<ResolverType extends Cr
                         currentResolver.getClass().toString());
                 try {
                     return currentResolver.resolve(critSet).iterator();
-                } catch (ResolverException e) {
+                } catch (final ResolverException e) {
                     log.error(String.format("Error resolving credentials from chaining resolver member '%s'",
                             currentResolver.getClass().getName()), e);
                     if (resolverIterator.hasNext()) {

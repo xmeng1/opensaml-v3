@@ -87,7 +87,7 @@ public final class EvaluableCredentialCriteriaRegistry {
 
                 return constructor.newInstance(new Object[] { criteria });
 
-            } catch (java.lang.SecurityException | InstantiationException | IllegalAccessException 
+            } catch (final java.lang.SecurityException | InstantiationException | IllegalAccessException 
                     | IllegalArgumentException | InvocationTargetException | NoSuchMethodException e) {
                 log.error("Error instantiating new EvaluableCredentialCriterion instance", e);
                 throw new SecurityException("Could not create new EvaluableCredentialCriterion", e);
@@ -192,7 +192,7 @@ public final class EvaluableCredentialCriteriaRegistry {
         final Properties defaultMappings = new Properties();
         try {
             defaultMappings.load(inStream);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             log.error("Error loading properties file from resource stream", e);
             return;
         }
@@ -223,7 +223,7 @@ public final class EvaluableCredentialCriteriaRegistry {
             Class criteriaClass = null;
             try {
                 criteriaClass = classLoader.loadClass(criteriaName);
-            } catch (ClassNotFoundException e) {
+            } catch (final ClassNotFoundException e) {
                 log.error("Could not find criteria class '{}', skipping registration", criteriaName);
                 continue;
             }
@@ -231,7 +231,7 @@ public final class EvaluableCredentialCriteriaRegistry {
             Class evaluableClass = null;
             try {
                 evaluableClass = classLoader.loadClass(evaluatorName);
-            } catch (ClassNotFoundException e) {
+            } catch (final ClassNotFoundException e) {
                 log.error("Could not find evaluator class '{}', skipping registration", criteriaName);
                 continue;
             }

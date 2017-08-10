@@ -161,7 +161,7 @@ public class BasicX509CredentialNameEvaluator implements X509CredentialNameEvalu
      * @param check whether to check the credential's entity certificate subject alt names against the trusted
      *            key names
      */
-    public void setCheckSubjectAltNames(boolean check) {
+    public void setCheckSubjectAltNames(final boolean check) {
         checkSubjectAltNames = check;
     }
 
@@ -183,7 +183,7 @@ public class BasicX509CredentialNameEvaluator implements X509CredentialNameEvalu
      * @param check whether to check the credential's entity certificate subject DN's CN against the trusted
      *            key names
      */
-    public void setCheckSubjectDNCommonName(boolean check) {
+    public void setCheckSubjectDNCommonName(final boolean check) {
         checkSubjectDNCommonName = check;
     }
 
@@ -204,7 +204,7 @@ public class BasicX509CredentialNameEvaluator implements X509CredentialNameEvalu
      * @param check whether to check the credential's entity certificate subject DN against the trusted key
      *            names
      */
-    public void setCheckSubjectDN(boolean check) {
+    public void setCheckSubjectDN(final boolean check) {
         checkSubjectDN = check;
     }
 
@@ -361,7 +361,7 @@ public class BasicX509CredentialNameEvaluator implements X509CredentialNameEvalu
                     }
                     return true;
                 }
-            } catch (IllegalArgumentException e) {
+            } catch (final IllegalArgumentException e) {
                 // Do nothing, probably wasn't a distinguished name.
                 // TODO maybe try and match only the "suspected" DN values above
                 // - maybe match with regex for '='or something

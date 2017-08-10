@@ -87,7 +87,7 @@ public class KeyStoreCredentialResolver extends AbstractCriteriaFilteringCredent
      * 
      */
     public KeyStoreCredentialResolver(@Nonnull final KeyStore store, @Nonnull final Map<String, String> passwords,
-            @Nullable UsageType usage) {
+            @Nullable final UsageType usage) {
         super();
 
         keyStore = Constraint.isNotNull(store, "Provided key store cannot be null");
@@ -95,7 +95,7 @@ public class KeyStoreCredentialResolver extends AbstractCriteriaFilteringCredent
 
         try {
             store.size();
-        } catch (KeyStoreException e) {
+        } catch (final KeyStoreException e) {
             throw new IllegalStateException("Keystore has not been initialized.");
         }
 

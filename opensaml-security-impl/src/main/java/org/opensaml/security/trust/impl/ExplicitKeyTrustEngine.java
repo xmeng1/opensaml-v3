@@ -78,7 +78,7 @@ public class ExplicitKeyTrustEngine implements TrustedCredentialTrustEngine<Cred
         try {
             Iterable<Credential> trustedCredentials = getCredentialResolver().resolve(trustBasisCriteria);
             return trustEvaluator.validate(untrustedCredential, trustedCredentials);
-        } catch (ResolverException e) {
+        } catch (final ResolverException e) {
             throw new SecurityException("Error resolving trusted credentials", e);
         }
     }

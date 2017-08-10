@@ -98,9 +98,9 @@ public final class EvaluableX509DigestCredentialCriterion extends AbstractTriSta
             MessageDigest hasher = MessageDigest.getInstance(algorithm);
             byte[] hashed = hasher.digest(entityCert.getEncoded());
             return Arrays.equals(hashed, x509digest);
-        } catch (CertificateEncodingException e) {
+        } catch (final CertificateEncodingException e) {
             log.error("Unable to encode certificate for digest operation", e);
-        } catch (NoSuchAlgorithmException e) {
+        } catch (final NoSuchAlgorithmException e) {
             log.error("Unable to obtain a digest implementation for algorithm {" + algorithm + "}" , e);
         }
         
@@ -127,7 +127,7 @@ public final class EvaluableX509DigestCredentialCriterion extends AbstractTriSta
     }
 
     /** {@inheritDoc} */
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }

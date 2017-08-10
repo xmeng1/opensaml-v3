@@ -97,7 +97,7 @@ public class EvaluableX509SubjectNameCredentialCriterion extends AbstractTriStat
     }
 
     /** {@inheritDoc} */
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }

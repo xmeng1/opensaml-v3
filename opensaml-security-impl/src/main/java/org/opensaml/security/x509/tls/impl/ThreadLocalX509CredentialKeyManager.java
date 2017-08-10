@@ -40,19 +40,19 @@ public class ThreadLocalX509CredentialKeyManager implements X509KeyManager {
     private String internalAlias = "internalAlias-ThreadLocal";
 
     /** {@inheritDoc} */
-    public String chooseClientAlias(String[] arg0, Principal[] arg1, Socket arg2) {
+    public String chooseClientAlias(final String[] arg0, final Principal[] arg1, final Socket arg2) {
         log.trace("In chooseClientAlias");
         return internalAlias;
     }
     
     /** {@inheritDoc} */
-    public String[] getClientAliases(String arg0, Principal[] arg1) {
+    public String[] getClientAliases(final String arg0, final Principal[] arg1) {
         log.trace("In getClientAliases");
         return new String[] {internalAlias};
     }
 
     /** {@inheritDoc} */
-    public X509Certificate[] getCertificateChain(String arg0) {
+    public X509Certificate[] getCertificateChain(final String arg0) {
         log.trace("In getCertificateChain");
         return internalAlias.equals(arg0) && ThreadLocalX509CredentialContext.haveCurrent() 
                 ? ThreadLocalX509CredentialContext.getCredential().getEntityCertificateChain()
@@ -60,20 +60,20 @@ public class ThreadLocalX509CredentialKeyManager implements X509KeyManager {
     }
 
     /** {@inheritDoc} */
-    public PrivateKey getPrivateKey(String arg0) {
+    public PrivateKey getPrivateKey(final String arg0) {
         log.trace("In getPrivateKey");
         return internalAlias.equals(arg0) && ThreadLocalX509CredentialContext.haveCurrent() 
                 ? ThreadLocalX509CredentialContext.getCredential().getPrivateKey() : null;
     }
 
     /** {@inheritDoc} */
-    public String chooseServerAlias(String arg0, Principal[] arg1, Socket arg2) {
+    public String chooseServerAlias(final String arg0, final Principal[] arg1, final Socket arg2) {
         log.trace("In chooseServerAlias");
         return internalAlias;
     }
 
     /** {@inheritDoc} */
-    public String[] getServerAliases(String arg0, Principal[] arg1) {
+    public String[] getServerAliases(final String arg0, final Principal[] arg1) {
         log.trace("In getServerAliases");
         return new String[] {internalAlias};
     }

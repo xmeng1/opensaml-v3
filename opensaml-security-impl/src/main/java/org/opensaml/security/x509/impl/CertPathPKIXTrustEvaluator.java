@@ -146,7 +146,7 @@ public class CertPathPKIXTrustEvaluator implements PKIXTrustEvaluator {
             }            
             return true;
 
-        } catch (CertPathBuilderException e) {
+        } catch (final CertPathBuilderException e) {
             if (log.isTraceEnabled()) {
                 log.trace("PKIX path construction failed for untrusted credential: " 
                         + X509Support.getIdentifiersToken(untrustedCredential, getX500DNHandler()), e);
@@ -156,7 +156,7 @@ public class CertPathPKIXTrustEvaluator implements PKIXTrustEvaluator {
                         + e.getMessage());
             }
             return false;
-        } catch (GeneralSecurityException e) {
+        } catch (final GeneralSecurityException e) {
             log.error("PKIX validation failure", e);
             throw new SecurityException("PKIX validation failure", e);
         }
@@ -246,7 +246,7 @@ public class CertPathPKIXTrustEvaluator implements PKIXTrustEvaluator {
             //Save some cycles and memory: Collection cert store allows null as specifier to return all.
             //crls = certStore.getCRLs( new X509CRLSelector() );
             crls = certStore.getCRLs(null);
-        } catch (CertStoreException e) {
+        } catch (final CertStoreException e) {
             log.error("Error examining cert store for CRL's, treating as if no CRL's present", e);
             return false;
         }

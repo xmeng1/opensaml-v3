@@ -126,7 +126,7 @@ public abstract class AbstractCriteriaFilteringCredentialResolver extends Abstra
                 EvaluableCredentialCriterion evaluableCriteria;
                 try {
                     evaluableCriteria = EvaluableCredentialCriteriaRegistry.getEvaluator(criteria);
-                } catch (SecurityException e) {
+                } catch (final SecurityException e) {
                     throw new ResolverException("Exception obtaining EvaluableCredentialCriterion", e);
                 }
                 if (evaluableCriteria != null) {

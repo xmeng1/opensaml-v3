@@ -106,7 +106,7 @@ public class EvaluableX509SubjectKeyIdentifierCredentialCriterion extends Abstra
     }
 
     /** {@inheritDoc} */
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }
