@@ -242,13 +242,14 @@ public class ClientStorageService extends AbstractMapBackedStorageService implem
 
     /** {@inheritDoc} */
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(final FilterConfig filterConfig) throws ServletException {
         
     }
 
     /** {@inheritDoc} */
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
+    public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain)
+            throws IOException,
             ServletException {
         // This is just a no-op available to preserve compatibility with web.xml references to the
         // older storage plugin that saved modified data back to a cookie on every response.

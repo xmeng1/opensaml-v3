@@ -62,7 +62,7 @@ public class ClientStorageSaveContext extends BaseContext {
      */
     public boolean isSourceRequired(@Nonnull final ClientStorageSource source) {
         return Iterables.any(storageOperations, new Predicate<ClientStorageServiceOperation>() {
-            public boolean apply(ClientStorageServiceOperation input) {
+            public boolean apply(final ClientStorageServiceOperation input) {
                 return input.getStorageSource() == source;
             }
         });

@@ -232,7 +232,7 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
 
     /** {@inheritDoc} */
     @Override
-    public boolean create(@Nonnull Object value) throws IOException {
+    public boolean create(@Nonnull final Object value) throws IOException {
         Constraint.isNotNull(value, "Value cannot be null");
         return create(
                 AnnotationSupport.getContext(value),
@@ -257,7 +257,7 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
         final CASValue<MemcachedStorageRecord> record;
         try {
             record = handleAsyncResult(memcacheClient.asyncGets(cacheKey, storageRecordTranscoder));
-        } catch (RuntimeException e) {
+        } catch (final RuntimeException e) {
             throw new IOException("Memcached operation failed", e);
         }
         if (record == null) {
@@ -327,7 +327,7 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
 
     /** {@inheritDoc} */
     @Override
-    public boolean update(@Nonnull Object value) throws IOException {
+    public boolean update(@Nonnull final Object value) throws IOException {
         Constraint.isNotNull(value, "Value cannot be null");
         return update(
                 AnnotationSupport.getContext(value),
@@ -592,7 +592,7 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
             final CASValue<String> result = handleAsyncResult(
                     memcacheClient.asyncGets(memcachedKey(context), stringTranscoder));
             return result == null ? null : result.getValue();
-        } catch (RuntimeException e) {
+        } catch (final RuntimeException e) {
             throw new IOException("Memcached operation failed", e);
         }
     }
@@ -662,11 +662,11 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
     private <T> T handleAsyncResult(final OperationFuture<T> result) throws IOException {
         try {
             return result.get(operationTimeout, TimeUnit.SECONDS);
-        } catch (InterruptedException e) {
+        } catch (final InterruptedException e) {
             throw new IOException("Memcached operation interrupted");
-        } catch (TimeoutException e) {
+        } catch (final TimeoutException e) {
             throw new IOException("Memcached operation did not complete in time (" + operationTimeout + "s)");
-        } catch (ExecutionException e) {
+        } catch (final ExecutionException e) {
             throw new IOException("Memcached operation error", e);
         }
     }

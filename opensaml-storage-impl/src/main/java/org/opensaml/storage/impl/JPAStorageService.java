@@ -160,7 +160,7 @@ public class JPAStorageService extends AbstractStorageService implements Storage
                     if (transaction != null && transaction.isActive()) {
                         try {
                             transaction.rollback();
-                        } catch (Exception ex) {
+                        } catch (final Exception ex) {
                             log.error("Error rolling back transaction", e);
                         }
                     }
@@ -173,7 +173,7 @@ public class JPAStorageService extends AbstractStorageService implements Storage
                     if (transaction != null && transaction.isActive()) {
                         try {
                             transaction.rollback();
-                        } catch (Exception ex) {
+                        } catch (final Exception ex) {
                             log.error("Error rolling back transaction", e);
                         }
                     }
@@ -184,7 +184,7 @@ public class JPAStorageService extends AbstractStorageService implements Storage
                     if (transaction != null && transaction.isActive() && !transaction.getRollbackOnly()) {
                         try {
                             transaction.commit();
-                        } catch (Exception e) {
+                        } catch (final Exception e) {
                             log.error("Error committing transaction", e);
                         }
                     }
@@ -195,7 +195,7 @@ public class JPAStorageService extends AbstractStorageService implements Storage
             if (manager != null && manager.isOpen()) {
                 try {
                     manager.close();
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     log.error("Error closing entity manager", e);
                 }
             }
@@ -221,7 +221,7 @@ public class JPAStorageService extends AbstractStorageService implements Storage
             if (manager != null && manager.isOpen()) {
                 try {
                     manager.close();
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     log.error("Error closing entity manager", e);
                 }
             }
@@ -249,7 +249,7 @@ public class JPAStorageService extends AbstractStorageService implements Storage
             if (manager != null && manager.isOpen()) {
                 try {
                     manager.close();
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     log.error("Error closing entity manager", e);
                 }
             }
@@ -273,7 +273,7 @@ public class JPAStorageService extends AbstractStorageService implements Storage
             if (manager != null && manager.isOpen()) {
                 try {
                     manager.close();
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     log.error("Error closing entity manager", e);
                 }
             }
@@ -335,7 +335,7 @@ public class JPAStorageService extends AbstractStorageService implements Storage
             if (transaction != null && transaction.isActive()) {
                 try {
                     transaction.rollback();
-                } catch (Exception ex) {
+                } catch (final Exception ex) {
                     log.error("Error rolling back transaction", e);
                 }
             }
@@ -344,14 +344,14 @@ public class JPAStorageService extends AbstractStorageService implements Storage
             if (transaction != null && transaction.isActive() && !transaction.getRollbackOnly()) {
                 try {
                     transaction.commit();
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     log.error("Error committing transaction", e);
                 }
             }
             if (manager != null && manager.isOpen()) {
                 try {
                     manager.close();
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     log.error("Error closing entity manager", e);
                 }
             }
@@ -455,7 +455,7 @@ public class JPAStorageService extends AbstractStorageService implements Storage
                     if (transaction != null && transaction.isActive()) {
                         try {
                             transaction.rollback();
-                        } catch (Exception ex) {
+                        } catch (final Exception ex) {
                             log.error("Error rolling back transaction", e);
                         }
                     }
@@ -464,7 +464,7 @@ public class JPAStorageService extends AbstractStorageService implements Storage
                     if (transaction != null && transaction.isActive() && !transaction.getRollbackOnly()) {
                         try {
                             transaction.commit();
-                        } catch (Exception e) {
+                        } catch (final Exception e) {
                             log.error("Error committing transaction", e);
                         }
                     }
@@ -475,7 +475,7 @@ public class JPAStorageService extends AbstractStorageService implements Storage
             if (manager != null && manager.isOpen()) {
                 try {
                     manager.close();
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     log.error("Error closing entity manager", e);
                 }
             }
@@ -549,7 +549,7 @@ public class JPAStorageService extends AbstractStorageService implements Storage
                     if (transaction != null && transaction.isActive()) {
                         try {
                             transaction.rollback();
-                        } catch (Exception ex) {
+                        } catch (final Exception ex) {
                             log.error("Error rolling back transaction", e);
                         }
                     }
@@ -558,7 +558,7 @@ public class JPAStorageService extends AbstractStorageService implements Storage
                     if (transaction != null && transaction.isActive() && !transaction.getRollbackOnly()) {
                         try {
                             transaction.commit();
-                        } catch (Exception e) {
+                        } catch (final Exception e) {
                             log.error("Error committing transaction", e);
                         }
                     }
@@ -569,7 +569,7 @@ public class JPAStorageService extends AbstractStorageService implements Storage
             if (manager != null && manager.isOpen()) {
                 try {
                     manager.close();
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     log.error("Error closing entity manager", e);
                 }
             }
@@ -609,7 +609,7 @@ public class JPAStorageService extends AbstractStorageService implements Storage
                     if (transaction != null && transaction.isActive()) {
                         try {
                             transaction.rollback();
-                        } catch (Exception ex) {
+                        } catch (final Exception ex) {
                             log.error("Error rolling back transaction", e);
                         }
                     }
@@ -618,7 +618,7 @@ public class JPAStorageService extends AbstractStorageService implements Storage
                     if (transaction != null && transaction.isActive() && !transaction.getRollbackOnly()) {
                         try {
                             transaction.commit();
-                        } catch (Exception e) {
+                        } catch (final Exception e) {
                             log.error("Error committing transaction", e);
                         }
                     }
@@ -629,7 +629,7 @@ public class JPAStorageService extends AbstractStorageService implements Storage
             if (manager != null && manager.isOpen()) {
                 try {
                     manager.close();
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     log.error("Error closing entity manager", e);
                 }
             }
@@ -693,7 +693,7 @@ public class JPAStorageService extends AbstractStorageService implements Storage
                     if (transaction != null && transaction.isActive()) {
                         try {
                             transaction.rollback();
-                        } catch (Exception ex) {
+                        } catch (final Exception ex) {
                             log.error("Error rolling back transaction", e);
                         }
                     }
@@ -702,7 +702,7 @@ public class JPAStorageService extends AbstractStorageService implements Storage
                     if (transaction != null && transaction.isActive() && !transaction.getRollbackOnly()) {
                         try {
                             transaction.commit();
-                        } catch (Exception e) {
+                        } catch (final Exception e) {
                             log.error("Error committing transaction", e);
                         }
                     }
@@ -713,7 +713,7 @@ public class JPAStorageService extends AbstractStorageService implements Storage
             if (manager != null && manager.isOpen()) {
                 try {
                     manager.close();
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     log.error("Error closing entity manager", e);
                 }
             }
@@ -756,7 +756,7 @@ public class JPAStorageService extends AbstractStorageService implements Storage
                     if (transaction != null && transaction.isActive()) {
                         try {
                             transaction.rollback();
-                        } catch (Exception ex) {
+                        } catch (final Exception ex) {
                             log.error("Error rolling back transaction", e);
                         }
                     }
@@ -765,7 +765,7 @@ public class JPAStorageService extends AbstractStorageService implements Storage
                     if (transaction != null && transaction.isActive() && !transaction.getRollbackOnly()) {
                         try {
                             transaction.commit();
-                        } catch (Exception e) {
+                        } catch (final Exception e) {
                             log.error("Error committing transaction", e);
                         }
                     }
@@ -776,7 +776,7 @@ public class JPAStorageService extends AbstractStorageService implements Storage
             if (manager != null && manager.isOpen()) {
                 try {
                     manager.close();
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     log.error("Error closing entity manager", e);
                 }
             }
@@ -820,7 +820,7 @@ public class JPAStorageService extends AbstractStorageService implements Storage
             if (transaction != null && transaction.isActive()) {
                 try {
                     transaction.rollback();
-                } catch (Exception ex) {
+                } catch (final Exception ex) {
                     log.error("Error rolling back transaction", e);
                 }
             }
@@ -829,7 +829,7 @@ public class JPAStorageService extends AbstractStorageService implements Storage
             if (transaction != null && transaction.isActive() && !transaction.getRollbackOnly()) {
                 try {
                     transaction.commit();
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     log.error("Error committing transaction", e);
                 }
             }
