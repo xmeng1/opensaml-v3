@@ -49,12 +49,12 @@ public final class XMLSigningUtil {
     public static byte[] signWithURI(@Nonnull final Credential signingCredential, @Nonnull final String algorithmURI,
             @Nonnull final byte[] input) throws SecurityException {
 
-        String jcaAlgorithmID = AlgorithmSupport.getAlgorithmID(algorithmURI);
+        final String jcaAlgorithmID = AlgorithmSupport.getAlgorithmID(algorithmURI);
         if (jcaAlgorithmID == null) {
             throw new SecurityException("Could not derive JCA algorithm identifier from algorithm URI");
         }
 
-        boolean isHMAC = AlgorithmSupport.isHMAC(algorithmURI);
+        final boolean isHMAC = AlgorithmSupport.isHMAC(algorithmURI);
 
         return SigningUtil.sign(signingCredential, jcaAlgorithmID, isHMAC, input);
     }
@@ -77,12 +77,12 @@ public final class XMLSigningUtil {
             @Nonnull final String algorithmURI, @Nonnull final byte[] signature, @Nonnull final byte[] input)
                     throws SecurityException {
 
-        String jcaAlgorithmID = AlgorithmSupport.getAlgorithmID(algorithmURI);
+        final String jcaAlgorithmID = AlgorithmSupport.getAlgorithmID(algorithmURI);
         if (jcaAlgorithmID == null) {
             throw new SecurityException("Could not derive JCA algorithm identifier from algorithm URI");
         }
 
-        boolean isHMAC = AlgorithmSupport.isHMAC(algorithmURI);
+        final boolean isHMAC = AlgorithmSupport.isHMAC(algorithmURI);
 
         return SigningUtil.verify(verificationCredential, jcaAlgorithmID, isHMAC, signature, input);
     }

@@ -76,7 +76,7 @@ public class AlgorithmRegistry {
      * @return the resolved algorithm descriptor or null
      */
     @Nullable public AlgorithmDescriptor get(@Nullable final String algorithmURI) {
-        String trimmed = StringSupport.trimOrNull(algorithmURI);
+        final String trimmed = StringSupport.trimOrNull(algorithmURI);
         if (trimmed == null) {
             return null;
         }
@@ -96,13 +96,13 @@ public class AlgorithmRegistry {
      * @return true if the algorithm is supported by the current runtime environment, false otherwise
      */
     public boolean isRuntimeSupported(@Nullable final String algorithmURI) {
-        String trimmed = StringSupport.trimOrNull(algorithmURI);
+        final String trimmed = StringSupport.trimOrNull(algorithmURI);
         if (trimmed == null) {
             log.debug("Runtime support failed, algorithm URI was null or empty");
             return false;
         }
         
-        boolean supported = runtimeSupported.contains(trimmed);
+        final boolean supported = runtimeSupported.contains(trimmed);
         log.debug("Runtime support eval for algorithm URI '{}': {}", trimmed, supported ? "supported" : "unsupported");
         return supported;
     }
@@ -127,7 +127,7 @@ public class AlgorithmRegistry {
         
         log.debug("Registering algorithm descriptor with URI: {}", descriptor.getURI());
         
-        AlgorithmDescriptor old = descriptors.get(descriptor.getURI());
+        final AlgorithmDescriptor old = descriptors.get(descriptor.getURI());
         if (old != null) {
             log.debug("Registry contained existing descriptor with URI, removing old instance and re-registering: {}",
                     descriptor.getURI());
@@ -160,7 +160,7 @@ public class AlgorithmRegistry {
      */
     public void deregister(@Nonnull final String uri) {
         Constraint.isNotNull(uri, "AlgorithmDescriptor URI was null");
-        AlgorithmDescriptor descriptor = get(uri);
+        final AlgorithmDescriptor descriptor = get(uri);
         if (descriptor != null) {
             deregister(descriptor);
         }
@@ -210,11 +210,11 @@ public class AlgorithmRegistry {
         }
         
         if (descriptor instanceof DigestAlgorithm) {
-            DigestAlgorithm digestAlgorithm = (DigestAlgorithm) descriptor;
+            final DigestAlgorithm digestAlgorithm = (DigestAlgorithm) descriptor;
             digestAlgorithms.put(digestAlgorithm.getJCAAlgorithmID(), digestAlgorithm);
         }
         if (descriptor instanceof SignatureAlgorithm) {
-            SignatureAlgorithm sigAlg = (SignatureAlgorithm) descriptor;
+            final SignatureAlgorithm sigAlg = (SignatureAlgorithm) descriptor;
             signatureAlgorithms.put(new SignatureAlgorithmIndex(sigAlg.getKey(), sigAlg.getDigest()), sigAlg);
         }
     }
@@ -229,11 +229,11 @@ public class AlgorithmRegistry {
         runtimeSupported.remove(descriptor.getURI());
         
         if (descriptor instanceof DigestAlgorithm) {
-            DigestAlgorithm digestAlgorithm = (DigestAlgorithm) descriptor;
+            final DigestAlgorithm digestAlgorithm = (DigestAlgorithm) descriptor;
             digestAlgorithms.remove(digestAlgorithm.getJCAAlgorithmID());
         }
         if (descriptor instanceof SignatureAlgorithm) {
-            SignatureAlgorithm sigAlg = (SignatureAlgorithm) descriptor;
+            final SignatureAlgorithm sigAlg = (SignatureAlgorithm) descriptor;
             signatureAlgorithms.remove(new SignatureAlgorithmIndex(sigAlg.getKey(), sigAlg.getDigest()));
         }
     }
@@ -302,8 +302,8 @@ public class AlgorithmRegistry {
     private boolean checkCipherSupportedKeyLength(final AlgorithmDescriptor descriptor)
             throws NoSuchAlgorithmException {
         if (descriptor instanceof KeyLengthSpecifiedAlgorithm) {
-            int algoLength = ((KeyLengthSpecifiedAlgorithm)descriptor).getKeyLength();
-            int cipherMaxLength = Cipher.getMaxAllowedKeyLength(descriptor.getJCAAlgorithmID());
+            final int algoLength = ((KeyLengthSpecifiedAlgorithm)descriptor).getKeyLength();
+            final int cipherMaxLength = Cipher.getMaxAllowedKeyLength(descriptor.getJCAAlgorithmID());
             if (algoLength > cipherMaxLength) {
                 log.info("Cipher algorithm '{}' is not supported, its key length {} exceeds Cipher max key length {}",
                         descriptor.getURI(), algoLength, cipherMaxLength);

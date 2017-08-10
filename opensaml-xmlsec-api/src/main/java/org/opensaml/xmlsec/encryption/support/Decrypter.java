@@ -409,7 +409,7 @@ public class Decrypter {
     @Nonnull public XMLObject decryptData(@Nonnull final EncryptedData encryptedData,
             final boolean rootInNewDocument) throws DecryptionException {
 
-        List<XMLObject> xmlObjects = decryptDataToList(encryptedData, rootInNewDocument);
+        final List<XMLObject> xmlObjects = decryptDataToList(encryptedData, rootInNewDocument);
         if (xmlObjects.size() != 1) {
             log.error("The decrypted data contained more than one top-level XMLObject child");
             throw new DecryptionException("The decrypted data contained more than one XMLObject child");
@@ -447,15 +447,15 @@ public class Decrypter {
      */
     @Nonnull public List<XMLObject> decryptDataToList(@Nonnull final EncryptedData encryptedData,
             final boolean rootInNewDocument) throws DecryptionException {
-        List<XMLObject> xmlObjects = new LinkedList<>();
+        final List<XMLObject> xmlObjects = new LinkedList<>();
 
-        DocumentFragment docFragment = decryptDataToDOM(encryptedData);
+        final DocumentFragment docFragment = decryptDataToDOM(encryptedData);
 
         XMLObject xmlObject;
         Node node;
         Element element;
 
-        NodeList children = docFragment.getChildNodes();
+        final NodeList children = docFragment.getChildNodes();
         for (int i = 0; i < children.getLength(); i++) {
             node = children.item(i);
             if (node.getNodeType() != Node.ELEMENT_NODE) {
@@ -482,7 +482,7 @@ public class Decrypter {
                     unmarshaller = unmarshallerFactory.getUnmarshaller(
                             XMLObjectProviderRegistrySupport.getDefaultProviderQName());
                     if (unmarshaller == null) {
-                        String errorMsg = "No unmarshaller available for " + QNameSupport.getNodeQName(element);
+                        final String errorMsg = "No unmarshaller available for " + QNameSupport.getNodeQName(element);
                         log.error(errorMsg);
                         throw new UnmarshallingException(errorMsg);
                     } else {
@@ -529,9 +529,9 @@ public class Decrypter {
             }
         }
 
-        String algorithm = encryptedData.getEncryptionMethod().getAlgorithm();
+        final String algorithm = encryptedData.getEncryptionMethod().getAlgorithm();
         if (Strings.isNullOrEmpty(algorithm)) {
-            String msg = "EncryptedData's EncryptionMethod Algorithm attribute was empty, "
+            final String msg = "EncryptedData's EncryptionMethod Algorithm attribute was empty, "
                 + "key decryption could not be attempted";
             log.error(msg);
             throw new DecryptionException(msg);
@@ -581,9 +581,9 @@ public class Decrypter {
             log.error("Error marshalling EncryptedData for decryption", e);
             throw e;
         }
-        Element targetElement = encryptedData.getDOM();
+        final Element targetElement = encryptedData.getDOM();
 
-        XMLCipher xmlCipher;
+        final XMLCipher xmlCipher;
         try {
             if (getJCAProviderName() != null) {
                 xmlCipher = XMLCipher.getProviderInstance(getJCAProviderName());
@@ -611,8 +611,8 @@ public class Decrypter {
         if (bytes == null) {
             throw new DecryptionException("EncryptedData could not be decrypted");
         }
-        ByteArrayInputStream input = new ByteArrayInputStream(bytes);
-        DocumentFragment docFragment = parseInputStream(input, encryptedData.getDOM().getOwnerDocument());
+        final ByteArrayInputStream input = new ByteArrayInputStream(bytes);
+        final DocumentFragment docFragment = parseInputStream(input, encryptedData.getDOM().getOwnerDocument());
         return docFragment;
     }
 
@@ -636,13 +636,14 @@ public class Decrypter {
             throw new DecryptionException("Algorithm of encrypted key not supplied, key decryption cannot proceed.");
         }
 
-        CriteriaSet criteriaSet = buildCredentialCriteria(encryptedKey, kekResolverCriteria);
+        final CriteriaSet criteriaSet = buildCredentialCriteria(encryptedKey, kekResolverCriteria);
         try {
-            for (Credential cred : kekResolver.resolve(criteriaSet)) {
+            for (final Credential cred : kekResolver.resolve(criteriaSet)) {
                 try {
                     return decryptKey(encryptedKey, algorithm, CredentialSupport.extractDecryptionKey(cred));
                 } catch (final DecryptionException e) {
-                    String msg = "Attempt to decrypt EncryptedKey using credential from KEK KeyInfo resolver failed: ";
+                    final String msg =
+                            "Attempt to decrypt EncryptedKey using credential from KEK KeyInfo resolver failed: ";
                     log.debug(msg, e);
                     continue;
                 }
@@ -685,7 +686,7 @@ public class Decrypter {
         }
         preProcessEncryptedKey(encryptedKey, algorithm, kek);
         
-        XMLCipher xmlCipher;
+        final XMLCipher xmlCipher;
         try {
             if (getJCAProviderName() != null) {
                 xmlCipher = XMLCipher.getProviderInstance(getJCAProviderName());
@@ -698,9 +699,9 @@ public class Decrypter {
             throw new DecryptionException("Error initialzing cipher instance on key decryption", e);
         }
 
-        org.apache.xml.security.encryption.EncryptedKey encKey;
+        final org.apache.xml.security.encryption.EncryptedKey encKey;
         try {
-            Element targetElement = encryptedKey.getDOM();
+            final Element targetElement = encryptedKey.getDOM();
             encKey = xmlCipher.loadEncryptedKey(targetElement.getOwnerDocument(), targetElement);
         } catch (final XMLEncryptionException e) {
             log.error("Error when loading library native encrypted key representation", e);
@@ -708,7 +709,7 @@ public class Decrypter {
         } 
 
         try {
-            Key key = xmlCipher.decryptKey(encKey, algorithm);
+            final Key key = xmlCipher.decryptKey(encKey, algorithm);
             if (key == null) {
                 throw new DecryptionException("Key could not be decrypted");
             }
@@ -747,13 +748,14 @@ public class Decrypter {
      */
     @Nullable private DocumentFragment decryptUsingResolvedKey(@Nonnull final EncryptedData encryptedData) {
         if (resolver != null) {
-            CriteriaSet criteriaSet = buildCredentialCriteria(encryptedData, resolverCriteria);
+            final CriteriaSet criteriaSet = buildCredentialCriteria(encryptedData, resolverCriteria);
             try {
-                for (Credential cred : resolver.resolve(criteriaSet)) {
+                for (final Credential cred : resolver.resolve(criteriaSet)) {
                     try {
                         return decryptDataToDOM(encryptedData, CredentialSupport.extractDecryptionKey(cred));
                     } catch (final DecryptionException e) {
-                        String msg = "Decryption attempt using credential from standard KeyInfo resolver failed: ";
+                        final String msg =
+                                "Decryption attempt using credential from standard KeyInfo resolver failed: ";
                         log.debug(msg, e);
                         continue;
                     }
@@ -776,12 +778,13 @@ public class Decrypter {
     @Nullable private DocumentFragment decryptUsingResolvedEncryptedKey(@Nonnull final EncryptedData encryptedData,
             @Nonnull final String algorithm) {
         if (encKeyResolver != null) {
-            for (EncryptedKey encryptedKey : encKeyResolver.resolve(encryptedData)) {
+            for (final EncryptedKey encryptedKey : encKeyResolver.resolve(encryptedData)) {
                 try {
-                    Key decryptedKey = decryptKey(encryptedKey, algorithm);
+                    final Key decryptedKey = decryptKey(encryptedKey, algorithm);
                     return decryptDataToDOM(encryptedData, decryptedKey);
                 } catch (final DecryptionException e) {
-                    String msg = "Attempt to decrypt EncryptedData using key extracted from EncryptedKey failed: ";
+                    final String msg =
+                            "Attempt to decrypt EncryptedData using key extracted from EncryptedKey failed: ";
                     log.debug(msg, e);
                     continue;
                 }
@@ -813,10 +816,10 @@ public class Decrypter {
             throw new DecryptionException("Error parsing input stream", e);
         }
 
-        Element element = newDocument.getDocumentElement();
+        final Element element = newDocument.getDocumentElement();
         owningDocument.adoptNode(element);
 
-        DocumentFragment container = owningDocument.createDocumentFragment();
+        final DocumentFragment container = owningDocument.createDocumentFragment();
         container.appendChild(element);
 
         return container;
@@ -833,14 +836,14 @@ public class Decrypter {
     @Nonnull private CriteriaSet buildCredentialCriteria(@Nonnull final EncryptedType encryptedType,
             @Nullable final CriteriaSet staticCriteria) {
 
-        CriteriaSet newCriteriaSet = new CriteriaSet();
+        final CriteriaSet newCriteriaSet = new CriteriaSet();
 
         // This is the main criteria based on the encrypted type's KeyInfo
         newCriteriaSet.add(new KeyInfoCriterion(encryptedType.getKeyInfo()));
 
         // Also attemtpt to dynamically construct key criteria based on information
         // in the encrypted object
-        Set<Criterion> keyCriteria = buildKeyCriteria(encryptedType);
+        final Set<Criterion> keyCriteria = buildKeyCriteria(encryptedType);
         if (keyCriteria != null && !keyCriteria.isEmpty()) {
             newCriteriaSet.addAll(keyCriteria);
         }
@@ -865,19 +868,19 @@ public class Decrypter {
      * @return a set of credential criteria pertaining to the decryption key
      */
     @Nullable private Set<Criterion> buildKeyCriteria(@Nonnull final EncryptedType encryptedType) {
-        EncryptionMethod encMethod = encryptedType.getEncryptionMethod();
+        final EncryptionMethod encMethod = encryptedType.getEncryptionMethod();
         if (encMethod == null) {
             // This element is optional
             return null;
         }
-        String encAlgorithmURI = StringSupport.trimOrNull(encMethod.getAlgorithm());
+        final String encAlgorithmURI = StringSupport.trimOrNull(encMethod.getAlgorithm());
         if (encAlgorithmURI == null) {
             return null;
         }
 
-        Set<Criterion> critSet = new HashSet<>(2);
+        final Set<Criterion> critSet = new HashSet<>(2);
 
-        KeyAlgorithmCriterion algoCrit = buildKeyAlgorithmCriteria(encAlgorithmURI);
+        final KeyAlgorithmCriterion algoCrit = buildKeyAlgorithmCriteria(encAlgorithmURI);
         if (algoCrit != null) {
             critSet.add(algoCrit);
             log.debug("Added decryption key algorithm criteria: {}", algoCrit.getKeyAlgorithm());
@@ -911,7 +914,7 @@ public class Decrypter {
             return null;
         }
 
-        String jcaKeyAlgorithm = AlgorithmSupport.getKeyAlgorithm(encAlgorithmURI);
+        final String jcaKeyAlgorithm = AlgorithmSupport.getKeyAlgorithm(encAlgorithmURI);
         if (!Strings.isNullOrEmpty(jcaKeyAlgorithm)) {
             return new KeyAlgorithmCriterion(jcaKeyAlgorithm);
         }
@@ -930,7 +933,7 @@ public class Decrypter {
             return null;
         }
 
-        Integer keyLength = AlgorithmSupport.getKeyLength(encAlgorithmURI);
+        final Integer keyLength = AlgorithmSupport.getKeyLength(encAlgorithmURI);
         if (keyLength != null) {
             return new KeyLengthCriterion(keyLength);
         }
@@ -954,7 +957,7 @@ public class Decrypter {
                 marshaller = XMLObjectProviderRegistrySupport.getMarshallerFactory().getMarshaller(
                         XMLObjectProviderRegistrySupport.getDefaultProviderQName());
                 if (marshaller == null) {
-                    String errorMsg = "No marshaller available for " + xmlObject.getElementQName();
+                    final String errorMsg = "No marshaller available for " + xmlObject.getElementQName();
                     log.error(errorMsg);
                     throw new DecryptionException(errorMsg);
                 }
@@ -979,8 +982,8 @@ public class Decrypter {
      * @return a new parser pool instance
      */
     protected ParserPool buildParserPool() {
-        BasicParserPool pp = new BasicParserPool();
-        HashMap<String, Boolean> features = new HashMap<>();
+        final BasicParserPool pp = new BasicParserPool();
+        final HashMap<String, Boolean> features = new HashMap<>();
         
         pp.setNamespaceAware(true);
         
@@ -1009,16 +1012,16 @@ public class Decrypter {
      * @throws DecryptionException if any algorithms do not satisfy whitelist/blacklist policy
      */
     protected void validateAlgorithms(@Nonnull final EncryptedKey encryptedKey) throws DecryptionException {
-        String encryptionAlgorithm = encryptedKey.getEncryptionMethod().getAlgorithm();
+        final String encryptionAlgorithm = encryptedKey.getEncryptionMethod().getAlgorithm();
         validateAlgorithmURI(encryptionAlgorithm);
         
         if (AlgorithmSupport.isRSAOAEP(encryptionAlgorithm)) {
             // ds:DigestMethod
             String digestAlgorithm = null;
-            List<XMLObject> digestMethods = encryptedKey.getEncryptionMethod()
+            final List<XMLObject> digestMethods = encryptedKey.getEncryptionMethod()
                     .getUnknownXMLObjects(DigestMethod.DEFAULT_ELEMENT_NAME);
             if (digestMethods.size() > 0) {
-                DigestMethod digestMethod = (DigestMethod) digestMethods.get(0);
+                final DigestMethod digestMethod = (DigestMethod) digestMethods.get(0);
                 digestAlgorithm = StringSupport.trimOrNull(digestMethod.getAlgorithm());
             }
             if (digestAlgorithm == null) {
@@ -1029,9 +1032,10 @@ public class Decrypter {
             
             // xenc11:MGF
             String mgfAlgorithm = null;
-            List<XMLObject> mgfs = encryptedKey.getEncryptionMethod().getUnknownXMLObjects(MGF.DEFAULT_ELEMENT_NAME);
+            final List<XMLObject> mgfs =
+                    encryptedKey.getEncryptionMethod().getUnknownXMLObjects(MGF.DEFAULT_ELEMENT_NAME);
             if (mgfs.size() > 0) {
-                MGF mgf = (MGF) mgfs.get(0);
+                final MGF mgf = (MGF) mgfs.get(0);
                 mgfAlgorithm = StringSupport.trimOrNull(mgf.getAlgorithm());
             }
             if (mgfAlgorithm == null) {

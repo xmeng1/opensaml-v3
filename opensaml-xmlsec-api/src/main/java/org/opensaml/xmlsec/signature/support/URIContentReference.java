@@ -90,8 +90,8 @@ public class URIContentReference implements ConfigurableContentReference {
     /** {@inheritDoc} */
     public void createReference(@Nonnull final XMLSignature signature) {
         try {
-            Transforms dsigTransforms = new Transforms(signature.getDocument());
-            for (String transform : getTransforms()) {
+            final Transforms dsigTransforms = new Transforms(signature.getDocument());
+            for (final String transform : getTransforms()) {
                 dsigTransforms.addTransform(transform);
             }
             signature.addDocument(referenceID, dsigTransforms, digestAlgorithm);

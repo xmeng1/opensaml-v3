@@ -90,7 +90,7 @@ public abstract class AbstractEncryptedKeyResolver implements EncryptedKeyResolv
      * @return true if the recipient value matches the resolver's criteria, false otherwise
      */
     protected boolean matchRecipient(@Nullable final String recipient) {
-        String trimmedRecipient = StringSupport.trimOrNull(recipient);
+        final String trimmedRecipient = StringSupport.trimOrNull(recipient);
         if (trimmedRecipient == null || recipients.isEmpty()) {
             return true;
         }
@@ -120,8 +120,8 @@ public abstract class AbstractEncryptedKeyResolver implements EncryptedKeyResolv
             return false;
         }
         
-        String keyCarriedKeyName = encryptedKey.getCarriedKeyName().getValue();
-        List<String> dataKeyNames = KeyInfoSupport.getKeyNames(encryptedData.getKeyInfo());
+        final String keyCarriedKeyName = encryptedKey.getCarriedKeyName().getValue();
+        final List<String> dataKeyNames = KeyInfoSupport.getKeyNames(encryptedData.getKeyInfo());
         
         return dataKeyNames.contains(keyCarriedKeyName);
     }
@@ -147,8 +147,8 @@ public abstract class AbstractEncryptedKeyResolver implements EncryptedKeyResolv
             return false;
         }
         
-        List<DataReference> drlist = encryptedKey.getReferenceList().getDataReferences();
-        for (DataReference dr : drlist) {
+        final List<DataReference> drlist = encryptedKey.getReferenceList().getDataReferences();
+        for (final DataReference dr : drlist) {
             if (Strings.isNullOrEmpty(dr.getURI()) || !dr.getURI().startsWith("#") ) {
                 continue;
             } else if (dr.resolveIDFromRoot(dr.getURI().substring(1)) == encryptedData) {

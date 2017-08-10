@@ -38,12 +38,12 @@ public class GlobalAlgorithmRegistryInitializer implements Initializer {
 
     /** {@inheritDoc} */
     public void init() throws InitializationException {
-        AlgorithmRegistry algorithmRegistry = new AlgorithmRegistry();
+        final AlgorithmRegistry algorithmRegistry = new AlgorithmRegistry();
         
-        ServiceLoader<AlgorithmDescriptor> descriptorsLoader = ServiceLoader.load(AlgorithmDescriptor.class);
-        Iterator<AlgorithmDescriptor> iter = descriptorsLoader.iterator();
+        final ServiceLoader<AlgorithmDescriptor> descriptorsLoader = ServiceLoader.load(AlgorithmDescriptor.class);
+        final Iterator<AlgorithmDescriptor> iter = descriptorsLoader.iterator();
         while (iter.hasNext()) {
-            AlgorithmDescriptor descriptor = iter.next();
+            final AlgorithmDescriptor descriptor = iter.next();
             log.debug("Registering AlgorithmDescriptor of type '{}' with URI '{}': {}", 
                     descriptor.getType(), descriptor.getURI(), descriptor.getClass().getName());
             algorithmRegistry.register(descriptor);

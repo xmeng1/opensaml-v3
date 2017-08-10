@@ -81,7 +81,7 @@ public class SignatureValidationConfigurationCriterion implements Criterion {
     /** {@inheritDoc} */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("SignatureValidationConfigurationCriterion [configs=");
         builder.append(configs);
         builder.append("]");

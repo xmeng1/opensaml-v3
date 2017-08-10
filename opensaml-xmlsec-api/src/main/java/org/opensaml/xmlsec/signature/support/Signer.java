@@ -54,9 +54,9 @@ public final class Signer {
      * @throws SignatureException  thrown if there is an error computing the signature
      */
     public static void signObjects(@Nonnull final List<Signature> signatures) throws SignatureException {
-        SignerProvider signer = getSignerProvider();
+        final SignerProvider signer = getSignerProvider();
         getLogger().debug("Using a signer of implementation: {}", signer.getClass().getName());
-        for (Signature signature : signatures) {
+        for (final Signature signature : signatures) {
             signer.signObject(signature);
         }
     }
@@ -68,7 +68,7 @@ public final class Signer {
      * @throws SignatureException thrown if there is an error computing the signature
      */
     public static void signObject(@Nonnull final Signature signature) throws SignatureException {
-        SignerProvider signer = getSignerProvider();
+        final SignerProvider signer = getSignerProvider();
         getLogger().debug("Using a signer of implemenation: {}", signer.getClass().getName());
         signer.signObject(signature);
     }
@@ -81,8 +81,8 @@ public final class Signer {
      */
     @Nonnull private static SignerProvider getSignerProvider() throws SignatureException {
         if (signerInstance == null) {
-            ServiceLoader<SignerProvider> loader = ServiceLoader.load(SignerProvider.class);
-            Iterator<SignerProvider> iterator = loader.iterator();
+            final ServiceLoader<SignerProvider> loader = ServiceLoader.load(SignerProvider.class);
+            final Iterator<SignerProvider> iterator = loader.iterator();
             if (iterator.hasNext()) {
                 signerInstance = iterator.next();
             } else {

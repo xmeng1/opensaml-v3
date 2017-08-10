@@ -111,7 +111,7 @@ public class SimpleKeyInfoReferenceEncryptedKeyResolver extends AbstractEncrypte
      * @return  encrypted keys
      */
     @Nonnull protected Iterable<EncryptedKey> resolveKeyInfo(@Nullable final KeyInfo keyInfo, final int limit) {
-        List<EncryptedKey> resolvedEncKeys = new ArrayList<>();
+        final List<EncryptedKey> resolvedEncKeys = new ArrayList<>();
         
         if (keyInfo == null) {
             return resolvedEncKeys;
@@ -147,12 +147,12 @@ public class SimpleKeyInfoReferenceEncryptedKeyResolver extends AbstractEncrypte
      * @return the dereferenced KeyInfo
      */
     @Nullable protected KeyInfo dereferenceURI(@Nonnull final KeyInfoReference ref) {
-        String uri = ref.getURI();
+        final String uri = ref.getURI();
         if (uri == null || uri.isEmpty() || !uri.startsWith("#")) {
             log.warn("EncryptedKey KeyInfoReference did not contain a same-document URI reference, cannot process");
             return null;
         }
-        XMLObject target = ref.resolveIDFromRoot(uri.substring(1));
+        final XMLObject target = ref.resolveIDFromRoot(uri.substring(1));
         if (target == null) {
             log.warn("EncryptedKey KeyInfoReference URI could not be dereferenced");
             return null;

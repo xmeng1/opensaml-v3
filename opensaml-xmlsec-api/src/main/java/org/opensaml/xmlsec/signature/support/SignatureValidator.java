@@ -49,7 +49,7 @@ public final class SignatureValidator {
      */
     public static void validate(@Nonnull final Signature signature, @Nonnull final Credential validationCredential) 
             throws SignatureException {
-        SignatureValidationProvider validator = getSignatureValidationProvider();
+        final SignatureValidationProvider validator = getSignatureValidationProvider();
         getLogger().debug("Using a validation provider of implementation: {}", validator.getClass().getName());
         validator.validate(signature, validationCredential);
     }
@@ -62,8 +62,9 @@ public final class SignatureValidator {
      */
     @Nonnull private static SignatureValidationProvider getSignatureValidationProvider() throws SignatureException {
         if (validatorInstance == null) {
-            ServiceLoader<SignatureValidationProvider> loader = ServiceLoader.load(SignatureValidationProvider.class);
-            Iterator<SignatureValidationProvider> iterator = loader.iterator();
+            final ServiceLoader<SignatureValidationProvider> loader =
+                    ServiceLoader.load(SignatureValidationProvider.class);
+            final Iterator<SignatureValidationProvider> iterator = loader.iterator();
             if (iterator.hasNext()) {
                 validatorInstance = iterator.next();
             } else {

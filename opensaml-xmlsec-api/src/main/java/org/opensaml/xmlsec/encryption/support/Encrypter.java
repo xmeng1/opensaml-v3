@@ -111,13 +111,13 @@ public class Encrypter {
      * 
      */
     public Encrypter() {
-        UnmarshallerFactory unmarshallerFactory = XMLObjectProviderRegistrySupport.getUnmarshallerFactory();
+        final UnmarshallerFactory unmarshallerFactory = XMLObjectProviderRegistrySupport.getUnmarshallerFactory();
         encryptedDataUnmarshaller = unmarshallerFactory.getUnmarshaller(EncryptedData.DEFAULT_ELEMENT_NAME);
         encryptedKeyUnmarshaller = unmarshallerFactory.getUnmarshaller(EncryptedKey.DEFAULT_ELEMENT_NAME);
         Constraint.isNotNull(encryptedDataUnmarshaller, "EncryptedData unmarshaller not configured");
         Constraint.isNotNull(encryptedKeyUnmarshaller, "EncryptedKey unmarshaller not configured");
 
-        XMLObjectBuilderFactory builderFactory = XMLObjectProviderRegistrySupport.getBuilderFactory();
+        final XMLObjectBuilderFactory builderFactory = XMLObjectProviderRegistrySupport.getBuilderFactory();
         keyInfoBuilder = (XMLSignatureBuilder<KeyInfo>) builderFactory.getBuilder(KeyInfo.DEFAULT_ELEMENT_NAME);
         Constraint.isNotNull(keyInfoBuilder, "KeyInfo builder not configured");
     }
@@ -159,7 +159,7 @@ public class Encrypter {
      */
     @Nonnull public EncryptedData encryptElement(@Nonnull final XMLObject xmlObject,
             @Nonnull final DataEncryptionParameters encParams) throws EncryptionException {
-        List<KeyEncryptionParameters> emptyKEKParamsList = new ArrayList<>();
+        final List<KeyEncryptionParameters> emptyKEKParamsList = new ArrayList<>();
         return encryptElement(xmlObject, encParams, emptyKEKParamsList, false);
     }
 
@@ -177,7 +177,7 @@ public class Encrypter {
     @Nonnull public EncryptedData encryptElement(@Nonnull final XMLObject xmlObject,
             @Nonnull final DataEncryptionParameters encParams, @Nonnull final KeyEncryptionParameters kekParams)
                     throws EncryptionException {
-        List<KeyEncryptionParameters> kekParamsList = new ArrayList<>();
+        final List<KeyEncryptionParameters> kekParamsList = new ArrayList<>();
         kekParamsList.add(kekParams);
         return encryptElement(xmlObject, encParams, kekParamsList, false);
     }
@@ -210,7 +210,7 @@ public class Encrypter {
      */
     @Nonnull public EncryptedData encryptElementContent(@Nonnull final XMLObject xmlObject,
             @Nonnull final DataEncryptionParameters encParams) throws EncryptionException {
-        List<KeyEncryptionParameters> emptyKEKParamsList = new ArrayList<>();
+        final List<KeyEncryptionParameters> emptyKEKParamsList = new ArrayList<>();
         return encryptElement(xmlObject, encParams, emptyKEKParamsList, true);
     }
 
@@ -228,7 +228,7 @@ public class Encrypter {
     @Nonnull public EncryptedData encryptElementContent(@Nonnull final XMLObject xmlObject,
             @Nonnull final DataEncryptionParameters encParams, @Nonnull final KeyEncryptionParameters kekParams)
                     throws EncryptionException {
-        List<KeyEncryptionParameters> kekParamsList = new ArrayList<>();
+        final List<KeyEncryptionParameters> kekParamsList = new ArrayList<>();
         kekParamsList.add(kekParams);
         return encryptElement(xmlObject, encParams, kekParamsList, true);
     }
@@ -268,9 +268,9 @@ public class Encrypter {
 
         checkParams(kekParamsList, false);
 
-        List<EncryptedKey> encKeys = new ArrayList<>();
+        final List<EncryptedKey> encKeys = new ArrayList<>();
 
-        for (KeyEncryptionParameters kekParam : kekParamsList) {
+        for (final KeyEncryptionParameters kekParam : kekParamsList) {
             encKeys.add(encryptKey(key, kekParam, containingDocument));
         }
         return encKeys;
@@ -292,13 +292,13 @@ public class Encrypter {
 
         checkParams(kekParams, false);
 
-        Key encryptionKey = CredentialSupport.extractEncryptionKey(kekParams.getEncryptionCredential());
+        final Key encryptionKey = CredentialSupport.extractEncryptionKey(kekParams.getEncryptionCredential());
 
-        EncryptedKey encryptedKey = encryptKey(key, encryptionKey, kekParams.getAlgorithm(),
+        final EncryptedKey encryptedKey = encryptKey(key, encryptionKey, kekParams.getAlgorithm(),
                 kekParams.getRSAOAEPParameters(), containingDocument);
 
         if (kekParams.getKeyInfoGenerator() != null) {
-            KeyInfoGenerator generator = kekParams.getKeyInfoGenerator();
+            final KeyInfoGenerator generator = kekParams.getKeyInfoGenerator();
             log.debug("Dynamically generating KeyInfo from Credential for EncryptedKey using generator: {}", generator
                     .getClass().getName());
             try {
@@ -344,7 +344,7 @@ public class Encrypter {
 
         log.debug("Encrypting encryption key with algorithm: {}", encryptionAlgorithmURI);
         
-        XMLCipher xmlCipher;
+        final XMLCipher xmlCipher;
         try {
             xmlCipher = buildXMLCipher(encryptionKey, encryptionAlgorithmURI, rsaOAEPParams);
         } catch (final XMLEncryptionException e) {
@@ -352,7 +352,7 @@ public class Encrypter {
             throw new EncryptionException("Error initializing cipher instance on key encryption", e);
         }
 
-        org.apache.xml.security.encryption.EncryptedKey apacheEncryptedKey;
+        final org.apache.xml.security.encryption.EncryptedKey apacheEncryptedKey;
         try {
             if (AlgorithmSupport.isRSAOAEP(encryptionAlgorithmURI) && rsaOAEPParams != null) {
                 apacheEncryptedKey = xmlCipher.encryptKey(containingDocument, targetKey, 
@@ -369,7 +369,7 @@ public class Encrypter {
         }
 
         try {
-            Element encKeyElement = xmlCipher.martial(containingDocument, apacheEncryptedKey);
+            final Element encKeyElement = xmlCipher.martial(containingDocument, apacheEncryptedKey);
             return (EncryptedKey) encryptedKeyUnmarshaller.unmarshall(encKeyElement);
         } catch (final UnmarshallingException e) {
             log.error("Error unmarshalling EncryptedKey element", e);
@@ -390,7 +390,7 @@ public class Encrypter {
             @Nonnull final String encryptionAlgorithmURI, @Nullable final RSAOAEPParameters rsaOAEPParams) 
                     throws XMLEncryptionException { 
         
-        XMLCipher xmlCipher;
+        final XMLCipher xmlCipher;
         
         if (getJCAProviderName() != null) {
             if (AlgorithmSupport.isRSAOAEP(encryptionAlgorithmURI) && rsaOAEPParams != null 
@@ -442,7 +442,7 @@ public class Encrypter {
     @Nullable protected byte[] decodeOAEPParams(@Nullable final String base64Params) throws EncryptionException {
         try {
             if (base64Params != null) {
-                byte[] oaepParams = Base64Support.decode(base64Params);
+                final byte[] oaepParams = Base64Support.decode(base64Params);
                 if (oaepParams.length == 0) {
                     return null;
                 } else {
@@ -478,7 +478,7 @@ public class Encrypter {
         // parameters to RSA-OAEP key transport algorithm. The latter only applies to the XML Encryption 1.1 variant.
         // Check and only add if the library hasn't already done so.
         if (AlgorithmSupport.isRSAOAEP(encryptionAlgorithmURI)) {
-            org.apache.xml.security.encryption.EncryptionMethod apacheEncryptionMethod =
+            final org.apache.xml.security.encryption.EncryptionMethod apacheEncryptionMethod =
                     apacheEncryptedKey.getEncryptionMethod();
             
             if (apacheEncryptionMethod.getDigestAlgorithm() == null) {
@@ -519,10 +519,10 @@ public class Encrypter {
 
         checkAndMarshall(xmlObject);
 
-        Element targetElement = xmlObject.getDOM();
-        Document ownerDocument = targetElement.getOwnerDocument();
+        final Element targetElement = xmlObject.getDOM();
+        final Document ownerDocument = targetElement.getOwnerDocument();
 
-        XMLCipher xmlCipher;
+        final XMLCipher xmlCipher;
         try {
             if (getJCAProviderName() != null) {
                 xmlCipher = XMLCipher.getProviderInstance(encryptionAlgorithmURI, getJCAProviderName());
@@ -535,7 +535,7 @@ public class Encrypter {
             throw new EncryptionException("Error initializing cipher instance", e);
         }
 
-        org.apache.xml.security.encryption.EncryptedData apacheEncryptedData;
+        final org.apache.xml.security.encryption.EncryptedData apacheEncryptedData;
         try {
             apacheEncryptedData = xmlCipher.encryptData(ownerDocument, targetElement, encryptContentMode);
         } catch (final Exception e) {
@@ -544,7 +544,7 @@ public class Encrypter {
         }
 
         try {
-            Element encDataElement = xmlCipher.martial(ownerDocument, apacheEncryptedData);
+            final Element encDataElement = xmlCipher.martial(ownerDocument, apacheEncryptedData);
             return (EncryptedData) encryptedDataUnmarshaller.unmarshall(encDataElement);
         } catch (final UnmarshallingException e) {
             log.error("Error unmarshalling EncryptedData element", e);
@@ -571,18 +571,18 @@ public class Encrypter {
 
         checkParams(encParams, kekParamsList);
 
-        String encryptionAlgorithmURI = encParams.getAlgorithm();
+        final String encryptionAlgorithmURI = encParams.getAlgorithm();
         Key encryptionKey = CredentialSupport.extractEncryptionKey(encParams.getEncryptionCredential());
         if (encryptionKey == null) {
             encryptionKey = generateEncryptionKey(encryptionAlgorithmURI);
         }
 
-        EncryptedData encryptedData =
+        final EncryptedData encryptedData =
                 encryptElement(xmlObject, encryptionKey, encryptionAlgorithmURI, encryptContentMode);
-        Document ownerDocument = encryptedData.getDOM().getOwnerDocument();
+        final Document ownerDocument = encryptedData.getDOM().getOwnerDocument();
 
         if (encParams.getKeyInfoGenerator() != null) {
-            KeyInfoGenerator generator = encParams.getKeyInfoGenerator();
+            final KeyInfoGenerator generator = encParams.getKeyInfoGenerator();
             log.debug("Dynamically generating KeyInfo from Credential for EncryptedData using generator: {}", generator
                     .getClass().getName());
             try {
@@ -593,10 +593,10 @@ public class Encrypter {
             }
         }
 
-        for (KeyEncryptionParameters kekParams : kekParamsList) {
-            EncryptedKey encryptedKey = encryptKey(encryptionKey, kekParams, ownerDocument);
+        for (final KeyEncryptionParameters kekParams : kekParamsList) {
+            final EncryptedKey encryptedKey = encryptKey(encryptionKey, kekParams, ownerDocument);
             if (encryptedData.getKeyInfo() == null) {
-                KeyInfo keyInfo = keyInfoBuilder.buildObject();
+                final KeyInfo keyInfo = keyInfoBuilder.buildObject();
                 encryptedData.setKeyInfo(keyInfo);
             }
             encryptedData.getKeyInfo().getEncryptedKeys().add(encryptedKey);
@@ -615,7 +615,7 @@ public class Encrypter {
         Element targetElement = xmlObject.getDOM();
         if (targetElement == null) {
             try {
-                Marshaller marshaller =
+                final Marshaller marshaller =
                         XMLObjectProviderRegistrySupport.getMarshallerFactory().getMarshaller(xmlObject);
                 if (marshaller == null) {
                     throw new MarshallingException("No marshaller available for " + xmlObject.getElementQName());
@@ -663,7 +663,7 @@ public class Encrypter {
                 throw new EncryptionException("Key encryption parameters are required");
             }
         }
-        Key key = CredentialSupport.extractEncryptionKey(kekParams.getEncryptionCredential());
+        final Key key = CredentialSupport.extractEncryptionKey(kekParams.getEncryptionCredential());
         if (key == null) {
             log.error("Key encryption credential and contained key are required");
             throw new EncryptionException("Key encryption credential and contained key are required");
@@ -697,7 +697,7 @@ public class Encrypter {
                 throw new EncryptionException("Key encryption parameters list may not be empty");
             }
         }
-        for (KeyEncryptionParameters kekParams : kekParamsList) {
+        for (final KeyEncryptionParameters kekParams : kekParamsList) {
             checkParams(kekParams, false);
         }
     }

@@ -81,7 +81,7 @@ public class EncryptionConfigurationCriterion implements Criterion {
     /** {@inheritDoc} */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("EncryptionConfigurationCriterion [configs=");
         builder.append(configs);
         builder.append("]");
