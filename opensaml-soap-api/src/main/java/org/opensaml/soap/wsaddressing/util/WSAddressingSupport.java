@@ -43,7 +43,7 @@ public final class WSAddressingSupport {
      * @param soapObject the SOAP object to add the attribute to
      * @param isReferenceParameter whether IsReferenceParameter is true or false
      */
-    public static void addWSAIsReferenceParameter(XMLObject soapObject, boolean isReferenceParameter) {
+    public static void addWSAIsReferenceParameter(final XMLObject soapObject, final boolean isReferenceParameter) {
         if (soapObject instanceof IsReferenceParameterBearing) {
             ((IsReferenceParameterBearing)soapObject).setWSAIsReferenceParameter(
                     new XSBooleanValue(isReferenceParameter, false));
@@ -64,7 +64,7 @@ public final class WSAddressingSupport {
      * 
      * @return value of the IsReferenceParameter attribute, or false if not present
      */
-    public static boolean getWSAIsReferenceParameter(XMLObject soapObject) {
+    public static boolean getWSAIsReferenceParameter(final XMLObject soapObject) {
         if (soapObject instanceof IsReferenceParameterBearing) {
             XSBooleanValue value = ((IsReferenceParameterBearing)soapObject).isWSAIsReferenceParameterXSBoolean();
             if (value != null) {

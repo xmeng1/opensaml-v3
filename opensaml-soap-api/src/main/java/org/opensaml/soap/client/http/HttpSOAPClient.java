@@ -396,7 +396,7 @@ public class HttpSOAPClient extends AbstractInitializableComponent implements SO
      * 
      * @throws SOAPClientException thrown if there is a problem resolving or evaluating a security policy
      */
-    protected void evaluateSecurityPolicy(SOAPClientContext messageContext) throws SOAPClientException {
+    protected void evaluateSecurityPolicy(final SOAPClientContext messageContext) throws SOAPClientException {
         //TODO: I think this goes away, with the policy layer living outside the client?
         /*
         SecurityPolicyResolver policyResolver = messageContext.getSecurityPolicyResolver();

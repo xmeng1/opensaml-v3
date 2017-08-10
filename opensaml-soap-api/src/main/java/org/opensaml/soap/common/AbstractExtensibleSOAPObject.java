@@ -73,7 +73,7 @@ public abstract class AbstractExtensibleSOAPObject extends AbstractXMLObject imp
     }
     
     /** {@inheritDoc} */
-    @Nonnull public List<XMLObject> getUnknownXMLObjects(QName typeOrName) {
+    @Nonnull public List<XMLObject> getUnknownXMLObjects(final QName typeOrName) {
         return (List<XMLObject>) unknownXMLObjects.subList(typeOrName);
     }
 

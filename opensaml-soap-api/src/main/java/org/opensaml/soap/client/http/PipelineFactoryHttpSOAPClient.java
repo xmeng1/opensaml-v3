@@ -117,7 +117,7 @@ public class PipelineFactoryHttpSOAPClient<OutboundMessageType, InboundMessageTy
      * @throws SOAPException if there is an error obtaining a new pipeline instance
      */
     @Nonnull protected HttpClientMessagePipeline<InboundMessageType, OutboundMessageType> 
-            resolvePipeline(InOutOperationContext operationContext) throws SOAPException {
+            resolvePipeline(final InOutOperationContext operationContext) throws SOAPException {
         
         String resolvedPipelineName = null;
         try {
@@ -128,10 +128,10 @@ public class PipelineFactoryHttpSOAPClient<OutboundMessageType, InboundMessageTy
             } else {
                 return newPipeline();
             }
-        } catch (SOAPException e) {
+        } catch (final SOAPException e) {
             log.warn("Problem resolving pipeline instance with name: {}", resolvedPipelineName, e);
             throw e;
-        } catch (Exception e) {
+        } catch (final Exception e) {
             // This is to handle RuntimeExceptions, for example thrown by Spring dynamic factory approaches
             log.warn("Problem resolving pipeline instance with name: {}", resolvedPipelineName, e);
             throw new SOAPException("Could not resolve pipeline with name: " + resolvedPipelineName, e);

@@ -70,7 +70,8 @@ public final class SOAPSupport {
      * @param soapObject the SOAP object to add the attribute to
      * @param mustUnderstand whether mustUnderstand is true or false
      */
-    public static void addSOAP11MustUnderstandAttribute(@Nonnull final XMLObject soapObject, boolean mustUnderstand) {
+    public static void addSOAP11MustUnderstandAttribute(@Nonnull final XMLObject soapObject,
+            final boolean mustUnderstand) {
         if (soapObject instanceof MustUnderstandBearing) {
             ((MustUnderstandBearing) soapObject).setSOAP11MustUnderstand(new XSBooleanValue(mustUnderstand, true));
         } else if (soapObject instanceof AttributeExtensibleXMLObject) {
@@ -276,7 +277,8 @@ public final class SOAPSupport {
      * @param soapObject the SOAP object to add the attribute to
      * @param mustUnderstand whether mustUnderstand is true or false
      */
-    public static void addSOAP12MustUnderstandAttribute(@Nonnull final XMLObject soapObject, boolean mustUnderstand) {
+    public static void addSOAP12MustUnderstandAttribute(@Nonnull final XMLObject soapObject,
+            final boolean mustUnderstand) {
         if (soapObject instanceof org.opensaml.soap.soap12.MustUnderstandBearing) {
             ((org.opensaml.soap.soap12.MustUnderstandBearing) soapObject)
                     .setSOAP12MustUnderstand(new XSBooleanValue(mustUnderstand, false));
@@ -320,7 +322,7 @@ public final class SOAPSupport {
      * @param soapObject the SOAP object to add the attribute to
      * @param relay whether relay is true or false
      */
-    public static void addSOAP12RelayAttribute(@Nonnull final XMLObject soapObject, boolean relay) {
+    public static void addSOAP12RelayAttribute(@Nonnull final XMLObject soapObject, final boolean relay) {
         if (soapObject instanceof org.opensaml.soap.soap12.RelayBearing) {
             ((org.opensaml.soap.soap12.RelayBearing) soapObject).setSOAP12Relay(new XSBooleanValue(relay, false));
         } else if (soapObject instanceof AttributeExtensibleXMLObject) {
@@ -437,7 +439,7 @@ public final class SOAPSupport {
      */
     @Nonnull public static List<XMLObject> getInboundHeaderBlock(
             @Nonnull final MessageContext messageContext, @Nonnull final QName headerName,
-            @Nullable Set<String> targetNodes, boolean isFinalDestination) {
+            @Nullable final Set<String> targetNodes, final boolean isFinalDestination) {
         return SOAPMessagingSupport.getHeaderBlock(messageContext, headerName, targetNodes, isFinalDestination);
     }
 
@@ -454,7 +456,8 @@ public final class SOAPSupport {
      * @deprecated use {@link SOAPMessagingSupport#getSOAP11HeaderBlock(Envelope, QName, Set, boolean)}
      */
     @Nonnull public static List<XMLObject> getSOAP11HeaderBlock(@Nonnull final Envelope envelope,
-            @Nonnull final QName headerName, @Nullable final Set<String> targetNodes, boolean isFinalDestination) {
+            @Nonnull final QName headerName, @Nullable final Set<String> targetNodes,
+            final boolean isFinalDestination) {
         return SOAPMessagingSupport.getSOAP11HeaderBlock(envelope, headerName, targetNodes, isFinalDestination);
     }
     
@@ -471,7 +474,7 @@ public final class SOAPSupport {
      * @deprecated use {@link SOAPMessagingSupport#isSOAP11HeaderTargetedToNode(XMLObject, Set, boolean)}
      */
     public static boolean isSOAP11HeaderTargetedToNode(@Nonnull final XMLObject header,
-            @Nullable final Set<String> nodeActors, boolean isFinalDestination) {
+            @Nullable final Set<String> nodeActors, final boolean isFinalDestination) {
         return SOAPMessagingSupport.isSOAP11HeaderTargetedToNode(header, nodeActors, isFinalDestination);
     }
 

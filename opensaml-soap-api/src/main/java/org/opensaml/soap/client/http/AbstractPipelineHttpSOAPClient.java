@@ -228,23 +228,23 @@ public abstract class AbstractPipelineHttpSOAPClient<OutboundMessageType, Inboun
                 pipeline.getInboundMessageHandler().invoke(operationContext.getInboundMessageContext());
             }
             
-        } catch (SOAP11FaultDecodingException e) {
+        } catch (final SOAP11FaultDecodingException e) {
             SOAPFaultException faultException = new SOAPFaultException(e.getMessage(), e);
             faultException.setFault(e.getFault());
             throw faultException;
-        } catch (SSLException e) {
+        } catch (final SSLException e) {
             throw new SecurityException("Problem establising TLS connection to: " + endpoint, e);
-        } catch (ComponentInitializationException e) {
+        } catch (final ComponentInitializationException e) {
             throw new SOAPException("Problem initializing a SOAP client component", e);
-        } catch (MessageEncodingException e) {
+        } catch (final MessageEncodingException e) {
             throw new SOAPException("Problem encoding SOAP request message to: " + endpoint, e);
-        } catch (MessageDecodingException e) {
+        } catch (final MessageDecodingException e) {
             throw new SOAPException("Problem decoding SOAP response message from: " + endpoint, e);
-        } catch (MessageHandlerException e) {
+        } catch (final MessageHandlerException e) {
             throw new SOAPException("Problem handling SOAP message exchange with: " + endpoint, e);
-        } catch (ClientProtocolException e) {
+        } catch (final ClientProtocolException e) {
             throw new SOAPException("Client protocol problem sending SOAP request message to: " + endpoint, e);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new SOAPException("I/O problem with SOAP message exchange with: " + endpoint, e);
         } finally {
             if (pipeline != null) {
@@ -276,10 +276,10 @@ public abstract class AbstractPipelineHttpSOAPClient<OutboundMessageType, Inboun
             resolvePipeline(@Nonnull final InOutOperationContext operationContext) throws SOAPException {
         try {
             return newPipeline();
-        } catch (SOAPException e) {
+        } catch (final SOAPException e) {
             log.warn("Problem resolving pipeline instance", e);
             throw e;
-        } catch (Exception e) {
+        } catch (final Exception e) {
             // This is to handle RuntimeExceptions, for example thrown by Spring dynamic factory approaches
             log.warn("Problem resolving pipeline instance", e);
             throw new SOAPException("Could not resolve pipeline", e);

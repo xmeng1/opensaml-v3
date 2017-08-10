@@ -72,7 +72,7 @@ public final class SOAPMessagingSupport {
      * @return the current SOAP 1.1 context. May be null if autoCreate=false, otherwise will be non-null
      */
     @Nullable public static SOAP11Context getSOAP11Context(@Nonnull final MessageContext messageContext,
-            boolean autoCreate) {
+            final boolean autoCreate) {
         Constraint.isNotNull(messageContext, "Message context cannot be null");
         return messageContext.getSubcontext(SOAP11Context.class, autoCreate);
     }
@@ -193,7 +193,7 @@ public final class SOAPMessagingSupport {
      * @param mustUnderstand true if header must be understood, false if not
      */
     public static void addMustUnderstand(@Nonnull final MessageContext messageContext,
-            @Nonnull final XMLObject headerBlock, boolean mustUnderstand) {
+            @Nonnull final XMLObject headerBlock, final boolean mustUnderstand) {
         Constraint.isNotNull(messageContext, "Message context cannot be null");
         Constraint.isNotNull(headerBlock, "Header block context cannot be null");
         
@@ -223,7 +223,7 @@ public final class SOAPMessagingSupport {
      * @param targetNode the node to add
      */
     public static void addTargetNode(@Nonnull final MessageContext messageContext,
-            @Nonnull final XMLObject headerBlock, @Nullable String targetNode) {
+            @Nonnull final XMLObject headerBlock, @Nullable final String targetNode) {
         if (targetNode == null) {
             return;
         }
@@ -294,7 +294,7 @@ public final class SOAPMessagingSupport {
      */
     @Nonnull public static List<XMLObject> getHeaderBlock(
             @Nonnull final MessageContext messageContext, @Nonnull final QName headerName,
-            @Nullable Set<String> targetNodes, boolean isFinalDestination) {
+            @Nullable final Set<String> targetNodes, final boolean isFinalDestination) {
         Constraint.isNotNull(messageContext, "Message context cannot be null");
         
         final SOAP11Context soap11 = getSOAP11Context(messageContext, false);
@@ -319,7 +319,8 @@ public final class SOAPMessagingSupport {
      * @return the list of matching header blocks
      */
     @Nonnull public static List<XMLObject> getSOAP11HeaderBlock(@Nonnull final Envelope envelope,
-            @Nonnull final QName headerName, @Nullable final Set<String> targetNodes, boolean isFinalDestination) {
+            @Nonnull final QName headerName, @Nullable final Set<String> targetNodes,
+            final boolean isFinalDestination) {
         Constraint.isNotNull(envelope, "Envelope cannot be null");
         Constraint.isNotNull(headerName, "Header name cannot be null");
         
@@ -349,7 +350,7 @@ public final class SOAPMessagingSupport {
      * @return the list of matching header blocks
      */
     public static boolean isSOAP11HeaderTargetedToNode(@Nonnull final XMLObject header,
-            @Nullable final Set<String> nodeActors, boolean isFinalDestination) {
+            @Nullable final Set<String> nodeActors, final boolean isFinalDestination) {
         String headerActor = SOAPSupport.getSOAP11ActorAttribute(header);
         if (headerActor == null) {
             if (isFinalDestination) {

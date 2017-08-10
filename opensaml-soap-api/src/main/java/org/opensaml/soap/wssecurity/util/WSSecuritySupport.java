@@ -47,7 +47,7 @@ public final class WSSecuritySupport {
      * @param soapObject the SOAP object to add the attribute to
      * @param id the Id value
      */
-    public static void addWSUId(XMLObject soapObject, String id) {
+    public static void addWSUId(final XMLObject soapObject, final String id) {
         if (soapObject instanceof IdBearing) {
             ((IdBearing)soapObject).setWSUId(id);
         } else if (soapObject instanceof AttributeExtensibleXMLObject) {
@@ -65,7 +65,7 @@ public final class WSSecuritySupport {
      * 
      * @return the value of the Id attribute, or null if not present
      */
-    public static String getWSUId(XMLObject soapObject) {
+    public static String getWSUId(final XMLObject soapObject) {
         String value = null;
         if (soapObject instanceof IdBearing) {
             value = StringSupport.trimOrNull(((IdBearing)soapObject).getWSUId());
@@ -87,7 +87,7 @@ public final class WSSecuritySupport {
      * @param soapObject the SOAP object to add the attribute to
      * @param tokenType the tokenType value
      */
-    public static void addWSSE11TokenType(XMLObject soapObject, String tokenType) {
+    public static void addWSSE11TokenType(final XMLObject soapObject, final String tokenType) {
         if (soapObject instanceof TokenTypeBearing) {
             ((TokenTypeBearing)soapObject).setWSSE11TokenType(tokenType);
         } else if (soapObject instanceof AttributeExtensibleXMLObject) {
@@ -105,7 +105,7 @@ public final class WSSecuritySupport {
      * 
      * @return the value of the tokenType attribute, or null if not present
      */
-    public static String getWSSE11TokenType(XMLObject soapObject) {
+    public static String getWSSE11TokenType(final XMLObject soapObject) {
         String value = null;
         if (soapObject instanceof TokenTypeBearing) {
             value = StringSupport.trimOrNull(((TokenTypeBearing)soapObject).getWSSE11TokenType());
@@ -128,7 +128,7 @@ public final class WSSecuritySupport {
      * @param soapObject the SOAP object to add the attribute to
      * @param usage the usage to add
      */
-    public static void addWSSEUsage(XMLObject soapObject, String usage) {
+    public static void addWSSEUsage(final XMLObject soapObject, final String usage) {
         if (soapObject instanceof UsageBearing) {
             UsageBearing usageBearing = (UsageBearing) soapObject;
             List<String> list = usageBearing.getWSSEUsages();
@@ -157,7 +157,7 @@ public final class WSSecuritySupport {
      * @param soapObject the SOAP object to add the attribute to
      * @param usages the list of usages to add
      */
-    public static void addWSSEUsages(XMLObject soapObject, List<String> usages) {
+    public static void addWSSEUsages(final XMLObject soapObject, final List<String> usages) {
         if (soapObject instanceof UsageBearing) {
             ((UsageBearing)soapObject).setWSSEUsages(usages);
         } else if (soapObject instanceof AttributeExtensibleXMLObject) {
@@ -176,7 +176,7 @@ public final class WSSecuritySupport {
      * 
      * @return the list of usages, or null if not present
      */
-    public static List<String> getWSSEUsages(XMLObject soapObject) {
+    public static List<String> getWSSEUsages(final XMLObject soapObject) {
         if (soapObject instanceof UsageBearing) {
             List<String> value = ((UsageBearing)soapObject).getWSSEUsages();
             if (value != null) {
