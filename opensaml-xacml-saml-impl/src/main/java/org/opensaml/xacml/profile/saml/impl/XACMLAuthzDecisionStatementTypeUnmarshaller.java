@@ -32,7 +32,8 @@ public class XACMLAuthzDecisionStatementTypeUnmarshaller extends AbstractSAMLObj
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentObject, final XMLObject childObject)
             throws UnmarshallingException {
-        XACMLAuthzDecisionStatementType xacmlauthzdecisionstatement = (XACMLAuthzDecisionStatementType) parentObject;
+        final XACMLAuthzDecisionStatementType xacmlauthzdecisionstatement =
+                (XACMLAuthzDecisionStatementType) parentObject;
 
         if (childObject instanceof RequestType) {
             xacmlauthzdecisionstatement.setRequest((RequestType) childObject);

@@ -33,7 +33,7 @@ public class XACMLPolicyStatementTypeUnmarshaller extends AbstractSAMLObjectUnma
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentObject, final XMLObject childObject)
             throws UnmarshallingException {
-        XACMLPolicyStatementType xacmlpolicystatement = (XACMLPolicyStatementType) parentObject;
+        final XACMLPolicyStatementType xacmlpolicystatement = (XACMLPolicyStatementType) parentObject;
 
         if (childObject instanceof PolicyType) {
             xacmlpolicystatement.getPolicies().add((PolicyType) childObject);

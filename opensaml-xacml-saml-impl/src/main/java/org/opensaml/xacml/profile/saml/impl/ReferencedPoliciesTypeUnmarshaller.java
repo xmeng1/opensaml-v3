@@ -32,7 +32,7 @@ public class ReferencedPoliciesTypeUnmarshaller extends AbstractSAMLObjectUnmars
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentObject, final XMLObject childObject)
             throws UnmarshallingException {
-        ReferencedPoliciesType referencedpoliciesType = (ReferencedPoliciesType) parentObject;
+        final ReferencedPoliciesType referencedpoliciesType = (ReferencedPoliciesType) parentObject;
 
         if (childObject instanceof PolicyType) {
             referencedpoliciesType.getPolicies().add((PolicyType) childObject);

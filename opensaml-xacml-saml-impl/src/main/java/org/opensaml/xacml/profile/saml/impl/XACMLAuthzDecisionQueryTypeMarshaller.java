@@ -31,7 +31,7 @@ public class XACMLAuthzDecisionQueryTypeMarshaller extends RequestAbstractTypeMa
     /** {@inheritDoc} */
     protected void marshallAttributes(final XMLObject samlObject, final Element domElement)
             throws MarshallingException {
-        XACMLAuthzDecisionQueryType query = (XACMLAuthzDecisionQueryType) samlObject;
+        final XACMLAuthzDecisionQueryType query = (XACMLAuthzDecisionQueryType) samlObject;
 
         if (query.getInputContextOnlyXSBooleanValue() != null) {
             domElement.setAttributeNS(null, XACMLAuthzDecisionQueryType.INPUTCONTEXTONLY_ATTRIB_NAME, query

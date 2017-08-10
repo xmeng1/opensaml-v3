@@ -65,7 +65,7 @@ public class ReferencedPoliciesTypeImpl extends AbstractSAMLObject implements Re
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         
         if(!policies.isEmpty()) {
             children.addAll(policies);

@@ -30,7 +30,7 @@ public class XACMLPolicyQueryTypeUnmarshaller extends RequestAbstractTypeUnmarsh
     /** {@inheritDoc} */
     protected void processChildElement(final XMLObject parentObject, final XMLObject childObject)
             throws UnmarshallingException {
-        XACMLPolicyQueryType xacmlpolicyquery = (XACMLPolicyQueryType) parentObject;
+        final XACMLPolicyQueryType xacmlpolicyquery = (XACMLPolicyQueryType) parentObject;
 
         if (childObject instanceof RequestType) {
             xacmlpolicyquery.getRequests().add((RequestType) childObject);
