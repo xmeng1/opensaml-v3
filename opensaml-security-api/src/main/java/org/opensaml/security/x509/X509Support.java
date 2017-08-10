@@ -502,7 +502,7 @@ public class X509Support {
             @Nullable final X500DNHandler handler) {
         Constraint.isNotNull(credential, "Credential cannot be null");
         
-        X500DNHandler x500DNHandler;
+        final X500DNHandler x500DNHandler;
         if (handler != null) {
             x500DNHandler = handler;
         } else {

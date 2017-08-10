@@ -56,7 +56,7 @@ public final class KeyNameCriterion implements Criterion {
      * @param name The keyName to set.
      */
     public void setKeyName(@Nonnull final String name) {
-        String trimmed = StringSupport.trimOrNull(name);
+        final String trimmed = StringSupport.trimOrNull(name);
         Constraint.isNotNull(trimmed, "Key name criteria value cannot be null or empty");
 
         keyName = trimmed;
@@ -64,7 +64,7 @@ public final class KeyNameCriterion implements Criterion {
     
     /** {@inheritDoc} */
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("KeyNameCriterion [keyName=");
         builder.append(keyName);
         builder.append("]");

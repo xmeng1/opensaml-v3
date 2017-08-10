@@ -63,7 +63,7 @@ public final class PublicKeyCriterion implements Criterion {
     
     /** {@inheritDoc} */
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("PublicKeyCriterion [publicKey=");
         builder.append(publicKey);
         builder.append("]");

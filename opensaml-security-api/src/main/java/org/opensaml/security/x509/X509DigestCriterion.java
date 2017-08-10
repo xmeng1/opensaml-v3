@@ -65,7 +65,7 @@ public final class X509DigestCriterion implements Criterion {
      * @param alg the digest algorithm to set
      */
     public void setAlgorithm(@Nonnull final String alg) {
-        String trimmed = StringSupport.trimOrNull(alg);
+        final String trimmed = StringSupport.trimOrNull(alg);
         Constraint.isNotNull(trimmed, "Certificate digest algorithm cannot be null or empty");
 
         algorithm = trimmed;
@@ -94,7 +94,7 @@ public final class X509DigestCriterion implements Criterion {
     
     /** {@inheritDoc} */
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("X509DigestCriterion [algorithm=");
         builder.append(algorithm);
         builder.append(", digest=");
@@ -122,7 +122,7 @@ public final class X509DigestCriterion implements Criterion {
         }
 
         if (obj instanceof X509DigestCriterion) {
-            X509DigestCriterion other = (X509DigestCriterion) obj;
+            final X509DigestCriterion other = (X509DigestCriterion) obj;
             return algorithm.equals(other.algorithm) && Arrays.equals(x509digest, other.x509digest);
         }
 

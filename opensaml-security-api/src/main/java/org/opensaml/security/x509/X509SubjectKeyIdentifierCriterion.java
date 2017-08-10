@@ -64,7 +64,7 @@ public final class X509SubjectKeyIdentifierCriterion implements Criterion {
     
     /** {@inheritDoc} */
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("X509SubjectKeyIdentifierCriterion [subjectKeyIdentifier=");
         builder.append(Hex.encodeHexString(subjectKeyIdentifier));
         builder.append("]");

@@ -171,7 +171,7 @@ public class CertificateNameOptions implements Cloneable {
     
     /** {@inheritDoc} */
     public CertificateNameOptions clone() {
-        CertificateNameOptions clonedOptions;
+        final CertificateNameOptions clonedOptions;
         try {
             clonedOptions = (CertificateNameOptions) super.clone();
         } catch (final CloneNotSupportedException e) {

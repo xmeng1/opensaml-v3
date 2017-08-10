@@ -261,7 +261,7 @@ public final class KeySupport {
      *             public key
      */
     @Nonnull public static PublicKey derivePublicKey(@Nonnull final PrivateKey key) throws KeyException {
-        KeyFactory factory;
+        final KeyFactory factory;
         if (key instanceof DSAPrivateKey) {
             final DSAPrivateKey dsaKey = (DSAPrivateKey) key;
             final DSAParams keyParams = dsaKey.getParams();

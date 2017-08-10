@@ -118,7 +118,7 @@ public class HttpClientSecurityParameters {
             if (authScope == null) {
                 authScope = new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT);
             }
-            BasicCredentialsProvider provider = new BasicCredentialsProvider();
+            final BasicCredentialsProvider provider = new BasicCredentialsProvider();
             provider.setCredentials(authScope, credentials);
             credentialsProvider = provider;
         } else {

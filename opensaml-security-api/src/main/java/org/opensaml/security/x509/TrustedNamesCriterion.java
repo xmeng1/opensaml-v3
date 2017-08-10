@@ -76,7 +76,7 @@ public class TrustedNamesCriterion implements Criterion {
     
     /** {@inheritDoc} */
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("TrustedNamesCriterion [names=");
         builder.append(trustedNames);
         builder.append("]");
@@ -101,7 +101,7 @@ public class TrustedNamesCriterion implements Criterion {
         }
 
         if (obj instanceof TrustedNamesCriterion) {
-            TrustedNamesCriterion other = (TrustedNamesCriterion) obj;
+            final TrustedNamesCriterion other = (TrustedNamesCriterion) obj;
             return trustedNames.equals(other.trustedNames);
         }
 

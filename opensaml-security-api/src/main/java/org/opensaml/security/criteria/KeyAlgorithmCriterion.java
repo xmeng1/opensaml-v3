@@ -56,7 +56,7 @@ public final class KeyAlgorithmCriterion implements Criterion {
      * @param algorithm The keyAlgorithm to set.
      */
     public void setKeyAlgorithm(@Nonnull final String algorithm) {
-        String trimmed = StringSupport.trimOrNull(algorithm);
+        final String trimmed = StringSupport.trimOrNull(algorithm);
         Constraint.isNotNull(trimmed, "Key algorithm criteria cannot be null or empty");
 
         keyAlgorithm = trimmed;
@@ -64,7 +64,7 @@ public final class KeyAlgorithmCriterion implements Criterion {
     
     /** {@inheritDoc} */
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("KeyAlgorithmCriterion [keyAlgorithm=");
         builder.append(keyAlgorithm);
         builder.append("]");

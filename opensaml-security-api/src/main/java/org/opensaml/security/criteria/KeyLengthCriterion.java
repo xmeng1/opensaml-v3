@@ -61,7 +61,7 @@ public final class KeyLengthCriterion implements Criterion {
     
     /** {@inheritDoc} */
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("KeyLengthCriterion [keyLength=");
         builder.append(keyLength);
         builder.append("]");
