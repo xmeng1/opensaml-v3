@@ -140,7 +140,7 @@ public class ReplayCache extends AbstractIdentifiableInitializableComponent {
                 log.debug("Replay of value '{}' detected in cache, expires at {}", s, entry.getExpiration());
                 return false;
             }
-        } catch (IOException e) {
+        } catch (final IOException e) {
             log.error("Exception reading/writing to storage service, returning {}", strict ? "failure" : "success", e);
             return !strict;
         }

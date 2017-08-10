@@ -131,7 +131,7 @@ public class StorageRecord<Type> {
      * 
      * @param exp   the new record expiration, or null if none
      */
-    protected void setExpiration(@Nullable Long exp) {
+    protected void setExpiration(@Nullable final Long exp) {
         expiration = exp;
     }
     

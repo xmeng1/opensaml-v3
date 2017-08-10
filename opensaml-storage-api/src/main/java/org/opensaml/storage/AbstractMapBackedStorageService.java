@@ -126,7 +126,7 @@ public abstract class AbstractMapBackedStorageService extends AbstractStorageSer
             @Nonnull @NotEmpty final String value, @Nullable final Long expiration) throws IOException {
         try {
             return updateImpl(null, context, key, value, expiration) != null;
-        } catch (VersionMismatchException e) {
+        } catch (final VersionMismatchException e) {
             throw new IOException("Unexpected exception thrown by update.", e);
         }
     }
@@ -145,14 +145,14 @@ public abstract class AbstractMapBackedStorageService extends AbstractStorageSer
             @Nullable final Long expiration) throws IOException {
         try {
             return updateImpl(null, context, key, null, expiration) != null;
-        } catch (VersionMismatchException e) {
+        } catch (final VersionMismatchException e) {
             throw new IOException("Unexpected exception thrown by update.", e);
         }
     }
 
     /** {@inheritDoc} */
     @Override
-    public boolean deleteWithVersion(long version, String context, String key) throws IOException,
+    public boolean deleteWithVersion(final long version, final String context, final String key) throws IOException,
             VersionMismatchException {
         return deleteImpl(version, context, key);
     }
@@ -163,7 +163,7 @@ public abstract class AbstractMapBackedStorageService extends AbstractStorageSer
             throws IOException {
         try {
             return deleteImpl(null, context, key);
-        } catch (VersionMismatchException e) {
+        } catch (final VersionMismatchException e) {
             throw new IOException("Unexpected exception thrown by delete.", e);
         }
     }

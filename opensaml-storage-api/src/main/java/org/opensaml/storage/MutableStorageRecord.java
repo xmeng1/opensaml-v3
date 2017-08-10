@@ -45,7 +45,7 @@ public class MutableStorageRecord extends StorageRecord {
 
     /** {@inheritDoc} */
     @Override
-    public void setExpiration(@Nullable Long exp) {
+    public void setExpiration(@Nullable final Long exp) {
         super.setExpiration(exp);
     }
 
