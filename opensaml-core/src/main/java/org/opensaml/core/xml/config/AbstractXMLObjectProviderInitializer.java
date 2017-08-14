@@ -38,6 +38,7 @@ public abstract class AbstractXMLObjectProviderInitializer implements Initialize
             final XMLConfigurator configurator = new XMLConfigurator();
             // Checkstyle: FinalLocalVariable OFF
             for (String resource : getConfigResources()) {
+            // Checkstyle: FinalLocalVariable ON
                 // When using ClassLoader.getResourceAsStream() (as below), resource names should *not*
                 // begin with leading "/".  They are always absolute.
                 // This differs from Class.getResourceAsStream(), where absolute names must begin with /, otherwise
@@ -55,7 +56,6 @@ public abstract class AbstractXMLObjectProviderInitializer implements Initialize
                     throw new XMLConfigurationException("Resource not found");
                 }
             }
-         // Checkstyle: FinalLocalVariable ON
         } catch (final XMLConfigurationException e) {
             log.error("Problem loading configuration resource", e);
             throw new InitializationException("Problem loading configuration resource", e);
