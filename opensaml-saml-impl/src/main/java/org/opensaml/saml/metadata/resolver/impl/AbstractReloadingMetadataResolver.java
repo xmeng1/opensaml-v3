@@ -327,12 +327,16 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
      */
     @Override
     public synchronized void refresh() throws ResolverException {
-        final DateTime now = new DateTime(ISOChronology.getInstanceUTC());
-        final String mdId = getMetadataIdentifier();
+        DateTime now = null;
+        String mdId = null;
         trackRefreshSuccess = false;
 
-        log.debug("{} Beginning refresh of metadata from '{}'", getLogPrefix(), mdId);
         try {
+            now = new DateTime(ISOChronology.getInstanceUTC());
+            mdId = getMetadataIdentifier();
+
+            log.debug("{} Beginning refresh of metadata from '{}'", getLogPrefix(), mdId);
+        
             final byte[] mdBytes = fetchMetadata();
             if (mdBytes == null) {
                 log.info("{} Metadata from '{}' has not changed since last refresh", getLogPrefix(), mdId);
