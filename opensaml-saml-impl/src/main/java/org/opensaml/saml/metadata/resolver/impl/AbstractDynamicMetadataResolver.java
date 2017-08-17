@@ -72,6 +72,7 @@ import net.shibboleth.utilities.java.support.component.ComponentInitializationEx
 import net.shibboleth.utilities.java.support.component.ComponentSupport;
 import net.shibboleth.utilities.java.support.logic.Constraint;
 import net.shibboleth.utilities.java.support.primitive.StringSupport;
+import net.shibboleth.utilities.java.support.primitive.TimerSupport;
 import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
 import net.shibboleth.utilities.java.support.resolver.ResolverException;
 
@@ -176,7 +177,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
         super();
         
         if (backgroundTaskTimer == null) {
-            taskTimer = new Timer(true);
+            taskTimer = new Timer(TimerSupport.getTimerName(this), true);
             createdOwnTaskTimer = true;
         } else {
             taskTimer = backgroundTaskTimer;

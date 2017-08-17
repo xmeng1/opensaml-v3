@@ -32,6 +32,7 @@ import net.shibboleth.utilities.java.support.component.AbstractIdentifiableIniti
 import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
 import net.shibboleth.utilities.java.support.component.ComponentSupport;
 import net.shibboleth.utilities.java.support.logic.Constraint;
+import net.shibboleth.utilities.java.support.primitive.TimerSupport;
 
 import org.opensaml.storage.annotation.AnnotationSupport;
 
@@ -170,7 +171,7 @@ public abstract class AbstractStorageService extends AbstractIdentifiableInitial
             if (cleanupTask == null) {
                 throw new ComponentInitializationException("Cleanup task cannot be null if cleanupInterval is set.");
             } else if (cleanupTaskTimer == null) {
-                internalTaskTimer = new Timer(true);
+                internalTaskTimer = new Timer(TimerSupport.getTimerName(this), true);
             } else {
                 internalTaskTimer = cleanupTaskTimer;
             }

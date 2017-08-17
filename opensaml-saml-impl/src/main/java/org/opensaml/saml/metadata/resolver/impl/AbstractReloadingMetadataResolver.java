@@ -44,6 +44,7 @@ import net.shibboleth.utilities.java.support.annotation.Duration;
 import net.shibboleth.utilities.java.support.annotation.constraint.Positive;
 import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
 import net.shibboleth.utilities.java.support.component.ComponentSupport;
+import net.shibboleth.utilities.java.support.primitive.TimerSupport;
 import net.shibboleth.utilities.java.support.resolver.ResolverException;
 
 /**
@@ -130,7 +131,7 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
         setCacheSourceMetadata(true);
         
         if (backgroundTaskTimer == null) {
-            taskTimer = new Timer(true);
+            taskTimer = new Timer(TimerSupport.getTimerName(this), true);
             createdOwnTaskTimer = true;
         } else {
             taskTimer = backgroundTaskTimer;
