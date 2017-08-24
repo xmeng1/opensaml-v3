@@ -136,7 +136,13 @@ public final class HttpClientSecuritySupport {
             }
         }
         
-        setContextValue(context, CONTEXT_KEY_TRUST_ENGINE, 
+        if (securityParameters.getAuthCache() != null) {
+            if (replace || context.getAuthCache() == null) {
+                context.setAuthCache(securityParameters.getAuthCache());
+            }
+        }
+        
+        setContextValue(context, CONTEXT_KEY_TRUST_ENGINE,
                 securityParameters.getTLSTrustEngine(), replace);
         
         setContextValue(context, CONTEXT_KEY_CRITERIA_SET,
@@ -145,10 +151,10 @@ public final class HttpClientSecuritySupport {
         setContextValue(context, CONTEXT_KEY_TLS_PROTOCOLS,
                 securityParameters.getTLSProtocols(), replace);
         
-        setContextValue(context, CONTEXT_KEY_TLS_CIPHER_SUITES, 
+        setContextValue(context, CONTEXT_KEY_TLS_CIPHER_SUITES,
                 securityParameters.getTLSCipherSuites(), replace);
         
-        setContextValue(context, CONTEXT_KEY_HOSTNAME_VERIFIER, 
+        setContextValue(context, CONTEXT_KEY_HOSTNAME_VERIFIER,
                 securityParameters.getHostnameVerifier(), replace);
         
         setContextValue(context, CONTEXT_KEY_CLIENT_TLS_CREDENTIAL,
