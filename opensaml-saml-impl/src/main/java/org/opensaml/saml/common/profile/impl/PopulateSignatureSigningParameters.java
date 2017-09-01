@@ -24,13 +24,11 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.opensaml.messaging.context.navigate.ChildContextLookup;
-import org.opensaml.messaging.handler.MessageHandlerException;
-import org.opensaml.profile.action.AbstractConditionalProfileAction;
-import org.opensaml.profile.action.ActionSupport;
+import org.opensaml.profile.action.AbstractHandlerDelegatingProfileAction;
 import org.opensaml.profile.action.EventIds;
 import org.opensaml.profile.context.ProfileRequestContext;
 import org.opensaml.profile.context.navigate.OutboundMessageContextLookup;
-import org.opensaml.profile.context.navigate.ParentProfileRequestContextLookup;
+import org.opensaml.saml.common.binding.impl.PopulateSignatureSigningParametersHandler;
 import org.opensaml.saml.common.messaging.context.SAMLMetadataContext;
 import org.opensaml.saml.common.messaging.context.SAMLPeerEntityContext;
 import org.opensaml.xmlsec.SecurityConfigurationSupport;
@@ -57,7 +55,8 @@ import net.shibboleth.utilities.java.support.logic.Constraint;
  * @event {@link EventIds#INVALID_MSG_CTX}
  * @event {@link EventIds#MESSAGE_PROC_ERROR}
  */
-public class PopulateSignatureSigningParameters extends AbstractConditionalProfileAction {
+public class PopulateSignatureSigningParameters 
+        extends AbstractHandlerDelegatingProfileAction<PopulateSignatureSigningParametersHandler> {
 
     /** Class logger. */
     @Nonnull private final Logger log = LoggerFactory.getLogger(PopulateSignatureSigningParameters.class);
@@ -78,13 +77,12 @@ public class PopulateSignatureSigningParameters extends AbstractConditionalProfi
     /** Resolver for parameters to store into context. */
     @NonnullAfterInit private SignatureSigningParametersResolver resolver;
     
-    /** MessageHandler delegate. */
-    @NonnullAfterInit private org.opensaml.saml.common.binding.impl.PopulateSignatureSigningParameters delegate;
-    
     /**
      * Constructor.
      */
     public PopulateSignatureSigningParameters() {
+        super(PopulateSignatureSigningParametersHandler.class, new OutboundMessageContextLookup());
+
         // Create context by default.
         securityParametersContextLookupStrategy = Functions.compose(
                 new ChildContextLookup<>(SecurityParametersContext.class, true), new OutboundMessageContextLookup());
@@ -160,17 +158,6 @@ public class PopulateSignatureSigningParameters extends AbstractConditionalProfi
     }
     
     /** {@inheritDoc} */
-    protected boolean doPreExecute(final ProfileRequestContext profileRequestContext) {
-        if (super.doPreExecute(profileRequestContext)) {
-            log.debug("{} Signing enabled", getLogPrefix());
-            return true;
-        } else {
-            log.debug("{} Signing not enabled", getLogPrefix());
-            return false;
-        }
-    }
-
-    /** {@inheritDoc} */
     @Override
     protected void doInitialize() throws ComponentInitializationException {
         super.doInitialize();
@@ -185,50 +172,27 @@ public class PopulateSignatureSigningParameters extends AbstractConditionalProfi
                 }
             };
         }
-        
-        final ParentProfileRequestContextLookup prcLookup = new ParentProfileRequestContextLookup();
-        
-        delegate = new org.opensaml.saml.common.binding.impl.PopulateSignatureSigningParameters();
-        
+
+        final PopulateSignatureSigningParametersHandler delegate = getDelegate();
         delegate.setSignatureSigningParametersResolver(resolver);
-        delegate.setConfigurationLookupStrategy(Functions.compose(configurationLookupStrategy, prcLookup));
-        delegate.setSecurityParametersContextLookupStrategy(
-                Functions.compose(securityParametersContextLookupStrategy, prcLookup));
-        
-        if (existingParametersContextLookupStrategy != null) {
-            delegate.setExistingParametersContextLookupStrategy(
-                    Functions.compose(existingParametersContextLookupStrategy, prcLookup));
-        }
-        
-        if (metadataContextLookupStrategy != null) {
-            delegate.setMetadataContextLookupStrategy(Functions.compose(metadataContextLookupStrategy, prcLookup));
-        }
-        
+        delegate.setConfigurationLookupStrategy(adapt(configurationLookupStrategy));
+        delegate.setSecurityParametersContextLookupStrategy(adapt(securityParametersContextLookupStrategy));
+        delegate.setExistingParametersContextLookupStrategy(adapt(existingParametersContextLookupStrategy));
+        delegate.setMetadataContextLookupStrategy(adapt(metadataContextLookupStrategy));
         delegate.initialize();
     }
-
-    /** {@inheritDoc} */
-    protected void doDestroy() {
-        super.doDestroy();
-        if (delegate != null) {
-            delegate.destroy();
-        }
-    }
-
+    
     /** {@inheritDoc} */
     @Override
-    protected void doExecute(@Nonnull final ProfileRequestContext profileRequestContext) {
-        if (profileRequestContext.getOutboundMessageContext() == null) {
-            ActionSupport.buildEvent(profileRequestContext, EventIds.INVALID_MSG_CTX);
-            return;
-        }
+    protected boolean doPreExecute(@Nonnull final ProfileRequestContext profileRequestContext) {
         
-        try {
-            delegate.invoke(profileRequestContext.getOutboundMessageContext());
-            ActionSupport.buildProceedEvent(profileRequestContext);
-        } catch (final MessageHandlerException e) {
-            ActionSupport.buildEvent(profileRequestContext, EventIds.MESSAGE_PROC_ERROR);
+        if (super.doPreExecute(profileRequestContext)) {
+            log.debug("{} Signing enabled", getLogPrefix());
+            return true;
+        } else {
+            log.debug("{} Signing not enabled", getLogPrefix());
+            return false;
         }
     }
-    
+
 }
