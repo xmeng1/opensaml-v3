@@ -23,15 +23,14 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.opensaml.messaging.context.MessageContext;
 import org.opensaml.messaging.context.navigate.ChildContextLookup;
-import org.opensaml.messaging.context.navigate.RecursiveTypedParentContextLookup;
 import org.opensaml.messaging.handler.MessageHandlerException;
 import org.opensaml.profile.action.AbstractConditionalProfileAction;
 import org.opensaml.profile.action.ActionSupport;
 import org.opensaml.profile.action.EventIds;
 import org.opensaml.profile.context.ProfileRequestContext;
 import org.opensaml.profile.context.navigate.OutboundMessageContextLookup;
+import org.opensaml.profile.context.navigate.ParentProfileRequestContextLookup;
 import org.opensaml.saml.common.messaging.context.SAMLMetadataContext;
 import org.opensaml.saml.common.messaging.context.SAMLPeerEntityContext;
 import org.opensaml.xmlsec.SecurityConfigurationSupport;
@@ -187,8 +186,7 @@ public class PopulateSignatureSigningParameters extends AbstractConditionalProfi
             };
         }
         
-        final Function<MessageContext, ProfileRequestContext> prcLookup = 
-                new RecursiveTypedParentContextLookup<>(ProfileRequestContext.class);
+        final ParentProfileRequestContextLookup prcLookup = new ParentProfileRequestContextLookup();
         
         delegate = new org.opensaml.saml.common.binding.impl.PopulateSignatureSigningParameters();
         
