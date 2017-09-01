@@ -15,23 +15,17 @@
  * limitations under the License.
  */
 
-package org.opensaml.saml.common.profile.impl;
+package org.opensaml.saml.common.binding.impl;
 
 import java.util.Collections;
-
-import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
-import net.shibboleth.utilities.java.support.logic.Constraint;
-import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
-import net.shibboleth.utilities.java.support.resolver.ResolverException;
 
 import org.opensaml.core.OpenSAMLInitBaseTestCase;
 import org.opensaml.messaging.context.MessageContext;
 import org.opensaml.messaging.context.navigate.ChildContextLookup;
+import org.opensaml.messaging.handler.MessageHandlerException;
 import org.opensaml.profile.RequestContextBuilder;
-import org.opensaml.profile.action.ActionTestingSupport;
-import org.opensaml.profile.action.EventIds;
 import org.opensaml.profile.context.ProfileRequestContext;
-import org.opensaml.profile.context.navigate.OutboundMessageContextLookup;
+import org.opensaml.profile.context.navigate.ParentProfileRequestContextLookup;
 import org.opensaml.xmlsec.SignatureSigningParameters;
 import org.opensaml.xmlsec.SignatureSigningParametersResolver;
 import org.opensaml.xmlsec.context.SecurityParametersContext;
@@ -42,65 +36,71 @@ import org.testng.annotations.Test;
 
 import com.google.common.base.Functions;
 
+import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
+import net.shibboleth.utilities.java.support.logic.Constraint;
+import net.shibboleth.utilities.java.support.logic.ConstraintViolationException;
+import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
+import net.shibboleth.utilities.java.support.resolver.ResolverException;
+
 /** Unit test for {@link PopulateSignatureSigningParameters}. */
 public class PopulateSignatureSigningParametersTest extends OpenSAMLInitBaseTestCase {
 
     private ProfileRequestContext prc;
     
-    private PopulateSignatureSigningParameters action;
+    private PopulateSignatureSigningParameters handler;
     
     @BeforeMethod public void setUp() {
         prc = new RequestContextBuilder().buildProfileRequestContext();
-        action = new PopulateSignatureSigningParameters();
+        handler = new PopulateSignatureSigningParameters();
     }
     
     @Test(expectedExceptions=ComponentInitializationException.class)
     public void testConfig() throws ComponentInitializationException {
-        action.initialize();
+        handler.initialize();
     }
     
-    @Test public void testNoContext() throws Exception {
-        action.setSignatureSigningParametersResolver(new MockResolver(false));
-        action.initialize();
+    @Test(expectedExceptions=ConstraintViolationException.class)
+    public void testNoContext() throws Exception {
+        handler.setSignatureSigningParametersResolver(new MockResolver(false));
+        handler.initialize();
         
         prc.setOutboundMessageContext(null);
         
-        action.execute(prc);
-        ActionTestingSupport.assertEvent(prc, EventIds.INVALID_MSG_CTX);
+        handler.invoke(prc.getOutboundMessageContext());
     }
     
-    @Test public void testResolverError() throws Exception {
-        action.setSignatureSigningParametersResolver(new MockResolver(true));
-        action.initialize();
+    @Test(expectedExceptions=MessageHandlerException.class)
+    public void testResolverError() throws Exception {
+        handler.setSignatureSigningParametersResolver(new MockResolver(true));
+        handler.initialize();
         
-        action.execute(prc);
-        ActionTestingSupport.assertEvent(prc, EventIds.MESSAGE_PROC_ERROR);
+        handler.invoke(prc.getOutboundMessageContext());
     }    
 
-    @Test public void testSuccess() throws Exception {
-        action.setSignatureSigningParametersResolver(new MockResolver(false));
-        action.initialize();
+    @Test
+    public void testSuccess() throws Exception {
+        handler.setSignatureSigningParametersResolver(new MockResolver(false));
+        handler.initialize();
         
-        action.execute(prc);
-        ActionTestingSupport.assertProceedEvent(prc);
+        handler.invoke(prc.getOutboundMessageContext());
         Assert.assertNotNull(prc.getOutboundMessageContext().getSubcontext(
                 SecurityParametersContext.class).getSignatureSigningParameters());
     }    
 
-    @Test public void testCopy() throws Exception {
+    @Test
+    public void testCopy() throws Exception {
         // Test copy from PRC to MessageContext
-        action.setSignatureSigningParametersResolver(new MockResolver(true));
-        action.setExistingParametersContextLookupStrategy(new ChildContextLookup(SecurityParametersContext.class));
-        action.setSecurityParametersContextLookupStrategy(
-                Functions.compose(
-                        new ChildContextLookup<MessageContext,SecurityParametersContext>(SecurityParametersContext.class, true),
-                        new OutboundMessageContextLookup()));
-        action.initialize();
+        handler.setSignatureSigningParametersResolver(new MockResolver(true));
+        handler.setExistingParametersContextLookupStrategy(
+                Functions.compose(new ChildContextLookup(SecurityParametersContext.class),
+                        new ParentProfileRequestContextLookup()));
+        handler.setSecurityParametersContextLookupStrategy(
+                new ChildContextLookup<MessageContext,SecurityParametersContext>(SecurityParametersContext.class, true));
+        handler.initialize();
         
         prc.getSubcontext(SecurityParametersContext.class, true).setSignatureSigningParameters(new SignatureSigningParameters());
         
-        action.execute(prc);
-        ActionTestingSupport.assertProceedEvent(prc);
+        handler.invoke(prc.getOutboundMessageContext());
         Assert.assertSame(prc.getSubcontext(SecurityParametersContext.class).getSignatureSigningParameters(),
                 prc.getOutboundMessageContext().getSubcontext(SecurityParametersContext.class).getSignatureSigningParameters());
     }    
