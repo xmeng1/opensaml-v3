@@ -54,10 +54,10 @@ import net.shibboleth.utilities.java.support.resolver.ResolverException;
  * created/accessed via a lookup function.
  * 
  */
-public class PopulateSignatureSigningParameters extends AbstractMessageHandler {
+public class PopulateSignatureSigningParametersHandler extends AbstractMessageHandler {
 
     /** Class logger. */
-    @Nonnull private final Logger log = LoggerFactory.getLogger(PopulateSignatureSigningParameters.class);
+    @Nonnull private final Logger log = LoggerFactory.getLogger(PopulateSignatureSigningParametersHandler.class);
     
     /** Strategy used to look up the {@link SecurityParametersContext} to set the parameters for. */
     @Nonnull private Function<MessageContext,SecurityParametersContext> securityParametersContextLookupStrategy;
@@ -78,7 +78,7 @@ public class PopulateSignatureSigningParameters extends AbstractMessageHandler {
     /**
      * Constructor.
      */
-    public PopulateSignatureSigningParameters() {
+    public PopulateSignatureSigningParametersHandler() {
         // Create context by default.
         securityParametersContextLookupStrategy = new ChildContextLookup<>(SecurityParametersContext.class, true);
 
