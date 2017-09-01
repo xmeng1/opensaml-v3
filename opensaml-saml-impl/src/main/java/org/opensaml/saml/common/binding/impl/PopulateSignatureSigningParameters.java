@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.opensaml.saml.common.profile.impl;
+package org.opensaml.saml.common.binding.impl;
 
 import java.util.Collections;
 import java.util.List;
@@ -25,20 +25,17 @@ import javax.annotation.Nullable;
 
 import org.opensaml.messaging.context.MessageContext;
 import org.opensaml.messaging.context.navigate.ChildContextLookup;
-import org.opensaml.messaging.context.navigate.RecursiveTypedParentContextLookup;
+import org.opensaml.messaging.handler.AbstractMessageHandler;
 import org.opensaml.messaging.handler.MessageHandlerException;
-import org.opensaml.profile.action.AbstractConditionalProfileAction;
-import org.opensaml.profile.action.ActionSupport;
-import org.opensaml.profile.action.EventIds;
-import org.opensaml.profile.context.ProfileRequestContext;
-import org.opensaml.profile.context.navigate.OutboundMessageContextLookup;
 import org.opensaml.saml.common.messaging.context.SAMLMetadataContext;
 import org.opensaml.saml.common.messaging.context.SAMLPeerEntityContext;
+import org.opensaml.saml.criterion.RoleDescriptorCriterion;
 import org.opensaml.xmlsec.SecurityConfigurationSupport;
 import org.opensaml.xmlsec.SignatureSigningConfiguration;
 import org.opensaml.xmlsec.SignatureSigningParameters;
 import org.opensaml.xmlsec.SignatureSigningParametersResolver;
 import org.opensaml.xmlsec.context.SecurityParametersContext;
+import org.opensaml.xmlsec.criterion.SignatureSigningConfigurationCriterion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,52 +46,46 @@ import net.shibboleth.utilities.java.support.annotation.constraint.NonnullAfterI
 import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
 import net.shibboleth.utilities.java.support.component.ComponentSupport;
 import net.shibboleth.utilities.java.support.logic.Constraint;
+import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
+import net.shibboleth.utilities.java.support.resolver.ResolverException;
 
 /**
- * Action that resolves and populates {@link SignatureSigningParameters} on a {@link SecurityParametersContext}
- * created/accessed via a lookup function, by default on the outbound message context.
+ * Handler that resolves and populates {@link SignatureSigningParameters} on a {@link SecurityParametersContext}
+ * created/accessed via a lookup function.
  * 
- * @event {@link EventIds#PROCEED_EVENT_ID}
- * @event {@link EventIds#INVALID_MSG_CTX}
- * @event {@link EventIds#MESSAGE_PROC_ERROR}
  */
-public class PopulateSignatureSigningParameters extends AbstractConditionalProfileAction {
+public class PopulateSignatureSigningParameters extends AbstractMessageHandler {
 
     /** Class logger. */
     @Nonnull private final Logger log = LoggerFactory.getLogger(PopulateSignatureSigningParameters.class);
     
     /** Strategy used to look up the {@link SecurityParametersContext} to set the parameters for. */
-    @Nonnull private Function<ProfileRequestContext,SecurityParametersContext> securityParametersContextLookupStrategy;
+    @Nonnull private Function<MessageContext,SecurityParametersContext> securityParametersContextLookupStrategy;
 
     /** Strategy used to look up an existing {@link SecurityParametersContext} to copy. */
-    @Nullable private Function<ProfileRequestContext,SecurityParametersContext> existingParametersContextLookupStrategy;
+    @Nullable private Function<MessageContext,SecurityParametersContext> existingParametersContextLookupStrategy;
     
     /** Strategy used to look up a per-request {@link SignatureSigningConfiguration} list. */
     @NonnullAfterInit
-    private Function<ProfileRequestContext,List<SignatureSigningConfiguration>> configurationLookupStrategy;
+    private Function<MessageContext,List<SignatureSigningConfiguration>> configurationLookupStrategy;
 
     /** Strategy used to look up a SAML metadata context. */
-    @Nullable private Function<ProfileRequestContext,SAMLMetadataContext> metadataContextLookupStrategy;
+    @Nullable private Function<MessageContext,SAMLMetadataContext> metadataContextLookupStrategy;
     
     /** Resolver for parameters to store into context. */
     @NonnullAfterInit private SignatureSigningParametersResolver resolver;
-    
-    /** MessageHandler delegate. */
-    @NonnullAfterInit private org.opensaml.saml.common.binding.impl.PopulateSignatureSigningParameters delegate;
     
     /**
      * Constructor.
      */
     public PopulateSignatureSigningParameters() {
         // Create context by default.
-        securityParametersContextLookupStrategy = Functions.compose(
-                new ChildContextLookup<>(SecurityParametersContext.class, true), new OutboundMessageContextLookup());
+        securityParametersContextLookupStrategy = new ChildContextLookup<>(SecurityParametersContext.class, true);
 
-        // Default: outbound msg context -> SAMLPeerEntityContext -> SAMLMetadataContext
+        // Default: msg context -> SAMLPeerEntityContext -> SAMLMetadataContext
         metadataContextLookupStrategy = Functions.compose(
-                new ChildContextLookup<>(SAMLMetadataContext.class),
-                Functions.compose(new ChildContextLookup<>(SAMLPeerEntityContext.class),
-                        new OutboundMessageContextLookup()));
+                new ChildContextLookup<SAMLPeerEntityContext,SAMLMetadataContext>(SAMLMetadataContext.class),
+                new ChildContextLookup<MessageContext,SAMLPeerEntityContext>(SAMLPeerEntityContext.class));
     }
 
     /**
@@ -103,7 +94,7 @@ public class PopulateSignatureSigningParameters extends AbstractConditionalProfi
      * @param strategy lookup strategy
      */
     public void setSecurityParametersContextLookupStrategy(
-            @Nonnull final Function<ProfileRequestContext,SecurityParametersContext> strategy) {
+            @Nonnull final Function<MessageContext,SecurityParametersContext> strategy) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
 
         securityParametersContextLookupStrategy = Constraint.isNotNull(strategy,
@@ -117,7 +108,7 @@ public class PopulateSignatureSigningParameters extends AbstractConditionalProfi
      * @param strategy lookup strategy
      */
     public void setExistingParametersContextLookupStrategy(
-            @Nullable final Function<ProfileRequestContext,SecurityParametersContext> strategy) {
+            @Nullable final Function<MessageContext,SecurityParametersContext> strategy) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
 
         existingParametersContextLookupStrategy = strategy;
@@ -129,7 +120,7 @@ public class PopulateSignatureSigningParameters extends AbstractConditionalProfi
      * @param strategy  lookup strategy
      */
     public void setMetadataContextLookupStrategy(
-            @Nullable final Function<ProfileRequestContext,SAMLMetadataContext> strategy) {
+            @Nullable final Function<MessageContext,SAMLMetadataContext> strategy) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         
         metadataContextLookupStrategy = strategy;
@@ -141,7 +132,7 @@ public class PopulateSignatureSigningParameters extends AbstractConditionalProfi
      * @param strategy lookup strategy
      */
     public void setConfigurationLookupStrategy(
-            @Nonnull final Function<ProfileRequestContext,List<SignatureSigningConfiguration>> strategy) {
+            @Nonnull final Function<MessageContext,List<SignatureSigningConfiguration>> strategy) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         
         configurationLookupStrategy = Constraint.isNotNull(strategy,
@@ -161,17 +152,6 @@ public class PopulateSignatureSigningParameters extends AbstractConditionalProfi
     }
     
     /** {@inheritDoc} */
-    protected boolean doPreExecute(final ProfileRequestContext profileRequestContext) {
-        if (super.doPreExecute(profileRequestContext)) {
-            log.debug("{} Signing enabled", getLogPrefix());
-            return true;
-        } else {
-            log.debug("{} Signing not enabled", getLogPrefix());
-            return false;
-        }
-    }
-
-    /** {@inheritDoc} */
     @Override
     protected void doInitialize() throws ComponentInitializationException {
         super.doInitialize();
@@ -179,58 +159,78 @@ public class PopulateSignatureSigningParameters extends AbstractConditionalProfi
         if (resolver == null) {
             throw new ComponentInitializationException("SignatureSigningParametersResolver cannot be null");
         } else if (configurationLookupStrategy == null) {
-            configurationLookupStrategy = new Function<ProfileRequestContext,List<SignatureSigningConfiguration>>() {
-                public List<SignatureSigningConfiguration> apply(final ProfileRequestContext input) {
+            configurationLookupStrategy = new Function<MessageContext,List<SignatureSigningConfiguration>>() {
+                public List<SignatureSigningConfiguration> apply(final MessageContext input) {
                     return Collections.singletonList(
                             SecurityConfigurationSupport.getGlobalSignatureSigningConfiguration());
                 }
             };
         }
-        
-        final Function<MessageContext, ProfileRequestContext> prcLookup = 
-                new RecursiveTypedParentContextLookup<>(ProfileRequestContext.class);
-        
-        delegate = new org.opensaml.saml.common.binding.impl.PopulateSignatureSigningParameters();
-        
-        delegate.setSignatureSigningParametersResolver(resolver);
-        delegate.setConfigurationLookupStrategy(Functions.compose(configurationLookupStrategy, prcLookup));
-        delegate.setSecurityParametersContextLookupStrategy(
-                Functions.compose(securityParametersContextLookupStrategy, prcLookup));
-        
-        if (existingParametersContextLookupStrategy != null) {
-            delegate.setExistingParametersContextLookupStrategy(
-                    Functions.compose(existingParametersContextLookupStrategy, prcLookup));
-        }
-        
-        if (metadataContextLookupStrategy != null) {
-            delegate.setMetadataContextLookupStrategy(Functions.compose(metadataContextLookupStrategy, prcLookup));
-        }
-        
-        delegate.initialize();
     }
-
-    /** {@inheritDoc} */
-    protected void doDestroy() {
-        super.doDestroy();
-        if (delegate != null) {
-            delegate.destroy();
-        }
-    }
-
+    
     /** {@inheritDoc} */
     @Override
-    protected void doExecute(@Nonnull final ProfileRequestContext profileRequestContext) {
-        if (profileRequestContext.getOutboundMessageContext() == null) {
-            ActionSupport.buildEvent(profileRequestContext, EventIds.INVALID_MSG_CTX);
-            return;
+    protected boolean doPreInvoke(@Nonnull final MessageContext messageContext) throws MessageHandlerException {
+        
+        if (super.doPreInvoke(messageContext)) {
+            log.debug("{} Signing enabled", getLogPrefix());
+            return true;
+        } else {
+            log.debug("{} Signing not enabled", getLogPrefix());
+            return false;
+        }
+    }
+    
+// Checkstyle: CyclomaticComplexity|ReturnCount OFF
+    /** {@inheritDoc} */
+    @Override
+    protected void doInvoke(@Nonnull final MessageContext messageContext) throws MessageHandlerException {
+
+        log.debug("{} Resolving SignatureSigningParameters for request", getLogPrefix());
+        
+        final SecurityParametersContext paramsCtx =
+                securityParametersContextLookupStrategy.apply(messageContext);
+        if (paramsCtx == null) {
+            log.debug("{} No SecurityParametersContext returned by lookup strategy", getLogPrefix());
+            throw new MessageHandlerException("No SecurityParametersContext returned by lookup strategy");
+        }
+        
+        if (existingParametersContextLookupStrategy != null) {
+            final SecurityParametersContext existingCtx =
+                    existingParametersContextLookupStrategy.apply(messageContext);
+            if (existingCtx != null && existingCtx.getSignatureSigningParameters() != null) {
+                log.debug("{} Found existing SecurityParametersContext to copy from", getLogPrefix());
+                paramsCtx.setSignatureSigningParameters(existingCtx.getSignatureSigningParameters());
+                return;
+            }
+        }
+        
+        final List<SignatureSigningConfiguration> configs = configurationLookupStrategy.apply(messageContext);
+        if (configs == null || configs.isEmpty()) {
+            log.error("{} No SignatureSigningConfiguration returned by lookup strategy", getLogPrefix());
+            throw new MessageHandlerException("No SignatureSigningConfiguration returned by lookup strategy");
+        }
+        
+        final CriteriaSet criteria = new CriteriaSet(new SignatureSigningConfigurationCriterion(configs));
+        
+        if (metadataContextLookupStrategy != null) {
+            final SAMLMetadataContext metadataCtx = metadataContextLookupStrategy.apply(messageContext);
+            if (metadataCtx != null && metadataCtx.getRoleDescriptor() != null) {
+                log.debug("{} Adding metadata to resolution criteria for signing/digest algorithms", getLogPrefix());
+                criteria.add(new RoleDescriptorCriterion(metadataCtx.getRoleDescriptor()));
+            }
         }
         
         try {
-            delegate.invoke(profileRequestContext.getOutboundMessageContext());
-            ActionSupport.buildProceedEvent(profileRequestContext);
-        } catch (final MessageHandlerException e) {
-            ActionSupport.buildEvent(profileRequestContext, EventIds.MESSAGE_PROC_ERROR);
+            final SignatureSigningParameters params = resolver.resolveSingle(criteria);
+            paramsCtx.setSignatureSigningParameters(params);
+            log.debug("{} {} SignatureSigningParameters", getLogPrefix(),
+                    params != null ? "Resolved" : "Failed to resolve");
+        } catch (final ResolverException e) {
+            log.error("{} Error resolving SignatureSigningParameters", getLogPrefix(), e);
+            throw new MessageHandlerException("Error resolving SignatureSigningParameters", e);
         }
     }
+// Checkstyle: CyclomaticComplexity|ReturnCount ON
     
 }
