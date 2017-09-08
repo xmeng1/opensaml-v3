@@ -333,6 +333,12 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
         trackRefreshSuccess = false;
 
         try {
+            // A manual refresh() must cancel the previously-scheduled future task, since will (re)schedule its own.
+            // If this execution *is* the task, it's ok to cancel ourself, we're already running.
+            if (refreshMetadataTask != null) {
+                refreshMetadataTask.cancel();
+            }
+            
             now = new DateTime(ISOChronology.getInstanceUTC());
             mdId = getMetadataIdentifier();
 
