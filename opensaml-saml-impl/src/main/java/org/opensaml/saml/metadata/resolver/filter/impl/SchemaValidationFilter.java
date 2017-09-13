@@ -77,6 +77,7 @@ public class SchemaValidationFilter implements MetadataFilter {
      * @param builder SAML schema source to use
      * @param extensionSchemas classpath-based location of metadata extension schemas
      */
+    @Deprecated
     public SchemaValidationFilter(@Nonnull final SAMLSchemaBuilder builder,
             @Nullable @NonnullElements final String[] extensionSchemas) {
         samlSchemaBuilder = Constraint.isNotNull(builder, "SAMLSchemaBuilder cannot be null");

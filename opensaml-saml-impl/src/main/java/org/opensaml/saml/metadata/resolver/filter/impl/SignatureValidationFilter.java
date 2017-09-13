@@ -26,6 +26,8 @@ import javax.annotation.Nullable;
 
 import net.shibboleth.utilities.java.support.annotation.constraint.NotEmpty;
 import net.shibboleth.utilities.java.support.logic.Constraint;
+import net.shibboleth.utilities.java.support.primitive.DeprecationSupport;
+import net.shibboleth.utilities.java.support.primitive.DeprecationSupport.ObjectType;
 import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
 
 import org.opensaml.core.xml.XMLObject;
@@ -182,6 +184,8 @@ public class SignatureValidationFilter implements MetadataFilter {
      */
     @Deprecated
     public boolean getRequireSignature() {
+        DeprecationSupport.warnOnce(ObjectType.METHOD, getClass().getName() + ".getRequireSignature", null,
+                "getRequireSignedRoot");
         return getRequireSignedRoot();
     }
 
@@ -196,6 +200,8 @@ public class SignatureValidationFilter implements MetadataFilter {
      */
     @Deprecated
     public void setRequireSignature(final boolean require) {
+        DeprecationSupport.warnOnce(ObjectType.METHOD, getClass().getName() + ".setRequireSignature", null,
+                "setRequireSignedRoot");
         setRequireSignedRoot(require);
     }
  

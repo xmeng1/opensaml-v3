@@ -31,6 +31,8 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocket;
 
 import net.shibboleth.utilities.java.support.logic.Constraint;
+import net.shibboleth.utilities.java.support.primitive.DeprecationSupport;
+import net.shibboleth.utilities.java.support.primitive.DeprecationSupport.ObjectType;
 import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
 
 import org.apache.http.HttpHost;
@@ -102,6 +104,7 @@ public class TrustEngineTLSSocketFactory implements LayeredConnectionSocketFacto
      */
     public TrustEngineTLSSocketFactory(final LayeredConnectionSocketFactory factory,
             final X509HostnameVerifier verifier) {
+        DeprecationSupport.warnOnce(ObjectType.CLASS, getClass().getName(), null, "SecurityEnhancedTLSSocketFactory");
         wrappedFactory = Constraint.isNotNull(factory, "Socket factory was null");
         hostnameVerifier = verifier;
     }

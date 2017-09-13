@@ -29,6 +29,8 @@ import javax.xml.namespace.QName;
 
 import net.shibboleth.utilities.java.support.collection.LazyList;
 import net.shibboleth.utilities.java.support.logic.Constraint;
+import net.shibboleth.utilities.java.support.primitive.DeprecationSupport;
+import net.shibboleth.utilities.java.support.primitive.DeprecationSupport.ObjectType;
 import net.shibboleth.utilities.java.support.primitive.StringSupport;
 import net.shibboleth.utilities.java.support.xml.XMLConstants;
 
@@ -407,8 +409,12 @@ public final class SOAPSupport {
      * 
      * @deprecated use {@link SOAPMessagingSupport#addHeaderBlock(MessageContext, XMLObject)}
      */
+    @Deprecated
     public static void addHeaderBlock(@Nonnull final MessageContext messageContext,
             @Nonnull final XMLObject headerBlock) {
+        DeprecationSupport.warnOnce(ObjectType.METHOD,
+                "org.opensaml.soap.util.SOAPSupport.addHeaderBlock", null,
+                "org.opensaml.soap.messaging.SOAPMessagingSupport.addHeaderBlock");
         SOAPMessagingSupport.addHeaderBlock(messageContext, headerBlock);
     }
 
@@ -420,7 +426,11 @@ public final class SOAPSupport {
      * 
      * @deprecated use {@link SOAPMessagingSupport#addSOAP11HeaderBlock(Envelope, XMLObject)}
      */
+    @Deprecated
     public static void addSOAP11HeaderBlock(@Nonnull final Envelope envelope, @Nonnull final XMLObject headerBlock) {
+        DeprecationSupport.warnOnce(ObjectType.METHOD,
+                "org.opensaml.soap.util.SOAPSupport.addSOAP11HeaderBlock", null,
+                "org.opensaml.soap.messaging.SOAPMessagingSupport.addSOAP11HeaderBlock");
         SOAPMessagingSupport.addSOAP11HeaderBlock(envelope, headerBlock);
     }
 
@@ -437,9 +447,13 @@ public final class SOAPSupport {
      * 
      * @deprecated use {@link SOAPMessagingSupport#getInboundHeaderBlock(MessageContext, QName)}
      */
+    @Deprecated
     @Nonnull public static List<XMLObject> getInboundHeaderBlock(
             @Nonnull final MessageContext messageContext, @Nonnull final QName headerName,
             @Nullable final Set<String> targetNodes, final boolean isFinalDestination) {
+        DeprecationSupport.warnOnce(ObjectType.METHOD,
+                "org.opensaml.soap.util.SOAPSupport.getInboundHeaderBlock", null,
+                "org.opensaml.soap.messaging.SOAPMessagingSupport.getInboundHeaderBlock");
         return SOAPMessagingSupport.getHeaderBlock(messageContext, headerName, targetNodes, isFinalDestination);
     }
 
@@ -455,9 +469,13 @@ public final class SOAPSupport {
      * 
      * @deprecated use {@link SOAPMessagingSupport#getSOAP11HeaderBlock(Envelope, QName, Set, boolean)}
      */
+    @Deprecated
     @Nonnull public static List<XMLObject> getSOAP11HeaderBlock(@Nonnull final Envelope envelope,
             @Nonnull final QName headerName, @Nullable final Set<String> targetNodes,
             final boolean isFinalDestination) {
+        DeprecationSupport.warnOnce(ObjectType.METHOD,
+                "org.opensaml.soap.util.SOAPSupport.getSOAP11HeaderBlock", null,
+                "org.opensaml.soap.messaging.SOAPMessagingSupport.getSOAP11HeaderBlock");
         return SOAPMessagingSupport.getSOAP11HeaderBlock(envelope, headerName, targetNodes, isFinalDestination);
     }
     
@@ -473,8 +491,12 @@ public final class SOAPSupport {
      * 
      * @deprecated use {@link SOAPMessagingSupport#isSOAP11HeaderTargetedToNode(XMLObject, Set, boolean)}
      */
+    @Deprecated
     public static boolean isSOAP11HeaderTargetedToNode(@Nonnull final XMLObject header,
             @Nullable final Set<String> nodeActors, final boolean isFinalDestination) {
+        DeprecationSupport.warnOnce(ObjectType.METHOD,
+                "org.opensaml.soap.util.SOAPSupport.isSOAP11HeaderTargetedToNode", null,
+                "org.opensaml.soap.messaging.SOAPMessagingSupport.isSOAP11HeaderTargetedToNode");
         return SOAPMessagingSupport.isSOAP11HeaderTargetedToNode(header, nodeActors, isFinalDestination);
     }
 
@@ -487,7 +509,10 @@ public final class SOAPSupport {
      * 
      * @deprecated use {@link SOAPMessagingSupport#isSOAPMessage(MessageContext)}
      */
+    @Deprecated
     public static boolean isSOAPMessage(@Nonnull final MessageContext<? extends XMLObject> messageContext) {
+        DeprecationSupport.warnOnce(ObjectType.METHOD, "org.opensaml.soap.util.SOAPSupport.isSOAPMessage", null,
+                "org.opensaml.soap.messaging.SOAPMessagingSupport.isSOAPMessage");
         return SOAPMessagingSupport.isSOAPMessage(messageContext);
     }
 

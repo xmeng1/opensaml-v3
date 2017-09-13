@@ -245,6 +245,7 @@ public class SecurityEnhancedTLSSocketFactory implements LayeredConnectionSocket
      *           
      * @deprecated use {@link #performTrustEval(Socket, String, HttpContext)}
      */
+    @Deprecated
     protected void performTrustEval(@Nonnull final Socket socket, @Nonnull final HttpContext context) 
             throws IOException {
         //TODO when we remove this deprecated method, change called method to @Nonnull for hostname

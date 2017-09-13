@@ -28,6 +28,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.xml.namespace.QName;
 
+import net.shibboleth.utilities.java.support.primitive.DeprecationSupport;
+import net.shibboleth.utilities.java.support.primitive.DeprecationSupport.ObjectType;
 import net.shibboleth.utilities.java.support.primitive.StringSupport;
 import net.shibboleth.utilities.java.support.xml.AttributeSupport;
 import net.shibboleth.utilities.java.support.xml.ParserPool;
@@ -138,6 +140,9 @@ public final class XMLObjectSupport {
     @Deprecated
     @Nullable public static <T extends XMLObject> T cloneXMLObject(@Nullable final T originalXMLObject,
             final boolean rootInNewDocument) throws MarshallingException, UnmarshallingException {
+        DeprecationSupport.warnOnce(ObjectType.METHOD, "org.opensaml.core.xml.util.XMLObjectSupport" +
+            ".cloneXMLObject(XMLObject, boolean)", null, "cloneXMLObject(XMLObject, CloneOutputOption)");
+        
         if (rootInNewDocument) {
             return cloneXMLObject(originalXMLObject, CloneOutputOption.RootDOMInNewDocument);
         } else {

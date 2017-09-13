@@ -34,6 +34,8 @@ import net.shibboleth.utilities.java.support.component.AbstractInitializableComp
 import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
 import net.shibboleth.utilities.java.support.component.ComponentSupport;
 import net.shibboleth.utilities.java.support.logic.Constraint;
+import net.shibboleth.utilities.java.support.primitive.DeprecationSupport;
+import net.shibboleth.utilities.java.support.primitive.DeprecationSupport.ObjectType;
 import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
 
 import org.apache.http.HttpResponse;
@@ -312,6 +314,9 @@ public abstract class AbstractPipelineHttpSOAPClient<OutboundMessageType, Inboun
     @Deprecated
     protected void checkTLSCredentialTrusted(@Nonnull final HttpClientContext context, 
             @Nonnull final HttpUriRequest request) throws SSLPeerUnverifiedException {
+        DeprecationSupport.warnOnce(ObjectType.METHOD, getClass().getName() + ".checkTLSCredentialTrusted", null,
+                "HttpClientSecuritySupport.checkTLSCredentialEvaluated");
+        
         HttpClientSecuritySupport.checkTLSCredentialEvaluated(context, request.getURI().getScheme());
     }
     

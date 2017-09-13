@@ -65,6 +65,7 @@ public class IPRangePredicate implements Predicate<BaseContext> {
      * 
      * @deprecated
      */
+    @Deprecated
     public void setAddressRanges(@Nonnull @NonnullElements final Iterable<IPRange> ranges) {
         DeprecationSupport.warn(ObjectType.METHOD, getClass().getName() + ".setAddressRanges(Iterable)", null,
                 "setAddressRanges(Collection)");
