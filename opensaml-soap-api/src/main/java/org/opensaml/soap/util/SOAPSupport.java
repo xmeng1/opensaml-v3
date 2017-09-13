@@ -351,7 +351,7 @@ public final class SOAPSupport {
         }
         if (soapObject instanceof AttributeExtensibleXMLObject) {
             final String value = StringSupport.trimOrNull(((AttributeExtensibleXMLObject) soapObject)
-                    .getUnknownAttributes().get(org.opensaml.soap.soap12.RelayBearing.SOAP12_RELAY_ATTR_LOCAL_NAME));
+                    .getUnknownAttributes().get(org.opensaml.soap.soap12.RelayBearing.SOAP12_RELAY_ATTR_NAME));
             return Objects.equals("1", value) || Objects.equals("true", value);
         }
         return false;
