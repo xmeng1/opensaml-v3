@@ -392,8 +392,7 @@ public final class SOAPSupport {
 
         if (role == null && soapObject instanceof AttributeExtensibleXMLObject) {
             role = StringSupport.trimOrNull(((AttributeExtensibleXMLObject) soapObject)
-                    .getUnknownAttributes().get(
-                            org.opensaml.soap.soap12.RoleBearing.SOAP12_ROLE_ATTR_LOCAL_NAME));
+                    .getUnknownAttributes().get(org.opensaml.soap.soap12.RoleBearing.SOAP12_ROLE_ATTR_NAME));
         }
 
         return role;
