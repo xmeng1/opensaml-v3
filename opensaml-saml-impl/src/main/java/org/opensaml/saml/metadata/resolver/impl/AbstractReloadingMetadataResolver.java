@@ -333,6 +333,11 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
         trackRefreshSuccess = false;
 
         try {
+            // In case a destroy() thread beat this thread into the monitor.
+            if (isDestroyed()) {
+                return;
+            }
+
             // A manual refresh() must cancel the previously-scheduled future task, since will (re)schedule its own.
             // If this execution *is* the task, it's ok to cancel ourself, we're already running.
             if (refreshMetadataTask != null) {
@@ -647,7 +652,7 @@ public abstract class AbstractReloadingMetadataResolver extends AbstractBatchMet
         //CheckStyle: ReturnCount OFF
         @Override public void run() {
             try {
-                if (!isInitialized()) {
+                if (isDestroyed()) {
                     // just in case the metadata provider was destroyed before this task runs
                     return;
                 }
