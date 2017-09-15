@@ -51,8 +51,8 @@ import net.shibboleth.utilities.java.support.resolver.ResolverException;
 
 /**
  * Handler that resolves and populates {@link SignatureSigningParameters} on a {@link SecurityParametersContext}
- * created/accessed via a lookup function.
- * 
+ * created/accessed via a lookup function, by default as an immediate child context of the target
+ * {@link MessageContext}.
  */
 public class PopulateSignatureSigningParametersHandler extends AbstractMessageHandler {
 
