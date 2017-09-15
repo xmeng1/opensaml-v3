@@ -15,55 +15,51 @@
  * limitations under the License.
  */
 
-package org.opensaml.profile.action.impl;
+package org.opensaml.xmlsec.messaging.impl;
 
 import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import org.opensaml.messaging.context.MessageContext;
 import org.opensaml.messaging.context.navigate.ChildContextLookup;
-import org.opensaml.profile.action.AbstractHandlerDelegatingProfileAction;
-import org.opensaml.profile.action.EventIds;
-import org.opensaml.profile.context.ProfileRequestContext;
-import org.opensaml.profile.context.navigate.InboundMessageContextLookup;
+import org.opensaml.messaging.handler.AbstractMessageHandler;
+import org.opensaml.messaging.handler.MessageHandlerException;
 import org.opensaml.xmlsec.SecurityConfigurationSupport;
 import org.opensaml.xmlsec.SignatureValidationConfiguration;
 import org.opensaml.xmlsec.SignatureValidationParameters;
 import org.opensaml.xmlsec.SignatureValidationParametersResolver;
 import org.opensaml.xmlsec.context.SecurityParametersContext;
-import org.opensaml.xmlsec.messaging.impl.PopulateSignatureValidationParametersHandler;
+import org.opensaml.xmlsec.criterion.SignatureValidationConfigurationCriterion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Function;
-import com.google.common.base.Functions;
 
 import net.shibboleth.utilities.java.support.annotation.constraint.NonnullAfterInit;
 import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
 import net.shibboleth.utilities.java.support.component.ComponentSupport;
 import net.shibboleth.utilities.java.support.logic.Constraint;
+import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
+import net.shibboleth.utilities.java.support.resolver.ResolverException;
 
 /**
- * Action that resolves and populates {@link SignatureValidationParameters} on a {@link SecurityParametersContext}
- * created/accessed via a lookup function, by default on the inbound message context.
- * 
- * @event {@link EventIds#PROCEED_EVENT_ID}
- * @event {@link EventIds#INVALID_MSG_CTX}
- * @event {@link EventIds#MESSAGE_PROC_ERROR}
+ * Handler that resolves and populates {@link SignatureValidationParameters} on a {@link SecurityParametersContext}
+ * created/accessed via a lookup function, by default as an immediate child context of the target
+ * {@link MessageContext}.
  */
-public class PopulateSignatureValidationParameters 
-        extends AbstractHandlerDelegatingProfileAction<PopulateSignatureValidationParametersHandler> {
+public class PopulateSignatureValidationParametersHandler extends AbstractMessageHandler {
 
     /** Class logger. */
-    @Nonnull private final Logger log = LoggerFactory.getLogger(PopulateSignatureValidationParameters.class);
+    @Nonnull private final Logger log = LoggerFactory.getLogger(PopulateSignatureValidationParametersHandler.class);
     
     /** Strategy used to look up the {@link SecurityParametersContext} to set the parameters for. */
-    @Nonnull private Function<ProfileRequestContext,SecurityParametersContext> securityParametersContextLookupStrategy;
+    @Nonnull private Function<MessageContext,SecurityParametersContext> securityParametersContextLookupStrategy;
     
     /** Strategy used to lookup a per-request {@link SignatureValidationConfiguration} list. */
     @NonnullAfterInit
-    private Function<ProfileRequestContext,List<SignatureValidationConfiguration>> configurationLookupStrategy;
+    private Function<MessageContext,List<SignatureValidationConfiguration>> configurationLookupStrategy;
     
     /** Resolver for parameters to store into context. */
     @NonnullAfterInit private SignatureValidationParametersResolver resolver;
@@ -71,12 +67,9 @@ public class PopulateSignatureValidationParameters
     /**
      * Constructor.
      */
-    public PopulateSignatureValidationParameters() {
-        super(PopulateSignatureValidationParametersHandler.class, new InboundMessageContextLookup());
-        
+    public PopulateSignatureValidationParametersHandler() {
         // Create context by default.
-        securityParametersContextLookupStrategy = Functions.compose(
-                new ChildContextLookup<>(SecurityParametersContext.class, true), new InboundMessageContextLookup());
+        securityParametersContextLookupStrategy = new ChildContextLookup<>(SecurityParametersContext.class, true);
     }
 
     /**
@@ -85,7 +78,7 @@ public class PopulateSignatureValidationParameters
      * @param strategy lookup strategy
      */
     public void setSecurityParametersContextLookupStrategy(
-            @Nonnull final Function<ProfileRequestContext,SecurityParametersContext> strategy) {
+            @Nonnull final Function<MessageContext,SecurityParametersContext> strategy) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
 
         securityParametersContextLookupStrategy = Constraint.isNotNull(strategy,
@@ -98,7 +91,7 @@ public class PopulateSignatureValidationParameters
      * @param strategy lookup strategy
      */
     public void setConfigurationLookupStrategy(
-            @Nonnull final Function<ProfileRequestContext,List<SignatureValidationConfiguration>> strategy) {
+            @Nonnull final Function<MessageContext,List<SignatureValidationConfiguration>> strategy) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         
         configurationLookupStrategy = Constraint.isNotNull(strategy,
@@ -125,21 +118,46 @@ public class PopulateSignatureValidationParameters
         if (resolver == null) {
             throw new ComponentInitializationException("SignatureValidationParametersResolver cannot be null");
         } else if (configurationLookupStrategy == null) {
-            configurationLookupStrategy = new Function<ProfileRequestContext,List<SignatureValidationConfiguration>>() {
-                public List<SignatureValidationConfiguration> apply(final ProfileRequestContext input) {
+            configurationLookupStrategy = new Function<MessageContext,List<SignatureValidationConfiguration>>() {
+                public List<SignatureValidationConfiguration> apply(final MessageContext input) {
                     return Collections.singletonList(
                             SecurityConfigurationSupport.getGlobalSignatureValidationConfiguration());
                 }
             };
         }
-        
-        final PopulateSignatureValidationParametersHandler delegate = getDelegate();
-        delegate.setSignatureValidationParametersResolver(resolver);
-        delegate.setConfigurationLookupStrategy(adapt(configurationLookupStrategy));
-        delegate.setSecurityParametersContextLookupStrategy(adapt(securityParametersContextLookupStrategy));
-        delegate.initialize();
-        
     }
+    
+// Checkstyle: ReturnCount OFF
+    /** {@inheritDoc} */
+    @Override
+    protected void doInvoke(@Nonnull final MessageContext messageContext) throws MessageHandlerException {
 
+        log.debug("{} Resolving SignatureValidationParameters for request", getLogPrefix());
+        
+        final List<SignatureValidationConfiguration> configs = configurationLookupStrategy.apply(messageContext);
+        if (configs == null || configs.isEmpty()) {
+            log.error("{} No SignatureValidationConfiguration returned by lookup strategy", getLogPrefix());
+            throw new MessageHandlerException("No SignatureValidationConfiguration returned by lookup strategy");
+        }
+        
+        final SecurityParametersContext paramsCtx =
+                securityParametersContextLookupStrategy.apply(messageContext);
+        if (paramsCtx == null) {
+            log.debug("{} No SecurityParametersContext returned by lookup strategy", getLogPrefix());
+            throw new MessageHandlerException("SecurityParametersContext returned by lookup strategy");
+        }
+        
+        try {
+            final SignatureValidationParameters params = resolver.resolveSingle(
+                    new CriteriaSet(new SignatureValidationConfigurationCriterion(configs)));
+            paramsCtx.setSignatureValidationParameters(params);
+            log.debug("{} {} SignatureValidationParameters", getLogPrefix(),
+                    params != null ? "Resolved" : "Failed to resolve");
+        } catch (final ResolverException e) {
+            log.error("{} Error resolving SignatureValidationParameters", getLogPrefix(), e);
+            throw new MessageHandlerException("Error resolving SignatureValidationParameters");
+        }
+    }
+// Checkstyle: ReturnCount ON
     
 }

@@ -15,20 +15,13 @@
  * limitations under the License.
  */
 
-package org.opensaml.profile.action.impl;
+package org.opensaml.xmlsec.messaging.impl;
 
 import java.util.Collections;
 
-import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
-import net.shibboleth.utilities.java.support.logic.Constraint;
-import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
-import net.shibboleth.utilities.java.support.resolver.ResolverException;
-
 import org.opensaml.core.OpenSAMLInitBaseTestCase;
-import org.opensaml.profile.RequestContextBuilder;
-import org.opensaml.profile.action.ActionTestingSupport;
-import org.opensaml.profile.action.EventIds;
-import org.opensaml.profile.context.ProfileRequestContext;
+import org.opensaml.messaging.context.MessageContext;
+import org.opensaml.messaging.handler.MessageHandlerException;
 import org.opensaml.xmlsec.SignatureValidationParameters;
 import org.opensaml.xmlsec.SignatureValidationParametersResolver;
 import org.opensaml.xmlsec.context.SecurityParametersContext;
@@ -37,49 +30,51 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-/** Unit test for {@link PopulateSignatureValidationParameters}. */
-public class PopulateSignatureValidationParametersTest extends OpenSAMLInitBaseTestCase {
+import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
+import net.shibboleth.utilities.java.support.logic.Constraint;
+import net.shibboleth.utilities.java.support.logic.ConstraintViolationException;
+import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
+import net.shibboleth.utilities.java.support.resolver.ResolverException;
 
-    private ProfileRequestContext prc;
+/** Unit test for {@link PopulateSignatureValidationParameters}. */
+public class PopulateSignatureValidationParametersHandlerTest extends OpenSAMLInitBaseTestCase {
+
+    private MessageContext messageContext;
     
-    private PopulateSignatureValidationParameters action;
+    private PopulateSignatureValidationParametersHandler handler;
     
     @BeforeMethod public void setUp() {
-        prc = new RequestContextBuilder().buildProfileRequestContext();
-        action = new PopulateSignatureValidationParameters();
+        messageContext = new MessageContext<>();
+        handler = new PopulateSignatureValidationParametersHandler();
     }
     
     @Test(expectedExceptions=ComponentInitializationException.class)
     public void testConfig() throws ComponentInitializationException {
-        action.initialize();
+        handler.initialize();
     }
     
-    @Test public void testNoContext() throws Exception {
-        action.setSignatureValidationParametersResolver(new MockResolver(false));
-        action.initialize();
+    @Test(expectedExceptions=ConstraintViolationException.class)
+    public void testNoContext() throws Exception {
+        handler.setSignatureValidationParametersResolver(new MockResolver(false));
+        handler.initialize();
         
-        prc.setInboundMessageContext(null);
-        
-        action.execute(prc);
-        ActionTestingSupport.assertEvent(prc, EventIds.INVALID_MSG_CTX);
+        handler.invoke(null);
     }
     
-    @Test public void testResolverError() throws Exception {
-        action.setSignatureValidationParametersResolver(new MockResolver(true));
-        action.initialize();
+    @Test(expectedExceptions=MessageHandlerException.class)
+    public void testResolverError() throws Exception {
+        handler.setSignatureValidationParametersResolver(new MockResolver(true));
+        handler.initialize();
         
-        action.execute(prc);
-        ActionTestingSupport.assertEvent(prc, EventIds.MESSAGE_PROC_ERROR);
+        handler.invoke(messageContext);
     }    
 
     @Test public void testSuccess() throws Exception {
-        action.setSignatureValidationParametersResolver(new MockResolver(false));
-        action.initialize();
+        handler.setSignatureValidationParametersResolver(new MockResolver(false));
+        handler.initialize();
         
-        action.execute(prc);
-        ActionTestingSupport.assertProceedEvent(prc);
-        Assert.assertNotNull(prc.getInboundMessageContext().getSubcontext(
-                SecurityParametersContext.class).getSignatureValidationParameters());
+        handler.invoke(messageContext);
+        Assert.assertNotNull(messageContext.getSubcontext(SecurityParametersContext.class).getSignatureValidationParameters());
     }    
     
     private class MockResolver implements SignatureValidationParametersResolver {

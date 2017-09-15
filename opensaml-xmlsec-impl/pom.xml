@@ -20,6 +20,11 @@
         <!-- Compile Dependencies -->
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>opensaml-messaging-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>opensaml-xmlsec-api</artifactId>
             <version>${project.version}</version>
         </dependency>
