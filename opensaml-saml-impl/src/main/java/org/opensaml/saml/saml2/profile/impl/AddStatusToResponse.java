@@ -58,7 +58,7 @@ import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
 
 /**
- * Action that sets {@link Status} content in a {@link Response} obtained from
+ * Action that sets {@link Status} content in a {@link StatusResponseType} obtained from
  * a lookup strategy, typically from the outbound message context.
  * 
  * <p>If the message already contains status information, this action will overwrite it.</p>

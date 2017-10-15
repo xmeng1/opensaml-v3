@@ -220,7 +220,7 @@ public class BasicEncryptionParametersResolver extends AbstractSecurityParameter
     /**
      * Validate that the {@link EncryptionParameters} instance has all the required properties populated.
      * 
-     * <p>Equivalent to: {@link #validate(EncryptionParameters, false)} </p>
+     * <p>Equivalent to: {@link #validate(EncryptionParameters, boolean)} called with false</p>
      * 
      * @param params the parameters instance to evaluate
      * 

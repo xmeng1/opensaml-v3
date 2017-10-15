@@ -23,7 +23,7 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.assertEquals;
 
 /**
- * Unit test for {@link edu.vt.middleware.idp.storage.StringTranscoder}.
+ * Unit test for {@link StringTranscoder}.
  */
 public class StringTranscoderTest {
 

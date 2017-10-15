@@ -629,7 +629,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
      * processed metadata in the backing store.
      * 
      * <p>
-     * Equivalent to {@link #processNewMetadata(XMLObject, String, false)}.
+     * Equivalent to {@link #processNewMetadata(XMLObject, String, boolean)} called with false.
      * </p>
      * 
      * @param root the root of the new metadata document being processed

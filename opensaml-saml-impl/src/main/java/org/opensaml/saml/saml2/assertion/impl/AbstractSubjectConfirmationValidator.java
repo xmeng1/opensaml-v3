@@ -110,9 +110,11 @@ public abstract class AbstractSubjectConfirmationValidator implements SubjectCon
     }
 
     /**
-     * Validates the <code>NotBefore</code> condition of the {@link SubjectConfirmationData}, if any is present.
+     * Validates the <code>NotBefore</code> condition of the
+     * {@link org.opensaml.saml.saml2.core.SubjectConfirmationData}, if any is present.
      * 
-     * @param confirmation confirmation method, with {@link SubjectConfirmationData}, being validated
+     * @param confirmation confirmation method, with {@link org.opensaml.saml.saml2.core.SubjectConfirmationData},
+     *  being validated
      * @param assertion assertion bearing the confirmation method
      * @param context current validation context
      * 
@@ -140,9 +142,11 @@ public abstract class AbstractSubjectConfirmationValidator implements SubjectCon
     }
 
     /**
-     * Validates the <code>NotOnOrAfter</code> condition of the {@link SubjectConfirmationData}, if any is present.
+     * Validates the <code>NotOnOrAfter</code> condition of the
+     * {@link org.opensaml.saml.saml2.core.SubjectConfirmationData}, if any is present.
      * 
-     * @param confirmation confirmation method, with {@link SubjectConfirmationData}, being validated
+     * @param confirmation confirmation method, with {@link org.opensaml.saml.saml2.core.SubjectConfirmationData},
+     *  being validated
      * @param assertion assertion bearing the confirmation method
      * @param context current validation context
      * 
@@ -226,7 +230,8 @@ public abstract class AbstractSubjectConfirmationValidator implements SubjectCon
     }
 
     /**
-     * Validates the <code>Address</code> condition of the {@link SubjectConfirmationData}, if any is present.
+     * Validates the <code>Address</code> condition of the {@link org.opensaml.saml.saml2.core.SubjectConfirmationData},
+     * if any is present.
      * 
      * @param confirmation confirmation method being validated
      * @param assertion assertion bearing the confirmation method

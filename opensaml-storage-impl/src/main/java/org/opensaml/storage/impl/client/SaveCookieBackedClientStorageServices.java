@@ -43,7 +43,7 @@ import net.shibboleth.utilities.java.support.component.ComponentSupport;
 import net.shibboleth.utilities.java.support.logic.Constraint;
 
 /**
- * An action that performs any number of {@link ClientStorageOperation} instances sourced from
+ * An action that performs any number of {@link ClientStorageServiceOperation} instances sourced from
  * cookies by issuing the necessary Set-Cookie headers.
  * 
  * <p>The {@link ClientStorageSaveContext} is also removed.</p>

@@ -34,8 +34,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * SAML security message handler which validates the signature (if present) on the {@link SAMLObject} which represents
- * the SAML protocol message being processed.
+ * SAML security message handler which validates the signature (if present) on the
+ * {@link org.opensaml.saml.common.SAMLObject} which represents the SAML protocol message being processed.
  * 
  * <p>
  * If the message is not an instance of {@link SignableSAMLObject}, then no processing is performed. If signature

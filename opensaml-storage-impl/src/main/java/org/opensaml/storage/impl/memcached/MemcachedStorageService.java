@@ -175,8 +175,7 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
 
     /**
      * Sets the storage capabilities. This method should be used when the default 1M slab size is changed;
-     * the {@link edu.vt.middleware.idp.storage.MemcachedStorageCapabilities#valueSize} should be set equal to the
-     * chosen slab size.
+     * the {@link MemcachedStorageCapabilities#valueSize} should be set equal to the chosen slab size.
      *
      * @param capabilities Memcached storage capabilities.
      */

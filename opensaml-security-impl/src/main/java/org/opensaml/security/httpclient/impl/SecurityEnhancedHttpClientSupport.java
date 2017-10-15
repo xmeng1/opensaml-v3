@@ -49,7 +49,7 @@ public final class SecurityEnhancedHttpClientSupport {
      * server TLS based on a mandatory {@link TrustEngine} supplied at runtime.
      * 
      * <p>
-     * Equivalent to {@link #buildTLSSocketFactory(true, false)}.
+     * Equivalent to {@link #buildTLSSocketFactory(boolean, boolean)} called with true, false.
      * </p>
      * 
      * @return a new instance of security-enhanced TLS socket factory 
@@ -65,7 +65,7 @@ public final class SecurityEnhancedHttpClientSupport {
      * and additionally configured for optional client TLS support via context client TLS credential.
      * 
      * <p>
-     * Equivalent to {@link #buildTLSSocketFactory(true, true)}.
+     * Equivalent to {@link #buildTLSSocketFactory(boolean, boolean)} called with true, true.
      * </p>
      * 
      * @return a new instance of security-enhanced TLS socket factory 
@@ -84,7 +84,7 @@ public final class SecurityEnhancedHttpClientSupport {
      * </p>
      * 
      * <p>
-     * Equivalent to {@link #buildTLSSocketFactory(false, true)}.
+     * Equivalent to {@link #buildTLSSocketFactory(boolean, boolean)} called with false, true.
      * </p>
      * 
      * @return a new instance of security-enhanced TLS socket factory 

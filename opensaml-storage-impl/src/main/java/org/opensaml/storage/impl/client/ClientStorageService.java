@@ -67,7 +67,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Implementation of {@link StorageService} that stores data in-memory in a shared session attribute.
+ * Implementation of {@link org.opensaml.storage.StorageService} that stores data in-memory in a
+ * shared session attribute.
  * 
  * <p>The data for this service is managed in a {@link ClientStorageServiceStore} object, which must
  * be created by some operation within the container for this implementation to function. Actual

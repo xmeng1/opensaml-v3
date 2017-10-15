@@ -60,8 +60,8 @@ public class JPAStorageService extends AbstractStorageService implements Storage
     /** Entity manager factory. */
     @Nonnull private final EntityManagerFactory entityManagerFactory;
 
-    /** Number of times to retry a transaction if it rolls back. Default value is {@value} . */
-    @NonNegative private int transactionRetry = 3;
+    /** Number of times to retry a transaction if it rolls back. */
+    @NonNegative private int transactionRetry;
 
     /**
      * Creates a new JPA storage service.
@@ -74,6 +74,7 @@ public class JPAStorageService extends AbstractStorageService implements Storage
         setContextSize(JPAStorageRecord.CONTEXT_SIZE);
         setKeySize(JPAStorageRecord.KEY_SIZE);
         setValueSize(Integer.MAX_VALUE);
+        setTransactionRetry(3);
     }
 
     /**
@@ -86,7 +87,7 @@ public class JPAStorageService extends AbstractStorageService implements Storage
     }
 
     /**
-     * Sets the number of times a transaction will be retried.
+     * Sets the number of times a transaction will be retried (default is 3).
      * 
      * @param retry number of transaction retries
      */

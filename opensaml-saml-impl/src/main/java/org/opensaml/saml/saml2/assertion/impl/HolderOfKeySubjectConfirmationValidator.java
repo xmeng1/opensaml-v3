@@ -61,7 +61,7 @@ import org.slf4j.LoggerFactory;
  * {@link KeyValue} or {@link DEREncodedKeyValue} within one of the {@link KeyInfo} entries in the confirmation data
  * </li>
  * <li>
- * the presenter's public cert matches an {@link org.opensaml.xml.signature.X509Certificate} within one of the
+ * the presenter's public cert matches an {@link org.opensaml.xmlsec.signature.X509Certificate} within one of the
  * {@link KeyInfo} entries in the confirmation data
  * </li>
  * </ul>
