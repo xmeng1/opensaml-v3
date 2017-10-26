@@ -109,15 +109,10 @@ public abstract class AbstractNameIDPolicyPredicate extends AbstractInitializabl
      * 
      * @param newFormats    formats to apply predicate to
      */
-    public void setFormats(@Nonnull @NonnullElements final Collection<String> newFormats) {
-        Constraint.isNotNull(formats, "Format collection cannot be null");
+    public void setFormats(@Nullable final Collection<String> newFormats) {
+        ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         
-        for (final String s : newFormats) {
-            final String trimmed = StringSupport.trimOrNull(s);
-            if (trimmed != null) {
-                formats.add(trimmed);
-            }
-        }
+        formats = new HashSet<>(StringSupport.normalizeStringCollection(newFormats));
     }
     
     /** {@inheritDoc} */

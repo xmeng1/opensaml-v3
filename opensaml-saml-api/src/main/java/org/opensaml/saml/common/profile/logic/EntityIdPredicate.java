@@ -29,7 +29,6 @@ import org.opensaml.saml.saml2.metadata.EntityDescriptor;
 import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
 import net.shibboleth.utilities.java.support.annotation.constraint.NotLive;
 import net.shibboleth.utilities.java.support.annotation.constraint.Unmodifiable;
-import net.shibboleth.utilities.java.support.logic.Constraint;
 import net.shibboleth.utilities.java.support.primitive.StringSupport;
 
 import com.google.common.base.Predicate;
@@ -48,16 +47,8 @@ public class EntityIdPredicate implements Predicate<EntityDescriptor> {
      * 
      * @param ids the entityIDs to check for
      */
-    public EntityIdPredicate(@Nonnull @NonnullElements final Collection<String> ids) {
-        Constraint.isNotNull(ids, "EntityID collection cannot be null");
-        
-        entityIds = new HashSet<>(ids.size());
-        for (final String id : ids) {
-            final String trimmed = StringSupport.trimOrNull(id);
-            if (trimmed != null) {
-                entityIds.add(trimmed);
-            }
-        }
+    public EntityIdPredicate(@Nullable final Collection<String> ids) {
+        entityIds = new HashSet<>(StringSupport.normalizeStringCollection(ids));
     }
     
     /**
