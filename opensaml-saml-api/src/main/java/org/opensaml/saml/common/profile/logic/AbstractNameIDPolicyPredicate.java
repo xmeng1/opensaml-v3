@@ -131,7 +131,6 @@ public abstract class AbstractNameIDPolicyPredicate extends AbstractInitializabl
     }
 
     /** {@inheritDoc} */
-    @Override
     public boolean apply(@Nullable final ProfileRequestContext input) {
 
         final SAMLObject target = objectLookupStrategy.apply(input);

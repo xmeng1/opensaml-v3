@@ -112,7 +112,6 @@ public class EntityGroupNamePredicate implements Predicate<EntityDescriptor> {
     
 // Checkstyle: CyclomaticComplexity OFF
     /** {@inheritDoc} */
-    @Override
     public boolean apply(@Nullable final EntityDescriptor input) {
         
         if (input == null) {

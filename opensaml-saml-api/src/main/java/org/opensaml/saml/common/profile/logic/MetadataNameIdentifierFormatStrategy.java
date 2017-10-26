@@ -64,7 +64,6 @@ public class MetadataNameIdentifierFormatStrategy implements Function<ProfileReq
     }
     
     /** {@inheritDoc} */
-    @Override
     @Nullable public List<String> apply(@Nullable final ProfileRequestContext input) {
         final SSODescriptor role = ssoDescriptorLookupStrategy.apply(input);
         if (role != null) {

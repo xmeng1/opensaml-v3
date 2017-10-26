@@ -28,7 +28,6 @@ public class SAMLMessageInfoContextIssueInstantFunction
         implements ContextDataLookupFunction<SAMLMessageInfoContext,DateTime> {
 
     /** {@inheritDoc} */
-    @Override
     @Nullable public DateTime apply(@Nullable final SAMLMessageInfoContext input) {
         if (input != null) {
             return input.getMessageIssueInstant();

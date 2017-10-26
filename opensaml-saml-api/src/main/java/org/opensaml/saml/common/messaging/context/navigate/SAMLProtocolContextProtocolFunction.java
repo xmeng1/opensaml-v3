@@ -26,7 +26,6 @@ import org.opensaml.saml.common.messaging.context.SAMLProtocolContext;
 public class SAMLProtocolContextProtocolFunction implements ContextDataLookupFunction<SAMLProtocolContext,String> {
 
     /** {@inheritDoc} */
-    @Override
     @Nullable public String apply(@Nullable final SAMLProtocolContext input) {
         if (input != null) {
             return input.getProtocol();

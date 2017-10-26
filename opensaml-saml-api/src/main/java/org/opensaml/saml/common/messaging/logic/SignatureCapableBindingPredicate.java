@@ -30,7 +30,6 @@ import com.google.common.base.Predicate;
 public class SignatureCapableBindingPredicate implements Predicate<MessageContext<SAMLObject>> {
 
     /** {@inheritDoc} */
-    @Override
     public boolean apply(final MessageContext<SAMLObject> input) {
         return input != null && SAMLBindingSupport.isSigningCapableBinding(input);
     }

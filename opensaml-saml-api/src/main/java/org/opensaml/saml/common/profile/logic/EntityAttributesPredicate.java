@@ -144,7 +144,6 @@ public class EntityAttributesPredicate implements Predicate<EntityDescriptor> {
 
 // Checkstyle: CyclomaticComplexity OFF
     /** {@inheritDoc} */
-    @Override
     public boolean apply(@Nullable final EntityDescriptor input) {
         if (input == null) {
             return false;
@@ -331,7 +330,6 @@ public class EntityAttributesPredicate implements Predicate<EntityDescriptor> {
         }
                 
         /** {@inheritDoc} */
-        @Override
         public boolean apply(@Nonnull final Candidate input) {
             final List<String> tagvals = input.values;
             final List<Pattern> tagexps = input.regexps;

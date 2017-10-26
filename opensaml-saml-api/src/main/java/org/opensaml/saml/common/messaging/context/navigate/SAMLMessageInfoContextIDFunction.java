@@ -26,7 +26,6 @@ import org.opensaml.saml.common.messaging.context.SAMLMessageInfoContext;
 public class SAMLMessageInfoContextIDFunction implements ContextDataLookupFunction<SAMLMessageInfoContext,String> {
 
     /** {@inheritDoc} */
-    @Override
     @Nullable public String apply(@Nullable final SAMLMessageInfoContext input) {
         if (input != null) {
             return input.getMessageId();

@@ -30,7 +30,7 @@ public class AttributeConsumerServiceLookupFunction implements
         ContextDataLookupFunction<AttributeConsumingServiceContext, AttributeConsumingService> {
 
     /** {@inheritDoc} */
-    @Override @Nullable public AttributeConsumingService apply(@Nullable final AttributeConsumingServiceContext input) {
+    @Nullable public AttributeConsumingService apply(@Nullable final AttributeConsumingServiceContext input) {
         if (null == input) {
             return null;
         }

@@ -50,7 +50,6 @@ public class SAMLMessageContextAuthenticationFunction implements Function<Messag
     }
 
     /** {@inheritDoc} */
-    @Override
     @Nullable public Boolean apply(@Nullable final MessageContext input) {
         
         if (input != null) {

@@ -142,7 +142,6 @@ public class DefaultLocalErrorPredicate implements Predicate<ProfileRequestConte
     
 // Checkstyle: CyclomaticComplexity OFF
     /** {@inheritDoc} */
-    @Override
     public boolean apply(@Nullable final ProfileRequestContext input) {
         
         if (input == null) {
