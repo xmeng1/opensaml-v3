@@ -32,9 +32,6 @@ import net.shibboleth.utilities.java.support.annotation.constraint.Unmodifiable;
 import net.shibboleth.utilities.java.support.logic.Constraint;
 import net.shibboleth.utilities.java.support.primitive.StringSupport;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableSet;
 
@@ -42,9 +39,6 @@ import com.google.common.collect.ImmutableSet;
  * Predicate that matches an {@link EntityDescriptor} against a set of entityIDs.
  */
 public class EntityIdPredicate implements Predicate<EntityDescriptor> {
-
-    /** Class logger. */
-    @Nonnull private final Logger log = LoggerFactory.getLogger(EntityIdPredicate.class);
     
     /** Set of entityIDs to check for. */
     @Nonnull @NonnullElements private final Set<String> entityIds;
