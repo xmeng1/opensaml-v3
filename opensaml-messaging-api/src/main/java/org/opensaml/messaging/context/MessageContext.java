@@ -17,6 +17,7 @@
 
 package org.opensaml.messaging.context;
 
+import javax.annotation.Nullable;
 
 /**
  * A context component which holds the state related to the processing of a single message.
@@ -34,14 +35,14 @@ package org.opensaml.messaging.context;
 public class MessageContext<MessageType> extends BaseContext {
 
     /** The message represented. */
-    private MessageType msg;
+    @Nullable private MessageType msg;
 
     /**
      * Get the message represented by the message context.
      * 
      * @return the message
      */
-    public MessageType getMessage() {
+    @Nullable public MessageType getMessage() {
         return msg;
     }
 
@@ -50,7 +51,7 @@ public class MessageContext<MessageType> extends BaseContext {
      * 
      * @param message the message
      */
-    public void setMessage(final MessageType message) {
+    public void setMessage(@Nullable final MessageType message) {
         msg = message;
     }
 

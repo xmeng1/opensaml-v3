@@ -25,15 +25,7 @@ import javax.annotation.Nonnull;
 import net.shibboleth.utilities.java.support.annotation.constraint.Live;
 
 /**
- * A context component which holds the state related to the processing of a single message.
- * 
- * <p>
- * Additional information associated with the message represented by the context may be held by the context
- * as subordinate subcontext instances. Subcontext instances may simply hold state information related to the message, 
- * in which case they may be seen as a type-safe variant of the ubiquitous properties map pattern.  They may 
- * also be more functional or operational in nature, for example providing "views" onto the message 
- * and/or message context data.
- * </p>
+ * A context subclass for holding arbitrary data in a map.
  */
 public class ScratchContext extends BaseContext {
 
