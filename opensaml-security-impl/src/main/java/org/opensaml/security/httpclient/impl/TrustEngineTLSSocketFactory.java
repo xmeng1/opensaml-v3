@@ -51,14 +51,16 @@ import org.slf4j.LoggerFactory;
 
 /**
  * An implementation of HttpClient's {@link LayeredConnectionSocketFactory}, which supports
- * verifying the server TLS certificate and chain via a {@link TrustEngine<Credential>}
+ * verifying the server TLS certificate and chain via a
+ * {@link TrustEngine}<code>&lt;</code>{@link org.opensaml.security.credential.Credential}<code>&gt;</code>
  * and {@link CriteriaSet} supplied by the HttpClient caller via the {@link HttpContext}.
  * 
  * <p>
  * The context keys used by this component are as follows, defined in {@link HttpClientSecurityConstants}:
  * <ul>
  *   <li>{@link HttpClientSecurityConstants#CONTEXT_KEY_TRUST_ENGINE}: The trust engine instance used. 
- *        Supplied by the HttpClient caller. Must be an instance of {@link TrustEngine<Credential>}.</li>
+ *        Supplied by the HttpClient caller. Must be an instance of
+ *        {@link TrustEngine}<code>&lt;</code>{@link org.opensaml.security.credential.Credential}<code>&gt;</code>.</li>
  *   <li>{@link HttpClientSecurityConstants#CONTEXT_KEY_CRITERIA_SET}: The criteria set instance used. 
  *        Supplied by the HttpClient caller. Must be an instance of {@link CriteriaSet}. </li>
  *   <li>{@link HttpClientSecurityConstants#CONTEXT_KEY_SERVER_TLS_CREDENTIAL_TRUSTED}: The result of the 
@@ -144,7 +146,8 @@ public class TrustEngineTLSSocketFactory implements LayeredConnectionSocketFacto
 // Checkstyle: ReturnCount OFF
     /**
      * Perform trust evaluation by extracting the server TLS {@link X509Credential} from the 
-     * {@link SSLSession} and evaluating it via a {@link TrustEngine<Credential>} 
+     * {@link SSLSession} and evaluating it via a
+     * {@link TrustEngine}<code>&lt;</code>{@link org.opensaml.security.credential.Credential}<code>&gt;</code>
      * and {@link CriteriaSet} supplied by the caller via the {@link HttpContext}.
      * 
      * @param socket the socket instance being processed

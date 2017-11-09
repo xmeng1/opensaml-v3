@@ -74,7 +74,8 @@ public class BasicClientTLSValidationParametersResolver implements ClientTLSVali
     }
     
     /**
-     * Resolve and return the effective {@link TrustEngine<? super X509Credential>}.
+     * Resolve and return the effective
+     * {@link TrustEngine}<code>&lt;? super </code>{@link X509Credential}<code>&gt;</code>.
      * 
      * @param criteria the input criteria being evaluated
      * 

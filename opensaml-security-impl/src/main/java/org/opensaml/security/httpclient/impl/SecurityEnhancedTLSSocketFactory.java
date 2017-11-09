@@ -58,7 +58,8 @@ import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
  * <p>
  * This implementation wraps an existing TLS socket factory instance, decorating it with additional support for:
  * <ul>
- *     <li>Verifying the server TLS certificate and chain via a {@link TrustEngine<Credential>}
+ *     <li>Verifying the server TLS certificate and chain via a
+ *         {@link TrustEngine}<code>&lt;</code>{@link org.opensaml.security.credential.Credential}<code>&gt;</code>
  *         and {@link CriteriaSet} supplied by the HttpClient caller via the {@link HttpContext}.</li>
  *         
  *     <li>Loading and clearing a thread-local instance of {@link X509Credential} used for client TLS.</li>
@@ -69,7 +70,8 @@ import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
  * The context keys used by this component are as follows, defined in {@link HttpClientSecurityConstants}:
  * <ul>
  *   <li>{@link HttpClientSecurityConstants#CONTEXT_KEY_TRUST_ENGINE}: The trust engine instance used. 
- *        Supplied by the HttpClient caller. Must be an instance of {@link TrustEngine<Credential>}.</li>
+ *        Supplied by the HttpClient caller. Must be an instance of
+ *        {@link TrustEngine}<code>&lt;</code>{@link org.opensaml.security.credential.Credential}<code>&gt;</code>.</li>
  *   <li>{@link HttpClientSecurityConstants#CONTEXT_KEY_CRITERIA_SET}: The criteria set instance used. 
  *        Supplied by the HttpClient caller. Must be an instance of {@link CriteriaSet}. </li>
  *   <li>{@link HttpClientSecurityConstants#CONTEXT_KEY_SERVER_TLS_CREDENTIAL_TRUSTED}: The result of the 
@@ -107,8 +109,8 @@ import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
  * </p>
  * 
  * <p>
- * Client TLS support requires use of a compatible {@link java.net.ssl.KeyManager} implementation configured in the 
- * {@link java.net.ssl.SSLContext} of the wrapped {@link LayeredConnectionSocketFactory}, such as
+ * Client TLS support requires use of a compatible {@link javax.net.ssl.KeyManager} implementation configured in the 
+ * {@link javax.net.ssl.SSLContext} of the wrapped {@link LayeredConnectionSocketFactory}, such as
  * {@link org.opensaml.security.x509.tls.impl.ThreadLocalX509CredentialKeyManager}.
  * </p>
  * 
@@ -234,7 +236,8 @@ public class SecurityEnhancedTLSSocketFactory implements LayeredConnectionSocket
     
     /**
      * Perform trust evaluation by extracting the server TLS {@link X509Credential} from the 
-     * {@link SSLSession} and evaluating it via a {@link TrustEngine<Credential>} 
+     * {@link SSLSession} and evaluating it via a
+     * {@link TrustEngine}<code>&lt;</code>{@link org.opensaml.security.credential.Credential}<code>&gt;</code>
      * and {@link CriteriaSet} supplied by the caller via the {@link HttpContext}.
      * 
      * @param socket the socket instance being processed
@@ -257,7 +260,8 @@ public class SecurityEnhancedTLSSocketFactory implements LayeredConnectionSocket
 // Checkstyle: ReturnCount OFF
     /**
      * Perform trust evaluation by extracting the server TLS {@link X509Credential} from the 
-     * {@link SSLSession} and evaluating it via a {@link TrustEngine<Credential>} 
+     * {@link SSLSession} and evaluating it via a
+     * {@link TrustEngine}<code>&lt;</code>{@link org.opensaml.security.credential.Credential}<code>&gt;</code>
      * and {@link CriteriaSet} supplied by the caller via the {@link HttpContext}.
      * 
      * @param socket the socket instance being processed

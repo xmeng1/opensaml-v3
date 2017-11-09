@@ -23,7 +23,7 @@ import org.opensaml.saml.common.xml.SAMLConstants;
 import org.opensaml.saml.saml2.metadata.LocalizedURI;
 
 /**
- * Representation of the <code>&lt;mdrpi:UsagePolicy&gt</code> element. <br/>
+ * Representation of the <code>&lt;mdrpi:UsagePolicy&gt;</code> element. <br/>
  * See <a
  * href="http://docs.oasis-open.org/security/saml/Post2.0/saml-metadata-rpi/v1.0/">http://docs.oasis-open.org/security
  * /saml/Post2.0/saml-metadata-rpi/v1.0/</a>

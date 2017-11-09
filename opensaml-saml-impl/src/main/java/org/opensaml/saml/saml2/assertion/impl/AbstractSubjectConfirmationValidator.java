@@ -174,7 +174,8 @@ public abstract class AbstractSubjectConfirmationValidator implements SubjectCon
     }
 
     /**
-     * Validates the <code>Recipient</code> condition of the {@link SubjectConfirmationData}, if any is present.
+     * Validates the <code>Recipient</code> condition of the
+     * {@link org.opensaml.saml.saml2.core.SubjectConfirmationData}, if any is present.
      * 
      * @param confirmation confirmation method being validated
      * @param assertion assertion bearing the confirmation method

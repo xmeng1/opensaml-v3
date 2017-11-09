@@ -357,7 +357,7 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
     /**
      * @param artifact
      * @param peerRoleDescriptor 
-     * @param artifactResolveEndpointURL
+     * @param ars
      * @return
      */
     private SAMLObject dereferenceArtifact(final SAML2Artifact artifact, final RoleDescriptor peerRoleDescriptor,

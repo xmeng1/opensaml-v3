@@ -45,7 +45,7 @@ public final class SAMLObjectSupport {
      * {@link SignatureConstants#TRANSFORM_C14N_EXCL_OMIT_COMMENTS}
      * or {@link SignatureConstants#TRANSFORM_C14N_EXCL_WITH_COMMENTS}, 
      * it declares on the object all non-visible namespaces
-     * as determined by {@link org.opensaml.core.xml.XMLObject.NamespaceManager#getNonVisibleNamespaces()}.
+     * as determined by {@link org.opensaml.core.xml.NamespaceManager#getNonVisibleNamespaces()}.
      * </p>
      * 
      * @param signableObject the signable SAML object to evaluate

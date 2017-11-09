@@ -52,7 +52,7 @@ public final class SOAPMessagingSupport {
     private SOAPMessagingSupport() {}
     
     /**
-     * Get the current {@link InboundSOAPContext} for the given {@link @link MessageContext}. 
+     * Get the current {@link InboundSOAPContext} for the given {@link MessageContext}. 
      * 
      * @param messageContext the current message context
      * 
@@ -64,7 +64,7 @@ public final class SOAPMessagingSupport {
     }
 
     /**
-     * Get the current {@link SOAP11Context} for the given {@link @link MessageContext}. 
+     * Get the current {@link SOAP11Context} for the given {@link MessageContext}. 
      * 
      * @param messageContext the current message context
      * @param autoCreate whether to auto-create the context if it does not exist

@@ -46,9 +46,7 @@ public final class SAMLConfigurationSupport {
     /**
      * Sets the date format used to string'ify SAML's date/time objects.
      * 
-     * See the
-     * {@link <a href="http://java.sun.com/j2se/1.4.2/docs/api/java/text/SimpleDateFormat.html">SimpleDateFormat</a>}
-     * documentation for format syntax.
+     * See the {@link java.text.SimpleDateFormat} documentation for format syntax.
      * 
      * @param format date format used to string'ify date objects
      */

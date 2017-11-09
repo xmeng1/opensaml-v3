@@ -96,9 +96,7 @@ public class SAMLConfiguration {
     /**
      * Sets the date format used to string'ify SAML's date/time objects.
      * 
-     * See the
-     * {@link <a href="http://java.sun.com/j2se/1.4.2/docs/api/java/text/SimpleDateFormat.html">SimpleDateFormat</a>}
-     * documentation for format syntax.
+     * See the {@link java.text.SimpleDateFormat} documentation for format syntax.
      * 
      * @param format date format used to string'ify date objects
      */
@@ -167,7 +165,7 @@ public class SAMLConfiguration {
      * <p>
      * The supplied list will be copied.  Values will be normalized: 1) strings will be trimmed, 
      * 2) nulls will be removed, and 3) all values will be lowercased.
-     * </>
+     * </p>
      * 
      * <p>Note, the appearance of schemes such as 'javascript' may open the system up to attacks 
      * (e.g. cross-site scripting attacks).

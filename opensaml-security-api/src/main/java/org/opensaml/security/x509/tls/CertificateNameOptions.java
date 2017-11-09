@@ -56,7 +56,7 @@ public class CertificateNameOptions implements Cloneable {
      */
     private X500DNHandler x500DNHandler;
 
-    /** The format specifier for serializaing X.500 subject names to strings. */
+    /** The format specifier for serializing X.500 subject names to strings. */
     private String x500SubjectDNFormat;
 
     /** Constructor. */
@@ -104,7 +104,7 @@ public class CertificateNameOptions implements Cloneable {
     
     /**
      * Get the set of types of subject alternative names evaluate as derived issuer entity ID names,
-     * using integer constants defined in {@link org.opensaml.security.X509Support}.
+     * using integer constants defined in {@link org.opensaml.security.x509.X509Support}.
      * 
      * @return Returns the subjectAltNames.
      */
@@ -114,7 +114,7 @@ public class CertificateNameOptions implements Cloneable {
     
     /**
      * Set the set of types of subject alternative names evaluate as derived issuer entity ID names,
-     * using integer constants defined in {@link org.opensaml.security.X509Support}.
+     * using integer constants defined in {@link org.opensaml.security.x509.X509Support}.
      * 
      * @param names the set of types of subject alternative names
      */

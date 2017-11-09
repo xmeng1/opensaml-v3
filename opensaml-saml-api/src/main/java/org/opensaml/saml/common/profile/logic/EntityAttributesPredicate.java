@@ -57,7 +57,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 
 /**
- * Predicate to determine whether an {@link EntityDescriptor} or its parent groups contain an {@EntityAttribute}
+ * Predicate to determine whether an {@link EntityDescriptor} or its parent groups contain an {@link EntityAttributes}
  * extension {@link Attribute} that matches the predicate's criteria. 
  */
 public class EntityAttributesPredicate implements Predicate<EntityDescriptor> {

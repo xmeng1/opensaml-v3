@@ -23,7 +23,7 @@ import org.opensaml.xmlsec.signature.KeyInfo;
 import org.w3c.dom.Attr;
 
 /**
- * A thread-safe Unmarshaller for {@link org.opensaml.xmlsec.signature.KeyInfoType} objects.
+ * A thread-safe Unmarshaller for {@link org.opensaml.xmlsec.signature.KeyInfo} objects.
  */
 public class KeyInfoUnmarshaller extends AbstractXMLSignatureUnmarshaller {
 

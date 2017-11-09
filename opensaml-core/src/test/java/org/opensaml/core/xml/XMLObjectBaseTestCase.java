@@ -187,7 +187,7 @@ public abstract class XMLObjectBaseTestCase extends OpenSAMLInitBaseTestCase {
     /**
      * Unmarshalls an element file into its XMLObject.
      * 
-     * @param if true, checked exceptions will be thrown, if false then they cause assertion of test failure
+     * @param propagateErrors if true, checked exceptions will be thrown, if false then they cause assertion of test failure
      * @return the XMLObject from the file
      * 
      */
