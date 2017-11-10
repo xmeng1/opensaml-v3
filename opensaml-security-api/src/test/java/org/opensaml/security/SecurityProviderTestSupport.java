@@ -85,25 +85,6 @@ public class SecurityProviderTestSupport {
     }
     
     /**
-     * Return whether the current Java major version (e.g. 6, 7, 8) is greater than or equal to the specified version.
-     * 
-     * @param requiredVersion
-     * @return true if greater or equal, false otherwise
-     */
-    public boolean haveJavaGreaterOrEqual(int requiredVersion) {
-        return getJavaVersion() >= requiredVersion;
-    }
-    
-    /**
-     * Return the current Java major version, e.g. 6, 7 or 8.
-     * @return the Java major version
-     */
-    public int getJavaVersion() {
-        String versionStr = System.getProperty("java.version");
-        return Integer.parseInt(versionStr.split("\\.")[1]);
-    }
-    
-    /**
      * Determine if we're running on OpenJDK.
      * @return true or false
      */

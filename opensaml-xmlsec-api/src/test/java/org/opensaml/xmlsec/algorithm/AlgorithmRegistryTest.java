@@ -31,6 +31,8 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import net.shibboleth.utilities.java.support.testing.TestSupport;
+
 /**
  * Tests for the AlgorithmRegistry.
  */
@@ -231,7 +233,7 @@ public class AlgorithmRegistryTest extends OpenSAMLInitBaseTestCase {
                 Assert.assertTrue(registry.isRuntimeSupported(SignatureConstants.ALGO_ID_SIGNATURE_ECDSA_SHA384));
                 Assert.assertTrue(registry.isRuntimeSupported(SignatureConstants.ALGO_ID_SIGNATURE_ECDSA_SHA512));
                 
-                if (providerSupport.haveBC() || providerSupport.haveJavaGreaterOrEqual(8)) {
+                if (providerSupport.haveBC() || TestSupport.isJavaV8OrLater()) {
                     Assert.assertTrue(registry.isRuntimeSupported(SignatureConstants.ALGO_ID_SIGNATURE_ECDSA_SHA224));
                 }
             } else {
@@ -242,7 +244,7 @@ public class AlgorithmRegistryTest extends OpenSAMLInitBaseTestCase {
                 Assert.assertFalse(registry.isRuntimeSupported(SignatureConstants.ALGO_ID_SIGNATURE_ECDSA_SHA512));
             }
             
-            if (providerSupport.haveBC() || providerSupport.haveJavaGreaterOrEqual(8)) {
+            if (providerSupport.haveBC() || TestSupport.isJavaV8OrLater()) {
                 Assert.assertTrue(registry.isRuntimeSupported(SignatureConstants.ALGO_ID_DIGEST_SHA224));
                 Assert.assertTrue(registry.isRuntimeSupported(SignatureConstants.ALGO_ID_SIGNATURE_RSA_SHA224));
                 Assert.assertTrue(registry.isRuntimeSupported(SignatureConstants.ALGO_ID_MAC_HMAC_SHA224));

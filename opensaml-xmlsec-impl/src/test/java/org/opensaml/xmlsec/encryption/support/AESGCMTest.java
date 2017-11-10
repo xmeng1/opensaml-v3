@@ -36,6 +36,8 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import net.shibboleth.utilities.java.support.testing.TestSupport;
+
 /**
  *
  */
@@ -63,23 +65,24 @@ public class AESGCMTest extends XMLObjectBaseTestCase {
         AlgorithmDescriptor aesGCM256 = registry.get(EncryptionConstants.ALGO_ID_BLOCKCIPHER_AES256_GCM);
         
         return new Object[][] {
-                new Object[] {aesGCM128, 7, true},
-                new Object[] {aesGCM192, 7, true},
-                new Object[] {aesGCM256, 7, true},
+                new Object[] {aesGCM128, 7, TestSupport.isJavaV7OrLater(), true},
+                new Object[] {aesGCM192, 8, TestSupport.isJavaV8OrLater(), true},
+                new Object[] {aesGCM256, 8, TestSupport.isJavaV8OrLater(), true},
                 
-                new Object[] {aesGCM128, 8, false},
-                new Object[] {aesGCM192, 8, false},
-                new Object[] {aesGCM256, 8, false},
+                new Object[] {aesGCM128, 8, TestSupport.isJavaV8OrLater(), false},
+                new Object[] {aesGCM192, 8, TestSupport.isJavaV8OrLater(), false},
+                new Object[] {aesGCM256, 8, TestSupport.isJavaV8OrLater(), false},
                 
-                new Object[] {aesGCM128, 8, true},
-                new Object[] {aesGCM192, 8, true},
-                new Object[] {aesGCM256, 8, true},
+                new Object[] {aesGCM128, 8, TestSupport.isJavaV8OrLater(), true},
+                new Object[] {aesGCM192, 8, TestSupport.isJavaV8OrLater(), true},
+                new Object[] {aesGCM256, 8, TestSupport.isJavaV8OrLater(), true},
         };
     }
 
     @Test(dataProvider="testDataAESGCM")
-    public void testEncryptDecrypt(AlgorithmDescriptor descriptor, int minJavaVersion, boolean loadBC) throws Exception {
-        if (!providerSupport.haveJavaGreaterOrEqual(minJavaVersion)) {
+    public void testEncryptDecrypt(AlgorithmDescriptor descriptor, int minJavaVersion,
+            boolean haveJavaVersion, boolean loadBC) throws Exception {
+        if (!haveJavaVersion) {
             log.debug("Not Java {}+, skipping test", minJavaVersion);
             return;
         }
