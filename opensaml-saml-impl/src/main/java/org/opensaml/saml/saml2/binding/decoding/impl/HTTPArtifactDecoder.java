@@ -26,6 +26,7 @@ import javax.xml.namespace.QName;
 import org.joda.time.DateTime;
 import org.joda.time.chrono.ISOChronology;
 import org.opensaml.core.xml.util.XMLObjectSupport;
+import org.opensaml.messaging.MessageException;
 import org.opensaml.messaging.context.InOutOperationContext;
 import org.opensaml.messaging.context.MessageContext;
 import org.opensaml.messaging.decoder.MessageDecodingException;
@@ -37,6 +38,7 @@ import org.opensaml.saml.common.binding.SAMLBindingSupport;
 import org.opensaml.saml.common.binding.artifact.SAMLSourceLocationArtifact;
 import org.opensaml.saml.common.binding.decoding.SAMLMessageDecoder;
 import org.opensaml.saml.common.binding.impl.DefaultEndpointResolver;
+import org.opensaml.saml.common.messaging.SAMLSOAPClientContextBuilder;
 import org.opensaml.saml.common.messaging.context.SAMLBindingContext;
 import org.opensaml.saml.common.xml.SAMLConstants;
 import org.opensaml.saml.config.SAMLConfigurationSupport;
@@ -343,7 +345,7 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
             if (peerRoleDescriptor == null) {
                 throw new MessageDecodingException("Failed to resolve peer RoleDescriptor based on inbound artifact");
             }
-
+            
             final ArtifactResolutionService ars = resolveArtifactEndpoint(artifact, peerRoleDescriptor);
 
             final SAMLObject inboundMessage = dereferenceArtifact(artifact, peerRoleDescriptor, ars);
@@ -362,36 +364,41 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
      * @param ars
      * @return
      */
-    private SAMLObject dereferenceArtifact(final SAML2Artifact artifact, final RoleDescriptor peerRoleDescriptor,
-            final ArtifactResolutionService ars) 
-            throws MessageDecodingException {
-        
-        final MessageContext<SAMLObject> outbound = new MessageContext<>();
-        outbound.setMessage(buildArtifactResolveRequestMessage(artifact, ars.getLocation(), peerRoleDescriptor));
-        //TODO more population of context
-        //  - signing params
-        //  - client TLS params
-        //  - setting up stuff for handling response
-        //TODO what components needed to support signing and client TLS, and how do we get them?
-        //TODO probably support optional static injected creds and params, as well as injected resolution strategies
-        
-        final InOutOperationContext<SAMLObject, SAMLObject> opContext = new InOutOperationContext<>(null, outbound);
+    private SAMLObject dereferenceArtifact(final SAML2Artifact artifact, final RoleDescriptor peerRoleDescriptor, 
+            final ArtifactResolutionService ars) throws MessageDecodingException {
         
         try {
+            final String selfEntityID = resolveSelfEntityID(peerRoleDescriptor);
+        
+            // TODO can assume/enforce response as ArtifactResponse here?
+            final InOutOperationContext<SAMLObject, ArtifactResolve> opContext = new SAMLSOAPClientContextBuilder()
+                    .setOutboundMessage(buildArtifactResolveRequestMessage(
+                            artifact, ars.getLocation(), peerRoleDescriptor, selfEntityID))
+                    .setPeerRoleDescriptor(peerRoleDescriptor)
+                    .setSelfEntityID(selfEntityID)
+                    .build();
+        
             log.trace("Executing ArtifactResolve over SOAP 1.1 binding to endpoint: {}", ars.getLocation());
             soapClient.send(ars.getLocation(), opContext);
-            SAMLObject response = opContext.getInboundMessageContext().getMessage();
+            final SAMLObject response = opContext.getInboundMessageContext().getMessage();
             if (response instanceof ArtifactResponse) {
                 return validateAndExtractResponseMessage((ArtifactResponse) response);
             } else {
-                throw new MessageDecodingException("SOAP message payload was not an instance of ArtifactResponse: " + response.getClass().getName());
+                throw new MessageDecodingException("SOAP message payload was not an instance of ArtifactResponse: " 
+                        + response.getClass().getName());
             }
-        } catch (final SOAPException | SecurityException e) {
+        } catch (final MessageException | SOAPException | SecurityException e) {
             throw new MessageDecodingException("Error dereferencing artifact", e);
         }
     }
     
-    private SAMLObject validateAndExtractResponseMessage(ArtifactResponse artifactResponse) throws MessageDecodingException {
+    /**
+     * @param artifactResponse
+     * @return
+     * @throws MessageDecodingException
+     */
+    private SAMLObject validateAndExtractResponseMessage(@Nonnull final ArtifactResponse artifactResponse) 
+            throws MessageDecodingException {
         if (artifactResponse.getStatus() == null 
                 || artifactResponse.getStatus().getStatusCode() == null 
                 || artifactResponse.getStatus().getStatusCode().getValue() == null) {
@@ -414,10 +421,11 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
      * @param artifact
      * @param endpoint 
      * @param peerRoleDescriptor 
+     * @param selfEntityID 
      * @return
      */
     private ArtifactResolve buildArtifactResolveRequestMessage(final SAML2Artifact artifact, final String endpoint,
-            final RoleDescriptor peerRoleDescriptor) {
+            final RoleDescriptor peerRoleDescriptor, final String selfEntityID) {
         final ArtifactResolve request = 
                 (ArtifactResolve) XMLObjectSupport.buildXMLObject(ArtifactResolve.DEFAULT_ELEMENT_NAME);
         
@@ -428,20 +436,27 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
         request.setID(idStrategy.generateIdentifier(true));
         request.setDestination(endpoint);
         request.setIssueInstant(new DateTime(ISOChronology.getInstanceUTC()));
-        request.setIssuer(buildIssuer(peerRoleDescriptor));
+        request.setIssuer(buildIssuer(selfEntityID));
         
         return request;
+    }
+
+    /**
+     * @param peerRoleDescriptor
+     * @return
+     */
+    private String resolveSelfEntityID(RoleDescriptor peerRoleDescriptor) throws MessageDecodingException {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     /**
      * @param peerRoleDescriptor 
      * @return
      */
-    private Issuer buildIssuer(final RoleDescriptor peerRoleDescriptor) {
+    private Issuer buildIssuer(final String selfEntityID) {
         final Issuer issuer = (Issuer) XMLObjectSupport.buildXMLObject(Issuer.DEFAULT_ELEMENT_NAME);
-        //TODO how do we get our own entityID?
-        //     probably support optional static injected self entityID as well as injected resolution strategy
-        //issuer.setValue("TODO");
+        issuer.setValue(selfEntityID);
         return issuer;
     }
 
@@ -450,8 +465,8 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
      * @param peerRoleDescriptor
      * @return
      */
-    private ArtifactResolutionService resolveArtifactEndpoint(final SAML2Artifact artifact,
-            final RoleDescriptor peerRoleDescriptor) throws MessageDecodingException {
+    private ArtifactResolutionService resolveArtifactEndpoint(@Nonnull final SAML2Artifact artifact,
+            @Nonnull final RoleDescriptor peerRoleDescriptor) throws MessageDecodingException {
         final RoleDescriptorCriterion roleDescriptorCriterion = new RoleDescriptorCriterion(peerRoleDescriptor);
 
         final ArtifactResolutionService arsTemplate = 
@@ -488,14 +503,19 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
      * @param artifact
      * @return
      */
-    private RoleDescriptor resolvePeerRoleDescriptor(final SAML2Artifact artifact) throws MessageDecodingException {
+    @Nonnull private RoleDescriptor resolvePeerRoleDescriptor(@Nonnull final SAML2Artifact artifact) 
+            throws MessageDecodingException {
 
         final CriteriaSet criteriaSet = new CriteriaSet(
                 new ArtifactCriterion(artifact),
                 new ProtocolCriterion(SAMLConstants.SAML20P_NS),
                 new EntityRoleCriterion(getPeerEntityRole()));
         try {
-            return roleDescriptorResolver.resolveSingle(criteriaSet);
+            RoleDescriptor rd = roleDescriptorResolver.resolveSingle(criteriaSet);
+            if (rd == null) {
+                throw new MessageDecodingException("Unable to resolve peer RoleDescriptor from supplied artifact");
+            }
+            return rd;
         } catch (final ResolverException e) {
             throw new MessageDecodingException("Error resolving peer entity RoleDescriptor", e);
         }
@@ -505,8 +525,13 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
      * @param encodedArtifact
      * @return
      */
-    private SAML2Artifact parseArtifact(final String encodedArtifact) throws MessageDecodingException {
-        return artifactBuilderFactory.buildArtifact(encodedArtifact);
+    @Nonnull private SAML2Artifact parseArtifact(@Nonnull final String encodedArtifact) throws MessageDecodingException {
+        //TODO not sure if this handles well bad input.  Determine if can throw an unchecked and handle here.
+        SAML2Artifact artifact = artifactBuilderFactory.buildArtifact(encodedArtifact);
+        if (artifact == null) {
+            throw new MessageDecodingException("Could not build SAML2Artifact instance from encoded artifact");
+        }
+        return artifact;
     }
 
     /**
