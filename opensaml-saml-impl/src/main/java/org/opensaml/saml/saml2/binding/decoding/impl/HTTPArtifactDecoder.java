@@ -50,7 +50,9 @@ import org.opensaml.saml.saml2.binding.artifact.SAML2Artifact;
 import org.opensaml.saml.saml2.binding.artifact.SAML2ArtifactBuilderFactory;
 import org.opensaml.saml.saml2.core.Artifact;
 import org.opensaml.saml.saml2.core.ArtifactResolve;
+import org.opensaml.saml.saml2.core.ArtifactResponse;
 import org.opensaml.saml.saml2.core.Issuer;
+import org.opensaml.saml.saml2.core.StatusCode;
 import org.opensaml.saml.saml2.metadata.ArtifactResolutionService;
 import org.opensaml.saml.saml2.metadata.RoleDescriptor;
 import org.opensaml.security.SecurityException;
@@ -378,10 +380,34 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
         try {
             log.trace("Executing ArtifactResolve over SOAP 1.1 binding to endpoint: {}", ars.getLocation());
             soapClient.send(ars.getLocation(), opContext);
-            return opContext.getInboundMessageContext().getMessage();
+            SAMLObject response = opContext.getInboundMessageContext().getMessage();
+            if (response instanceof ArtifactResponse) {
+                return validateAndExtractResponseMessage((ArtifactResponse) response);
+            } else {
+                throw new MessageDecodingException("SOAP message payload was not an instance of ArtifactResponse: " + response.getClass().getName());
+            }
         } catch (final SOAPException | SecurityException e) {
             throw new MessageDecodingException("Error dereferencing artifact", e);
         }
+    }
+    
+    private SAMLObject validateAndExtractResponseMessage(ArtifactResponse artifactResponse) throws MessageDecodingException {
+        if (artifactResponse.getStatus() == null 
+                || artifactResponse.getStatus().getStatusCode() == null 
+                || artifactResponse.getStatus().getStatusCode().getValue() == null) {
+            
+            log.warn("ArtifactResponse included no StatusCode, could not validate");
+            
+        } else if (!StatusCode.SUCCESS.equals(artifactResponse.getStatus().getStatusCode().getValue())){
+            throw new MessageDecodingException("ArtifactResponse carried non-success StatusCode: " 
+                    + artifactResponse.getStatus().getStatusCode().getValue());
+        }
+        
+        if (artifactResponse.getMessage() == null) {
+            throw new MessageDecodingException("ArtifactResponse carried an empty message payload");
+        }
+        
+        return artifactResponse.getMessage();
     }
 
     /**
