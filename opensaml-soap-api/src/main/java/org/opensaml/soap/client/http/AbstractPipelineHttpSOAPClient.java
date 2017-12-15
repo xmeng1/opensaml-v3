@@ -201,8 +201,6 @@ public abstract class AbstractPipelineHttpSOAPClient<OutboundMessageType, Inboun
             }
             
             final HttpUriRequest httpRequest = buildHttpRequest(endpoint, operationContext);
-            final HttpClientContext httpContext = buildHttpContext(httpRequest, operationContext);
-            
             // Request encoding + outbound transport handling
             final HttpClientRequestMessageEncoder<OutboundMessageType> encoder = pipeline.getEncoder();
             encoder.setHttpRequest(httpRequest);
@@ -214,7 +212,9 @@ public abstract class AbstractPipelineHttpSOAPClient<OutboundMessageType, Inboun
             }
             encoder.encode();
             
+            
             // HttpClient execution
+            final HttpClientContext httpContext = buildHttpContext(httpRequest, operationContext);
             final HttpResponse httpResponse = getHttpClient().execute(httpRequest, httpContext);
             HttpClientSecuritySupport.checkTLSCredentialEvaluated(httpContext, httpRequest.getURI().getScheme());
             
