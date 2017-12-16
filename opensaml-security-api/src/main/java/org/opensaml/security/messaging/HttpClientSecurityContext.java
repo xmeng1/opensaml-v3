@@ -66,7 +66,7 @@ public class HttpClientSecurityContext extends BaseContext {
     }
     
     /**
-     * Set the TLS criteria strategy function
+     * Set the TLS criteria strategy function.
      * 
      * @param strategy the strategy function instance, or null
      */
