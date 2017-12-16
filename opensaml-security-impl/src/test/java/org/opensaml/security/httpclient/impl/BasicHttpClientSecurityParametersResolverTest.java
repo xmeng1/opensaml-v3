@@ -23,13 +23,13 @@ import java.security.KeyException;
 import java.security.cert.CertificateException;
 
 import org.apache.http.conn.ssl.StrictHostnameVerifier;
-import org.apache.http.impl.client.BasicAuthCache;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.opensaml.security.SecurityException;
 import org.opensaml.security.credential.CredentialSupport;
 import org.opensaml.security.crypto.KeySupport;
 import org.opensaml.security.httpclient.HttpClientSecurityConfigurationCriterion;
 import org.opensaml.security.httpclient.HttpClientSecurityParameters;
+import org.opensaml.security.httpclient.TLSCriteriaSetCriterion;
 import org.opensaml.security.trust.TrustEngine;
 import org.opensaml.security.x509.X509Credential;
 import org.opensaml.security.x509.X509Support;
@@ -76,12 +76,12 @@ public class BasicHttpClientSecurityParametersResolverTest {
         HttpClientSecurityParameters params = resolver.resolveSingle(criteria);
         
         Assert.assertNotNull(params);;
-        Assert.assertNotNull(params.getAuthCache());
+        Assert.assertNull(params.getAuthCache());
         Assert.assertNotNull(params.getClientTLSCredential());
         Assert.assertNotNull(params.getCredentialsProvider());
         Assert.assertNotNull(params.getHostnameVerifier());
         Assert.assertNotNull(params.getTLSCipherSuites());
-        Assert.assertNotNull(params.getTLSCriteriaSet());
+        Assert.assertNull(params.getTLSCriteriaSet());
         Assert.assertNotNull(params.getTLSProtocols());
         Assert.assertNotNull(params.getTLSTrustEngine());
     }
@@ -117,12 +117,12 @@ public class BasicHttpClientSecurityParametersResolverTest {
         params = resolver.resolveSingle(criteria);
         
         Assert.assertNotNull(params);;
-        Assert.assertNotNull(params.getAuthCache());
+        Assert.assertNull(params.getAuthCache());
         Assert.assertNotNull(params.getClientTLSCredential());
         Assert.assertNotNull(params.getCredentialsProvider());
         Assert.assertNotNull(params.getHostnameVerifier());
         Assert.assertNotNull(params.getTLSCipherSuites());
-        Assert.assertNotNull(params.getTLSCriteriaSet());
+        Assert.assertNull(params.getTLSCriteriaSet());
         Assert.assertNotNull(params.getTLSProtocols());
         Assert.assertNotNull(params.getTLSTrustEngine());
         
@@ -134,12 +134,12 @@ public class BasicHttpClientSecurityParametersResolverTest {
         params = resolver.resolveSingle(criteria);
         
         Assert.assertNotNull(params);;
-        Assert.assertNotNull(params.getAuthCache());
+        Assert.assertNull(params.getAuthCache());
         Assert.assertNotNull(params.getClientTLSCredential());
         Assert.assertNotNull(params.getCredentialsProvider());
         Assert.assertNotNull(params.getHostnameVerifier());
         Assert.assertNotNull(params.getTLSCipherSuites());
-        Assert.assertNotNull(params.getTLSCriteriaSet());
+        Assert.assertNull(params.getTLSCriteriaSet());
         Assert.assertNotNull(params.getTLSProtocols());
         Assert.assertNotNull(params.getTLSTrustEngine());
         
@@ -151,12 +151,12 @@ public class BasicHttpClientSecurityParametersResolverTest {
         params = resolver.resolveSingle(criteria);
         
         Assert.assertNotNull(params);;
-        Assert.assertNotNull(params.getAuthCache());
+        Assert.assertNull(params.getAuthCache());
         Assert.assertNotNull(params.getClientTLSCredential());
         Assert.assertNotNull(params.getCredentialsProvider());
         Assert.assertNotNull(params.getHostnameVerifier());
         Assert.assertNotNull(params.getTLSCipherSuites());
-        Assert.assertNotNull(params.getTLSCriteriaSet());
+        Assert.assertNull(params.getTLSCriteriaSet());
         Assert.assertNotNull(params.getTLSProtocols());
         Assert.assertNotNull(params.getTLSTrustEngine());
     }
@@ -208,17 +208,27 @@ public class BasicHttpClientSecurityParametersResolverTest {
         Assert.assertSame(params.getClientTLSCredential(), config3.getClientTLSCredential());
     }
     
+    @Test
+    public void testTLSCriteriaSet() throws ResolverException {
+        CriteriaSet criteria = new CriteriaSet(new HttpClientSecurityConfigurationCriterion(
+                new BasicHttpClientSecurityConfiguration()));
+        criteria.add(new TLSCriteriaSetCriterion(new CriteriaSet()));
+        
+        HttpClientSecurityParameters params = resolver.resolveSingle(criteria);
+        
+        Assert.assertNotNull(params);;
+        Assert.assertNotNull(params.getTLSCriteriaSet());
+    }
+    
     
     // Helpers
     
     private BasicHttpClientSecurityConfiguration buildBaseConfiguration(X509Credential x509Credential)  {
         BasicHttpClientSecurityConfiguration config = new BasicHttpClientSecurityConfiguration();
-        config.setAuthCache(new BasicAuthCache());
         config.setClientTLSCredential(x509Credential);
         config.setCredentialsProvider(new BasicCredentialsProvider());
         config.setHostnameVerifier(new StrictHostnameVerifier());
         config.setTLSCipherSuites(Lists.newArrayList("test"));
-        config.setTLSCriteriaSet(new CriteriaSet());
         config.setTLSProtocols(Lists.newArrayList("test"));
         config.setTLSTrustEngine(new MockTrustEngine());
         return config;

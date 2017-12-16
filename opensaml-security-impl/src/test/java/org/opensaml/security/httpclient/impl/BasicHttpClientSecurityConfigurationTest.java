@@ -54,21 +54,17 @@ public class BasicHttpClientSecurityConfigurationTest {
     @Test
     public void testBasic() {
         BasicHttpClientSecurityConfiguration config = new BasicHttpClientSecurityConfiguration();
-        config.setAuthCache(new BasicAuthCache());
         config.setClientTLSCredential(x509Credential);
         config.setCredentialsProvider(new BasicCredentialsProvider());
         config.setHostnameVerifier(new StrictHostnameVerifier());
         config.setTLSCipherSuites(Lists.newArrayList("test"));
-        config.setTLSCriteriaSet(new CriteriaSet());
         config.setTLSProtocols(Lists.newArrayList("test"));
         config.setTLSTrustEngine(new MockTrustEngine());
         
-        Assert.assertNotNull(config.getAuthCache());
         Assert.assertNotNull(config.getClientTLSCredential());
         Assert.assertNotNull(config.getCredentialsProvider());
         Assert.assertNotNull(config.getHostnameVerifier());
         Assert.assertNotNull(config.getTLSCipherSuites());
-        Assert.assertNotNull(config.getTLSCriteriaSet());
         Assert.assertNotNull(config.getTLSProtocols());
         Assert.assertNotNull(config.getTLSTrustEngine());
     }

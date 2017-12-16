@@ -28,6 +28,7 @@ import org.opensaml.security.httpclient.HttpClientSecurityConfiguration;
 import org.opensaml.security.httpclient.HttpClientSecurityConfigurationCriterion;
 import org.opensaml.security.httpclient.HttpClientSecurityParameters;
 import org.opensaml.security.httpclient.HttpClientSecurityParametersResolver;
+import org.opensaml.security.httpclient.TLSCriteriaSetCriterion;
 import org.opensaml.security.trust.TrustEngine;
 import org.opensaml.security.x509.X509Credential;
 import org.slf4j.Logger;
@@ -96,8 +97,6 @@ public class BasicHttpClientSecurityParametersResolver implements HttpClientSecu
                 criteria.get(HttpClientSecurityConfigurationCriterion.class).getConfigurations();
         
         for (final HttpClientSecurityConfiguration config : configs) {
-            params.setAuthCache(ObjectSupport.firstNonNull(params.getAuthCache(), 
-                    config.getAuthCache()));
             params.setClientTLSCredential(ObjectSupport.firstNonNull(params.getClientTLSCredential(), 
                     config.getClientTLSCredential()));
             params.setCredentialsProvider(ObjectSupport.firstNonNull(params.getCredentialsProvider(), 
@@ -106,12 +105,14 @@ public class BasicHttpClientSecurityParametersResolver implements HttpClientSecu
                     config.getHostnameVerifier()));
             params.setTLSCipherSuites(ObjectSupport.firstNonNull(params.getTLSCipherSuites(), 
                     config.getTLSCipherSuites()));
-            params.setTLSCriteriaSet(ObjectSupport.firstNonNull(params.getTLSCriteriaSet(), 
-                    config.getTLSCriteriaSet()));
             params.setTLSProtocols(ObjectSupport.firstNonNull(params.getTLSProtocols(), 
                     config.getTLSProtocols()));
             params.setTLSTrustEngine(ObjectSupport.<TrustEngine<? super X509Credential>>firstNonNull(
                     params.getTLSTrustEngine(), config.getTLSTrustEngine()));
+        }
+        
+        if (criteria.contains(TLSCriteriaSetCriterion.class)) {
+            params.setTLSCriteriaSet(criteria.get(TLSCriteriaSetCriterion.class).getCriteria());
         }
     }
 

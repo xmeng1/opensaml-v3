@@ -21,13 +21,10 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import org.apache.http.client.AuthCache;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.conn.ssl.X509HostnameVerifier;
 import org.opensaml.security.trust.TrustEngine;
 import org.opensaml.security.x509.X509Credential;
-
-import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
 
 /**
  * The security configuration information to use when performing HTTP client requests.
@@ -42,27 +39,11 @@ public interface HttpClientSecurityConfiguration {
     @Nullable public CredentialsProvider getCredentialsProvider();
     
     /**
-     * Get an instance of {@link AuthCache} used for authentication by the HttpClient instance.
-     * 
-     * @return the cache, or null
-     * 
-     * @since 3.4.0
-     */
-    @Nullable public AuthCache getAuthCache();
-    
-    /**
      * Sets the optional trust engine used in evaluating server TLS credentials.
      * 
      * @return the trust engine instance to use, or null
      */
     @Nullable public TrustEngine<? super X509Credential> getTLSTrustEngine();
-    
-    /**
-     * Get the optional criteria set used in evaluating server TLS credentials.
-     * 
-     * @return the criteria set instance to use
-     */
-    @Nullable public CriteriaSet getTLSCriteriaSet();
     
     /**
      * Get the optional list of TLS protocols. 

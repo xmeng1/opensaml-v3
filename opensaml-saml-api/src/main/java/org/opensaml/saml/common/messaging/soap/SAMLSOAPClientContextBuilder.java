@@ -15,22 +15,36 @@
  * limitations under the License.
  */
 
-package org.opensaml.saml.common.messaging;
+package org.opensaml.saml.common.messaging.soap;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.xml.namespace.QName;
 
+import org.opensaml.core.criterion.EntityIdCriterion;
 import org.opensaml.core.xml.XMLObject;
 import org.opensaml.messaging.MessageException;
+import org.opensaml.messaging.context.BaseContext;
 import org.opensaml.messaging.context.InOutOperationContext;
 import org.opensaml.messaging.context.MessageContext;
+import org.opensaml.messaging.context.navigate.RecursiveTypedParentContextLookup;
 import org.opensaml.saml.common.SAMLObject;
 import org.opensaml.saml.common.messaging.context.SAMLMetadataContext;
 import org.opensaml.saml.common.messaging.context.SAMLPeerEntityContext;
+import org.opensaml.saml.common.messaging.context.SAMLProtocolContext;
 import org.opensaml.saml.common.messaging.context.SAMLSelfEntityContext;
+import org.opensaml.saml.criterion.EntityRoleCriterion;
+import org.opensaml.saml.criterion.ProtocolCriterion;
+import org.opensaml.saml.criterion.RoleDescriptorCriterion;
 import org.opensaml.saml.saml2.metadata.EntityDescriptor;
 import org.opensaml.saml.saml2.metadata.RoleDescriptor;
+import org.opensaml.security.credential.UsageType;
+import org.opensaml.security.criteria.UsageCriterion;
+import org.opensaml.security.messaging.HttpClientSecurityContext;
+
+import com.google.common.base.Function;
+
+import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
 
 //TODO when impl finished, document required vs optional data and derivation rules
 
@@ -60,6 +74,9 @@ public class SAMLSOAPClientContextBuilder<InboundMessageType extends SAMLObject,
     
     /** The SAML peer RoleDescriptor. **/
     private RoleDescriptor peerRoleDescriptor;
+    
+    /** TLS CriteriaSet strategy. */
+    private Function<MessageContext<?>, CriteriaSet> tlsCriteriaSetStrategy;
     
     /**
      * Get the outbound message.
@@ -212,6 +229,31 @@ public class SAMLSOAPClientContextBuilder<InboundMessageType extends SAMLObject,
     }
 
     /**
+     * Get the TLS CriteriaSet strategy.
+     * 
+     * @return Returns the tlsCriteriaSetStrategy.
+     */
+    @Nullable public Function<MessageContext<?>, CriteriaSet> getTLSCriteriaSetStrategy() {
+        if (tlsCriteriaSetStrategy != null) {
+            return tlsCriteriaSetStrategy;
+        } else {
+            return new DefaultTLSCriteriaSetStrategy();
+        }
+    }
+
+    /**
+     * Set the TLS CriteriaSet strategy.
+     * 
+     * @param strategy the strategy
+     * @return this builder instance 
+     */
+    @Nonnull public SAMLSOAPClientContextBuilder<InboundMessageType, OutboundMessageType> 
+            setTLSCriteriaSetStrategy(@Nullable final Function<MessageContext<?>, CriteriaSet> strategy) {
+        tlsCriteriaSetStrategy = strategy;
+        return this;
+    }
+
+    /**
      * Build the new operation context.
      * 
      * @return the operation context
@@ -225,13 +267,22 @@ public class SAMLSOAPClientContextBuilder<InboundMessageType extends SAMLObject,
         final MessageContext<OutboundMessageType> outboundContext = new MessageContext<OutboundMessageType>();
         outboundContext.setMessage(getOutboundMessage());
         
+        final Function<MessageContext<?>, CriteriaSet> tlsStrategy = getTLSCriteriaSetStrategy();
+        if (tlsStrategy != null) {
+            outboundContext.getSubcontext(HttpClientSecurityContext.class, true)
+                .setTLSCriteriaSetStrategy(tlsStrategy);
+        }
+        
         final InOutOperationContext<InboundMessageType, OutboundMessageType> opContext = 
                 new InOutOperationContext<>(null, outboundContext);
+        
+        // This is just so it's easy to change.
+        final BaseContext parent = opContext;
         
         //TODO is this required always?
         final String selfID = getSelfEntityID();
         if (selfID != null) {
-            final SAMLSelfEntityContext selfContext = opContext.getSubcontext(SAMLSelfEntityContext.class, true);
+            final SAMLSelfEntityContext selfContext = parent.getSubcontext(SAMLSelfEntityContext.class, true);
             selfContext.setEntityId(selfID);
         }
         
@@ -244,7 +295,7 @@ public class SAMLSOAPClientContextBuilder<InboundMessageType extends SAMLObject,
         if (peerRoleName == null) {
             errorMissingData("Peer role");
         }
-        final SAMLPeerEntityContext peerContext = opContext.getSubcontext(SAMLPeerEntityContext.class, true);
+        final SAMLPeerEntityContext peerContext = parent.getSubcontext(SAMLPeerEntityContext.class, true);
         peerContext.setEntityId(peerID);
         peerContext.setRole(peerRoleName);
         
@@ -264,6 +315,52 @@ public class SAMLSOAPClientContextBuilder<InboundMessageType extends SAMLObject,
      */
     private void errorMissingData(@Nonnull final String details) throws MessageException {
         throw new MessageException("Required context data was not supplied or derivable: " + details);
+    }
+    
+    /** Default TLS CriteriaSet strategy function. */
+    public static class DefaultTLSCriteriaSetStrategy implements Function<MessageContext<?>, CriteriaSet> {
+
+        /** {@inheritDoc} */
+        public CriteriaSet apply(@Nullable final MessageContext<?> messageContext) {
+            final CriteriaSet criteria = new CriteriaSet();
+            criteria.add(new UsageCriterion(UsageType.SIGNING));
+            
+            if (messageContext == null) {
+                return criteria;
+            }
+            
+            // This should be consistent with what build() does above.
+            final BaseContext parent = new RecursiveTypedParentContextLookup<>(InOutOperationContext.class)
+                    .apply(messageContext);
+            if (parent == null) {
+                return criteria;
+            }
+            
+            final SAMLProtocolContext protocolContext = parent.getSubcontext(SAMLProtocolContext.class);
+            if (protocolContext != null && protocolContext.getProtocol() != null) {
+                criteria.add(new ProtocolCriterion(protocolContext.getProtocol()));
+            }
+            
+            final SAMLPeerEntityContext peerContext = parent.getSubcontext(SAMLPeerEntityContext.class);
+            if (peerContext == null) {
+                return criteria;
+            }
+            
+            final SAMLMetadataContext metadataContext = peerContext.getSubcontext(SAMLMetadataContext.class);
+            if (metadataContext != null && metadataContext.getRoleDescriptor() != null) {
+                criteria.add(new RoleDescriptorCriterion(metadataContext.getRoleDescriptor()));
+                return criteria;
+            } else {
+                if (peerContext.getEntityId() != null) {
+                    criteria.add(new EntityIdCriterion(peerContext.getEntityId()));
+                }
+                if (peerContext.getRole() != null) {
+                    criteria.add(new EntityRoleCriterion(peerContext.getRole()));
+                }
+                return criteria;
+            }
+        }
+        
     }
 
 }

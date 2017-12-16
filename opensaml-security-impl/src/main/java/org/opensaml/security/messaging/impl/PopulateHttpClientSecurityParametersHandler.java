@@ -31,6 +31,7 @@ import org.opensaml.security.httpclient.HttpClientSecurityConfiguration;
 import org.opensaml.security.httpclient.HttpClientSecurityConfigurationCriterion;
 import org.opensaml.security.httpclient.HttpClientSecurityParameters;
 import org.opensaml.security.httpclient.HttpClientSecurityParametersResolver;
+import org.opensaml.security.httpclient.TLSCriteriaSetCriterion;
 import org.opensaml.security.httpclient.impl.BasicHttpClientSecurityConfiguration;
 import org.opensaml.security.messaging.HttpClientSecurityContext;
 import org.slf4j.Logger;
@@ -192,6 +193,14 @@ public class PopulateHttpClientSecurityParametersHandler extends AbstractMessage
         }
         
         final CriteriaSet criteria = new CriteriaSet(new HttpClientSecurityConfigurationCriterion(configs));
+        
+        if (paramsCtx.getTLSCriteriaSetStrategy() != null) {
+            final CriteriaSet tlsCriteriaSet = paramsCtx.getTLSCriteriaSetStrategy().apply(messageContext); 
+            if (tlsCriteriaSet  != null) {
+                criteria.add(new TLSCriteriaSetCriterion(tlsCriteriaSet));
+            }
+        }
+        
         
         try {
             final HttpClientSecurityParameters params = resolver.resolveSingle(criteria);

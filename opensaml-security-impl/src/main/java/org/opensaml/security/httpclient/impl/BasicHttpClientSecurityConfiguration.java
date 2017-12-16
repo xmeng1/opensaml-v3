@@ -25,7 +25,6 @@ import javax.annotation.Nullable;
 
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.AuthCache;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.conn.ssl.X509HostnameVerifier;
 import org.apache.http.impl.client.BasicCredentialsProvider;
@@ -34,7 +33,6 @@ import org.opensaml.security.trust.TrustEngine;
 import org.opensaml.security.x509.X509Credential;
 
 import net.shibboleth.utilities.java.support.primitive.StringSupport;
-import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
 
 /**
  * Basic implementation of {@link HttpClientSecurityConfiguration}.
@@ -44,14 +42,8 @@ public class BasicHttpClientSecurityConfiguration implements HttpClientSecurityC
     /** HttpClient credentials provider. */
     @Nullable private CredentialsProvider credentialsProvider;
     
-    /** HttpClient {@link AuthCache} to allow pre-emptive authentication. */
-    @Nullable private AuthCache authCache;
-    
     /** Optional trust engine used in evaluating server TLS credentials. */
     @Nullable private TrustEngine<? super X509Credential> tlsTrustEngine;
-    
-    /** Optional criteria set used in evaluating server TLS credentials. */
-    @Nullable private CriteriaSet tlsCriteriaSet;
     
     /** TLS Protocols. */
     @Nullable private List<String> tlsProtocols;
@@ -82,29 +74,6 @@ public class BasicHttpClientSecurityConfiguration implements HttpClientSecurityC
     public void setCredentialsProvider(@Nullable final CredentialsProvider provider) {
         credentialsProvider = provider;
     }
-    
-    /**
-     * Get an instance of {@link AuthCache} used for authentication by the HttpClient instance.
-     * 
-     * @return the cache, or null
-     * 
-     * @since 3.4.0
-     */
-    @Nullable public AuthCache getAuthCache() {
-        return authCache;
-    }
-    
-    /**
-     * Set an instance of {@link AuthCache} used for authentication by the HttpClient instance.
-     * 
-     * @param cache the auth cache
-     * 
-     * @since 3.4.0
-     */
-    public void setAuthCache(@Nullable final AuthCache cache) {
-        authCache = cache;
-    }
-    
     
     /**
      * A convenience method to set a (single) username and password used for BASIC authentication.
@@ -171,24 +140,6 @@ public class BasicHttpClientSecurityConfiguration implements HttpClientSecurityC
      */
     public void setTLSTrustEngine(@Nullable final TrustEngine<? super X509Credential> engine) {
         tlsTrustEngine = engine;
-    }
-
-    /**
-     * Get the optional criteria set used in evaluating server TLS credentials.
-     * 
-     * @return the criteria set instance to use
-     */
-    @Nullable public CriteriaSet getTLSCriteriaSet() {
-        return tlsCriteriaSet;
-    }
-
-    /**
-     * Set the optional criteria set used in evaluating server TLS credentials.
-     * 
-     * @param criteriaSet the new criteria set instance to use
-     */
-    public void setTLSCriteriaSet(@Nullable final CriteriaSet criteriaSet) {
-        tlsCriteriaSet = criteriaSet;
     }
 
     /**
