@@ -70,15 +70,14 @@ import net.shibboleth.utilities.java.support.component.ComponentInitializationEx
 import net.shibboleth.utilities.java.support.component.ComponentSupport;
 import net.shibboleth.utilities.java.support.primitive.StringSupport;
 import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
+import net.shibboleth.utilities.java.support.resolver.Resolver;
 import net.shibboleth.utilities.java.support.resolver.ResolverException;
 import net.shibboleth.utilities.java.support.security.IdentifierGenerationStrategy;
 import net.shibboleth.utilities.java.support.security.SecureRandomIdentifierGenerationStrategy;
 
 /** 
  * SAML 2 Artifact Binding decoder, support both HTTP GET and POST.
- * 
- * <strong>NOTE: This decoder is not yet implemented.</strong>
- * */
+ */
 public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder<SAMLObject> 
         implements SAMLMessageDecoder {
 
@@ -100,6 +99,9 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
     /** The peer entity role QName. */
     @NonnullAfterInit private QName peerEntityRole;
     
+    /** Resolver for the self entityID, based on the peer entity data. */
+    @NonnullAfterInit private Resolver<String, CriteriaSet> selfEntityIDResolver;
+    
     /** SOAP client. */
     private SOAPClient soapClient;
     
@@ -109,6 +111,10 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
     /** {@inheritDoc} */
     protected void doInitialize() throws ComponentInitializationException {
         super.doInitialize();
+        
+        if (selfEntityIDResolver == null) {
+            throw new ComponentInitializationException("Self entityID resolver cannot be null");
+        }
         
         if (roleDescriptorResolver == null) {
             throw new ComponentInitializationException("RoleDescriptorResolver cannot be null");
@@ -170,6 +176,26 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
         idStrategy = strategy;
+    }
+    
+    /**
+     * Get the resolver for the self entityID.
+     * 
+     * @return the resolver
+     */
+    @NonnullAfterInit public Resolver<String,CriteriaSet> getSelfEntityIDResolver() {
+        return selfEntityIDResolver;
+    }
+    
+    /**
+     * Set the resolver for the self entityID.
+     * 
+     * @param resolver the resolver instance
+     */
+    public void setSelfEntityIDResolver(@Nonnull final Resolver<String, CriteriaSet> resolver) {
+        ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
+        ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
+        selfEntityIDResolver = resolver;
     }
 
     /**
@@ -359,13 +385,17 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
     }
     
     /**
-     * @param artifact
-     * @param peerRoleDescriptor 
-     * @param ars
-     * @return
+     * De-reference the supplied artifact into the corresponding SAML protocol message.
+     * 
+     * @param artifact the artifact to de-reference
+     * @param peerRoleDescriptor the peer RoleDescriptor
+     * @param ars the peer's artifact resolution service endpoint
+     * @return the de-referenced artifact
+     * @throws MessageDecodingException if there is fatal error, or if the artifact was not successfully resolved
      */
-    private SAMLObject dereferenceArtifact(final SAML2Artifact artifact, final RoleDescriptor peerRoleDescriptor, 
-            final ArtifactResolutionService ars) throws MessageDecodingException {
+    @Nonnull private SAMLObject dereferenceArtifact(@Nonnull final SAML2Artifact artifact, 
+            @Nonnull final RoleDescriptor peerRoleDescriptor, @Nonnull final ArtifactResolutionService ars) 
+                    throws MessageDecodingException {
         
         try {
             final String selfEntityID = resolveSelfEntityID(peerRoleDescriptor);
@@ -393,11 +423,13 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
     }
     
     /**
-     * @param artifactResponse
-     * @return
-     * @throws MessageDecodingException
+     * Validate and extract the SAML protocol message from the artifact response.
+     * 
+     * @param artifactResponse the response to process
+     * @return the SAML protocol message
+     * @throws MessageDecodingException if the protocol message was not sent or there was a non-success status response
      */
-    private SAMLObject validateAndExtractResponseMessage(@Nonnull final ArtifactResponse artifactResponse) 
+    @Nonnull private SAMLObject validateAndExtractResponseMessage(@Nonnull final ArtifactResponse artifactResponse) 
             throws MessageDecodingException {
         if (artifactResponse.getStatus() == null 
                 || artifactResponse.getStatus().getStatusCode() == null 
@@ -418,14 +450,18 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
     }
 
     /**
-     * @param artifact
-     * @param endpoint 
-     * @param peerRoleDescriptor 
-     * @param selfEntityID 
-     * @return
+     * Build the SAML protocol message for artifact resolution.
+     * 
+     * @param artifact the artifact being de-referenced
+     * @param endpoint the peer artifact resolution service endpoint
+     * @param peerRoleDescriptor the peer RoleDescriptor
+     * @param selfEntityID the entityID of this party, the issuer of the protocol request message
+     * @return the SAML protocol message for artifact resolution
      */
-    private ArtifactResolve buildArtifactResolveRequestMessage(final SAML2Artifact artifact, final String endpoint,
-            final RoleDescriptor peerRoleDescriptor, final String selfEntityID) {
+    @Nonnull private ArtifactResolve buildArtifactResolveRequestMessage(@Nonnull final SAML2Artifact artifact, 
+            @Nonnull final String endpoint, @Nonnull final RoleDescriptor peerRoleDescriptor, 
+            @Nonnull final String selfEntityID) {
+        
         final ArtifactResolve request = 
                 (ArtifactResolve) XMLObjectSupport.buildXMLObject(ArtifactResolve.DEFAULT_ELEMENT_NAME);
         
@@ -442,31 +478,53 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
     }
 
     /**
-     * @param peerRoleDescriptor
-     * @return
+     * Resolve the self entityID, used as the issuer of the protocol message by this entity.
+     * 
+     * @param peerRoleDescriptor the peer RoleDescriptor
+     * @return the resolved self entityID
+     * @throws MessageDecodingException if there was a fatal error during resolution, 
+     *          or the entityID could not be resolved
      */
-    private String resolveSelfEntityID(RoleDescriptor peerRoleDescriptor) throws MessageDecodingException {
-        // TODO Auto-generated method stub
-        return null;
+    @Nonnull private String resolveSelfEntityID(@Nonnull final RoleDescriptor peerRoleDescriptor) 
+            throws MessageDecodingException {
+        
+        final CriteriaSet criteria = new CriteriaSet(new RoleDescriptorCriterion(peerRoleDescriptor));
+        try {
+            final String selfEntityID = getSelfEntityIDResolver().resolveSingle(criteria);
+            if (selfEntityID == null) {
+                throw new MessageDecodingException("Unable to resolve self entityID from peer RoleDescriptor");
+            } else {
+                return selfEntityID;
+            }
+        } catch (final ResolverException e) {
+            throw new MessageDecodingException("Fatal error resolving self entityID from peer RoleDescriptor", e);
+        }
     }
 
     /**
-     * @param peerRoleDescriptor 
-     * @return
+     * Build the SAML protocol message Issuer element.
+     * 
+     * @param selfEntityID the entity ID of the protocol message issuer (this entity)
+     * @return the Issuer element
      */
-    private Issuer buildIssuer(final String selfEntityID) {
+    @Nonnull private Issuer buildIssuer(@Nonnull final String selfEntityID) {
         final Issuer issuer = (Issuer) XMLObjectSupport.buildXMLObject(Issuer.DEFAULT_ELEMENT_NAME);
         issuer.setValue(selfEntityID);
         return issuer;
     }
 
     /**
-     * @param artifact
-     * @param peerRoleDescriptor
-     * @return
+     * Resolve the artifact resolution endpoint of the peer who issued the artifact.
+     * 
+     * @param artifact the artifact
+     * @param peerRoleDescriptor the peer RoleDescriptor
+     * @return the peer artifact resolution service endpoint
+     * @throws MessageDecodingException if there is a fatal error resolving the endpoint, 
+     *          or the endpoint could not be resolved
      */
-    private ArtifactResolutionService resolveArtifactEndpoint(@Nonnull final SAML2Artifact artifact,
+    @Nonnull private ArtifactResolutionService resolveArtifactEndpoint(@Nonnull final SAML2Artifact artifact,
             @Nonnull final RoleDescriptor peerRoleDescriptor) throws MessageDecodingException {
+        
         final RoleDescriptorCriterion roleDescriptorCriterion = new RoleDescriptorCriterion(peerRoleDescriptor);
 
         final ArtifactResolutionService arsTemplate = 
@@ -500,8 +558,12 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
     }
 
     /**
-     * @param artifact
-     * @return
+     * Resolve the role descriptor of the SAML peer who issued the supplied artifact.
+     * 
+     * @param artifact the artifact to process
+     * @return the peer RoleDescriptor
+     * @throws MessageDecodingException if there was a fatal error resolving the role descriptor,
+     *          or the descriptor could not be resolved
      */
     @Nonnull private RoleDescriptor resolvePeerRoleDescriptor(@Nonnull final SAML2Artifact artifact) 
             throws MessageDecodingException {
@@ -511,7 +573,7 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
                 new ProtocolCriterion(SAMLConstants.SAML20P_NS),
                 new EntityRoleCriterion(getPeerEntityRole()));
         try {
-            RoleDescriptor rd = roleDescriptorResolver.resolveSingle(criteriaSet);
+            final RoleDescriptor rd = roleDescriptorResolver.resolveSingle(criteriaSet);
             if (rd == null) {
                 throw new MessageDecodingException("Unable to resolve peer RoleDescriptor from supplied artifact");
             }
@@ -522,12 +584,17 @@ public class HTTPArtifactDecoder extends BaseHttpServletRequestXMLMessageDecoder
     }
 
     /**
-     * @param encodedArtifact
-     * @return
+     * Parse and decode the supplied encoded artifact string into a {@link SAML2Artifact} instance.
+     * 
+     * @param encodedArtifact the encoded artifact which was received
+     * @return the decoded artifact instance
+     * @throws MessageDecodingException if the encoded artifact could not be decoded
      */
-    @Nonnull private SAML2Artifact parseArtifact(@Nonnull final String encodedArtifact) throws MessageDecodingException {
+    @Nonnull private SAML2Artifact parseArtifact(@Nonnull final String encodedArtifact) 
+            throws MessageDecodingException {
+        
         //TODO not sure if this handles well bad input.  Determine if can throw an unchecked and handle here.
-        SAML2Artifact artifact = artifactBuilderFactory.buildArtifact(encodedArtifact);
+        final  SAML2Artifact artifact = artifactBuilderFactory.buildArtifact(encodedArtifact);
         if (artifact == null) {
             throw new MessageDecodingException("Could not build SAML2Artifact instance from encoded artifact");
         }
