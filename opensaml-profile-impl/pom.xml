@@ -36,6 +36,12 @@
             <version>${project.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>opensaml-xmlsec-impl</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <!-- Provided Dependencies -->
        <dependency>
             <groupId>javax.servlet</groupId>
@@ -59,13 +65,6 @@
             <artifactId>opensaml-profile-api</artifactId>
             <version>${project.version}</version>
             <type>test-jar</type>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>opensaml-xmlsec-impl</artifactId>
-            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
 
