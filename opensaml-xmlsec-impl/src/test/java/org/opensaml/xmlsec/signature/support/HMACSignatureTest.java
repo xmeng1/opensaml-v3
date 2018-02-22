@@ -89,7 +89,7 @@ public class HMACSignatureTest extends XMLObjectBaseTestCase {
 
     @BeforeMethod
     protected void setUp() throws Exception {
-        hmacOutputLength = new Integer(160);
+        hmacOutputLength = 160;
         expectedKeyName = "KeyFoo123";
         
         SecretKey key = KeySupport.generateKey("AES", 128, null);
@@ -281,7 +281,7 @@ public class HMACSignatureTest extends XMLObjectBaseTestCase {
         Element outputLengthElement = children.get(0);
         String value = StringSupport.trimOrNull(outputLengthElement.getTextContent());
         Assert.assertNotNull(value, "Output length value was empty");
-        Assert.assertEquals(new Integer(value), hmacOutputLength, "Output length was not the expected value");
+        Assert.assertEquals(Integer.valueOf(value), hmacOutputLength, "Output length was not the expected value");
     }
 
     /**

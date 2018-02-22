@@ -107,7 +107,7 @@ public class SignatureUnmarshaller implements Unmarshaller {
             final Element hmacElement = children.get(0);
             final String value = StringSupport.trimOrNull(hmacElement.getTextContent());
             if (value != null) {
-                return new Integer(value);
+                return Integer.valueOf(value);
             }
         }
         return null;

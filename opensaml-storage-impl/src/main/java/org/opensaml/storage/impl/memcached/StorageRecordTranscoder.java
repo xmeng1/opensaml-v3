@@ -56,7 +56,7 @@ public class StorageRecordTranscoder implements Transcoder<MemcachedStorageRecor
                 (((long) bytes[2] & 0xff) << 40) | (((long) bytes[3] & 0xff) << 32) |
                 (((long) bytes[4] & 0xff) << 24) | (((long) bytes[5] & 0xff) << 16) |
                 (((long) bytes[6] & 0xff) << 8) | ((long) bytes[7] & 0xff);
-        return new MemcachedStorageRecord(value, exp == 0 ? null : new Long(exp));
+        return new MemcachedStorageRecord(value, exp == 0 ? null : exp);
     }
 
     @Override

@@ -192,7 +192,7 @@ public abstract class BaseContext implements Iterable<BaseContext> {
         // Note: This will throw if replace == false and existing != null.
         // In that case, no link management happens, which is what we want, to leave things in a consistent state.
         log.trace("Attempting to store a subcontext with type '{}' with replace option '{}'", 
-                new Object[]{subcontext.getClass().getName(), new Boolean(replace).toString()});
+                new Object[]{subcontext.getClass().getName(), Boolean.valueOf(replace).toString()});
         subcontexts.add(subcontext, replace);
         
         // Manage parent/child links

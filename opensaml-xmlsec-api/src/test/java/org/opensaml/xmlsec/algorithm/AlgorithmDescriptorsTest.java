@@ -81,7 +81,7 @@ public class AlgorithmDescriptorsTest {
         Assert.assertEquals(descriptor.getKey(), JCAConstants.KEY_ALGO_AES);
         Assert.assertEquals(descriptor.getPadding(), JCAConstants.CIPHER_PADDING_ISO10126);
         Assert.assertEquals(descriptor.getURI(), EncryptionConstants.ALGO_ID_BLOCKCIPHER_AES128);
-        Assert.assertEquals(descriptor.getKeyLength(), new Integer(128));
+        Assert.assertEquals(descriptor.getKeyLength(), Integer.valueOf(128));
         Assert.assertEquals(descriptor.getType(), AlgorithmDescriptor.AlgorithmType.BlockEncryption);
         
         descriptor = new BlockEncryptionAES128GCM();
@@ -90,7 +90,7 @@ public class AlgorithmDescriptorsTest {
         Assert.assertEquals(descriptor.getKey(), JCAConstants.KEY_ALGO_AES);
         Assert.assertEquals(descriptor.getPadding(), JCAConstants.CIPHER_PADDING_NONE);
         Assert.assertEquals(descriptor.getURI(), EncryptionConstants.ALGO_ID_BLOCKCIPHER_AES128_GCM);
-        Assert.assertEquals(descriptor.getKeyLength(), new Integer(128));
+        Assert.assertEquals(descriptor.getKeyLength(), Integer.valueOf(128));
         Assert.assertEquals(descriptor.getType(), AlgorithmDescriptor.AlgorithmType.BlockEncryption);
         
         descriptor = new BlockEncryptionAES192CBC();
@@ -99,7 +99,7 @@ public class AlgorithmDescriptorsTest {
         Assert.assertEquals(descriptor.getKey(), JCAConstants.KEY_ALGO_AES);
         Assert.assertEquals(descriptor.getPadding(), JCAConstants.CIPHER_PADDING_ISO10126);
         Assert.assertEquals(descriptor.getURI(), EncryptionConstants.ALGO_ID_BLOCKCIPHER_AES192);
-        Assert.assertEquals(descriptor.getKeyLength(), new Integer(192));
+        Assert.assertEquals(descriptor.getKeyLength(), Integer.valueOf(192));
         Assert.assertEquals(descriptor.getType(), AlgorithmDescriptor.AlgorithmType.BlockEncryption);
         
         descriptor = new BlockEncryptionAES192GCM();
@@ -108,7 +108,7 @@ public class AlgorithmDescriptorsTest {
         Assert.assertEquals(descriptor.getKey(), JCAConstants.KEY_ALGO_AES);
         Assert.assertEquals(descriptor.getPadding(), JCAConstants.CIPHER_PADDING_NONE);
         Assert.assertEquals(descriptor.getURI(), EncryptionConstants.ALGO_ID_BLOCKCIPHER_AES192_GCM);
-        Assert.assertEquals(descriptor.getKeyLength(), new Integer(192));
+        Assert.assertEquals(descriptor.getKeyLength(), Integer.valueOf(192));
         Assert.assertEquals(descriptor.getType(), AlgorithmDescriptor.AlgorithmType.BlockEncryption);
         
         descriptor = new BlockEncryptionAES256CBC();
@@ -117,7 +117,7 @@ public class AlgorithmDescriptorsTest {
         Assert.assertEquals(descriptor.getKey(), JCAConstants.KEY_ALGO_AES);
         Assert.assertEquals(descriptor.getPadding(), JCAConstants.CIPHER_PADDING_ISO10126);
         Assert.assertEquals(descriptor.getURI(), EncryptionConstants.ALGO_ID_BLOCKCIPHER_AES256);
-        Assert.assertEquals(descriptor.getKeyLength(), new Integer(256));
+        Assert.assertEquals(descriptor.getKeyLength(), Integer.valueOf(256));
         Assert.assertEquals(descriptor.getType(), AlgorithmDescriptor.AlgorithmType.BlockEncryption);
         
         descriptor = new BlockEncryptionAES256GCM();
@@ -126,7 +126,7 @@ public class AlgorithmDescriptorsTest {
         Assert.assertEquals(descriptor.getKey(), JCAConstants.KEY_ALGO_AES);
         Assert.assertEquals(descriptor.getPadding(), JCAConstants.CIPHER_PADDING_NONE);
         Assert.assertEquals(descriptor.getURI(), EncryptionConstants.ALGO_ID_BLOCKCIPHER_AES256_GCM);
-        Assert.assertEquals(descriptor.getKeyLength(), new Integer(256));
+        Assert.assertEquals(descriptor.getKeyLength(), Integer.valueOf(256));
         Assert.assertEquals(descriptor.getType(), AlgorithmDescriptor.AlgorithmType.BlockEncryption);
         
         descriptor = new BlockEncryptionDESede();
@@ -135,7 +135,7 @@ public class AlgorithmDescriptorsTest {
         Assert.assertEquals(descriptor.getKey(), JCAConstants.KEY_ALGO_DESEDE);
         Assert.assertEquals(descriptor.getPadding(), JCAConstants.CIPHER_PADDING_ISO10126);
         Assert.assertEquals(descriptor.getURI(), EncryptionConstants.ALGO_ID_BLOCKCIPHER_TRIPLEDES);
-        Assert.assertEquals(descriptor.getKeyLength(), new Integer(192));
+        Assert.assertEquals(descriptor.getKeyLength(), Integer.valueOf(192));
         Assert.assertEquals(descriptor.getType(), AlgorithmDescriptor.AlgorithmType.BlockEncryption);
     }
     
@@ -372,28 +372,28 @@ public class AlgorithmDescriptorsTest {
         Assert.assertEquals(descriptor.getJCAAlgorithmID(), JCAConstants.KEYWRAP_ALGO_AES);
         Assert.assertEquals(descriptor.getKey(), JCAConstants.KEY_ALGO_AES);
         Assert.assertEquals(descriptor.getURI(), EncryptionConstants.ALGO_ID_KEYWRAP_AES128);
-        Assert.assertEquals(descriptor.getKeyLength(), new Integer(128));
+        Assert.assertEquals(descriptor.getKeyLength(), Integer.valueOf(128));
         Assert.assertEquals(descriptor.getType(), AlgorithmDescriptor.AlgorithmType.SymmetricKeyWrap);
         
         descriptor = new SymmetricKeyWrapAES192();
         Assert.assertEquals(descriptor.getJCAAlgorithmID(), JCAConstants.KEYWRAP_ALGO_AES);
         Assert.assertEquals(descriptor.getKey(), JCAConstants.KEY_ALGO_AES);
         Assert.assertEquals(descriptor.getURI(), EncryptionConstants.ALGO_ID_KEYWRAP_AES192);
-        Assert.assertEquals(descriptor.getKeyLength(), new Integer(192));
+        Assert.assertEquals(descriptor.getKeyLength(), Integer.valueOf(192));
         Assert.assertEquals(descriptor.getType(), AlgorithmDescriptor.AlgorithmType.SymmetricKeyWrap);
         
         descriptor = new SymmetricKeyWrapAES256();
         Assert.assertEquals(descriptor.getJCAAlgorithmID(), JCAConstants.KEYWRAP_ALGO_AES);
         Assert.assertEquals(descriptor.getKey(), JCAConstants.KEY_ALGO_AES);
         Assert.assertEquals(descriptor.getURI(), EncryptionConstants.ALGO_ID_KEYWRAP_AES256);
-        Assert.assertEquals(descriptor.getKeyLength(), new Integer(256));
+        Assert.assertEquals(descriptor.getKeyLength(), Integer.valueOf(256));
         Assert.assertEquals(descriptor.getType(), AlgorithmDescriptor.AlgorithmType.SymmetricKeyWrap);
         
         descriptor = new SymmetricKeyWrapDESede();
         Assert.assertEquals(descriptor.getJCAAlgorithmID(), JCAConstants.KEYWRAP_ALGO_DESEDE);
         Assert.assertEquals(descriptor.getKey(), JCAConstants.KEY_ALGO_DESEDE);
         Assert.assertEquals(descriptor.getURI(), EncryptionConstants.ALGO_ID_KEYWRAP_TRIPLEDES);
-        Assert.assertEquals(descriptor.getKeyLength(), new Integer(192));
+        Assert.assertEquals(descriptor.getKeyLength(), Integer.valueOf(192));
         Assert.assertEquals(descriptor.getType(), AlgorithmDescriptor.AlgorithmType.SymmetricKeyWrap);
         
     }

@@ -44,7 +44,7 @@ public class PKIXValidationOptions {
         processExpiredCRLs = true;
         processCredentialCRLs = true;
         
-        defaultVerificationDepth = new Integer(1);
+        defaultVerificationDepth = 1;
     }
 
     /**
