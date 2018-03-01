@@ -43,17 +43,20 @@ import org.w3c.dom.Node;
 import org.w3c.dom.Text;
 
 /**
- * An thread safe abstract unmarshaller. This unmarshaller will:
+ * A thread safe abstract unmarshaller. This unmarshaller will:
  * <ul>
  * <li>Unmarshalling namespace declaration attributes</li>
  * <li>Unmarshalling schema instance type (xsi:type) declaration attributes</li>
  * <li>Delegating to child classes element, text, and attribute processing</li>
  * </ul>
  * 
- * <strong>NOTE:</strong> In the case of Text nodes this unmarshaller will use {@link org.w3c.dom.Text#getWholeText()}
- * to retrieve the textual content. This is probably exceptable in almost all cases, if, however, you need to deal with
- * elements that contain multiple text node children you will need to override
+ * <strong>WARNING:</strong> In the case of Text nodes this unmarshaller will use {@link org.w3c.dom.Text#getWholeText()}
+ * to retrieve the content. This is acceptable if and only if our XML parsing classes are used in their default (safe)
+ * configuration on the Java platforms we officially support. If you need to deal with elements that contain multiple
+ * text node children, or you intend to rely on your own XML parser and/or JAXP implementation, you will need to override
  * {@link #unmarshallTextContent(XMLObject, Text)} and do "the right thing" for your implementation.
+ * 
+ * Failure to adhere to this warning will very likely lead to security bugs.
  */
 public abstract class AbstractXMLObjectUnmarshaller implements Unmarshaller {
 
