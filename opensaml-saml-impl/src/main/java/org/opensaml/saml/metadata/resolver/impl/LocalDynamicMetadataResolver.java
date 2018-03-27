@@ -106,7 +106,7 @@ public class LocalDynamicMetadataResolver extends AbstractDynamicMetadataResolve
             log.trace("{} Attempting to load from local source manager with generated key '{}'", getLogPrefix(), key);
             final XMLObject result = sourceManager.load(key);
             if (result != null) {
-                log.trace("{} Successfully loaded target from local source manager source with key '{}' of type: ",
+                log.trace("{} Successfully loaded target from local source manager source with key '{}' of type: {}",
                         getLogPrefix(), key, result.getElementQName());
             } else {
                 log.trace("{} Found no target in local source manager with key '{}'", getLogPrefix(), key);
