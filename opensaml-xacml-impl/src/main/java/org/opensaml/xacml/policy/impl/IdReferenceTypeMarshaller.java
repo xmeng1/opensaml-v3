@@ -32,8 +32,8 @@ public class IdReferenceTypeMarshaller extends XSStringMarshaller {
     
     /** {@inheritDoc} */
     @Override
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        IdReferenceType idReferenceType = (IdReferenceType)xmlObject;
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
+        final IdReferenceType idReferenceType = (IdReferenceType)xmlObject;
         
         if(!Strings.isNullOrEmpty(idReferenceType.getEarliestVersion())){
             domElement.setAttributeNS(null, IdReferenceType.EARLIEST_VERSION_ATTRIB_NAME,

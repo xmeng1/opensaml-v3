@@ -45,7 +45,8 @@ public class X509IssuerSerialImpl extends AbstractXMLObject implements X509Issue
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected X509IssuerSerialImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected X509IssuerSerialImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -55,7 +56,7 @@ public class X509IssuerSerialImpl extends AbstractXMLObject implements X509Issue
     }
 
     /** {@inheritDoc} */
-    public void setX509IssuerName(X509IssuerName newX509IssuerName) {
+    public void setX509IssuerName(final X509IssuerName newX509IssuerName) {
         this.issuerName = prepareForAssignment(this.issuerName, newX509IssuerName);
     }
 
@@ -65,13 +66,13 @@ public class X509IssuerSerialImpl extends AbstractXMLObject implements X509Issue
     }
 
     /** {@inheritDoc} */
-    public void setX509SerialNumber(X509SerialNumber newX509SerialNumber) {
+    public void setX509SerialNumber(final X509SerialNumber newX509SerialNumber) {
         this.serialNumber = prepareForAssignment(this.serialNumber, newX509SerialNumber);
     }
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         
         if (issuerName != null) {
             children.add(issuerName);

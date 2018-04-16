@@ -31,8 +31,8 @@ import org.opensaml.saml.saml2.core.NewID;
 public class NewIDUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject samlObject, String elementContent) {
-        NewID newID = (NewID) samlObject;
+    protected void processElementContent(final XMLObject samlObject, final String elementContent) {
+        final NewID newID = (NewID) samlObject;
 
         newID.setNewID(elementContent);
     }

@@ -68,7 +68,7 @@ public class PolicyTypeImpl extends AbstractXACMLObject implements PolicyType {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected PolicyTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected PolicyTypeImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         choiceGroup = new IndexedXMLObjectChildrenList<>(this);
         version = VERSION_DEFAULT_VALUE;
@@ -130,43 +130,43 @@ public class PolicyTypeImpl extends AbstractXACMLObject implements PolicyType {
     }
 
     /** {@inheritDoc} */
-    public void setDescription(DescriptionType newDescription) {
+    public void setDescription(final DescriptionType newDescription) {
         this.description = prepareForAssignment(this.description, newDescription);
     }
 
     /** {@inheritDoc} */
-    public void setObligations(ObligationsType newObligations) {
+    public void setObligations(final ObligationsType newObligations) {
         this.obligations = prepareForAssignment(this.obligations, newObligations);
     }
 
     /** {@inheritDoc} */
-    public void setPolicyDefaults(DefaultsType defaults) {
+    public void setPolicyDefaults(final DefaultsType defaults) {
         policyDefaults = prepareForAssignment(policyDefaults, defaults);
     }
 
     /** {@inheritDoc} */
-    public void setPolicyId(String id) {
+    public void setPolicyId(final String id) {
         policyId = prepareForAssignment(policyId, id);
     }
 
     /** {@inheritDoc} */
-    public void setRuleCombiningAlgoId(String id) {
+    public void setRuleCombiningAlgoId(final String id) {
         ruleCombiningAlgo = prepareForAssignment(ruleCombiningAlgo, id);
     }
 
     /** {@inheritDoc} */
-    public void setTarget(TargetType newTarget) {
+    public void setTarget(final TargetType newTarget) {
         this.target = prepareForAssignment(this.target, newTarget);
     }
 
     /** {@inheritDoc} */
-    public void setVersion(String newVersion) {
+    public void setVersion(final String newVersion) {
         this.version = prepareForAssignment(this.version, newVersion);
     }
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         if (description != null) {
             children.add(description);
         }

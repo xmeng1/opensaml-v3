@@ -35,7 +35,7 @@ public class YBuilder extends AbstractXMLObjectBuilder<Y> implements XMLSignatur
     }
 
     /** {@inheritDoc} */
-    public Y buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Y buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new YImpl(namespaceURI, localName, namespacePrefix);
     }
 

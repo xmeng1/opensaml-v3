@@ -27,9 +27,9 @@ import org.opensaml.soap.wspolicy.OperatorContentType;
 public class OperatorContentTypeUnmarshaller extends AbstractWSPolicyObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject) 
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject) 
             throws UnmarshallingException {
-        OperatorContentType oct = (OperatorContentType) parentXMLObject;
+        final OperatorContentType oct = (OperatorContentType) parentXMLObject;
         oct.getXMLObjects().add(childXMLObject);
     }
 

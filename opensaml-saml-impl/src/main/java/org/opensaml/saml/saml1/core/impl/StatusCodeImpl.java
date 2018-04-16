@@ -45,7 +45,7 @@ public class StatusCodeImpl extends AbstractSAMLObject implements StatusCode {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected StatusCodeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected StatusCodeImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -55,7 +55,7 @@ public class StatusCodeImpl extends AbstractSAMLObject implements StatusCode {
     }
 
     /** {@inheritDoc} */
-    public void setValue(QName newValue) {
+    public void setValue(final QName newValue) {
         this.value = prepareAttributeValueForAssignment(StatusCode.VALUE_ATTRIB_NAME, this.value, newValue);
     }
 
@@ -65,14 +65,14 @@ public class StatusCodeImpl extends AbstractSAMLObject implements StatusCode {
     }
 
     /** {@inheritDoc} */
-    public void setStatusCode(StatusCode statusCode) {
+    public void setStatusCode(final StatusCode statusCode) {
         childStatusCode = prepareForAssignment(childStatusCode, statusCode);
     }
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
         if (childStatusCode != null) {
-            ArrayList<XMLObject> contents = new ArrayList<>(1);
+            final ArrayList<XMLObject> contents = new ArrayList<>(1);
             contents.add(childStatusCode);
             return Collections.unmodifiableList(contents);
         } else {

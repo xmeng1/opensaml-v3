@@ -41,8 +41,8 @@ public class ExpiresBuilder extends AbstractWSSecurityObjectBuilder<Expires> {
      *      java.lang.String, java.lang.String)
      */
     @Override
-    public Expires buildObject(String namespaceURI, String localName,
-            String namespacePrefix) {
+    public Expires buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new ExpiresImpl(namespaceURI, localName, namespacePrefix);
     }
 

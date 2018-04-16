@@ -60,7 +60,8 @@ public class ManageNameIDRequestImpl extends RequestAbstractTypeImpl implements 
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected ManageNameIDRequestImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected ManageNameIDRequestImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -70,7 +71,7 @@ public class ManageNameIDRequestImpl extends RequestAbstractTypeImpl implements 
     }
 
     /** {@inheritDoc} */
-    public void setNameID(NameID newNameID) {
+    public void setNameID(final NameID newNameID) {
         this.nameID = prepareForAssignment(this.nameID, newNameID);
     }
 
@@ -80,7 +81,7 @@ public class ManageNameIDRequestImpl extends RequestAbstractTypeImpl implements 
     }
 
     /** {@inheritDoc} */
-    public void setEncryptedID(EncryptedID newEncID) {
+    public void setEncryptedID(final EncryptedID newEncID) {
         this.encryptedID = prepareForAssignment(this.encryptedID, newEncID);
     }
 
@@ -90,7 +91,7 @@ public class ManageNameIDRequestImpl extends RequestAbstractTypeImpl implements 
     }
 
     /** {@inheritDoc} */
-    public void setNewID(NewID newNewID) {
+    public void setNewID(final NewID newNewID) {
         this.newID = prepareForAssignment(this.newID, newNewID);
     }
 
@@ -100,7 +101,7 @@ public class ManageNameIDRequestImpl extends RequestAbstractTypeImpl implements 
     }
 
     /** {@inheritDoc} */
-    public void setNewEncryptedID(NewEncryptedID newNewEncryptedID) {
+    public void setNewEncryptedID(final NewEncryptedID newNewEncryptedID) {
         this.newEncryptedID = prepareForAssignment(this.newEncryptedID, newNewEncryptedID);
     }
 
@@ -110,13 +111,13 @@ public class ManageNameIDRequestImpl extends RequestAbstractTypeImpl implements 
     }
 
     /** {@inheritDoc} */
-    public void setTerminate(Terminate newTerminate) {
+    public void setTerminate(final Terminate newTerminate) {
         this.terminate = prepareForAssignment(this.terminate, newTerminate);
     }
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         if (super.getOrderedChildren() != null) {
             children.addAll(super.getOrderedChildren());

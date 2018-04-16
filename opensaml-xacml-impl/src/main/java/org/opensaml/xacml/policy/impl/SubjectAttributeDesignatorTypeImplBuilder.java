@@ -21,13 +21,14 @@ import org.opensaml.xacml.impl.AbstractXACMLObjectBuilder;
 import org.opensaml.xacml.policy.SubjectAttributeDesignatorType;
 
 /**
- * Bilder for {@link SubjectAttributeDesignatorType}.
+ * Builder for {@link SubjectAttributeDesignatorType}.
  */
 public class SubjectAttributeDesignatorTypeImplBuilder
         extends AbstractXACMLObjectBuilder<SubjectAttributeDesignatorType> {
 
     /** {@inheritDoc} */
-    public SubjectAttributeDesignatorType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public SubjectAttributeDesignatorType buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new SubjectAttributeDesignatorTypeImpl(namespaceURI,localName,namespacePrefix);
     }
 

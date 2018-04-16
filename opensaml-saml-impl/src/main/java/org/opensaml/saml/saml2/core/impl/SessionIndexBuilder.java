@@ -43,7 +43,7 @@ public class SessionIndexBuilder extends AbstractSAMLObjectBuilder<SessionIndex>
     }
 
     /** {@inheritDoc} */
-    public SessionIndex buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public SessionIndex buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new SessionIndexImpl(namespaceURI, localName, namespacePrefix);
     }
 }

@@ -54,7 +54,7 @@ public class BasicDynamicTrustedNamesStrategy implements Function<XMLObject, Set
 
     /** {@inheritDoc} */
     @Override
-    @Nonnull @NonnullElements public Set<String> apply(@Nullable XMLObject input) {
+    @Nonnull @NonnullElements public Set<String> apply(@Nullable final XMLObject input) {
         if (input == null) {
             return Collections.emptySet();
         }
@@ -66,7 +66,7 @@ public class BasicDynamicTrustedNamesStrategy implements Function<XMLObject, Set
         } else if (input instanceof EntitiesDescriptor) {
             rawResult = Collections.singleton(((EntitiesDescriptor)input).getName());
         } else if (input instanceof RoleDescriptor) {
-            XMLObject parent = input.getParent();
+            final XMLObject parent = input.getParent();
             if (parent instanceof EntityDescriptor) {
                 rawResult = Collections.singleton(((EntityDescriptor)parent).getEntityID());
             }
@@ -75,7 +75,7 @@ public class BasicDynamicTrustedNamesStrategy implements Function<XMLObject, Set
             
             rawResult.add(((AffiliationDescriptor)input).getOwnerID());
             
-            XMLObject parent = input.getParent();
+            final XMLObject parent = input.getParent();
             if (parent instanceof EntityDescriptor) {
                 rawResult.add(((EntityDescriptor)parent).getEntityID());
             }

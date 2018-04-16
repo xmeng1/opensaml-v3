@@ -45,7 +45,7 @@ public class StatusImpl extends AbstractWSTrustObject implements Status {
      * @param elementLocalName The local name of the element
      * @param namespacePrefix The namespace prefix of the element
      */
-    public StatusImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public StatusImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -60,18 +60,18 @@ public class StatusImpl extends AbstractWSTrustObject implements Status {
     }
 
     /** {@inheritDoc} */
-    public void setCode(Code newCode) {
+    public void setCode(final Code newCode) {
         code = prepareForAssignment(code, newCode);
     }
 
     /** {@inheritDoc} */
-    public void setReason(Reason newReason) {
+    public void setReason(final Reason newReason) {
         reason = prepareForAssignment(reason, newReason);
     }
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         if (code != null) {
             children.add(code);
         }

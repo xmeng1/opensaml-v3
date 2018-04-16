@@ -32,7 +32,7 @@ public class SubjectsTypeImplBuilder extends AbstractXACMLObjectBuilder<Subjects
     }
 
     /** {@inheritDoc} */
-    public SubjectsType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public SubjectsType buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new SubjectsTypeImpl(namespaceURI, localName, namespacePrefix);
     }
 

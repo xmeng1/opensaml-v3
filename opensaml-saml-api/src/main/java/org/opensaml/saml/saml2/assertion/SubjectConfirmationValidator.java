@@ -27,7 +27,8 @@ import org.opensaml.saml.saml2.core.Assertion;
 import org.opensaml.saml.saml2.core.SubjectConfirmation;
 
 /**
- * Validator that confirms the {@link Subject} of the issuer by evaluating the {@link SubjectConfirmation}s within that
+ * Validator that confirms the {@link org.opensaml.saml.saml2.core.Subject}
+ * of the issuer by evaluating the {@link SubjectConfirmation}s within that
  * subject.
  */
 @ThreadSafe
@@ -41,7 +42,8 @@ public interface SubjectConfirmationValidator {
     public String getServicedMethod();
 
     /**
-     * Confirms the {@link Subject} by means of the given {@link SubjectConfirmation}.
+     * Confirms the {@link org.opensaml.saml.saml2.core.Subject}
+     * by means of the given {@link SubjectConfirmation}.
      * 
      * @param confirmation the subject confirmation information
      * @param assertion the assertion bearing the subject

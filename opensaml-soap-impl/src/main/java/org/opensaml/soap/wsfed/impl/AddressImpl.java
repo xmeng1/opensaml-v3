@@ -37,7 +37,7 @@ public class AddressImpl extends AbstractXMLObject implements Address {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AddressImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AddressImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -47,7 +47,7 @@ public class AddressImpl extends AbstractXMLObject implements Address {
     }
 
     /** {@inheritDoc} */
-    public void setValue(String newValue) {
+    public void setValue(final String newValue) {
         value = prepareForAssignment(value, newValue);
 
     }

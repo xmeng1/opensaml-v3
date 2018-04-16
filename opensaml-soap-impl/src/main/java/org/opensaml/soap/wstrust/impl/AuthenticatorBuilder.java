@@ -31,7 +31,7 @@ public class AuthenticatorBuilder extends AbstractWSTrustObjectBuilder<Authentic
     }
 
     /** {@inheritDoc} */
-    public Authenticator buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Authenticator buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new AuthenticatorImpl(namespaceURI, localName, namespacePrefix);
     }
 

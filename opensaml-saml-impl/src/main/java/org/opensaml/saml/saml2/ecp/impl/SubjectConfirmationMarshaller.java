@@ -34,8 +34,9 @@ import org.w3c.dom.Element;
 public class SubjectConfirmationMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject samlObject, Element domElement) throws MarshallingException {
-        SubjectConfirmation sc = (SubjectConfirmation) samlObject;
+    protected void marshallAttributes(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
+        final SubjectConfirmation sc = (SubjectConfirmation) samlObject;
 
         if (sc.isSOAP11MustUnderstandXSBoolean() != null) {
             XMLObjectSupport.marshallAttribute(SubjectConfirmation.SOAP11_MUST_UNDERSTAND_ATTR_NAME, 

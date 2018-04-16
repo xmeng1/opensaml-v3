@@ -52,7 +52,7 @@ public final class SOAPMessagingSupport {
     private SOAPMessagingSupport() {}
     
     /**
-     * Get the current {@link InboundSOAPContext} for the given {@link @link MessageContext}. 
+     * Get the current {@link InboundSOAPContext} for the given {@link MessageContext}. 
      * 
      * @param messageContext the current message context
      * 
@@ -64,7 +64,7 @@ public final class SOAPMessagingSupport {
     }
 
     /**
-     * Get the current {@link SOAP11Context} for the given {@link @link MessageContext}. 
+     * Get the current {@link SOAP11Context} for the given {@link MessageContext}. 
      * 
      * @param messageContext the current message context
      * @param autoCreate whether to auto-create the context if it does not exist
@@ -72,7 +72,7 @@ public final class SOAPMessagingSupport {
      * @return the current SOAP 1.1 context. May be null if autoCreate=false, otherwise will be non-null
      */
     @Nullable public static SOAP11Context getSOAP11Context(@Nonnull final MessageContext messageContext,
-            boolean autoCreate) {
+            final boolean autoCreate) {
         Constraint.isNotNull(messageContext, "Message context cannot be null");
         return messageContext.getSubcontext(SOAP11Context.class, autoCreate);
     }
@@ -85,7 +85,7 @@ public final class SOAPMessagingSupport {
      */
     public static void registerUnderstoodHeader(@Nonnull final MessageContext<? extends XMLObject> msgContext, 
             @Nonnull final XMLObject header) {
-        InboundSOAPContext inboundContext = getInboundSOAPContext(msgContext);
+        final InboundSOAPContext inboundContext = getInboundSOAPContext(msgContext);
         
         inboundContext.getUnderstoodHeaders().add(header);
     }
@@ -99,7 +99,7 @@ public final class SOAPMessagingSupport {
      */
     public static boolean checkUnderstoodHeader(@Nonnull final MessageContext<? extends XMLObject> msgContext,
             @Nonnull final XMLObject header) {
-        InboundSOAPContext inboundContext = getInboundSOAPContext(msgContext);
+        final InboundSOAPContext inboundContext = getInboundSOAPContext(msgContext);
         
         return inboundContext.getUnderstoodHeaders().contains(header);
     }
@@ -114,7 +114,7 @@ public final class SOAPMessagingSupport {
     public static boolean isSOAPMessage(@Nonnull final MessageContext<? extends XMLObject> messageContext) {
         Constraint.isNotNull(messageContext, "Message context cannot be null");
         
-        SOAPVersion version = getSOAPVersion(messageContext);
+        final SOAPVersion version = getSOAPVersion(messageContext);
         return version != null;
     }
     
@@ -128,7 +128,7 @@ public final class SOAPMessagingSupport {
     public static boolean isSOAP11Message(@Nonnull final MessageContext<? extends XMLObject> messageContext) {
         Constraint.isNotNull(messageContext, "Message context cannot be null");
         
-        SOAPVersion version = getSOAPVersion(messageContext);
+        final SOAPVersion version = getSOAPVersion(messageContext);
         if (version != null && SOAP_1_1.equals(version)) {
             return true;
         }
@@ -170,7 +170,7 @@ public final class SOAPMessagingSupport {
         Constraint.isNotNull(messageContext, "Message context cannot be null");
         Constraint.isNotNull(headerBlock, "Header block context cannot be null");
         
-        SOAPVersion soapVersion = SOAPMessagingSupport.getSOAPVersion(messageContext);
+        final SOAPVersion soapVersion = SOAPMessagingSupport.getSOAPVersion(messageContext);
         if (soapVersion == null) {
             throw new IllegalArgumentException("Could not determine SOAP version for message context");
         }
@@ -193,11 +193,11 @@ public final class SOAPMessagingSupport {
      * @param mustUnderstand true if header must be understood, false if not
      */
     public static void addMustUnderstand(@Nonnull final MessageContext messageContext,
-            @Nonnull final XMLObject headerBlock, boolean mustUnderstand) {
+            @Nonnull final XMLObject headerBlock, final boolean mustUnderstand) {
         Constraint.isNotNull(messageContext, "Message context cannot be null");
         Constraint.isNotNull(headerBlock, "Header block context cannot be null");
         
-        SOAPVersion soapVersion = SOAPMessagingSupport.getSOAPVersion(messageContext);
+        final SOAPVersion soapVersion = SOAPMessagingSupport.getSOAPVersion(messageContext);
         if (soapVersion == null) {
             throw new IllegalArgumentException("Could not determine SOAP version for message context");
         }
@@ -223,14 +223,14 @@ public final class SOAPMessagingSupport {
      * @param targetNode the node to add
      */
     public static void addTargetNode(@Nonnull final MessageContext messageContext,
-            @Nonnull final XMLObject headerBlock, @Nullable String targetNode) {
+            @Nonnull final XMLObject headerBlock, @Nullable final String targetNode) {
         if (targetNode == null) {
             return;
         }
         Constraint.isNotNull(messageContext, "Message context cannot be null");
         Constraint.isNotNull(headerBlock, "Header block context cannot be null");
         
-        SOAPVersion soapVersion = SOAPMessagingSupport.getSOAPVersion(messageContext);
+        final SOAPVersion soapVersion = SOAPMessagingSupport.getSOAPVersion(messageContext);
         if (soapVersion == null) {
             throw new IllegalArgumentException("Could not determine SOAP version for message context");
         }
@@ -294,7 +294,7 @@ public final class SOAPMessagingSupport {
      */
     @Nonnull public static List<XMLObject> getHeaderBlock(
             @Nonnull final MessageContext messageContext, @Nonnull final QName headerName,
-            @Nullable Set<String> targetNodes, boolean isFinalDestination) {
+            @Nullable final Set<String> targetNodes, final boolean isFinalDestination) {
         Constraint.isNotNull(messageContext, "Message context cannot be null");
         
         final SOAP11Context soap11 = getSOAP11Context(messageContext, false);
@@ -319,17 +319,18 @@ public final class SOAPMessagingSupport {
      * @return the list of matching header blocks
      */
     @Nonnull public static List<XMLObject> getSOAP11HeaderBlock(@Nonnull final Envelope envelope,
-            @Nonnull final QName headerName, @Nullable final Set<String> targetNodes, boolean isFinalDestination) {
+            @Nonnull final QName headerName, @Nullable final Set<String> targetNodes,
+            final boolean isFinalDestination) {
         Constraint.isNotNull(envelope, "Envelope cannot be null");
         Constraint.isNotNull(headerName, "Header name cannot be null");
         
-        Header envelopeHeader = envelope.getHeader();
+        final Header envelopeHeader = envelope.getHeader();
         if (envelopeHeader == null) {
             return Collections.emptyList();
         }
         
-        LazyList<XMLObject> headers = new LazyList<>();
-        for (XMLObject header : envelopeHeader.getUnknownXMLObjects(headerName)) {
+        final LazyList<XMLObject> headers = new LazyList<>();
+        for (final XMLObject header : envelopeHeader.getUnknownXMLObjects(headerName)) {
             if (isSOAP11HeaderTargetedToNode(header, targetNodes, isFinalDestination)) {
                 headers.add(header);
             }
@@ -349,8 +350,8 @@ public final class SOAPMessagingSupport {
      * @return the list of matching header blocks
      */
     public static boolean isSOAP11HeaderTargetedToNode(@Nonnull final XMLObject header,
-            @Nullable final Set<String> nodeActors, boolean isFinalDestination) {
-        String headerActor = SOAPSupport.getSOAP11ActorAttribute(header);
+            @Nullable final Set<String> nodeActors, final boolean isFinalDestination) {
+        final String headerActor = SOAPSupport.getSOAP11ActorAttribute(header);
         if (headerActor == null) {
             if (isFinalDestination) {
                 return true;
@@ -432,7 +433,7 @@ public final class SOAPMessagingSupport {
      * @param fault the fault to register
      */
     public static void registerSOAP11Fault(@Nonnull final MessageContext messageContext, @Nullable final Fault fault) {
-        SOAP11Context soap11Context = getSOAP11Context(messageContext, true);
+        final SOAP11Context soap11Context = getSOAP11Context(messageContext, true);
         
         soap11Context.setFault(fault);
     }
@@ -444,7 +445,7 @@ public final class SOAPMessagingSupport {
      * @return the registered fault, or null
      */
     public static Fault getSOAP11Fault(@Nonnull final MessageContext messageContext) {
-        SOAP11Context soap11Context = getSOAP11Context(messageContext, false);
+        final SOAP11Context soap11Context = getSOAP11Context(messageContext, false);
         if (soap11Context != null) {
             return soap11Context.getFault();
         } else {
@@ -458,7 +459,7 @@ public final class SOAPMessagingSupport {
      * @param messageContext the current message context
      */
     public static void clearFault(@Nonnull final MessageContext messageContext) {
-        SOAP11Context soap11Context = getSOAP11Context(messageContext, false);
+        final SOAP11Context soap11Context = getSOAP11Context(messageContext, false);
         if (soap11Context != null) {
             soap11Context.setFault(null);
         }

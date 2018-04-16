@@ -31,8 +31,9 @@ import org.w3c.dom.Element;
 public class IPHintMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallElementContent(XMLObject samlObject, Element domElement) throws MarshallingException {
-        IPHint name = (IPHint) samlObject;
+    protected void marshallElementContent(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
+        final IPHint name = (IPHint) samlObject;
 
         if (name.getHint() != null) {
             ElementSupport.appendTextContent(domElement, name.getHint());

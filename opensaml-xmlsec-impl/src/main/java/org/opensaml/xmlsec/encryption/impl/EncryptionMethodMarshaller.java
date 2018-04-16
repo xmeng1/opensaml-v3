@@ -28,8 +28,8 @@ import org.w3c.dom.Element;
 public class EncryptionMethodMarshaller extends AbstractXMLEncryptionMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        EncryptionMethod em = (EncryptionMethod) xmlObject;
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
+        final EncryptionMethod em = (EncryptionMethod) xmlObject;
 
         if (em.getAlgorithm() != null) {
             domElement.setAttributeNS(null, EncryptionMethod.ALGORITHM_ATTRIB_NAME, em.getAlgorithm());

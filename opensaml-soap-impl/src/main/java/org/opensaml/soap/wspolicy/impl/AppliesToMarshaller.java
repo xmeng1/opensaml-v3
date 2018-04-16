@@ -31,8 +31,8 @@ import org.w3c.dom.Element;
 public class AppliesToMarshaller extends AbstractWSPolicyObjectMarshaller {
     
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        AppliesTo at = (AppliesTo) xmlObject;
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
+        final AppliesTo at = (AppliesTo) xmlObject;
         XMLObjectSupport.marshallAttributeMap(at.getUnknownAttributes(), domElement);
     }
 

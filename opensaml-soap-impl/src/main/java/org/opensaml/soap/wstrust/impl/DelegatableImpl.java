@@ -42,7 +42,7 @@ public class DelegatableImpl extends AbstractWSTrustObject implements Delegatabl
      * @param elementLocalName The local name of the element
      * @param namespacePrefix The namespace prefix of the element
      */
-    public DelegatableImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public DelegatableImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         value = new XSBooleanValue(DEFAULT_VALUE, false);
     }
@@ -53,7 +53,7 @@ public class DelegatableImpl extends AbstractWSTrustObject implements Delegatabl
     }
 
     /** {@inheritDoc} */
-    public void setValue(XSBooleanValue newValue) {
+    public void setValue(final XSBooleanValue newValue) {
         if (newValue != null) {
             value = prepareForAssignment(value, newValue);
         } else {

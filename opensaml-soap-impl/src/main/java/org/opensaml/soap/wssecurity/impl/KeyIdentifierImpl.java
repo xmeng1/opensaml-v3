@@ -35,7 +35,7 @@ public class KeyIdentifierImpl extends EncodedStringImpl implements KeyIdentifie
      * @param elementLocalName name of the element
      * @param namespacePrefix namespace prefix of the element
      */
-    public KeyIdentifierImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public KeyIdentifierImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -45,7 +45,7 @@ public class KeyIdentifierImpl extends EncodedStringImpl implements KeyIdentifie
     }
 
     /** {@inheritDoc} */
-    public void setValueType(String newValueType) {
+    public void setValueType(final String newValueType) {
         valueType = prepareForAssignment(valueType, newValueType);
     }
 

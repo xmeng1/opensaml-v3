@@ -68,7 +68,7 @@ public class MetadataFilterChain implements MetadataFilter {
             }
             
             XMLObject current = xmlObject;
-            for (MetadataFilter filter : filters) {
+            for (final MetadataFilter filter : filters) {
                 if (current == null) {
                     return null;
                 }

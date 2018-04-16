@@ -35,7 +35,7 @@ public class PGPKeyPacketBuilder extends AbstractXMLObjectBuilder<PGPKeyPacket> 
     }
 
     /** {@inheritDoc} */
-    public PGPKeyPacket buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public PGPKeyPacket buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new PGPKeyPacketImpl(namespaceURI, localName, namespacePrefix);
     }
 

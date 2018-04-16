@@ -27,9 +27,9 @@ import org.w3c.dom.Attr;
 public class AppliesToUnmarshaller extends AbstractXMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentFedObject, XMLObject childFedObject) {
+    protected void processChildElement(final XMLObject parentFedObject, final XMLObject childFedObject) {
 
-        AppliesTo appliesTo = (AppliesTo) parentFedObject;
+        final AppliesTo appliesTo = (AppliesTo) parentFedObject;
 
         if (childFedObject instanceof EndPointReference) {
             appliesTo.setEndPointReference((EndPointReference) childFedObject);
@@ -37,12 +37,12 @@ public class AppliesToUnmarshaller extends AbstractXMLObjectUnmarshaller {
     }
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject fedObject, Attr attribute) {
+    protected void processAttribute(final XMLObject fedObject, final Attr attribute) {
 
     }
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject fedObject, String content) {
+    protected void processElementContent(final XMLObject fedObject, final String content) {
 
     }
 }

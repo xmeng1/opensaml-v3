@@ -61,7 +61,7 @@ public class OrganizationImpl extends AbstractSAMLObject implements Organization
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected OrganizationImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected OrganizationImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         names = new XMLObjectChildrenList<>(this);
         displayNames = new XMLObjectChildrenList<>(this);
@@ -77,7 +77,7 @@ public class OrganizationImpl extends AbstractSAMLObject implements Organization
 
     /** {@inheritDoc} */
     @Override
-    public void setExtensions(Extensions newExtensions) {
+    public void setExtensions(final Extensions newExtensions) {
         this.extensions = prepareForAssignment(this.extensions, newExtensions);
     }
 
@@ -108,7 +108,7 @@ public class OrganizationImpl extends AbstractSAMLObject implements Organization
     /** {@inheritDoc} */
     @Override
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         children.add(extensions);
         children.addAll(names);

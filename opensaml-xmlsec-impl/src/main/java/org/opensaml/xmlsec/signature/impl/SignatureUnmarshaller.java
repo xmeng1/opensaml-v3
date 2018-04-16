@@ -53,37 +53,37 @@ public class SignatureUnmarshaller implements Unmarshaller {
     }
 
     /** {@inheritDoc} */
-    public Signature unmarshall(Element signatureElement) throws UnmarshallingException {
+    public Signature unmarshall(final Element signatureElement) throws UnmarshallingException {
         log.debug("Starting to unmarshall Apache XML-Security-based SignatureImpl element");
 
-        SignatureImpl signature =
+        final SignatureImpl signature =
                 new SignatureImpl(signatureElement.getNamespaceURI(), signatureElement.getLocalName(),
                         signatureElement.getPrefix());
 
         try {
             log.debug("Constructing Apache XMLSignature object");
 
-            XMLSignature xmlSignature = new XMLSignature(signatureElement, "");
+            final XMLSignature xmlSignature = new XMLSignature(signatureElement, "");
 
-            SignedInfo signedInfo = xmlSignature.getSignedInfo();
+            final SignedInfo signedInfo = xmlSignature.getSignedInfo();
 
             log.debug("Adding canonicalization and signing algorithms, and HMAC output length to Signature");
             signature.setCanonicalizationAlgorithm(signedInfo.getCanonicalizationMethodURI());
             signature.setSignatureAlgorithm(signedInfo.getSignatureMethodURI());
             signature.setHMACOutputLength(getHMACOutputLengthValue(signedInfo.getSignatureMethodElement()));
 
-            org.apache.xml.security.keys.KeyInfo xmlSecKeyInfo = xmlSignature.getKeyInfo();
+            final org.apache.xml.security.keys.KeyInfo xmlSecKeyInfo = xmlSignature.getKeyInfo();
             if (xmlSecKeyInfo != null) {
                 log.debug("Adding KeyInfo to Signature");
-                Unmarshaller unmarshaller = XMLObjectProviderRegistrySupport.getUnmarshallerFactory().getUnmarshaller(
-                        xmlSecKeyInfo.getElement());
-                KeyInfo keyInfo = (KeyInfo) unmarshaller.unmarshall(xmlSecKeyInfo.getElement());
+                final Unmarshaller unmarshaller = XMLObjectProviderRegistrySupport.getUnmarshallerFactory()
+                        .getUnmarshaller(xmlSecKeyInfo.getElement());
+                final KeyInfo keyInfo = (KeyInfo) unmarshaller.unmarshall(xmlSecKeyInfo.getElement());
                 signature.setKeyInfo(keyInfo);
             }
             signature.setXMLSignature(xmlSignature);
             signature.setDOM(signatureElement);
             return signature;
-        } catch (XMLSecurityException e) {
+        } catch (final XMLSecurityException e) {
             log.error("Error constructing Apache XMLSignature instance from Signature element: {}", e.getMessage());
             throw new UnmarshallingException("Unable to unmarshall Signature with Apache XMLSignature", e);
         }
@@ -95,19 +95,19 @@ public class SignatureUnmarshaller implements Unmarshaller {
      * @param signatureMethodElement the ds:SignatureMethod element
      * @return the HMAC output length value, or null if not present
      */
-    private Integer getHMACOutputLengthValue(Element signatureMethodElement) {
+    private Integer getHMACOutputLengthValue(final Element signatureMethodElement) {
         if (signatureMethodElement == null) {
             return null;
         }
         // Should be at most one element
-        List<Element> children =
+        final List<Element> children =
                 ElementSupport.getChildElementsByTagNameNS(signatureMethodElement, SignatureConstants.XMLSIG_NS,
                         "HMACOutputLength");
         if (!children.isEmpty()) {
-            Element hmacElement = children.get(0);
-            String value = StringSupport.trimOrNull(hmacElement.getTextContent());
+            final Element hmacElement = children.get(0);
+            final String value = StringSupport.trimOrNull(hmacElement.getTextContent());
             if (value != null) {
-                return new Integer(value);
+                return Integer.valueOf(value);
             }
         }
         return null;

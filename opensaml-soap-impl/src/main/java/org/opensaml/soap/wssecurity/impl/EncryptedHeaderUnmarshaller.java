@@ -34,9 +34,9 @@ import org.w3c.dom.Attr;
 public class EncryptedHeaderUnmarshaller extends AbstractWSSecurityObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
-        EncryptedHeader eh = (EncryptedHeader) xmlObject;
-        QName attrName = QNameSupport.getNodeQName(attribute);
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
+        final EncryptedHeader eh = (EncryptedHeader) xmlObject;
+        final QName attrName = QNameSupport.getNodeQName(attribute);
         if (EncryptedHeader.WSU_ID_ATTR_NAME.equals(attrName)) {
             eh.setWSUId(attribute.getValue());
             attribute.getOwnerElement().setIdAttributeNode(attribute, true);
@@ -56,9 +56,9 @@ public class EncryptedHeaderUnmarshaller extends AbstractWSSecurityObjectUnmarsh
     }
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        EncryptedHeader eh = (EncryptedHeader) parentXMLObject;
+        final EncryptedHeader eh = (EncryptedHeader) parentXMLObject;
         if (childXMLObject instanceof EncryptedData) {
             eh.setEncryptedData((EncryptedData) childXMLObject);
         } else {

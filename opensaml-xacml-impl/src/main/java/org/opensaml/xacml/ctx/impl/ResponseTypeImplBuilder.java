@@ -35,7 +35,7 @@ public class ResponseTypeImplBuilder extends AbstractXACMLObjectBuilder<Response
     }
 
     /** {@inheritDoc} */
-    public ResponseType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public ResponseType buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new ResponseTypeImpl(namespaceURI, localName, XACMLConstants.XACMLCONTEXT_PREFIX);
     }
 }

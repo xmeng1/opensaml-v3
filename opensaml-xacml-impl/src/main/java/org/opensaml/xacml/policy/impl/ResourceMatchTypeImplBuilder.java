@@ -29,7 +29,8 @@ public class ResourceMatchTypeImplBuilder extends AbstractXACMLObjectBuilder<Res
     }
 
     /** {@inheritDoc} */
-    public ResourceMatchType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public ResourceMatchType buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new ResourceMatchTypeImpl(namespaceURI, localName, namespacePrefix);
     }
 }

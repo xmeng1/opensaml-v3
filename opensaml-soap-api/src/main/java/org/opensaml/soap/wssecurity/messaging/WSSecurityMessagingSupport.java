@@ -52,7 +52,7 @@ public final class WSSecurityMessagingSupport {
      *          that it must be understood
      */
     public static void addSecurityHeaderBlock(@Nonnull final MessageContext messageContext,
-            @Nonnull final XMLObject securityHeader, boolean mustUnderstand) {
+            @Nonnull final XMLObject securityHeader, final boolean mustUnderstand) {
         addSecurityHeaderBlock(messageContext, securityHeader, mustUnderstand, null, true);
     }
     
@@ -69,19 +69,20 @@ public final class WSSecurityMessagingSupport {
      *          false specifies they should not be returned
      */
     public static void addSecurityHeaderBlock(@Nonnull final MessageContext messageContext,
-            @Nonnull final XMLObject securitySubHeader, boolean mustUnderstand, 
-            @Nullable final String targetNode, boolean isFinalDestination) {
+            @Nonnull final XMLObject securitySubHeader, final boolean mustUnderstand, 
+            @Nullable final String targetNode, final boolean isFinalDestination) {
         Constraint.isNotNull(messageContext, "Message context cannot be null");
         Constraint.isNotNull(securitySubHeader, "Security sub-header context cannot be null");
 
-        List<XMLObject> securityHeaders = SOAPMessagingSupport.getHeaderBlock(messageContext, Security.ELEMENT_NAME, 
+        final List<XMLObject> securityHeaders =
+                SOAPMessagingSupport.getHeaderBlock(messageContext, Security.ELEMENT_NAME,
                 targetNode != null ? Collections.singleton(targetNode) : null, 
                 isFinalDestination);
         
         Security security = null;
-        for (XMLObject header : securityHeaders) {
-            Security candidate = (Security) header;
-            boolean candidateMustUnderstand = SOAPMessagingSupport.isMustUnderstand(messageContext, candidate);
+        for (final XMLObject header : securityHeaders) {
+            final Security candidate = (Security) header;
+            final boolean candidateMustUnderstand = SOAPMessagingSupport.isMustUnderstand(messageContext, candidate);
             if (mustUnderstand == candidateMustUnderstand) {
                 security = candidate;
                 break;

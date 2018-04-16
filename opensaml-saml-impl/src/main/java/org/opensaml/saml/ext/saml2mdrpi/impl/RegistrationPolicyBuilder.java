@@ -35,7 +35,8 @@ public class RegistrationPolicyBuilder extends AbstractSAMLObjectBuilder<Registr
     }
 
     /** {@inheritDoc} */
-    public RegistrationPolicy buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public RegistrationPolicy buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new RegistrationPolicyImpl(namespaceURI, localName, namespacePrefix);
     }
 

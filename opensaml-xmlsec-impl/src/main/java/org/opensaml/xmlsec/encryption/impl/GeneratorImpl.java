@@ -33,7 +33,7 @@ public class GeneratorImpl extends CryptoBinaryImpl implements Generator {
      * @param elementLocalName local name
      * @param namespacePrefix namespace prefix
      */
-    protected GeneratorImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected GeneratorImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

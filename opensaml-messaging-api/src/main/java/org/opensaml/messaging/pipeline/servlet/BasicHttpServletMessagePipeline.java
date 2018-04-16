@@ -52,7 +52,7 @@ public class BasicHttpServletMessagePipeline<InboundMessageType, OutboundMessage
     }
 
     /** {@inheritDoc} */
-    protected void setEncoder(MessageEncoder<OutboundMessageType> encoder) {
+    protected void setEncoder(final MessageEncoder<OutboundMessageType> encoder) {
         if (!(encoder instanceof HttpServletResponseMessageEncoder)) {
             throw new IllegalArgumentException("HttpServletResponseMessageEncoder is required");
         }
@@ -65,7 +65,7 @@ public class BasicHttpServletMessagePipeline<InboundMessageType, OutboundMessage
     }
 
     /** {@inheritDoc} */
-    protected void setDecoder(MessageDecoder<InboundMessageType> decoder) {
+    protected void setDecoder(final MessageDecoder<InboundMessageType> decoder) {
         if (!(decoder instanceof HttpServletRequestMessageDecoder)) {
             throw new IllegalArgumentException("HttpServletRequestMessageDecoder is required");
         }

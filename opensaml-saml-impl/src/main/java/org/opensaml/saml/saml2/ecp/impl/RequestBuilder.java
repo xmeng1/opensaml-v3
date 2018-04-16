@@ -44,7 +44,7 @@ public class RequestBuilder extends AbstractSAMLObjectBuilder<Request> {
     }
 
     /** {@inheritDoc} */
-    public Request buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Request buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new RequestImpl(namespaceURI, localName, namespacePrefix);
     }
 }

@@ -33,7 +33,7 @@ public class RespondToBuilder extends AbstractSAMLObjectBuilder<RespondTo> {
     }
 
     /** {@inheritDoc} */
-    public RespondTo buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public RespondTo buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new RespondToImpl(namespaceURI, localName, namespacePrefix);
     }
 }

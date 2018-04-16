@@ -61,7 +61,7 @@ public class EvaluableProtocolRoleDescriptorCriterion implements EvaluableRoleDe
     }
     
     /** {@inheritDoc} */
-    public boolean apply(RoleDescriptor input) {
+    public boolean apply(final RoleDescriptor input) {
         if (input == null) {
             return false;
         }
@@ -75,7 +75,7 @@ public class EvaluableProtocolRoleDescriptorCriterion implements EvaluableRoleDe
     }
 
     /** {@inheritDoc} */
-    public boolean equals(Object other) {
+    public boolean equals(final Object other) {
         if (this == other) {
             return true;
         }

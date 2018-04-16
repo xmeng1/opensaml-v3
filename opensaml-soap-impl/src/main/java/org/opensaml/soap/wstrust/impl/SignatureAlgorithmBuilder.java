@@ -31,7 +31,8 @@ public class SignatureAlgorithmBuilder extends AbstractWSTrustObjectBuilder<Sign
     }
 
     /** {@inheritDoc} */
-    public SignatureAlgorithm buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public SignatureAlgorithm buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new SignatureAlgorithmImpl(namespaceURI, localName, namespacePrefix);
     }
 

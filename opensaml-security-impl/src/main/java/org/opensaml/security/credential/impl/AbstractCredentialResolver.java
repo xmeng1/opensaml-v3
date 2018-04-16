@@ -32,8 +32,8 @@ import net.shibboleth.utilities.java.support.resolver.ResolverException;
 public abstract class AbstractCredentialResolver implements CredentialResolver {
 
     /** {@inheritDoc} */
-    @Nullable public Credential resolveSingle(@Nullable CriteriaSet criteriaSet) throws ResolverException {
-        Iterable<Credential> creds = resolve(criteriaSet);
+    @Nullable public Credential resolveSingle(@Nullable final CriteriaSet criteriaSet) throws ResolverException {
+        final Iterable<Credential> creds = resolve(criteriaSet);
         if (creds.iterator().hasNext()) {
             return creds.iterator().next();
         } else {

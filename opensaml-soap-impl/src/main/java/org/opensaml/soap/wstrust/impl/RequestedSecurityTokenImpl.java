@@ -40,7 +40,8 @@ public class RequestedSecurityTokenImpl extends AbstractWSTrustObject implements
      * @param elementLocalName The local name of the element
      * @param namespacePrefix The namespace prefix of the element
      */
-    public RequestedSecurityTokenImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public RequestedSecurityTokenImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -50,13 +51,13 @@ public class RequestedSecurityTokenImpl extends AbstractWSTrustObject implements
     }
 
     /** {@inheritDoc} */
-    public void setUnknownXMLObject(XMLObject unknownObject) {
+    public void setUnknownXMLObject(final XMLObject unknownObject) {
         unknownChild = unknownObject;
     }
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         if (unknownChild != null) {
             children.add(unknownChild);
         }

@@ -30,8 +30,8 @@ import org.w3c.dom.Element;
 public class RelayStateMarshaller extends XSStringMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        RelayState relayState = (RelayState) xmlObject;
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
+        final RelayState relayState = (RelayState) xmlObject;
         
         if (relayState.isSOAP11MustUnderstandXSBoolean() != null) {
             XMLObjectSupport.marshallAttribute(RelayState.SOAP11_MUST_UNDERSTAND_ATTR_NAME, 

@@ -31,9 +31,9 @@ import org.opensaml.soap.wstrust.Lifetime;
 public class LifetimeUnmarshaller extends AbstractWSTrustObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        Lifetime lifetime = (Lifetime) parentXMLObject;
+        final Lifetime lifetime = (Lifetime) parentXMLObject;
         if (childXMLObject instanceof Created) {
             lifetime.setCreated((Created) childXMLObject);
         } else if (childXMLObject instanceof Expires) {

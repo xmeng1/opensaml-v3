@@ -33,7 +33,7 @@ import org.w3c.dom.Attr;
 public class IndexedEndpointUnmarshaller extends EndpointUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject samlObject, final Attr attribute) throws UnmarshallingException {
         final IndexedEndpoint iEndpoint = (IndexedEndpoint) samlObject;
 
         if (attribute.getNamespaceURI() == null) {

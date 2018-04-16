@@ -72,6 +72,7 @@ import net.shibboleth.utilities.java.support.component.ComponentInitializationEx
 import net.shibboleth.utilities.java.support.component.ComponentSupport;
 import net.shibboleth.utilities.java.support.logic.Constraint;
 import net.shibboleth.utilities.java.support.primitive.StringSupport;
+import net.shibboleth.utilities.java.support.primitive.TimerSupport;
 import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
 import net.shibboleth.utilities.java.support.resolver.ResolverException;
 
@@ -176,7 +177,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
         super();
         
         if (backgroundTaskTimer == null) {
-            taskTimer = new Timer(true);
+            taskTimer = new Timer(TimerSupport.getTimerName(this), true);
             createdOwnTaskTimer = true;
         } else {
             taskTimer = backgroundTaskTimer;
@@ -224,7 +225,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
      * 
      * @param flag true if should init from the cache in the background, false otherwise
      */
-    public void setInitializeFromPersistentCacheInBackground(boolean flag) {
+    public void setInitializeFromPersistentCacheInBackground(final boolean flag) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
         initializeFromPersistentCacheInBackground = flag;
@@ -502,7 +503,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
         ComponentSupport.ifNotInitializedThrowUninitializedComponentException(this);
         ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
         
-        Context contextResolve = MetricsSupport.startTimer(timerResolve);
+        final Context contextResolve = MetricsSupport.startTimer(timerResolve);
         try {
             final EntityIdCriterion entityIdCriterion = criteria.get(EntityIdCriterion.class);
             if (entityIdCriterion == null || Strings.isNullOrEmpty(entityIdCriterion.getEntityId())) {
@@ -576,7 +577,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
                 log.debug("{} Resolving metadata dynamically for entity ID: {}", getLogPrefix(), entityID);
             }
             
-            Context contextFetchFromOriginSource = MetricsSupport.startTimer(timerFetchFromOriginSource);
+            final Context contextFetchFromOriginSource = MetricsSupport.startTimer(timerFetchFromOriginSource);
             XMLObject root = null;
             try {
                 root = fetchFromOriginSource(criteria);
@@ -628,7 +629,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
      * processed metadata in the backing store.
      * 
      * <p>
-     * Equivalent to {@link #processNewMetadata(XMLObject, String, false)}.
+     * Equivalent to {@link #processNewMetadata(XMLObject, String, boolean)} called with false.
      * </p>
      * 
      * @param root the root of the new metadata document being processed
@@ -640,7 +641,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
             throws FilterException {
         try {
             processNewMetadata(root, expectedEntityID, false);
-        } catch (ResolverException e) {
+        } catch (final ResolverException e) {
             //TODO this is kludgy, but necessary until we can change the API to add an exception to the method signature
             throw new FilterException(e);
         }
@@ -742,7 +743,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
             //   2) the object can't be successfully round-tripped (e.g signatures).
             try {
                 return XMLObjectSupport.cloneXMLObject(input, CloneOutputOption.RootDOMInNewDocument);
-            } catch (MarshallingException | UnmarshallingException e) {
+            } catch (final MarshallingException | UnmarshallingException e) {
                 log.warn("{} Error cloning XMLObject, will use input root object as filter target", getLogPrefix(), e);
                 return input;
             }
@@ -877,7 +878,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
                 if (isInitializeFromPersistentCacheInBackground()) {
                     log.debug("{} Initializing from the persistent cache in the background in {} ms", 
                             getLogPrefix(), getBackgroundInitializationFromCacheDelay());
-                    TimerTask initTask = new TimerTask() {
+                    final TimerTask initTask = new TimerTask() {
                         public void run() {
                             initializeFromPersistentCache();
                         }
@@ -953,7 +954,7 @@ public abstract class AbstractDynamicMetadataResolver extends AbstractMetadataRe
             log.trace("{} Attempting to load and process entities from the persistent cache", getLogPrefix());
         }
         
-        long start = System.nanoTime();
+        final long start = System.nanoTime();
         try {
             for (final Pair<String, EntityDescriptor> cacheEntry: getPersistentCacheManager().listAll()) {
                 persistentCacheInitMetrics.entriesTotal++;

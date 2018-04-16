@@ -42,7 +42,8 @@ public class AttributeProfileImpl extends AbstractSAMLObject implements Attribut
      * @param elementLocalName local name
      * @param namespacePrefix prefix
      */
-    protected AttributeProfileImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AttributeProfileImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -52,7 +53,7 @@ public class AttributeProfileImpl extends AbstractSAMLObject implements Attribut
     }
 
     /** {@inheritDoc} */
-    public void setProfileURI(String theProfileURI) {
+    public void setProfileURI(final String theProfileURI) {
         this.profileURI = prepareForAssignment(this.profileURI, theProfileURI);
     }
 

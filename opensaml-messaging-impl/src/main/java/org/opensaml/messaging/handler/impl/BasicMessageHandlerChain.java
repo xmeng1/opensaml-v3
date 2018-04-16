@@ -72,7 +72,7 @@ public class BasicMessageHandlerChain<MessageType> extends AbstractMessageHandle
      */
     public void setHandlers(@Nullable @NonnullElements final List<MessageHandler<MessageType>> handlers) {
         if (handlers != null) {
-            ArrayList<MessageHandler<MessageType>> newMembers = new ArrayList<>();
+            final ArrayList<MessageHandler<MessageType>> newMembers = new ArrayList<>();
             newMembers.addAll(Collections2.filter(handlers, Predicates.notNull()));
             members = newMembers;
         } else {
@@ -83,7 +83,7 @@ public class BasicMessageHandlerChain<MessageType> extends AbstractMessageHandle
     /** {@inheritDoc} */
     public void doInvoke(@Nonnull final MessageContext<MessageType> msgContext) throws MessageHandlerException {
         if (members != null) {
-            for (MessageHandler handler: members) {
+            for (final MessageHandler handler: members) {
                 handler.invoke(msgContext);
             }
         }

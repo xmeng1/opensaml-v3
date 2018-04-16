@@ -35,7 +35,8 @@ public class OrganizationDisplayNameImpl extends LocalizedNameImpl implements Or
      * @param elementLocalName the name
      * @param namespacePrefix the prefix
      */
-    protected OrganizationDisplayNameImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected OrganizationDisplayNameImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 }

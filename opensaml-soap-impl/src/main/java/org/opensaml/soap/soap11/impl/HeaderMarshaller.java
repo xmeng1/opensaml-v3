@@ -37,11 +37,11 @@ import org.w3c.dom.Element;
 public class HeaderMarshaller extends AbstractXMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        Header header = (Header) xmlObject;
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
+        final Header header = (Header) xmlObject;
 
         Attr attribute;
-        for (Entry<QName, String> entry : header.getUnknownAttributes().entrySet()) {
+        for (final Entry<QName, String> entry : header.getUnknownAttributes().entrySet()) {
             attribute = AttributeSupport.constructAttribute(domElement.getOwnerDocument(), entry.getKey());
             attribute.setValue(entry.getValue());
             domElement.setAttributeNodeNS(attribute);
@@ -53,7 +53,8 @@ public class HeaderMarshaller extends AbstractXMLObjectMarshaller {
     }
 
     /** {@inheritDoc} */
-    protected void marshallElementContent(XMLObject xmlObject, Element domElement) throws MarshallingException {
+    protected void marshallElementContent(final XMLObject xmlObject, final Element domElement)
+            throws MarshallingException {
         // nothing to do, not element content
     }
 }

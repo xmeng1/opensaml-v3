@@ -78,9 +78,9 @@ public class ExplicitX509CertificateTrustEngine implements TrustedCredentialTrus
 
         log.debug("Attempting to validate untrusted credential");
         try {
-            Iterable<Credential> trustedCredentials = getCredentialResolver().resolve(trustBasisCriteria);
+            final Iterable<Credential> trustedCredentials = getCredentialResolver().resolve(trustBasisCriteria);
             return trustEvaluator.validate(untrustedCredential, trustedCredentials);
-        } catch (ResolverException e) {
+        } catch (final ResolverException e) {
             throw new SecurityException("Error resolving trusted credentials", e);
         }
     }

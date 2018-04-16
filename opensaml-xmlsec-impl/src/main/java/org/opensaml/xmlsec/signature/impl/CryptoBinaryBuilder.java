@@ -35,7 +35,7 @@ public class CryptoBinaryBuilder extends AbstractXMLObjectBuilder<CryptoBinary>
     }
 
     /** {@inheritDoc} */
-    public CryptoBinary buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public CryptoBinary buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new CryptoBinaryImpl(namespaceURI, localName, namespacePrefix);
     }
     

@@ -32,10 +32,10 @@ import org.w3c.dom.Attr;
 public class SignatureConfirmationUnmarshaller extends AbstractWSSecurityObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
-        SignatureConfirmation sc = (SignatureConfirmation) xmlObject;
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
+        final SignatureConfirmation sc = (SignatureConfirmation) xmlObject;
         
-        QName attrName =
+        final QName attrName =
             QNameSupport.constructQName(attribute.getNamespaceURI(), attribute.getLocalName(), attribute.getPrefix());
         if (SignatureConfirmation.WSU_ID_ATTR_NAME.equals(attrName)) {
             sc.setWSUId(attribute.getValue());

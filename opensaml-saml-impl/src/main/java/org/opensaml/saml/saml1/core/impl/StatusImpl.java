@@ -49,7 +49,7 @@ public class StatusImpl extends AbstractSAMLObject implements Status {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected StatusImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected StatusImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -59,7 +59,7 @@ public class StatusImpl extends AbstractSAMLObject implements Status {
     }
 
     /** {@inheritDoc} */
-    public void setStatusMessage(StatusMessage message) {
+    public void setStatusMessage(final StatusMessage message) {
         statusMessage = prepareForAssignment(statusMessage, message);
     }
 
@@ -69,7 +69,7 @@ public class StatusImpl extends AbstractSAMLObject implements Status {
     }
 
     /** {@inheritDoc} */
-    public void setStatusCode(StatusCode code) {
+    public void setStatusCode(final StatusCode code) {
         statusCode = prepareForAssignment(statusCode, code);
     }
 
@@ -79,13 +79,13 @@ public class StatusImpl extends AbstractSAMLObject implements Status {
     }
 
     /** {@inheritDoc} */
-    public void setStatusDetail(StatusDetail detail) {
+    public void setStatusDetail(final StatusDetail detail) {
         statusDetail = prepareForAssignment(statusDetail, detail);
     }
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>(3);
+        final ArrayList<XMLObject> children = new ArrayList<>(3);
 
         if (statusCode != null) {
             children.add(statusCode);

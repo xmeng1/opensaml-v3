@@ -30,8 +30,8 @@ public class PolicySetTypeMarshaller extends AbstractXACMLObjectMarshaller {
 
     /** {@inheritDoc} */
     @Override
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        PolicySetType policySet = (PolicySetType) xmlObject;
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
+        final PolicySetType policySet = (PolicySetType) xmlObject;
 
         if (!Strings.isNullOrEmpty(policySet.getPolicySetId())) {
             domElement.setAttributeNS(null, PolicySetType.POLICY_SET_ID_ATTRIB_NAME, policySet.getPolicySetId());

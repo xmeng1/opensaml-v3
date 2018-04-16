@@ -33,7 +33,7 @@ public class KeyDescriptorBuilder extends AbstractSAMLObjectBuilder<KeyDescripto
     }
 
     /** {@inheritDoc} */
-    public KeyDescriptor buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public KeyDescriptor buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new KeyDescriptorImpl(namespaceURI, localName, namespacePrefix);
     }
 }

@@ -70,12 +70,12 @@ public class TrustEngineX509TrustManager implements X509TrustManager {
     }
 
     /** {@inheritDoc} */
-    public void checkClientTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
+    public void checkClientTrusted(final X509Certificate[] arg0, final String arg1) throws CertificateException {
         checkServerTrusted(arg0, arg1);
     }
 
     /** {@inheritDoc} */
-    public void checkServerTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
+    public void checkServerTrusted(final X509Certificate[] arg0, final String arg1) throws CertificateException {
         if (arg0 == null || arg0.length < 1) {
             throw new CertificateException("Peer certificate array was null or empty");
         } else if (tlsTrustEngine == null) {

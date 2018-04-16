@@ -33,19 +33,19 @@ import com.google.common.base.Strings;
 public class X509SerialNumberUnmarshaller extends AbstractXMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
         // no children
     }
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         //no attributes
     }
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject xmlObject, String elementContent) {
-        X509SerialNumber x509SerialNumber = (X509SerialNumber) xmlObject;
+    protected void processElementContent(final XMLObject xmlObject, final String elementContent) {
+        final X509SerialNumber x509SerialNumber = (X509SerialNumber) xmlObject;
         
         if(!Strings.isNullOrEmpty(elementContent)){
             x509SerialNumber.setValue( new BigInteger(elementContent) );

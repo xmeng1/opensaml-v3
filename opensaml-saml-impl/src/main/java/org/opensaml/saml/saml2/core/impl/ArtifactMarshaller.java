@@ -35,8 +35,9 @@ import org.w3c.dom.Element;
 public class ArtifactMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallElementContent(XMLObject samlObject, Element domElement) throws MarshallingException {
-        Artifact artifact = (Artifact) samlObject;
+    protected void marshallElementContent(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
+        final Artifact artifact = (Artifact) samlObject;
 
         if (artifact.getArtifact() != null) {
             ElementSupport.appendTextContent(domElement, artifact.getArtifact());

@@ -48,7 +48,7 @@ public class MessageChannelSecurityContext extends BaseContext {
      * 
      * @param flag The confidentialityActive to set.
      */
-    public void setConfidentialityActive(boolean flag) {
+    public void setConfidentialityActive(final boolean flag) {
         confidentialityActive = flag;
     }
 
@@ -66,7 +66,7 @@ public class MessageChannelSecurityContext extends BaseContext {
      * 
      * @param flag The integrityActive to set.
      */
-    public void setIntegrityActive(boolean flag) {
+    public void setIntegrityActive(final boolean flag) {
         integrityActive = flag;
     }
 

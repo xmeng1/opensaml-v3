@@ -33,10 +33,11 @@ import org.w3c.dom.Element;
 public class StatusCodeMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject samlElement, Element domElement) throws MarshallingException {
-        StatusCode statusCode = (StatusCode) samlElement;
+    protected void marshallAttributes(final XMLObject samlElement, final Element domElement)
+            throws MarshallingException {
+        final StatusCode statusCode = (StatusCode) samlElement;
 
-        QName statusValue = statusCode.getValue();
+        final QName statusValue = statusCode.getValue();
         if (statusValue != null) {
             domElement.setAttributeNS(null, StatusCode.VALUE_ATTRIB_NAME,
                     QNameSupport.qnameToContentString(statusValue));

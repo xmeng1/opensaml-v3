@@ -33,7 +33,8 @@ public class ComputedKeyAlgorithmImpl extends XSURIImpl implements ComputedKeyAl
      * @param elementLocalName The local name of the element
      * @param namespacePrefix The namespace prefix of the element
      */
-    public ComputedKeyAlgorithmImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public ComputedKeyAlgorithmImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

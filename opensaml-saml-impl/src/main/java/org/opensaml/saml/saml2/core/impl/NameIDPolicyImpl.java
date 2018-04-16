@@ -49,7 +49,7 @@ public class NameIDPolicyImpl extends AbstractSAMLObject implements NameIDPolicy
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected NameIDPolicyImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected NameIDPolicyImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -59,7 +59,7 @@ public class NameIDPolicyImpl extends AbstractSAMLObject implements NameIDPolicy
     }
 
     /** {@inheritDoc} */
-    public void setFormat(String newFormat) {
+    public void setFormat(final String newFormat) {
         format = prepareForAssignment(format, newFormat);
 
     }
@@ -70,7 +70,7 @@ public class NameIDPolicyImpl extends AbstractSAMLObject implements NameIDPolicy
     }
 
     /** {@inheritDoc} */
-    public void setSPNameQualifier(String newSPNameQualifier) {
+    public void setSPNameQualifier(final String newSPNameQualifier) {
         spNameQualifier = prepareForAssignment(spNameQualifier, newSPNameQualifier);
 
     }
@@ -90,7 +90,7 @@ public class NameIDPolicyImpl extends AbstractSAMLObject implements NameIDPolicy
     }
 
     /** {@inheritDoc} */
-    public void setAllowCreate(Boolean newAllowCreate){
+    public void setAllowCreate(final Boolean newAllowCreate){
         if(newAllowCreate != null){
             allowCreate = prepareForAssignment(allowCreate, new XSBooleanValue(newAllowCreate, false));
         }else{
@@ -99,7 +99,7 @@ public class NameIDPolicyImpl extends AbstractSAMLObject implements NameIDPolicy
     }
     
     /** {@inheritDoc} */
-    public void setAllowCreate(XSBooleanValue newAllowCreate) {
+    public void setAllowCreate(final XSBooleanValue newAllowCreate) {
         allowCreate = prepareForAssignment(allowCreate, newAllowCreate);
 
     }

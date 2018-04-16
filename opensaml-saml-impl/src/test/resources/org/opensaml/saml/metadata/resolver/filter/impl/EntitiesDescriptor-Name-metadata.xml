@@ -12,6 +12,13 @@
         </mdattr:EntityAttributes>
     </Extensions>
 
+    <EntityDescriptor entityID="https://affiliation.example.org">
+        <AffiliationDescriptor>
+            <AffiliateMember>foo</AffiliateMember>
+            <AffiliateMember>https://idp-sub2a.example.org</AffiliateMember>
+        </AffiliationDescriptor>
+    </EntityDescriptor>
+
     <EntityDescriptor entityID="https://idp-top.example.org">
         <IDPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:1.1:protocol urn:mace:shibboleth:1.0">
             <SingleSignOnService Binding="urn:mace:shibboleth:1.0:profiles:AuthnRequest" Location="https://idp.example.org/idp/Shibboleth/SSO"/>

@@ -86,7 +86,7 @@ public class SAMLConfiguration {
      */
     public DateTimeFormatter getSAMLDateFormatter() {
         if (dateFormatter == null) {
-            DateTimeFormatter formatter = DateTimeFormat.forPattern(defaultDateFormat);
+            final DateTimeFormatter formatter = DateTimeFormat.forPattern(defaultDateFormat);
             dateFormatter = formatter.withChronology(ISOChronology.getInstanceUTC());
         }
         
@@ -96,14 +96,12 @@ public class SAMLConfiguration {
     /**
      * Sets the date format used to string'ify SAML's date/time objects.
      * 
-     * See the
-     * {@link <a href="http://java.sun.com/j2se/1.4.2/docs/api/java/text/SimpleDateFormat.html">SimpleDateFormat</a>}
-     * documentation for format syntax.
+     * See the {@link java.text.SimpleDateFormat} documentation for format syntax.
      * 
      * @param format date format used to string'ify date objects
      */
-    public void setSAMLDateFormat(String format) {
-        DateTimeFormatter formatter = DateTimeFormat.forPattern(format);
+    public void setSAMLDateFormat(final String format) {
+        final DateTimeFormatter formatter = DateTimeFormat.forPattern(format);
         dateFormatter = formatter.withChronology(ISOChronology.getInstanceUTC());
     }
 
@@ -121,7 +119,7 @@ public class SAMLConfiguration {
      * 
      * @param factory artifact factory for the library
      */
-    public void setSAML1ArtifactBuilderFactory(SAML1ArtifactBuilderFactory factory) {
+    public void setSAML1ArtifactBuilderFactory(final SAML1ArtifactBuilderFactory factory) {
         saml1ArtifactBuilderFactory = factory;
     }
 
@@ -139,7 +137,7 @@ public class SAMLConfiguration {
      * 
      * @param factory artifact factory for the library
      */
-    public void setSAML2ArtifactBuilderFactory(SAML2ArtifactBuilderFactory factory) {
+    public void setSAML2ArtifactBuilderFactory(final SAML2ArtifactBuilderFactory factory) {
         saml2ArtifactBuilderFactory = factory;
     }
 
@@ -167,7 +165,7 @@ public class SAMLConfiguration {
      * <p>
      * The supplied list will be copied.  Values will be normalized: 1) strings will be trimmed, 
      * 2) nulls will be removed, and 3) all values will be lowercased.
-     * </>
+     * </p>
      * 
      * <p>Note, the appearance of schemes such as 'javascript' may open the system up to attacks 
      * (e.g. cross-site scripting attacks).
@@ -179,7 +177,7 @@ public class SAMLConfiguration {
         if (schemes == null || schemes.isEmpty()) {
             allowedBindingURLSchemes = Collections.emptyList();
         } else {
-            Collection<String> normalized = Collections2.transform(
+            final Collection<String> normalized = Collections2.transform(
                     StringSupport.normalizeStringCollection(schemes), lowercaseFunction);
             allowedBindingURLSchemes = new ArrayList<>(normalized);
         }
@@ -191,7 +189,7 @@ public class SAMLConfiguration {
     private static class LowercaseFunction implements Function<String, String> {
 
         /** {@inheritDoc} */
-        public String apply(String input) {
+        public String apply(final String input) {
             if (input == null) {
                 return null;
             } else {

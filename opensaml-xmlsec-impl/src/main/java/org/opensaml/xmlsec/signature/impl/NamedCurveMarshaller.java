@@ -28,8 +28,8 @@ import org.w3c.dom.Element;
 public class NamedCurveMarshaller extends AbstractXMLSignatureMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        NamedCurve nc = (NamedCurve) xmlObject;
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
+        final NamedCurve nc = (NamedCurve) xmlObject;
 
         if (nc.getURI() != null) {
             domElement.setAttributeNS(null, NamedCurve.URI_ATTRIB_NAME, nc.getURI());

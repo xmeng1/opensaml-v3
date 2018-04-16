@@ -47,7 +47,8 @@ public class TransformationParametersImpl extends AbstractWSSecurityObject imple
      * @param elementLocalName name of the element
      * @param namespacePrefix namespace prefix of the element
      */
-    public TransformationParametersImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public TransformationParametersImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         unknownAttributes = new AttributeMap(this);
         unknownChildren = new IndexedXMLObjectChildrenList<>(this);
@@ -59,7 +60,7 @@ public class TransformationParametersImpl extends AbstractWSSecurityObject imple
     }
 
     /** {@inheritDoc} */
-    public List<XMLObject> getUnknownXMLObjects(QName typeOrName) {
+    public List<XMLObject> getUnknownXMLObjects(final QName typeOrName) {
         return (List<XMLObject>) unknownChildren.subList(typeOrName);
     }
 
@@ -70,7 +71,7 @@ public class TransformationParametersImpl extends AbstractWSSecurityObject imple
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         if (!getUnknownXMLObjects().isEmpty()) {
             children.addAll(getUnknownXMLObjects());
         }

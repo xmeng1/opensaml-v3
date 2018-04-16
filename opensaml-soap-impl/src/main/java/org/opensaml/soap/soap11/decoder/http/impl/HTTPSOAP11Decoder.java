@@ -81,33 +81,33 @@ public class HTTPSOAP11Decoder<MessageType extends XMLObject>
      * 
      * @param newBodyHandler The bodyHandler to set.
      */
-    public void setBodyHandler(MessageHandler<MessageType> newBodyHandler) {
+    public void setBodyHandler(final MessageHandler<MessageType> newBodyHandler) {
         bodyHandler = newBodyHandler;
     }
 
     /** {@inheritDoc} */
     @Override
     protected void doDecode() throws MessageDecodingException {
-        MessageContext<MessageType> messageContext = new MessageContext<>();
-        HttpServletRequest request = getHttpServletRequest();
+        final MessageContext<MessageType> messageContext = new MessageContext<>();
+        final HttpServletRequest request = getHttpServletRequest();
 
         if (!"POST".equalsIgnoreCase(request.getMethod())) {
             throw new MessageDecodingException("This message decoder only supports the HTTP POST method");
         }
 
         log.debug("Unmarshalling SOAP message");
-        Envelope soapMessage;
+        final Envelope soapMessage;
         try {
             soapMessage = (Envelope) unmarshallMessage(request.getInputStream());
             messageContext.getSubcontext(SOAP11Context.class, true).setEnvelope(soapMessage);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             log.error("Unable to obtain input stream from HttpServletRequest", e);
             throw new MessageDecodingException("Unable to obtain input stream from HttpServletRequest", e);
         }
         
         try {
             getBodyHandler().invoke(messageContext);
-        } catch (MessageHandlerException e) {
+        } catch (final MessageHandlerException e) {
             log.error("Error processing SOAP Envelope body", e);
             throw new MessageDecodingException("Error processing SOAP Envelope body", e);
         }
@@ -139,7 +139,7 @@ public class HTTPSOAP11Decoder<MessageType extends XMLObject>
 
     /** {@inheritDoc} */
     @Override
-    protected void validateHttpRequest(HttpServletRequest request) throws MessageDecodingException {
+    protected void validateHttpRequest(final HttpServletRequest request) throws MessageDecodingException {
         super.validateHttpRequest(request);
         
         if (!HttpServletSupport.validateContentType(request, SUPPORTED_MEDIA_TYPES, false, false)) {

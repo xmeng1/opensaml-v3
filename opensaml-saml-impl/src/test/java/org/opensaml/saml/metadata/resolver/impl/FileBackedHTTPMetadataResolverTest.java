@@ -293,7 +293,7 @@ public class FileBackedHTTPMetadataResolverTest extends XMLObjectBaseTestCase {
     @Test
     public void testTrustEngineSocketFactoryNoHTTPSNoTrustEngine() throws Exception  {
         // Make sure resolver works when TrustEngine socket factory is configured but just using an HTTP URL.
-        httpClientBuilder.setTLSSocketFactory(buildTrustEngineSocketFactory());
+        httpClientBuilder.setTLSSocketFactory(buildTrustEngineSocketFactory(false));
         
         metadataProvider = new FileBackedHTTPMetadataResolver(httpClientBuilder.buildClient(), metadataURL, backupFilePath);
         metadataProvider.setParserPool(parserPool);
@@ -323,7 +323,7 @@ public class FileBackedHTTPMetadataResolverTest extends XMLObjectBaseTestCase {
     
     @Test
     public void testHTTPSNoTrustEngine() throws Exception  {
-        httpClientBuilder.setTLSSocketFactory(buildTrustEngineSocketFactory());
+        httpClientBuilder.setTLSSocketFactory(buildTrustEngineSocketFactory(false));
         
         metadataProvider = new FileBackedHTTPMetadataResolver(httpClientBuilder.buildClient(), metadataURL, backupFilePath); 
         metadataProvider.setParserPool(parserPool);
@@ -444,10 +444,16 @@ public class FileBackedHTTPMetadataResolverTest extends XMLObjectBaseTestCase {
     // Helpers
     
     private LayeredConnectionSocketFactory buildTrustEngineSocketFactory() {
-        return new SecurityEnhancedTLSSocketFactory(
+        return buildTrustEngineSocketFactory(true);
+    }
+    
+    private LayeredConnectionSocketFactory buildTrustEngineSocketFactory(boolean trustEngineRequired) {
+        SecurityEnhancedTLSSocketFactory factory = new SecurityEnhancedTLSSocketFactory(
                 HttpClientSupport.buildNoTrustTLSSocketFactory(),
-                SSLConnectionSocketFactory.STRICT_HOSTNAME_VERIFIER
+                SSLConnectionSocketFactory.STRICT_HOSTNAME_VERIFIER,
+                trustEngineRequired
                 );
+        return factory;
     }
 
     private TrustEngine<? super X509Credential> buildExplicitKeyTrustEngine(String cert) throws URISyntaxException, CertificateException {

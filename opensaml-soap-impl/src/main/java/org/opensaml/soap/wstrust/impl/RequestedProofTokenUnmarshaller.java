@@ -29,9 +29,9 @@ import org.opensaml.soap.wstrust.RequestedProofToken;
 public class RequestedProofTokenUnmarshaller extends AbstractWSTrustObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        RequestedProofToken rpt = (RequestedProofToken) parentXMLObject;
+        final RequestedProofToken rpt = (RequestedProofToken) parentXMLObject;
         rpt.setUnknownXMLObject(childXMLObject);
     }
 

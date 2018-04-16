@@ -31,7 +31,7 @@ public class KeyReferenceImpl extends ReferenceTypeImpl implements KeyReference 
      * @param elementLocalName local name
      * @param namespacePrefix namespace prefix
      */
-    protected KeyReferenceImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected KeyReferenceImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

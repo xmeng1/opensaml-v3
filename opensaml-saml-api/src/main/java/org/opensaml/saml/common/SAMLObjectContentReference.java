@@ -125,9 +125,9 @@ public class SAMLObjectContentReference implements ConfigurableContentReference 
     /** {@inheritDoc} */
     public void createReference(@Nonnull final XMLSignature signature) {
         try {
-            Transforms dsigTransforms = new Transforms(signature.getDocument());
+            final Transforms dsigTransforms = new Transforms(signature.getDocument());
             for (int i=0; i<transforms.size(); i++) {
-                String transform = transforms.get(i);
+                final String transform = transforms.get(i);
                 dsigTransforms.addTransform(transform);
                 
                 if (transform.equals(SignatureConstants.TRANSFORM_C14N_EXCL_WITH_COMMENTS) ||
@@ -145,9 +145,9 @@ public class SAMLObjectContentReference implements ConfigurableContentReference 
                 signature.addDocument("" , dsigTransforms, digestAlgorithm);
             }
             
-        } catch (TransformationException e) {
+        } catch (final TransformationException e) {
             log.error("Unsupported signature transformation", e);
-        } catch (XMLSignatureException e) {
+        } catch (final XMLSignatureException e) {
             log.error("Error adding content reference to signature", e);
         }
     }
@@ -163,11 +163,11 @@ public class SAMLObjectContentReference implements ConfigurableContentReference 
         // be stripped out by exclusive canonicalization. Need to make sure they aren't by explicitly
         // telling the transformer about them.
         log.debug("Adding list of inclusive namespaces for signature exclusive canonicalization transform");
-        LazySet<String> inclusiveNamespacePrefixes = new LazySet<>();
+        final LazySet<String> inclusiveNamespacePrefixes = new LazySet<>();
         populateNamespacePrefixes(inclusiveNamespacePrefixes, signableObject);
         
         if (inclusiveNamespacePrefixes != null && inclusiveNamespacePrefixes.size() > 0) {
-            InclusiveNamespaces inclusiveNamespaces = new InclusiveNamespaces(signature.getDocument(),
+            final InclusiveNamespaces inclusiveNamespaces = new InclusiveNamespaces(signature.getDocument(),
                     inclusiveNamespacePrefixes);
             transform.getElement().appendChild(inclusiveNamespaces.getElement());
         }
@@ -182,7 +182,7 @@ public class SAMLObjectContentReference implements ConfigurableContentReference 
      */
     private void populateNamespacePrefixes(@Nonnull @NonnullElements final Set<String> namespacePrefixes,
             @Nonnull final XMLObject signatureContent) {
-        for (String prefix: signatureContent.getNamespaceManager().getNonVisibleNamespacePrefixes()) {
+        for (final String prefix: signatureContent.getNamespaceManager().getNonVisibleNamespacePrefixes()) {
             if (prefix != null) {
                 // For the default namespace prefix, exclusive c14n uses the special token "#default".
                 // Apache xmlsec requires this to be represented in the set with the

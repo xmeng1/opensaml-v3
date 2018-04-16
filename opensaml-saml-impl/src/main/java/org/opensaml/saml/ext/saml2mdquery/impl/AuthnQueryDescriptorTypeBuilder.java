@@ -33,7 +33,8 @@ public class AuthnQueryDescriptorTypeBuilder extends AbstractSAMLObjectBuilder<A
     }
 
     /** {@inheritDoc} */
-    public AuthnQueryDescriptorType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public AuthnQueryDescriptorType buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new AuthnQueryDescriptorTypeImpl(namespaceURI, localName, namespacePrefix);
     }
 }

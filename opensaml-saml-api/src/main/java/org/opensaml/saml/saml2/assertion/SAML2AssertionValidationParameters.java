@@ -57,13 +57,15 @@ public final class SAML2AssertionValidationParameters {
     public static final String SIGNATURE_VALIDATION_CRITERIA_SET = STD_PREFIX + ".SignatureValidationCriteriaSet";
 
     /**
-     * Carries a {@link java.util.Set&lt;java.lang.String&gt;} whose values are the acceptable 
+     * Carries a {@link java.util.Set}<code>&lt;</code>{@link java.lang.String}<code>&gt;</code>
+     * whose values are the acceptable 
      * {@link org.opensaml.saml.saml2.core.SubjectConfirmationData} recipients.
      */
     public static final String SC_VALID_RECIPIENTS = STD_PREFIX + SC_INFIX + ".ValidRecipients";
 
     /**
-     * Carries a {@link java.util.Set&lt;java.net.InetAddress&gt;} whose values are the acceptable 
+     * Carries a {@link java.util.Set}<code>&lt;</code>{@link java.net.InetAddress}<code>&gt;</code>
+     * whose values are the acceptable 
      * {@link org.opensaml.saml.saml2.core.SubjectConfirmationData} addresses.
      */
     public static final String SC_VALID_ADDRESSES = STD_PREFIX + SC_INFIX + ".ValidAddresses";
@@ -85,7 +87,8 @@ public final class SAML2AssertionValidationParameters {
     public static final String SC_HOK_CONFIRMED_KEYINFO = STD_PREFIX + SC_INFIX + ".HoK.ConfirmedKeyInfo";
 
     /**
-     * Carries a {@link java.util.Set&lt;java.lang.String&gt;} whose values are the acceptable 
+     * Carries a {@link java.util.Set}<code>&lt;</code>{@link java.lang.String}<code>&gt</code>
+     * whose values are the acceptable 
      * {@link org.opensaml.saml.saml2.core.AudienceRestriction} {@link org.opensaml.saml.saml2.core.Audience}
      * values for evaluating the Assertion.
      */

@@ -69,7 +69,7 @@ public class HttpClientRequestSOAP11Encoder<MessageType extends XMLObject>
     /** Constructor. */
     public HttpClientRequestSOAP11Encoder() {
         super();
-        XMLObjectBuilderFactory builderFactory = XMLObjectProviderRegistrySupport.getBuilderFactory();
+        final XMLObjectBuilderFactory builderFactory = XMLObjectProviderRegistrySupport.getBuilderFactory();
         envBuilder = (SOAPObjectBuilder<Envelope>) builderFactory.getBuilder(Envelope.DEFAULT_ELEMENT_NAME);
         bodyBuilder = (SOAPObjectBuilder<Body>) builderFactory.getBuilder(Body.DEFAULT_ELEMENT_NAME);
         
@@ -90,7 +90,7 @@ public class HttpClientRequestSOAP11Encoder<MessageType extends XMLObject>
      * 
      * <p>This encoder implementation only operates on instances of {@link HttpPost}.</p>
      */
-    public synchronized void setHttpRequest(HttpRequest httpRequest) {
+    public synchronized void setHttpRequest(final HttpRequest httpRequest) {
         if (!(httpRequest instanceof HttpPost)) {
             throw new IllegalArgumentException("HttpClient SOAP message encoder only operates on HttpPost");
         }
@@ -99,8 +99,8 @@ public class HttpClientRequestSOAP11Encoder<MessageType extends XMLObject>
 
     /** {@inheritDoc} */
     public void prepareContext() throws MessageEncodingException {
-        MessageContext<MessageType> messageContext = getMessageContext();
-        MessageType message = messageContext.getMessage();
+        final MessageContext<MessageType> messageContext = getMessageContext();
+        final MessageType message = messageContext.getMessage();
         if (message == null) {
             throw new MessageEncodingException("No outbound message contained in message context");
         }
@@ -115,7 +115,7 @@ public class HttpClientRequestSOAP11Encoder<MessageType extends XMLObject>
 
     /** {@inheritDoc} */
     protected void doEncode() throws MessageEncodingException {
-        Envelope envelope = getSOAPEnvelope();
+        final Envelope envelope = getSOAPEnvelope();
         
         prepareHttpRequest();
 
@@ -149,7 +149,7 @@ public class HttpClientRequestSOAP11Encoder<MessageType extends XMLObject>
      * 
      * @param envelope the SOAP envelope
      */
-    protected void storeSOAPEnvelope(Envelope envelope) {
+    protected void storeSOAPEnvelope(final Envelope envelope) {
         getMessageContext().getSubcontext(SOAP11Context.class, true).setEnvelope(envelope);
     }
 
@@ -205,7 +205,7 @@ public class HttpClientRequestSOAP11Encoder<MessageType extends XMLObject>
      */
     protected void prepareHttpRequest() throws MessageEncodingException {
         //TODO - need to do more here?
-        String soapAction = getSOAPAction();
+        final String soapAction = getSOAPAction();
         if (soapAction != null) {
             getHttpRequest().setHeader("SOAPAction", soapAction);
         } else {
@@ -224,12 +224,12 @@ public class HttpClientRequestSOAP11Encoder<MessageType extends XMLObject>
      * @return a SOAPAction HTTP header URI value
      */
     protected String getSOAPAction() {
-        Envelope env = getSOAPEnvelope();
-        Header header = env.getHeader();
+        final Envelope env = getSOAPEnvelope();
+        final Header header = env.getHeader();
         if (header == null) {
             return null;
         }
-        List<XMLObject> objList = header.getUnknownXMLObjects(Action.ELEMENT_NAME);
+        final List<XMLObject> objList = header.getUnknownXMLObjects(Action.ELEMENT_NAME);
         if (objList == null || objList.isEmpty()) {
             return null;
         } else {

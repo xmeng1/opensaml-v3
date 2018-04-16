@@ -33,10 +33,10 @@ import org.w3c.dom.Attr;
 public class AttributedStringUnmarshaller extends AbstractWSSecurityObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
-        AttributedString attributedString = (AttributedString) xmlObject;
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
+        final AttributedString attributedString = (AttributedString) xmlObject;
         
-        QName attribQName = 
+        final QName attribQName = 
             QNameSupport.constructQName(attribute.getNamespaceURI(), attribute.getLocalName(), attribute.getPrefix());
         if (AttributedString.WSU_ID_ATTR_NAME.equals(attribQName)) {
             attributedString.setWSUId(attribute.getValue());
@@ -47,8 +47,8 @@ public class AttributedStringUnmarshaller extends AbstractWSSecurityObjectUnmars
     }
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject xmlObject, String elementContent) {
-        AttributedString attributedString = (AttributedString) xmlObject;
+    protected void processElementContent(final XMLObject xmlObject, final String elementContent) {
+        final AttributedString attributedString = (AttributedString) xmlObject;
         attributedString.setValue(elementContent);
     }
     

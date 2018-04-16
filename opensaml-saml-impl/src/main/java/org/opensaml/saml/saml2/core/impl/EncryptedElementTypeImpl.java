@@ -46,7 +46,8 @@ public class EncryptedElementTypeImpl extends AbstractSAMLObject implements Encr
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected EncryptedElementTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected EncryptedElementTypeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         encryptedKeys = new XMLObjectChildrenList<>(this);
     }
@@ -57,7 +58,7 @@ public class EncryptedElementTypeImpl extends AbstractSAMLObject implements Encr
     }
 
     /** {@inheritDoc} */
-    public void setEncryptedData(EncryptedData newEncryptedData) {
+    public void setEncryptedData(final EncryptedData newEncryptedData) {
         this.encryptedData = prepareForAssignment(this.encryptedData, newEncryptedData);
     }
 
@@ -68,7 +69,7 @@ public class EncryptedElementTypeImpl extends AbstractSAMLObject implements Encr
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         
         if (encryptedData != null) {
             children.add(encryptedData);

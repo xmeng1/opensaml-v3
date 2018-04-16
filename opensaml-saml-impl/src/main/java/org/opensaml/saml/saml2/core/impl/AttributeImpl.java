@@ -54,7 +54,7 @@ public class AttributeImpl extends AbstractSAMLObject implements Attribute {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AttributeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AttributeImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         unknownAttributes = new AttributeMap(this);
         attributeValues = new XMLObjectChildrenList<>(this);
@@ -66,7 +66,7 @@ public class AttributeImpl extends AbstractSAMLObject implements Attribute {
     }
 
     /** {@inheritDoc} */
-    public void setName(String n) {
+    public void setName(final String n) {
         name = prepareForAssignment(name, n);
     }
 
@@ -76,7 +76,7 @@ public class AttributeImpl extends AbstractSAMLObject implements Attribute {
     }
 
     /** {@inheritDoc} */
-    public void setNameFormat(String format) {
+    public void setNameFormat(final String format) {
         nameFormat = prepareForAssignment(nameFormat, format);
     }
 
@@ -86,7 +86,7 @@ public class AttributeImpl extends AbstractSAMLObject implements Attribute {
     }
 
     /** {@inheritDoc} */
-    public void setFriendlyName(String fname) {
+    public void setFriendlyName(final String fname) {
         friendlyName = prepareForAssignment(friendlyName, fname);
     }
 
@@ -104,7 +104,7 @@ public class AttributeImpl extends AbstractSAMLObject implements Attribute {
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         children.addAll(attributeValues);
 

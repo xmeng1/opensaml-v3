@@ -43,13 +43,13 @@ public final class SAML2Support {
      */
     public static boolean isValid(final XMLObject xmlObject) {
         if (xmlObject instanceof TimeBoundSAMLObject) {
-            TimeBoundSAMLObject timeBoundObject = (TimeBoundSAMLObject) xmlObject;
+            final TimeBoundSAMLObject timeBoundObject = (TimeBoundSAMLObject) xmlObject;
             if (!timeBoundObject.isValid()) {
                 return false;
             }
         }
 
-        XMLObject parent = xmlObject.getParent();
+        final XMLObject parent = xmlObject.getParent();
         if (parent != null) {
             return isValid(parent);
         }
@@ -70,7 +70,7 @@ public final class SAML2Support {
      * @return the earliest expiration time
      */
     @Nullable public static DateTime getEarliestExpiration(@Nullable final XMLObject xmlObject) {
-        DateTime now = new DateTime();
+        final DateTime now = new DateTime();
         return getEarliestExpiration(xmlObject, null, now);
     }
 
@@ -85,7 +85,7 @@ public final class SAML2Support {
      *          was null, otherwise will always be non-null.
      */
     @Nullable public static DateTime getEarliestExpiration(@Nullable final XMLObject xmlObject, 
-            @Nullable DateTime candidateTime, @Nonnull DateTime now) {
+            @Nullable final DateTime candidateTime, @Nonnull final DateTime now) {
         
         DateTime earliestExpiration = candidateTime;
 
@@ -102,9 +102,9 @@ public final class SAML2Support {
 
         // Inspect children
         if (xmlObject != null) {
-            List<XMLObject> children = xmlObject.getOrderedChildren();
+            final List<XMLObject> children = xmlObject.getOrderedChildren();
             if (children != null) {
-                for (XMLObject child : xmlObject.getOrderedChildren()) {
+                for (final XMLObject child : xmlObject.getOrderedChildren()) {
                     if (child != null) {
                         earliestExpiration = getEarliestExpiration(child, earliestExpiration, now);
                     }
@@ -126,13 +126,14 @@ public final class SAML2Support {
      * @return the earliest effective expiration instant of the 2 targets. May be null if the input candiateTime 
      *          was null, otherwise will always be non-null.
      */
-    @Nullable public static DateTime getEarliestExpirationFromCacheable(@Nonnull CacheableSAMLObject cacheableObject, 
-            @Nullable DateTime candidateTime, @Nonnull DateTime now) {
+    @Nullable public static DateTime getEarliestExpirationFromCacheable(
+            @Nonnull final CacheableSAMLObject cacheableObject, @Nullable final DateTime candidateTime,
+            @Nonnull final DateTime now) {
         
         DateTime earliestExpiration = candidateTime;
 
         if (cacheableObject.getCacheDuration() != null && cacheableObject.getCacheDuration().longValue() > 0) {
-            DateTime elementExpirationTime = now.plus(cacheableObject.getCacheDuration().longValue());
+            final DateTime elementExpirationTime = now.plus(cacheableObject.getCacheDuration().longValue());
             if (earliestExpiration == null) {
                 earliestExpiration = elementExpirationTime;
             } else {
@@ -155,12 +156,12 @@ public final class SAML2Support {
      * @return the earliest effective expiration instant of the 2 targets. May be null if the input candiateTime 
      *          was null, otherwise will always be non-null.
      */
-    @Nullable public static DateTime getEarliestExpirationFromTimeBound(@Nonnull TimeBoundSAMLObject timeBoundObject, 
-            @Nullable DateTime candidateTime) {
+    @Nullable public static DateTime getEarliestExpirationFromTimeBound(
+            @Nonnull final TimeBoundSAMLObject timeBoundObject, @Nullable final DateTime candidateTime) {
         
         DateTime earliestExpiration = candidateTime;
         
-        DateTime elementExpirationTime = timeBoundObject.getValidUntil();
+        final DateTime elementExpirationTime = timeBoundObject.getValidUntil();
         if (earliestExpiration == null) {
             earliestExpiration = elementExpirationTime;
         } else {

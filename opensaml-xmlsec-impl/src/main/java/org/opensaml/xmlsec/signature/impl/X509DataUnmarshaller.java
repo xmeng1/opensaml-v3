@@ -27,9 +27,9 @@ import org.opensaml.xmlsec.signature.X509Data;
 public class X509DataUnmarshaller extends AbstractXMLSignatureUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        X509Data x509Data = (X509Data) parentXMLObject;
+        final X509Data x509Data = (X509Data) parentXMLObject;
 
         // X509Data contains a range of specific types, but also
         // support <any>, with an unbounded choice over all (no ordering)

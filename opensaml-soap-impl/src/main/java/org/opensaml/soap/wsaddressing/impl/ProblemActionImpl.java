@@ -48,7 +48,7 @@ public class ProblemActionImpl extends AbstractWSAddressingObject implements Pro
      * @param elementLocalName The local name of the element
      * @param namespacePrefix The namespace prefix of the element
      */
-    public ProblemActionImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public ProblemActionImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         unknownAttributes = new AttributeMap(this);
     }
@@ -64,12 +64,12 @@ public class ProblemActionImpl extends AbstractWSAddressingObject implements Pro
     }
 
     /** {@inheritDoc} */
-    public void setAction(Action newAction) {
+    public void setAction(final Action newAction) {
         action = prepareForAssignment(action, newAction);
     }
 
     /** {@inheritDoc} */
-    public void setSoapAction(SoapAction newSoapAction) {
+    public void setSoapAction(final SoapAction newSoapAction) {
         soapAction = prepareForAssignment(soapAction, newSoapAction);
     }
 
@@ -80,7 +80,7 @@ public class ProblemActionImpl extends AbstractWSAddressingObject implements Pro
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         if (action != null) {
             children.add(action);
         }

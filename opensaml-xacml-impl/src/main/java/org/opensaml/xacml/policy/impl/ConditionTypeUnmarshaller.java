@@ -30,10 +30,10 @@ public class ConditionTypeUnmarshaller extends AbstractXACMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
     @Override
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
         if(childXMLObject instanceof ExpressionType){
-            ConditionType conditionType = (ConditionType)parentXMLObject;
+            final ConditionType conditionType = (ConditionType)parentXMLObject;
             conditionType.setExpression((ExpressionType)childXMLObject);
         } else {
             super.processChildElement(parentXMLObject, childXMLObject);

@@ -32,9 +32,9 @@ import org.opensaml.saml.saml2.core.ArtifactResolve;
 public class ArtifactResolveUnmarshaller extends RequestAbstractTypeUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
+    protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
-        ArtifactResolve ar = (ArtifactResolve) parentSAMLObject;
+        final ArtifactResolve ar = (ArtifactResolve) parentSAMLObject;
 
         if (childSAMLObject instanceof Artifact) {
             ar.setArtifact((Artifact) childSAMLObject);

@@ -32,13 +32,14 @@ import org.w3c.dom.Element;
 public class XSQNameMarshaller extends AbstractXMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
         // no attributes to marshall
     }
 
     /** {@inheritDoc} */
-    protected void marshallElementContent(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        XSQName qname = (XSQName) xmlObject;
+    protected void marshallElementContent(final XMLObject xmlObject, final Element domElement)
+            throws MarshallingException {
+        final XSQName qname = (XSQName) xmlObject;
         ElementSupport.appendTextContent(domElement, QNameSupport.qnameToContentString(qname.getValue()));
     }
 }

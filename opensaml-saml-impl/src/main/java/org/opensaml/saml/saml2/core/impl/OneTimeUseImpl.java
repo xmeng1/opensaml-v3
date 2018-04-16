@@ -39,7 +39,7 @@ public class OneTimeUseImpl extends AbstractSAMLObject implements OneTimeUse {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected OneTimeUseImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected OneTimeUseImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

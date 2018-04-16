@@ -34,7 +34,7 @@ public class KANonceBuilder extends AbstractXMLObjectBuilder<KANonce> implements
     }
 
     /** {@inheritDoc} */
-    public KANonce buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public KANonce buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new KANonceImpl(namespaceURI, localName, namespacePrefix);
     }
 

@@ -61,25 +61,26 @@ public class JavaCryptoValidationInitializer implements Initializer {
         // Some JREs are known to ship with no JCEs that support
         // the ISO10126Padding padding scheme.
         
-        String errorMsgAESPadding = "The JCE providers currently configured in the JVM do not support\n"
+        final String errorMsgAESPadding = "The JCE providers currently configured in the JVM do not support\n"
             + "required capabilities for XML Encryption, either the 'AES' cipher algorithm\n"
             + "or the 'ISO10126Padding' padding scheme\n";
         
         try {
             Cipher.getInstance("AES/CBC/ISO10126Padding");
-        } catch (NoSuchAlgorithmException e) {
+        } catch (final NoSuchAlgorithmException e) {
             // IBM JCE returns this as the top-level exception even for the unsupported padding case. :-(
             // Otherwise would be nice to make the error msg more specific.
             log.warn(errorMsgAESPadding);
             valid = false;
-        } catch (NoSuchPaddingException e) {
+        } catch (final NoSuchPaddingException e) {
             log.warn(errorMsgAESPadding);
             valid = false;
         }
         
         if (!valid) {
-            Properties props = ConfigurationService.getConfigurationProperties(); 
-            String isFatal = (props != null) ? props.getProperty(CONFIG_PROPERTY_FAIL_IS_FATAL, "false") : "false";
+            final Properties props = ConfigurationService.getConfigurationProperties(); 
+            final String isFatal =
+                    (props != null) ? props.getProperty(CONFIG_PROPERTY_FAIL_IS_FATAL, "false") : "false";
             if ("true".equalsIgnoreCase(isFatal) || "1".equals(isFatal)) {
                 log.warn("Configuration indicates an invalid crypto configuration should be fatal");
                 throw new InitializationException(

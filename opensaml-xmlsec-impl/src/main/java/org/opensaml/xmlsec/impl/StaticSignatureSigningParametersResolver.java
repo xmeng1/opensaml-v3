@@ -41,17 +41,17 @@ public class StaticSignatureSigningParametersResolver implements SignatureSignin
      *
      * @param parameters the static parameters instance to return
      */
-    public StaticSignatureSigningParametersResolver(SignatureSigningParameters parameters) {
+    public StaticSignatureSigningParametersResolver(final SignatureSigningParameters parameters) {
         params = Constraint.isNotNull(parameters, "Parameters instance may not be null");
     }
 
     /** {@inheritDoc} */
-    @Nonnull public Iterable<SignatureSigningParameters> resolve(CriteriaSet criteria) throws ResolverException {
+    @Nonnull public Iterable<SignatureSigningParameters> resolve(final CriteriaSet criteria) throws ResolverException {
         return Collections.singleton(params);
     }
 
     /** {@inheritDoc} */
-    @Nonnull public SignatureSigningParameters resolveSingle(CriteriaSet criteria) throws ResolverException {
+    @Nonnull public SignatureSigningParameters resolveSingle(final CriteriaSet criteria) throws ResolverException {
         return params;
     }
 

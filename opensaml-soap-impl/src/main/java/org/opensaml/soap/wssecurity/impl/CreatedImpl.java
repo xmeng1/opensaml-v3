@@ -32,7 +32,7 @@ public class CreatedImpl extends AttributedDateTimeImpl implements Created {
      * @param elementLocalName name of the element
      * @param namespacePrefix namespace prefix of the element
      */
-    public CreatedImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public CreatedImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

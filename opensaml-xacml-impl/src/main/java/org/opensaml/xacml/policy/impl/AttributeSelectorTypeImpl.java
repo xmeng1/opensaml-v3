@@ -50,7 +50,8 @@ public class AttributeSelectorTypeImpl extends AbstractXACMLObject implements At
      * @param namespacePrefix
      *                the prefix for the given namespace
      */
-    protected AttributeSelectorTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AttributeSelectorTypeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         mustBePresentXS = XSBooleanValue.valueOf("false");
     }
@@ -79,17 +80,17 @@ public class AttributeSelectorTypeImpl extends AbstractXACMLObject implements At
     }
 
     /** {@inheritDoc} */
-    public void setDataType(String type) {
+    public void setDataType(final String type) {
         dataType = prepareForAssignment(dataType, type);
     }
 
     /** {@inheritDoc} */
-    public void setMustBePresentXSBoolean(XSBooleanValue present) {
+    public void setMustBePresentXSBoolean(final XSBooleanValue present) {
         mustBePresentXS = prepareForAssignment(mustBePresentXS, present);
     }
 
     /** {@inheritDoc} */
-    public void setMustBePresent(Boolean present) {
+    public void setMustBePresent(final Boolean present) {
         if (present != null) {
             mustBePresentXS = prepareForAssignment(mustBePresentXS, new XSBooleanValue(present, false));
         } else {
@@ -98,7 +99,7 @@ public class AttributeSelectorTypeImpl extends AbstractXACMLObject implements At
     }
 
     /** {@inheritDoc} */
-    public void setRequestContextPath(String path) {
+    public void setRequestContextPath(final String path) {
         requestContextPath = prepareForAssignment(this.requestContextPath, path);
     }
 

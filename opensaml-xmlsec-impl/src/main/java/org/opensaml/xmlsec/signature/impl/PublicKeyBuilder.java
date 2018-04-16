@@ -35,7 +35,7 @@ public class PublicKeyBuilder extends AbstractXMLObjectBuilder<PublicKey>
     }
 
     /** {@inheritDoc} */
-    public PublicKey buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public PublicKey buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new PublicKeyImpl(namespaceURI, localName, namespacePrefix);
     }
 

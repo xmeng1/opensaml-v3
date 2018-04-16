@@ -39,7 +39,7 @@ public class InformationURLBuilder extends AbstractSAMLObjectBuilder<Information
     }
 
     /** {@inheritDoc} */
-    public InformationURL buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public InformationURL buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new InformationURLImpl(namespaceURI, localName, namespacePrefix);
     }
 }

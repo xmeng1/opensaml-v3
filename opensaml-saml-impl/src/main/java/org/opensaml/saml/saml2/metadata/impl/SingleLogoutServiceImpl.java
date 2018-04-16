@@ -35,7 +35,8 @@ public class SingleLogoutServiceImpl extends EndpointImpl implements SingleLogou
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected SingleLogoutServiceImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected SingleLogoutServiceImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 }

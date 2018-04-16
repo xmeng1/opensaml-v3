@@ -34,7 +34,7 @@ public class StringTranscoder implements Transcoder<String> {
 
 
     @Override
-    public boolean asyncDecode(CachedData d) {
+    public boolean asyncDecode(final CachedData d) {
         return false;
     }
 

@@ -32,7 +32,7 @@ public class CipherValueImpl extends XSBase64BinaryImpl implements CipherValue {
      * @param elementLocalName local name
      * @param namespacePrefix namespace prefix
      */
-    protected CipherValueImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected CipherValueImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

@@ -29,7 +29,7 @@
         <property name="generateDdl" value="true" />
         <property name="showSql" value="false"/>
     </bean>
-    <bean id="hibernateDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close" lazy-init="true"
+    <bean id="hibernateDataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close" lazy-init="true"
        p:driverClassName="org.hsqldb.jdbcDriver"
        p:url="jdbc:hsqldb:mem:JPAStorageService"
        p:username="SA"
@@ -40,7 +40,7 @@
         <property name="database" value="POSTGRESQL" />
         <property name="generateDdl" value="true" />
     </bean> 
-    <bean id="postgresDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close" lazy-init="true"
+    <bean id="postgresDataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close" lazy-init="true"
        p:driverClassName="org.postgresql.Driver"
        p:url="jdbc:postgresql://localhost:5432/storageservice"
        p:username="shib"
@@ -52,7 +52,7 @@
         <property name="databasePlatform" value="org.hibernate.dialect.MySQLDialect" />
         <property name="generateDdl" value="true" />
     </bean>
-    <bean id="mysqlDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close" lazy-init="true"
+    <bean id="mysqlDataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close" lazy-init="true"
        p:driverClassName="com.mysql.jdbc.Driver"
        p:url="jdbc:mysql://localhost:3306/storageservice"
        p:username="shib"
@@ -73,7 +73,7 @@
         <property name="databasePlatform" value="org.hibernate.dialect.OracleDialect" />
         <property name="generateDdl" value="true" />
     </bean> 
-    <bean id="oracleDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close" lazy-init="true"
+    <bean id="oracleDataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close" lazy-init="true"
        p:driverClassName="oracle.jdbc.OracleDriver"
        p:url="jdbc:oracle:thin:@//localhost:1521/PDB1"
        p:username="pmuser"

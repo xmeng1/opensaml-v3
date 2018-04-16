@@ -85,7 +85,7 @@ public class SimpleRetrievalMethodEncryptedKeyResolver extends AbstractEncrypted
             return resolvedEncKeys;
         }
 
-        for (RetrievalMethod rm : encryptedData.getKeyInfo().getRetrievalMethods()) {
+        for (final RetrievalMethod rm : encryptedData.getKeyInfo().getRetrievalMethods()) {
             if (!Objects.equals(rm.getType(), EncryptionConstants.TYPE_ENCRYPTED_KEY)) {
                 continue;
             } else if (rm.getTransforms() != null) {
@@ -93,7 +93,7 @@ public class SimpleRetrievalMethodEncryptedKeyResolver extends AbstractEncrypted
                 continue;
             }
 
-            EncryptedKey encKey = dereferenceURI(rm);
+            final EncryptedKey encKey = dereferenceURI(rm);
             if (encKey == null) {
                 continue;
             } else if (matchRecipient(encKey.getRecipient())) {
@@ -111,13 +111,13 @@ public class SimpleRetrievalMethodEncryptedKeyResolver extends AbstractEncrypted
      * @return the dereferenced EncryptedKey
      */
     @Nullable protected EncryptedKey dereferenceURI(@Nonnull final RetrievalMethod rm) {
-        String uri = rm.getURI();
+        final String uri = rm.getURI();
         if (Strings.isNullOrEmpty(uri) || !uri.startsWith("#")) {
             log.warn("EncryptedKey RetrievalMethod did not contain a same-document URI reference, cannot process");
             return null;
         }
         
-        XMLObject target = rm.resolveIDFromRoot(uri.substring(1));
+        final XMLObject target = rm.resolveIDFromRoot(uri.substring(1));
         if (target == null) {
             log.warn("EncryptedKey RetrievalMethod URI could not be dereferenced");
             return null;

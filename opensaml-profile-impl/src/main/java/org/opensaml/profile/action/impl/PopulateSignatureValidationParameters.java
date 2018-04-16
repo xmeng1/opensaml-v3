@@ -22,8 +22,8 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import org.opensaml.profile.action.AbstractProfileAction;
-import org.opensaml.profile.action.ActionSupport;
+import org.opensaml.messaging.context.navigate.ChildContextLookup;
+import org.opensaml.profile.action.AbstractHandlerDelegatingProfileAction;
 import org.opensaml.profile.action.EventIds;
 import org.opensaml.profile.context.ProfileRequestContext;
 import org.opensaml.profile.context.navigate.InboundMessageContextLookup;
@@ -32,31 +32,28 @@ import org.opensaml.xmlsec.SignatureValidationConfiguration;
 import org.opensaml.xmlsec.SignatureValidationParameters;
 import org.opensaml.xmlsec.SignatureValidationParametersResolver;
 import org.opensaml.xmlsec.context.SecurityParametersContext;
-import org.opensaml.xmlsec.criterion.SignatureValidationConfigurationCriterion;
-
-import net.shibboleth.utilities.java.support.annotation.constraint.NonnullAfterInit;
-import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
-import net.shibboleth.utilities.java.support.component.ComponentSupport;
-import net.shibboleth.utilities.java.support.logic.Constraint;
-import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
-import net.shibboleth.utilities.java.support.resolver.ResolverException;
-
-import org.opensaml.messaging.context.navigate.ChildContextLookup;
+import org.opensaml.xmlsec.messaging.impl.PopulateSignatureValidationParametersHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
 
+import net.shibboleth.utilities.java.support.annotation.constraint.NonnullAfterInit;
+import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
+import net.shibboleth.utilities.java.support.component.ComponentSupport;
+import net.shibboleth.utilities.java.support.logic.Constraint;
+
 /**
  * Action that resolves and populates {@link SignatureValidationParameters} on a {@link SecurityParametersContext}
  * created/accessed via a lookup function, by default on the inbound message context.
  * 
  * @event {@link EventIds#PROCEED_EVENT_ID}
- * @event {@link EventIds#INVALID_PROFILE_CTX}
- * @event {@link EventIds#INVALID_SEC_CFG}
+ * @event {@link EventIds#INVALID_MSG_CTX}
+ * @event {@link EventIds#MESSAGE_PROC_ERROR}
  */
-public class PopulateSignatureValidationParameters extends AbstractProfileAction {
+public class PopulateSignatureValidationParameters 
+        extends AbstractHandlerDelegatingProfileAction<PopulateSignatureValidationParametersHandler> {
 
     /** Class logger. */
     @Nonnull private final Logger log = LoggerFactory.getLogger(PopulateSignatureValidationParameters.class);
@@ -75,6 +72,8 @@ public class PopulateSignatureValidationParameters extends AbstractProfileAction
      * Constructor.
      */
     public PopulateSignatureValidationParameters() {
+        super(PopulateSignatureValidationParametersHandler.class, new InboundMessageContextLookup());
+        
         // Create context by default.
         securityParametersContextLookupStrategy = Functions.compose(
                 new ChildContextLookup<>(SecurityParametersContext.class, true), new InboundMessageContextLookup());
@@ -127,47 +126,20 @@ public class PopulateSignatureValidationParameters extends AbstractProfileAction
             throw new ComponentInitializationException("SignatureValidationParametersResolver cannot be null");
         } else if (configurationLookupStrategy == null) {
             configurationLookupStrategy = new Function<ProfileRequestContext,List<SignatureValidationConfiguration>>() {
-                public List<SignatureValidationConfiguration> apply(ProfileRequestContext input) {
+                public List<SignatureValidationConfiguration> apply(final ProfileRequestContext input) {
                     return Collections.singletonList(
                             SecurityConfigurationSupport.getGlobalSignatureValidationConfiguration());
                 }
             };
         }
+        
+        final PopulateSignatureValidationParametersHandler delegate = getDelegate();
+        delegate.setSignatureValidationParametersResolver(resolver);
+        delegate.setConfigurationLookupStrategy(adapt(configurationLookupStrategy));
+        delegate.setSecurityParametersContextLookupStrategy(adapt(securityParametersContextLookupStrategy));
+        delegate.initialize();
+        
     }
-    
-// Checkstyle: ReturnCount OFF
-    /** {@inheritDoc} */
-    @Override
-    protected void doExecute(@Nonnull final ProfileRequestContext profileRequestContext) {
 
-        log.debug("{} Resolving SignatureValidationParameters for request", getLogPrefix());
-        
-        final List<SignatureValidationConfiguration> configs = configurationLookupStrategy.apply(profileRequestContext);
-        if (configs == null || configs.isEmpty()) {
-            log.error("{} No SignatureValidationConfiguration returned by lookup strategy", getLogPrefix());
-            ActionSupport.buildEvent(profileRequestContext, EventIds.INVALID_SEC_CFG);
-            return;
-        }
-        
-        final SecurityParametersContext paramsCtx =
-                securityParametersContextLookupStrategy.apply(profileRequestContext);
-        if (paramsCtx == null) {
-            log.debug("{} No SecurityParametersContext returned by lookup strategy", getLogPrefix());
-            ActionSupport.buildEvent(profileRequestContext, EventIds.INVALID_PROFILE_CTX);
-            return;
-        }
-        
-        try {
-            final SignatureValidationParameters params = resolver.resolveSingle(
-                    new CriteriaSet(new SignatureValidationConfigurationCriterion(configs)));
-            paramsCtx.setSignatureValidationParameters(params);
-            log.debug("{} {} SignatureValidationParameters", getLogPrefix(),
-                    params != null ? "Resolved" : "Failed to resolve");
-        } catch (final ResolverException e) {
-            log.error("{} Error resolving SignatureValidationParameters", getLogPrefix(), e);
-            ActionSupport.buildEvent(profileRequestContext, EventIds.INVALID_SEC_CFG);
-        }
-    }
-// Checkstyle: ReturnCount ON
     
 }

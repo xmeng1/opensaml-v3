@@ -34,7 +34,7 @@ public class SeedBuilder extends AbstractXMLObjectBuilder<Seed> implements XMLEn
     }
 
     /** {@inheritDoc} */
-    public Seed buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Seed buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new SeedImpl(namespaceURI, localName, namespacePrefix);
     }
 

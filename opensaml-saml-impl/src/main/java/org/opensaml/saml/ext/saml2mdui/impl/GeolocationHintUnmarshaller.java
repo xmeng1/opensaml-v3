@@ -27,8 +27,8 @@ import org.opensaml.saml.ext.saml2mdui.GeolocationHint;
 public class GeolocationHintUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject samlObject, String elementContent) {
-        GeolocationHint hint = (GeolocationHint) samlObject;
+    protected void processElementContent(final XMLObject samlObject, final String elementContent) {
+        final GeolocationHint hint = (GeolocationHint) samlObject;
 
         hint.setHint(elementContent);
     }

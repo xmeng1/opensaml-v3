@@ -32,8 +32,8 @@ public class CombinerParameterTypeMarshaller extends AbstractXACMLObjectMarshall
 
     /** {@inheritDoc} */
     @Override
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        CombinerParameterType combinerParameterType = (CombinerParameterType) xmlObject;
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
+        final CombinerParameterType combinerParameterType = (CombinerParameterType) xmlObject;
 
         if (!Strings.isNullOrEmpty(combinerParameterType.getParameterName())) {
             domElement.setAttributeNS(null, CombinerParameterType.PARAMETER_NAMEATTRIB_NAME,

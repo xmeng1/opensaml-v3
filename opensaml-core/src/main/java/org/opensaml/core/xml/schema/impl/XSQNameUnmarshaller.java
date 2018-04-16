@@ -34,26 +34,26 @@ import org.w3c.dom.Text;
 public class XSQNameUnmarshaller extends AbstractXMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
         // no child elements
     }
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         // no attributes
     }
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject xmlObject, String elementContent) {
+    protected void processElementContent(final XMLObject xmlObject, final String elementContent) {
         // handled by overriden unmarshallTextContent() directly, because we need access to the owning DOM element
     }
 
     /** {@inheritDoc} */
-    protected void unmarshallTextContent(XMLObject xmlObject, Text content) throws UnmarshallingException {
-        String textContent = StringSupport.trimOrNull(content.getWholeText());
+    protected void unmarshallTextContent(final XMLObject xmlObject, final Text content) throws UnmarshallingException {
+        final String textContent = StringSupport.trimOrNull(content.getWholeText());
         if (textContent != null) {
-            XSQName qname = (XSQName) xmlObject;
+            final XSQName qname = (XSQName) xmlObject;
             qname.setValue(QNameSupport.constructQName(ElementSupport.getElementAncestor(content), textContent));
         }
     }

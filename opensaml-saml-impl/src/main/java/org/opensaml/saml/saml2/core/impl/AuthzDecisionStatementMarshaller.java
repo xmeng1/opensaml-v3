@@ -33,8 +33,9 @@ import org.w3c.dom.Element;
 public class AuthzDecisionStatementMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject samlObject, Element domElement) throws MarshallingException {
-        AuthzDecisionStatement authzDS = (AuthzDecisionStatement) samlObject;
+    protected void marshallAttributes(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
+        final AuthzDecisionStatement authzDS = (AuthzDecisionStatement) samlObject;
 
         if (authzDS.getResource() != null) {
             domElement.setAttributeNS(null, AuthzDecisionStatement.RESOURCE_ATTRIB_NAME, authzDS.getResource());

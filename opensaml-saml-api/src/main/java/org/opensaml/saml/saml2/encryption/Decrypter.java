@@ -57,7 +57,7 @@ public class Decrypter extends org.opensaml.xmlsec.encryption.support.Decrypter 
      *
      * @param params decryption parameters to use
      */
-    public Decrypter(DecryptionParameters params) {
+    public Decrypter(final DecryptionParameters params) {
         super(params);
     }
     
@@ -101,7 +101,7 @@ public class Decrypter extends org.opensaml.xmlsec.encryption.support.Decrypter 
      * @throws DecryptionException thrown when decryption generates an error
      */
     public Assertion decrypt(@Nonnull final EncryptedAssertion encryptedAssertion) throws DecryptionException {
-        SAMLObject samlObject = decryptData(encryptedAssertion);
+        final SAMLObject samlObject = decryptData(encryptedAssertion);
         if (! (samlObject instanceof Assertion)) {
             throw new DecryptionException("Decrypted SAMLObject was not an instance of Assertion");
         }
@@ -116,7 +116,7 @@ public class Decrypter extends org.opensaml.xmlsec.encryption.support.Decrypter 
      * @throws DecryptionException thrown when decryption generates an error
      */
     public Attribute decrypt(@Nonnull final EncryptedAttribute encryptedAttribute) throws DecryptionException {
-        SAMLObject samlObject = decryptData(encryptedAttribute);
+        final SAMLObject samlObject = decryptData(encryptedAttribute);
         if (! (samlObject instanceof Attribute)) {
             throw new DecryptionException("Decrypted SAMLObject was not an instance of Attribute");
         }
@@ -149,7 +149,7 @@ public class Decrypter extends org.opensaml.xmlsec.encryption.support.Decrypter 
      * @throws DecryptionException thrown when decryption generates an error
      */
     public NewID decrypt(@Nonnull final NewEncryptedID newEncryptedID) throws DecryptionException {
-        SAMLObject samlObject = decryptData(newEncryptedID);
+        final SAMLObject samlObject = decryptData(newEncryptedID);
         if (! (samlObject instanceof NewID)) {
             throw new DecryptionException("Decrypted SAMLObject was not an instance of NewID");
         }
@@ -174,7 +174,7 @@ public class Decrypter extends org.opensaml.xmlsec.encryption.support.Decrypter 
         XMLObject xmlObject = null;
         try {
             xmlObject = decryptData(encElement.getEncryptedData(), isRootInNewDocument());
-        } catch (DecryptionException e) {
+        } catch (final DecryptionException e) {
             log.error("SAML Decrypter encountered an error decrypting element content", e);
             throw e; 
         }

@@ -34,7 +34,8 @@ public class RegistrationInfoBuilder extends AbstractSAMLObjectBuilder<Registrat
     }
 
     /** {@inheritDoc} */
-    public RegistrationInfo buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public RegistrationInfo buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new RegistrationInfoImpl(namespaceURI, localName, namespacePrefix);
     }
 }

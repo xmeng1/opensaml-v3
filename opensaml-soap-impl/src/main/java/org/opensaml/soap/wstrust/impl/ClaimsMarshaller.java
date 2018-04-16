@@ -31,8 +31,8 @@ import org.w3c.dom.Element;
 public class ClaimsMarshaller extends AbstractWSTrustObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        Claims claims = (Claims) xmlObject;
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
+        final Claims claims = (Claims) xmlObject;
         if (claims.getDialect() != null) {
             domElement.setAttributeNS(null, Claims.DIALECT_ATTRIB_NAME, claims.getDialect());
         }

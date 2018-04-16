@@ -26,13 +26,14 @@ import org.opensaml.xacml.impl.AbstractXACMLObjectMarshaller;
 import org.w3c.dom.Element;
 
 /**
- *Masrhaller for {@link org.opensaml.xacml.ctx.StatusMessageType}. 
+ * Marshaller for {@link org.opensaml.xacml.ctx.StatusMessageType}. 
  */
 public class StatusMessageTypeMarshaller extends AbstractXACMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallElementContent(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        StatusMessageType message = (StatusMessageType)xmlObject;
+    protected void marshallElementContent(final XMLObject xmlObject, final Element domElement)
+            throws MarshallingException {
+        final StatusMessageType message = (StatusMessageType)xmlObject;
 
         if(message.getValue() != null){
             ElementSupport.appendTextContent(domElement, message.getValue());

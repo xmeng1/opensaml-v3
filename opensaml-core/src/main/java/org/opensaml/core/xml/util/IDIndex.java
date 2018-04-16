@@ -117,7 +117,7 @@ public class IDIndex {
             return;
         }
         
-        for (String id : idIndex.getIDs()) {
+        for (final String id : idIndex.getIDs()) {
             idMappings.remove(id);
         }
         if (owner.hasParent()) {

@@ -45,7 +45,7 @@ public class ResponseImpl extends ResponseAbstractTypeImpl implements Response {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected ResponseImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected ResponseImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         assertions = new XMLObjectChildrenList<>(this);
     }
@@ -61,13 +61,13 @@ public class ResponseImpl extends ResponseAbstractTypeImpl implements Response {
     }
 
     /** {@inheritDoc} */
-    public void setStatus(Status s) {
+    public void setStatus(final Status s) {
         status = prepareForAssignment(status, s);
     }
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>(1 + assertions.size());
+        final ArrayList<XMLObject> children = new ArrayList<>(1 + assertions.size());
 
         if (super.getOrderedChildren() != null) {
             children.addAll(super.getOrderedChildren());

@@ -37,7 +37,8 @@ public class StatusMessageTypeImpl extends AbstractXACMLObject implements Status
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected StatusMessageTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected StatusMessageTypeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
     
@@ -47,7 +48,7 @@ public class StatusMessageTypeImpl extends AbstractXACMLObject implements Status
     }
 
     /** {@inheritDoc} */
-    public void setValue(String newMessage) {
+    public void setValue(final String newMessage) {
         message = prepareForAssignment(message,newMessage); 
 
     }

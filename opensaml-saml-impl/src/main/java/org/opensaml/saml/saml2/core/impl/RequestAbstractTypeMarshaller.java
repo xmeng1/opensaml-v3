@@ -34,8 +34,9 @@ import org.w3c.dom.Element;
 public abstract class RequestAbstractTypeMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject samlObject, Element domElement) throws MarshallingException {
-        RequestAbstractType req = (RequestAbstractType) samlObject;
+    protected void marshallAttributes(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
+        final RequestAbstractType req = (RequestAbstractType) samlObject;
 
         if (req.getVersion() != null) {
             domElement.setAttributeNS(null, RequestAbstractType.VERSION_ATTRIB_NAME, req.getVersion().toString());
@@ -51,7 +52,7 @@ public abstract class RequestAbstractTypeMarshaller extends AbstractSAMLObjectMa
         }
 
         if (req.getIssueInstant() != null) {
-            String iiStr = SAMLConfigurationSupport.getSAMLDateFormatter().print(req.getIssueInstant());
+            final String iiStr = SAMLConfigurationSupport.getSAMLDateFormatter().print(req.getIssueInstant());
             domElement.setAttributeNS(null, RequestAbstractType.ISSUE_INSTANT_ATTRIB_NAME, iiStr);
         }
 

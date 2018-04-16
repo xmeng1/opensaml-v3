@@ -39,7 +39,7 @@ public class DefaultsTypeImpl extends AbstractXACMLObject implements DefaultsTyp
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected DefaultsTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected DefaultsTypeImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -49,14 +49,14 @@ public class DefaultsTypeImpl extends AbstractXACMLObject implements DefaultsTyp
     }
 
     /** {@inheritDoc} */
-    public void setXPathVersion(XSString version) {
+    public void setXPathVersion(final XSString version) {
         this.xPathVersion = prepareForAssignment(this.xPathVersion, version);
 
     }
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         if (xPathVersion != null) {
             children.add(xPathVersion);

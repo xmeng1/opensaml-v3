@@ -32,8 +32,8 @@ public class AttributeDesignatorTypeMarshaller extends AbstractXACMLObjectMarsha
 
     /** {@inheritDoc} */
     @Override
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement)  throws MarshallingException {
-        AttributeDesignatorType attributeDesignatorType = (AttributeDesignatorType) xmlObject;
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
+        final AttributeDesignatorType attributeDesignatorType = (AttributeDesignatorType) xmlObject;
 
         if (!Strings.isNullOrEmpty(attributeDesignatorType.getAttributeId())) {
             domElement.setAttributeNS(null, AttributeDesignatorType.ATTRIBUTE_ID_ATTRIB_NAME,

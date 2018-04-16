@@ -34,7 +34,7 @@ public class KeyValueBuilder extends AbstractXMLObjectBuilder<KeyValue> implemen
     }
 
     /** {@inheritDoc} */
-    public KeyValue buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public KeyValue buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new KeyValueImpl(namespaceURI, localName, namespacePrefix);
     }
 

@@ -34,18 +34,18 @@ import org.w3c.dom.Attr;
 public class SecurityTokenReferenceUnmarshaller extends AbstractWSSecurityObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        SecurityTokenReference str = (SecurityTokenReference) parentXMLObject;
+        final SecurityTokenReference str = (SecurityTokenReference) parentXMLObject;
 
         str.getUnknownXMLObjects().add(childXMLObject);
     }
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
-        SecurityTokenReference str = (SecurityTokenReference) xmlObject;
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
+        final SecurityTokenReference str = (SecurityTokenReference) xmlObject;
         
-        QName attribQName = 
+        final QName attribQName = 
             QNameSupport.constructQName(attribute.getNamespaceURI(), attribute.getLocalName(), attribute.getPrefix());
         if (SecurityTokenReference.WSU_ID_ATTR_NAME.equals(attribQName)) {
             str.setWSUId(attribute.getValue());

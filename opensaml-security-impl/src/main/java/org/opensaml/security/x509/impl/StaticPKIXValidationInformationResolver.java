@@ -73,7 +73,7 @@ public class StaticPKIXValidationInformationResolver implements PKIXValidationIn
      *        from an instance of {@link TrustedNamesCriterion} in the criteria set
      */
     public StaticPKIXValidationInformationResolver(@Nullable final List<PKIXValidationInformation> info,
-            @Nullable final Set<String> names, boolean supportDynamicNames) {
+            @Nullable final Set<String> names, final boolean supportDynamicNames) {
         if (info != null) {
             pkixInfo = new ArrayList<>(info);
         } else {
@@ -95,14 +95,14 @@ public class StaticPKIXValidationInformationResolver implements PKIXValidationIn
             return ImmutableSet.copyOf(trustedNames);
         }
         
-        HashSet<String> temp = new HashSet<>(trustedNames);
-        EntityIdCriterion entityIDCriterion = criteriaSet.get(EntityIdCriterion.class);
+        final HashSet<String> temp = new HashSet<>(trustedNames);
+        final EntityIdCriterion entityIDCriterion = criteriaSet.get(EntityIdCriterion.class);
         if (entityIDCriterion != null) {
             temp.add(entityIDCriterion.getEntityId());
         }
         
         if (supportDynamicTrustedNames) {
-            TrustedNamesCriterion trustedNamesCriterion = criteriaSet.get(TrustedNamesCriterion.class);
+            final TrustedNamesCriterion trustedNamesCriterion = criteriaSet.get(TrustedNamesCriterion.class);
             if (trustedNamesCriterion != null) {
                 temp.addAll(trustedNamesCriterion.getTrustedNames());
             }

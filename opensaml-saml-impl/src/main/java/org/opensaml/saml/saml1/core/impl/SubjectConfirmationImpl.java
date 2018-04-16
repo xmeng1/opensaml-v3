@@ -49,7 +49,8 @@ public class SubjectConfirmationImpl extends AbstractSAMLObject implements Subje
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected SubjectConfirmationImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected SubjectConfirmationImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         confirmationMethods = new XMLObjectChildrenList<>(this);
     }
@@ -60,7 +61,7 @@ public class SubjectConfirmationImpl extends AbstractSAMLObject implements Subje
     }
 
     /** {@inheritDoc} */
-    public void setSubjectConfirmationData(XMLObject data) {
+    public void setSubjectConfirmationData(final XMLObject data) {
         subjectConfirmationData = prepareForAssignment(subjectConfirmationData, data);
     }
 
@@ -75,14 +76,14 @@ public class SubjectConfirmationImpl extends AbstractSAMLObject implements Subje
     }
 
     /** {@inheritDoc} */
-    public void setKeyInfo(KeyInfo info) {
+    public void setKeyInfo(final KeyInfo info) {
         keyInfo = prepareForAssignment(keyInfo, info);
     }
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
 
-        List<XMLObject> list = new ArrayList<>(confirmationMethods.size() + 1);
+        final List<XMLObject> list = new ArrayList<>(confirmationMethods.size() + 1);
 
         list.addAll(confirmationMethods);
 

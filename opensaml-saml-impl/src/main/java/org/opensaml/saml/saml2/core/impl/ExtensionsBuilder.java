@@ -37,7 +37,7 @@ public class ExtensionsBuilder extends AbstractSAMLObjectBuilder<Extensions> {
     /**
      * {@inheritDoc}
      */
-    public Extensions buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Extensions buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new ExtensionsImpl(namespaceURI, localName, namespacePrefix);
     }
 }

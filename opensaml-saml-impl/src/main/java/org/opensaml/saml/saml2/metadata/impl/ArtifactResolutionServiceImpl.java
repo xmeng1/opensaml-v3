@@ -35,7 +35,8 @@ public class ArtifactResolutionServiceImpl extends IndexedEndpointImpl implement
      * @param elementLocalName local name
      * @param namespacePrefix prefix
      */
-    protected ArtifactResolutionServiceImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected ArtifactResolutionServiceImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 }

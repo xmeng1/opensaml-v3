@@ -31,7 +31,7 @@ public class TargetTypeImplBuilder extends AbstractXACMLObjectBuilder<TargetType
     }
 
     /** {@inheritDoc}**/
-    public TargetType buildObject(String namespaceURI, String localName,String namespacePrefix) {
+    public TargetType buildObject(final String namespaceURI, final String localName,final String namespacePrefix) {
         return new TargetTypeImpl(namespaceURI, localName, namespacePrefix);
     }
 }

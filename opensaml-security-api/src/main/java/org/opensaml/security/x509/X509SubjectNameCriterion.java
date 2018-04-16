@@ -62,7 +62,7 @@ public final class X509SubjectNameCriterion implements Criterion {
     
     /** {@inheritDoc} */
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("X509SubjectNameCriterion [subjectName=");
         builder.append(subjectName.getName());
         builder.append("]");
@@ -75,7 +75,7 @@ public final class X509SubjectNameCriterion implements Criterion {
     }
 
     /** {@inheritDoc} */
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }

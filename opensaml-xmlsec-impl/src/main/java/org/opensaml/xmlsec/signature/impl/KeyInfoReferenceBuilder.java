@@ -35,7 +35,8 @@ public class KeyInfoReferenceBuilder extends AbstractXMLObjectBuilder<KeyInfoRef
     }
 
     /** {@inheritDoc} */
-    public KeyInfoReference buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public KeyInfoReference buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new KeyInfoReferenceImpl(namespaceURI, localName, namespacePrefix);
     }
 

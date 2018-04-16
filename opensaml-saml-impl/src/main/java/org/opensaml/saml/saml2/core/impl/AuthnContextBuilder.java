@@ -42,7 +42,7 @@ public class AuthnContextBuilder extends AbstractSAMLObjectBuilder<AuthnContext>
     }
 
     /** {@inheritDoc} */
-    public AuthnContext buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public AuthnContext buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new AuthnContextImpl(namespaceURI, localName, namespacePrefix);
     }
 }

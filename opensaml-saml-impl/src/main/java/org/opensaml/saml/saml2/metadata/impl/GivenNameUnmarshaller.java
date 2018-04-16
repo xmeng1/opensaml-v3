@@ -31,8 +31,8 @@ import org.opensaml.saml.saml2.metadata.GivenName;
 public class GivenNameUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject samlObject, String elementContent) {
-        GivenName name = (GivenName) samlObject;
+    protected void processElementContent(final XMLObject samlObject, final String elementContent) {
+        final GivenName name = (GivenName) samlObject;
 
         name.setName(elementContent);
     }

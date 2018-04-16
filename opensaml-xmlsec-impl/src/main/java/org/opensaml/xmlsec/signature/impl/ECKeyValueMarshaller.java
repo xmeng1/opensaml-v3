@@ -28,8 +28,8 @@ import org.w3c.dom.Element;
 public class ECKeyValueMarshaller extends AbstractXMLSignatureMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        ECKeyValue ec = (ECKeyValue) xmlObject;
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
+        final ECKeyValue ec = (ECKeyValue) xmlObject;
 
         if (ec.getID() != null) {
             domElement.setAttributeNS(null, ECKeyValue.ID_ATTRIB_NAME, ec.getID());

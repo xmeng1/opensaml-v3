@@ -32,8 +32,9 @@ import org.w3c.dom.Element;
 public class SPSSODescriptorMarshaller extends SSODescriptorMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject samlObject, Element domElement) throws MarshallingException {
-        SPSSODescriptor descriptor = (SPSSODescriptor) samlObject;
+    protected void marshallAttributes(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
+        final SPSSODescriptor descriptor = (SPSSODescriptor) samlObject;
 
         if (descriptor.isAuthnRequestsSignedXSBoolean() != null) {
             domElement.setAttributeNS(null, SPSSODescriptor.AUTH_REQUESTS_SIGNED_ATTRIB_NAME, descriptor

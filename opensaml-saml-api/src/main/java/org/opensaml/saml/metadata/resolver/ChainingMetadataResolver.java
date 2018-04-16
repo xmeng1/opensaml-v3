@@ -100,7 +100,7 @@ public class ChainingMetadataResolver extends AbstractIdentifiableInitializableC
     }
 
     /** {@inheritDoc} */
-    @Override public void setRequireValidMetadata(boolean requireValidMetadata) {
+    @Override public void setRequireValidMetadata(final boolean requireValidMetadata) {
         throw new UnsupportedOperationException("Setting requireValidMetadata is not supported on chaining resolver");
     }
 
@@ -111,7 +111,7 @@ public class ChainingMetadataResolver extends AbstractIdentifiableInitializableC
     }
 
     /** {@inheritDoc} */
-    @Override public void setMetadataFilter(MetadataFilter newFilter) {
+    @Override public void setMetadataFilter(final MetadataFilter newFilter) {
         throw new UnsupportedOperationException("Metadata filters are not supported on ChainingMetadataResolver");
     }
 

@@ -44,7 +44,7 @@ public class SurNameBuilder extends AbstractSAMLObjectBuilder<SurName> {
     }
 
     /** {@inheritDoc} */
-    public SurName buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public SurName buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new SurNameImpl(namespaceURI, localName, namespacePrefix);
     }
 }

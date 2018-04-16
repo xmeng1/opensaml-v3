@@ -60,7 +60,7 @@ public class HttpClientSecurityContextHandler extends AbstractInitializableCompo
     }
     
     /** {@inheritDoc} */
-    public void invokeBefore(HttpClientContext context, HttpUriRequest request) throws IOException {
+    public void invokeBefore(final HttpClientContext context, final HttpUriRequest request) throws IOException {
         ComponentSupport.ifNotInitializedThrowUninitializedComponentException(this);
         
         HttpClientSecuritySupport.marshalSecurityParameters(context, httpClientSecurityParameters, false);
@@ -68,7 +68,7 @@ public class HttpClientSecurityContextHandler extends AbstractInitializableCompo
     }
 
     /** {@inheritDoc} */
-    public void invokeAfter(HttpClientContext context, HttpUriRequest request) throws IOException {
+    public void invokeAfter(final HttpClientContext context, final HttpUriRequest request) throws IOException {
         ComponentSupport.ifNotInitializedThrowUninitializedComponentException(this);
         
         HttpClientSecuritySupport.checkTLSCredentialEvaluated(context, request.getURI().getScheme());

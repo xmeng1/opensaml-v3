@@ -31,13 +31,14 @@ import org.w3c.dom.Element;
 public class X509SerialNumberMarshaller extends AbstractXMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
         // no attributes
     }
 
     /** {@inheritDoc} */
-    protected void marshallElementContent(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        X509SerialNumber x509SerialNumber = (X509SerialNumber) xmlObject;
+    protected void marshallElementContent(final XMLObject xmlObject, final Element domElement)
+            throws MarshallingException {
+        final X509SerialNumber x509SerialNumber = (X509SerialNumber) xmlObject;
         
         if (x509SerialNumber.getValue() != null) {
             ElementSupport.appendTextContent(domElement, x509SerialNumber.getValue().toString());

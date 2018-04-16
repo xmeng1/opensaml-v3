@@ -55,7 +55,7 @@ public class StaticX509CredentialKeyManager implements X509KeyManager {
      *
      * @param credential the static credential managed by this key manager
      */
-    public StaticX509CredentialKeyManager(X509Credential credential) {
+    public StaticX509CredentialKeyManager(final X509Credential credential) {
         super();
         Constraint.isNotNull(credential, "Credential may not be null");
         privateKey = Constraint.isNotNull(credential.getPrivateKey(), 
@@ -72,7 +72,7 @@ public class StaticX509CredentialKeyManager implements X509KeyManager {
      * @param key the private key managed by this key manager
      * @param chain the certificate chain managed by this key manager
      */
-    public StaticX509CredentialKeyManager(PrivateKey key, Collection<X509Certificate> chain) {
+    public StaticX509CredentialKeyManager(final PrivateKey key, final Collection<X509Certificate> chain) {
         super();
         privateKey = Constraint.isNotNull(key, "PrivateKey may not be null");
         certificateChain = Constraint.isNotNull(chain, 
@@ -81,37 +81,37 @@ public class StaticX509CredentialKeyManager implements X509KeyManager {
     }
 
     /** {@inheritDoc} */
-    public String chooseClientAlias(String[] arg0, Principal[] arg1, Socket arg2) {
+    public String chooseClientAlias(final String[] arg0, final Principal[] arg1, final Socket arg2) {
         log.trace("In chooseClientAlias");
         return internalAlias;
     }
 
     /** {@inheritDoc} */
-    public String[] getClientAliases(String arg0, Principal[] arg1) {
+    public String[] getClientAliases(final String arg0, final Principal[] arg1) {
         log.trace("In getClientAliases");
         return new String[] {internalAlias};
     }
 
     /** {@inheritDoc} */
-    public java.security.cert.X509Certificate[] getCertificateChain( String arg0) {
+    public java.security.cert.X509Certificate[] getCertificateChain( final String arg0) {
         log.trace("In getCertificateChain");
         return internalAlias.equals(arg0) ? certificateChain : null;
     }
 
     /** {@inheritDoc} */
-    public PrivateKey getPrivateKey(String arg0) {
+    public PrivateKey getPrivateKey(final String arg0) {
         log.trace("In getPrivateKey");
         return internalAlias.equals(arg0) ? privateKey : null;
     }
     
     /** {@inheritDoc} */
-    public String chooseServerAlias(String arg0, Principal[] arg1, Socket arg2) {
+    public String chooseServerAlias(final String arg0, final Principal[] arg1, final Socket arg2) {
         log.trace("In chooseServerAlias");
         return internalAlias;
     }
     
     /** {@inheritDoc} */
-    public String[] getServerAliases(String arg0, Principal[] arg1) {
+    public String[] getServerAliases(final String arg0, final Principal[] arg1) {
         log.trace("In getServerAliases");
         return new String[] {internalAlias};
     }

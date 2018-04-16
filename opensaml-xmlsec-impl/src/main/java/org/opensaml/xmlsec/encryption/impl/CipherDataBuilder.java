@@ -33,7 +33,7 @@ public class CipherDataBuilder extends AbstractXMLObjectBuilder<CipherData> impl
     }
 
     /** {@inheritDoc} */
-    public CipherData buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public CipherData buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new CipherDataImpl(namespaceURI, localName, namespacePrefix);
     }
 

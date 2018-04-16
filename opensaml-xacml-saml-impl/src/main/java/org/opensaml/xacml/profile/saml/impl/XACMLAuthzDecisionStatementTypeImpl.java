@@ -43,8 +43,8 @@ public class XACMLAuthzDecisionStatementTypeImpl extends AbstractSAMLObject impl
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected XACMLAuthzDecisionStatementTypeImpl(String namespaceURI, String elementLocalName,
-            String namespacePrefix) {
+    protected XACMLAuthzDecisionStatementTypeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -59,18 +59,18 @@ public class XACMLAuthzDecisionStatementTypeImpl extends AbstractSAMLObject impl
     }
 
     /** {@inheritDoc} */
-    public void setRequest(RequestType req) {
+    public void setRequest(final RequestType req) {
         request = prepareForAssignment(request, req);
     }
 
     /** {@inheritDoc} */
-    public void setResponse(ResponseType resp) {
+    public void setResponse(final ResponseType resp) {
         response = prepareForAssignment(response, resp);
     }
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         if (request != null) {
             children.add(request);

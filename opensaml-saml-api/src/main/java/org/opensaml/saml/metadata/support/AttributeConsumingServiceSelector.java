@@ -87,7 +87,7 @@ public class AttributeConsumingServiceSelector {
      * 
      * @param requestedIndex The index to set.
      */
-    public void setIndex(Integer requestedIndex) {
+    public void setIndex(final Integer requestedIndex) {
         index = requestedIndex;
     }
 
@@ -105,7 +105,7 @@ public class AttributeConsumingServiceSelector {
      * 
      * @param descriptor The roleDescriptor to set.
      */
-    public void setRoleDescriptor(RoleDescriptor descriptor) {
+    public void setRoleDescriptor(final RoleDescriptor descriptor) {
         roleDescriptor = descriptor;
     }
 
@@ -115,7 +115,7 @@ public class AttributeConsumingServiceSelector {
      * 
      * @param flag The onBadIndexUseDefault to set.
      */
-    public void setOnBadIndexUseDefault(boolean flag) {
+    public void setOnBadIndexUseDefault(final boolean flag) {
         onBadIndexUseDefault = flag;
     }
 
@@ -135,7 +135,7 @@ public class AttributeConsumingServiceSelector {
      * @return the selected AttributeConsumingService, or null
      */
     public AttributeConsumingService selectService() {
-        List<AttributeConsumingService> candidates = getCandidates();
+        final List<AttributeConsumingService> candidates = getCandidates();
 
         if (candidates == null || candidates.isEmpty()) {
             log.debug("AttributeConsumingService candidate list was empty, can not select service");
@@ -201,9 +201,9 @@ public class AttributeConsumingServiceSelector {
      * @param candidates the list of candiate services
      * @return the selected candidate or null
      */
-    private AttributeConsumingService selectByIndex(List<AttributeConsumingService> candidates) {
+    private AttributeConsumingService selectByIndex(final List<AttributeConsumingService> candidates) {
         log.debug("Selecting AttributeConsumingService by index");
-        for (AttributeConsumingService attribCS : candidates) {
+        for (final AttributeConsumingService attribCS : candidates) {
             // Check for null b/c don't ever want to fail with an NPE due to autoboxing.
             // Note: metadata index property is an int, not an Integer.
             if (index != null) {
@@ -223,10 +223,10 @@ public class AttributeConsumingServiceSelector {
      * @param candidates the list of candiate services
      * @return the selected candidate or null
      */
-    private AttributeConsumingService selectDefault(List<AttributeConsumingService> candidates) {
+    private AttributeConsumingService selectDefault(final List<AttributeConsumingService> candidates) {
         log.debug("Selecting default AttributeConsumingService");
         AttributeConsumingService firstNoDefault = null;
-        for (AttributeConsumingService attribCS : candidates) {
+        for (final AttributeConsumingService attribCS : candidates) {
             if (attribCS.isDefault()) {
                 log.debug("Selected AttributeConsumingService with explicit isDefault of true");
                 return attribCS;

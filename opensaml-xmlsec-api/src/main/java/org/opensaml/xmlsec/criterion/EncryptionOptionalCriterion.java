@@ -45,7 +45,7 @@ public class EncryptionOptionalCriterion implements Criterion {
      *
      * @param value the encryptionOptional flag value
      */
-    public EncryptionOptionalCriterion(boolean value) {
+    public EncryptionOptionalCriterion(final boolean value) {
         encryptionOptional = value;
     }
 
@@ -64,7 +64,7 @@ public class EncryptionOptionalCriterion implements Criterion {
     }
 
     /** {@inheritDoc} */
-    public boolean equals(Object other) {
+    public boolean equals(final Object other) {
         if (this == other) {
             return true;
         }

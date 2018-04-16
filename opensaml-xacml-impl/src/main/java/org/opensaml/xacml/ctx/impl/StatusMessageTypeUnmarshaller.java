@@ -27,8 +27,8 @@ import org.opensaml.xacml.impl.AbstractXACMLObjectUnmarshaller;
 public class StatusMessageTypeUnmarshaller extends AbstractXACMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject xmlObject, String content) {
-        StatusMessageType message = (StatusMessageType)xmlObject;
+    protected void processElementContent(final XMLObject xmlObject, final String content) {
+        final StatusMessageType message = (StatusMessageType)xmlObject;
         message.setValue(content);
     }
 }

@@ -35,7 +35,7 @@ public class AssertionValidationException extends SAMLException {
      *
      * @param message the detail message.
      */
-    public AssertionValidationException(String message) {
+    public AssertionValidationException(final String message) {
         super(message);
     }
 
@@ -44,7 +44,7 @@ public class AssertionValidationException extends SAMLException {
      *
      * @param cause the exception cause
      */
-    public AssertionValidationException(Exception cause) {
+    public AssertionValidationException(final Exception cause) {
         super(cause);
     }
 
@@ -54,7 +54,7 @@ public class AssertionValidationException extends SAMLException {
      * @param message the detail message
      * @param cause the exception cause
      */
-    public AssertionValidationException(String message, Exception cause) {
+    public AssertionValidationException(final String message, final Exception cause) {
         super(message, cause);
     }
 

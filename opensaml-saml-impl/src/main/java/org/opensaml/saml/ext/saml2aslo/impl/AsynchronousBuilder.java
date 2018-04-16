@@ -45,7 +45,7 @@ public class AsynchronousBuilder extends AbstractSAMLObjectBuilder<Asynchronous>
     }
 
     /** {@inheritDoc} */
-    public Asynchronous buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Asynchronous buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new AsynchronousImpl(namespaceURI, localName, namespacePrefix);
     }
 }

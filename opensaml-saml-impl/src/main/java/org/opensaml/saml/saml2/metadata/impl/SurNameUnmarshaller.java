@@ -31,8 +31,8 @@ import org.opensaml.saml.saml2.metadata.SurName;
 public class SurNameUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject samlObject, String elementContent) {
-        SurName name = (SurName) samlObject;
+    protected void processElementContent(final XMLObject samlObject, final String elementContent) {
+        final SurName name = (SurName) samlObject;
 
         name.setName(elementContent);
     }

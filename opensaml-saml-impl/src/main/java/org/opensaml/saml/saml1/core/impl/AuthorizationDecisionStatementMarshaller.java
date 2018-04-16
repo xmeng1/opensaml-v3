@@ -28,8 +28,9 @@ import org.w3c.dom.Element;
 public class AuthorizationDecisionStatementMarshaller extends SubjectStatementMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject samlElement, Element domElement) throws MarshallingException {
-        AuthorizationDecisionStatement authorizationDecisionStatement;
+    protected void marshallAttributes(final XMLObject samlElement, final Element domElement)
+            throws MarshallingException {
+        final AuthorizationDecisionStatement authorizationDecisionStatement;
 
         authorizationDecisionStatement = (AuthorizationDecisionStatement) samlElement;
 

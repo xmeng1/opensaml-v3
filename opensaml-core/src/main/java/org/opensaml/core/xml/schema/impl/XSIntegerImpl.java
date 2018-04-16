@@ -38,7 +38,7 @@ public class XSIntegerImpl extends AbstractXMLObject implements XSInteger {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected XSIntegerImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected XSIntegerImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
     
@@ -52,7 +52,7 @@ public class XSIntegerImpl extends AbstractXMLObject implements XSInteger {
     /**
      * {@inheritDoc}
      */
-    public void setValue(Integer newValue) {
+    public void setValue(final Integer newValue) {
         value = prepareForAssignment(value, newValue);
     }
 

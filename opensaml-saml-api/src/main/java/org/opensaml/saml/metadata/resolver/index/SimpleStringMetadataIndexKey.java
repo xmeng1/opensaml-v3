@@ -25,7 +25,7 @@ import net.shibboleth.utilities.java.support.logic.Constraint;
 import net.shibboleth.utilities.java.support.primitive.StringSupport;
 
 /**
- * A simple implementation of {@link of MetadataIndexKey} based on a single input string.
+ * A simple implementation of {@link MetadataIndexKey} based on a single input string.
  */
 public class SimpleStringMetadataIndexKey implements MetadataIndexKey {
     
@@ -64,7 +64,7 @@ public class SimpleStringMetadataIndexKey implements MetadataIndexKey {
 
     /** {@inheritDoc} */
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }

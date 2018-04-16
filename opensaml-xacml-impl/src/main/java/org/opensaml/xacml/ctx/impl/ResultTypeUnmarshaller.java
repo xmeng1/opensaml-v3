@@ -35,8 +35,8 @@ public class ResultTypeUnmarshaller extends AbstractXACMLObjectUnmarshaller {
     }
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
-        ResultType result = (ResultType) xmlObject;
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
+        final ResultType result = (ResultType) xmlObject;
         if (attribute.getLocalName().equals(ResultType.RESOURCE_ID_ATTTRIB_NAME)) {
             result.setResourceId(attribute.getValue());
         } else {
@@ -45,8 +45,9 @@ public class ResultTypeUnmarshaller extends AbstractXACMLObjectUnmarshaller {
     }
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentObject, XMLObject childObject) throws UnmarshallingException {
-        ResultType result = (ResultType) parentObject;
+    protected void processChildElement(final XMLObject parentObject, final XMLObject childObject)
+            throws UnmarshallingException {
+        final ResultType result = (ResultType) parentObject;
 
         if (childObject instanceof ObligationsType) {
             result.setObligations((ObligationsType) childObject);

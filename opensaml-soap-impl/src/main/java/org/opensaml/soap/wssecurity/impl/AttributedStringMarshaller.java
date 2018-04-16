@@ -33,8 +33,8 @@ import com.google.common.base.Strings;
 public class AttributedStringMarshaller extends AbstractWSSecurityObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        AttributedString attributedString = (AttributedString) xmlObject;
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
+        final AttributedString attributedString = (AttributedString) xmlObject;
         
         if (!Strings.isNullOrEmpty(attributedString.getWSUId())) {
             XMLObjectSupport.marshallAttribute(AttributedString.WSU_ID_ATTR_NAME, attributedString.getWSUId(),
@@ -46,8 +46,9 @@ public class AttributedStringMarshaller extends AbstractWSSecurityObjectMarshall
     }
 
     /** {@inheritDoc} */
-    protected void marshallElementContent(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        AttributedString attributedString = (AttributedString) xmlObject;
+    protected void marshallElementContent(final XMLObject xmlObject, final Element domElement)
+            throws MarshallingException {
+        final AttributedString attributedString = (AttributedString) xmlObject;
         ElementSupport.appendTextContent(domElement, attributedString.getValue());
     }
     

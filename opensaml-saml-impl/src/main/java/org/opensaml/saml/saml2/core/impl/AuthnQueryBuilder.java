@@ -44,7 +44,7 @@ public class AuthnQueryBuilder extends AbstractSAMLObjectBuilder<AuthnQuery> {
     }
 
     /** {@inheritDoc} */
-    public AuthnQuery buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public AuthnQuery buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new AuthnQueryImpl(namespaceURI, localName, namespacePrefix);
     }
 }

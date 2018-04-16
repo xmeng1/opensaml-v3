@@ -84,7 +84,7 @@ public final class EndpointCriterion<EndpointType extends Endpoint> implements C
     /** {@inheritDoc} */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("EndpointCriterion [type=")
             .append(endpoint.getElementQName());
         if (endpoint.getBinding() != null) {
@@ -112,7 +112,7 @@ public final class EndpointCriterion<EndpointType extends Endpoint> implements C
 
     /** {@inheritDoc} */
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }

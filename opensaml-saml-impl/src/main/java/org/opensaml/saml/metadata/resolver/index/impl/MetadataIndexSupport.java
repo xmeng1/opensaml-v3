@@ -47,7 +47,7 @@ public final class MetadataIndexSupport {
      * @throws MalformedURLException if URL can not be canonicalized
      */
     @Nonnull public static String canonicalizeLocationURI(@Nonnull final String input) throws MalformedURLException {
-        String uri = StringSupport.trimOrNull(input);
+        final String uri = StringSupport.trimOrNull(input);
         if (uri == null) {
             throw new MalformedURLException("URL input was null or empty");
         }
@@ -77,11 +77,11 @@ public final class MetadataIndexSupport {
      * @return the trimmed path, or null
      */
     @Nullable public static String trimURLPathSegment(@Nullable final String input) {
-        String path = StringSupport.trimOrNull(input);
+        final String path = StringSupport.trimOrNull(input);
         if (path == null || "/".equals(path)) {
             return null;
         } else {
-            int idx = path.lastIndexOf("/");
+            final int idx = path.lastIndexOf("/");
             if (idx > 0) {
                 if (path.endsWith("/")) {
                     return path.substring(0, idx);

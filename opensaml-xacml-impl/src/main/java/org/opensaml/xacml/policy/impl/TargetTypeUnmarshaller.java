@@ -34,9 +34,9 @@ public class TargetTypeUnmarshaller extends AbstractXACMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
     @Override
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        TargetType targetType = (TargetType) parentXMLObject;
+        final TargetType targetType = (TargetType) parentXMLObject;
         
         if(childXMLObject.getElementQName().equals(ActionsType.DEFAULT_ELEMENT_NAME)){
             targetType.setActions((ActionsType)childXMLObject);

@@ -81,7 +81,7 @@ public class EvaluableX509IssuerSerialCredentialCriterion extends AbstractTriSta
             return false;
         }
 
-        X509Certificate entityCert = ((X509Credential) target).getEntityCertificate();
+        final X509Certificate entityCert = ((X509Credential) target).getEntityCertificate();
         if (entityCert == null) {
             log.info("X509Credential did not contain an entity certificate, does not satisfy criteria");
             return false;
@@ -92,7 +92,7 @@ public class EvaluableX509IssuerSerialCredentialCriterion extends AbstractTriSta
     
     /** {@inheritDoc} */
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("EvaluableX509IssuerSerialCredentialCriterion [issuer=");
         builder.append(issuer.getName());
         builder.append(", serialNumber=");
@@ -110,7 +110,7 @@ public class EvaluableX509IssuerSerialCredentialCriterion extends AbstractTriSta
     }
 
     /** {@inheritDoc} */
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }
@@ -120,7 +120,8 @@ public class EvaluableX509IssuerSerialCredentialCriterion extends AbstractTriSta
         }
 
         if (obj instanceof EvaluableX509IssuerSerialCredentialCriterion) {
-            EvaluableX509IssuerSerialCredentialCriterion other = (EvaluableX509IssuerSerialCredentialCriterion) obj;
+            final EvaluableX509IssuerSerialCredentialCriterion other =
+                    (EvaluableX509IssuerSerialCredentialCriterion) obj;
             return issuer.equals(other.issuer) && serialNumber.equals(other.serialNumber);
         }
 

@@ -93,7 +93,6 @@ public abstract class AbstractRegistrationInfoPredicate implements Predicate<Ent
     }
     
     /** {@inheritDoc} */
-    @Override
     public boolean apply(@Nullable final EntityDescriptor input) {
         
         final RegistrationInfo info = getRegistrationInfo(input);

@@ -175,8 +175,7 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
 
     /**
      * Sets the storage capabilities. This method should be used when the default 1M slab size is changed;
-     * the {@link edu.vt.middleware.idp.storage.MemcachedStorageCapabilities#valueSize} should be set equal to the
-     * chosen slab size.
+     * the {@link MemcachedStorageCapabilities#valueSize} should be set equal to the chosen slab size.
      *
      * @param capabilities Memcached storage capabilities.
      */
@@ -232,7 +231,7 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
 
     /** {@inheritDoc} */
     @Override
-    public boolean create(@Nonnull Object value) throws IOException {
+    public boolean create(@Nonnull final Object value) throws IOException {
         Constraint.isNotNull(value, "Value cannot be null");
         return create(
                 AnnotationSupport.getContext(value),
@@ -257,7 +256,7 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
         final CASValue<MemcachedStorageRecord> record;
         try {
             record = handleAsyncResult(memcacheClient.asyncGets(cacheKey, storageRecordTranscoder));
-        } catch (RuntimeException e) {
+        } catch (final RuntimeException e) {
             throw new IOException("Memcached operation failed", e);
         }
         if (record == null) {
@@ -327,7 +326,7 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
 
     /** {@inheritDoc} */
     @Override
-    public boolean update(@Nonnull Object value) throws IOException {
+    public boolean update(@Nonnull final Object value) throws IOException {
         Constraint.isNotNull(value, "Value cannot be null");
         return update(
                 AnnotationSupport.getContext(value),
@@ -539,11 +538,11 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
             keySet.removeAll(Arrays.asList(blacklistKeys.getValue().split(CTX_KEY_LIST_DELIMITER)));
         }
         final List<OperationFuture<Boolean>> results = new ArrayList<>(keySet.size());
-        for (String key : keySet) {
+        for (final String key : keySet) {
             logger.debug("Updating expiration of key {} to {}", key, expiry);
             results.add(memcacheClient.touch(key, expiry));
         }
-        for (OperationFuture<Boolean> result : results) {
+        for (final OperationFuture<Boolean> result : results) {
             handleAsyncResult(result);
         }
     }
@@ -592,7 +591,7 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
             final CASValue<String> result = handleAsyncResult(
                     memcacheClient.asyncGets(memcachedKey(context), stringTranscoder));
             return result == null ? null : result.getValue();
-        } catch (RuntimeException e) {
+        } catch (final RuntimeException e) {
             throw new IOException("Memcached operation failed", e);
         }
     }
@@ -635,7 +634,7 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
         if (parts.length > 0) {
             final StringBuilder sb = new StringBuilder();
             int i = 0;
-            for (String part : parts) {
+            for (final String part : parts) {
                 if (i++ > 0) {
                     sb.append(':');
                 }
@@ -662,11 +661,11 @@ public class MemcachedStorageService extends AbstractIdentifiableInitializableCo
     private <T> T handleAsyncResult(final OperationFuture<T> result) throws IOException {
         try {
             return result.get(operationTimeout, TimeUnit.SECONDS);
-        } catch (InterruptedException e) {
+        } catch (final InterruptedException e) {
             throw new IOException("Memcached operation interrupted");
-        } catch (TimeoutException e) {
+        } catch (final TimeoutException e) {
             throw new IOException("Memcached operation did not complete in time (" + operationTimeout + "s)");
-        } catch (ExecutionException e) {
+        } catch (final ExecutionException e) {
             throw new IOException("Memcached operation error", e);
         }
     }

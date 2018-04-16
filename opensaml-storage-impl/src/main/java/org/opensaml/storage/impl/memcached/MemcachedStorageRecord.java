@@ -37,7 +37,7 @@ public class MemcachedStorageRecord extends StorageRecord {
      * @param val Stored value.
      * @param exp Expiration instant in milliseconds, null for infinite expiration.
      */
-    public MemcachedStorageRecord(@Nonnull @NotEmpty String val, @Nullable Long exp) {
+    public MemcachedStorageRecord(@Nonnull @NotEmpty final String val, @Nullable final Long exp) {
         super(val, exp);
     }
 

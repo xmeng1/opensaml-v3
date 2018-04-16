@@ -69,6 +69,8 @@ import net.shibboleth.utilities.java.support.component.ComponentInitializationEx
 import net.shibboleth.utilities.java.support.component.ComponentSupport;
 import net.shibboleth.utilities.java.support.logic.Constraint;
 import net.shibboleth.utilities.java.support.net.MediaTypeSupport;
+import net.shibboleth.utilities.java.support.primitive.DeprecationSupport;
+import net.shibboleth.utilities.java.support.primitive.DeprecationSupport.ObjectType;
 import net.shibboleth.utilities.java.support.primitive.StringSupport;
 import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
 import net.shibboleth.utilities.java.support.resolver.ResolverException;
@@ -336,7 +338,7 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
         if (! getSupportedContentTypes().isEmpty()) {
             supportedContentTypesValue = StringSupport.listToStringValue(getSupportedContentTypes(), ", ");
             supportedMediaTypes = new LazySet<>();
-            for (String contentType : getSupportedContentTypes()) {
+            for (final String contentType : getSupportedContentTypes()) {
                 supportedMediaTypes.add(MediaType.parse(contentType));
             }
         } else {
@@ -442,6 +444,7 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
      */
     protected HttpClientContext buildHttpClientContext() {
         //TODO when we remove this deprecated method, change called method to @Nonnull for request
+        DeprecationSupport.warn(ObjectType.METHOD, getClass().getName() + ".buildHttpClientContext()", null, null);
         return buildHttpClientContext(null);
     }
     
@@ -509,13 +512,13 @@ public abstract class AbstractDynamicHTTPMetadataResolver extends AbstractDynami
             
             try {
                 final InputStream ins = response.getEntity().getContent();
-                byte[] source = ByteStreams.toByteArray(ins);
+                final byte[] source = ByteStreams.toByteArray(ins);
                 try (ByteArrayInputStream bais = new ByteArrayInputStream(source)) {
-                    XMLObject xmlObject = unmarshallMetadata(bais);
+                    final XMLObject xmlObject = unmarshallMetadata(bais);
                     xmlObject.getObjectMetadata().put(new XMLObjectSource(source));
                     return xmlObject;
                 }
-            } catch (IOException | UnmarshallingException e) {
+            } catch (final IOException | UnmarshallingException e) {
                 log.error("{} Error unmarshalling HTTP response stream", getLogPrefix(), e);
                 return null;
             }

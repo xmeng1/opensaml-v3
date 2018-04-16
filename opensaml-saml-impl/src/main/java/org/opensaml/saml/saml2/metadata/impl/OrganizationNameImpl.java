@@ -35,7 +35,8 @@ public class OrganizationNameImpl extends LocalizedNameImpl implements Organizat
      * @param elementLocalName local name
      * @param namespacePrefix prefix
      */
-    protected OrganizationNameImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected OrganizationNameImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 }

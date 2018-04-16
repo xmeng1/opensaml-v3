@@ -40,7 +40,7 @@ public class ConditionTypeImpl extends AbstractXACMLObject implements ConditionT
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected ConditionTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix){
+    protected ConditionTypeImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix){
         super(namespaceURI,elementLocalName,namespacePrefix);    
     }
   
@@ -50,13 +50,13 @@ public class ConditionTypeImpl extends AbstractXACMLObject implements ConditionT
     }
     
     /** {@inheritDoc} */
-    public void setExpression(ExpressionType exp){
+    public void setExpression(final ExpressionType exp){
         expression = prepareForAssignment(expression, exp);
     }
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
                
         if(expression != null){
             children.add(expression);

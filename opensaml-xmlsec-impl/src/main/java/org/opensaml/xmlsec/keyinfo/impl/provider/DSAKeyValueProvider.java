@@ -59,13 +59,13 @@ public class DSAKeyValueProvider extends AbstractKeyInfoProvider {
             @Nonnull final XMLObject keyInfoChild, @Nullable final CriteriaSet criteriaSet,
             @Nonnull final KeyInfoResolutionContext kiContext) throws SecurityException {
         
-        DSAKeyValue keyValue = getDSAKeyValue(keyInfoChild);
+        final DSAKeyValue keyValue = getDSAKeyValue(keyInfoChild);
         if (keyValue == null) {
             return null;
         }
         
         if (criteriaSet != null) {
-            KeyAlgorithmCriterion algorithmCriteria = criteriaSet.get(KeyAlgorithmCriterion.class);
+            final KeyAlgorithmCriterion algorithmCriteria = criteriaSet.get(KeyAlgorithmCriterion.class);
             if (algorithmCriteria != null 
                     && algorithmCriteria.getKeyAlgorithm() != null 
                     && !"DSA".equals(algorithmCriteria.getKeyAlgorithm())) {
@@ -80,20 +80,20 @@ public class DSAKeyValueProvider extends AbstractKeyInfoProvider {
         try {
             //TODO deal with case of incomplete DSAParams, need hook to resolve those
             pubKey = KeyInfoSupport.getDSAKey(keyValue);
-        } catch (KeyException e) {
+        } catch (final KeyException e) {
             log.error("Error extracting DSA key value", e);
             throw new SecurityException("Error extracting DSA key value", e);
         }
-        BasicCredential cred = new BasicCredential(pubKey);
+        final BasicCredential cred = new BasicCredential(pubKey);
         cred.getKeyNames().addAll(kiContext.getKeyNames());
         
-        CredentialContext credContext = buildCredentialContext(kiContext);
+        final CredentialContext credContext = buildCredentialContext(kiContext);
         if (credContext != null) {
             cred.getCredentialContextSet().add(credContext);
         }
         
         log.debug("Credential successfully extracted from DSAKeyValue");
-        LazySet<Credential> credentialSet = new LazySet<>();
+        final LazySet<Credential> credentialSet = new LazySet<>();
         credentialSet.add(cred);
         return credentialSet;
     }

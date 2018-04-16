@@ -82,7 +82,7 @@ public class HTTPPostEncoder extends BaseSAML1MessageEncoder {
      * 
      * @param newVelocityEngine the new VelocityEngine instane
      */
-    public void setVelocityEngine(VelocityEngine newVelocityEngine) {
+    public void setVelocityEngine(final VelocityEngine newVelocityEngine) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
         velocityEngine = newVelocityEngine;
@@ -106,7 +106,7 @@ public class HTTPPostEncoder extends BaseSAML1MessageEncoder {
      * 
      * @param newVelocityTemplateId the new Velocity template id
      */
-    public void setVelocityTemplateId(String newVelocityTemplateId) {
+    public void setVelocityTemplateId(final String newVelocityTemplateId) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
         velocityTemplateId = newVelocityTemplateId;
@@ -132,13 +132,13 @@ public class HTTPPostEncoder extends BaseSAML1MessageEncoder {
 
     /** {@inheritDoc} */
     protected void doEncode() throws MessageEncodingException {
-        MessageContext<SAMLObject> messageContext = getMessageContext();
+        final MessageContext<SAMLObject> messageContext = getMessageContext();
 
-        SAMLObject outboundMessage = messageContext.getMessage();
+        final SAMLObject outboundMessage = messageContext.getMessage();
         if (outboundMessage == null) {
             throw new MessageEncodingException("No outbound SAML message contained in message context");
         }
-        String endpointURL = getEndpointURL(messageContext).toString();
+        final String endpointURL = getEndpointURL(messageContext).toString();
         
         postEncode(messageContext, endpointURL);
     }
@@ -151,44 +151,44 @@ public class HTTPPostEncoder extends BaseSAML1MessageEncoder {
      * 
      * @throws MessageEncodingException thrown if there is a problem encoding the message
      */
-    protected void postEncode(MessageContext<SAMLObject> messageContext, String endpointURL) 
+    protected void postEncode(final MessageContext<SAMLObject> messageContext, final String endpointURL) 
             throws MessageEncodingException {
         log.debug("Invoking velocity template to create POST body");
 
         try {
-            VelocityContext context = new VelocityContext();
-            SAMLObject message = messageContext.getMessage();
+            final VelocityContext context = new VelocityContext();
+            final SAMLObject message = messageContext.getMessage();
 
-            String encodedEndpointURL = HTMLEncoder.encodeForHTMLAttribute(endpointURL);
+            final String encodedEndpointURL = HTMLEncoder.encodeForHTMLAttribute(endpointURL);
             log.debug("Encoding action url of '{}' with encoded value '{}'", endpointURL, encodedEndpointURL);
             context.put("action", encodedEndpointURL);
             context.put("binding", getBindingURI());
 
             log.debug("Marshalling and Base64 encoding SAML message");
-            String messageXML = SerializeSupport.nodeToString(marshallMessage(message));
-            String encodedMessage = Base64Support.encode(messageXML.getBytes("UTF-8"), Base64Support.UNCHUNKED);
+            final String messageXML = SerializeSupport.nodeToString(marshallMessage(message));
+            final String encodedMessage = Base64Support.encode(messageXML.getBytes("UTF-8"), Base64Support.UNCHUNKED);
             context.put("SAMLResponse", encodedMessage);
 
-            String relayState = SAMLBindingSupport.getRelayState(messageContext);
+            final String relayState = SAMLBindingSupport.getRelayState(messageContext);
             if (relayState != null) {
-                String encodedRelayState = HTMLEncoder.encodeForHTMLAttribute(relayState);
+                final String encodedRelayState = HTMLEncoder.encodeForHTMLAttribute(relayState);
                 log.debug("Setting TARGET parameter to: '{}', encoded as '{}'", relayState, encodedRelayState);
                 context.put("TARGET", encodedRelayState);
             }
             
-            HttpServletResponse response = getHttpServletResponse();
+            final HttpServletResponse response = getHttpServletResponse();
 
             HttpServletSupport.addNoCacheHeaders(response);
             HttpServletSupport.setUTF8Encoding(response);
             HttpServletSupport.setContentType(response, "text/html");
 
-            Writer out = new OutputStreamWriter(response.getOutputStream(), "UTF-8");
+            final Writer out = new OutputStreamWriter(response.getOutputStream(), "UTF-8");
             velocityEngine.mergeTemplate(velocityTemplateId, "UTF-8", context, out);
             out.flush();
-        } catch (UnsupportedEncodingException e) {
+        } catch (final UnsupportedEncodingException e) {
             log.error("UTF-8 encoding is not supported, this VM is not Java compliant.");
             throw new MessageEncodingException("Unable to encode message, UTF-8 encoding is not supported");
-        } catch (Exception e) {
+        } catch (final Exception e) {
             log.error("Error invoking velocity template", e);
             throw new MessageEncodingException("Error creating output document", e);
         }

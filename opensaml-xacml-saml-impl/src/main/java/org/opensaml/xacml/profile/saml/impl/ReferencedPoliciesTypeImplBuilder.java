@@ -33,7 +33,8 @@ implements XACMLObjectBuilder<ReferencedPoliciesType>{
     }
 
     /** {@inheritDoc} */
-    public ReferencedPoliciesType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public ReferencedPoliciesType buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new ReferencedPoliciesTypeImpl(namespaceURI,localName,namespacePrefix);
     }
 

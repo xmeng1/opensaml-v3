@@ -34,7 +34,8 @@ public class StatusDetailTypeImplBuilder extends AbstractXACMLObjectBuilder<Stat
     }
 
     /** {@inheritDoc} */
-    public StatusDetailType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public StatusDetailType buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new StatusDetailTypeImpl(namespaceURI, localName, namespacePrefix);
     }
 }

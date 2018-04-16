@@ -39,7 +39,6 @@ public class SAMLBindingContextBindingFunction implements ContextDataLookupFunct
     }
     
     /** {@inheritDoc} */
-    @Override
     @Nullable public String apply(@Nullable final SAMLBindingContext input) {
         if (input != null) {
             if (useShortName) {

@@ -31,7 +31,7 @@ public class RetryAfterBuilder extends AbstractWSAddressingObjectBuilder<RetryAf
     }
 
     /** {@inheritDoc} */
-    public RetryAfter buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public RetryAfter buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new RetryAfterImpl(namespaceURI, localName, namespacePrefix);
     }
 

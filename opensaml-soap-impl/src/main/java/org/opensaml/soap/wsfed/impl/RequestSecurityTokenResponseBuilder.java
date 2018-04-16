@@ -38,7 +38,8 @@ public class RequestSecurityTokenResponseBuilder extends AbstractXMLObjectBuilde
     }
 
     /** {@inheritDoc} */
-    public RequestSecurityTokenResponse buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public RequestSecurityTokenResponse buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new RequestSecurityTokenResponseImpl(namespaceURI, localName, namespacePrefix);
     }
 }

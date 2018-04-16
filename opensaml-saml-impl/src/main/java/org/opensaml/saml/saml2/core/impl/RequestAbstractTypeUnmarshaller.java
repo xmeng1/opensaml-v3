@@ -26,7 +26,6 @@ import org.joda.time.chrono.ISOChronology;
 import org.opensaml.core.xml.XMLObject;
 import org.opensaml.core.xml.io.UnmarshallingException;
 import org.opensaml.saml.common.AbstractSAMLObjectUnmarshaller;
-import org.opensaml.saml.common.SAMLVersion;
 import org.opensaml.saml.saml2.core.Extensions;
 import org.opensaml.saml.saml2.core.Issuer;
 import org.opensaml.saml.saml2.core.RequestAbstractType;
@@ -41,7 +40,7 @@ import com.google.common.base.Strings;
 public abstract class RequestAbstractTypeUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
+    protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
         final RequestAbstractType req = (RequestAbstractType) parentSAMLObject;
     
@@ -57,12 +56,12 @@ public abstract class RequestAbstractTypeUnmarshaller extends AbstractSAMLObject
     }
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject samlObject, final Attr attribute) throws UnmarshallingException {
         final RequestAbstractType req = (RequestAbstractType) samlObject;
 
         if (attribute.getNamespaceURI() == null) {
             if (attribute.getLocalName().equals(RequestAbstractType.VERSION_ATTRIB_NAME)) {
-                req.setVersion(SAMLVersion.valueOf(attribute.getValue()));
+                req.setVersion(parseSAMLVersion(attribute));
             } else if (attribute.getLocalName().equals(RequestAbstractType.ID_ATTRIB_NAME)) {
                 req.setID(attribute.getValue());
                 attribute.getOwnerElement().setIdAttributeNode(attribute, true);

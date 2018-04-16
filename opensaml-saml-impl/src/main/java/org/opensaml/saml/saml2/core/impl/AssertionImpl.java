@@ -79,7 +79,7 @@ public class AssertionImpl extends AbstractSignableSAMLObject implements Asserti
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AssertionImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AssertionImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         version = SAMLVersion.VERSION_20;
         statements = new IndexedXMLObjectChildrenList<>(this);
@@ -91,7 +91,7 @@ public class AssertionImpl extends AbstractSignableSAMLObject implements Asserti
     }
 
     /** {@inheritDoc} */
-    public void setVersion(SAMLVersion newVersion) {
+    public void setVersion(final SAMLVersion newVersion) {
         this.version = prepareForAssignment(this.version, newVersion);
     }
 
@@ -101,7 +101,7 @@ public class AssertionImpl extends AbstractSignableSAMLObject implements Asserti
     }
 
     /** {@inheritDoc} */
-    public void setIssueInstant(DateTime newIssueInstance) {
+    public void setIssueInstant(final DateTime newIssueInstance) {
         this.issueInstant = prepareForAssignment(this.issueInstant, newIssueInstance);
     }
 
@@ -111,8 +111,8 @@ public class AssertionImpl extends AbstractSignableSAMLObject implements Asserti
     }
 
     /** {@inheritDoc} */
-    public void setID(String newID) {
-        String oldID = this.id;
+    public void setID(final String newID) {
+        final String oldID = this.id;
         this.id = prepareForAssignment(this.id, newID);
         registerOwnID(oldID, this.id);
     }
@@ -123,7 +123,7 @@ public class AssertionImpl extends AbstractSignableSAMLObject implements Asserti
     }
 
     /** {@inheritDoc} */
-    public void setIssuer(Issuer newIssuer) {
+    public void setIssuer(final Issuer newIssuer) {
         this.issuer = prepareForAssignment(this.issuer, newIssuer);
     }
 
@@ -133,7 +133,7 @@ public class AssertionImpl extends AbstractSignableSAMLObject implements Asserti
     }
 
     /** {@inheritDoc} */
-    public void setSubject(Subject newSubject) {
+    public void setSubject(final Subject newSubject) {
         this.subject = prepareForAssignment(this.subject, newSubject);
     }
 
@@ -143,7 +143,7 @@ public class AssertionImpl extends AbstractSignableSAMLObject implements Asserti
     }
 
     /** {@inheritDoc} */
-    public void setConditions(Conditions newConditions) {
+    public void setConditions(final Conditions newConditions) {
         this.conditions = prepareForAssignment(this.conditions, newConditions);
     }
 
@@ -153,7 +153,7 @@ public class AssertionImpl extends AbstractSignableSAMLObject implements Asserti
     }
 
     /** {@inheritDoc} */
-    public void setAdvice(Advice newAdvice) {
+    public void setAdvice(final Advice newAdvice) {
         this.advice = prepareForAssignment(this.advice, newAdvice);
     }
 
@@ -163,27 +163,28 @@ public class AssertionImpl extends AbstractSignableSAMLObject implements Asserti
     }
 
     /** {@inheritDoc} */
-    public List<Statement> getStatements(QName typeOrName) {
+    public List<Statement> getStatements(final QName typeOrName) {
         return (List<Statement>) statements.subList(typeOrName);
     }
 
     /** {@inheritDoc} */
     public List<AuthnStatement> getAuthnStatements() {
-        QName statementQName = new QName(SAMLConstants.SAML20_NS, AuthnStatement.DEFAULT_ELEMENT_LOCAL_NAME,
+        final QName statementQName = new QName(SAMLConstants.SAML20_NS, AuthnStatement.DEFAULT_ELEMENT_LOCAL_NAME,
                 SAMLConstants.SAML20_PREFIX);
         return (List<AuthnStatement>) statements.subList(statementQName);
     }
 
     /** {@inheritDoc} */
     public List<AuthzDecisionStatement> getAuthzDecisionStatements() {
-        QName statementQName = new QName(SAMLConstants.SAML20_NS, AuthzDecisionStatement.DEFAULT_ELEMENT_LOCAL_NAME,
+        final QName statementQName = new QName(SAMLConstants.SAML20_NS,
+                AuthzDecisionStatement.DEFAULT_ELEMENT_LOCAL_NAME,
                 SAMLConstants.SAML20_PREFIX);
         return (List<AuthzDecisionStatement>) statements.subList(statementQName);
     }
 
     /** {@inheritDoc} */
     public List<AttributeStatement> getAttributeStatements() {
-        QName statementQName = new QName(SAMLConstants.SAML20_NS, AttributeStatement.DEFAULT_ELEMENT_LOCAL_NAME,
+        final QName statementQName = new QName(SAMLConstants.SAML20_NS, AttributeStatement.DEFAULT_ELEMENT_LOCAL_NAME,
                 SAMLConstants.SAML20_PREFIX);
         return (List<AttributeStatement>) statements.subList(statementQName);
     }
@@ -195,7 +196,7 @@ public class AssertionImpl extends AbstractSignableSAMLObject implements Asserti
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         children.add(issuer);
         

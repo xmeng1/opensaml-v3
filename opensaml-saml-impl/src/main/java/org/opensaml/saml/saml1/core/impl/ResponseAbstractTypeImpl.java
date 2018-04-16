@@ -54,7 +54,8 @@ public abstract class ResponseAbstractTypeImpl extends AbstractSignableSAMLObjec
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected ResponseAbstractTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected ResponseAbstractTypeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         version = SAMLVersion.VERSION_11;
     }
@@ -65,8 +66,8 @@ public abstract class ResponseAbstractTypeImpl extends AbstractSignableSAMLObjec
     }
 
     /** {@inheritDoc} */
-    public void setID(String newID) {
-        String oldID = id;
+    public void setID(final String newID) {
+        final String oldID = id;
         id = prepareForAssignment(id, newID);
         registerOwnID(oldID, id);
     }
@@ -77,7 +78,7 @@ public abstract class ResponseAbstractTypeImpl extends AbstractSignableSAMLObjec
     }
 
     /** {@inheritDoc} */
-    public void setInResponseTo(String to) {
+    public void setInResponseTo(final String to) {
         inResponseTo = prepareForAssignment(inResponseTo, to);
     }
 
@@ -87,7 +88,7 @@ public abstract class ResponseAbstractTypeImpl extends AbstractSignableSAMLObjec
     }
     
     /** {@inheritDoc} */
-    public void setVersion(SAMLVersion newVersion) {
+    public void setVersion(final SAMLVersion newVersion) {
         version = prepareForAssignment(version, newVersion);
     }
 
@@ -98,7 +99,7 @@ public abstract class ResponseAbstractTypeImpl extends AbstractSignableSAMLObjec
     }
 
     /** {@inheritDoc} */
-    public void setIssueInstant(DateTime date) {
+    public void setIssueInstant(final DateTime date) {
         this.issueInstant = prepareForAssignment(this.issueInstant, date);
     }
 
@@ -108,7 +109,7 @@ public abstract class ResponseAbstractTypeImpl extends AbstractSignableSAMLObjec
     }
 
     /** {@inheritDoc} */
-    public void setRecipient(String recip) {
+    public void setRecipient(final String recip) {
         recipient = prepareForAssignment(recipient, recip);
     }
     
@@ -119,7 +120,7 @@ public abstract class ResponseAbstractTypeImpl extends AbstractSignableSAMLObjec
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        List<XMLObject> children = new ArrayList<>();
+        final List<XMLObject> children = new ArrayList<>();
         
         if(getSignature() != null){
             children.add(getSignature());

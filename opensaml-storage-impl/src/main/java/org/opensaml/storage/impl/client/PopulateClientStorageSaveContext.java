@@ -120,7 +120,7 @@ public class PopulateClientStorageSaveContext<InboundMessageType, OutboundMessag
             if (log.isDebugEnabled()) {
                 final Collection<String> ids = Collections2.transform(saveCtx.getStorageOperations(),
                         new Function<ClientStorageServiceOperation,String>() {
-                    public String apply(ClientStorageServiceOperation input) {
+                    public String apply(final ClientStorageServiceOperation input) {
                         return input.getStorageServiceID();
                     }
                 });

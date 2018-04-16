@@ -43,7 +43,8 @@ public class AttributeDesignatorBuilder extends AbstractSAMLObjectBuilder<Attrib
     }
 
     /** {@inheritDoc} */
-    public AttributeDesignator buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public AttributeDesignator buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new AttributeDesignatorImpl(namespaceURI, localName, namespacePrefix);
     }
 }

@@ -42,7 +42,7 @@ public abstract class AbstractElementExtensibleXMLObjectUnmarshaller extends Abs
     @Override
     protected void processChildElement(@Nonnull final XMLObject parentXMLObject,
             @Nonnull final XMLObject childXMLObject) throws UnmarshallingException {
-        ElementExtensibleXMLObject any = (ElementExtensibleXMLObject) parentXMLObject;
+        final ElementExtensibleXMLObject any = (ElementExtensibleXMLObject) parentXMLObject;
         any.getUnknownXMLObjects().add(childXMLObject);
     }
 

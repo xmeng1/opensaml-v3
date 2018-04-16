@@ -43,7 +43,7 @@ public class LogoutResponseBuilder extends AbstractSAMLObjectBuilder<LogoutRespo
     }
 
     /** {@inheritDoc} */
-    public LogoutResponse buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public LogoutResponse buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new LogoutResponseImpl(namespaceURI, localName, namespacePrefix);
     }
 }

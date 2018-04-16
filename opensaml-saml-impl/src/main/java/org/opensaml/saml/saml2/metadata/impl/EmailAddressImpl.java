@@ -42,7 +42,7 @@ public class EmailAddressImpl extends AbstractSAMLObject implements EmailAddress
      * @param elementLocalName local name
      * @param namespacePrefix prefix
      */
-    protected EmailAddressImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected EmailAddressImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -54,7 +54,7 @@ public class EmailAddressImpl extends AbstractSAMLObject implements EmailAddress
 
     /** {@inheritDoc} */
     @Override
-    public void setAddress(String addr) {
+    public void setAddress(final String addr) {
         address = prepareForAssignment(address, addr);
     }
 

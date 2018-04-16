@@ -56,7 +56,8 @@ public class SubjectConfirmationImpl extends AbstractSAMLObject implements Subje
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected SubjectConfirmationImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected SubjectConfirmationImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -66,7 +67,7 @@ public class SubjectConfirmationImpl extends AbstractSAMLObject implements Subje
     }
 
     /** {@inheritDoc} */
-    public void setBaseID(BaseID newBaseID) {
+    public void setBaseID(final BaseID newBaseID) {
         baseID = prepareForAssignment(baseID, newBaseID);
     }
 
@@ -76,7 +77,7 @@ public class SubjectConfirmationImpl extends AbstractSAMLObject implements Subje
     }
 
     /** {@inheritDoc} */
-    public void setNameID(NameID newNameID) {
+    public void setNameID(final NameID newNameID) {
         nameID = prepareForAssignment(nameID, newNameID);
     }
 
@@ -86,7 +87,7 @@ public class SubjectConfirmationImpl extends AbstractSAMLObject implements Subje
     }
 
     /** {@inheritDoc} */
-    public void setEncryptedID(EncryptedID newEncryptedID) {
+    public void setEncryptedID(final EncryptedID newEncryptedID) {
         this.encryptedID = prepareForAssignment(this.encryptedID, newEncryptedID);
     }
 
@@ -96,7 +97,7 @@ public class SubjectConfirmationImpl extends AbstractSAMLObject implements Subje
     }
 
     /** {@inheritDoc} */
-    public void setSubjectConfirmationData(SubjectConfirmationData newSubjectConfirmationData) {
+    public void setSubjectConfirmationData(final SubjectConfirmationData newSubjectConfirmationData) {
         this.subjectConfirmationData = prepareForAssignment(this.subjectConfirmationData, newSubjectConfirmationData);
 
     }
@@ -107,13 +108,13 @@ public class SubjectConfirmationImpl extends AbstractSAMLObject implements Subje
     }
 
     /** {@inheritDoc} */
-    public void setMethod(String newMethod) {
+    public void setMethod(final String newMethod) {
         this.method = prepareForAssignment(this.method, newMethod);
     }
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         if (baseID != null) {
             children.add(baseID);

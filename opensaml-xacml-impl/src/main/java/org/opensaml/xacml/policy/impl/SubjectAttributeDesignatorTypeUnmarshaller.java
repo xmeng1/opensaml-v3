@@ -30,10 +30,11 @@ public class SubjectAttributeDesignatorTypeUnmarshaller extends AttributeDesigna
 
     /** {@inheritDoc} */
     @Override
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         
         if(attribute.getLocalName().equals(SubjectAttributeDesignatorType.SUBJECT_CATEGORY_ATTRIB_NAME)){
-            SubjectAttributeDesignatorType subjectAttributeDesignatorType = (SubjectAttributeDesignatorType) xmlObject;
+            final SubjectAttributeDesignatorType subjectAttributeDesignatorType =
+                    (SubjectAttributeDesignatorType) xmlObject;
             subjectAttributeDesignatorType.setSubjectCategory(StringSupport.trimOrNull(attribute.getValue()));
         } else {
             super.processAttribute(xmlObject, attribute);

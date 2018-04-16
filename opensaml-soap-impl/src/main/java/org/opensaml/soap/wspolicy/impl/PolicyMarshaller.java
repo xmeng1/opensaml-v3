@@ -32,8 +32,8 @@ import org.w3c.dom.Element;
 public class PolicyMarshaller extends OperatorContentTypeMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        Policy policy = (Policy) xmlObject;
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
+        final Policy policy = (Policy) xmlObject;
         
         if (policy.getName() != null) {
             domElement.setAttributeNS(null, Policy.NAME_ATTRIB_NAME, policy.getName());

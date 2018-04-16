@@ -34,7 +34,7 @@ public class TransformBuilder extends AbstractXMLObjectBuilder<Transform> implem
     }
 
     /** {@inheritDoc} */
-    public Transform buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Transform buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new TransformImpl(namespaceURI, localName, namespacePrefix);
     }
 

@@ -68,7 +68,7 @@ public class EvaluablePublicKeyCredentialCriterion extends AbstractTriStatePredi
             return isNullInputSatisfies();
         }
         
-        PublicKey key = target.getPublicKey();
+        final PublicKey key = target.getPublicKey();
         if (key == null) {
             log.info("Credential contained no public key, does not satisfy public key criteria");
             return false;
@@ -79,7 +79,7 @@ public class EvaluablePublicKeyCredentialCriterion extends AbstractTriStatePredi
     
     /** {@inheritDoc} */
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("EvaluablePublicKeyCredentialCriterion [publicKey=");
         builder.append(publicKey);
         builder.append("]");
@@ -92,7 +92,7 @@ public class EvaluablePublicKeyCredentialCriterion extends AbstractTriStatePredi
     }
 
     /** {@inheritDoc} */
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }

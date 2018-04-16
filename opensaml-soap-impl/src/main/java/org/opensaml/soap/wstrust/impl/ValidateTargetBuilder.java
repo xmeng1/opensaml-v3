@@ -31,7 +31,7 @@ public class ValidateTargetBuilder extends AbstractWSTrustObjectBuilder<Validate
     }
 
     /** {@inheritDoc} */
-    public ValidateTarget buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public ValidateTarget buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new ValidateTargetImpl(namespaceURI, localName, namespacePrefix);
     }
 

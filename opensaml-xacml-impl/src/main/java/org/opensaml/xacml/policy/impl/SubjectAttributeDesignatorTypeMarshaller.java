@@ -31,8 +31,9 @@ public class SubjectAttributeDesignatorTypeMarshaller extends AttributeDesignato
     
     /** {@inheritDoc} */
     @Override
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {       
-        SubjectAttributeDesignatorType subjectAttributeDesignatorType = (SubjectAttributeDesignatorType) xmlObject;
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
+        final SubjectAttributeDesignatorType subjectAttributeDesignatorType =
+                (SubjectAttributeDesignatorType) xmlObject;
         
         if(!Strings.isNullOrEmpty(subjectAttributeDesignatorType.getSubjectCategory())){            
             domElement.setAttributeNS(null, SubjectAttributeDesignatorType.SUBJECT_CATEGORY_ATTRIB_NAME, 

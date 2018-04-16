@@ -149,12 +149,12 @@ public class BasicProviderKeyInfoCredentialResolver extends AbstractCriteriaFilt
             throw new ResolverException(
                     "Credential criteria set did not contain an instance of KeyInfoCredentialCriteria");
         }
-        KeyInfo keyInfo = kiCriteria.getKeyInfo();
+        final KeyInfo keyInfo = kiCriteria.getKeyInfo();
 
         // This will be the list of credentials to return.
-        List<Credential> credentials = new ArrayList<>();
+        final List<Credential> credentials = new ArrayList<>();
 
-        KeyInfoResolutionContext kiContext = new KeyInfoResolutionContext(credentials);
+        final KeyInfoResolutionContext kiContext = new KeyInfoResolutionContext(credentials);
 
         // Note: we allow KeyInfo to be null to handle case where application context,
         // other accompanying criteria, etc, should be used to resolve credentials via hooks below.
@@ -196,8 +196,8 @@ public class BasicProviderKeyInfoCredentialResolver extends AbstractCriteriaFilt
 
         // Store these off so we later use the original values,
         // unmodified by other providers which later run.
-        Key keyValueKey = kiContext.getKey();
-        HashSet<String> keyNames = new HashSet<>();
+        final Key keyValueKey = kiContext.getKey();
+        final HashSet<String> keyNames = new HashSet<>();
         keyNames.addAll(kiContext.getKeyNames());
 
         // Now process all (non-KeyValue) children
@@ -205,7 +205,7 @@ public class BasicProviderKeyInfoCredentialResolver extends AbstractCriteriaFilt
 
         if (credentials.isEmpty() && keyValueKey != null) {
             // Add the credential based on plain KeyValue if no more specifc cred type was found
-            Credential keyValueCredential = buildBasicCredential(keyValueKey, keyNames);
+            final Credential keyValueCredential = buildBasicCredential(keyValueKey, keyNames);
             if (keyValueCredential != null) {
                 log.debug("No credentials were extracted by registered non-KeyValue handling providers, "
                         + "adding KeyValue credential to returned credential set");
@@ -263,14 +263,14 @@ public class BasicProviderKeyInfoCredentialResolver extends AbstractCriteriaFilt
             @Nullable final CriteriaSet criteriaSet, @Nonnull final List<Credential> credentials)
                     throws ResolverException {
 
-        for (XMLObject keyInfoChild : kiContext.getKeyInfo().getXMLObjects()) {
+        for (final XMLObject keyInfoChild : kiContext.getKeyInfo().getXMLObjects()) {
 
             if (keyInfoChild instanceof KeyValue || keyInfoChild instanceof DEREncodedKeyValue) {
                 continue;
             }
 
             log.debug("Processing KeyInfo child with QName: {}", keyInfoChild.getElementQName());
-            Collection<Credential> childCreds = processKeyInfoChild(kiContext, criteriaSet, keyInfoChild);
+            final Collection<Credential> childCreds = processKeyInfoChild(kiContext, criteriaSet, keyInfoChild);
 
             if (childCreds != null && !childCreds.isEmpty()) {
                 credentials.addAll(childCreds);
@@ -305,7 +305,7 @@ public class BasicProviderKeyInfoCredentialResolver extends AbstractCriteriaFilt
     @Nullable protected Collection<Credential> processKeyInfoChild(@Nonnull final KeyInfoResolutionContext kiContext,
             @Nullable final CriteriaSet criteriaSet, @Nonnull final XMLObject keyInfoChild) throws ResolverException {
 
-        for (KeyInfoProvider provider : getProviders()) {
+        for (final KeyInfoProvider provider : getProviders()) {
 
             if (!provider.handles(keyInfoChild)) {
                 log.debug("Provider {} doesn't handle objects of type {}, skipping", provider.getClass().getName(),
@@ -315,10 +315,10 @@ public class BasicProviderKeyInfoCredentialResolver extends AbstractCriteriaFilt
 
             log.debug("Processing KeyInfo child {} with provider {}", keyInfoChild.getElementQName(), provider
                     .getClass().getName());
-            Collection<Credential> creds;
+            final Collection<Credential> creds;
             try {
                 creds = provider.process(this, keyInfoChild, criteriaSet, kiContext);
-            } catch (SecurityException e) {
+            } catch (final SecurityException e) {
                 throw new ResolverException("Error processing KeyInfo child element", e);
             }
 
@@ -381,14 +381,14 @@ public class BasicProviderKeyInfoCredentialResolver extends AbstractCriteriaFilt
             @Nullable final CriteriaSet criteriaSet, @Nonnull final List<? extends XMLObject> keyValues)
             throws ResolverException {
 
-        for (XMLObject keyValue : keyValues) {
+        for (final XMLObject keyValue : keyValues) {
             if (!(keyValue instanceof KeyValue) && !(keyValue instanceof DEREncodedKeyValue)) {
                 continue;
             }
-            Collection<Credential> creds = processKeyInfoChild(kiContext, criteriaSet, keyValue);
+            final Collection<Credential> creds = processKeyInfoChild(kiContext, criteriaSet, keyValue);
             if (creds != null) {
-                for (Credential cred : creds) {
-                    Key key = extractKeyValue(cred);
+                for (final Credential cred : creds) {
+                    final Key key = extractKeyValue(cred);
                     if (key != null) {
                         kiContext.setKey(key);
                         log.debug("Found a credential based on a KeyValue/DEREncodedKeyValue having key type: {}",
@@ -424,9 +424,9 @@ public class BasicProviderKeyInfoCredentialResolver extends AbstractCriteriaFilt
         } else if (key instanceof PrivateKey) {
             // This would be unusual for most KeyInfo use cases,
             // but go ahead and try and handle it
-            PrivateKey privateKey = (PrivateKey) key;
+            final PrivateKey privateKey = (PrivateKey) key;
             try {
-                PublicKey publicKey = KeySupport.derivePublicKey(privateKey);
+                final PublicKey publicKey = KeySupport.derivePublicKey(privateKey);
                 if (publicKey != null) {
                     basicCred = new BasicCredential(publicKey, privateKey);
                 } else {

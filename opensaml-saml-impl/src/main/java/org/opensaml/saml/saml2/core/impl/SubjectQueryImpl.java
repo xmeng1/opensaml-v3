@@ -44,7 +44,7 @@ public abstract class SubjectQueryImpl extends RequestAbstractTypeImpl implement
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected SubjectQueryImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected SubjectQueryImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -56,13 +56,13 @@ public abstract class SubjectQueryImpl extends RequestAbstractTypeImpl implement
     /**
      * {@inheritDoc}
      */
-    public void setSubject(Subject newSubject) {
+    public void setSubject(final Subject newSubject) {
         this.subject = prepareForAssignment(this.subject, newSubject);
     }
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         if (super.getOrderedChildren() != null) {
             children.addAll(super.getOrderedChildren());

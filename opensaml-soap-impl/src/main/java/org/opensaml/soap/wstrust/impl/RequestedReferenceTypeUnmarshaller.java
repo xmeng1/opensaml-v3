@@ -31,9 +31,9 @@ import org.opensaml.soap.wstrust.RequestedReferenceType;
 public class RequestedReferenceTypeUnmarshaller extends AbstractWSTrustObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        RequestedReferenceType rrt = (RequestedReferenceType) parentXMLObject;
+        final RequestedReferenceType rrt = (RequestedReferenceType) parentXMLObject;
         if (childXMLObject instanceof SecurityTokenReference) {
             rrt.setSecurityTokenReference((SecurityTokenReference) childXMLObject);
         } else {

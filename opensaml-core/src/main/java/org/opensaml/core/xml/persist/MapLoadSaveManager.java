@@ -63,30 +63,30 @@ public class MapLoadSaveManager<T extends XMLObject> implements XMLObjectLoadSav
 
     /** {@inheritDoc} */
     public Iterable<Pair<String, T>> listAll() throws IOException {
-        ArrayList<Pair<String,T>> list = new ArrayList<>();
-        for (String key : listKeys()) {
+        final ArrayList<Pair<String,T>> list = new ArrayList<>();
+        for (final String key : listKeys()) {
             list.add(new Pair<>(key, load(key)));
         }
         return list;
     }
 
     /** {@inheritDoc} */
-    public boolean exists(String key) throws IOException {
+    public boolean exists(final String key) throws IOException {
         return backingMap.containsKey(key);
     }
 
     /** {@inheritDoc} */
-    public T load(String key) throws IOException {
+    public T load(final String key) throws IOException {
         return backingMap.get(key);
     }
 
     /** {@inheritDoc} */
-    public void save(String key, T xmlObject) throws IOException {
+    public void save(final String key, final T xmlObject) throws IOException {
         save(key, xmlObject, false);
     }
 
     /** {@inheritDoc} */
-    public void save(String key, T xmlObject, boolean overwrite) throws IOException {
+    public void save(final String key, final T xmlObject, final boolean overwrite) throws IOException {
         if (!overwrite && exists(key)) {
             throw new IOException(String.format("Value already exists for key '%s'", key));
         } else {
@@ -95,13 +95,13 @@ public class MapLoadSaveManager<T extends XMLObject> implements XMLObjectLoadSav
     }
 
     /** {@inheritDoc} */
-    public boolean remove(String key) throws IOException {
+    public boolean remove(final String key) throws IOException {
         return backingMap.remove(key) != null;
     }
 
     /** {@inheritDoc} */
-    public boolean updateKey(String currentKey, String newKey) throws IOException {
-        T value = load(currentKey);
+    public boolean updateKey(final String currentKey, final String newKey) throws IOException {
+        final T value = load(currentKey);
         if (value != null) {
             save(newKey, value, false);
             remove(currentKey);

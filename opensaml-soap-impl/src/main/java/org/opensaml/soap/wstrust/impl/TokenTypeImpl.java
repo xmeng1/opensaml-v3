@@ -33,7 +33,7 @@ public class TokenTypeImpl extends XSURIImpl implements TokenType {
      * @param elementLocalName The local name of the element
      * @param namespacePrefix The namespace prefix of the element
      */
-    public TokenTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public TokenTypeImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

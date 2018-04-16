@@ -31,7 +31,7 @@ public class KeySizeBuilder extends AbstractWSTrustObjectBuilder<KeySize> {
     }
 
     /** {@inheritDoc} */
-    public KeySize buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public KeySize buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new KeySizeImpl(namespaceURI, localName, namespacePrefix);
     }
 

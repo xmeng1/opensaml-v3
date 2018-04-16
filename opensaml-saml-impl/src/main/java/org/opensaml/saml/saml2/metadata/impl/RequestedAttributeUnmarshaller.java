@@ -34,7 +34,7 @@ import org.w3c.dom.Attr;
 public class RequestedAttributeUnmarshaller extends AttributeUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject samlObject, final Attr attribute) throws UnmarshallingException {
         final RequestedAttribute requestedAttribute = (RequestedAttribute) samlObject;
         
         if (attribute.getLocalName().equals(RequestedAttribute.IS_REQUIRED_ATTRIB_NAME)

@@ -37,7 +37,7 @@ public class EnvelopeBuilder extends AbstractXMLObjectBuilder<Envelope> implemen
     }
     
     /** {@inheritDoc} */
-    public Envelope buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Envelope buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new EnvelopeImpl(namespaceURI, localName, namespacePrefix);
     }
 }

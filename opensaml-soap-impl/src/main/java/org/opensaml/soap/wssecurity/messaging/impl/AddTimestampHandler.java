@@ -121,7 +121,7 @@ public class AddTimestampHandler extends AbstractHeaderGeneratingMessageHandler 
      * 
      * @param flag true if should use currnet time, false if not
      */
-    public void setUseCurrentTimeAsDefaultCreated(boolean flag) {
+    public void setUseCurrentTimeAsDefaultCreated(final boolean flag) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
         useCurrentTimeAsDefaultCreated = flag;
@@ -167,18 +167,18 @@ public class AddTimestampHandler extends AbstractHeaderGeneratingMessageHandler 
     /** {@inheritDoc} */
     protected void doInvoke(@Nonnull final MessageContext messageContext) throws MessageHandlerException {
         log.debug("Processing addition of outbound WS-Security Timestamp");
-        Timestamp timestamp = (Timestamp) XMLObjectSupport.buildXMLObject(Timestamp.ELEMENT_NAME);
+        final Timestamp timestamp = (Timestamp) XMLObjectSupport.buildXMLObject(Timestamp.ELEMENT_NAME);
         
         if (createdValue != null) {
             log.debug("WS-Security Timestamp Created value added was: {}", createdValue);
-            Created created = (Created) XMLObjectSupport.buildXMLObject(Created.ELEMENT_NAME);
+            final Created created = (Created) XMLObjectSupport.buildXMLObject(Created.ELEMENT_NAME);
             created.setDateTime(createdValue);
             timestamp.setCreated(created);
         }
             
         if (expiresValue != null) {
             log.debug("WS-Security Timestamp Expires value added was: {}", createdValue);
-            Expires expires = (Expires) XMLObjectSupport.buildXMLObject(Expires.ELEMENT_NAME);
+            final Expires expires = (Expires) XMLObjectSupport.buildXMLObject(Expires.ELEMENT_NAME);
             expires.setDateTime(expiresValue);
             timestamp.setExpires(expires);
         }
@@ -196,7 +196,7 @@ public class AddTimestampHandler extends AbstractHeaderGeneratingMessageHandler 
      */
     @Nullable protected DateTime getCreatedValue(@Nonnull final MessageContext messageContext) {
         DateTime value = null;
-        WSSecurityContext security = messageContext.getSubcontext(WSSecurityContext.class, false);
+        final WSSecurityContext security = messageContext.getSubcontext(WSSecurityContext.class, false);
         if (security != null) {
             value = security.getTimestampCreated();
         }
@@ -224,7 +224,7 @@ public class AddTimestampHandler extends AbstractHeaderGeneratingMessageHandler 
     @Nullable protected DateTime getExpiresValue(@Nonnull final MessageContext messageContext, 
             @Nullable final DateTime created) {
         DateTime value = null;
-        WSSecurityContext security = messageContext.getSubcontext(WSSecurityContext.class, false);
+        final WSSecurityContext security = messageContext.getSubcontext(WSSecurityContext.class, false);
         if (security != null) {
             value = security.getTimestampExpires();
         }

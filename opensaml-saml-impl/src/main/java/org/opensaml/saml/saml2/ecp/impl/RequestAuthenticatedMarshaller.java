@@ -30,8 +30,8 @@ import org.w3c.dom.Element;
 public class RequestAuthenticatedMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        RequestAuthenticated ra = (RequestAuthenticated) xmlObject;
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
+        final RequestAuthenticated ra = (RequestAuthenticated) xmlObject;
         
         if (ra.isSOAP11MustUnderstandXSBoolean() != null) {
             XMLObjectSupport.marshallAttribute(RequestAuthenticated.SOAP11_MUST_UNDERSTAND_ATTR_NAME, 

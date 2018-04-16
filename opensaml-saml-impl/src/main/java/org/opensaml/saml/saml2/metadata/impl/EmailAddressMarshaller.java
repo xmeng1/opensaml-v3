@@ -35,8 +35,9 @@ import org.w3c.dom.Element;
 public class EmailAddressMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallElementContent(XMLObject samlObject, Element domElement) throws MarshallingException {
-        EmailAddress address = (EmailAddress) samlObject;
+    protected void marshallElementContent(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
+        final EmailAddress address = (EmailAddress) samlObject;
 
         if (address.getAddress() != null) {
             ElementSupport.appendTextContent(domElement, address.getAddress());

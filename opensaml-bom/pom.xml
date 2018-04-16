@@ -119,7 +119,7 @@
     <distributionManagement>
         <site>
             <id>site</id>
-            <url>dav:${opensaml-parent.site.url}</url>
+            <url>dav:${opensaml-module.site.url}</url>
         </site>
     </distributionManagement>
 

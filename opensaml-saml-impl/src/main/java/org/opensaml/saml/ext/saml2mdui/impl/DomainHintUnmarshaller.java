@@ -27,8 +27,8 @@ import org.opensaml.saml.ext.saml2mdui.DomainHint;
 public class DomainHintUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject samlObject, String elementContent) {
-        DomainHint hint = (DomainHint) samlObject;
+    protected void processElementContent(final XMLObject samlObject, final String elementContent) {
+        final DomainHint hint = (DomainHint) samlObject;
 
         hint.setHint(elementContent);
     }

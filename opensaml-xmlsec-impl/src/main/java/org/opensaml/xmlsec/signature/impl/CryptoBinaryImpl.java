@@ -41,7 +41,7 @@ public class CryptoBinaryImpl extends XSBase64BinaryImpl implements CryptoBinary
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected CryptoBinaryImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected CryptoBinaryImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -56,7 +56,7 @@ public class CryptoBinaryImpl extends XSBase64BinaryImpl implements CryptoBinary
 
     /** {@inheritDoc} */
     @Override
-    public void setValueBigInt(BigInteger bigInt) {
+    public void setValueBigInt(final BigInteger bigInt) {
         if (bigInt == null) {
             setValue(null);
         } else {
@@ -67,7 +67,7 @@ public class CryptoBinaryImpl extends XSBase64BinaryImpl implements CryptoBinary
     
     /** {@inheritDoc} */
     @Override
-    public void setValue(String newValue) {
+    public void setValue(final String newValue) {
         if (bigIntValue != null 
                 && (!Objects.equals(getValue(), newValue) || newValue == null)) {
             // Just clear the cached value, my not be needed in big int form again,

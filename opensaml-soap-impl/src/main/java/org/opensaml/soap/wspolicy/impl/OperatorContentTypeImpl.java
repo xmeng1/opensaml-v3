@@ -46,7 +46,8 @@ public class OperatorContentTypeImpl extends AbstractWSPolicyObject implements O
      * @param elementLocalName The local name of the element
      * @param namespacePrefix The namespace prefix of the element
      */
-    public OperatorContentTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public OperatorContentTypeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         xmlObjects = new IndexedXMLObjectChildrenList<>(this);
     }
@@ -77,13 +78,13 @@ public class OperatorContentTypeImpl extends AbstractWSPolicyObject implements O
     }
 
     /** {@inheritDoc} */
-    public List<XMLObject> getXMLObjects(QName typeOrName) {
+    public List<XMLObject> getXMLObjects(final QName typeOrName) {
         return (List<XMLObject>) xmlObjects.subList(typeOrName);
     }
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         children.addAll(xmlObjects);
         return Collections.unmodifiableList(children);
     }

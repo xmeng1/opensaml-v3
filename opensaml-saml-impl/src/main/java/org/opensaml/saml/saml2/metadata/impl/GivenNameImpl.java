@@ -42,7 +42,7 @@ public class GivenNameImpl extends AbstractSAMLObject implements GivenName {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected GivenNameImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected GivenNameImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -52,7 +52,7 @@ public class GivenNameImpl extends AbstractSAMLObject implements GivenName {
     }
 
     /** {@inheritDoc} */
-    public void setName(String newName) {
+    public void setName(final String newName) {
         name = prepareForAssignment(name, newName);
     }
 

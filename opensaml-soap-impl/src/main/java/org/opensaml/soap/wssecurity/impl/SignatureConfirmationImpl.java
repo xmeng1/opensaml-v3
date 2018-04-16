@@ -38,7 +38,8 @@ public class SignatureConfirmationImpl extends AbstractWSSecurityObject implemen
      * @param elementLocalName name of the element
      * @param namespacePrefix namespace prefix of the element
      */
-    public SignatureConfirmationImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public SignatureConfirmationImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -48,7 +49,7 @@ public class SignatureConfirmationImpl extends AbstractWSSecurityObject implemen
     }
 
     /** {@inheritDoc} */
-    public void setValue(String newValue) {
+    public void setValue(final String newValue) {
         value = prepareForAssignment(value, newValue);
     }
 
@@ -58,8 +59,8 @@ public class SignatureConfirmationImpl extends AbstractWSSecurityObject implemen
     }
 
     /** {@inheritDoc} */
-    public void setWSUId(String newId) {
-        String oldId = id;
+    public void setWSUId(final String newId) {
+        final String oldId = id;
         id = prepareForAssignment(id, newId);
         registerOwnID(oldId, id);
         manageQualifiedAttributeNamespace(IdBearing.WSU_ID_ATTR_NAME, id != null);

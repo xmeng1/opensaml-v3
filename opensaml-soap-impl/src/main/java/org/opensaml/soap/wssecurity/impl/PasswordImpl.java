@@ -34,7 +34,7 @@ public class PasswordImpl extends AttributedStringImpl implements Password {
      * @param elementLocalName name of the element
      * @param namespacePrefix namespace prefix of the element
      */
-    public PasswordImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public PasswordImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         // set default type
         type = Password.TYPE_PASSWORD_TEXT;
@@ -46,7 +46,7 @@ public class PasswordImpl extends AttributedStringImpl implements Password {
     }
 
     /** {@inheritDoc} */
-    public void setType(String newType) {
+    public void setType(final String newType) {
         type = prepareForAssignment(type, newType);
     }
 

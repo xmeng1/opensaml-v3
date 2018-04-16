@@ -69,7 +69,7 @@ public class DecodeMessage extends AbstractProfileAction {
                     msgContext.getMessage().getClass().getName());
 
             profileRequestContext.setInboundMessageContext(msgContext);
-        } catch (MessageDecodingException e) {
+        } catch (final MessageDecodingException e) {
             log.error("{} Unable to decode incoming request", getLogPrefix(), e);
             ActionSupport.buildEvent(profileRequestContext, EventIds.UNABLE_TO_DECODE);
         } finally {

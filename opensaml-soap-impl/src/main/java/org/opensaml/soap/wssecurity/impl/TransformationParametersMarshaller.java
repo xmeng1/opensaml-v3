@@ -30,8 +30,8 @@ import org.w3c.dom.Element;
 public class TransformationParametersMarshaller extends AbstractWSSecurityObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        TransformationParameters tp = (TransformationParameters) xmlObject;
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
+        final TransformationParameters tp = (TransformationParameters) xmlObject;
         XMLObjectSupport.marshallAttributeMap(tp.getUnknownAttributes(), domElement);
     }
 

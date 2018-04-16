@@ -31,7 +31,7 @@ public class ProblemActionBuilder extends AbstractWSAddressingObjectBuilder<Prob
     }
 
     /** {@inheritDoc} */
-    public ProblemAction buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public ProblemAction buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new ProblemActionImpl(namespaceURI, localName, namespacePrefix);
     }
 

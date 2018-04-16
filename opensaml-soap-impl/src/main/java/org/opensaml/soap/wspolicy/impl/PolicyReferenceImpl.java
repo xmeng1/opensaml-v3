@@ -48,7 +48,7 @@ public class PolicyReferenceImpl extends AbstractWSPolicyObject implements Polic
      * @param elementLocalName The local name of the element
      * @param namespacePrefix The namespace prefix of the element
      */
-    public PolicyReferenceImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public PolicyReferenceImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         unknownAttributes = new AttributeMap(this);
     }
@@ -69,17 +69,17 @@ public class PolicyReferenceImpl extends AbstractWSPolicyObject implements Polic
     }
 
     /** {@inheritDoc} */
-    public void setDigest(String newDigest) {
+    public void setDigest(final String newDigest) {
         digest = prepareForAssignment(digest, newDigest);
     }
 
     /** {@inheritDoc} */
-    public void setDigestAlgorithm(String newDigestAlgorithm) {
+    public void setDigestAlgorithm(final String newDigestAlgorithm) {
         digestAlgorithm = prepareForAssignment(digestAlgorithm, newDigestAlgorithm);
     }
 
     /** {@inheritDoc} */
-    public void setURI(String newURI) {
+    public void setURI(final String newURI) {
         uri = prepareForAssignment(uri, newURI);
     }
 

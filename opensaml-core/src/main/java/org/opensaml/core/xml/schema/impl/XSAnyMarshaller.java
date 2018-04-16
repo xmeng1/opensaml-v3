@@ -42,10 +42,10 @@ public class XSAnyMarshaller extends AbstractXMLObjectMarshaller {
     @Override
     protected void marshallAttributes(@Nonnull final XMLObject xmlObject, @Nonnull final Element domElement)
             throws MarshallingException {
-        XSAny xsAny = (XSAny) xmlObject;
+        final XSAny xsAny = (XSAny) xmlObject;
 
         Attr attribute;
-        for (Entry<QName, String> entry : xsAny.getUnknownAttributes().entrySet()) {
+        for (final Entry<QName, String> entry : xsAny.getUnknownAttributes().entrySet()) {
             attribute = AttributeSupport.constructAttribute(domElement.getOwnerDocument(), entry.getKey());
             attribute.setValue(entry.getValue());
             domElement.setAttributeNodeNS(attribute);
@@ -60,7 +60,7 @@ public class XSAnyMarshaller extends AbstractXMLObjectMarshaller {
     @Override
     protected void marshallElementContent(@Nonnull final XMLObject xmlObject, @Nonnull final Element domElement)
             throws MarshallingException {
-        XSAny xsAny = (XSAny) xmlObject;
+        final XSAny xsAny = (XSAny) xmlObject;
 
         if (xsAny.getTextContent() != null) {
             ElementSupport.appendTextContent(domElement, xsAny.getTextContent());

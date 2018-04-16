@@ -47,7 +47,7 @@ public class X509DataImpl extends AbstractXMLObject implements X509Data {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected X509DataImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected X509DataImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         indexedChildren = new IndexedXMLObjectChildrenList(this);
     }
@@ -58,7 +58,7 @@ public class X509DataImpl extends AbstractXMLObject implements X509Data {
     }
 
     /** {@inheritDoc} */
-    public List<XMLObject> getXMLObjects(QName typeOrName) {
+    public List<XMLObject> getXMLObjects(final QName typeOrName) {
         return (List<XMLObject>) indexedChildren.subList(typeOrName);
     }
 
@@ -94,7 +94,7 @@ public class X509DataImpl extends AbstractXMLObject implements X509Data {
     
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         children.addAll((List<XMLObject>) indexedChildren);
 

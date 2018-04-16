@@ -59,7 +59,7 @@ public class ConditionsImpl extends AbstractSAMLObject implements Conditions {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected ConditionsImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected ConditionsImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         conditions = new IndexedXMLObjectChildrenList<>(this);
     }
@@ -71,16 +71,16 @@ public class ConditionsImpl extends AbstractSAMLObject implements Conditions {
 
     /** {@inheritDoc} */
     public List<AudienceRestriction> getAudienceRestrictions() {
-        QName conditionQName = new QName(SAMLConstants.SAML20_NS, AudienceRestriction.DEFAULT_ELEMENT_LOCAL_NAME,
+        final QName conditionQName = new QName(SAMLConstants.SAML20_NS, AudienceRestriction.DEFAULT_ELEMENT_LOCAL_NAME,
                 SAMLConstants.SAML20_PREFIX);
         return (List<AudienceRestriction>) conditions.subList(conditionQName);
     }
 
     /** {@inheritDoc} */
     public OneTimeUse getOneTimeUse() {
-        QName conditionQName = new QName(SAMLConstants.SAML20_NS, OneTimeUse.DEFAULT_ELEMENT_LOCAL_NAME,
+        final QName conditionQName = new QName(SAMLConstants.SAML20_NS, OneTimeUse.DEFAULT_ELEMENT_LOCAL_NAME,
                 SAMLConstants.SAML20_PREFIX);
-        List<OneTimeUse> list = (List<OneTimeUse>) conditions.subList(conditionQName);
+        final List<OneTimeUse> list = (List<OneTimeUse>) conditions.subList(conditionQName);
         if (list == null || list.size() == 0) {
             return null;
         } else {
@@ -90,9 +90,9 @@ public class ConditionsImpl extends AbstractSAMLObject implements Conditions {
 
     /** {@inheritDoc} */
     public ProxyRestriction getProxyRestriction() {
-        QName conditionQName = new QName(SAMLConstants.SAML20_NS, ProxyRestriction.DEFAULT_ELEMENT_LOCAL_NAME,
+        final QName conditionQName = new QName(SAMLConstants.SAML20_NS, ProxyRestriction.DEFAULT_ELEMENT_LOCAL_NAME,
                 SAMLConstants.SAML20_PREFIX);
-        List<ProxyRestriction> list = (List<ProxyRestriction>) conditions.subList(conditionQName);
+        final List<ProxyRestriction> list = (List<ProxyRestriction>) conditions.subList(conditionQName);
         if (list == null || list.size() == 0) {
             return null;
         } else {
@@ -106,7 +106,7 @@ public class ConditionsImpl extends AbstractSAMLObject implements Conditions {
     }
 
     /** {@inheritDoc} */
-    public void setNotBefore(DateTime newNotBefore) {
+    public void setNotBefore(final DateTime newNotBefore) {
         this.notBefore = prepareForAssignment(this.notBefore, newNotBefore);
     }
 
@@ -116,13 +116,13 @@ public class ConditionsImpl extends AbstractSAMLObject implements Conditions {
     }
 
     /** {@inheritDoc} */
-    public void setNotOnOrAfter(DateTime newNotOnOrAfter) {
+    public void setNotOnOrAfter(final DateTime newNotOnOrAfter) {
         this.notOnOrAfter = prepareForAssignment(this.notOnOrAfter, newNotOnOrAfter);
     }
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         children.addAll(conditions);
 

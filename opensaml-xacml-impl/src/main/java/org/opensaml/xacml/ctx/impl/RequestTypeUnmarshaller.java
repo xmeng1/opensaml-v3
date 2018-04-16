@@ -35,9 +35,9 @@ public class RequestTypeUnmarshaller extends AbstractXACMLObjectUnmarshaller {
     }
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        RequestType request = (RequestType) parentXMLObject;
+        final RequestType request = (RequestType) parentXMLObject;
 
         if (childXMLObject instanceof ActionType) {
             request.setAction((ActionType) childXMLObject);

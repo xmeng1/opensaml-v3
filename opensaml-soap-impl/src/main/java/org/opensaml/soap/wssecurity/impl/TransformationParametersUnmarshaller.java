@@ -30,15 +30,15 @@ import org.w3c.dom.Attr;
 public class TransformationParametersUnmarshaller extends AbstractWSSecurityObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
-        TransformationParameters tp = (TransformationParameters) xmlObject;
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
+        final TransformationParameters tp = (TransformationParameters) xmlObject;
         XMLObjectSupport.unmarshallToAttributeMap(tp.getUnknownAttributes(), attribute);
     }
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        TransformationParameters tp = (TransformationParameters) parentXMLObject;
+        final TransformationParameters tp = (TransformationParameters) parentXMLObject;
         tp.getUnknownXMLObjects().add(childXMLObject);
     }
 

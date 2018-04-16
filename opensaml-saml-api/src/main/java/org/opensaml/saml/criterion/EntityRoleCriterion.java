@@ -50,7 +50,7 @@ public final class EntityRoleCriterion implements Criterion {
     /** {@inheritDoc} */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("EntityRoleCriterion [role=");
         builder.append(role);
         builder.append("]");
@@ -65,7 +65,7 @@ public final class EntityRoleCriterion implements Criterion {
 
     /** {@inheritDoc} */
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }

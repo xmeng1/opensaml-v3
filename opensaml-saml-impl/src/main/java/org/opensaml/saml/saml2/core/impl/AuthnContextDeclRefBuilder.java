@@ -42,7 +42,8 @@ public class AuthnContextDeclRefBuilder extends AbstractSAMLObjectBuilder<AuthnC
     }
 
     /** {@inheritDoc} */
-    public AuthnContextDeclRef buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public AuthnContextDeclRef buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new AuthnContextDeclRefImpl(namespaceURI, localName, namespacePrefix);
     }
 }

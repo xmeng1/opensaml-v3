@@ -44,7 +44,7 @@ public class PDPDescriptorBuilder extends AbstractSAMLObjectBuilder<PDPDescripto
     }
 
     /** {@inheritDoc} */
-    public PDPDescriptor buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public PDPDescriptor buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new PDPDescriptorImpl(namespaceURI, localName, namespacePrefix);
     }
 }

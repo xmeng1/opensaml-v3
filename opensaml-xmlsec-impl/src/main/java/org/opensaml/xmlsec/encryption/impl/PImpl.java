@@ -33,7 +33,7 @@ public class PImpl extends CryptoBinaryImpl implements P {
      * @param elementLocalName local name
      * @param namespacePrefix namespace prefix
      */
-    protected PImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected PImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

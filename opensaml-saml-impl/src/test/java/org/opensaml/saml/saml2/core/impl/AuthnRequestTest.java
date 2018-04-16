@@ -21,10 +21,14 @@
 package org.opensaml.saml.saml2.core.impl;
 
 import org.testng.annotations.Test;
+
+import net.shibboleth.utilities.java.support.xml.XMLParserException;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.Assert;
 import javax.xml.namespace.QName;
 
+import org.opensaml.core.xml.io.UnmarshallingException;
 import org.opensaml.core.xml.schema.XSBooleanValue;
 import org.opensaml.saml.common.xml.SAMLConstants;
 import org.opensaml.saml.saml2.core.AuthnRequest;
@@ -237,6 +241,11 @@ public class AuthnRequestTest extends RequestTestBase {
         req.setIsPassive((Boolean) null);
         Assert.assertEquals(req.isPassive(), Boolean.FALSE, "Unexpected default value for boolean attribute found");
         Assert.assertNull(req.isPassiveXSBoolean(), "XSBooleanValue was not null");
+    }
+    
+    @Test(expectedExceptions=UnmarshallingException.class)
+    public void testBadSAMLVersion() throws XMLParserException, UnmarshallingException {
+        unmarshallElement("/org/opensaml/saml/saml2/core/impl/AuthnRequestBadSAMLVersion.xml", true);
     }
     
 }

@@ -30,8 +30,9 @@ import org.w3c.dom.Element;
  */
 public class StatusMessageMarshaller extends AbstractSAMLObjectMarshaller {
     /** {@inheritDoc} */
-    protected void marshallElementContent(XMLObject samlObject, Element domElement) throws MarshallingException {
-        StatusMessage statusMessage = (StatusMessage) samlObject;
+    protected void marshallElementContent(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
+        final StatusMessage statusMessage = (StatusMessage) samlObject;
 
         if (statusMessage.getMessage() != null) {
             ElementSupport.appendTextContent(domElement, statusMessage.getMessage());

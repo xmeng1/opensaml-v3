@@ -32,8 +32,9 @@ import org.w3c.dom.Element;
 public class AuthzDecisionQueryMarshaller extends SubjectQueryMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject samlObject, Element domElement) throws MarshallingException {
-        AuthzDecisionQuery query = (AuthzDecisionQuery) samlObject;
+    protected void marshallAttributes(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
+        final AuthzDecisionQuery query = (AuthzDecisionQuery) samlObject;
 
         if (query.getResource() != null) {
             domElement.setAttributeNS(null, AuthzDecisionQuery.RESOURCE_ATTRIB_NAME, query.getResource());

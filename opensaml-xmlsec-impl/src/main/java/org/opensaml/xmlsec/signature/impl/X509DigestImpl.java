@@ -35,7 +35,7 @@ public class X509DigestImpl extends XSBase64BinaryImpl implements X509Digest {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected X509DigestImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected X509DigestImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -45,7 +45,7 @@ public class X509DigestImpl extends XSBase64BinaryImpl implements X509Digest {
     }
 
     /** {@inheritDoc} */
-    public void setAlgorithm(String newAlgorithm) {
+    public void setAlgorithm(final String newAlgorithm) {
         algorithm = prepareForAssignment(algorithm, newAlgorithm);
     }
 

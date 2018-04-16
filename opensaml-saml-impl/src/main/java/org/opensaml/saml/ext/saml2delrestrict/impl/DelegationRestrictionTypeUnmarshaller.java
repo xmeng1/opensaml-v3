@@ -29,7 +29,7 @@ import org.opensaml.saml.ext.saml2delrestrict.DelegationRestrictionType;
 public class DelegationRestrictionTypeUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
+    protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
         final DelegationRestrictionType drt = (DelegationRestrictionType) parentSAMLObject;
         

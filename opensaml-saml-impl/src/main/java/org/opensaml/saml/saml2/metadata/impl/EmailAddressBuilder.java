@@ -44,7 +44,7 @@ public class EmailAddressBuilder extends AbstractSAMLObjectBuilder<EmailAddress>
     }
 
     /** {@inheritDoc} */
-    public EmailAddress buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public EmailAddress buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new EmailAddressImpl(namespaceURI, localName, namespacePrefix);
     }
 }

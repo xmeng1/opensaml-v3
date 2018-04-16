@@ -29,9 +29,9 @@ import org.opensaml.soap.wstrust.ProofEncryption;
 public class ProofEncryptionUnmarshaller extends AbstractWSTrustObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        ProofEncryption pe = (ProofEncryption) parentXMLObject;
+        final ProofEncryption pe = (ProofEncryption) parentXMLObject;
         pe.setUnknownXMLObject(childXMLObject);
     }
 

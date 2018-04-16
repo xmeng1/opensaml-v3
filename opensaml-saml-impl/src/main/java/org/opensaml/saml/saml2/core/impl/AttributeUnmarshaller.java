@@ -32,12 +32,12 @@ import org.w3c.dom.Attr;
 public class AttributeUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
+    protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
 
         final Attribute attribute = (Attribute) parentSAMLObject;
 
-        QName childQName = childSAMLObject.getElementQName();
+        final QName childQName = childSAMLObject.getElementQName();
         if ("AttributeValue".equals(childQName.getLocalPart())
                 && childQName.getNamespaceURI().equals(SAMLConstants.SAML20_NS)) {
             attribute.getAttributeValues().add(childSAMLObject);
@@ -47,7 +47,7 @@ public class AttributeUnmarshaller extends AbstractSAMLObjectUnmarshaller {
     }
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject samlObject, final Attr attribute) throws UnmarshallingException {
 
         final Attribute attrib = (Attribute) samlObject;
 

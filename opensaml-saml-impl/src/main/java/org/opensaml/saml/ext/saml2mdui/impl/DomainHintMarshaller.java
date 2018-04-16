@@ -31,8 +31,9 @@ import org.w3c.dom.Element;
 public class DomainHintMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallElementContent(XMLObject samlObject, Element domElement) throws MarshallingException {
-        DomainHint name = (DomainHint) samlObject;
+    protected void marshallElementContent(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
+        final DomainHint name = (DomainHint) samlObject;
 
         if (name.getHint() != null) {
             ElementSupport.appendTextContent(domElement, name.getHint());

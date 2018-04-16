@@ -46,7 +46,7 @@ public final class AuthnContextComparisonTypeEnumeration {
      * 
      * @param newComparisonType the comparison type string
      */
-    protected AuthnContextComparisonTypeEnumeration(String newComparisonType) {
+    protected AuthnContextComparisonTypeEnumeration(final String newComparisonType) {
         this.comparisonType= newComparisonType;
     }
 

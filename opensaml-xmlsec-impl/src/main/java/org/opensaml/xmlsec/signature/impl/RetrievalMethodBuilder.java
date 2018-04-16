@@ -35,7 +35,8 @@ public class RetrievalMethodBuilder extends AbstractXMLObjectBuilder<RetrievalMe
     }
 
     /** {@inheritDoc} */
-    public RetrievalMethod buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public RetrievalMethod buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new RetrievalMethodImpl(namespaceURI, localName, namespacePrefix);
     }
 

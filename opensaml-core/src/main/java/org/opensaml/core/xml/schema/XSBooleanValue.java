@@ -47,7 +47,7 @@ public class XSBooleanValue {
      * @param newValue the value
      * @param numericRepresentation whether to use a numeric or lexical representation
      */
-    public XSBooleanValue(@Nullable final Boolean newValue, boolean numericRepresentation) {
+    public XSBooleanValue(@Nullable final Boolean newValue, final boolean numericRepresentation) {
         numeric = numericRepresentation;
         value = newValue;
     }
@@ -84,14 +84,14 @@ public class XSBooleanValue {
      * 
      * @param numericRepresentation whether to use the numeric or lexical representation
      */
-    public void setNumericRepresentation(boolean numericRepresentation) {
+    public void setNumericRepresentation(final boolean numericRepresentation) {
         numeric = numericRepresentation;
     }
     
     /** {@inheritDoc} */
     @Override
     public int hashCode(){
-        int hash;
+        final int hash;
         if(numeric){
             if(value == null){
                 hash = 0;
@@ -115,7 +115,7 @@ public class XSBooleanValue {
     
     /** {@inheritDoc} */
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if(obj == this){
             return true;
         }
@@ -143,7 +143,7 @@ public class XSBooleanValue {
      * 
      * @return the textual representation
      */
-    public static String toString(Boolean value, boolean numericRepresentation) {
+    public static String toString(final Boolean value, final boolean numericRepresentation) {
         if (value == null) {
             return "false";
         }
@@ -170,7 +170,7 @@ public class XSBooleanValue {
      * @return the boolean value
      */
     public static XSBooleanValue valueOf(@Nullable final String booleanString) {
-        String trimmedBooleanString = StringSupport.trimOrNull(booleanString);
+        final String trimmedBooleanString = StringSupport.trimOrNull(booleanString);
         if (trimmedBooleanString != null) {
             if ("1".equals(trimmedBooleanString)) {
                 return new XSBooleanValue(Boolean.TRUE, true);

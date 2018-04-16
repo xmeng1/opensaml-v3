@@ -39,7 +39,7 @@ public class ExpiringSAMLArtifactMapEntryFactory implements SAMLArtifactMapEntry
     @Override
     @Nonnull public SAMLArtifactMapEntry newEntry(@Nonnull @NotEmpty final String artifact,
             @Nonnull @NotEmpty final String issuerId, @Nonnull @NotEmpty final String relyingPartyId,
-            @Nonnull SAMLObject samlMessage) {
+            @Nonnull final SAMLObject samlMessage) {
         
         try {
             return new ExpiringSAMLArtifactMapEntry(artifact, issuerId, relyingPartyId, samlMessage);

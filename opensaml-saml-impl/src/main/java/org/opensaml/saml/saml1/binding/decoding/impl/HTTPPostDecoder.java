@@ -75,25 +75,25 @@ public class HTTPPostDecoder extends BaseHttpServletRequestXMLMessageDecoder<SAM
     
     /** {@inheritDoc} */
     protected void doDecode() throws MessageDecodingException {
-        MessageContext<SAMLObject> messageContext = new MessageContext<>();
-        HttpServletRequest request = getHttpServletRequest();
+        final MessageContext<SAMLObject> messageContext = new MessageContext<>();
+        final HttpServletRequest request = getHttpServletRequest();
 
         if (!"POST".equalsIgnoreCase(request.getMethod())) {
             throw new MessageDecodingException("This message decoder only supports the HTTP POST method");
         }
 
-        String relayState = request.getParameter("TARGET");
+        final String relayState = request.getParameter("TARGET");
         log.debug("Decoded SAML relay state (TARGET parameter) of: {}", relayState);
         SAMLBindingSupport.setRelayState(messageContext, relayState);
 
-        String base64Message = request.getParameter("SAMLResponse");
-        byte[] decodedBytes = Base64Support.decode(base64Message);
+        final String base64Message = request.getParameter("SAMLResponse");
+        final byte[] decodedBytes = Base64Support.decode(base64Message);
         if (decodedBytes == null) {
             log.error("Unable to Base64 decode SAML message");
             throw new MessageDecodingException("Unable to Base64 decode SAML message");
         }
 
-        SAMLObject inboundMessage = (SAMLObject) unmarshallMessage(new ByteArrayInputStream(decodedBytes));
+        final SAMLObject inboundMessage = (SAMLObject) unmarshallMessage(new ByteArrayInputStream(decodedBytes));
         messageContext.setMessage(inboundMessage);
         log.debug("Decoded SAML message");
 
@@ -107,8 +107,8 @@ public class HTTPPostDecoder extends BaseHttpServletRequestXMLMessageDecoder<SAM
      * 
      * @param messageContext the current message context
      */
-    protected void populateBindingContext(MessageContext<SAMLObject> messageContext) {
-        SAMLBindingContext bindingContext = messageContext.getSubcontext(SAMLBindingContext.class, true);
+    protected void populateBindingContext(final MessageContext<SAMLObject> messageContext) {
+        final SAMLBindingContext bindingContext = messageContext.getSubcontext(SAMLBindingContext.class, true);
         bindingContext.setBindingUri(getBindingURI());
         bindingContext.setBindingDescriptor(bindingDescriptor);
         bindingContext.setHasBindingSignature(false);

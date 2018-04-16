@@ -28,6 +28,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.xml.namespace.QName;
 
+import net.shibboleth.utilities.java.support.primitive.DeprecationSupport;
+import net.shibboleth.utilities.java.support.primitive.DeprecationSupport.ObjectType;
 import net.shibboleth.utilities.java.support.primitive.StringSupport;
 import net.shibboleth.utilities.java.support.xml.AttributeSupport;
 import net.shibboleth.utilities.java.support.xml.ParserPool;
@@ -100,7 +102,7 @@ public final class XMLObjectSupport {
      * 
      * @param <T> the type of object being cloned
      */
-    public static <T extends XMLObject> T cloneXMLObject(T originalXMLObject)
+    public static <T extends XMLObject> T cloneXMLObject(final T originalXMLObject)
             throws MarshallingException, UnmarshallingException {
         return cloneXMLObject(originalXMLObject, CloneOutputOption.DropDOM);
     }
@@ -136,8 +138,11 @@ public final class XMLObjectSupport {
      * @deprecated use instead {@link #cloneXMLObject(XMLObject, CloneOutputOption)}.
      */
     @Deprecated
-    @Nullable public static <T extends XMLObject> T cloneXMLObject(@Nullable T originalXMLObject,
-            boolean rootInNewDocument) throws MarshallingException, UnmarshallingException {
+    @Nullable public static <T extends XMLObject> T cloneXMLObject(@Nullable final T originalXMLObject,
+            final boolean rootInNewDocument) throws MarshallingException, UnmarshallingException {
+        DeprecationSupport.warnOnce(ObjectType.METHOD, "org.opensaml.core.xml.util.XMLObjectSupport" +
+            ".cloneXMLObject(XMLObject, boolean)", null, "cloneXMLObject(XMLObject, CloneOutputOption)");
+        
         if (rootInNewDocument) {
             return cloneXMLObject(originalXMLObject, CloneOutputOption.RootDOMInNewDocument);
         } else {
@@ -163,7 +168,7 @@ public final class XMLObjectSupport {
      * 
      * @param <T> the type of object being cloned
      */
-    @Nullable public static <T extends XMLObject> T cloneXMLObject(@Nullable T originalXMLObject,
+    @Nullable public static <T extends XMLObject> T cloneXMLObject(@Nullable final T originalXMLObject,
             @Nonnull final CloneOutputOption cloneOutputOption) throws MarshallingException, UnmarshallingException {
         
         if (originalXMLObject == null) {
@@ -182,11 +187,11 @@ public final class XMLObjectSupport {
         switch (cloneOutputOption) {
             case RootDOMInNewDocument:
                 try {
-                    Document newDocument = XMLObjectProviderRegistrySupport.getParserPool().newDocument();
+                    final Document newDocument = XMLObjectProviderRegistrySupport.getParserPool().newDocument();
                     // Note: importNode copies the node tree and does not modify the source document
                     clonedElement = (Element) newDocument.importNode(origElement, true);
                     newDocument.appendChild(clonedElement);
-                } catch (XMLParserException e) {
+                } catch (final XMLParserException e) {
                     throw new XMLRuntimeException("Error obtaining new Document from parser pool", e);
                 }
                 break;
@@ -221,33 +226,37 @@ public final class XMLObjectSupport {
      * @throws XMLParserException if there is a problem parsing the input data
      * @throws UnmarshallingException if there is a problem unmarshalling the parsed DOM
      */
-    public static XMLObject unmarshallFromInputStream(ParserPool parserPool, InputStream inputStream)
+    public static XMLObject unmarshallFromInputStream(final ParserPool parserPool, final InputStream inputStream)
             throws XMLParserException, UnmarshallingException {
-        Logger log = getLogger();
+        final Logger log = getLogger();
         log.debug("Parsing InputStream into DOM document");
 
-        Document messageDoc = parserPool.parse(inputStream);
-        Element messageElem = messageDoc.getDocumentElement();
+        try {
+            final Document messageDoc = parserPool.parse(inputStream);
+            final Element messageElem = messageDoc.getDocumentElement();
 
-        if (log.isTraceEnabled()) {
-            log.trace("Resultant DOM message was:");
-            log.trace(SerializeSupport.nodeToString(messageElem));
+            if (log.isTraceEnabled()) {
+                log.trace("Resultant DOM message was:");
+                log.trace(SerializeSupport.nodeToString(messageElem));
+            }
+
+            log.debug("Unmarshalling DOM parsed from InputStream");
+            final Unmarshaller unmarshaller = getUnmarshaller(messageElem);
+            if (unmarshaller == null) {
+                log.error("Unable to unmarshall InputStream, no unmarshaller registered for element "
+                        + QNameSupport.getNodeQName(messageElem));
+                throw new UnmarshallingException(
+                        "Unable to unmarshall InputStream, no unmarshaller registered for element "
+                                + QNameSupport.getNodeQName(messageElem));
+            }
+
+            final XMLObject message = unmarshaller.unmarshall(messageElem);
+
+            log.debug("InputStream succesfully unmarshalled");
+            return message;
+        } catch (final RuntimeException e) {
+            throw new UnmarshallingException("Fatal error unmarshalling XMLObject", e);
         }
-
-        log.debug("Unmarshalling DOM parsed from InputStream");
-        Unmarshaller unmarshaller = getUnmarshaller(messageElem);
-        if (unmarshaller == null) {
-            log.error("Unable to unmarshall InputStream, no unmarshaller registered for element "
-                    + QNameSupport.getNodeQName(messageElem));
-            throw new UnmarshallingException(
-                    "Unable to unmarshall InputStream, no unmarshaller registered for element "
-                            + QNameSupport.getNodeQName(messageElem));
-        }
-
-        XMLObject message = unmarshaller.unmarshall(messageElem);
-
-        log.debug("InputStream succesfully unmarshalled");
-        return message;
     }
     
     /**
@@ -259,34 +268,38 @@ public final class XMLObjectSupport {
      * @throws XMLParserException if there is a problem parsing the input data
      * @throws UnmarshallingException if there is a problem unmarshalling the parsed DOM
      */
-    public static XMLObject unmarshallFromReader(ParserPool parserPool, Reader reader)
+    public static XMLObject unmarshallFromReader(final ParserPool parserPool, final Reader reader)
             throws XMLParserException, UnmarshallingException {
-        Logger log = getLogger();
+        final Logger log = getLogger();
         log.debug("Parsing Reader into DOM document");
         
 
-        Document messageDoc = parserPool.parse(reader);
-        Element messageElem = messageDoc.getDocumentElement();
+        try {
+            final Document messageDoc = parserPool.parse(reader);
+            final Element messageElem = messageDoc.getDocumentElement();
 
-        if (log.isTraceEnabled()) {
-            log.trace("Resultant DOM message was:");
-            log.trace(SerializeSupport.nodeToString(messageElem));
+            if (log.isTraceEnabled()) {
+                log.trace("Resultant DOM message was:");
+                log.trace(SerializeSupport.nodeToString(messageElem));
+            }
+
+            log.debug("Unmarshalling DOM parsed from Reader");
+            final Unmarshaller unmarshaller = getUnmarshaller(messageElem);
+            if (unmarshaller == null) {
+                log.error("Unable to unmarshall Reader, no unmarshaller registered for element "
+                        + QNameSupport.getNodeQName(messageElem));
+                throw new UnmarshallingException(
+                        "Unable to unmarshall Reader, no unmarshaller registered for element "
+                                + QNameSupport.getNodeQName(messageElem));
+            }
+
+            final XMLObject message = unmarshaller.unmarshall(messageElem);
+
+            log.debug("Reader succesfully unmarshalled");
+            return message;
+        } catch (final RuntimeException e) {
+            throw new UnmarshallingException("Fatal error unmarshalling XMLObject", e);
         }
-
-        log.debug("Unmarshalling DOM parsed from Reader");
-        Unmarshaller unmarshaller = getUnmarshaller(messageElem);
-        if (unmarshaller == null) {
-            log.error("Unable to unmarshall Reader, no unmarshaller registered for element "
-                    + QNameSupport.getNodeQName(messageElem));
-            throw new UnmarshallingException(
-                    "Unable to unmarshall Reader, no unmarshaller registered for element "
-                            + QNameSupport.getNodeQName(messageElem));
-        }
-
-        XMLObject message = unmarshaller.unmarshall(messageElem);
-
-        log.debug("Reader succesfully unmarshalled");
-        return message;
     }
 
     /**
@@ -298,7 +311,7 @@ public final class XMLObjectSupport {
      * @throws MarshallingException if there is a problem marshalling the XMLObject
      */
     @Nonnull public static Element marshall(@Nonnull final XMLObject xmlObject) throws MarshallingException {
-        Logger log = getLogger();
+        final Logger log = getLogger();
         log.debug("Marshalling XMLObject");
         
         if (xmlObject.getDOM() != null) {
@@ -306,7 +319,7 @@ public final class XMLObjectSupport {
             return xmlObject.getDOM();
         }
 
-        Marshaller marshaller = getMarshaller(xmlObject);
+        final Marshaller marshaller = getMarshaller(xmlObject);
         if (marshaller == null) {
             log.error("Unable to marshall XMLObject, no marshaller registered for object: "
                     + xmlObject.getElementQName());
@@ -314,7 +327,7 @@ public final class XMLObjectSupport {
                     + xmlObject.getElementQName());
         }
         
-        Element messageElem = marshaller.marshall(xmlObject);
+        final Element messageElem = marshaller.marshall(xmlObject);
         
         if (log.isTraceEnabled()) {
             log.trace("Marshalled XMLObject into DOM:");
@@ -331,9 +344,9 @@ public final class XMLObjectSupport {
      * @param outputStream the OutputStream to which to marshall
      * @throws MarshallingException if there is a problem marshalling the object
      */
-    public static void marshallToOutputStream(XMLObject xmlObject, OutputStream outputStream) 
+    public static void marshallToOutputStream(final XMLObject xmlObject, final OutputStream outputStream) 
             throws MarshallingException {
-        Element element = marshall(xmlObject);
+        final Element element = marshall(xmlObject);
         SerializeSupport.writeNode(element, outputStream);
     }
     
@@ -345,11 +358,11 @@ public final class XMLObjectSupport {
      * @param prefix the prefix to search
      * @return the namespace URI bound to the prefix, or none if not found
      */
-    public static String lookupNamespaceURI(XMLObject xmlObject, String prefix) {
+    public static String lookupNamespaceURI(final XMLObject xmlObject, final String prefix) {
         XMLObject current = xmlObject;
         
         while (current != null) {
-            for (Namespace ns : current.getNamespaces()) {
+            for (final Namespace ns : current.getNamespaces()) {
                 if (Objects.equals(ns.getNamespacePrefix(), prefix)) {
                     return ns.getNamespaceURI();
                 }
@@ -368,11 +381,11 @@ public final class XMLObjectSupport {
      * @param namespaceURI the namespace URI to search
      * @return the prefix bound to the namespace URI, or none if not found
      */
-    public static String lookupNamespacePrefix(XMLObject xmlObject, String namespaceURI) {
+    public static String lookupNamespacePrefix(final XMLObject xmlObject, final String namespaceURI) {
         XMLObject current = xmlObject;
         
         while (current != null) {
-            for (Namespace ns : current.getNamespaces()) {
+            for (final Namespace ns : current.getNamespaces()) {
                 if (Objects.equals(ns.getNamespaceURI(), namespaceURI)) {
                     return ns.getNamespacePrefix();
                 }
@@ -402,8 +415,8 @@ public final class XMLObjectSupport {
      * @param isIDAttribute flag indicating whether the attribute being marshalled should be handled as an ID-typed
      *            attribute
      */
-    public static void marshallAttribute(QName attributeName, List<String> attributeValues, Element domElement,
-            boolean isIDAttribute) {
+    public static void marshallAttribute(final QName attributeName, final List<String> attributeValues,
+            final Element domElement, final boolean isIDAttribute) {
         marshallAttribute(attributeName, StringSupport.listToStringValue(attributeValues, " "), domElement,
                 isIDAttribute);
     }
@@ -418,10 +431,10 @@ public final class XMLObjectSupport {
      * @param isIDAttribute flag indicating whether the attribute being marshalled should be handled as an ID-typed
      *            attribute
      */
-    public static void marshallAttribute(QName attributeName, String attributeValue, Element domElement,
-            boolean isIDAttribute) {
-        Document document = domElement.getOwnerDocument();
-        Attr attribute = AttributeSupport.constructAttribute(document, attributeName);
+    public static void marshallAttribute(final QName attributeName, final String attributeValue,
+            final Element domElement, final boolean isIDAttribute) {
+        final Document document = domElement.getOwnerDocument();
+        final Attr attribute = AttributeSupport.constructAttribute(document, attributeName);
         attribute.setValue(attributeValue);
         domElement.setAttributeNodeNS(attribute);
         if (isIDAttribute) {
@@ -435,10 +448,10 @@ public final class XMLObjectSupport {
      * @param attributeMap the AttributeMap
      * @param domElement the target Element
      */
-    public static void marshallAttributeMap(AttributeMap attributeMap, Element domElement) {
-        Document document = domElement.getOwnerDocument();
+    public static void marshallAttributeMap(final AttributeMap attributeMap, final Element domElement) {
+        final Document document = domElement.getOwnerDocument();
         Attr attribute = null;
-        for (Entry<QName, String> entry : attributeMap.entrySet()) {
+        for (final Entry<QName, String> entry : attributeMap.entrySet()) {
             attribute = AttributeSupport.constructAttribute(document, entry.getKey());
             attribute.setValue(entry.getValue());
             domElement.setAttributeNodeNS(attribute);
@@ -455,9 +468,9 @@ public final class XMLObjectSupport {
      * @param attributeMap the target AttributeMap
      * @param attribute the target DOM Attr
      */
-    public static void unmarshallToAttributeMap(AttributeMap attributeMap, Attr attribute) {
-        QName attribQName = QNameSupport.constructQName(attribute.getNamespaceURI(), attribute.getLocalName(), attribute
-                .getPrefix());
+    public static void unmarshallToAttributeMap(final AttributeMap attributeMap, final Attr attribute) {
+        final QName attribQName = QNameSupport.constructQName(attribute.getNamespaceURI(), attribute.getLocalName(),
+                attribute.getPrefix());
         attributeMap.put(attribQName, attribute.getValue());
         if (attribute.isId() || XMLObjectProviderRegistrySupport.isIDAttribute(attribQName)) {
             attributeMap.registerID(attribQName);
@@ -471,8 +484,8 @@ public final class XMLObjectSupport {
      * @return an XMLObject
      * @throws XMLRuntimeException if the required builder can not be obtained
      */
-    public static XMLObject buildXMLObject(QName elementName) {
-        XMLObjectBuilder<?> builder = getProviderRegistry().getBuilderFactory().getBuilderOrThrow(elementName);
+    public static XMLObject buildXMLObject(final QName elementName) {
+        final XMLObjectBuilder<?> builder = getProviderRegistry().getBuilderFactory().getBuilderOrThrow(elementName);
         return builder.buildObject(elementName);
     }
     
@@ -484,8 +497,8 @@ public final class XMLObjectSupport {
      * @return an XMLObject
      * @throws XMLRuntimeException if the required builder can not be obtained
      */
-    public static XMLObject buildXMLObject(QName elementName, QName typeName) {
-        XMLObjectBuilder<?> builder = getProviderRegistry().getBuilderFactory().getBuilderOrThrow(elementName);
+    public static XMLObject buildXMLObject(final QName elementName, final QName typeName) {
+        final XMLObjectBuilder<?> builder = getProviderRegistry().getBuilderFactory().getBuilderOrThrow(elementName);
         return builder.buildObject(elementName, typeName);
     }
     
@@ -495,7 +508,7 @@ public final class XMLObjectSupport {
      * @param typeOrName the element name or type
      * @return an XMLObject builder, or null if no provider registered
      */
-    public static XMLObjectBuilder<?> getBuilder(QName typeOrName) {
+    public static XMLObjectBuilder<?> getBuilder(final QName typeOrName) {
         return getProviderRegistry().getBuilderFactory().getBuilder(typeOrName);
     }
     
@@ -505,7 +518,7 @@ public final class XMLObjectSupport {
      * @param typeOrName the element name or type
      * @return an XMLObject marshaller, or null if no provider registered
      */
-    public static Marshaller getMarshaller(QName typeOrName) {
+    public static Marshaller getMarshaller(final QName typeOrName) {
         return getProviderRegistry().getMarshallerFactory().getMarshaller(typeOrName);
     }
     
@@ -515,7 +528,7 @@ public final class XMLObjectSupport {
      * @param xmlObject the XMLObject to be marshalled
      * @return an XMLObject marshaller, or null if no provider registered
      */
-    public static Marshaller getMarshaller(XMLObject xmlObject) {
+    public static Marshaller getMarshaller(final XMLObject xmlObject) {
         return getProviderRegistry().getMarshallerFactory().getMarshaller(xmlObject);
     }
     
@@ -525,7 +538,7 @@ public final class XMLObjectSupport {
      * @param typeOrName the element name or type
      * @return an XMLObject unmarshaller, or null if no provider registered
      */
-    public static Unmarshaller getUnmarshaller(QName typeOrName) {
+    public static Unmarshaller getUnmarshaller(final QName typeOrName) {
         return getProviderRegistry().getUnmarshallerFactory().getUnmarshaller(typeOrName);
     }
     
@@ -535,7 +548,7 @@ public final class XMLObjectSupport {
      * @param element the DOM element
      * @return an XMLObject unmarshaller, or null if no provider registered
      */
-    public static Unmarshaller getUnmarshaller(Element element) {
+    public static Unmarshaller getUnmarshaller(final Element element) {
         return getProviderRegistry().getUnmarshallerFactory().getUnmarshaller(element);
     }
     
@@ -546,7 +559,7 @@ public final class XMLObjectSupport {
      * @throws XMLRuntimeException if the registry is not available
      */
     private static XMLObjectProviderRegistry getProviderRegistry() {
-        XMLObjectProviderRegistry registry = ConfigurationService.get(XMLObjectProviderRegistry.class);
+        final XMLObjectProviderRegistry registry = ConfigurationService.get(XMLObjectProviderRegistry.class);
         if (registry == null) {
             throw new XMLRuntimeException("XMLObjectProviderRegistry was not available from the ConfigurationService");
         }

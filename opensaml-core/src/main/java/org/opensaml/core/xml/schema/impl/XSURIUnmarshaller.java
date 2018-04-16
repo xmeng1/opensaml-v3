@@ -29,19 +29,19 @@ import org.w3c.dom.Attr;
 public class XSURIUnmarshaller extends AbstractXMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
         // no child elements
     }
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         // no attributes
     }
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject xmlObject, String elementContent) {
-        XSURI uri = (XSURI) xmlObject;
+    protected void processElementContent(final XMLObject xmlObject, final String elementContent) {
+        final XSURI uri = (XSURI) xmlObject;
         uri.setValue(elementContent);
     }
 }

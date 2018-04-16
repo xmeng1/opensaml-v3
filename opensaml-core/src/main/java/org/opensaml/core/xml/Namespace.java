@@ -97,7 +97,7 @@ public class Namespace {
      * @return {@inheritDoc}
      */
     @Override
-    public boolean equals(Object obj) {    
+    public boolean equals(final Object obj) {
         if(obj == this){
             return true;
         }
@@ -116,7 +116,7 @@ public class Namespace {
 
     /** Constructs an XML namespace declaration string representing this namespace. */
     protected void constructStringRepresentation() {
-        StringBuffer stringRep = new StringBuffer();
+        final StringBuffer stringRep = new StringBuffer();
 
         stringRep.append(XMLConstants.XMLNS_PREFIX);
 

@@ -30,9 +30,9 @@ public class CombinerParametersTypeUnmarshaller extends AbstractXACMLObjectUnmar
 
     /** {@inheritDoc} */
     @Override
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        CombinerParametersType combinerParametersType = (CombinerParametersType) parentXMLObject;
+        final CombinerParametersType combinerParametersType = (CombinerParametersType) parentXMLObject;
         
         if(childXMLObject instanceof CombinerParameterType){
             combinerParametersType.getCombinerParameters().add((CombinerParameterType)childXMLObject);

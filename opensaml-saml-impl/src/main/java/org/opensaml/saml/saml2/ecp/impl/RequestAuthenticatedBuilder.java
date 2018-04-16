@@ -45,7 +45,8 @@ public class RequestAuthenticatedBuilder extends AbstractSAMLObjectBuilder<Reque
     }
 
     /** {@inheritDoc} */
-    public RequestAuthenticated buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public RequestAuthenticated buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new RequestAuthenticatedImpl(namespaceURI, localName, namespacePrefix);
     }
 }

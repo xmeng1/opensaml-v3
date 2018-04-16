@@ -34,7 +34,7 @@ public class X509SKIBuilder extends AbstractXMLObjectBuilder<X509SKI> implements
     }
 
     /** {@inheritDoc} */
-    public X509SKI buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public X509SKI buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new X509SKIImpl(namespaceURI, localName, namespacePrefix);
     }
 

@@ -44,7 +44,8 @@ public class AttributeQueryDescriptorTypeImpl extends QueryDescriptorTypeImpl im
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AttributeQueryDescriptorTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AttributeQueryDescriptorTypeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
 
         attributeConsumingServices = new XMLObjectChildrenList<>(this);
@@ -61,13 +62,13 @@ public class AttributeQueryDescriptorTypeImpl extends QueryDescriptorTypeImpl im
     }
     
     /** {@inheritDoc} */
-    public List<Endpoint> getEndpoints(QName type) {
+    public List<Endpoint> getEndpoints(final QName type) {
         return null;
     }
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         children.addAll(super.getOrderedChildren());
         children.addAll(attributeConsumingServices);

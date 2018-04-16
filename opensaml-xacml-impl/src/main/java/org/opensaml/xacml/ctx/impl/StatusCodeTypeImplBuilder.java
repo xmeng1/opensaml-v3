@@ -33,7 +33,7 @@ public class StatusCodeTypeImplBuilder extends AbstractXACMLObjectBuilder<Status
     }
 
     /** {@inheritDoc} */
-    public StatusCodeType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public StatusCodeType buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new StatusCodeTypeImpl(namespaceURI, localName, namespacePrefix);
     }
 }

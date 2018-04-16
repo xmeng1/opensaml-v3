@@ -31,7 +31,7 @@ public class RelatesToBuilder extends AbstractWSAddressingObjectBuilder<RelatesT
     }
 
     /** {@inheritDoc} */
-    public RelatesTo buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public RelatesTo buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new RelatesToImpl(namespaceURI, localName, namespacePrefix);
     }
 

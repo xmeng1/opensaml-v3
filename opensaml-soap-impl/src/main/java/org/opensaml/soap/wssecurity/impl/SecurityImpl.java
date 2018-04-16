@@ -47,7 +47,7 @@ public class SecurityImpl extends AbstractWSSecurityObject implements Security {
      * @param elementLocalName name of the element
      * @param namespacePrefix namespace prefix of the element
      */
-    public SecurityImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public SecurityImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         unknownAttributes = new AttributeMap(this);
         unknownChildren = new IndexedXMLObjectChildrenList<>(this);
@@ -59,7 +59,7 @@ public class SecurityImpl extends AbstractWSSecurityObject implements Security {
     }
 
     /** {@inheritDoc} */
-    public List<XMLObject> getUnknownXMLObjects(QName typeOrName) {
+    public List<XMLObject> getUnknownXMLObjects(final QName typeOrName) {
         return (List<XMLObject>) unknownChildren.subList(typeOrName);
     }
 
@@ -70,7 +70,7 @@ public class SecurityImpl extends AbstractWSSecurityObject implements Security {
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         if (!getUnknownXMLObjects().isEmpty()) {
             children.addAll(getUnknownXMLObjects());
         }

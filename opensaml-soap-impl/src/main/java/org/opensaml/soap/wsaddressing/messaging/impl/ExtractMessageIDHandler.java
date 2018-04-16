@@ -47,9 +47,9 @@ public class ExtractMessageIDHandler extends AbstractMessageHandler {
     private Logger log = LoggerFactory.getLogger(ExtractMessageIDHandler.class);
 
     /** {@inheritDoc} */
-    protected void doInvoke(MessageContext messageContext) throws MessageHandlerException {
-        MessageID header = getMessageID(messageContext);
-        String headerValue = header != null ? StringSupport.trimOrNull(header.getValue()) : null;
+    protected void doInvoke(final MessageContext messageContext) throws MessageHandlerException {
+        final MessageID header = getMessageID(messageContext);
+        final String headerValue = header != null ? StringSupport.trimOrNull(header.getValue()) : null;
         log.debug("Extracted inbound WS-Addressing MessageID value: {}", headerValue);
         if (header != null && headerValue != null) {
             messageContext.getSubcontext(WSAddressingContext.class, true).setMessageIDURI(headerValue);
@@ -64,7 +64,8 @@ public class ExtractMessageIDHandler extends AbstractMessageHandler {
      * @return the message MessageID URI value
      */
     protected MessageID getMessageID(@Nonnull final MessageContext messageContext) {
-        List<XMLObject> messageIDs = SOAPMessagingSupport.getInboundHeaderBlock(messageContext, MessageID.ELEMENT_NAME);
+        final List<XMLObject> messageIDs =
+                SOAPMessagingSupport.getInboundHeaderBlock(messageContext, MessageID.ELEMENT_NAME);
         if (messageIDs != null && !messageIDs.isEmpty()) {
             return (MessageID) messageIDs.get(0);
         }

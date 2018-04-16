@@ -30,9 +30,10 @@ import org.w3c.dom.Element;
 public class AssertionMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject samlElement, Element domElement) throws MarshallingException {
+    protected void marshallAttributes(final XMLObject samlElement, final Element domElement)
+            throws MarshallingException {
 
-        Assertion assertion = (Assertion) samlElement;
+        final Assertion assertion = (Assertion) samlElement;
 
         if (assertion.getID() != null) {
             domElement.setAttributeNS(null, Assertion.ID_ATTRIB_NAME, assertion.getID());
@@ -46,7 +47,7 @@ public class AssertionMarshaller extends AbstractSAMLObjectMarshaller {
         }
 
         if (assertion.getIssueInstant() != null) {
-            String date = ISODateTimeFormat.dateTime().print(assertion.getIssueInstant());
+            final String date = ISODateTimeFormat.dateTime().print(assertion.getIssueInstant());
             domElement.setAttributeNS(null, Assertion.ISSUEINSTANT_ATTRIB_NAME, date);
         }
 

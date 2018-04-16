@@ -29,6 +29,8 @@ import javax.xml.namespace.QName;
 
 import net.shibboleth.utilities.java.support.collection.LazyList;
 import net.shibboleth.utilities.java.support.logic.Constraint;
+import net.shibboleth.utilities.java.support.primitive.DeprecationSupport;
+import net.shibboleth.utilities.java.support.primitive.DeprecationSupport.ObjectType;
 import net.shibboleth.utilities.java.support.primitive.StringSupport;
 import net.shibboleth.utilities.java.support.xml.XMLConstants;
 
@@ -70,7 +72,8 @@ public final class SOAPSupport {
      * @param soapObject the SOAP object to add the attribute to
      * @param mustUnderstand whether mustUnderstand is true or false
      */
-    public static void addSOAP11MustUnderstandAttribute(@Nonnull final XMLObject soapObject, boolean mustUnderstand) {
+    public static void addSOAP11MustUnderstandAttribute(@Nonnull final XMLObject soapObject,
+            final boolean mustUnderstand) {
         if (soapObject instanceof MustUnderstandBearing) {
             ((MustUnderstandBearing) soapObject).setSOAP11MustUnderstand(new XSBooleanValue(mustUnderstand, true));
         } else if (soapObject instanceof AttributeExtensibleXMLObject) {
@@ -92,13 +95,13 @@ public final class SOAPSupport {
      */
     public static boolean getSOAP11MustUnderstandAttribute(@Nonnull final XMLObject soapObject) {
         if (soapObject instanceof MustUnderstandBearing) {
-            XSBooleanValue value = ((MustUnderstandBearing) soapObject).isSOAP11MustUnderstandXSBoolean();
+            final XSBooleanValue value = ((MustUnderstandBearing) soapObject).isSOAP11MustUnderstandXSBoolean();
             if (value != null) {
                 return value.getValue();
             }
         }
         if (soapObject instanceof AttributeExtensibleXMLObject) {
-            String value = StringSupport.trimOrNull(((AttributeExtensibleXMLObject) soapObject)
+            final String value = StringSupport.trimOrNull(((AttributeExtensibleXMLObject) soapObject)
                     .getUnknownAttributes().get(MustUnderstandBearing.SOAP11_MUST_UNDERSTAND_ATTR_NAME));
             return Objects.equals("1", value) || Objects.equals("true", value);
         }
@@ -112,7 +115,8 @@ public final class SOAPSupport {
      * @param actorURI the URI of the actor
      */
     public static void addSOAP11ActorAttribute(@Nonnull final XMLObject soapObject, @Nonnull final String actorURI) {
-        String value = Constraint.isNotNull(StringSupport.trimOrNull(actorURI), "Actor URI cannot be null or empty");
+        final String value =
+                Constraint.isNotNull(StringSupport.trimOrNull(actorURI), "Actor URI cannot be null or empty");
         if (soapObject instanceof ActorBearing) {
             ((ActorBearing) soapObject).setSOAP11Actor(value);
         } else if (soapObject instanceof AttributeExtensibleXMLObject) {
@@ -155,10 +159,10 @@ public final class SOAPSupport {
      */
     public static void addSOAP11EncodingStyle(@Nonnull final XMLObject soapObject,
             @Nonnull final String encodingStyle) {
-        String value = Constraint.isNotNull(StringSupport.trimOrNull(encodingStyle),
+        final String value = Constraint.isNotNull(StringSupport.trimOrNull(encodingStyle),
                 "Encoding style to add cannot be null or empty");
         if (soapObject instanceof EncodingStyleBearing) {
-            EncodingStyleBearing esb = (EncodingStyleBearing) soapObject;
+            final EncodingStyleBearing esb = (EncodingStyleBearing) soapObject;
             List<String> list = esb.getSOAP11EncodingStyles();
             if (list == null) {
                 list = new LazyList<>();
@@ -166,7 +170,7 @@ public final class SOAPSupport {
             }
             list.add(value);
         } else if (soapObject instanceof AttributeExtensibleXMLObject) {
-            AttributeMap am = ((AttributeExtensibleXMLObject) soapObject).getUnknownAttributes();
+            final AttributeMap am = ((AttributeExtensibleXMLObject) soapObject).getUnknownAttributes();
             String list = am.get(EncodingStyleBearing.SOAP11_ENCODING_STYLE_ATTR_NAME);
             if (list == null) {
                 list = value;
@@ -211,13 +215,13 @@ public final class SOAPSupport {
      */
     @Nullable public static List<String> getSOAP11EncodingStyles(@Nonnull final XMLObject soapObject) {
         if (soapObject instanceof EncodingStyleBearing) {
-            List<String> value = ((EncodingStyleBearing) soapObject).getSOAP11EncodingStyles();
+            final List<String> value = ((EncodingStyleBearing) soapObject).getSOAP11EncodingStyles();
             if (value != null) {
                 return value;
             }
         }
         if (soapObject instanceof AttributeExtensibleXMLObject) {
-            String value = StringSupport.trimOrNull(((AttributeExtensibleXMLObject) soapObject)
+            final String value = StringSupport.trimOrNull(((AttributeExtensibleXMLObject) soapObject)
                     .getUnknownAttributes().get(EncodingStyleBearing.SOAP11_ENCODING_STYLE_ATTR_NAME));
             if (value != null) {
                 StringSupport.stringToList(value, XMLConstants.LIST_DELIMITERS);
@@ -234,7 +238,7 @@ public final class SOAPSupport {
      */
     public static void addSOAP12EncodingStyleAttribute(@Nonnull final XMLObject soapObject,
             @Nonnull final String style) {
-        String value = Constraint.isNotNull(StringSupport.trimOrNull(style),
+        final String value = Constraint.isNotNull(StringSupport.trimOrNull(style),
                 "Encoding style to add cannot be null or empty");
         
         if (soapObject instanceof org.opensaml.soap.soap12.EncodingStyleBearing) {
@@ -276,7 +280,8 @@ public final class SOAPSupport {
      * @param soapObject the SOAP object to add the attribute to
      * @param mustUnderstand whether mustUnderstand is true or false
      */
-    public static void addSOAP12MustUnderstandAttribute(@Nonnull final XMLObject soapObject, boolean mustUnderstand) {
+    public static void addSOAP12MustUnderstandAttribute(@Nonnull final XMLObject soapObject,
+            final boolean mustUnderstand) {
         if (soapObject instanceof org.opensaml.soap.soap12.MustUnderstandBearing) {
             ((org.opensaml.soap.soap12.MustUnderstandBearing) soapObject)
                     .setSOAP12MustUnderstand(new XSBooleanValue(mustUnderstand, false));
@@ -299,14 +304,14 @@ public final class SOAPSupport {
      */
     public static boolean getSOAP12MustUnderstandAttribute(@Nonnull final XMLObject soapObject) {
         if (soapObject instanceof org.opensaml.soap.soap12.MustUnderstandBearing) {
-            XSBooleanValue value = ((org.opensaml.soap.soap12.MustUnderstandBearing) soapObject)
+            final XSBooleanValue value = ((org.opensaml.soap.soap12.MustUnderstandBearing) soapObject)
                     .isSOAP12MustUnderstandXSBoolean();
             if (value != null) {
                 return value.getValue();
             }
         }
         if (soapObject instanceof AttributeExtensibleXMLObject) {
-            String value = StringSupport.trimOrNull(((AttributeExtensibleXMLObject) soapObject)
+            final String value = StringSupport.trimOrNull(((AttributeExtensibleXMLObject) soapObject)
                     .getUnknownAttributes().get(
                             org.opensaml.soap.soap12.MustUnderstandBearing.SOAP12_MUST_UNDERSTAND_ATTR_NAME));
             return Objects.equals("1", value) || Objects.equals("true", value);
@@ -320,7 +325,7 @@ public final class SOAPSupport {
      * @param soapObject the SOAP object to add the attribute to
      * @param relay whether relay is true or false
      */
-    public static void addSOAP12RelayAttribute(@Nonnull final XMLObject soapObject, boolean relay) {
+    public static void addSOAP12RelayAttribute(@Nonnull final XMLObject soapObject, final boolean relay) {
         if (soapObject instanceof org.opensaml.soap.soap12.RelayBearing) {
             ((org.opensaml.soap.soap12.RelayBearing) soapObject).setSOAP12Relay(new XSBooleanValue(relay, false));
         } else if (soapObject instanceof AttributeExtensibleXMLObject) {
@@ -341,14 +346,14 @@ public final class SOAPSupport {
      */
     public static boolean getSOAP12RelayAttribute(@Nonnull final XMLObject soapObject) {
         if (soapObject instanceof org.opensaml.soap.soap12.RelayBearing) {
-            XSBooleanValue value = ((org.opensaml.soap.soap12.RelayBearing) soapObject).isSOAP12RelayXSBoolean();
+            final XSBooleanValue value = ((org.opensaml.soap.soap12.RelayBearing) soapObject).isSOAP12RelayXSBoolean();
             if (value != null) {
                 return value.getValue();
             }
         }
         if (soapObject instanceof AttributeExtensibleXMLObject) {
-            String value = StringSupport.trimOrNull(((AttributeExtensibleXMLObject) soapObject)
-                    .getUnknownAttributes().get(org.opensaml.soap.soap12.RelayBearing.SOAP12_RELAY_ATTR_LOCAL_NAME));
+            final String value = StringSupport.trimOrNull(((AttributeExtensibleXMLObject) soapObject)
+                    .getUnknownAttributes().get(org.opensaml.soap.soap12.RelayBearing.SOAP12_RELAY_ATTR_NAME));
             return Objects.equals("1", value) || Objects.equals("true", value);
         }
         return false;
@@ -361,7 +366,7 @@ public final class SOAPSupport {
      * @param role the role
      */
     public static void addSOAP12RoleAttribute(@Nonnull final XMLObject soapObject, @Nonnull final String role) {
-        String value = Constraint.isNotNull(StringSupport.trimOrNull(role), "Role cannot be null or empty");
+        final String value = Constraint.isNotNull(StringSupport.trimOrNull(role), "Role cannot be null or empty");
         
         if (soapObject instanceof org.opensaml.soap.soap12.RoleBearing) {
             ((org.opensaml.soap.soap12.RoleBearing) soapObject).setSOAP12Role(value);
@@ -389,8 +394,7 @@ public final class SOAPSupport {
 
         if (role == null && soapObject instanceof AttributeExtensibleXMLObject) {
             role = StringSupport.trimOrNull(((AttributeExtensibleXMLObject) soapObject)
-                    .getUnknownAttributes().get(
-                            org.opensaml.soap.soap12.RoleBearing.SOAP12_ROLE_ATTR_LOCAL_NAME));
+                    .getUnknownAttributes().get(org.opensaml.soap.soap12.RoleBearing.SOAP12_ROLE_ATTR_NAME));
         }
 
         return role;
@@ -405,8 +409,12 @@ public final class SOAPSupport {
      * 
      * @deprecated use {@link SOAPMessagingSupport#addHeaderBlock(MessageContext, XMLObject)}
      */
+    @Deprecated
     public static void addHeaderBlock(@Nonnull final MessageContext messageContext,
             @Nonnull final XMLObject headerBlock) {
+        DeprecationSupport.warnOnce(ObjectType.METHOD,
+                "org.opensaml.soap.util.SOAPSupport.addHeaderBlock", null,
+                "org.opensaml.soap.messaging.SOAPMessagingSupport.addHeaderBlock");
         SOAPMessagingSupport.addHeaderBlock(messageContext, headerBlock);
     }
 
@@ -418,7 +426,11 @@ public final class SOAPSupport {
      * 
      * @deprecated use {@link SOAPMessagingSupport#addSOAP11HeaderBlock(Envelope, XMLObject)}
      */
+    @Deprecated
     public static void addSOAP11HeaderBlock(@Nonnull final Envelope envelope, @Nonnull final XMLObject headerBlock) {
+        DeprecationSupport.warnOnce(ObjectType.METHOD,
+                "org.opensaml.soap.util.SOAPSupport.addSOAP11HeaderBlock", null,
+                "org.opensaml.soap.messaging.SOAPMessagingSupport.addSOAP11HeaderBlock");
         SOAPMessagingSupport.addSOAP11HeaderBlock(envelope, headerBlock);
     }
 
@@ -435,9 +447,13 @@ public final class SOAPSupport {
      * 
      * @deprecated use {@link SOAPMessagingSupport#getInboundHeaderBlock(MessageContext, QName)}
      */
+    @Deprecated
     @Nonnull public static List<XMLObject> getInboundHeaderBlock(
             @Nonnull final MessageContext messageContext, @Nonnull final QName headerName,
-            @Nullable Set<String> targetNodes, boolean isFinalDestination) {
+            @Nullable final Set<String> targetNodes, final boolean isFinalDestination) {
+        DeprecationSupport.warnOnce(ObjectType.METHOD,
+                "org.opensaml.soap.util.SOAPSupport.getInboundHeaderBlock", null,
+                "org.opensaml.soap.messaging.SOAPMessagingSupport.getInboundHeaderBlock");
         return SOAPMessagingSupport.getHeaderBlock(messageContext, headerName, targetNodes, isFinalDestination);
     }
 
@@ -453,8 +469,13 @@ public final class SOAPSupport {
      * 
      * @deprecated use {@link SOAPMessagingSupport#getSOAP11HeaderBlock(Envelope, QName, Set, boolean)}
      */
+    @Deprecated
     @Nonnull public static List<XMLObject> getSOAP11HeaderBlock(@Nonnull final Envelope envelope,
-            @Nonnull final QName headerName, @Nullable final Set<String> targetNodes, boolean isFinalDestination) {
+            @Nonnull final QName headerName, @Nullable final Set<String> targetNodes,
+            final boolean isFinalDestination) {
+        DeprecationSupport.warnOnce(ObjectType.METHOD,
+                "org.opensaml.soap.util.SOAPSupport.getSOAP11HeaderBlock", null,
+                "org.opensaml.soap.messaging.SOAPMessagingSupport.getSOAP11HeaderBlock");
         return SOAPMessagingSupport.getSOAP11HeaderBlock(envelope, headerName, targetNodes, isFinalDestination);
     }
     
@@ -470,8 +491,12 @@ public final class SOAPSupport {
      * 
      * @deprecated use {@link SOAPMessagingSupport#isSOAP11HeaderTargetedToNode(XMLObject, Set, boolean)}
      */
+    @Deprecated
     public static boolean isSOAP11HeaderTargetedToNode(@Nonnull final XMLObject header,
-            @Nullable final Set<String> nodeActors, boolean isFinalDestination) {
+            @Nullable final Set<String> nodeActors, final boolean isFinalDestination) {
+        DeprecationSupport.warnOnce(ObjectType.METHOD,
+                "org.opensaml.soap.util.SOAPSupport.isSOAP11HeaderTargetedToNode", null,
+                "org.opensaml.soap.messaging.SOAPMessagingSupport.isSOAP11HeaderTargetedToNode");
         return SOAPMessagingSupport.isSOAP11HeaderTargetedToNode(header, nodeActors, isFinalDestination);
     }
 
@@ -484,7 +509,10 @@ public final class SOAPSupport {
      * 
      * @deprecated use {@link SOAPMessagingSupport#isSOAPMessage(MessageContext)}
      */
+    @Deprecated
     public static boolean isSOAPMessage(@Nonnull final MessageContext<? extends XMLObject> messageContext) {
+        DeprecationSupport.warnOnce(ObjectType.METHOD, "org.opensaml.soap.util.SOAPSupport.isSOAPMessage", null,
+                "org.opensaml.soap.messaging.SOAPMessagingSupport.isSOAPMessage");
         return SOAPMessagingSupport.isSOAPMessage(messageContext);
     }
 
@@ -505,7 +533,7 @@ public final class SOAPSupport {
         Constraint.isNotNull(faultCode, "faultcode cannot be null");
         Constraint.isNotNull(faultString, "faultstring cannot be null");
         
-        XMLObjectBuilderFactory builderFactory = XMLObjectProviderRegistrySupport.getBuilderFactory(); 
+        final XMLObjectBuilderFactory builderFactory = XMLObjectProviderRegistrySupport.getBuilderFactory(); 
         
         final Fault faultObj =  (Fault) builderFactory.getBuilder(Fault.DEFAULT_ELEMENT_NAME)
             .buildObject(Fault.DEFAULT_ELEMENT_NAME);
@@ -531,7 +559,7 @@ public final class SOAPSupport {
         if (detailChildren != null && !detailChildren.isEmpty()) {
             detailObj = (Detail) builderFactory.getBuilder(Detail.DEFAULT_ELEMENT_NAME)
                 .buildObject(Detail.DEFAULT_ELEMENT_NAME);
-            for (XMLObject xo : Iterables.filter(detailChildren, Predicates.notNull())) {
+            for (final XMLObject xo : Iterables.filter(detailChildren, Predicates.notNull())) {
                 detailObj.getUnknownXMLObjects().add(xo);
             }
         }

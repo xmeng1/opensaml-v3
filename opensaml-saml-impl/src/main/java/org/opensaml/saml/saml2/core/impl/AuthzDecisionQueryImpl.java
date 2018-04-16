@@ -52,7 +52,8 @@ public class AuthzDecisionQueryImpl extends SubjectQueryImpl implements AuthzDec
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AuthzDecisionQueryImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AuthzDecisionQueryImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         actions = new XMLObjectChildrenList<>(this);
     }
@@ -63,7 +64,7 @@ public class AuthzDecisionQueryImpl extends SubjectQueryImpl implements AuthzDec
     }
 
     /** {@inheritDoc} */
-    public void setResource(String newResource) {
+    public void setResource(final String newResource) {
         this.resource = prepareForAssignment(this.resource, newResource);
     }
 
@@ -78,13 +79,13 @@ public class AuthzDecisionQueryImpl extends SubjectQueryImpl implements AuthzDec
     }
 
     /** {@inheritDoc} */
-    public void setEvidence(Evidence newEvidence) {
+    public void setEvidence(final Evidence newEvidence) {
         this.evidence = prepareForAssignment(this.evidence, newEvidence);
     }
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         if (super.getOrderedChildren() != null) {
             children.addAll(super.getOrderedChildren());

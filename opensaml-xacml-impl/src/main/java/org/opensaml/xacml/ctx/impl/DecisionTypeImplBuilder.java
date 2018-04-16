@@ -34,7 +34,7 @@ public class DecisionTypeImplBuilder extends AbstractXACMLObjectBuilder<Decision
     }
 
     /** {@inheritDoc} */
-    public DecisionType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public DecisionType buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new DecisionTypeImpl(namespaceURI, localName, namespacePrefix);
     }
 }

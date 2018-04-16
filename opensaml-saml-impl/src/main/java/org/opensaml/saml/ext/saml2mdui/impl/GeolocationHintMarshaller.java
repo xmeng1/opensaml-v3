@@ -31,8 +31,9 @@ import org.w3c.dom.Element;
 public class GeolocationHintMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallElementContent(XMLObject samlObject, Element domElement) throws MarshallingException {
-        GeolocationHint name = (GeolocationHint) samlObject;
+    protected void marshallElementContent(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
+        final GeolocationHint name = (GeolocationHint) samlObject;
 
         if (name.getHint() != null) {
             ElementSupport.appendTextContent(domElement, name.getHint());

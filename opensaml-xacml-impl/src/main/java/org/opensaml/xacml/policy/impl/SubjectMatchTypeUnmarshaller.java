@@ -33,9 +33,9 @@ public class SubjectMatchTypeUnmarshaller extends AbstractXACMLObjectUnmarshalle
 
     /** {@inheritDoc} */
     @Override
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         if (attribute.getLocalName().equals(SubjectMatchType.MATCH_ID_ATTRIB_NAME)) {
-            SubjectMatchType matchType = (SubjectMatchType) xmlObject;
+            final SubjectMatchType matchType = (SubjectMatchType) xmlObject;
             matchType.setMatchId(StringSupport.trimOrNull(attribute.getValue()));
         } else {
             super.processAttribute(xmlObject, attribute);
@@ -44,9 +44,9 @@ public class SubjectMatchTypeUnmarshaller extends AbstractXACMLObjectUnmarshalle
 
     /** {@inheritDoc} */
     @Override
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        SubjectMatchType matchType = (SubjectMatchType) parentXMLObject;
+        final SubjectMatchType matchType = (SubjectMatchType) parentXMLObject;
     
         if (childXMLObject instanceof AttributeValueType) {
             matchType.setAttributeValue((AttributeValueType) childXMLObject);

@@ -40,7 +40,7 @@ public class UIInfoBuilder extends AbstractSAMLObjectBuilder<UIInfo> {
     }
 
     /** {@inheritDoc} */
-    public UIInfo buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public UIInfo buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new UIInfoImpl(namespaceURI, localName, namespacePrefix);
     }
 }

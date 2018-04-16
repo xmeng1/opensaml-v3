@@ -39,7 +39,7 @@ public class RelatesToImpl extends XSURIImpl implements RelatesTo {
      * @param elementLocalName The local name of the element
      * @param namespacePrefix The namespace prefix of the element
      */
-    public RelatesToImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public RelatesToImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         unknownAttributes = new AttributeMap(this);
         // Default attribute value per the schema.
@@ -52,7 +52,7 @@ public class RelatesToImpl extends XSURIImpl implements RelatesTo {
     }
 
     /** {@inheritDoc} */
-    public void setRelationshipType(String newRelationshipType) {
+    public void setRelationshipType(final String newRelationshipType) {
         relationshipType = prepareForAssignment(relationshipType, newRelationshipType);
     }
 

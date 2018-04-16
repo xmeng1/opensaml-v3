@@ -44,14 +44,14 @@ public class WhitelistPredicate implements Predicate<String> {
      *
      * @param algorithms collection of whitelisted algorithms
      */
-    public WhitelistPredicate(@Nonnull Collection<String> algorithms) {
+    public WhitelistPredicate(@Nonnull final Collection<String> algorithms) {
         Constraint.isNotNull(algorithms, "Whitelist may not be null");
         whitelist = new HashSet<>();
         whitelist.addAll(Collections2.filter(algorithms, Predicates.notNull()));
     }
 
     /** {@inheritDoc} */
-    public boolean apply(@Nullable String input) {
+    public boolean apply(@Nullable final String input) {
         if (input == null) {
             throw new IllegalArgumentException("Algorithm URI to evaluate may not be null");
         }

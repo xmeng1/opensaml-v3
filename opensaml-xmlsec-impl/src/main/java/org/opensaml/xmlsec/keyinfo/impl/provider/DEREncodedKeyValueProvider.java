@@ -58,7 +58,7 @@ public class DEREncodedKeyValueProvider extends AbstractKeyInfoProvider {
             @Nonnull final XMLObject keyInfoChild, @Nullable final CriteriaSet criteriaSet,
             @Nonnull final KeyInfoResolutionContext kiContext) throws SecurityException {
 
-        DEREncodedKeyValue keyValue = getDEREncodedKeyValue(keyInfoChild);
+        final DEREncodedKeyValue keyValue = getDEREncodedKeyValue(keyInfoChild);
         if (keyValue == null) {
             return null;
         }
@@ -68,12 +68,12 @@ public class DEREncodedKeyValueProvider extends AbstractKeyInfoProvider {
         PublicKey pubKey = null;
         try {
             pubKey = KeyInfoSupport.getKey(keyValue);
-        } catch (KeyException e) {
+        } catch (final KeyException e) {
             log.error("Error extracting DER-encoded key value", e);
             throw new SecurityException("Error extracting DER-encoded key value", e);
         }
         
-        KeyAlgorithmCriterion algorithmCriteria = criteriaSet.get(KeyAlgorithmCriterion.class);
+        final KeyAlgorithmCriterion algorithmCriteria = criteriaSet.get(KeyAlgorithmCriterion.class);
         if (algorithmCriteria != null && algorithmCriteria.getKeyAlgorithm() != null
                 && !algorithmCriteria.getKeyAlgorithm().equals(pubKey.getAlgorithm())) {
             log.debug("Criteria specified key algorithm {}, actually {}, skipping",
@@ -81,18 +81,18 @@ public class DEREncodedKeyValueProvider extends AbstractKeyInfoProvider {
             return null;
         }
 
-        BasicCredential cred = new BasicCredential(pubKey);
+        final BasicCredential cred = new BasicCredential(pubKey);
         if (kiContext != null) {
             cred.getKeyNames().addAll(kiContext.getKeyNames());
         }
         
-        CredentialContext credContext = buildCredentialContext(kiContext);
+        final CredentialContext credContext = buildCredentialContext(kiContext);
         if (credContext != null) {
             cred.getCredentialContextSet().add(credContext);
         }
 
         log.debug("Credential successfully extracted from DEREncodedKeyValue");
-        LazySet<Credential> credentialSet = new LazySet<>();
+        final LazySet<Credential> credentialSet = new LazySet<>();
         credentialSet.add(cred);
         return credentialSet;
     }

@@ -26,7 +26,6 @@ import org.joda.time.chrono.ISOChronology;
 import org.opensaml.core.xml.XMLObject;
 import org.opensaml.core.xml.io.UnmarshallingException;
 import org.opensaml.saml.common.AbstractSAMLObjectUnmarshaller;
-import org.opensaml.saml.common.SAMLVersion;
 import org.opensaml.saml.saml2.core.Advice;
 import org.opensaml.saml.saml2.core.Assertion;
 import org.opensaml.saml.saml2.core.Conditions;
@@ -44,7 +43,8 @@ import com.google.common.base.Strings;
 public class AssertionUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentObject, XMLObject childObject) throws UnmarshallingException {
+    protected void processChildElement(final XMLObject parentObject, final XMLObject childObject)
+            throws UnmarshallingException {
         final Assertion assertion = (Assertion) parentObject;
 
         if (childObject instanceof Issuer) {
@@ -65,12 +65,12 @@ public class AssertionUnmarshaller extends AbstractSAMLObjectUnmarshaller {
     }
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject samlObject, final Attr attribute) throws UnmarshallingException {
         final Assertion assertion = (Assertion) samlObject;
 
         if (attribute.getNamespaceURI() == null) {
             if (attribute.getLocalName().equals(Assertion.VERSION_ATTRIB_NAME)) {
-                assertion.setVersion(SAMLVersion.valueOf(attribute.getValue()));
+                assertion.setVersion(parseSAMLVersion(attribute));
             } else if (attribute.getLocalName().equals(Assertion.ISSUE_INSTANT_ATTRIB_NAME)
                     && !Strings.isNullOrEmpty(attribute.getValue())) {
                 assertion.setIssueInstant(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));

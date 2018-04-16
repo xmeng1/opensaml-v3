@@ -35,8 +35,9 @@ import org.w3c.dom.Element;
 public class AssertionURIRefMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallElementContent(XMLObject samlObject, Element domElement) throws MarshallingException {
-        AssertionURIRef assertionURIRef = (AssertionURIRef) samlObject;
+    protected void marshallElementContent(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
+        final AssertionURIRef assertionURIRef = (AssertionURIRef) samlObject;
         ElementSupport.appendTextContent(domElement, assertionURIRef.getAssertionURI());
     }
 }

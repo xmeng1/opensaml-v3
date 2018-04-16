@@ -29,9 +29,9 @@ import org.opensaml.soap.wstrust.KeyExchangeToken;
 public class KeyExchangeTokenUnmarshaller extends AbstractWSTrustObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        KeyExchangeToken ket = (KeyExchangeToken) parentXMLObject;
+        final KeyExchangeToken ket = (KeyExchangeToken) parentXMLObject;
         ket.getUnknownXMLObjects().add(childXMLObject);
     }
 

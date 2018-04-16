@@ -77,7 +77,7 @@ public class SAMLOutboundProtocolMessageSigningHandler extends AbstractMessageHa
             } else {
                 try {
                     SAMLMessageSecuritySupport.signMessage(messageContext);
-                } catch (SecurityException | MarshallingException | SignatureException e) {
+                } catch (final SecurityException | MarshallingException | SignatureException e) {
                     throw new MessageHandlerException("Error signing outbound protocol message", e);
                 }
             }

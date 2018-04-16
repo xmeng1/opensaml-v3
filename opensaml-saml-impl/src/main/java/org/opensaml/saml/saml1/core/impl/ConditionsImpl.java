@@ -54,7 +54,7 @@ public class ConditionsImpl extends AbstractSAMLObject implements Conditions {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected ConditionsImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected ConditionsImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         conditions = new IndexedXMLObjectChildrenList<>(this);
     }
@@ -65,7 +65,7 @@ public class ConditionsImpl extends AbstractSAMLObject implements Conditions {
     }
 
     /** {@inheritDoc} */
-    public void setNotBefore(DateTime dt) {
+    public void setNotBefore(final DateTime dt) {
         notBefore = prepareForAssignment(notBefore, dt);
     }
 
@@ -75,7 +75,7 @@ public class ConditionsImpl extends AbstractSAMLObject implements Conditions {
     }
 
     /** {@inheritDoc} */
-    public void setNotOnOrAfter(DateTime dt) {
+    public void setNotOnOrAfter(final DateTime dt) {
         notOnOrAfter = prepareForAssignment(notOnOrAfter, dt);
     }
 
@@ -85,19 +85,19 @@ public class ConditionsImpl extends AbstractSAMLObject implements Conditions {
     }
 
     /** {@inheritDoc} */
-    public List<Condition> getConditions(QName typeOrName) {
+    public List<Condition> getConditions(final QName typeOrName) {
         return conditions;
     }
 
     /** {@inheritDoc} */
     public List<AudienceRestrictionCondition> getAudienceRestrictionConditions() {
-        QName qname = new QName(SAMLConstants.SAML1_NS, AudienceRestrictionCondition.DEFAULT_ELEMENT_LOCAL_NAME);
+        final QName qname = new QName(SAMLConstants.SAML1_NS, AudienceRestrictionCondition.DEFAULT_ELEMENT_LOCAL_NAME);
         return (List<AudienceRestrictionCondition>) conditions.subList(qname);
     }
 
     /** {@inheritDoc} */
     public List<DoNotCacheCondition> getDoNotCacheConditions() {
-        QName qname = new QName(SAMLConstants.SAML1_NS, DoNotCacheCondition.DEFAULT_ELEMENT_LOCAL_NAME);
+        final QName qname = new QName(SAMLConstants.SAML1_NS, DoNotCacheCondition.DEFAULT_ELEMENT_LOCAL_NAME);
         return (List<DoNotCacheCondition>) conditions.subList(qname);
     }
 
@@ -106,7 +106,7 @@ public class ConditionsImpl extends AbstractSAMLObject implements Conditions {
         if (conditions.size() == 0) {
             return null;
         }
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         children.addAll(conditions);
         return Collections.unmodifiableList(children);
     }

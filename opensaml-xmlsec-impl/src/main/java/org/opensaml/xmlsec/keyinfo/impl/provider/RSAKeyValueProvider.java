@@ -59,13 +59,13 @@ public class RSAKeyValueProvider extends AbstractKeyInfoProvider {
             @Nonnull final XMLObject keyInfoChild, @Nullable final CriteriaSet criteriaSet,
             @Nonnull final KeyInfoResolutionContext kiContext) throws SecurityException {
 
-        RSAKeyValue keyValue = getRSAKeyValue(keyInfoChild);
+        final RSAKeyValue keyValue = getRSAKeyValue(keyInfoChild);
         if (keyValue == null) {
             return null;
         }
 
         if (criteriaSet != null) {
-            KeyAlgorithmCriterion algorithmCriteria = criteriaSet.get(KeyAlgorithmCriterion.class);
+            final KeyAlgorithmCriterion algorithmCriteria = criteriaSet.get(KeyAlgorithmCriterion.class);
             if (algorithmCriteria != null && algorithmCriteria.getKeyAlgorithm() != null
                     && !"RSA".equals(algorithmCriteria.getKeyAlgorithm())) {
                 log.debug("Criterion specified non-RSA key algorithm, skipping");
@@ -78,20 +78,20 @@ public class RSAKeyValueProvider extends AbstractKeyInfoProvider {
         PublicKey pubKey = null;
         try {
             pubKey = KeyInfoSupport.getRSAKey(keyValue);
-        } catch (KeyException e) {
+        } catch (final KeyException e) {
             log.error("Error extracting RSA key value", e);
             throw new SecurityException("Error extracting RSA key value", e);
         }
-        BasicCredential cred = new BasicCredential(pubKey);
+        final BasicCredential cred = new BasicCredential(pubKey);
         cred.getKeyNames().addAll(kiContext.getKeyNames());
 
-        CredentialContext credContext = buildCredentialContext(kiContext);
+        final CredentialContext credContext = buildCredentialContext(kiContext);
         if (credContext != null) {
             cred.getCredentialContextSet().add(credContext);
         }
 
         log.debug("Credential successfully extracted from RSAKeyValue");
-        LazySet<Credential> credentialSet = new LazySet<>();
+        final LazySet<Credential> credentialSet = new LazySet<>();
         credentialSet.add(cred);
         return credentialSet;
     }

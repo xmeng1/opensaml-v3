@@ -31,8 +31,8 @@ import org.w3c.dom.Element;
 public class SignChallengeTypeMarshaller extends AbstractWSTrustObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        SignChallengeType signChallengeType = (SignChallengeType) xmlObject;
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
+        final SignChallengeType signChallengeType = (SignChallengeType) xmlObject;
         XMLObjectSupport.marshallAttributeMap(signChallengeType.getUnknownAttributes(), domElement);
     }
 

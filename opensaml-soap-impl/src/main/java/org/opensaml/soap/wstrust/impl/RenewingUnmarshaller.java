@@ -31,8 +31,8 @@ import org.w3c.dom.Attr;
 public class RenewingUnmarshaller extends AbstractWSTrustObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
-        Renewing renewing = (Renewing) xmlObject;
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
+        final Renewing renewing = (Renewing) xmlObject;
         
         if (attribute.getLocalName().equals(Renewing.ALLOW_ATTRIB_NAME)) {
             renewing.setAllow(XSBooleanValue.valueOf(attribute.getValue()));

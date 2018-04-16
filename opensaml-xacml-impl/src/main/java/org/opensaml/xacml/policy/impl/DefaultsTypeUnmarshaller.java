@@ -28,10 +28,10 @@ public class DefaultsTypeUnmarshaller extends AbstractXACMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
     @Override
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
         if (childXMLObject instanceof XSString) {
-            DefaultsType defaultType = (DefaultsType) parentXMLObject;
+            final DefaultsType defaultType = (DefaultsType) parentXMLObject;
             defaultType.setXPathVersion((XSString) childXMLObject);
         } else {
             super.processChildElement(parentXMLObject, childXMLObject);

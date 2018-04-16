@@ -34,10 +34,10 @@ import org.w3c.dom.Attr;
 public class RequestAuthenticatedUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
-        RequestAuthenticated ra = (RequestAuthenticated) xmlObject;
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
+        final RequestAuthenticated ra = (RequestAuthenticated) xmlObject;
         
-        QName attrName = QNameSupport.getNodeQName(attribute);
+        final QName attrName = QNameSupport.getNodeQName(attribute);
         if (RequestAuthenticated.SOAP11_MUST_UNDERSTAND_ATTR_NAME.equals(attrName)) {
             ra.setSOAP11MustUnderstand(XSBooleanValue.valueOf(attribute.getValue()));
         } else if (RequestAuthenticated.SOAP11_ACTOR_ATTR_NAME.equals(attrName)) {

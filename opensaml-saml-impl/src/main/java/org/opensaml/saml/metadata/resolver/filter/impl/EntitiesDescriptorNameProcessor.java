@@ -42,12 +42,12 @@ public class EntitiesDescriptorNameProcessor implements MetadataNodeProcessor {
 
     /** {@inheritDoc} */
     @Override
-    public void process(XMLObject metadataNode) throws FilterException {
+    public void process(final XMLObject metadataNode) throws FilterException {
         if (metadataNode instanceof EntityDescriptor) {
             XMLObject currentParent = metadataNode.getParent();
             while (currentParent != null) {
                 if (currentParent instanceof EntitiesDescriptor) {
-                    String name = StringSupport.trimOrNull(((EntitiesDescriptor)currentParent).getName());
+                    final String name = StringSupport.trimOrNull(((EntitiesDescriptor)currentParent).getName());
                     if (name != null) {
                         if (log.isTraceEnabled()) {
                             log.trace("Attaching EntityGroupName '{}' to EntityDescriptor: {}", 

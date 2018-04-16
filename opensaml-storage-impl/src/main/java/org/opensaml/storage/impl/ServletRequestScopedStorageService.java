@@ -267,13 +267,14 @@ public class ServletRequestScopedStorageService extends AbstractMapBackedStorage
 
     /** {@inheritDoc} */
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(final FilterConfig filterConfig) throws ServletException {
         
     }
 
     /** {@inheritDoc} */
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
+    public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain)
+            throws IOException,
             ServletException {
         if (!(response instanceof HttpServletResponse)) {
             throw new ServletException("Response was not an HttpServletResponse");
@@ -340,7 +341,7 @@ public class ServletRequestScopedStorageService extends AbstractMapBackedStorage
                 }
                 
                 final JsonObject contextRecords = (JsonObject) context.getValue();
-                for (Map.Entry<String,JsonValue> record : contextRecords.entrySet()) {
+                for (final Map.Entry<String,JsonValue> record : contextRecords.entrySet()) {
                 
                     final JsonObject fields = (JsonObject) record.getValue();
                     Long exp = null;
@@ -413,7 +414,7 @@ public class ServletRequestScopedStorageService extends AbstractMapBackedStorage
             for (final Map.Entry<String,Map<String, MutableStorageRecord>> context : contextMap.entrySet()) {
                 
                 gen.writeStartObject(context.getKey());
-                for (Map.Entry<String,MutableStorageRecord> entry : context.getValue().entrySet()) {
+                for (final Map.Entry<String,MutableStorageRecord> entry : context.getValue().entrySet()) {
                     final MutableStorageRecord record = entry.getValue();
                     final Long recexp = record.getExpiration();
                     if (recexp == null || recexp > now) {
@@ -566,19 +567,19 @@ public class ServletRequestScopedStorageService extends AbstractMapBackedStorage
         }
 
         /** {@inheritDoc} */
-        public void sendError(int sc, String msg) throws IOException {
+        public void sendError(final int sc, final String msg) throws IOException {
             save();
             super.sendError(sc, msg);
         }
 
         /** {@inheritDoc} */
-        public void sendError(int sc) throws IOException {
+        public void sendError(final int sc) throws IOException {
             save();
             super.sendError(sc);
         }
 
         /** {@inheritDoc} */
-        public void sendRedirect(String location) throws IOException {
+        public void sendRedirect(final String location) throws IOException {
             save();
             super.sendRedirect(location);
         }
@@ -625,7 +626,7 @@ public class ServletRequestScopedStorageService extends AbstractMapBackedStorage
             }
 
             /** {@inheritDoc} */
-            public boolean tryLock(long time, TimeUnit unit) throws InterruptedException {
+            public boolean tryLock(final long time, final TimeUnit unit) throws InterruptedException {
                 return true;
             }
 

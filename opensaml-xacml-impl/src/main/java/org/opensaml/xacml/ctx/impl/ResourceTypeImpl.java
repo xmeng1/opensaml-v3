@@ -44,7 +44,7 @@ public class ResourceTypeImpl extends AbstractXACMLObject implements ResourceTyp
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected ResourceTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected ResourceTypeImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         attributes = new XMLObjectChildrenList<>(this);
     }
@@ -56,7 +56,7 @@ public class ResourceTypeImpl extends AbstractXACMLObject implements ResourceTyp
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         if (resourceContent != null) {
             children.add(resourceContent);
         }
@@ -70,7 +70,7 @@ public class ResourceTypeImpl extends AbstractXACMLObject implements ResourceTyp
     }
 
     /** {@inheritDoc} */
-    public void setResourceContent(ResourceContentType content) {
+    public void setResourceContent(final ResourceContentType content) {
         resourceContent = prepareForAssignment(resourceContent, content);
     }
 }

@@ -31,6 +31,8 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocket;
 
 import net.shibboleth.utilities.java.support.logic.Constraint;
+import net.shibboleth.utilities.java.support.primitive.DeprecationSupport;
+import net.shibboleth.utilities.java.support.primitive.DeprecationSupport.ObjectType;
 import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
 
 import org.apache.http.HttpHost;
@@ -49,14 +51,16 @@ import org.slf4j.LoggerFactory;
 
 /**
  * An implementation of HttpClient's {@link LayeredConnectionSocketFactory}, which supports
- * verifying the server TLS certificate and chain via a {@link TrustEngine<Credential>}
+ * verifying the server TLS certificate and chain via a
+ * {@link TrustEngine}<code>&lt;</code>{@link org.opensaml.security.credential.Credential}<code>&gt;</code>
  * and {@link CriteriaSet} supplied by the HttpClient caller via the {@link HttpContext}.
  * 
  * <p>
  * The context keys used by this component are as follows, defined in {@link HttpClientSecurityConstants}:
  * <ul>
  *   <li>{@link HttpClientSecurityConstants#CONTEXT_KEY_TRUST_ENGINE}: The trust engine instance used. 
- *        Supplied by the HttpClient caller. Must be an instance of {@link TrustEngine<Credential>}.</li>
+ *        Supplied by the HttpClient caller. Must be an instance of
+ *        {@link TrustEngine}<code>&lt;</code>{@link org.opensaml.security.credential.Credential}<code>&gt;</code>.</li>
  *   <li>{@link HttpClientSecurityConstants#CONTEXT_KEY_CRITERIA_SET}: The criteria set instance used. 
  *        Supplied by the HttpClient caller. Must be an instance of {@link CriteriaSet}. </li>
  *   <li>{@link HttpClientSecurityConstants#CONTEXT_KEY_SERVER_TLS_CREDENTIAL_TRUSTED}: The result of the 
@@ -100,25 +104,28 @@ public class TrustEngineTLSSocketFactory implements LayeredConnectionSocketFacto
      * @param factory the underlying HttpClient socket factory wrapped by this implementation.
      * @param verifier the hostname verifier evaluated by this implementation
      */
-    public TrustEngineTLSSocketFactory(LayeredConnectionSocketFactory factory, X509HostnameVerifier verifier) {
+    public TrustEngineTLSSocketFactory(final LayeredConnectionSocketFactory factory,
+            final X509HostnameVerifier verifier) {
+        DeprecationSupport.warnOnce(ObjectType.CLASS, getClass().getName(), null, "SecurityEnhancedTLSSocketFactory");
         wrappedFactory = Constraint.isNotNull(factory, "Socket factory was null");
         hostnameVerifier = verifier;
     }
 
     /** {@inheritDoc} */
-    public Socket createSocket(HttpContext context) throws IOException {
+    public Socket createSocket(final HttpContext context) throws IOException {
         log.trace("In createSocket");
         return wrappedFactory.createSocket(context);
     }
 
 // Checkstyle: ParameterNumber OFF
     /** {@inheritDoc} */
-    public Socket connectSocket(int connectTimeout, Socket sock, HttpHost host,
-            InetSocketAddress remoteAddress, InetSocketAddress localAddress,
-            HttpContext context) throws IOException {
+    public Socket connectSocket(final int connectTimeout, final Socket sock, final HttpHost host,
+            final InetSocketAddress remoteAddress, final InetSocketAddress localAddress,
+            final HttpContext context) throws IOException {
         
         log.trace("In connectSocket");
-        Socket socket = wrappedFactory.connectSocket(connectTimeout, sock, host, remoteAddress, localAddress, context);
+        final Socket socket =
+                wrappedFactory.connectSocket(connectTimeout, sock, host, remoteAddress, localAddress, context);
         performTrustEval(socket, context);
         performHostnameVerification(socket, host.getHostName(), context);
         return socket;
@@ -127,9 +134,10 @@ public class TrustEngineTLSSocketFactory implements LayeredConnectionSocketFacto
 // Checkstyle: ParameterNumber ON
 
     /** {@inheritDoc} */
-    public Socket createLayeredSocket(Socket socket, String target, int port, HttpContext context) throws IOException {
+    public Socket createLayeredSocket(final Socket socket, final String target, final int port,
+            final HttpContext context) throws IOException {
         log.trace("In createLayeredSocket");
-        Socket layeredSocket = wrappedFactory.createLayeredSocket(socket, target, port, context);
+        final Socket layeredSocket = wrappedFactory.createLayeredSocket(socket, target, port, context);
         performTrustEval(layeredSocket, context);
         performHostnameVerification(layeredSocket, target, context);
         return layeredSocket;
@@ -138,7 +146,8 @@ public class TrustEngineTLSSocketFactory implements LayeredConnectionSocketFacto
 // Checkstyle: ReturnCount OFF
     /**
      * Perform trust evaluation by extracting the server TLS {@link X509Credential} from the 
-     * {@link SSLSession} and evaluating it via a {@link TrustEngine<Credential>} 
+     * {@link SSLSession} and evaluating it via a
+     * {@link TrustEngine}<code>&lt;</code>{@link org.opensaml.security.credential.Credential}<code>&gt;</code>
      * and {@link CriteriaSet} supplied by the caller via the {@link HttpContext}.
      * 
      * @param socket the socket instance being processed
@@ -157,7 +166,7 @@ public class TrustEngineTLSSocketFactory implements LayeredConnectionSocketFacto
         
         log.debug("Attempting to evaluate server TLS credential against supplied TrustEngine and CriteriaSet");
         
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings("unchecked") final
         TrustEngine<? super X509Credential> trustEngine = (TrustEngine<? super X509Credential>) context.getAttribute(
                 HttpClientSecurityConstants.CONTEXT_KEY_TRUST_ENGINE);
         if (trustEngine == null) {
@@ -176,7 +185,7 @@ public class TrustEngineTLSSocketFactory implements LayeredConnectionSocketFacto
             log.trace("Saw CriteriaSet: {}", criteriaSet);
         }
 
-        X509Credential credential = extractCredential(sslSocket);
+        final X509Credential credential = extractCredential(sslSocket);
         
         try {
             if (trustEngine.validate(credential, criteriaSet)) {
@@ -189,7 +198,7 @@ public class TrustEngineTLSSocketFactory implements LayeredConnectionSocketFacto
                         Boolean.FALSE);
                 throw new SSLPeerUnverifiedException("Trust engine could not establish trust of server TLS credential");
             }
-        } catch (SecurityException e) {
+        } catch (final SecurityException e) {
             log.error("Trust engine error evaluating credential", e);
             throw new IOException("Trust engine error evaluating credential", e);
         }
@@ -206,20 +215,20 @@ public class TrustEngineTLSSocketFactory implements LayeredConnectionSocketFacto
      * @throws IOException if credential data can not be extracted from the socket
      */
     @Nonnull protected X509Credential extractCredential(@Nonnull final SSLSocket sslSocket) throws IOException {
-        SSLSession session = sslSocket.getSession();
+        final SSLSession session = sslSocket.getSession();
         final Certificate[] peerCertificates = session.getPeerCertificates();
         if (peerCertificates == null || peerCertificates.length < 1) {
             throw new SSLPeerUnverifiedException("SSLSession peer certificates array was null or empty");
         }
         
-        ArrayList<X509Certificate> certChain = new ArrayList<>();
-        for (Certificate cert : peerCertificates) {
+        final ArrayList<X509Certificate> certChain = new ArrayList<>();
+        for (final Certificate cert : peerCertificates) {
             certChain.add((X509Certificate) cert);
         }
         
         final X509Certificate entityCert = certChain.get(0);
         
-        BasicX509Credential credential = new BasicX509Credential(entityCert);
+        final BasicX509Credential credential = new BasicX509Credential(entityCert);
         credential.setEntityCertificateChain(certChain);
         
         return credential;
@@ -233,7 +242,8 @@ public class TrustEngineTLSSocketFactory implements LayeredConnectionSocketFacto
      * @param context the current HttpClient context instance
      * @throws IOException if an I/O error occurs or the verification process fails
      */
-    protected void performHostnameVerification(Socket socket, String hostname, HttpContext context) throws IOException {
+    protected void performHostnameVerification(final Socket socket, final String hostname, final HttpContext context)
+            throws IOException {
         if (hostnameVerifier != null && socket instanceof SSLSocket) {
             hostnameVerifier.verify(hostname, (SSLSocket) socket);
         }

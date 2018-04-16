@@ -41,7 +41,7 @@ public class AuthnStatementBuilder extends AbstractSAMLObjectBuilder<AuthnStatem
     }
 
     /** {@inheritDoc} */
-    public AuthnStatement buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public AuthnStatement buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new AuthnStatementImpl(namespaceURI, localName, namespacePrefix);
     }
 }

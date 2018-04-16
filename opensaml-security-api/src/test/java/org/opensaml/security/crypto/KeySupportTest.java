@@ -170,31 +170,31 @@ public class KeySupportTest {
         
         // Asymmetric: RSA
         kp = KeySupport.generateKeyPair("RSA", 1024, null);
-        Assert.assertEquals(KeySupport.getKeyLength(kp.getPublic()), new Integer(1024));
-        Assert.assertEquals(KeySupport.getKeyLength(kp.getPrivate()), new Integer(1024));
+        Assert.assertEquals(KeySupport.getKeyLength(kp.getPublic()), Integer.valueOf(1024));
+        Assert.assertEquals(KeySupport.getKeyLength(kp.getPrivate()), Integer.valueOf(1024));
         
         kp = KeySupport.generateKeyPair("RSA", 2048, null);
-        Assert.assertEquals(KeySupport.getKeyLength(kp.getPublic()), new Integer(2048));
-        Assert.assertEquals(KeySupport.getKeyLength(kp.getPrivate()), new Integer(2048));
+        Assert.assertEquals(KeySupport.getKeyLength(kp.getPublic()), Integer.valueOf(2048));
+        Assert.assertEquals(KeySupport.getKeyLength(kp.getPrivate()), Integer.valueOf(2048));
         
         kp = KeySupport.generateKeyPair("RSA", 4096, null);
-        Assert.assertEquals(KeySupport.getKeyLength(kp.getPublic()), new Integer(4096));
-        Assert.assertEquals(KeySupport.getKeyLength(kp.getPrivate()), new Integer(4096));
+        Assert.assertEquals(KeySupport.getKeyLength(kp.getPublic()), Integer.valueOf(4096));
+        Assert.assertEquals(KeySupport.getKeyLength(kp.getPrivate()), Integer.valueOf(4096));
         
         // Asymmetric: DSA
         kp = KeySupport.generateKeyPair("DSA", 512, null);
-        Assert.assertEquals(KeySupport.getKeyLength(kp.getPublic()), new Integer(512));
-        Assert.assertEquals(KeySupport.getKeyLength(kp.getPrivate()), new Integer(512));
+        Assert.assertEquals(KeySupport.getKeyLength(kp.getPublic()), Integer.valueOf(512));
+        Assert.assertEquals(KeySupport.getKeyLength(kp.getPrivate()), Integer.valueOf(512));
         
         kp = KeySupport.generateKeyPair("DSA", 1024, null);
-        Assert.assertEquals(KeySupport.getKeyLength(kp.getPublic()), new Integer(1024));
-        Assert.assertEquals(KeySupport.getKeyLength(kp.getPrivate()), new Integer(1024));
+        Assert.assertEquals(KeySupport.getKeyLength(kp.getPublic()), Integer.valueOf(1024));
+        Assert.assertEquals(KeySupport.getKeyLength(kp.getPrivate()), Integer.valueOf(1024));
         
         // Asymmetric: EC
         try {
             kp = KeySupport.generateKeyPair("EC", 112, null);
-            Assert.assertEquals(KeySupport.getKeyLength(kp.getPublic()), new Integer(112));
-            Assert.assertEquals(KeySupport.getKeyLength(kp.getPrivate()), new Integer(112));
+            Assert.assertEquals(KeySupport.getKeyLength(kp.getPublic()), Integer.valueOf(112));
+            Assert.assertEquals(KeySupport.getKeyLength(kp.getPrivate()), Integer.valueOf(112));
         
         } catch (final NoSuchAlgorithmException| InvalidParameterException e) {
             // EC support isn't universal, e.g. OpenJDK 7 doesn't ship with an EC provider out-of-the-box.
@@ -203,8 +203,8 @@ public class KeySupportTest {
         }
         try {
             kp = KeySupport.generateKeyPair("EC", 256, null);
-            Assert.assertEquals(KeySupport.getKeyLength(kp.getPublic()), new Integer(256));
-            Assert.assertEquals(KeySupport.getKeyLength(kp.getPrivate()), new Integer(256));
+            Assert.assertEquals(KeySupport.getKeyLength(kp.getPublic()), Integer.valueOf(256));
+            Assert.assertEquals(KeySupport.getKeyLength(kp.getPrivate()), Integer.valueOf(256));
         
         } catch (final NoSuchAlgorithmException| InvalidParameterException e) {
             // EC support isn't universal, e.g. OpenJDK 7 doesn't ship with an EC provider out-of-the-box.
@@ -213,8 +213,8 @@ public class KeySupportTest {
         }
         try {
             kp = KeySupport.generateKeyPair("EC", 571, null);
-            Assert.assertEquals(KeySupport.getKeyLength(kp.getPublic()), new Integer(571));
-            Assert.assertEquals(KeySupport.getKeyLength(kp.getPrivate()), new Integer(571));
+            Assert.assertEquals(KeySupport.getKeyLength(kp.getPublic()), Integer.valueOf(571));
+            Assert.assertEquals(KeySupport.getKeyLength(kp.getPrivate()), Integer.valueOf(571));
         } catch (final NoSuchAlgorithmException| InvalidParameterException e) {
             // EC support isn't universal, e.g. OpenJDK 7 doesn't ship with an EC provider out-of-the-box.
             // Just ignore unsupported algorithm abd InvalidParameter failures here for now.
@@ -222,18 +222,18 @@ public class KeySupportTest {
         }
         
         // Symmetric: AES
-        Assert.assertEquals(KeySupport.getKeyLength(KeySupport.generateKey("AES", 128, null)), new Integer(128));
-        Assert.assertEquals(KeySupport.getKeyLength(KeySupport.generateKey("AES", 192, null)), new Integer(192));
-        Assert.assertEquals(KeySupport.getKeyLength(KeySupport.generateKey("AES", 256, null)), new Integer(256));
+        Assert.assertEquals(KeySupport.getKeyLength(KeySupport.generateKey("AES", 128, null)), Integer.valueOf(128));
+        Assert.assertEquals(KeySupport.getKeyLength(KeySupport.generateKey("AES", 192, null)), Integer.valueOf(192));
+        Assert.assertEquals(KeySupport.getKeyLength(KeySupport.generateKey("AES", 256, null)), Integer.valueOf(256));
         
         // Symmetric: DES and DESede
         //
         // These numbers are correct, albeit unintuitive. 
         // DES keys are always 64 bits.
         // DESede keys are always 64*3 = 192 bits (i.e. triple of DES).
-        Assert.assertEquals(KeySupport.getKeyLength(KeySupport.generateKey("DES", 56, null)), new Integer(64));
-        Assert.assertEquals(KeySupport.getKeyLength(KeySupport.generateKey("DESede", 112, null)), new Integer(192));
-        Assert.assertEquals(KeySupport.getKeyLength(KeySupport.generateKey("DESede", 168, null)), new Integer(192));
+        Assert.assertEquals(KeySupport.getKeyLength(KeySupport.generateKey("DES", 56, null)), Integer.valueOf(64));
+        Assert.assertEquals(KeySupport.getKeyLength(KeySupport.generateKey("DESede", 112, null)), Integer.valueOf(192));
+        Assert.assertEquals(KeySupport.getKeyLength(KeySupport.generateKey("DESede", 168, null)), Integer.valueOf(192));
     }
     
     @DataProvider

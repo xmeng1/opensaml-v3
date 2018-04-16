@@ -43,14 +43,14 @@ public class BlacklistPredicate implements Predicate<String> {
      *
      * @param algorithms collection of blacklisted algorithms
      */
-    public BlacklistPredicate(@Nonnull Collection<String> algorithms) {
+    public BlacklistPredicate(@Nonnull final Collection<String> algorithms) {
         Constraint.isNotNull(algorithms, "Blacklist may not be null");
         blacklist = new HashSet<>();
         blacklist.addAll(Collections2.filter(algorithms, Predicates.notNull()));
     }
 
     /** {@inheritDoc} */
-    public boolean apply(@Nullable String input) {
+    public boolean apply(@Nullable final String input) {
         if (input == null) {
             throw new IllegalArgumentException("Algorithm URI to evaluate may not be null");
         }

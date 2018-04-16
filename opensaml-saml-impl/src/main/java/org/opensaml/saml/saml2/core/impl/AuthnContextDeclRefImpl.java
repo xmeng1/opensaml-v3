@@ -42,7 +42,8 @@ public class AuthnContextDeclRefImpl extends AbstractSAMLObject implements Authn
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AuthnContextDeclRefImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AuthnContextDeclRefImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -52,7 +53,7 @@ public class AuthnContextDeclRefImpl extends AbstractSAMLObject implements Authn
     }
 
     /** {@inheritDoc} */
-    public void setAuthnContextDeclRef(String newAuthnContextDeclRef) {
+    public void setAuthnContextDeclRef(final String newAuthnContextDeclRef) {
         this.authnContextDeclRef = prepareForAssignment(this.authnContextDeclRef, newAuthnContextDeclRef);
     }
 

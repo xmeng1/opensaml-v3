@@ -31,7 +31,7 @@ public class TimestampBuilder extends AbstractWSSecurityObjectBuilder<Timestamp>
     }
 
     /** {@inheritDoc} */
-    public Timestamp buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Timestamp buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new TimestampImpl(namespaceURI, localName, namespacePrefix);
     }
 

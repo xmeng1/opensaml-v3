@@ -45,7 +45,7 @@ public class RSAKeyValueImpl extends AbstractXMLObject implements RSAKeyValue {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected RSAKeyValueImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected RSAKeyValueImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -55,7 +55,7 @@ public class RSAKeyValueImpl extends AbstractXMLObject implements RSAKeyValue {
     }
 
     /** {@inheritDoc} */
-    public void setModulus(Modulus newModulus) {
+    public void setModulus(final Modulus newModulus) {
         this.modulus = prepareForAssignment(this.modulus, newModulus);
     }
 
@@ -65,14 +65,14 @@ public class RSAKeyValueImpl extends AbstractXMLObject implements RSAKeyValue {
     }
 
     /** {@inheritDoc} */
-    public void setExponent(Exponent newExponent) {
+    public void setExponent(final Exponent newExponent) {
         this.exponent = prepareForAssignment(this.exponent, newExponent);
 
     }
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         
         if (modulus != null) {
             children.add(modulus);

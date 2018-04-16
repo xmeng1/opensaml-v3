@@ -46,7 +46,7 @@ public class PublicationImpl extends AbstractSAMLObject implements Publication {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected PublicationImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected PublicationImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -57,7 +57,7 @@ public class PublicationImpl extends AbstractSAMLObject implements Publication {
     }
 
     /** {@inheritDoc} */
-    public void setPublisher(String thePublisher) {
+    public void setPublisher(final String thePublisher) {
         publisher = prepareForAssignment(publisher, thePublisher);
     }
 
@@ -67,7 +67,7 @@ public class PublicationImpl extends AbstractSAMLObject implements Publication {
     }
 
     /** {@inheritDoc} */
-    public void setCreationInstant(DateTime dateTime) {
+    public void setCreationInstant(final DateTime dateTime) {
         creationInstant = prepareForAssignment(creationInstant, dateTime);
     }
 
@@ -77,7 +77,7 @@ public class PublicationImpl extends AbstractSAMLObject implements Publication {
     }
 
     /** {@inheritDoc} */
-    public void setPublicationId(String id) {
+    public void setPublicationId(final String id) {
         publicationId = prepareForAssignment(publicationId, id);
     }
 

@@ -32,8 +32,9 @@ import org.opensaml.saml.saml2.core.SubjectConfirmation;
 public class SubjectUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentObject, XMLObject childObject) throws UnmarshallingException {
-        Subject subject = (Subject) parentObject;
+    protected void processChildElement(final XMLObject parentObject, final XMLObject childObject)
+            throws UnmarshallingException {
+        final Subject subject = (Subject) parentObject;
 
         if (childObject instanceof BaseID) {
             subject.setBaseID((BaseID) childObject);

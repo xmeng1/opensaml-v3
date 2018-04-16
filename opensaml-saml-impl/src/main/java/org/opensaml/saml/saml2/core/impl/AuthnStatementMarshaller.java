@@ -34,11 +34,12 @@ import org.w3c.dom.Element;
 public class AuthnStatementMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject samlObject, Element domElement) throws MarshallingException {
-        AuthnStatement authnStatement = (AuthnStatement) samlObject;
+    protected void marshallAttributes(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
+        final AuthnStatement authnStatement = (AuthnStatement) samlObject;
 
         if (authnStatement.getAuthnInstant() != null) {
-            String authnInstantStr = SAMLConfigurationSupport.getSAMLDateFormatter().print(
+            final String authnInstantStr = SAMLConfigurationSupport.getSAMLDateFormatter().print(
                     authnStatement.getAuthnInstant());
             domElement.setAttributeNS(null, AuthnStatement.AUTHN_INSTANT_ATTRIB_NAME, authnInstantStr);
         }
@@ -48,7 +49,7 @@ public class AuthnStatementMarshaller extends AbstractSAMLObjectMarshaller {
         }
 
         if (authnStatement.getSessionNotOnOrAfter() != null) {
-            String sessionNotOnOrAfterStr = SAMLConfigurationSupport.getSAMLDateFormatter().print(
+            final String sessionNotOnOrAfterStr = SAMLConfigurationSupport.getSAMLDateFormatter().print(
                     authnStatement.getSessionNotOnOrAfter());
             domElement.setAttributeNS(null, AuthnStatement.SESSION_NOT_ON_OR_AFTER_ATTRIB_NAME, sessionNotOnOrAfterStr);
         }

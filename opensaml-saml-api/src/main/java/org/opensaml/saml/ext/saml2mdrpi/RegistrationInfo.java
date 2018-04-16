@@ -26,7 +26,7 @@ import org.opensaml.saml.common.SAMLObject;
 import org.opensaml.saml.common.xml.SAMLConstants;
 
 /**
- * * Representation of the <code>&lt;mdrpi:RegistrationInfo&gt</code> element. <br/>
+ * * Representation of the <code>&lt;mdrpi:RegistrationInfo&gt;</code> element. <br/>
  * See <a
  * href="http://docs.oasis-open.org/security/saml/Post2.0/saml-metadata-rpi/v1.0/">http://docs.oasis-open.org/security
  * /saml/Post2.0/saml-metadata-rpi/v1.0/</a>

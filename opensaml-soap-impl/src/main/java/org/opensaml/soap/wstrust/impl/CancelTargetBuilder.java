@@ -31,7 +31,7 @@ public class CancelTargetBuilder extends AbstractWSTrustObjectBuilder<CancelTarg
     }
 
     /** {@inheritDoc} */
-    public CancelTarget buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public CancelTarget buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new CancelTargetImpl(namespaceURI, localName, namespacePrefix);
     }
 

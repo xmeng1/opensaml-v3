@@ -93,20 +93,20 @@ public abstract class AbstractMessageHandler<MessageType> extends AbstractInitia
         if (doPreInvoke(messageContext)) {
             try {
                 doInvoke(messageContext);
-            } catch (MessageHandlerException e) {
+            } catch (final MessageHandlerException e) {
                 try {
                     doPostInvoke(messageContext, e);
-                } catch (Throwable t) {
+                } catch (final Throwable t) {
                     log.warn("{} Unchecked exception/error thrown by doPostInvoke, "
                             + "superseding a MessageHandlerException ", getLogPrefix(), e);
                     t.addSuppressed(e);
                     throw t;
                 }
                 throw e;
-            } catch (Throwable t) {
+            } catch (final Throwable t) {
                 try {
                     doPostInvoke(messageContext);
-                } catch (Throwable t2) {
+                } catch (final Throwable t2) {
                     log.warn("{} Unchecked exception/error thrown by doPostInvoke, "
                             + "superseding an unchecked exception/error ", getLogPrefix(), t);
                     t2.addSuppressed(t);

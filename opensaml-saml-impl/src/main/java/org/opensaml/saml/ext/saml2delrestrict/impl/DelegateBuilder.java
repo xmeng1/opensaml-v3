@@ -42,7 +42,7 @@ public class DelegateBuilder extends AbstractSAMLObjectBuilder<Delegate> {
     }
 
     /** {@inheritDoc} */
-    public Delegate buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Delegate buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new DelegateImpl(namespaceURI, localName, namespacePrefix);
     }
 }

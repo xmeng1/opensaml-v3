@@ -32,7 +32,7 @@ public class MgmtDataImpl extends XSStringImpl implements MgmtData {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected MgmtDataImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected MgmtDataImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

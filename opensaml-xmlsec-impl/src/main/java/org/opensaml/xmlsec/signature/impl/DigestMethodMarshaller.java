@@ -28,8 +28,8 @@ import org.w3c.dom.Element;
 public class DigestMethodMarshaller extends AbstractXMLSignatureMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        DigestMethod dm = (DigestMethod) xmlObject;
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
+        final DigestMethod dm = (DigestMethod) xmlObject;
 
         if (dm.getAlgorithm() != null) {
             domElement.setAttributeNS(null, DigestMethod.ALGORITHM_ATTRIB_NAME, dm.getAlgorithm());

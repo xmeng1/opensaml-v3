@@ -24,13 +24,14 @@ import org.opensaml.saml.common.messaging.context.AttributeConsumingServiceConte
 import org.opensaml.saml.saml2.metadata.AttributeConsumingService;
 
 /**
- * {@link Function} to return the {@link AttributeConsumingService} from the {@link AttributeConsumingServiceContext}.
+ * {@link com.google.common.base.Function} to return the {@link AttributeConsumingService}
+ * from the {@link AttributeConsumingServiceContext}.
  */
 public class AttributeConsumerServiceLookupFunction implements
         ContextDataLookupFunction<AttributeConsumingServiceContext, AttributeConsumingService> {
 
     /** {@inheritDoc} */
-    @Override @Nullable public AttributeConsumingService apply(@Nullable final AttributeConsumingServiceContext input) {
+    @Nullable public AttributeConsumingService apply(@Nullable final AttributeConsumingServiceContext input) {
         if (null == input) {
             return null;
         }

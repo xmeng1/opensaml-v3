@@ -29,8 +29,9 @@ import org.w3c.dom.Element;
 public class AdditionalMetadataLocationMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject samlElement, Element domElement) throws MarshallingException {
-        AdditionalMetadataLocation aml = (AdditionalMetadataLocation) samlElement;
+    protected void marshallAttributes(final XMLObject samlElement, final Element domElement)
+            throws MarshallingException {
+        final AdditionalMetadataLocation aml = (AdditionalMetadataLocation) samlElement;
 
         if (aml.getNamespaceURI() != null) {
             domElement.setAttributeNS(null, AdditionalMetadataLocation.NAMESPACE_ATTRIB_NAME, aml.getNamespaceURI());
@@ -38,10 +39,11 @@ public class AdditionalMetadataLocationMarshaller extends AbstractSAMLObjectMars
     }
 
     /** {@inheritDoc} */
-    protected void marshallElementContent(XMLObject samlObject, Element domElement) throws MarshallingException {
+    protected void marshallElementContent(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
         super.marshallElementContent(samlObject, domElement);
 
-        AdditionalMetadataLocation aml = (AdditionalMetadataLocation) samlObject;
+        final AdditionalMetadataLocation aml = (AdditionalMetadataLocation) samlObject;
         if (aml.getLocationURI() != null) {
             domElement.appendChild(domElement.getOwnerDocument().createTextNode(aml.getLocationURI()));
         }

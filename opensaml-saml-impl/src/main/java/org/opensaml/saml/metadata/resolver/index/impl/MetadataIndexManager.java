@@ -69,7 +69,7 @@ public class MetadataIndexManager<T> {
      * @param extractionFunction function to extract the indexed data item from an EntityDescriptor
      */
     public MetadataIndexManager(
-            @Nullable @NonnullElements @Unmodifiable @NotLive Set<MetadataIndex> initIndexes,
+            @Nullable @NonnullElements @Unmodifiable @NotLive final Set<MetadataIndex> initIndexes,
             @Nonnull final Function<EntityDescriptor, T> extractionFunction
             ) {
         
@@ -78,7 +78,7 @@ public class MetadataIndexManager<T> {
         
         indexes = new ConcurrentHashMap<>();
         if (initIndexes != null) {
-            for (MetadataIndex index : initIndexes) {
+            for (final MetadataIndex index : initIndexes) {
                 log.trace("Initializing manager for index: {}", index);
                 indexes.put(index, new MetadataIndexStore());
             }
@@ -102,7 +102,7 @@ public class MetadataIndexManager<T> {
      * @return the index store for the index, may be null if index was not initialized 
      *         for this manager instance
      */
-    @Nullable protected MetadataIndexStore<T> getStore(@Nonnull MetadataIndex index) {
+    @Nullable protected MetadataIndexStore<T> getStore(@Nonnull final MetadataIndex index) {
         Constraint.isNotNull(index, "MetadataIndex was null");
         return indexes.get(index);
     }
@@ -120,13 +120,13 @@ public class MetadataIndexManager<T> {
      */
     @Nonnull @NonnullElements
     public Optional<Set<T>> lookupIndexedItems(@Nonnull final CriteriaSet criteria) {
-        Set<T> items = new HashSet<>();
-        for (MetadataIndex index : indexes.keySet()) {
-            Set<MetadataIndexKey> keys = index.generateKeys(criteria);
+        final Set<T> items = new HashSet<>();
+        for (final MetadataIndex index : indexes.keySet()) {
+            final Set<MetadataIndexKey> keys = index.generateKeys(criteria);
             if (keys != null && !keys.isEmpty()) {
-                LazySet<T> indexResult = new LazySet<>();
-                MetadataIndexStore<T> indexStore = getStore(index);
-                for (MetadataIndexKey key : keys) {
+                final LazySet<T> indexResult = new LazySet<>();
+                final MetadataIndexStore<T> indexStore = getStore(index);
+                for (final MetadataIndexKey key : keys) {
                     indexResult.addAll(indexStore.lookup(key));
                 }
                 log.trace("MetadataIndex '{}' produced results: {}", index, indexResult);
@@ -163,13 +163,13 @@ public class MetadataIndexManager<T> {
      * @param descriptor the entity descriptor to index
      */
     public void indexEntityDescriptor(@Nonnull final EntityDescriptor descriptor) {
-        T item = entityDescriptorFunction.apply(descriptor);
+        final T item = entityDescriptorFunction.apply(descriptor);
         if (item != null) {
-            for (MetadataIndex index : indexes.keySet()) {
-                Set<MetadataIndexKey> keys = index.generateKeys(descriptor);
+            for (final MetadataIndex index : indexes.keySet()) {
+                final Set<MetadataIndexKey> keys = index.generateKeys(descriptor);
                 if (keys != null && !keys.isEmpty()) {
-                    MetadataIndexStore<T> store = getStore(index);
-                    for (MetadataIndexKey key : keys) {
+                    final MetadataIndexStore<T> store = getStore(index);
+                    for (final MetadataIndexKey key : keys) {
                         log.trace("Indexing metadata: index '{}', key '{}', data item '{}'", 
                                 index, key, item);
                         store.add(key, item);
@@ -186,7 +186,7 @@ public class MetadataIndexManager<T> {
     public static class IdentityExtractionFunction implements Function<EntityDescriptor, EntityDescriptor> {
 
         /** {@inheritDoc} */
-        public EntityDescriptor apply(EntityDescriptor input) {
+        public EntityDescriptor apply(final EntityDescriptor input) {
             return input;
         }
         
@@ -196,7 +196,7 @@ public class MetadataIndexManager<T> {
     public static class EntityIDExtractionFunction implements Function<EntityDescriptor, String> {
 
         /** {@inheritDoc} */
-        public String apply(EntityDescriptor input) {
+        public String apply(final EntityDescriptor input) {
             if (input == null) {
                 return null;
             }

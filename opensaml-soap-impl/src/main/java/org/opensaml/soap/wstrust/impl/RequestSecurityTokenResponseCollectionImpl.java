@@ -47,8 +47,8 @@ public class RequestSecurityTokenResponseCollectionImpl extends AbstractWSTrustO
      * @param namespacePrefix The namespace prefix of the element
      * 
      */
-    public RequestSecurityTokenResponseCollectionImpl(String namespaceURI, String elementLocalName,
-            String namespacePrefix) {
+    public RequestSecurityTokenResponseCollectionImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         unknownAttributes = new AttributeMap(this);
         requestSecurityTokenResponses = new ArrayList<>();
@@ -66,7 +66,7 @@ public class RequestSecurityTokenResponseCollectionImpl extends AbstractWSTrustO
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        List<XMLObject> children = new ArrayList<>();
+        final List<XMLObject> children = new ArrayList<>();
         children.addAll(requestSecurityTokenResponses);
         return Collections.unmodifiableList(children);
     }

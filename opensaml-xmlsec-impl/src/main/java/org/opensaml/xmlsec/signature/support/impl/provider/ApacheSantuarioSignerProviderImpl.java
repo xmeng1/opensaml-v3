@@ -47,7 +47,7 @@ public class ApacheSantuarioSignerProviderImpl implements SignerProvider {
         Constraint.isTrue(Init.isInitialized(), "Apache XML security library is not initialized");
         
         try {
-            XMLSignature xmlSignature = ((SignatureImpl) signature).getXMLSignature();
+            final XMLSignature xmlSignature = ((SignatureImpl) signature).getXMLSignature();
 
             if (xmlSignature == null) {
                 log.error("Unable to compute signature, Signature XMLObject does not have the XMLSignature "
@@ -57,7 +57,7 @@ public class ApacheSantuarioSignerProviderImpl implements SignerProvider {
             }
             log.debug("Computing signature over XMLSignature object");
             xmlSignature.sign(CredentialSupport.extractSigningKey(signature.getSigningCredential()));
-        } catch (XMLSecurityException e) {
+        } catch (final XMLSecurityException e) {
             log.error("An error occured computing the digital signature", e);
             throw new SignatureException("Signature computation error", e);
         }

@@ -41,14 +41,15 @@ public class StatusDetailTypeImpl extends AbstractXACMLObject implements StatusD
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected StatusDetailTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected StatusDetailTypeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         unknownChildren = new IndexedXMLObjectChildrenList<>(this);
     }
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         
         children.addAll(unknownChildren);
 
@@ -61,7 +62,7 @@ public class StatusDetailTypeImpl extends AbstractXACMLObject implements StatusD
     }
 
     /** {@inheritDoc} */
-    public List<XMLObject> getUnknownXMLObjects(QName typeOrName) {
+    public List<XMLObject> getUnknownXMLObjects(final QName typeOrName) {
         return (List<XMLObject>) unknownChildren.subList(typeOrName);
     }
 }

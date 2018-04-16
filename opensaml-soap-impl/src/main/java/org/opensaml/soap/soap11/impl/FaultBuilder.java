@@ -37,7 +37,7 @@ public class FaultBuilder extends AbstractXMLObjectBuilder<Fault> implements SOA
     }
 
     /** {@inheritDoc} */
-    public Fault buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Fault buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new FaultImpl(namespaceURI, localName, namespacePrefix);
     }
 }

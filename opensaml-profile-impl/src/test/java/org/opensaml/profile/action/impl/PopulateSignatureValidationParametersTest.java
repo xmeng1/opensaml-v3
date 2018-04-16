@@ -61,7 +61,7 @@ public class PopulateSignatureValidationParametersTest extends OpenSAMLInitBaseT
         prc.setInboundMessageContext(null);
         
         action.execute(prc);
-        ActionTestingSupport.assertEvent(prc, EventIds.INVALID_PROFILE_CTX);
+        ActionTestingSupport.assertEvent(prc, EventIds.INVALID_MSG_CTX);
     }
     
     @Test public void testResolverError() throws Exception {
@@ -69,7 +69,7 @@ public class PopulateSignatureValidationParametersTest extends OpenSAMLInitBaseT
         action.initialize();
         
         action.execute(prc);
-        ActionTestingSupport.assertEvent(prc, EventIds.INVALID_SEC_CFG);
+        ActionTestingSupport.assertEvent(prc, EventIds.MESSAGE_PROC_ERROR);
     }    
 
     @Test public void testSuccess() throws Exception {

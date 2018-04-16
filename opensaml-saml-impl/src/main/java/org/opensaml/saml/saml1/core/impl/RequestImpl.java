@@ -53,7 +53,7 @@ public class RequestImpl extends RequestAbstractTypeImpl implements Request {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected RequestImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected RequestImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         assertionIDReferences = new XMLObjectChildrenList<>(this);
         assertionArtifacts = new XMLObjectChildrenList<>(this);
@@ -85,7 +85,7 @@ public class RequestImpl extends RequestAbstractTypeImpl implements Request {
     }
 
     /** {@inheritDoc} */
-    public void setQuery(Query q) {
+    public void setQuery(final Query q) {
         query = prepareForAssignment(query, q);
     }
 
@@ -102,7 +102,7 @@ public class RequestImpl extends RequestAbstractTypeImpl implements Request {
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
 
-        List<XMLObject> list = new ArrayList<>();
+        final List<XMLObject> list = new ArrayList<>();
 
         if (super.getOrderedChildren() != null) {
             list.addAll(super.getOrderedChildren());

@@ -161,7 +161,7 @@ public class BasicX509CredentialNameEvaluator implements X509CredentialNameEvalu
      * @param check whether to check the credential's entity certificate subject alt names against the trusted
      *            key names
      */
-    public void setCheckSubjectAltNames(boolean check) {
+    public void setCheckSubjectAltNames(final boolean check) {
         checkSubjectAltNames = check;
     }
 
@@ -183,7 +183,7 @@ public class BasicX509CredentialNameEvaluator implements X509CredentialNameEvalu
      * @param check whether to check the credential's entity certificate subject DN's CN against the trusted
      *            key names
      */
-    public void setCheckSubjectDNCommonName(boolean check) {
+    public void setCheckSubjectDNCommonName(final boolean check) {
         checkSubjectDNCommonName = check;
     }
 
@@ -204,7 +204,7 @@ public class BasicX509CredentialNameEvaluator implements X509CredentialNameEvalu
      * @param check whether to check the credential's entity certificate subject DN against the trusted key
      *            names
      */
-    public void setCheckSubjectDN(boolean check) {
+    public void setCheckSubjectDN(final boolean check) {
         checkSubjectDN = check;
     }
 
@@ -266,7 +266,7 @@ public class BasicX509CredentialNameEvaluator implements X509CredentialNameEvalu
      */
     protected boolean processNameChecks(@Nonnull final X509Credential credential,
             @Nonnull final Set<String> trustedNames) {
-        X509Certificate entityCertificate = credential.getEntityCertificate();
+        final X509Certificate entityCertificate = credential.getEntityCertificate();
 
         if (checkSubjectAltNames()) {
             if (processSubjectAltNames(entityCertificate, trustedNames)) {
@@ -315,14 +315,14 @@ public class BasicX509CredentialNameEvaluator implements X509CredentialNameEvalu
             @Nonnull final Set<String> trustedNames) {
         
         log.debug("Processing subject DN common name");
-        X500Principal subjectPrincipal = certificate.getSubjectX500Principal();
-        List<String> commonNames = X509Support.getCommonNames(subjectPrincipal);
+        final X500Principal subjectPrincipal = certificate.getSubjectX500Principal();
+        final List<String> commonNames = X509Support.getCommonNames(subjectPrincipal);
         if (commonNames == null || commonNames.isEmpty()) {
             return false;
         }
         // TODO We only check the first one returned by X509Support. Maybe we should check all,
         // if there are multiple CN AVA's from the same (first) RDN.
-        String commonName = commonNames.get(0);
+        final String commonName = commonNames.get(0);
         log.debug("Extracted common name from certificate: {}", commonName);
 
         if (!Strings.isNullOrEmpty(commonName) && trustedNames.contains(commonName)) {
@@ -345,12 +345,12 @@ public class BasicX509CredentialNameEvaluator implements X509CredentialNameEvalu
             @Nonnull final Set<String> trustedNames) {
         
         log.debug("Processing subject DN");
-        X500Principal subjectPrincipal = certificate.getSubjectX500Principal();
+        final X500Principal subjectPrincipal = certificate.getSubjectX500Principal();
 
         if (log.isDebugEnabled()) {
             log.debug("Extracted X500Principal from certificate: {}", x500DNHandler.getName(subjectPrincipal));
         }        
-        for (String trustedName : trustedNames) {
+        for (final String trustedName : trustedNames) {
             X500Principal trustedNamePrincipal = null;
             try {
                 trustedNamePrincipal = x500DNHandler.parse(trustedName);
@@ -361,7 +361,7 @@ public class BasicX509CredentialNameEvaluator implements X509CredentialNameEvalu
                     }
                     return true;
                 }
-            } catch (IllegalArgumentException e) {
+            } catch (final IllegalArgumentException e) {
                 // Do nothing, probably wasn't a distinguished name.
                 // TODO maybe try and match only the "suspected" DN values above
                 // - maybe match with regex for '='or something
@@ -384,14 +384,14 @@ public class BasicX509CredentialNameEvaluator implements X509CredentialNameEvalu
             @Nonnull final Set<String> trustedNames) {
         
         log.debug("Processing subject alt names");
-        Integer[] nameTypes = new Integer[getSubjectAltNameTypes().size()];
+        final Integer[] nameTypes = new Integer[getSubjectAltNameTypes().size()];
         getSubjectAltNameTypes().toArray(nameTypes);
-        List altNames = X509Support.getAltNames(certificate, nameTypes);
+        final List altNames = X509Support.getAltNames(certificate, nameTypes);
 
         if (altNames != null) {
             log.debug("Extracted subject alt names from certificate: {}", altNames);
     
-            for (Object altName : altNames) {
+            for (final Object altName : altNames) {
                 if (trustedNames.contains(altName)) {
                     log.debug("Matched subject alt name to trusted names: {}", altName.toString());
                     return true;

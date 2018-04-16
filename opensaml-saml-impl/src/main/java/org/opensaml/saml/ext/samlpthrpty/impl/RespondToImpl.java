@@ -21,7 +21,7 @@ import org.opensaml.saml.ext.samlpthrpty.RespondTo;
 import org.opensaml.saml.saml2.core.impl.AbstractNameIDType;
 
 /**
- * Concerte implementation of {@link RespondTo}.
+ * Concrete implementation of {@link RespondTo}.
  */
 public class RespondToImpl extends AbstractNameIDType implements RespondTo {
 
@@ -32,7 +32,7 @@ public class RespondToImpl extends AbstractNameIDType implements RespondTo {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected RespondToImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected RespondToImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 }

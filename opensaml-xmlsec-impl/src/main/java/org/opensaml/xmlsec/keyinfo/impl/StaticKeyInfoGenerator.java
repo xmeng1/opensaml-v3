@@ -104,11 +104,11 @@ public class StaticKeyInfoGenerator implements KeyInfoGenerator {
         //   1) marshall the original (if necessary)
         //   2) unmarshall a new object around the cached or newly marshalled DOM.
         //   3) ensure only one of them caches the DOM (original or marshalled)
-        Element origDOM = origKeyInfo.getDOM();
+        final Element origDOM = origKeyInfo.getDOM();
         if (origDOM == null) {
             try {
                 getMarshaller().marshall(origKeyInfo);
-            } catch (MarshallingException e) {
+            } catch (final MarshallingException e) {
                 throw new SecurityException("Error marshalling the original KeyInfo during cloning", e);
             }
         }
@@ -116,7 +116,7 @@ public class StaticKeyInfoGenerator implements KeyInfoGenerator {
         KeyInfo newKeyInfo = null;
         try {
             newKeyInfo = (KeyInfo) getUnmarshaller().unmarshall(origKeyInfo.getDOM());
-        } catch (UnmarshallingException e) {
+        } catch (final UnmarshallingException e) {
             throw new SecurityException("Error unmarshalling the new KeyInfo during cloning", e);
         }
         

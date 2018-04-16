@@ -35,14 +35,14 @@ import org.w3c.dom.Element;
 public class BinaryExchangeMarshaller extends XSStringMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        BinaryExchange binaryExchange = (BinaryExchange) xmlObject;
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
+        final BinaryExchange binaryExchange = (BinaryExchange) xmlObject;
         
-        String valueType = StringSupport.trimOrNull(binaryExchange.getValueType());
+        final String valueType = StringSupport.trimOrNull(binaryExchange.getValueType());
         if (valueType != null) {
             domElement.setAttributeNS(null, BinaryExchange.VALUE_TYPE_ATTRIB_NAME, valueType);
         }
-        String encodingType = StringSupport.trimOrNull(binaryExchange.getEncodingType());
+        final String encodingType = StringSupport.trimOrNull(binaryExchange.getEncodingType());
         if (encodingType != null) {
             domElement.setAttributeNS(null, BinaryExchange.ENCODING_TYPE_ATTRIB_NAME, encodingType);
         }

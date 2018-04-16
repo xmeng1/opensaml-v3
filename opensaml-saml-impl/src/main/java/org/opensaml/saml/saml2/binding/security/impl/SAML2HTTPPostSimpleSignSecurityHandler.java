@@ -127,7 +127,7 @@ public class SAML2HTTPPostSimpleSignSecurityHandler extends BaseSAMLSimpleSignat
         final HttpServletRequest request = getHttpServletRequest();
         
         final StringBuilder builder = new StringBuilder();
-        String samlMsg;
+        final String samlMsg;
         try {
             if (request.getParameter("SAMLRequest") != null) {
                 samlMsg = new String(Base64Support.decode(request.getParameter("SAMLRequest")), "UTF-8");
@@ -149,7 +149,7 @@ public class SAML2HTTPPostSimpleSignSecurityHandler extends BaseSAMLSimpleSignat
 
         builder.append("&SigAlg=" + request.getParameter("SigAlg"));
 
-        String constructed = builder.toString();
+        final String constructed = builder.toString();
         if (Strings.isNullOrEmpty(constructed)) {
             log.warn("Could not construct signed content string from form control data");
             return null;

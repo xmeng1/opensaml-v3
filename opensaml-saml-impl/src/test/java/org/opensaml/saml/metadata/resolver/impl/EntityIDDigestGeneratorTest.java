@@ -21,10 +21,10 @@ import java.security.NoSuchAlgorithmException;
 
 import org.opensaml.core.criterion.EntityIdCriterion;
 import org.opensaml.security.crypto.JCAConstants;
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import junit.framework.Assert;
 import net.shibboleth.utilities.java.support.codec.StringDigester;
 import net.shibboleth.utilities.java.support.codec.StringDigester.OutputFormat;
 import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
@@ -70,7 +70,7 @@ public class EntityIDDigestGeneratorTest {
         
         Assert.assertEquals("metadata." + controlValueSHA1Hex + ".xml", generator.apply(criteria));
         
-        StringDigester digester = new StringDigester(JCAConstants.DIGEST_SHA1, OutputFormat.HEX_UPPER);
+        final StringDigester digester = new StringDigester(JCAConstants.DIGEST_SHA1, OutputFormat.HEX_UPPER);
         
         generator = new EntityIDDigestGenerator(digester, null, null, null);
         

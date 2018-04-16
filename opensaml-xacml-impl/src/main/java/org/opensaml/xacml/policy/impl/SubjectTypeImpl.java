@@ -42,7 +42,7 @@ public class SubjectTypeImpl extends AbstractXACMLObject implements SubjectType 
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected SubjectTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix){
+    protected SubjectTypeImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix){
         super(namespaceURI,elementLocalName,namespacePrefix);
         subjectMatch = new XMLObjectChildrenList<>(this);
     }
@@ -54,7 +54,7 @@ public class SubjectTypeImpl extends AbstractXACMLObject implements SubjectType 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
         
-        ArrayList<XMLObject> children = new ArrayList<>();        
+        final ArrayList<XMLObject> children = new ArrayList<>();        
         
         children.addAll(subjectMatch);      
                 

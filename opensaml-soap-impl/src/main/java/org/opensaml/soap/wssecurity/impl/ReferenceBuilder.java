@@ -31,7 +31,7 @@ public class ReferenceBuilder extends AbstractWSSecurityObjectBuilder<Reference>
     }
 
     /** {@inheritDoc} */
-    public Reference buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Reference buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new ReferenceImpl(namespaceURI, localName, namespacePrefix);
     }
 

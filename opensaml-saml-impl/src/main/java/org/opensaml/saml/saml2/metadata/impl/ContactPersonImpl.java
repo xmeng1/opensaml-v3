@@ -73,7 +73,8 @@ public class ContactPersonImpl extends AbstractSAMLObject implements ContactPers
      * @param elementLocalName local name
      * @param namespacePrefix prefix
      */
-    protected ContactPersonImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected ContactPersonImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         unknownAttributes = new AttributeMap(this);
         emailAddresses = new XMLObjectChildrenList<>(this);
@@ -88,7 +89,7 @@ public class ContactPersonImpl extends AbstractSAMLObject implements ContactPers
 
     /** {@inheritDoc} */
     @Override
-    public void setType(ContactPersonTypeEnumeration theType) {
+    public void setType(final ContactPersonTypeEnumeration theType) {
         this.type = prepareForAssignment(this.type, theType);
     }
 
@@ -100,7 +101,7 @@ public class ContactPersonImpl extends AbstractSAMLObject implements ContactPers
 
     /** {@inheritDoc} */
     @Override
-    public void setExtensions(Extensions theExtensions) {
+    public void setExtensions(final Extensions theExtensions) {
         this.extensions = prepareForAssignment(this.extensions, theExtensions);
     }
 
@@ -112,7 +113,7 @@ public class ContactPersonImpl extends AbstractSAMLObject implements ContactPers
 
     /** {@inheritDoc} */
     @Override
-    public void setCompany(Company theCompany) {
+    public void setCompany(final Company theCompany) {
         this.company = prepareForAssignment(this.company, theCompany);
     }
 
@@ -124,7 +125,7 @@ public class ContactPersonImpl extends AbstractSAMLObject implements ContactPers
 
     /** {@inheritDoc} */
     @Override
-    public void setGivenName(GivenName name) {
+    public void setGivenName(final GivenName name) {
         givenName = prepareForAssignment(givenName, name);
     }
 
@@ -136,7 +137,7 @@ public class ContactPersonImpl extends AbstractSAMLObject implements ContactPers
 
     /** {@inheritDoc} */
     @Override
-    public void setSurName(SurName name) {
+    public void setSurName(final SurName name) {
         surName = prepareForAssignment(surName, name);
     }
 
@@ -161,7 +162,7 @@ public class ContactPersonImpl extends AbstractSAMLObject implements ContactPers
     /** {@inheritDoc} */
     @Override
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         children.add(extensions);
         children.add(company);

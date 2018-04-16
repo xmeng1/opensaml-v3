@@ -44,7 +44,8 @@ public class VariableDefinitionTypeImpl extends AbstractXACMLObject implements V
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected VariableDefinitionTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix){
+    protected VariableDefinitionTypeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI,elementLocalName,namespacePrefix);
     }
     
@@ -54,7 +55,7 @@ public class VariableDefinitionTypeImpl extends AbstractXACMLObject implements V
     }
 
     /** {@inheritDoc} */
-    public void setExpression(ExpressionType newExpression) {
+    public void setExpression(final ExpressionType newExpression) {
         expression = prepareForAssignment(expression, newExpression);
     }
 
@@ -64,14 +65,14 @@ public class VariableDefinitionTypeImpl extends AbstractXACMLObject implements V
     }
 
     /** {@inheritDoc} */
-    public void setVariableId(String id) {
+    public void setVariableId(final String id) {
         this.variableId = prepareForAssignment(this.variableId,id);
 
     }
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         if(expression != null){
             children.add(expression);

@@ -41,7 +41,7 @@ public class XSBooleanMarshaller extends AbstractXMLObjectMarshaller {
     @Override
     protected void marshallElementContent(@Nonnull final XMLObject xmlObject, @Nonnull final Element domElement)
             throws MarshallingException {
-        XSBoolean xsiBoolean = (XSBoolean) xmlObject;
+        final XSBoolean xsiBoolean = (XSBoolean) xmlObject;
 
         if (xsiBoolean.getValue() != null && xsiBoolean.getValue().getValue() != null) {
             ElementSupport.appendTextContent(domElement, xsiBoolean.getValue().getValue().toString());

@@ -43,7 +43,7 @@ public class TerminateBuilder extends AbstractSAMLObjectBuilder<Terminate> {
     }
 
     /** {@inheritDoc} */
-    public Terminate buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Terminate buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new TerminateImpl(namespaceURI, localName, namespacePrefix);
     }
 }

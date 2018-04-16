@@ -26,7 +26,8 @@ import org.opensaml.xacml.policy.AttributeSelectorType;
 public class AttributeSelectorTypeImplBuilder extends AbstractXACMLObjectBuilder<AttributeSelectorType>  {
 
     /** {@inheritDoc} */
-    public AttributeSelectorType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public AttributeSelectorType buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new AttributeSelectorTypeImpl(namespaceURI,localName,namespacePrefix);
     }
 

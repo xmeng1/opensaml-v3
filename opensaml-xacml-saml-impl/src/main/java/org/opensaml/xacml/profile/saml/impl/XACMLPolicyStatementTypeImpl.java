@@ -46,14 +46,15 @@ public class XACMLPolicyStatementTypeImpl extends AbstractSAMLObject implements 
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected XACMLPolicyStatementTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected XACMLPolicyStatementTypeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         choiceGroup = new IndexedXMLObjectChildrenList<>(this);
     }
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         children.addAll(choiceGroup);
 
@@ -80,7 +81,7 @@ public class XACMLPolicyStatementTypeImpl extends AbstractSAMLObject implements 
     }
 
     /** {@inheritDoc} */
-    public void setReferencedPolicies(ReferencedPoliciesType policies) {
+    public void setReferencedPolicies(final ReferencedPoliciesType policies) {
         referencedPolicies = prepareForAssignment(referencedPolicies, policies);
     }
 }

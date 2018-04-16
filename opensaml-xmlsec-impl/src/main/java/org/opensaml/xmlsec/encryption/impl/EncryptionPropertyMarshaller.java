@@ -36,8 +36,8 @@ import org.w3c.dom.Element;
 public class EncryptionPropertyMarshaller extends AbstractXMLEncryptionMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        EncryptionProperty ep = (EncryptionProperty) xmlObject;
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
+        final EncryptionProperty ep = (EncryptionProperty) xmlObject;
 
         if (ep.getID() != null) {
             domElement.setAttributeNS(null, EncryptionProperty.ID_ATTRIB_NAME, ep.getID());
@@ -48,7 +48,7 @@ public class EncryptionPropertyMarshaller extends AbstractXMLEncryptionMarshalle
         }
 
         Attr attribute;
-        for (Entry<QName, String> entry : ep.getUnknownAttributes().entrySet()) {
+        for (final Entry<QName, String> entry : ep.getUnknownAttributes().entrySet()) {
             attribute = AttributeSupport.constructAttribute(domElement.getOwnerDocument(), entry.getKey());
             attribute.setValue(entry.getValue());
             domElement.setAttributeNodeNS(attribute);

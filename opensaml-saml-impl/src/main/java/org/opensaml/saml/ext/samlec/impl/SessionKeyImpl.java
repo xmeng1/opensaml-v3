@@ -59,7 +59,7 @@ public class SessionKeyImpl extends AbstractSAMLObject implements SessionKey {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected SessionKeyImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected SessionKeyImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         
         encTypes = new XMLObjectChildrenList<>(this);
@@ -82,7 +82,7 @@ public class SessionKeyImpl extends AbstractSAMLObject implements SessionKey {
 
     /** {@inheritDoc} */
     @Override
-    public void setSOAP11MustUnderstand(Boolean newMustUnderstand) {
+    public void setSOAP11MustUnderstand(final Boolean newMustUnderstand) {
         if (newMustUnderstand != null) {
             soap11MustUnderstand = prepareForAssignment(soap11MustUnderstand, 
                     new XSBooleanValue(newMustUnderstand, true));
@@ -95,7 +95,7 @@ public class SessionKeyImpl extends AbstractSAMLObject implements SessionKey {
 
     /** {@inheritDoc} */
     @Override
-    public void setSOAP11MustUnderstand(XSBooleanValue newMustUnderstand) {
+    public void setSOAP11MustUnderstand(final XSBooleanValue newMustUnderstand) {
             soap11MustUnderstand = prepareForAssignment(soap11MustUnderstand, newMustUnderstand);
             manageQualifiedAttributeNamespace(MustUnderstandBearing.SOAP11_MUST_UNDERSTAND_ATTR_NAME, 
                     soap11MustUnderstand != null);
@@ -109,7 +109,7 @@ public class SessionKeyImpl extends AbstractSAMLObject implements SessionKey {
 
     /** {@inheritDoc} */
     @Override
-    public void setSOAP11Actor(String newActor) {
+    public void setSOAP11Actor(final String newActor) {
         soap11Actor = prepareForAssignment(soap11Actor, newActor);
         manageQualifiedAttributeNamespace(ActorBearing.SOAP11_ACTOR_ATTR_NAME, soap11Actor != null);
     }
@@ -122,7 +122,7 @@ public class SessionKeyImpl extends AbstractSAMLObject implements SessionKey {
 
     /** {@inheritDoc} */
     @Override
-    public void setAlgorithm(String newAlgorithm) {
+    public void setAlgorithm(final String newAlgorithm) {
         algorithm = prepareForAssignment(algorithm, newAlgorithm);
     }
 
@@ -140,14 +140,14 @@ public class SessionKeyImpl extends AbstractSAMLObject implements SessionKey {
 
     /** {@inheritDoc} */
     @Override
-    public void setKeyInfo(KeyInfo newKeyInfo) {
+    public void setKeyInfo(final KeyInfo newKeyInfo) {
         keyInfo = prepareForAssignment(keyInfo, newKeyInfo);
     }
     
     /** {@inheritDoc} */
     @Override
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         children.addAll(encTypes);
         

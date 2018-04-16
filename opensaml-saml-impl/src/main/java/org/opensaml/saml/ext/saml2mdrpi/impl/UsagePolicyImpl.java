@@ -32,7 +32,7 @@ public class UsagePolicyImpl extends LocalizedURIImpl implements UsagePolicy {
      * @param elementLocalName local name
      * @param namespacePrefix prefix
      */
-    protected UsagePolicyImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected UsagePolicyImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

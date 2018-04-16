@@ -118,9 +118,9 @@ public class ReplayCache extends AbstractIdentifiableInitializableComponent {
     public synchronized boolean check(@Nonnull @NotEmpty final String context, @Nonnull @NotEmpty final String s,
             final long expires) {
 
-        String key;
+        final String key;
         
-        StorageCapabilities caps = storage.getCapabilities();
+        final StorageCapabilities caps = storage.getCapabilities();
         if (context.length() > caps.getContextSize()) {
             log.error("context {} too long for StorageService (limit {})", context, caps.getContextSize());
             return false;
@@ -131,7 +131,7 @@ public class ReplayCache extends AbstractIdentifiableInitializableComponent {
         }
 
         try {
-            StorageRecord entry = storage.read(context, key);
+            final StorageRecord entry = storage.read(context, key);
             if (entry == null) {
                 log.debug("Value '{}' was not a replay, adding to cache with expiration time {}", s, expires);
                 storage.create(context, key, "x", expires);
@@ -140,7 +140,7 @@ public class ReplayCache extends AbstractIdentifiableInitializableComponent {
                 log.debug("Replay of value '{}' detected in cache, expires at {}", s, entry.getExpiration());
                 return false;
             }
-        } catch (IOException e) {
+        } catch (final IOException e) {
             log.error("Exception reading/writing to storage service, returning {}", strict ? "failure" : "success", e);
             return !strict;
         }

@@ -99,7 +99,7 @@ public class XMLObjectBuilderFactory {
     @Nonnull public <XMLObjectType extends XMLObject> XMLObjectBuilder<XMLObjectType> getBuilderOrThrow(
             @Nonnull final QName key) {
 
-        XMLObjectBuilder<?> builder = getBuilder(key);
+        final XMLObjectBuilder<?> builder = getBuilder(key);
         if (builder == null) {
             throw new XMLRuntimeException("Unable to locate a builder for " + key);
         }
@@ -121,7 +121,7 @@ public class XMLObjectBuilderFactory {
     @Nonnull public <XMLObjectType extends XMLObject> XMLObjectBuilder<XMLObjectType> getBuilderOrThrow(
             @Nonnull final Element domElement) {
         
-        XMLObjectBuilder<?> builder = getBuilder(domElement);
+        final XMLObjectBuilder<?> builder = getBuilder(domElement);
         if (builder == null) {
             throw new XMLRuntimeException("Unable to locate a builder for " + domElement.getLocalName());
         }

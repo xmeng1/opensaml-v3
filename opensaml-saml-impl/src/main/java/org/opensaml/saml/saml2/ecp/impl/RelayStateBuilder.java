@@ -44,7 +44,7 @@ public class RelayStateBuilder extends AbstractSAMLObjectBuilder<RelayState> {
     }
 
     /** {@inheritDoc} */
-    public RelayState buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public RelayState buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new RelayStateImpl(namespaceURI, localName, namespacePrefix);
     }
 }

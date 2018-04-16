@@ -61,7 +61,7 @@ import org.slf4j.LoggerFactory;
  * {@link KeyValue} or {@link DEREncodedKeyValue} within one of the {@link KeyInfo} entries in the confirmation data
  * </li>
  * <li>
- * the presenter's public cert matches an {@link org.opensaml.xml.signature.X509Certificate} within one of the
+ * the presenter's public cert matches an {@link org.opensaml.xmlsec.signature.X509Certificate} within one of the
  * {@link KeyInfo} entries in the confirmation data
  * </li>
  * </ul>
@@ -122,16 +122,16 @@ public class HolderOfKeySubjectConfirmationValidator extends AbstractSubjectConf
         
         log.debug("Attempting holder-of-key subject confirmation");
         if (!isValidConfirmationDataType(confirmation)) {
-            String msg = String.format(
+            final String msg = String.format(
                     "Subject confirmation data is not of type '%s'", KeyInfoConfirmationDataType.TYPE_NAME);
             log.debug(msg);
             context.setValidationFailureMessage(msg);
             return ValidationResult.INVALID;
         }
 
-        List<KeyInfo> possibleKeys = getSubjectConfirmationKeyInformation(confirmation, assertion, context);
+        final List<KeyInfo> possibleKeys = getSubjectConfirmationKeyInformation(confirmation, assertion, context);
         if (possibleKeys.isEmpty()) {
-            String msg = String.format(
+            final String msg = String.format(
                     "No key information for holder of key subject confirmation in assertion '%s'", assertion.getID());
             log.debug(msg);
             context.setValidationFailureMessage(msg);
@@ -141,7 +141,7 @@ public class HolderOfKeySubjectConfirmationValidator extends AbstractSubjectConf
         Pair<PublicKey, X509Certificate> keyCertPair = null;
         try {
             keyCertPair = getKeyAndCertificate(context);
-        } catch (IllegalArgumentException e) {
+        } catch (final IllegalArgumentException e) {
             log.warn("Problem with the validation context presenter key/cert params: {}", e.getMessage());
             context.setValidationFailureMessage("Unable to obtain presenter key/cert params from validation context");
             return ValidationResult.INDETERMINATE;
@@ -153,7 +153,7 @@ public class HolderOfKeySubjectConfirmationValidator extends AbstractSubjectConf
             return ValidationResult.INDETERMINATE;
         }
 
-        for (KeyInfo keyInfo : possibleKeys) {
+        for (final KeyInfo keyInfo : possibleKeys) {
             if (matchesKeyValue(keyCertPair.getFirst(), keyInfo)) {
                 log.debug("Successfully matched public key in subject confirmation data to supplied key param");
                 context.getDynamicParameters().put(SAML2AssertionValidationParameters.SC_HOK_CONFIRMED_KEYINFO,
@@ -182,7 +182,7 @@ public class HolderOfKeySubjectConfirmationValidator extends AbstractSubjectConf
      */
     protected boolean isValidConfirmationDataType(@Nonnull final SubjectConfirmation confirmation) 
             throws AssertionValidationException {
-        QName confirmationDataSchemaType = confirmation.getSubjectConfirmationData().getSchemaType();
+        final QName confirmationDataSchemaType = confirmation.getSubjectConfirmationData().getSchemaType();
         if (confirmationDataSchemaType != null
                 && !confirmationDataSchemaType.equals(KeyInfoConfirmationDataType.TYPE_NAME)) {
             log.debug("SubjectConfirmationData xsi:type was non-null and did not match {}",
@@ -211,7 +211,7 @@ public class HolderOfKeySubjectConfirmationValidator extends AbstractSubjectConf
         try {
             presenterKey = (PublicKey) context.getStaticParameters().get(
                     SAML2AssertionValidationParameters.SC_HOK_PRESENTER_KEY);
-        } catch (ClassCastException e) {
+        } catch (final ClassCastException e) {
             throw new IllegalArgumentException(String.format(
                     "The value of the static validation parameter '%s' was not of the required type '%s'",
                     SAML2AssertionValidationParameters.SC_HOK_PRESENTER_KEY, PublicKey.class.getName()));
@@ -232,7 +232,7 @@ public class HolderOfKeySubjectConfirmationValidator extends AbstractSubjectConf
                     presenterKey = presenterCert.getPublicKey();
                 }
             }
-        } catch (ClassCastException e) {
+        } catch (final ClassCastException e) {
             throw new IllegalArgumentException(String.format(
                     "The value of the static validation parameter '%s' was not of the required type '%s'",
                     SAML2AssertionValidationParameters.SC_HOK_PRESENTER_CERT, X509Certificate.class.getName()));
@@ -257,10 +257,10 @@ public class HolderOfKeySubjectConfirmationValidator extends AbstractSubjectConf
             @Nonnull final SubjectConfirmation confirmation, @Nonnull final Assertion assertion, 
             @Nonnull final ValidationContext context) throws AssertionValidationException {
         
-        SubjectConfirmationData confirmationData = confirmation.getSubjectConfirmationData();
+        final SubjectConfirmationData confirmationData = confirmation.getSubjectConfirmationData();
 
-        List<KeyInfo> keyInfos = new LazyList<>();
-        for (XMLObject object : confirmationData.getUnknownXMLObjects(KeyInfo.DEFAULT_ELEMENT_NAME)) {
+        final List<KeyInfo> keyInfos = new LazyList<>();
+        for (final XMLObject object : confirmationData.getUnknownXMLObjects(KeyInfo.DEFAULT_ELEMENT_NAME)) {
             if (object != null) {
                 keyInfos.add((KeyInfo) object);
             }
@@ -334,14 +334,14 @@ public class HolderOfKeySubjectConfirmationValidator extends AbstractSubjectConf
         
         log.debug("Attempting to match KeyInfo KeyValue to supplied PublicKey param of type: {}", key.getAlgorithm());
         
-        for (KeyValue keyValue : keyValues) {
+        for (final KeyValue keyValue : keyValues) {
             try {
-                PublicKey kiPublicKey = KeyInfoSupport.getKey(keyValue);
+                final PublicKey kiPublicKey = KeyInfoSupport.getKey(keyValue);
                 if (Objects.equals(key, kiPublicKey)) {
                     log.debug("Matched KeyValue PublicKey");
                     return true;
                 }
-            } catch (KeyException e) {
+            } catch (final KeyException e) {
                 log.warn("KeyInfo contained KeyValue that can not be parsed", e);
             }
         }
@@ -377,14 +377,14 @@ public class HolderOfKeySubjectConfirmationValidator extends AbstractSubjectConf
         log.debug("Attempting to match KeyInfo DEREncodedKeyValue to supplied PublicKey param of type: {}", 
                 key.getAlgorithm());
         
-        for (DEREncodedKeyValue derEncodedKeyValue : derEncodedKeyValues) {
+        for (final DEREncodedKeyValue derEncodedKeyValue : derEncodedKeyValues) {
             try {
-                PublicKey kiPublicKey = KeyInfoSupport.getKey(derEncodedKeyValue);
+                final PublicKey kiPublicKey = KeyInfoSupport.getKey(derEncodedKeyValue);
                 if (Objects.equals(key, kiPublicKey)) {
                     log.debug("Matched DEREncodedKeyValue PublicKey");
                     return true;
                 }
-            } catch (KeyException e) {
+            } catch (final KeyException e) {
                 log.warn("KeyInfo contained DEREncodedKeyValue that can not be parsed", e);
             }
         }
@@ -418,7 +418,7 @@ public class HolderOfKeySubjectConfirmationValidator extends AbstractSubjectConf
             return false;
         }
 
-        List<X509Data> x509Datas = keyInfo.getX509Datas();
+        final List<X509Data> x509Datas = keyInfo.getX509Datas();
         if (x509Datas == null || x509Datas.isEmpty()) {
             log.debug("KeyInfo contained no X509Data children, skipping certificate match");
             return false;
@@ -427,21 +427,21 @@ public class HolderOfKeySubjectConfirmationValidator extends AbstractSubjectConf
         log.debug("Attempting to match KeyInfo X509Data to supplied X509Certificate param");
 
         List<org.opensaml.xmlsec.signature.X509Certificate> xmlCertificates;
-        for (X509Data data : x509Datas) {
+        for (final X509Data data : x509Datas) {
             xmlCertificates = data.getX509Certificates();
             if (xmlCertificates == null || xmlCertificates.isEmpty()) {
                 log.debug("X509Data contained no X509Certificate children, skipping certificate match");
                 continue;
             }
 
-            for (org.opensaml.xmlsec.signature.X509Certificate xmlCertificate : xmlCertificates) {
+            for (final org.opensaml.xmlsec.signature.X509Certificate xmlCertificate : xmlCertificates) {
                 try {
-                    X509Certificate kiCert = KeyInfoSupport.getCertificate(xmlCertificate);
+                    final X509Certificate kiCert = KeyInfoSupport.getCertificate(xmlCertificate);
                     if (Objects.equals(cert, kiCert)) {
                         log.debug("Matched X509Certificate");
                         return true;
                     }
-                } catch (CertificateException e) {
+                } catch (final CertificateException e) {
                     log.warn("KeyInfo contained Certificate value that can not be parsed", e);
                 }
             }

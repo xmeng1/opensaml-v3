@@ -73,7 +73,7 @@ public final class EvaluableX509DigestCredentialCriterion extends AbstractTriSta
      */
     public EvaluableX509DigestCredentialCriterion(@Nonnull final String alg, @Nonnull final byte[] digest) {
         x509digest = Constraint.isNotEmpty(digest, "X.509 digest cannot be null or empty");
-        String trimmed = StringSupport.trimOrNull(alg);
+        final String trimmed = StringSupport.trimOrNull(alg);
         Constraint.isNotNull(trimmed, "Certificate digest algorithm cannot be null or empty");
         algorithm = trimmed;
     }
@@ -88,19 +88,19 @@ public final class EvaluableX509DigestCredentialCriterion extends AbstractTriSta
             return false;
         }
 
-        X509Certificate entityCert = ((X509Credential) target).getEntityCertificate();
+        final X509Certificate entityCert = ((X509Credential) target).getEntityCertificate();
         if (entityCert == null) {
             log.info("X509Credential did not contain an entity certificate, does not satisfy criteria");
             return false;
         }
         
         try {
-            MessageDigest hasher = MessageDigest.getInstance(algorithm);
-            byte[] hashed = hasher.digest(entityCert.getEncoded());
+            final MessageDigest hasher = MessageDigest.getInstance(algorithm);
+            final byte[] hashed = hasher.digest(entityCert.getEncoded());
             return Arrays.equals(hashed, x509digest);
-        } catch (CertificateEncodingException e) {
+        } catch (final CertificateEncodingException e) {
             log.error("Unable to encode certificate for digest operation", e);
-        } catch (NoSuchAlgorithmException e) {
+        } catch (final NoSuchAlgorithmException e) {
             log.error("Unable to obtain a digest implementation for algorithm {" + algorithm + "}" , e);
         }
         
@@ -109,7 +109,7 @@ public final class EvaluableX509DigestCredentialCriterion extends AbstractTriSta
     
     /** {@inheritDoc} */
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("EvaluableX509DigestCredentialCriterion [algorithm=");
         builder.append(algorithm);
         builder.append(", x509digest=");
@@ -127,7 +127,7 @@ public final class EvaluableX509DigestCredentialCriterion extends AbstractTriSta
     }
 
     /** {@inheritDoc} */
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }
@@ -137,7 +137,7 @@ public final class EvaluableX509DigestCredentialCriterion extends AbstractTriSta
         }
 
         if (obj instanceof EvaluableX509DigestCredentialCriterion) {
-            EvaluableX509DigestCredentialCriterion other = (EvaluableX509DigestCredentialCriterion) obj;
+            final EvaluableX509DigestCredentialCriterion other = (EvaluableX509DigestCredentialCriterion) obj;
             return algorithm.equals(other.algorithm) && Arrays.equals(x509digest, other.x509digest);
         }
 

@@ -44,7 +44,8 @@ public class NameIDMappingResponseBuilder extends AbstractSAMLObjectBuilder<Name
     }
 
     /** {@inheritDoc} */
-    public NameIDMappingResponse buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public NameIDMappingResponse buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new NameIDMappingResponseImpl(namespaceURI, localName, namespacePrefix);
     }
 }

@@ -42,7 +42,7 @@ public class NewIDImpl extends AbstractSAMLObject implements NewID {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected NewIDImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected NewIDImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -52,7 +52,7 @@ public class NewIDImpl extends AbstractSAMLObject implements NewID {
     }
 
     /** {@inheritDoc} */
-    public void setNewID(String newNewID) {
+    public void setNewID(final String newNewID) {
         this.newID = prepareForAssignment(this.newID, newNewID);
     }
 

@@ -43,7 +43,7 @@ public final class WSAddressingSupport {
      * @param soapObject the SOAP object to add the attribute to
      * @param isReferenceParameter whether IsReferenceParameter is true or false
      */
-    public static void addWSAIsReferenceParameter(XMLObject soapObject, boolean isReferenceParameter) {
+    public static void addWSAIsReferenceParameter(final XMLObject soapObject, final boolean isReferenceParameter) {
         if (soapObject instanceof IsReferenceParameterBearing) {
             ((IsReferenceParameterBearing)soapObject).setWSAIsReferenceParameter(
                     new XSBooleanValue(isReferenceParameter, false));
@@ -64,15 +64,15 @@ public final class WSAddressingSupport {
      * 
      * @return value of the IsReferenceParameter attribute, or false if not present
      */
-    public static boolean getWSAIsReferenceParameter(XMLObject soapObject) {
+    public static boolean getWSAIsReferenceParameter(final XMLObject soapObject) {
         if (soapObject instanceof IsReferenceParameterBearing) {
-            XSBooleanValue value = ((IsReferenceParameterBearing)soapObject).isWSAIsReferenceParameterXSBoolean();
+            final XSBooleanValue value = ((IsReferenceParameterBearing)soapObject).isWSAIsReferenceParameterXSBoolean();
             if (value != null) {
                 return value.getValue();
             }
         }
         if (soapObject instanceof AttributeExtensibleXMLObject) {
-            String valueStr = StringSupport.trimOrNull(((AttributeExtensibleXMLObject)soapObject)
+            final String valueStr = StringSupport.trimOrNull(((AttributeExtensibleXMLObject)soapObject)
                     .getUnknownAttributes().get(IsReferenceParameterBearing.WSA_IS_REFERENCE_PARAMETER_ATTR_NAME)); 
             return Objects.equals("1", valueStr) || Objects.equals("true", valueStr);
         }

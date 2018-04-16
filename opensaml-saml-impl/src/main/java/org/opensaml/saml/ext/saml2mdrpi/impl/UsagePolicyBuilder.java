@@ -34,7 +34,7 @@ public class UsagePolicyBuilder extends AbstractSAMLObjectBuilder<UsagePolicy> {
     }
 
     /** {@inheritDoc} */
-    public UsagePolicy buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public UsagePolicy buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new UsagePolicyImpl(namespaceURI, localName, namespacePrefix);
     }
 

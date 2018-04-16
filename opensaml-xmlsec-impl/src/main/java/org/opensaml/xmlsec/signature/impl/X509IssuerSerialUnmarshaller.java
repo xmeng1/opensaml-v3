@@ -29,9 +29,9 @@ import org.opensaml.xmlsec.signature.X509SerialNumber;
 public class X509IssuerSerialUnmarshaller extends AbstractXMLSignatureUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        X509IssuerSerial keyValue = (X509IssuerSerial) parentXMLObject;
+        final X509IssuerSerial keyValue = (X509IssuerSerial) parentXMLObject;
 
         if (childXMLObject instanceof X509IssuerName) {
             keyValue.setX509IssuerName((X509IssuerName) childXMLObject);

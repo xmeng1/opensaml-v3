@@ -40,7 +40,8 @@ public class RequestedAttributeImpl extends AttributeImpl implements RequestedAt
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected RequestedAttributeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected RequestedAttributeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
     
@@ -59,7 +60,7 @@ public class RequestedAttributeImpl extends AttributeImpl implements RequestedAt
     }
     
     /** {@inheritDoc} */
-    public void setIsRequired(Boolean newIsRequired){
+    public void setIsRequired(final Boolean newIsRequired){
         if(newIsRequired != null){
             isRequired = prepareForAssignment(isRequired, new XSBooleanValue(newIsRequired, false));
         }else{
@@ -68,7 +69,7 @@ public class RequestedAttributeImpl extends AttributeImpl implements RequestedAt
     }
 
     /** {@inheritDoc} */
-    public void setIsRequired(XSBooleanValue newIsRequired) {
+    public void setIsRequired(final XSBooleanValue newIsRequired) {
         isRequired = prepareForAssignment(isRequired, newIsRequired);
 
     }

@@ -29,8 +29,9 @@ import org.w3c.dom.Element;
 public class AuthenticationStatementMarshaller extends SubjectStatementMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject samlElement, Element domElement) throws MarshallingException {
-        AuthenticationStatement authenticationStatement = (AuthenticationStatement) samlElement;
+    protected void marshallAttributes(final XMLObject samlElement, final Element domElement)
+            throws MarshallingException {
+        final AuthenticationStatement authenticationStatement = (AuthenticationStatement) samlElement;
 
         if (authenticationStatement.getAuthenticationMethod() != null) {
             domElement.setAttributeNS(null, AuthenticationStatement.AUTHENTICATIONMETHOD_ATTRIB_NAME,
@@ -38,7 +39,7 @@ public class AuthenticationStatementMarshaller extends SubjectStatementMarshalle
         }
 
         if (authenticationStatement.getAuthenticationInstant() != null) {
-            String value = SAMLConfigurationSupport.getSAMLDateFormatter().print(
+            final String value = SAMLConfigurationSupport.getSAMLDateFormatter().print(
                     authenticationStatement.getAuthenticationInstant());
             domElement.setAttributeNS(null, AuthenticationStatement.AUTHENTICATIONINSTANT_ATTRIB_NAME, value);
         }

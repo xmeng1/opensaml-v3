@@ -71,7 +71,7 @@ public class BasicKeyInfoGeneratorFactory implements KeyInfoGeneratorFactory {
     /** {@inheritDoc} */
     @Nonnull public KeyInfoGenerator newInstance() {
         //TODO lock options during cloning ?
-        BasicOptions newOptions = options.clone();
+        final BasicOptions newOptions = options.clone();
         return new BasicKeyInfoGenerator(newOptions);
     }
     
@@ -89,7 +89,7 @@ public class BasicKeyInfoGeneratorFactory implements KeyInfoGeneratorFactory {
      * 
      * @param newValue the new option value to set
      */
-    public void setEmitEntityIDAsKeyName(boolean newValue) {
+    public void setEmitEntityIDAsKeyName(final boolean newValue) {
         options.emitEntityIDAsKeyName = newValue;
     }
 
@@ -107,7 +107,7 @@ public class BasicKeyInfoGeneratorFactory implements KeyInfoGeneratorFactory {
      * 
      * @param newValue the new option value to set
      */
-    public void setEmitKeyNames(boolean newValue) {
+    public void setEmitKeyNames(final boolean newValue) {
         options.emitKeyNames = newValue;
     }
 
@@ -125,7 +125,7 @@ public class BasicKeyInfoGeneratorFactory implements KeyInfoGeneratorFactory {
      * 
      * @param newValue the new option value to set
      */
-    public void setEmitPublicKeyValue(boolean newValue) {
+    public void setEmitPublicKeyValue(final boolean newValue) {
         options.emitPublicKeyValue = newValue;
     }
     
@@ -143,7 +143,7 @@ public class BasicKeyInfoGeneratorFactory implements KeyInfoGeneratorFactory {
      *
      * @param newValue the new option value to set
      */
-    public void setEmitPublicDEREncodedKeyValue(boolean newValue) {
+    public void setEmitPublicDEREncodedKeyValue(final boolean newValue) {
         options.emitPublicDEREncodedKeyValue = newValue;
     }
     
@@ -197,13 +197,13 @@ public class BasicKeyInfoGeneratorFactory implements KeyInfoGeneratorFactory {
                 return null;
             }
             
-            KeyInfo keyInfo = keyInfoBuilder.buildObject(KeyInfo.DEFAULT_ELEMENT_NAME);
+            final KeyInfo keyInfo = keyInfoBuilder.buildObject(KeyInfo.DEFAULT_ELEMENT_NAME);
             
             processKeyNames(keyInfo, credential);
             processEntityID(keyInfo, credential);
             processPublicKey(keyInfo, credential);
             
-            List<XMLObject> children = keyInfo.getOrderedChildren();
+            final List<XMLObject> children = keyInfo.getOrderedChildren();
             if (children != null && children.size() > 0) {
                 return keyInfo;
             } else {
@@ -218,7 +218,7 @@ public class BasicKeyInfoGeneratorFactory implements KeyInfoGeneratorFactory {
          */
         protected void processKeyNames(@Nonnull final KeyInfo keyInfo, @Nonnull final Credential credential) {
             if (options.emitKeyNames) {
-                for (String keyNameValue : credential.getKeyNames()) {
+                for (final String keyNameValue : credential.getKeyNames()) {
                     if (!Strings.isNullOrEmpty(keyNameValue)) {
                         KeyInfoSupport.addKeyName(keyInfo, keyNameValue);
                     }
@@ -233,7 +233,7 @@ public class BasicKeyInfoGeneratorFactory implements KeyInfoGeneratorFactory {
          */
         protected void processEntityID(@Nonnull final KeyInfo keyInfo, @Nonnull final Credential credential) {
             if (options.emitEntityIDAsKeyName) {
-                String keyNameValue = credential.getEntityId();
+                final String keyNameValue = credential.getEntityId();
                 if (!Strings.isNullOrEmpty(keyNameValue)) {
                     KeyInfoSupport.addKeyName(keyInfo, keyNameValue);
                 }
@@ -255,9 +255,9 @@ public class BasicKeyInfoGeneratorFactory implements KeyInfoGeneratorFactory {
                 if (options.emitPublicDEREncodedKeyValue) {
                     try {
                         KeyInfoSupport.addDEREncodedPublicKey(keyInfo, credential.getPublicKey());
-                    } catch (NoSuchAlgorithmException e) {
+                    } catch (final NoSuchAlgorithmException e) {
                         throw new SecurityException("Can't DER-encode key, unsupported key algorithm", e);
-                    } catch (InvalidKeySpecException e) {
+                    } catch (final InvalidKeySpecException e) {
                         throw new SecurityException("Can't DER-encode key, invalid key specification", e);
                     }
                 }
@@ -286,7 +286,7 @@ public class BasicKeyInfoGeneratorFactory implements KeyInfoGeneratorFactory {
         protected BasicOptions clone() {
             try {
                 return (BasicOptions) super.clone();
-            } catch (CloneNotSupportedException e) {
+            } catch (final CloneNotSupportedException e) {
                 // we know we're cloneable, so this will never happen
                 return null;
             }

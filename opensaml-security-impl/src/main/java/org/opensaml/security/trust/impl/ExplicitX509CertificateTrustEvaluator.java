@@ -59,7 +59,7 @@ public class ExplicitX509CertificateTrustEvaluator {
     public boolean validate(@Nonnull final X509Certificate untrustedCertificate,
             @Nonnull final Iterable<X509Certificate> trustedCertificates) {
         
-        for (X509Certificate trustedCertificate : trustedCertificates) {
+        for (final X509Certificate trustedCertificate : trustedCertificates) {
             if (untrustedCertificate.equals(trustedCertificate)) {
                 return true;
             }
@@ -77,8 +77,8 @@ public class ExplicitX509CertificateTrustEvaluator {
     public boolean validate(@Nonnull final X509Credential untrustedCredential,
             @Nonnull final X509Credential trustedCredential) {
 
-        X509Certificate untrustedCertificate = untrustedCredential.getEntityCertificate();
-        X509Certificate trustedCertificate = trustedCredential.getEntityCertificate();
+        final X509Certificate untrustedCertificate = untrustedCredential.getEntityCertificate();
+        final X509Certificate trustedCertificate = trustedCredential.getEntityCertificate();
         if (untrustedCertificate == null) {
             log.debug("Untrusted credential contained no entity certificate, unable to evaluate");
             return false;
@@ -106,12 +106,12 @@ public class ExplicitX509CertificateTrustEvaluator {
     public boolean validate(@Nonnull final X509Credential untrustedCredential,
             @Nonnull final Iterable<Credential> trustedCredentials) {
 
-        for (Credential trustedCredential : trustedCredentials) {
+        for (final Credential trustedCredential : trustedCredentials) {
             if (!(trustedCredential instanceof X509Credential)) {
                 log.debug("Skipping evaluation against trusted, non-X509Credential");
                 continue;
             }
-            X509Credential trustedX509Credential = (X509Credential) trustedCredential;
+            final X509Credential trustedX509Credential = (X509Credential) trustedCredential;
             if (validate(untrustedCredential, trustedX509Credential)) {
                 return true;
             }

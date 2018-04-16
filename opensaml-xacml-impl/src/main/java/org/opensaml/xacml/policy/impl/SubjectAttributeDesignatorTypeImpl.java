@@ -43,7 +43,8 @@ public class SubjectAttributeDesignatorTypeImpl extends AttributeDesignatorTypeI
      * @param namespacePrefix
      *                the prefix for the given namespace
      */
-    protected SubjectAttributeDesignatorTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected SubjectAttributeDesignatorTypeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -53,7 +54,7 @@ public class SubjectAttributeDesignatorTypeImpl extends AttributeDesignatorTypeI
     }
 
     /** {@inheritDoc} */
-    public void setSubjectCategory(String category) {
+    public void setSubjectCategory(final String category) {
         this.subjectCategory = prepareForAssignment(this.subjectCategory, category);
     }
 

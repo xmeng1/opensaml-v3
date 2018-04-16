@@ -43,8 +43,9 @@ public class AffiliationDescriptorMarshaller extends AbstractSAMLObjectMarshalle
     private final Logger log = LoggerFactory.getLogger(AffiliationDescriptorMarshaller.class);
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject samlElement, Element domElement) throws MarshallingException {
-        AffiliationDescriptor descriptor = (AffiliationDescriptor) samlElement;
+    protected void marshallAttributes(final XMLObject samlElement, final Element domElement)
+            throws MarshallingException {
+        final AffiliationDescriptor descriptor = (AffiliationDescriptor) samlElement;
 
         // Set affiliationOwnerID
         if (descriptor.getOwnerID() != null) {
@@ -60,14 +61,15 @@ public class AffiliationDescriptorMarshaller extends AbstractSAMLObjectMarshalle
         // Set the validUntil attribute
         if (descriptor.getValidUntil() != null) {
             log.debug("Writting validUntil attribute to AffiliationDescriptor DOM element");
-            String validUntilStr = SAMLConfigurationSupport.getSAMLDateFormatter().print(descriptor.getValidUntil());
+            final String validUntilStr =
+                    SAMLConfigurationSupport.getSAMLDateFormatter().print(descriptor.getValidUntil());
             domElement.setAttributeNS(null, TimeBoundSAMLObject.VALID_UNTIL_ATTRIB_NAME, validUntilStr);
         }
 
         // Set the cacheDuration attribute
         if (descriptor.getCacheDuration() != null) {
             log.debug("Writting cacheDuration attribute to AffiliationDescriptor DOM element");
-            String cacheDuration = DOMTypeSupport.longToDuration(descriptor.getCacheDuration());
+            final String cacheDuration = DOMTypeSupport.longToDuration(descriptor.getCacheDuration());
             domElement.setAttributeNS(null, CacheableSAMLObject.CACHE_DURATION_ATTRIB_NAME, cacheDuration);
         }
 

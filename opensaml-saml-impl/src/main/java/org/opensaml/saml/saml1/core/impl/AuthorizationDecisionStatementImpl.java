@@ -52,7 +52,8 @@ public class AuthorizationDecisionStatementImpl extends SubjectStatementImpl imp
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AuthorizationDecisionStatementImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AuthorizationDecisionStatementImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         actions = new XMLObjectChildrenList<>(this);
     }
@@ -63,7 +64,7 @@ public class AuthorizationDecisionStatementImpl extends SubjectStatementImpl imp
     }
 
     /** {@inheritDoc} */
-    public void setResource(String res) {
+    public void setResource(final String res) {
         resource = prepareForAssignment(resource, res);
     }
 
@@ -73,7 +74,7 @@ public class AuthorizationDecisionStatementImpl extends SubjectStatementImpl imp
     }
 
     /** {@inheritDoc} */
-    public void setDecision(DecisionTypeEnumeration dec) {
+    public void setDecision(final DecisionTypeEnumeration dec) {
         decision = prepareForAssignment(decision, dec);
     }
 
@@ -88,13 +89,13 @@ public class AuthorizationDecisionStatementImpl extends SubjectStatementImpl imp
     }
 
     /** {@inheritDoc} */
-    public void setEvidence(Evidence ev) {
+    public void setEvidence(final Evidence ev) {
         evidence = prepareForAssignment(evidence, ev);
     }
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        List<XMLObject> list = new ArrayList<>(actions.size() + 2);
+        final List<XMLObject> list = new ArrayList<>(actions.size() + 2);
 
         if (super.getOrderedChildren() != null) {
             list.addAll(super.getOrderedChildren());

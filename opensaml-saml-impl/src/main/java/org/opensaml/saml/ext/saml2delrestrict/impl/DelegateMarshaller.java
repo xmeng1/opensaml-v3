@@ -32,11 +32,12 @@ import com.google.common.base.Strings;
 public class DelegateMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        Delegate delegate = (Delegate) xmlObject;
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
+        final Delegate delegate = (Delegate) xmlObject;
         
         if (delegate.getDelegationInstant() != null) {
-            String delInstant = SAMLConfigurationSupport.getSAMLDateFormatter().print(delegate.getDelegationInstant());
+            final String delInstant =
+                    SAMLConfigurationSupport.getSAMLDateFormatter().print(delegate.getDelegationInstant());
             domElement.setAttributeNS(null, Delegate.DELEGATION_INSTANT_ATTRIB_NAME, delInstant);
         }
         if (!Strings.isNullOrEmpty(delegate.getConfirmationMethod())) {

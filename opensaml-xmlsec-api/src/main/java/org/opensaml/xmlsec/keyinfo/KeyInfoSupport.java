@@ -103,14 +103,14 @@ public class KeyInfoSupport {
      * @return a list of key name strings
      */
     @Nonnull public static List<String> getKeyNames(@Nullable final KeyInfo keyInfo) {
-        List<String> keynameList = new LinkedList<>();
+        final List<String> keynameList = new LinkedList<>();
 
         if (keyInfo == null) {
             return keynameList;
         }
 
-        List<KeyName> keyNames = keyInfo.getKeyNames();
-        for (KeyName keyName : keyNames) {
+        final List<KeyName> keyNames = keyInfo.getKeyNames();
+        for (final KeyName keyName : keyNames) {
             if (keyName.getValue() != null) {
                 keynameList.add(keyName.getValue());
             }
@@ -128,9 +128,9 @@ public class KeyInfoSupport {
     public static void addKeyName(@Nonnull final KeyInfo keyInfo, @Nullable final String keyNameValue) {
         Constraint.isNotNull(keyInfo, "KeyInfo cannot be null");
 
-        XMLObjectBuilder<KeyName> keyNameBuilder = (XMLObjectBuilder<KeyName>)
+        final XMLObjectBuilder<KeyName> keyNameBuilder = (XMLObjectBuilder<KeyName>)
                 XMLObjectProviderRegistrySupport.getBuilderFactory().getBuilder(KeyName.DEFAULT_ELEMENT_NAME);
-        KeyName keyName = Constraint.isNotNull(keyNameBuilder, "KeyName builder not available").buildObject(
+        final KeyName keyName = Constraint.isNotNull(keyNameBuilder, "KeyName builder not available").buildObject(
                 KeyName.DEFAULT_ELEMENT_NAME);
         keyName.setValue(keyNameValue);
         keyInfo.getKeyNames().add(keyName);
@@ -148,14 +148,14 @@ public class KeyInfoSupport {
      */
     @Nonnull public static List<X509Certificate> getCertificates(@Nullable final KeyInfo keyInfo)
             throws CertificateException {
-        List<X509Certificate> certList = new LinkedList<>();
+        final List<X509Certificate> certList = new LinkedList<>();
 
         if (keyInfo == null) {
             return certList;
         }
 
-        List<X509Data> x509Datas = keyInfo.getX509Datas();
-        for (X509Data x509Data : x509Datas) {
+        final List<X509Data> x509Datas = keyInfo.getX509Datas();
+        for (final X509Data x509Data : x509Datas) {
             certList.addAll(getCertificates(x509Data));
         }
 
@@ -174,14 +174,14 @@ public class KeyInfoSupport {
      */
     @Nonnull public static List<X509Certificate> getCertificates(@Nullable final X509Data x509Data)
             throws CertificateException {
-        List<X509Certificate> certList = new LinkedList<>();
+        final List<X509Certificate> certList = new LinkedList<>();
 
         if (x509Data == null) {
             return certList;
         }
 
-        for (org.opensaml.xmlsec.signature.X509Certificate xmlCert : x509Data.getX509Certificates()) {
-            X509Certificate newCert = getCertificate(xmlCert);
+        for (final org.opensaml.xmlsec.signature.X509Certificate xmlCert : x509Data.getX509Certificates()) {
+            final X509Certificate newCert = getCertificate(xmlCert);
             if (newCert != null) {
                 certList.add(newCert);
             }
@@ -221,14 +221,14 @@ public class KeyInfoSupport {
      *             s
      */
     @Nonnull public static List<X509CRL> getCRLs(@Nullable final KeyInfo keyInfo) throws CRLException {
-        List<X509CRL> crlList = new LinkedList<>();
+        final List<X509CRL> crlList = new LinkedList<>();
 
         if (keyInfo == null) {
             return crlList;
         }
 
-        List<X509Data> x509Datas = keyInfo.getX509Datas();
-        for (X509Data x509Data : x509Datas) {
+        final List<X509Data> x509Datas = keyInfo.getX509Datas();
+        for (final X509Data x509Data : x509Datas) {
             crlList.addAll(getCRLs(x509Data));
         }
 
@@ -246,14 +246,14 @@ public class KeyInfoSupport {
      *             s
      */
     @Nonnull public static List<X509CRL> getCRLs(@Nullable final X509Data x509Data) throws CRLException {
-        List<X509CRL> crlList = new LinkedList<>();
+        final List<X509CRL> crlList = new LinkedList<>();
 
         if (x509Data == null) {
             return crlList;
         }
 
-        for (org.opensaml.xmlsec.signature.X509CRL xmlCRL : x509Data.getX509CRLs()) {
-            X509CRL newCRL = getCRL(xmlCRL);
+        for (final org.opensaml.xmlsec.signature.X509CRL xmlCRL : x509Data.getX509CRLs()) {
+            final X509CRL newCRL = getCRL(xmlCRL);
             if (newCRL != null) {
                 crlList.add(newCRL);
             }
@@ -280,7 +280,7 @@ public class KeyInfoSupport {
 
         try {
             return X509Support.decodeCRL(xmlCRL.getValue());
-        } catch (CertificateException e) {
+        } catch (final CertificateException e) {
             throw new CRLException("Certificate error attempting to decode CRL", e);
         }
     }
@@ -298,9 +298,9 @@ public class KeyInfoSupport {
             throws CertificateEncodingException {
         Constraint.isNotNull(keyInfo, "KeyInfo cannot be null");
         
-        X509Data x509Data;
+        final X509Data x509Data;
         if (keyInfo.getX509Datas().size() == 0) {
-            XMLObjectBuilder<X509Data> x509DataBuilder = (XMLObjectBuilder<X509Data>)
+            final XMLObjectBuilder<X509Data> x509DataBuilder = (XMLObjectBuilder<X509Data>)
                     XMLObjectProviderRegistrySupport.getBuilderFactory().getBuilder(X509Data.DEFAULT_ELEMENT_NAME);
             x509Data = Constraint.isNotNull(x509DataBuilder, "X509Data builder not available").buildObject(
                     X509Data.DEFAULT_ELEMENT_NAME);
@@ -323,9 +323,9 @@ public class KeyInfoSupport {
     public static void addCRL(@Nonnull final KeyInfo keyInfo, @Nonnull final X509CRL crl) throws CRLException {
         Constraint.isNotNull(keyInfo, "KeyInfo cannot be null");
         
-        X509Data x509Data;
+        final X509Data x509Data;
         if (keyInfo.getX509Datas().size() == 0) {
-            XMLObjectBuilder<X509Data> x509DataBuilder = (XMLObjectBuilder<X509Data>)
+            final XMLObjectBuilder<X509Data> x509DataBuilder = (XMLObjectBuilder<X509Data>)
                     XMLObjectProviderRegistrySupport.getBuilderFactory().getBuilder(X509Data.DEFAULT_ELEMENT_NAME);
             x509Data = Constraint.isNotNull(x509DataBuilder, "X509Data builder not available").buildObject(
                     X509Data.DEFAULT_ELEMENT_NAME);
@@ -345,15 +345,16 @@ public class KeyInfoSupport {
      * @throws CertificateEncodingException thrown when there is an error converting the Java certificate representation
      *             to the XMLObject representation
      */
-    @Nonnull public static org.opensaml.xmlsec.signature.X509Certificate buildX509Certificate(X509Certificate cert)
+    @Nonnull public static org.opensaml.xmlsec.signature.X509Certificate
+            buildX509Certificate(final X509Certificate cert)
             throws CertificateEncodingException {
         Constraint.isNotNull(cert, "X.509 certificate cannot be null");
         
-        XMLObjectBuilder<org.opensaml.xmlsec.signature.X509Certificate> xmlCertBuilder =
+        final XMLObjectBuilder<org.opensaml.xmlsec.signature.X509Certificate> xmlCertBuilder =
                 (XMLObjectBuilder<org.opensaml.xmlsec.signature.X509Certificate>)
                     XMLObjectProviderRegistrySupport.getBuilderFactory().getBuilder(
                         org.opensaml.xmlsec.signature.X509Certificate.DEFAULT_ELEMENT_NAME);
-        org.opensaml.xmlsec.signature.X509Certificate xmlCert =
+        final org.opensaml.xmlsec.signature.X509Certificate xmlCert =
                 Constraint.isNotNull(xmlCertBuilder, "X509Certificate builder not available").buildObject(
                         org.opensaml.xmlsec.signature.X509Certificate.DEFAULT_ELEMENT_NAME);
         xmlCert.setValue(Base64Support.encode(cert.getEncoded(), Base64Support.CHUNKED));
@@ -370,14 +371,14 @@ public class KeyInfoSupport {
      * @throws CRLException thrown when there is an error converting the Java CRL representation to the XMLObject
      *             representation
      */
-    @Nonnull public static org.opensaml.xmlsec.signature.X509CRL buildX509CRL(X509CRL crl) throws CRLException {
+    @Nonnull public static org.opensaml.xmlsec.signature.X509CRL buildX509CRL(final X509CRL crl) throws CRLException {
         Constraint.isNotNull(crl, "X.509 CRL cannot be null");
         
-        XMLObjectBuilder<org.opensaml.xmlsec.signature.X509CRL> xmlCRLBuilder =
+        final XMLObjectBuilder<org.opensaml.xmlsec.signature.X509CRL> xmlCRLBuilder =
                 (XMLObjectBuilder<org.opensaml.xmlsec.signature.X509CRL>)
                     XMLObjectProviderRegistrySupport.getBuilderFactory().getBuilder(
                         org.opensaml.xmlsec.signature.X509CRL.DEFAULT_ELEMENT_NAME);
-        org.opensaml.xmlsec.signature.X509CRL xmlCRL =
+        final org.opensaml.xmlsec.signature.X509CRL xmlCRL =
                 Constraint.isNotNull(xmlCRLBuilder, "X509Certificate builder not available").buildObject(
                         org.opensaml.xmlsec.signature.X509CRL.DEFAULT_ELEMENT_NAME);
         xmlCRL.setValue(Base64Support.encode(crl.getEncoded(), Base64Support.CHUNKED));
@@ -392,9 +393,9 @@ public class KeyInfoSupport {
      * @return the new X509SubjectName
      */
     @Nonnull public static X509SubjectName buildX509SubjectName(@Nullable final String subjectName) {
-        XMLObjectBuilder<X509SubjectName> xmlSubjectNameBuilder = (XMLObjectBuilder<X509SubjectName>)
+        final XMLObjectBuilder<X509SubjectName> xmlSubjectNameBuilder = (XMLObjectBuilder<X509SubjectName>)
                 XMLObjectProviderRegistrySupport.getBuilderFactory().getBuilder(X509SubjectName.DEFAULT_ELEMENT_NAME);
-        X509SubjectName xmlSubjectName =
+        final X509SubjectName xmlSubjectName =
                 Constraint.isNotNull(xmlSubjectNameBuilder, "X509SubjectName builder not available").buildObject(
                         X509SubjectName.DEFAULT_ELEMENT_NAME);
         xmlSubjectName.setValue(subjectName);
@@ -410,25 +411,25 @@ public class KeyInfoSupport {
      */
     @Nonnull public static X509IssuerSerial buildX509IssuerSerial(@Nullable final String issuerName,
             @Nullable final BigInteger serialNumber) {
-        XMLObjectBuilderFactory builderFactory = XMLObjectProviderRegistrySupport.getBuilderFactory();
+        final XMLObjectBuilderFactory builderFactory = XMLObjectProviderRegistrySupport.getBuilderFactory();
         
-        XMLObjectBuilder<X509IssuerName> xmlIssuerNameBuilder = (XMLObjectBuilder<X509IssuerName>)
+        final XMLObjectBuilder<X509IssuerName> xmlIssuerNameBuilder = (XMLObjectBuilder<X509IssuerName>)
                 builderFactory.getBuilder(X509IssuerName.DEFAULT_ELEMENT_NAME);
-        X509IssuerName xmlIssuerName =
+        final X509IssuerName xmlIssuerName =
                 Constraint.isNotNull(xmlIssuerNameBuilder, "X509IssuerName builder not available").buildObject(
                         X509IssuerName.DEFAULT_ELEMENT_NAME);
         xmlIssuerName.setValue(issuerName);
 
-        XMLObjectBuilder<X509SerialNumber> xmlSerialNumberBuilder = (XMLObjectBuilder<X509SerialNumber>)
+        final XMLObjectBuilder<X509SerialNumber> xmlSerialNumberBuilder = (XMLObjectBuilder<X509SerialNumber>)
                 builderFactory.getBuilder(X509SerialNumber.DEFAULT_ELEMENT_NAME);
-        X509SerialNumber xmlSerialNumber =
+        final X509SerialNumber xmlSerialNumber =
                 Constraint.isNotNull(xmlSerialNumberBuilder, "X509SerialNumber builder not available").buildObject(
                         X509SerialNumber.DEFAULT_ELEMENT_NAME);
         xmlSerialNumber.setValue(serialNumber);
 
-        XMLObjectBuilder<X509IssuerSerial> xmlIssuerSerialBuilder = (XMLObjectBuilder<X509IssuerSerial>)
+        final XMLObjectBuilder<X509IssuerSerial> xmlIssuerSerialBuilder = (XMLObjectBuilder<X509IssuerSerial>)
                 builderFactory.getBuilder(X509IssuerSerial.DEFAULT_ELEMENT_NAME);
-        X509IssuerSerial xmlIssuerSerial =
+        final X509IssuerSerial xmlIssuerSerial =
                 Constraint.isNotNull(xmlIssuerSerialBuilder, "X509IssuerSerial builder not available").buildObject(
                         X509IssuerSerial.DEFAULT_ELEMENT_NAME);
         xmlIssuerSerial.setX509IssuerName(xmlIssuerName);
@@ -444,14 +445,14 @@ public class KeyInfoSupport {
      * @return a new X509SKI object, or null if the certificate did not contain the subject key identifier extension
      */
     @Nullable public static X509SKI buildX509SKI(@Nonnull final X509Certificate javaCert) {
-        byte[] skiPlainValue = X509Support.getSubjectKeyIdentifier(javaCert);
+        final byte[] skiPlainValue = X509Support.getSubjectKeyIdentifier(javaCert);
         if (skiPlainValue == null || skiPlainValue.length == 0) {
             return null;
         }
 
-        XMLObjectBuilder<X509SKI> xmlSKIBuilder = (XMLObjectBuilder<X509SKI>)
+        final XMLObjectBuilder<X509SKI> xmlSKIBuilder = (XMLObjectBuilder<X509SKI>)
                 XMLObjectProviderRegistrySupport.getBuilderFactory().getBuilder(X509SKI.DEFAULT_ELEMENT_NAME);
-        X509SKI xmlSKI = Constraint.isNotNull(xmlSKIBuilder, "X509SKI builder not available").buildObject(
+        final X509SKI xmlSKI = Constraint.isNotNull(xmlSKIBuilder, "X509SKI builder not available").buildObject(
                 X509SKI.DEFAULT_ELEMENT_NAME);
         xmlSKI.setValue(Base64Support.encode(skiPlainValue, Base64Support.CHUNKED));
 
@@ -471,16 +472,16 @@ public class KeyInfoSupport {
             @Nonnull final String algorithmURI) throws NoSuchAlgorithmException, CertificateEncodingException {
         Constraint.isNotNull(javaCert, "Certificate cannot be null");
 
-        String jceAlg = AlgorithmSupport.getAlgorithmID(algorithmURI);
+        final String jceAlg = AlgorithmSupport.getAlgorithmID(algorithmURI);
         if (jceAlg == null) {
             throw new NoSuchAlgorithmException("No JCE algorithm found for " + algorithmURI);
         }
-        MessageDigest md = MessageDigest.getInstance(jceAlg);
-        byte[] hash = md.digest(javaCert.getEncoded());
+        final MessageDigest md = MessageDigest.getInstance(jceAlg);
+        final byte[] hash = md.digest(javaCert.getEncoded());
         
-        XMLObjectBuilder<X509Digest> builder = (XMLObjectBuilder<X509Digest>)
+        final XMLObjectBuilder<X509Digest> builder = (XMLObjectBuilder<X509Digest>)
                 XMLObjectProviderRegistrySupport.getBuilderFactory().getBuilder(X509Digest.DEFAULT_ELEMENT_NAME);
-        X509Digest xmlDigest = Constraint.isNotNull(builder, "X509Digest builder not available").buildObject(
+        final X509Digest xmlDigest = Constraint.isNotNull(builder, "X509Digest builder not available").buildObject(
                 X509Digest.DEFAULT_ELEMENT_NAME);
         xmlDigest.setAlgorithm(algorithmURI);
         xmlDigest.setValue(Base64Support.encode(hash, Base64Support.CHUNKED));
@@ -501,9 +502,9 @@ public class KeyInfoSupport {
     public static void addPublicKey(@Nonnull final KeyInfo keyInfo, @Nullable final PublicKey pk) {
         Constraint.isNotNull(keyInfo, "KeyInfo cannot be null");
         
-        XMLObjectBuilder<KeyValue> keyValueBuilder = (XMLObjectBuilder<KeyValue>)
+        final XMLObjectBuilder<KeyValue> keyValueBuilder = (XMLObjectBuilder<KeyValue>)
                 XMLObjectProviderRegistrySupport.getBuilderFactory().getBuilder(KeyValue.DEFAULT_ELEMENT_NAME);
-        KeyValue keyValue = Constraint.isNotNull(keyValueBuilder, "KeyValue builder not available").buildObject(
+        final KeyValue keyValue = Constraint.isNotNull(keyValueBuilder, "KeyValue builder not available").buildObject(
                 KeyValue.DEFAULT_ELEMENT_NAME);
 
         // TODO handle ECKeyValue
@@ -528,22 +529,22 @@ public class KeyInfoSupport {
     @Nonnull public static RSAKeyValue buildRSAKeyValue(@Nonnull final RSAPublicKey rsaPubKey) {
         Constraint.isNotNull(rsaPubKey, "RSA public key cannot be null");
         
-        XMLObjectBuilderFactory builderFactory = XMLObjectProviderRegistrySupport.getBuilderFactory();
+        final XMLObjectBuilderFactory builderFactory = XMLObjectProviderRegistrySupport.getBuilderFactory();
         
-        XMLObjectBuilder<RSAKeyValue> rsaKeyValueBuilder = (XMLObjectBuilder<RSAKeyValue>)
+        final XMLObjectBuilder<RSAKeyValue> rsaKeyValueBuilder = (XMLObjectBuilder<RSAKeyValue>)
                 builderFactory.getBuilder(RSAKeyValue.DEFAULT_ELEMENT_NAME);
-        RSAKeyValue rsaKeyValue =
+        final RSAKeyValue rsaKeyValue =
                 Constraint.isNotNull(rsaKeyValueBuilder, "RSAKeyValue builder not available").buildObject(
                         RSAKeyValue.DEFAULT_ELEMENT_NAME);
         
-        XMLObjectBuilder<Modulus> modulusBuilder = (XMLObjectBuilder<Modulus>)
+        final XMLObjectBuilder<Modulus> modulusBuilder = (XMLObjectBuilder<Modulus>)
                 builderFactory.getBuilder(Modulus.DEFAULT_ELEMENT_NAME);
-        Modulus modulus = Constraint.isNotNull(modulusBuilder, "Modulus builder not available").buildObject(
+        final Modulus modulus = Constraint.isNotNull(modulusBuilder, "Modulus builder not available").buildObject(
                 Modulus.DEFAULT_ELEMENT_NAME);
         
-        XMLObjectBuilder<Exponent> exponentBuilder = (XMLObjectBuilder<Exponent>)
+        final XMLObjectBuilder<Exponent> exponentBuilder = (XMLObjectBuilder<Exponent>)
                 builderFactory.getBuilder(Exponent.DEFAULT_ELEMENT_NAME);
-        Exponent exponent = Constraint.isNotNull(exponentBuilder, "Exponent builder not available").buildObject(
+        final Exponent exponent = Constraint.isNotNull(exponentBuilder, "Exponent builder not available").buildObject(
                 Exponent.DEFAULT_ELEMENT_NAME);
 
         modulus.setValueBigInt(rsaPubKey.getModulus());
@@ -564,23 +565,23 @@ public class KeyInfoSupport {
     @Nonnull public static DSAKeyValue buildDSAKeyValue(@Nonnull final DSAPublicKey dsaPubKey) {
         Constraint.isNotNull(dsaPubKey, "DSA public key cannot be null");
         
-        XMLObjectBuilderFactory builderFactory = XMLObjectProviderRegistrySupport.getBuilderFactory();
+        final XMLObjectBuilderFactory builderFactory = XMLObjectProviderRegistrySupport.getBuilderFactory();
 
-        XMLObjectBuilder<DSAKeyValue> dsaKeyValueBuilder = (XMLObjectBuilder<DSAKeyValue>)
+        final XMLObjectBuilder<DSAKeyValue> dsaKeyValueBuilder = (XMLObjectBuilder<DSAKeyValue>)
                 builderFactory.getBuilder(DSAKeyValue.DEFAULT_ELEMENT_NAME);
-        DSAKeyValue dsaKeyValue =
+        final DSAKeyValue dsaKeyValue =
                 Constraint.isNotNull(dsaKeyValueBuilder, "DSAKeyValue builder not available").buildObject(
                         DSAKeyValue.DEFAULT_ELEMENT_NAME);
 
-        XMLObjectBuilder<Y> yBuilder = (XMLObjectBuilder<Y>) builderFactory.getBuilder(Y.DEFAULT_ELEMENT_NAME);
-        XMLObjectBuilder<G> gBuilder = (XMLObjectBuilder<G>) builderFactory.getBuilder(G.DEFAULT_ELEMENT_NAME);
-        XMLObjectBuilder<P> pBuilder = (XMLObjectBuilder<P>) builderFactory.getBuilder(P.DEFAULT_ELEMENT_NAME);
-        XMLObjectBuilder<Q> qBuilder = (XMLObjectBuilder<Q>) builderFactory.getBuilder(Q.DEFAULT_ELEMENT_NAME);
+        final XMLObjectBuilder<Y> yBuilder = (XMLObjectBuilder<Y>) builderFactory.getBuilder(Y.DEFAULT_ELEMENT_NAME);
+        final XMLObjectBuilder<G> gBuilder = (XMLObjectBuilder<G>) builderFactory.getBuilder(G.DEFAULT_ELEMENT_NAME);
+        final XMLObjectBuilder<P> pBuilder = (XMLObjectBuilder<P>) builderFactory.getBuilder(P.DEFAULT_ELEMENT_NAME);
+        final XMLObjectBuilder<Q> qBuilder = (XMLObjectBuilder<Q>) builderFactory.getBuilder(Q.DEFAULT_ELEMENT_NAME);
         
-        Y y = Constraint.isNotNull(yBuilder, "Y builder not available").buildObject(Y.DEFAULT_ELEMENT_NAME);
-        G g = Constraint.isNotNull(gBuilder, "G builder not available").buildObject(G.DEFAULT_ELEMENT_NAME);
-        P p = Constraint.isNotNull(pBuilder, "P builder not available").buildObject(P.DEFAULT_ELEMENT_NAME);
-        Q q = Constraint.isNotNull(qBuilder, "Q builder not available").buildObject(Q.DEFAULT_ELEMENT_NAME);
+        final Y y = Constraint.isNotNull(yBuilder, "Y builder not available").buildObject(Y.DEFAULT_ELEMENT_NAME);
+        final G g = Constraint.isNotNull(gBuilder, "G builder not available").buildObject(G.DEFAULT_ELEMENT_NAME);
+        final P p = Constraint.isNotNull(pBuilder, "P builder not available").buildObject(P.DEFAULT_ELEMENT_NAME);
+        final Q q = Constraint.isNotNull(qBuilder, "Q builder not available").buildObject(Q.DEFAULT_ELEMENT_NAME);
 
         y.setValueBigInt(dsaPubKey.getY());
         dsaKeyValue.setY(y);
@@ -611,14 +612,14 @@ public class KeyInfoSupport {
         Constraint.isNotNull(keyInfo, "KeyInfo cannot be null");
         Constraint.isNotNull(pk, "Public key cannot be null");
         
-        XMLObjectBuilder<DEREncodedKeyValue> builder = (XMLObjectBuilder<DEREncodedKeyValue>)
+        final XMLObjectBuilder<DEREncodedKeyValue> builder = (XMLObjectBuilder<DEREncodedKeyValue>)
                 XMLObjectProviderRegistrySupport.getBuilderFactory().getBuilder(
                         DEREncodedKeyValue.DEFAULT_ELEMENT_NAME);
-        DEREncodedKeyValue keyValue = Constraint.isNotNull(builder,
+        final DEREncodedKeyValue keyValue = Constraint.isNotNull(builder,
                 "DEREncodedKeyValue builder not available").buildObject(DEREncodedKeyValue.DEFAULT_ELEMENT_NAME);
         
-        KeyFactory keyFactory = KeyFactory.getInstance(pk.getAlgorithm());
-        X509EncodedKeySpec keySpec = keyFactory.getKeySpec(pk, X509EncodedKeySpec.class);
+        final KeyFactory keyFactory = KeyFactory.getInstance(pk.getAlgorithm());
+        final X509EncodedKeySpec keySpec = keyFactory.getKeySpec(pk, X509EncodedKeySpec.class);
         keyValue.setValue(Base64Support.encode(keySpec.getEncoded(), Base64Support.CHUNKED));
         
         keyInfo.getDEREncodedKeyValues().add(keyValue);
@@ -638,21 +639,21 @@ public class KeyInfoSupport {
 
         // TODO support ECKeyValue and DEREncodedKeyValue
 
-        List<PublicKey> keys = new LinkedList<>();
+        final List<PublicKey> keys = new LinkedList<>();
 
         if (keyInfo == null) {
             return keys;
         }
 
-        for (KeyValue keyDescriptor : keyInfo.getKeyValues()) {
-            PublicKey newKey = getKey(keyDescriptor);
+        for (final KeyValue keyDescriptor : keyInfo.getKeyValues()) {
+            final PublicKey newKey = getKey(keyDescriptor);
             if (newKey != null) {
                 keys.add(newKey);
             }
         }
 
-        for (DEREncodedKeyValue keyDescriptor : keyInfo.getDEREncodedKeyValues()) {
-            PublicKey newKey = getKey(keyDescriptor);
+        for (final DEREncodedKeyValue keyDescriptor : keyInfo.getDEREncodedKeyValues()) {
+            final PublicKey newKey = getKey(keyDescriptor);
             if (newKey != null) {
                 keys.add(newKey);
             }
@@ -697,11 +698,11 @@ public class KeyInfoSupport {
             throw new KeyException("DSAKeyValue element did not contain at least one of DSA parameters P, Q or G");
         }
 
-        BigInteger gComponent = keyDescriptor.getG().getValueBigInt();
-        BigInteger pComponent = keyDescriptor.getP().getValueBigInt();
-        BigInteger qComponent = keyDescriptor.getQ().getValueBigInt();
+        final BigInteger gComponent = keyDescriptor.getG().getValueBigInt();
+        final BigInteger pComponent = keyDescriptor.getP().getValueBigInt();
+        final BigInteger qComponent = keyDescriptor.getQ().getValueBigInt();
 
-        DSAParams dsaParams = new DSAParameterSpec(pComponent, qComponent, gComponent);
+        final DSAParams dsaParams = new DSAParameterSpec(pComponent, qComponent, gComponent);
         return getDSAKey(keyDescriptor, dsaParams);
     }
 
@@ -722,9 +723,9 @@ public class KeyInfoSupport {
         Constraint.isNotNull(keyDescriptor, "DSAKeyValue cannot be null");
         Constraint.isNotNull(dsaParams, "DSAParams cannot be null");
         
-        BigInteger yComponent = keyDescriptor.getY().getValueBigInt();
+        final BigInteger yComponent = keyDescriptor.getY().getValueBigInt();
 
-        DSAPublicKeySpec keySpec =
+        final DSAPublicKeySpec keySpec =
                 new DSAPublicKeySpec(yComponent, dsaParams.getP(), dsaParams.getQ(), dsaParams.getG());
         return buildKey(keySpec, "DSA");
     }
@@ -759,10 +760,10 @@ public class KeyInfoSupport {
     @Nonnull public static PublicKey getRSAKey(@Nonnull final RSAKeyValue keyDescriptor) throws KeyException {
         Constraint.isNotNull(keyDescriptor, "RSAKeyValue cannot be null");
         
-        BigInteger modulus = keyDescriptor.getModulus().getValueBigInt();
-        BigInteger exponent = keyDescriptor.getExponent().getValueBigInt();
+        final BigInteger modulus = keyDescriptor.getModulus().getValueBigInt();
+        final BigInteger exponent = keyDescriptor.getExponent().getValueBigInt();
 
-        RSAPublicKeySpec keySpec = new RSAPublicKeySpec(modulus, exponent);
+        final RSAPublicKeySpec keySpec = new RSAPublicKeySpec(modulus, exponent);
         return buildKey(keySpec, "RSA");
     }
 
@@ -786,7 +787,7 @@ public class KeyInfoSupport {
         Constraint.isNotNull(bigInt, "BigInteger cannot be null");
         
         // This code is really complicated, for now just use the Apache xmlsec lib code directly.
-        byte[] bigIntBytes = org.apache.xml.security.utils.Base64.encode(bigInt, bigInt.bitLength());
+        final byte[] bigIntBytes = org.apache.xml.security.utils.Base64.encode(bigInt, bigInt.bitLength());
         return Base64Support.encode(bigIntBytes, Base64Support.UNCHUNKED);
     }
 
@@ -836,11 +837,11 @@ public class KeyInfoSupport {
         final byte[] encodedKey = Base64Support.decode(keyValue.getValue());
 
         // Iterate over the supported key types until one produces a public key.
-        for (String keyType : supportedKeyTypes) {
+        for (final String keyType : supportedKeyTypes) {
             try {
-                KeyFactory keyFactory = KeyFactory.getInstance(keyType);
-                X509EncodedKeySpec keySpec = new X509EncodedKeySpec(encodedKey);
-                PublicKey publicKey = keyFactory.generatePublic(keySpec);
+                final KeyFactory keyFactory = KeyFactory.getInstance(keyType);
+                final X509EncodedKeySpec keySpec = new X509EncodedKeySpec(encodedKey);
+                final PublicKey publicKey = keyFactory.generatePublic(keySpec);
                 if (publicKey != null) {
                     return publicKey;
                 }
@@ -887,7 +888,7 @@ public class KeyInfoSupport {
         Constraint.isNotNull(credential, "Credential may not be null");
         Constraint.isNotNull(manager, "NamedKeyInfoGeneratorManager may not be null");
         
-        Logger log = getLogger();
+        final Logger log = getLogger();
     
         KeyInfoGeneratorFactory factory = null;
         if (keyInfoProfileName != null) {

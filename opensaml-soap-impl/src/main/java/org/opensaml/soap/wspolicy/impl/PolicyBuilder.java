@@ -31,7 +31,7 @@ public class PolicyBuilder extends AbstractWSPolicyObjectBuilder<Policy> {
     }
 
     /** {@inheritDoc} */
-    public Policy buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Policy buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new PolicyImpl(namespaceURI, localName, namespacePrefix);
     }
 

@@ -125,7 +125,7 @@ public class PredicateFilter implements MetadataFilter {
             filterEntitiesDescriptor((EntitiesDescriptor) metadata);
             return metadata;
         } else if (metadata instanceof EntityDescriptor) {
-            EntityDescriptor entity = (EntityDescriptor) metadata;
+            final EntityDescriptor entity = (EntityDescriptor) metadata;
             
             if (Direction.EXCLUDE.equals(direction) == condition.apply(entity)) {
                 log.trace("Filtering out entity {} ", entity.getEntityID());

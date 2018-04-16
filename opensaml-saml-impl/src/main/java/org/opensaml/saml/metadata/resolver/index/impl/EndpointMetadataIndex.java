@@ -130,10 +130,10 @@ public class EndpointMetadataIndex implements MetadataIndex {
     @Nullable @NonnullElements @Unmodifiable @NotLive
     public Set<MetadataIndexKey> generateKeys(@Nonnull final CriteriaSet criteriaSet) {
         Constraint.isNotNull(criteriaSet, "CriteriaSet was null");
-        EntityRoleCriterion roleCrit = criteriaSet.get(EntityRoleCriterion.class);
-        EndpointCriterion<Endpoint> endpointCrit = criteriaSet.get(EndpointCriterion.class);
+        final EntityRoleCriterion roleCrit = criteriaSet.get(EntityRoleCriterion.class);
+        final EndpointCriterion<Endpoint> endpointCrit = criteriaSet.get(EndpointCriterion.class);
         if (roleCrit != null && endpointCrit != null) {
-            HashSet<MetadataIndexKey> result = new HashSet<>();
+            final HashSet<MetadataIndexKey> result = new HashSet<>();
             result.addAll(processCriteria(criteriaSet, roleCrit.getRole(), endpointCrit.getEndpoint()));
             return result;
         } else {
@@ -182,20 +182,21 @@ public class EndpointMetadataIndex implements MetadataIndex {
      * @param location the location to process
      * @return the variants of the location to be indexed 
      */
-    @Nonnull private Set<String> processLocation(@Nonnull CriteriaSet criteriaSet, @Nonnull final String location) {
+    @Nonnull private Set<String> processLocation(@Nonnull final CriteriaSet criteriaSet,
+            @Nonnull final String location) {
         boolean generateStartsWithVariants = false;
-        StartsWithLocationCriterion startsWithCrit = criteriaSet.get(StartsWithLocationCriterion.class);
+        final StartsWithLocationCriterion startsWithCrit = criteriaSet.get(StartsWithLocationCriterion.class);
         if (startsWithCrit != null) {
             generateStartsWithVariants = startsWithCrit.isMatchStartsWith();
         }
         if (generateStartsWithVariants) {
             log.trace("Saw indication to produce path-trimmed key variants for startsWith eval from '{}'", location);
-            HashSet<String> result = new HashSet<>();
+            final HashSet<String> result = new HashSet<>();
             result.add(location);
             log.trace("Produced value '{}'", location);
             try {
                 String currentURL = null;
-                URLBuilder urlBuilder = new URLBuilder(location);
+                final URLBuilder urlBuilder = new URLBuilder(location);
                 String currentPath = MetadataIndexSupport.trimURLPathSegment(urlBuilder.getPath());
                 while (currentPath != null) {
                     urlBuilder.setPath(currentPath);
@@ -208,7 +209,7 @@ public class EndpointMetadataIndex implements MetadataIndex {
                 currentURL = urlBuilder.buildURL();
                 result.add(currentURL);
                 log.trace("Produced value '{}'", currentURL);
-            } catch (MalformedURLException e) {
+            } catch (final MalformedURLException e) {
                 log.warn("Could not parse URL '{}', will not generate path segment variants", location, e);
             }
             return result;
@@ -312,7 +313,7 @@ public class EndpointMetadataIndex implements MetadataIndex {
         public EndpointMetadataIndexKey(@Nonnull final QName roleType, 
                 @Nonnull final QName endpointType, 
                 @Nonnull @NotEmpty final String endpointLocation,
-                boolean isResponse) {
+                final boolean isResponse) {
             role = Constraint.isNotNull(roleType, "SAML role cannot be null");
             endpoint = Constraint.isNotNull(endpointType, "SAML endpoint type cannot be null");
             location = Constraint.isNotNull(StringSupport.trimOrNull(endpointLocation),
@@ -321,7 +322,7 @@ public class EndpointMetadataIndex implements MetadataIndex {
             
             try {
                 canonicalizedLocation = MetadataIndexSupport.canonicalizeLocationURI(location);
-            } catch (MalformedURLException e) {
+            } catch (final MalformedURLException e) {
                 // This is unlikely to happen on realistic real world inputs. If it does, don't be fatal, 
                 // just switch to alternate strategy.
                 log.warn("Input location '{}' was a malformed URL, switching to lower case strategy", 
@@ -398,7 +399,7 @@ public class EndpointMetadataIndex implements MetadataIndex {
 
         /** {@inheritDoc} */
         @Override
-        public boolean equals(Object obj) {
+        public boolean equals(final Object obj) {
             if (this == obj) {
                 return true;
             }

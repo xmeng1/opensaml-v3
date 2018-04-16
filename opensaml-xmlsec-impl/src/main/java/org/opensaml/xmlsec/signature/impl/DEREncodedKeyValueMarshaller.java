@@ -29,8 +29,8 @@ import org.w3c.dom.Element;
 public class DEREncodedKeyValueMarshaller extends XSBase64BinaryMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        DEREncodedKeyValue der = (DEREncodedKeyValue) xmlObject;
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
+        final DEREncodedKeyValue der = (DEREncodedKeyValue) xmlObject;
 
         if (der.getID() != null) {
             domElement.setAttributeNS(null, DEREncodedKeyValue.ID_ATTRIB_NAME, der.getID());

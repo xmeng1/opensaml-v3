@@ -38,7 +38,8 @@ import com.google.common.base.Strings;
 public class ConditionsUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentObject, XMLObject childObject) throws UnmarshallingException {
+    protected void processChildElement(final XMLObject parentObject, final XMLObject childObject)
+            throws UnmarshallingException {
         final Conditions conditions = (Conditions) parentObject;
 
         if (childObject instanceof Condition) {
@@ -49,7 +50,7 @@ public class ConditionsUnmarshaller extends AbstractSAMLObjectUnmarshaller {
     }
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject samlObject, final Attr attribute) throws UnmarshallingException {
         final Conditions conditions = (Conditions) samlObject;
 
         if (attribute.getNamespaceURI() == null) {

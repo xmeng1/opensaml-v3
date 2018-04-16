@@ -67,7 +67,7 @@ public abstract class AbstractSecurityParametersResolver<ProductType>
      * @return the resolved KeyInfo generator instance, or null
      */
     @Nullable protected KeyInfoGenerator lookupKeyInfoGenerator(@Nonnull final Credential credential, 
-            @Nullable final NamedKeyInfoGeneratorManager manager, @Nullable String keyInfoProfileName) {
+            @Nullable final NamedKeyInfoGeneratorManager manager, @Nullable final String keyInfoProfileName) {
         Constraint.isNotNull(credential, "Credential may not be null");
         
         if (manager == null) {
@@ -100,10 +100,10 @@ public abstract class AbstractSecurityParametersResolver<ProductType>
             @Nonnull final CriteriaSet criteria, 
             @Nonnull @NonnullElements @NotEmpty final List<? extends WhitelistBlacklistConfiguration> configs) {
         
-        Collection<String> whitelist = resolveEffectiveWhitelist(criteria, configs);
+        final Collection<String> whitelist = resolveEffectiveWhitelist(criteria, configs);
         log.trace("Resolved effective whitelist: {}", whitelist);
         
-        Collection<String> blacklist = resolveEffectiveBlacklist(criteria, configs);
+        final Collection<String> blacklist = resolveEffectiveBlacklist(criteria, configs);
         log.trace("Resolved effective blacklist: {}", blacklist);
         
         if (whitelist.isEmpty() && blacklist.isEmpty()) {
@@ -123,7 +123,8 @@ public abstract class AbstractSecurityParametersResolver<ProductType>
             return;
         }
         
-        WhitelistBlacklistConfiguration.Precedence precedence = resolveWhitelistBlacklistPrecedence(criteria, configs);
+        final WhitelistBlacklistConfiguration.Precedence precedence =
+                resolveWhitelistBlacklistPrecedence(criteria, configs);
         log.trace("Resolved effective precedence: {}", precedence);
         switch(precedence) {
             case WHITELIST:
@@ -153,10 +154,10 @@ public abstract class AbstractSecurityParametersResolver<ProductType>
     @Nonnull protected Predicate<String> resolveWhitelistBlacklistPredicate(@Nonnull final CriteriaSet criteria, 
             @Nonnull @NonnullElements @NotEmpty final List<? extends WhitelistBlacklistConfiguration> configs) {
         
-        Collection<String> whitelist = resolveEffectiveWhitelist(criteria, configs);
+        final Collection<String> whitelist = resolveEffectiveWhitelist(criteria, configs);
         log.trace("Resolved effective whitelist: {}", whitelist);
         
-        Collection<String> blacklist = resolveEffectiveBlacklist(criteria, configs);
+        final Collection<String> blacklist = resolveEffectiveBlacklist(criteria, configs);
         log.trace("Resolved effective blacklist: {}", blacklist);
         
         if (whitelist.isEmpty() && blacklist.isEmpty()) {
@@ -174,7 +175,8 @@ public abstract class AbstractSecurityParametersResolver<ProductType>
             return new WhitelistPredicate(whitelist);
         }
         
-        WhitelistBlacklistConfiguration.Precedence precedence = resolveWhitelistBlacklistPrecedence(criteria, configs);
+        final WhitelistBlacklistConfiguration.Precedence precedence =
+                resolveWhitelistBlacklistPrecedence(criteria, configs);
         log.trace("Resolved effective precedence: {}", precedence);
         switch(precedence) {
             case WHITELIST:
@@ -201,8 +203,8 @@ public abstract class AbstractSecurityParametersResolver<ProductType>
     @Nonnull protected Collection<String> resolveEffectiveBlacklist(@Nonnull final CriteriaSet criteria, 
             @Nonnull @NonnullElements @NotEmpty final List<? extends WhitelistBlacklistConfiguration> configs) {
         
-        LazySet<String> accumulator = new LazySet<>();
-        for (WhitelistBlacklistConfiguration config : configs) {
+        final LazySet<String> accumulator = new LazySet<>();
+        for (final WhitelistBlacklistConfiguration config : configs) {
             accumulator.addAll(config.getBlacklistedAlgorithms());
             if (!config.isBlacklistMerge()) {
                 break;
@@ -222,8 +224,8 @@ public abstract class AbstractSecurityParametersResolver<ProductType>
     @Nonnull protected Collection<String> resolveEffectiveWhitelist(@Nonnull final CriteriaSet criteria, 
             @Nonnull @NonnullElements @NotEmpty final List<? extends WhitelistBlacklistConfiguration> configs) {
         
-        LazySet<String> accumulator = new LazySet<>();
-        for (WhitelistBlacklistConfiguration config : configs) {
+        final LazySet<String> accumulator = new LazySet<>();
+        for (final WhitelistBlacklistConfiguration config : configs) {
             accumulator.addAll(config.getWhitelistedAlgorithms());
             if (!config.isWhitelistMerge()) {
                 break;

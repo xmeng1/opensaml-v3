@@ -41,8 +41,9 @@ public abstract class RoleDescriptorMarshaller extends AbstractSAMLObjectMarshal
     private final Logger log = LoggerFactory.getLogger(RoleDescriptorMarshaller.class);
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject samlElement, Element domElement) throws MarshallingException {
-        RoleDescriptor roleDescriptor = (RoleDescriptor) samlElement;
+    protected void marshallAttributes(final XMLObject samlElement, final Element domElement)
+            throws MarshallingException {
+        final RoleDescriptor roleDescriptor = (RoleDescriptor) samlElement;
 
         // Set the ID attribute
         if (roleDescriptor.getID() != null) {
@@ -54,7 +55,7 @@ public abstract class RoleDescriptorMarshaller extends AbstractSAMLObjectMarshal
         // Set the validUntil attribute
         if (roleDescriptor.getValidUntil() != null) {
             log.trace("Writting validUntil attribute to RoleDescriptor DOM element");
-            String validUntilStr =
+            final String validUntilStr =
                     SAMLConfigurationSupport.getSAMLDateFormatter().print(roleDescriptor.getValidUntil());
             domElement.setAttributeNS(null, TimeBoundSAMLObject.VALID_UNTIL_ATTRIB_NAME, validUntilStr);
         }
@@ -62,17 +63,17 @@ public abstract class RoleDescriptorMarshaller extends AbstractSAMLObjectMarshal
         // Set the cacheDuration attribute
         if (roleDescriptor.getCacheDuration() != null) {
             log.trace("Writting cacheDuration attribute to EntitiesDescriptor DOM element");
-            String cacheDuration = DOMTypeSupport.longToDuration(roleDescriptor.getCacheDuration());
+            final String cacheDuration = DOMTypeSupport.longToDuration(roleDescriptor.getCacheDuration());
             domElement.setAttributeNS(null, CacheableSAMLObject.CACHE_DURATION_ATTRIB_NAME, cacheDuration);
         }
 
         // Set the protocolSupportEnumeration attribute
-        List<String> supportedProtocols = roleDescriptor.getSupportedProtocols();
+        final List<String> supportedProtocols = roleDescriptor.getSupportedProtocols();
         if (supportedProtocols != null && supportedProtocols.size() > 0) {
             log.trace("Writting protocolSupportEnumberation attribute to RoleDescriptor DOM element");
 
-            StringBuilder builder = new StringBuilder();
-            for (String protocol : supportedProtocols) {
+            final StringBuilder builder = new StringBuilder();
+            for (final String protocol : supportedProtocols) {
                 builder.append(protocol);
                 builder.append(" ");
             }

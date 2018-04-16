@@ -40,7 +40,8 @@ public class AudienceRestrictionConditionBuilder extends AbstractSAMLObjectBuild
     }
 
     /** {@inheritDoc} */
-    public AudienceRestrictionCondition buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public AudienceRestrictionCondition buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new AudienceRestrictionConditionImpl(namespaceURI, localName, namespacePrefix);
     }
 }

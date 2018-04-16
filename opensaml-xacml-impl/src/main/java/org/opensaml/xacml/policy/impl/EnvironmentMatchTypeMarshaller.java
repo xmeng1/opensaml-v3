@@ -30,8 +30,8 @@ public class EnvironmentMatchTypeMarshaller extends AbstractXACMLObjectMarshalle
 
     /** {@inheritDoc} */
     @Override
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        EnvironmentMatchType matchType = (EnvironmentMatchType) xmlObject;
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
+        final EnvironmentMatchType matchType = (EnvironmentMatchType) xmlObject;
 
         if (!Strings.isNullOrEmpty(matchType.getMatchId())) {
             domElement.setAttributeNS(null, EnvironmentMatchType.MATCH_ID_ATTRIB_NAME, matchType.getMatchId());

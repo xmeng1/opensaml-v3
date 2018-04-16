@@ -33,8 +33,8 @@ public class RuleTypeMarshaller extends AbstractXACMLObjectMarshaller {
 
     /** {@inheritDoc} */
     @Override
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        RuleType ruleType = (RuleType) xmlObject;
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
+        final RuleType ruleType = (RuleType) xmlObject;
 
         if (!Strings.isNullOrEmpty(ruleType.getRuleId())) {
             domElement.setAttributeNS(null, RuleType.RULE_ID_ATTRIB_NAME, ruleType.getRuleId());

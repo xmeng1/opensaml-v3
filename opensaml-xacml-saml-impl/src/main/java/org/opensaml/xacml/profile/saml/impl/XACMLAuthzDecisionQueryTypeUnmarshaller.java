@@ -34,8 +34,9 @@ import org.w3c.dom.Attr;
 public class XACMLAuthzDecisionQueryTypeUnmarshaller extends RequestAbstractTypeUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentObject, XMLObject childObject) throws UnmarshallingException {
-        XACMLAuthzDecisionQueryType xacmlauthzdecisionquery = (XACMLAuthzDecisionQueryType) parentObject;
+    protected void processChildElement(final XMLObject parentObject, final XMLObject childObject)
+            throws UnmarshallingException {
+        final XACMLAuthzDecisionQueryType xacmlauthzdecisionquery = (XACMLAuthzDecisionQueryType) parentObject;
 
         if (childObject instanceof RequestType) {
             xacmlauthzdecisionquery.setRequest((RequestType) childObject);
@@ -51,8 +52,8 @@ public class XACMLAuthzDecisionQueryTypeUnmarshaller extends RequestAbstractType
     }
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        XACMLAuthzDecisionQueryType authzDS = (XACMLAuthzDecisionQueryType) samlObject;
+    protected void processAttribute(final XMLObject samlObject, final Attr attribute) throws UnmarshallingException {
+        final XACMLAuthzDecisionQueryType authzDS = (XACMLAuthzDecisionQueryType) samlObject;
 
         if (attribute.getLocalName().equals(XACMLAuthzDecisionQueryType.INPUTCONTEXTONLY_ATTRIB_NAME)) {
             authzDS.setInputContextOnly(XSBooleanValue.valueOf(attribute.getValue()));

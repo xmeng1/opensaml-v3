@@ -30,10 +30,10 @@ import org.opensaml.saml.saml1.core.Status;
 public class ResponseUnmarshaller extends ResponseAbstractTypeUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
+    protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
 
-        Response response = (Response) parentSAMLObject;
+        final Response response = (Response) parentSAMLObject;
 
         if (childSAMLObject instanceof Assertion) {
             response.getAssertions().add((Assertion) childSAMLObject);

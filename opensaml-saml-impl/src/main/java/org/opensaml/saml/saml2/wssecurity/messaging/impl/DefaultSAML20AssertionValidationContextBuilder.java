@@ -97,7 +97,7 @@ public class DefaultSAML20AssertionValidationContextBuilder
      * 
      * @param flag true if required, false if not
      */
-    public void setSignatureRequired(boolean flag) {
+    public void setSignatureRequired(final boolean flag) {
         signatureRequired = flag;
     }
 
@@ -147,7 +147,7 @@ public class DefaultSAML20AssertionValidationContextBuilder
     @Nonnull protected Map<String,Object> buildStaticParameters(
             @Nonnull final SAML20AssertionTokenValidationInput input) {
         
-        HashMap<String, Object> staticParams = new HashMap<>();
+        final HashMap<String, Object> staticParams = new HashMap<>();
         
         //For signature validation
         staticParams.put(SAML2AssertionValidationParameters.SIGNATURE_REQUIRED, new Boolean(isSignatureRequired()));
@@ -155,11 +155,11 @@ public class DefaultSAML20AssertionValidationContextBuilder
                 getSignatureCriteriaSet(input));
         
         // For HoK subject confirmation
-        X509Certificate attesterCertificate = getAttesterCertificate(input);
+        final X509Certificate attesterCertificate = getAttesterCertificate(input);
         if (attesterCertificate != null) {
             staticParams.put(SAML2AssertionValidationParameters.SC_HOK_PRESENTER_CERT, attesterCertificate);
         }
-        PublicKey attesterPublicKey = getAttesterPublicKey(input);
+        final PublicKey attesterPublicKey = getAttesterPublicKey(input);
         if (attesterPublicKey != null) {
             staticParams.put(SAML2AssertionValidationParameters.SC_HOK_PRESENTER_KEY, attesterPublicKey);
         }
@@ -192,10 +192,10 @@ public class DefaultSAML20AssertionValidationContextBuilder
      * @return the criteria set based on the message context data
      */
     @Nonnull protected CriteriaSet getSignatureCriteriaSet(@Nonnull final SAML20AssertionTokenValidationInput input) {
-        CriteriaSet criteriaSet = new CriteriaSet();
+        final CriteriaSet criteriaSet = new CriteriaSet();
         
         if (getSignatureCriteriaSetFunction() != null) {
-            CriteriaSet dynamicCriteria = getSignatureCriteriaSetFunction().apply(
+            final CriteriaSet dynamicCriteria = getSignatureCriteriaSetFunction().apply(
                     new Pair<MessageContext, Assertion>());
             if (dynamicCriteria != null) {
                 criteriaSet.addAll(dynamicCriteria);
@@ -238,9 +238,9 @@ public class DefaultSAML20AssertionValidationContextBuilder
     @Nullable protected X509Certificate getAttesterCertificate(
             @Nonnull final SAML20AssertionTokenValidationInput input) {
         try {
-            X509Credential credential = new ServletRequestX509CredentialAdapter(input.getHttpServletRequest());
+            final X509Credential credential = new ServletRequestX509CredentialAdapter(input.getHttpServletRequest());
             return ((X509Credential)credential).getEntityCertificate();
-        } catch (SecurityException e) {
+        } catch (final SecurityException e) {
             log.warn("Peer TLS X.509 certificate was not present. " 
                     + "Holder-of-key proof-of-possession via client TLS cert will not be possible");
             return null;
@@ -283,12 +283,12 @@ public class DefaultSAML20AssertionValidationContextBuilder
      * @return set of recipient endpoint URI's
      */
     @Nonnull protected Set<String> getValidRecipients(@Nonnull final SAML20AssertionTokenValidationInput input) {
-        LazySet<String> validRecipients = new LazySet<>();
+        final LazySet<String> validRecipients = new LazySet<>();
         
-        String endpoint = input.getHttpServletRequest().getRequestURL().toString();
+        final String endpoint = input.getHttpServletRequest().getRequestURL().toString();
         validRecipients.add(endpoint);
         
-        SAMLSelfEntityContext selfContext = input.getMessageContext().getSubcontext(SAMLSelfEntityContext.class);
+        final SAMLSelfEntityContext selfContext = input.getMessageContext().getSubcontext(SAMLSelfEntityContext.class);
         if (selfContext != null && selfContext.getEntityId() != null) {
             validRecipients.add(selfContext.getEntityId());
         }
@@ -312,9 +312,9 @@ public class DefaultSAML20AssertionValidationContextBuilder
      */
     @Nonnull protected Set<InetAddress> getValidAddresses(@Nonnull final SAML20AssertionTokenValidationInput input) {
         try {
-            LazySet<InetAddress> validAddresses = new LazySet<>();
+            final LazySet<InetAddress> validAddresses = new LazySet<>();
             InetAddress[] addresses = null;
-            String attesterIPAddress = getAttesterIPAddress(input);
+            final String attesterIPAddress = getAttesterIPAddress(input);
             log.debug("Saw attester IP address: {}", attesterIPAddress);
             if (attesterIPAddress != null) {
                 addresses = InetAddress.getAllByName(attesterIPAddress);
@@ -325,7 +325,7 @@ public class DefaultSAML20AssertionValidationContextBuilder
                 log.warn("Could not determine attester IP address. Validation of Assertion may or may not succeed");
                 return Collections.emptySet();
             }
-        } catch (UnknownHostException e) {
+        } catch (final UnknownHostException e) {
             log.warn("Processing of attester IP address failed. Validation of Assertion may or may not succeed", e);
             return Collections.emptySet();
         }
@@ -359,9 +359,9 @@ public class DefaultSAML20AssertionValidationContextBuilder
      * @return set of audience URI's
      */
     @Nonnull protected Set<String> getValidAudiences(@Nonnull final SAML20AssertionTokenValidationInput input) {
-        LazySet<String> validAudiences = new LazySet<>();
+        final LazySet<String> validAudiences = new LazySet<>();
         
-        SAMLSelfEntityContext selfContext = input.getMessageContext().getSubcontext(SAMLSelfEntityContext.class);
+        final SAMLSelfEntityContext selfContext = input.getMessageContext().getSubcontext(SAMLSelfEntityContext.class);
         if (selfContext != null && selfContext.getEntityId() != null) {
             validAudiences.add(selfContext.getEntityId());
         }

@@ -45,7 +45,7 @@ public class SubjectImpl extends AbstractSAMLObject implements Subject {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected SubjectImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected SubjectImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -55,7 +55,7 @@ public class SubjectImpl extends AbstractSAMLObject implements Subject {
     }
 
     /** {@inheritDoc} */
-    public void setNameIdentifier(NameIdentifier name) {
+    public void setNameIdentifier(final NameIdentifier name) {
         nameIdentifier = prepareForAssignment(nameIdentifier, name);
     }
 
@@ -65,14 +65,14 @@ public class SubjectImpl extends AbstractSAMLObject implements Subject {
     }
 
     /** {@inheritDoc} */
-    public void setSubjectConfirmation(SubjectConfirmation conf) {
+    public void setSubjectConfirmation(final SubjectConfirmation conf) {
         subjectConfirmation = prepareForAssignment(subjectConfirmation, conf);
     }
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
 
-        List<XMLObject> list = new ArrayList<>(2);
+        final List<XMLObject> list = new ArrayList<>(2);
 
         if (nameIdentifier != null) {
             list.add(nameIdentifier);

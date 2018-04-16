@@ -33,9 +33,9 @@ public class EnvironmentMatchTypeUnmarshaller extends AbstractXACMLObjectUnmarsh
 
     /** {@inheritDoc} */
     @Override
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         if (attribute.getLocalName().equals(EnvironmentMatchType.MATCH_ID_ATTRIB_NAME)) {
-            EnvironmentMatchType matchType = (EnvironmentMatchType) xmlObject;
+            final EnvironmentMatchType matchType = (EnvironmentMatchType) xmlObject;
             matchType.setMatchId(StringSupport.trimOrNull(attribute.getValue()));
         } else {
             super.processAttribute(xmlObject, attribute);
@@ -44,9 +44,9 @@ public class EnvironmentMatchTypeUnmarshaller extends AbstractXACMLObjectUnmarsh
 
     /** {@inheritDoc} */
     @Override
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        EnvironmentMatchType matchType = (EnvironmentMatchType) parentXMLObject;
+        final EnvironmentMatchType matchType = (EnvironmentMatchType) parentXMLObject;
         if (childXMLObject instanceof AttributeValueType) {
             matchType.setAttributeValue((AttributeValueType) childXMLObject);
         } else if (childXMLObject instanceof AttributeDesignatorType) {

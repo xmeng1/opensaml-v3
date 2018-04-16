@@ -28,9 +28,10 @@ public class ObligationsTypeUnmarshaller extends AbstractXACMLObjectUnmarshaller
 
     /** {@inheritDoc} */
     @Override
-    protected void processChildElement(XMLObject parentObject, XMLObject childObject) throws UnmarshallingException {
+    protected void processChildElement(final XMLObject parentObject, final XMLObject childObject)
+            throws UnmarshallingException {
 
-        ObligationsType obligations = (ObligationsType) parentObject;
+        final ObligationsType obligations = (ObligationsType) parentObject;
 
         if (childObject instanceof ObligationType) {
             obligations.getObligations().add((ObligationType) childObject);

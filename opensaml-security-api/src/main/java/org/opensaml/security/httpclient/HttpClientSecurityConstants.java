@@ -26,7 +26,10 @@ import net.shibboleth.utilities.java.support.httpclient.TLSSocketFactory;
 public final class HttpClientSecurityConstants {
     
     /** Context key for a trust engine instance supplied by an HttpClient caller. 
-     * Value must be an instance of {@link TrustEngine<? super X509Credential>}. */
+     * Value must be an instance of
+     * {@link org.opensaml.security.trust.TrustEngine}<code>&lt;? super </code>
+     * {@link org.opensaml.security.x509.X509Credential}<code>&gt;</code>.
+     */
     public static final String CONTEXT_KEY_TRUST_ENGINE = "opensaml.TrustEngine";
     
     /** Context key for a criteria set instance supplied by an HttpClient caller. 
@@ -42,11 +45,11 @@ public final class HttpClientSecurityConstants {
     public static final String CONTEXT_KEY_CLIENT_TLS_CREDENTIAL = "opensaml.ClientTLSCredential";
     
     /** HttpContext key for a a list of TLS protocols to enable on the socket.  
-     * Must be an instance of {@link List<String>}. */
+     * Must be an instance of {@link java.util.List}<code>&lt;</code>{@link String}<code>&gt;</code>. */
     public static final String CONTEXT_KEY_TLS_PROTOCOLS = TLSSocketFactory.CONTEXT_KEY_TLS_PROTOCOLS;
     
     /** HttpContext key for a a list of TLS cipher suites to enable on the socket.  
-     * Must be an instance of {@link List<String>}. */
+     * Must be an instance of {@link java.util.List}<code>&lt;</code>{@link String}<code>&gt;</code>. */
     public static final String CONTEXT_KEY_TLS_CIPHER_SUITES = TLSSocketFactory.CONTEXT_KEY_TLS_CIPHER_SUITES;
     
     /** HttpContext key for an instance of {@link org.apache.http.conn.ssl.X509HostnameVerifier}. */

@@ -267,7 +267,7 @@ public class PKIXSignatureTrustEngine extends
         } else {
             log.debug("PKIX resolver does not support resolution of trusted names, skipping name checking");
         }
-        Iterable<PKIXValidationInformation> validationInfoSet;
+        final Iterable<PKIXValidationInformation> validationInfoSet;
         try {
             validationInfoSet = pkixResolver.resolve(trustBasisCriteria);
         } catch (final ResolverException e) {

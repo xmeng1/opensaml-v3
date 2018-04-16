@@ -31,7 +31,7 @@ public class RequestKETBuilder extends AbstractWSTrustObjectBuilder<RequestKET> 
     }
 
     /** {@inheritDoc} */
-    public RequestKET buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public RequestKET buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new RequestKETImpl(namespaceURI, localName, namespacePrefix);
     }
 

@@ -38,7 +38,8 @@ public class ConfirmationMethodImpl extends AbstractSAMLObject implements Confir
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected ConfirmationMethodImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected ConfirmationMethodImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -48,7 +49,7 @@ public class ConfirmationMethodImpl extends AbstractSAMLObject implements Confir
     }
 
     /** {@inheritDoc} */
-    public void setConfirmationMethod(String method) {
+    public void setConfirmationMethod(final String method) {
         confirmationMethod = prepareForAssignment(confirmationMethod, method);
     }
 

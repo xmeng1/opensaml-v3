@@ -31,8 +31,8 @@ import org.w3c.dom.Element;
 public class ReferenceParametersMarshaller extends AbstractWSAddressingObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        ReferenceParameters rp = (ReferenceParameters) xmlObject;
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
+        final ReferenceParameters rp = (ReferenceParameters) xmlObject;
         XMLObjectSupport.marshallAttributeMap(rp.getUnknownAttributes(), domElement);
     }
 

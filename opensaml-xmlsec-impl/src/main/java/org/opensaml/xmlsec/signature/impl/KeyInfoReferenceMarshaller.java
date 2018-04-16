@@ -28,8 +28,8 @@ import org.w3c.dom.Element;
 public class KeyInfoReferenceMarshaller extends AbstractXMLSignatureMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        KeyInfoReference ref = (KeyInfoReference) xmlObject;
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
+        final KeyInfoReference ref = (KeyInfoReference) xmlObject;
 
         if (ref.getID() != null) {
             domElement.setAttributeNS(null, KeyInfoReference.ID_ATTRIB_NAME, ref.getID());

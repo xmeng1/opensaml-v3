@@ -102,9 +102,9 @@ public class LocalKeyInfoCredentialResolver extends BasicProviderKeyInfoCredenti
             @Nullable final CriteriaSet criteriaSet, @Nonnull final List<Credential> credentials)
                     throws ResolverException {
         
-        ArrayList<Credential> localCreds = new ArrayList<>();
+        final ArrayList<Credential> localCreds = new ArrayList<>();
         
-        for (Credential cred : credentials) {
+        for (final Credential cred : credentials) {
             if (isLocalCredential(cred)) {
                 localCreds.add(cred);
             } else if (cred.getPublicKey() != null) {
@@ -113,7 +113,7 @@ public class LocalKeyInfoCredentialResolver extends BasicProviderKeyInfoCredenti
         }
         
         // Also resolve local creds based on any key names that are known
-        for (String keyName : kiContext.getKeyNames()) {
+        for (final String keyName : kiContext.getKeyNames()) {
             localCreds.addAll(resolveByKeyName(keyName));
         }
         
@@ -143,10 +143,10 @@ public class LocalKeyInfoCredentialResolver extends BasicProviderKeyInfoCredenti
      */
     @Nonnull protected Collection<? extends Credential> resolveByKeyName(@Nonnull final String keyName)
             throws ResolverException {
-        ArrayList<Credential> localCreds = new ArrayList<>();
+        final ArrayList<Credential> localCreds = new ArrayList<>();
         
-        CriteriaSet criteriaSet = new CriteriaSet( new KeyNameCriterion(keyName) );
-        for (Credential cred : getLocalCredentialResolver().resolve(criteriaSet)) {
+        final CriteriaSet criteriaSet = new CriteriaSet( new KeyNameCriterion(keyName) );
+        for (final Credential cred : getLocalCredentialResolver().resolve(criteriaSet)) {
             if (isLocalCredential(cred)) {
                 localCreds.add(cred);
             }
@@ -166,10 +166,10 @@ public class LocalKeyInfoCredentialResolver extends BasicProviderKeyInfoCredenti
      */
     @Nonnull protected Collection<? extends Credential> resolveByPublicKey(@Nonnull final PublicKey publicKey)
             throws ResolverException {
-        ArrayList<Credential> localCreds = new ArrayList<>();
+        final ArrayList<Credential> localCreds = new ArrayList<>();
         
-        CriteriaSet criteriaSet = new CriteriaSet( new PublicKeyCriterion(publicKey) );
-        for (Credential cred : getLocalCredentialResolver().resolve(criteriaSet)) {
+        final CriteriaSet criteriaSet = new CriteriaSet( new PublicKeyCriterion(publicKey) );
+        for (final Credential cred : getLocalCredentialResolver().resolve(criteriaSet)) {
             if (isLocalCredential(cred)) {
                 localCreds.add(cred);
             }

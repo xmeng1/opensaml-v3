@@ -43,7 +43,7 @@ public class BinaryExchangeImpl extends XSStringImpl implements BinaryExchange {
      * @param elementLocalName name of the element
      * @param namespacePrefix namespace prefix of the element
      */
-    public BinaryExchangeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public BinaryExchangeImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         unknownAttributes = new AttributeMap(this);
     }
@@ -54,7 +54,7 @@ public class BinaryExchangeImpl extends XSStringImpl implements BinaryExchange {
     }
 
     /** {@inheritDoc} */
-    public void setEncodingType(String newEncodingType) {
+    public void setEncodingType(final String newEncodingType) {
         encodingType = prepareForAssignment(encodingType, newEncodingType);
     }
 
@@ -64,7 +64,7 @@ public class BinaryExchangeImpl extends XSStringImpl implements BinaryExchange {
     }
 
     /** {@inheritDoc} */
-    public void setValueType(String newValueType) {
+    public void setValueType(final String newValueType) {
         valueType = prepareForAssignment(valueType, newValueType);
     }
 

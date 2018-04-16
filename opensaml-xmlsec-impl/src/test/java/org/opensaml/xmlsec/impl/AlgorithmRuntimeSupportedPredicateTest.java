@@ -31,6 +31,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import net.shibboleth.utilities.java.support.testing.TestSupport;
+
 public class AlgorithmRuntimeSupportedPredicateTest extends OpenSAMLInitBaseTestCase {
     
     private AlgorithmRuntimeSupportedPredicate predicate;
@@ -111,7 +113,7 @@ public class AlgorithmRuntimeSupportedPredicateTest extends OpenSAMLInitBaseTest
                 Assert.assertTrue(predicate.apply(SignatureConstants.ALGO_ID_SIGNATURE_ECDSA_SHA384));
                 Assert.assertTrue(predicate.apply(SignatureConstants.ALGO_ID_SIGNATURE_ECDSA_SHA512));
                 
-                if (providerSupport.haveBC() || providerSupport.haveJavaGreaterOrEqual(8)) {
+                if (providerSupport.haveBC() || TestSupport.isJavaV8OrLater()) {
                     Assert.assertTrue(predicate.apply(SignatureConstants.ALGO_ID_SIGNATURE_ECDSA_SHA224));
                 }
             } else {
@@ -122,7 +124,7 @@ public class AlgorithmRuntimeSupportedPredicateTest extends OpenSAMLInitBaseTest
                 Assert.assertFalse(predicate.apply(SignatureConstants.ALGO_ID_SIGNATURE_ECDSA_SHA512));
             }
             
-            if (providerSupport.haveBC() || providerSupport.haveJavaGreaterOrEqual(8)) {
+            if (providerSupport.haveBC() || TestSupport.isJavaV8OrLater()) {
                 Assert.assertTrue(predicate.apply(SignatureConstants.ALGO_ID_DIGEST_SHA224));
                 Assert.assertTrue(predicate.apply(SignatureConstants.ALGO_ID_SIGNATURE_RSA_SHA224));
                 Assert.assertTrue(predicate.apply(SignatureConstants.ALGO_ID_MAC_HMAC_SHA224));

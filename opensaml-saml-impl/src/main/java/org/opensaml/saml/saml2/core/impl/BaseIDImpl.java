@@ -41,7 +41,7 @@ public abstract class BaseIDImpl extends AbstractSAMLObject implements BaseID {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected BaseIDImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected BaseIDImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -51,7 +51,7 @@ public abstract class BaseIDImpl extends AbstractSAMLObject implements BaseID {
     }
 
     /** {@inheritDoc} */
-    public void setNameQualifier(String newNameQualifier) {
+    public void setNameQualifier(final String newNameQualifier) {
         this.nameQualifier = prepareForAssignment(this.nameQualifier, newNameQualifier);
     }
 
@@ -61,7 +61,7 @@ public abstract class BaseIDImpl extends AbstractSAMLObject implements BaseID {
     }
 
     /** {@inheritDoc} */
-    public void setSPNameQualifier(String newSPNameQualifier) {
+    public void setSPNameQualifier(final String newSPNameQualifier) {
         this.spNameQualfier = prepareForAssignment(this.spNameQualfier, newSPNameQualifier);
     }
 

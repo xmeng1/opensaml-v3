@@ -53,8 +53,8 @@ public class SigningMethodImpl extends AbstractSAMLObject implements SigningMeth
      * @param elementLocalName the element local name
      * @param namespacePrefix the namespace prefix
      */
-    public SigningMethodImpl(@Nullable String namespaceURI, @Nonnull String elementLocalName,
-            @Nullable String namespacePrefix) {
+    public SigningMethodImpl(@Nullable final String namespaceURI, @Nonnull final String elementLocalName,
+            @Nullable final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         unknownChildren = new IndexedXMLObjectChildrenList<>(this);
     }
@@ -65,7 +65,7 @@ public class SigningMethodImpl extends AbstractSAMLObject implements SigningMeth
     }
 
     /** {@inheritDoc} */
-    public void setAlgorithm(@Nullable String newValue) {
+    public void setAlgorithm(@Nullable final String newValue) {
         algorithm = prepareForAssignment(algorithm, newValue);
     }
     
@@ -75,7 +75,7 @@ public class SigningMethodImpl extends AbstractSAMLObject implements SigningMeth
     }
 
     /** {@inheritDoc} */
-    public void setMinKeySize(@Nullable Integer newValue) {
+    public void setMinKeySize(@Nullable final Integer newValue) {
         minKeySize = prepareForAssignment(minKeySize, newValue);
     }
 
@@ -85,7 +85,7 @@ public class SigningMethodImpl extends AbstractSAMLObject implements SigningMeth
     }
 
     /** {@inheritDoc} */
-    public void setMaxKeySize(@Nullable Integer newValue) {
+    public void setMaxKeySize(@Nullable final Integer newValue) {
         maxKeySize = prepareForAssignment(maxKeySize, newValue);
     }
     
@@ -97,7 +97,7 @@ public class SigningMethodImpl extends AbstractSAMLObject implements SigningMeth
     }
     
     /** {@inheritDoc} */
-    public List<XMLObject> getUnknownXMLObjects(QName typeOrName) {
+    public List<XMLObject> getUnknownXMLObjects(final QName typeOrName) {
         return (List<XMLObject>) unknownChildren.subList(typeOrName);
     }
 

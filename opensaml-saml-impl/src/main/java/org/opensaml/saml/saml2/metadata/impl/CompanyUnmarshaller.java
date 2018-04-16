@@ -31,8 +31,8 @@ import org.opensaml.saml.saml2.metadata.Company;
 public class CompanyUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject samlObject, String elementContent) {
-        Company company = (Company) samlObject;
+    protected void processElementContent(final XMLObject samlObject, final String elementContent) {
+        final Company company = (Company) samlObject;
 
         company.setName(elementContent);
     }

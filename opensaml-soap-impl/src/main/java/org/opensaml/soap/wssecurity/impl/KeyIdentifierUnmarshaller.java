@@ -29,8 +29,8 @@ import org.w3c.dom.Attr;
 public class KeyIdentifierUnmarshaller extends EncodedStringUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
-        KeyIdentifier keyIdentifier = (KeyIdentifier) xmlObject;
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
+        final KeyIdentifier keyIdentifier = (KeyIdentifier) xmlObject;
         if (KeyIdentifier.VALUE_TYPE_ATTRIB_NAME.equals(attribute.getLocalName())) {
             keyIdentifier.setValueType(attribute.getValue());
         } else {

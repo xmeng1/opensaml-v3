@@ -35,7 +35,8 @@ public class DEREncodedKeyValueBuilder extends AbstractXMLObjectBuilder<DEREncod
     }
 
     /** {@inheritDoc} */
-    public DEREncodedKeyValue buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public DEREncodedKeyValue buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new DEREncodedKeyValueImpl(namespaceURI, localName, namespacePrefix);
     }
 

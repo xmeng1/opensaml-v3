@@ -31,7 +31,7 @@ public class UsernameImpl extends AttributedStringImpl implements Username {
      * @param elementLocalName name of the element
      * @param namespacePrefix namespace prefix of the elements
      */
-    public UsernameImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public UsernameImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

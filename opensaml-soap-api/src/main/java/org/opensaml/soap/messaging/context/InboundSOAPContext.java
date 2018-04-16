@@ -93,7 +93,7 @@ public class InboundSOAPContext extends BaseContext {
      * @param newValue the new flag value
      * 
      */
-    public void setFinalDestination(boolean newValue) {
+    public void setFinalDestination(final boolean newValue) {
         finalDestination = newValue;
     }
 

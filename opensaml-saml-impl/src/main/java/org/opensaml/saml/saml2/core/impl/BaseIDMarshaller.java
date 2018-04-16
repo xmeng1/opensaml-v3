@@ -33,8 +33,9 @@ import org.w3c.dom.Element;
 public abstract class BaseIDMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject samlObject, Element domElement) throws MarshallingException {
-        BaseID baseID = (BaseID) samlObject;
+    protected void marshallAttributes(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
+        final BaseID baseID = (BaseID) samlObject;
         if (baseID.getNameQualifier() != null) {
             domElement.setAttributeNS(null, BaseID.NAME_QUALIFIER_ATTRIB_NAME, baseID.getNameQualifier());
         }

@@ -28,8 +28,8 @@ import org.w3c.dom.Element;
 public abstract class EncryptedTypeMarshaller extends AbstractXMLEncryptionMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        EncryptedType et = (EncryptedType) xmlObject;
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
+        final EncryptedType et = (EncryptedType) xmlObject;
 
         if (et.getID() != null) {
             domElement.setAttributeNS(null, EncryptedType.ID_ATTRIB_NAME, et.getID());

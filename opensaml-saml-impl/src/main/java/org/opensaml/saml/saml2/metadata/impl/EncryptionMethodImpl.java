@@ -36,7 +36,8 @@ public class EncryptionMethodImpl extends org.opensaml.xmlsec.encryption.impl.En
      * @param elementLocalName local name
      * @param namespacePrefix prefix
      */
-    protected EncryptionMethodImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected EncryptionMethodImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

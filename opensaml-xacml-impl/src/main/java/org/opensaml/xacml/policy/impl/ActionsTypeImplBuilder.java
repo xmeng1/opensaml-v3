@@ -31,7 +31,7 @@ public class ActionsTypeImplBuilder extends AbstractXACMLObjectBuilder<ActionsTy
     }
 
     /** {@inheritDoc} */
-    public ActionsType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public ActionsType buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new ActionsTypeImpl(namespaceURI, localName, namespacePrefix);
     }
 

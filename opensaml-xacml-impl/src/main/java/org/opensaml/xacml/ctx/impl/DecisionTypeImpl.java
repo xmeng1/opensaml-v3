@@ -37,7 +37,7 @@ public class DecisionTypeImpl extends AbstractXACMLObject implements DecisionTyp
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected DecisionTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected DecisionTypeImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -52,7 +52,7 @@ public class DecisionTypeImpl extends AbstractXACMLObject implements DecisionTyp
     }
 
     /** {@inheritDoc} */
-    public void setDecision(DECISION dec) {
+    public void setDecision(final DECISION dec) {
         decision = prepareForAssignment(decision, dec);
     }
 }

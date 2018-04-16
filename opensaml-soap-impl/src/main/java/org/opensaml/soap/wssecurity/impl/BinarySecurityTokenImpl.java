@@ -34,7 +34,8 @@ public class BinarySecurityTokenImpl extends EncodedStringImpl implements Binary
      * @param elementLocalName name of the element
      * @param namespacePrefix namespace prefix of the element
      */
-    public BinarySecurityTokenImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public BinarySecurityTokenImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         // default encoding type
         setEncodingType(BinarySecurityToken.ENCODING_TYPE_BASE64_BINARY);
@@ -46,7 +47,7 @@ public class BinarySecurityTokenImpl extends EncodedStringImpl implements Binary
     }
 
     /** {@inheritDoc} */
-    public void setValueType(String newValueType) {
+    public void setValueType(final String newValueType) {
         valueType = prepareForAssignment(valueType, newValueType);
     }
 

@@ -31,7 +31,7 @@ public class AllBuilder extends AbstractWSPolicyObjectBuilder<All> {
     }
 
     /** {@inheritDoc} */
-    public All buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public All buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new AllImpl(namespaceURI, localName, namespacePrefix);
     }
 

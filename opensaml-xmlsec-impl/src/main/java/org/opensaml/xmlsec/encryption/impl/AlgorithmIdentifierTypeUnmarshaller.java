@@ -32,8 +32,8 @@ import org.w3c.dom.Attr;
 public class AlgorithmIdentifierTypeUnmarshaller extends AbstractXMLEncryptionUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
-        AlgorithmIdentifierType algoIdType = (AlgorithmIdentifierType) xmlObject;
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
+        final AlgorithmIdentifierType algoIdType = (AlgorithmIdentifierType) xmlObject;
 
         if (attribute.getLocalName().equals(AlgorithmIdentifierType.ALGORITHM_ATTRIB_NAME)) {
             algoIdType.setAlgorithm(attribute.getValue());
@@ -43,11 +43,11 @@ public class AlgorithmIdentifierTypeUnmarshaller extends AbstractXMLEncryptionUn
     }
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        AlgorithmIdentifierType algoIdType = (AlgorithmIdentifierType) parentXMLObject;
+        final AlgorithmIdentifierType algoIdType = (AlgorithmIdentifierType) parentXMLObject;
         
-        QName childQName = childXMLObject.getElementQName();
+        final QName childQName = childXMLObject.getElementQName();
         if (childQName.getLocalPart().equals(Parameters.DEFAULT_ELEMENT_LOCAL_NAME)
                 && childQName.getNamespaceURI().equals(EncryptionConstants.XMLENC11_NS)) {
             algoIdType.setParameters(childXMLObject);

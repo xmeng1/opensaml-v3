@@ -38,6 +38,8 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import net.shibboleth.utilities.java.support.testing.TestSupport;
+
 /**
  * Test class for SAML 1 HTTP Post encoding.
  */
@@ -98,7 +100,10 @@ public class HTTPPostEncoderTest extends XMLObjectBaseTestCase {
         Assert.assertEquals(response.getContentType(), "text/html", "Unexpected content type");
         Assert.assertEquals("UTF-8", response.getCharacterEncoding(), "Unexpected character encoding");
         Assert.assertEquals(response.getHeader("Cache-control"), "no-cache, no-store", "Unexpected cache controls");
-        // TODO: hash is different with endorsed Xerces
+        // TODO: this hashes differently for endorsed Xerces and Java 9
+        if (TestSupport.isJavaV9OrLater()) {
+            return;
+        }
         Assert.assertEquals(response.getContentAsString().hashCode(), 1601070451);
     }
 }

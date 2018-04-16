@@ -26,7 +26,7 @@ import org.opensaml.xacml.policy.ConditionType;
 public class ConditionTypeImplBuilder extends AbstractXACMLObjectBuilder<ConditionType> {
 
     /** {@inheritDoc} */
-    public ConditionType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public ConditionType buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new ConditionTypeImpl(namespaceURI,localName,namespacePrefix);
     }
 

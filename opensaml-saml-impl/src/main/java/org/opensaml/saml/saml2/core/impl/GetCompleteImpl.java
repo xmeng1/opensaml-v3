@@ -42,7 +42,7 @@ public class GetCompleteImpl extends AbstractSAMLObject implements GetComplete {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected GetCompleteImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected GetCompleteImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -52,7 +52,7 @@ public class GetCompleteImpl extends AbstractSAMLObject implements GetComplete {
     }
 
     /** {@inheritDoc} */
-    public void setGetComplete(String newGetComplete) {
+    public void setGetComplete(final String newGetComplete) {
         this.getComplete = prepareForAssignment(this.getComplete, newGetComplete);
     }
 

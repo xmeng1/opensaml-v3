@@ -44,7 +44,8 @@ public class VariableReferenceTypeImpl extends AbstractXACMLObject implements Va
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected VariableReferenceTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix){
+    protected VariableReferenceTypeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI,elementLocalName,namespacePrefix);
         expressions = new XMLObjectChildrenList<>(this);
     }
@@ -60,13 +61,13 @@ public class VariableReferenceTypeImpl extends AbstractXACMLObject implements Va
     }
 
     /** {@inheritDoc} */
-    public void setVariableId(String id) {
+    public void setVariableId(final String id) {
        this.valiableId = prepareForAssignment(this.valiableId,id);
     }
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         if(!expressions.isEmpty()){
             children.addAll(expressions);

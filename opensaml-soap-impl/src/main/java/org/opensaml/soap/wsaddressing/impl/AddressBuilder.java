@@ -31,7 +31,7 @@ public class AddressBuilder extends AbstractWSAddressingObjectBuilder<Address> {
     }
 
     /** {@inheritDoc} */
-    public Address buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Address buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new AddressImpl(namespaceURI, localName, namespacePrefix);
     }
 

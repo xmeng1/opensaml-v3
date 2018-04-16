@@ -44,7 +44,8 @@ public class ServiceDescriptionBuilder extends AbstractSAMLObjectBuilder<Service
     }
 
     /** {@inheritDoc} */
-    public ServiceDescription buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public ServiceDescription buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new ServiceDescriptionImpl(namespaceURI, localName, namespacePrefix);
     }
 }

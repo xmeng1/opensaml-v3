@@ -48,7 +48,7 @@ public abstract class RequestAbstractTypeUnmarshaller extends AbstractSAMLObject
     @Nonnull private final Logger log = LoggerFactory.getLogger(RequestAbstractType.class);
 
     /** {@inheritDoc} */
-    public XMLObject unmarshall(Element domElement) throws UnmarshallingException {
+    public XMLObject unmarshall(final Element domElement) throws UnmarshallingException {
         // After regular unmarshalling, check the minor version and set ID-ness if not SAML 1.0
         final RequestAbstractType request = (RequestAbstractType) super.unmarshall(domElement);
         if (request.getVersion() != SAMLVersion.VERSION_10 && !Strings.isNullOrEmpty(request.getID())) {
@@ -58,7 +58,7 @@ public abstract class RequestAbstractTypeUnmarshaller extends AbstractSAMLObject
     }
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
+    protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
         final RequestAbstractType request = (RequestAbstractType) parentSAMLObject;
 
@@ -73,7 +73,7 @@ public abstract class RequestAbstractTypeUnmarshaller extends AbstractSAMLObject
 
 // Checkstyle: CyclomaticComplexity OFF
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject samlElement, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject samlElement, final Attr attribute) throws UnmarshallingException {
         final RequestAbstractType request = (RequestAbstractType) samlElement;
 
         if (attribute.getNamespaceURI() == null) {
@@ -81,10 +81,10 @@ public abstract class RequestAbstractTypeUnmarshaller extends AbstractSAMLObject
                 request.setID(attribute.getValue());
             } else if (RequestAbstractType.ISSUEINSTANT_ATTRIB_NAME.equals(attribute.getLocalName())
                     && !Strings.isNullOrEmpty(attribute.getValue())) {
-                DateTime cal = new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC());
+                final DateTime cal = new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC());
                 request.setIssueInstant(cal);
             } else if (attribute.getLocalName().equals(RequestAbstractType.MAJORVERSION_ATTRIB_NAME)) {
-                int major;
+                final int major;
                 try {
                     major = Integer.parseInt(attribute.getValue());
                     if (major != 1) {
@@ -95,7 +95,7 @@ public abstract class RequestAbstractTypeUnmarshaller extends AbstractSAMLObject
                     throw new UnmarshallingException(n);
                 }
             } else if (RequestAbstractType.MINORVERSION_ATTRIB_NAME.equals(attribute.getLocalName())) {
-                int minor;
+                final int minor;
                 try {
                     minor = Integer.parseInt(attribute.getValue());
                 } catch (final NumberFormatException n) {

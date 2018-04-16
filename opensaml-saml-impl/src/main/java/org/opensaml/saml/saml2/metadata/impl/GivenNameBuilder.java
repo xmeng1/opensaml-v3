@@ -44,7 +44,7 @@ public class GivenNameBuilder extends AbstractSAMLObjectBuilder<GivenName> {
     }
 
     /** {@inheritDoc} */
-    public GivenName buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public GivenName buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new GivenNameImpl(namespaceURI, localName, namespacePrefix);
     }
 }

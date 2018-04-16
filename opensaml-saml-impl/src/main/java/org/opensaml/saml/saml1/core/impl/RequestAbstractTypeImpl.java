@@ -37,7 +37,7 @@ public abstract class RequestAbstractTypeImpl extends AbstractSignableSAMLObject
     /** Contains the ID. */
     private String id;
 
-    /** Containt the IssueInstant. */
+    /** Contains the IssueInstant. */
     private DateTime issueInstant;
 
     /** Version of this SAML message. */
@@ -53,7 +53,8 @@ public abstract class RequestAbstractTypeImpl extends AbstractSignableSAMLObject
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected RequestAbstractTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected RequestAbstractTypeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         version = SAMLVersion.VERSION_11;
         respondWiths = new XMLObjectChildrenList<>(this);
@@ -65,8 +66,8 @@ public abstract class RequestAbstractTypeImpl extends AbstractSignableSAMLObject
     }
 
     /** {@inheritDoc} */
-    public void setID(String newID) {
-        String oldID = id;
+    public void setID(final String newID) {
+        final String oldID = id;
         id = prepareForAssignment(id, newID);
         registerOwnID(oldID, id);
     }
@@ -77,7 +78,7 @@ public abstract class RequestAbstractTypeImpl extends AbstractSignableSAMLObject
     }
 
     /** {@inheritDoc} */
-    public void setVersion(SAMLVersion newVersion) {
+    public void setVersion(final SAMLVersion newVersion) {
         version = prepareForAssignment(version, newVersion);
     }
 
@@ -87,7 +88,7 @@ public abstract class RequestAbstractTypeImpl extends AbstractSignableSAMLObject
     }
 
     /** {@inheritDoc} */
-    public void setIssueInstant(DateTime instant) {
+    public void setIssueInstant(final DateTime instant) {
         this.issueInstant = prepareForAssignment(this.issueInstant, instant);
     }
 
@@ -103,7 +104,7 @@ public abstract class RequestAbstractTypeImpl extends AbstractSignableSAMLObject
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        List<XMLObject> children = new ArrayList<>();
+        final List<XMLObject> children = new ArrayList<>();
 
         children.addAll(respondWiths);
         

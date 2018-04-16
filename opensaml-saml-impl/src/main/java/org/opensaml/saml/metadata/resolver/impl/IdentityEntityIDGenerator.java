@@ -29,12 +29,12 @@ import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
 public class IdentityEntityIDGenerator implements Function<CriteriaSet, String> {
     
     /** {@inheritDoc} */
-    public String apply(CriteriaSet input) {
+    public String apply(final CriteriaSet input) {
         if (input == null) {
             return null;
         }
         
-        EntityIdCriterion entityIDCrit = input.get(EntityIdCriterion.class);
+        final EntityIdCriterion entityIDCrit = input.get(EntityIdCriterion.class);
         if (entityIDCrit == null) {
             return null;
         }

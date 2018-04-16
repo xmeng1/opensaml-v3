@@ -48,7 +48,8 @@ public class ResourceContentTypeImpl extends AbstractXACMLObject implements Reso
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected ResourceContentTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected ResourceContentTypeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         unknownAttributes = new AttributeMap(this);
         unknownElements = new IndexedXMLObjectChildrenList<>(this);
@@ -56,7 +57,7 @@ public class ResourceContentTypeImpl extends AbstractXACMLObject implements Reso
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         
         children.addAll(unknownElements);
         
@@ -69,7 +70,7 @@ public class ResourceContentTypeImpl extends AbstractXACMLObject implements Reso
     }
 
     /** {@inheritDoc} */
-    public List<XMLObject> getUnknownXMLObjects(QName typeOrName) {
+    public List<XMLObject> getUnknownXMLObjects(final QName typeOrName) {
         return (List<XMLObject>) unknownElements.subList(typeOrName);
     }
 
@@ -84,7 +85,7 @@ public class ResourceContentTypeImpl extends AbstractXACMLObject implements Reso
     }
     
     /** {@inheritDoc} */
-    public void setValue(String newValue) {
+    public void setValue(final String newValue) {
         value = prepareForAssignment(value, newValue);
     }
 }

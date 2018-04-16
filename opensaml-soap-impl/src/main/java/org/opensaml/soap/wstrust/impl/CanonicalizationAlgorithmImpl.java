@@ -33,7 +33,8 @@ public class CanonicalizationAlgorithmImpl extends XSURIImpl implements Canonica
      * @param elementLocalName name of the element
      * @param namespacePrefix namespace prefix of the element
      */
-    public CanonicalizationAlgorithmImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public CanonicalizationAlgorithmImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

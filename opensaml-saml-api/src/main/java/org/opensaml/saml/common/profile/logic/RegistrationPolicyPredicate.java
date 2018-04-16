@@ -22,11 +22,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
 import net.shibboleth.utilities.java.support.annotation.constraint.NotLive;
 import net.shibboleth.utilities.java.support.annotation.constraint.Unmodifiable;
-import net.shibboleth.utilities.java.support.logic.Constraint;
 import net.shibboleth.utilities.java.support.primitive.StringSupport;
 
 import org.opensaml.saml.ext.saml2mdrpi.RegistrationInfo;
@@ -48,16 +48,8 @@ public class RegistrationPolicyPredicate  extends AbstractRegistrationInfoPredic
      * 
      * @param policies the policies to test for
      */
-    public RegistrationPolicyPredicate(@Nonnull @NonnullElements final Collection<String> policies) {
-        
-        Constraint.isNotNull(policies, "Authority name collection cannot be null");
-        policySet = new HashSet<>(policies.size());
-        for (final String policy : policies) {
-            final String trimmed = StringSupport.trimOrNull(policy);
-            if (trimmed != null) {
-                policies.add(trimmed);
-            }
-        }
+    public RegistrationPolicyPredicate(@Nullable final Collection<String> policies) {
+        policySet = new HashSet<>(StringSupport.normalizeStringCollection(policies));
     }
 
     /**

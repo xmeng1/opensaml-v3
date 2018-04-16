@@ -29,9 +29,9 @@ import org.opensaml.soap.wstrust.CancelTarget;
 public class CancelTargetUnmarshaller extends AbstractWSTrustObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        CancelTarget ct = (CancelTarget) parentXMLObject;
+        final CancelTarget ct = (CancelTarget) parentXMLObject;
         ct.setUnknownXMLObject(childXMLObject);
     }
 

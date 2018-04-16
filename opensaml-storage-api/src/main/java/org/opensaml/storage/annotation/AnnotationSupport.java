@@ -254,7 +254,7 @@ public final class AnnotationSupport {
     @Nullable private static Object getFieldValue(@Nonnull final Object target, @Nonnull final String fieldName) {
         try {
             return getField(target, fieldName).get(target);
-        } catch (IllegalAccessException e) {
+        } catch (final IllegalAccessException e) {
             throw new RuntimeException("Field " + fieldName + " cannot be read on " + target);
         }
     }
@@ -272,7 +272,7 @@ public final class AnnotationSupport {
             @Nullable final Object fieldValue) {
         try {
             getField(target, fieldName).set(target, fieldValue);
-        } catch (IllegalAccessException e) {
+        } catch (final IllegalAccessException e) {
             throw new RuntimeException("Field " + fieldName + " cannot be set on " + target);
         }
     }
@@ -298,7 +298,7 @@ public final class AnnotationSupport {
                     field.setAccessible(true);
                 }
                 FIELD_CACHE.put(key, field);
-            } catch (NoSuchFieldException e) {
+            } catch (final NoSuchFieldException e) {
                 throw new RuntimeException("Field " + fieldName + " does not exist on " + target);
             }
         }

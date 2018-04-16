@@ -81,11 +81,11 @@ public class AudienceRestrictionConditionValidator implements ConditionValidator
             return ValidationResult.INDETERMINATE;
         }
         
-        Set<String> validAudiences;
+        final Set<String> validAudiences;
         try {
             validAudiences = (Set<String>) context.getStaticParameters().get(
                     SAML2AssertionValidationParameters.COND_VALID_AUDIENCES);
-        } catch (ClassCastException e) {
+        } catch (final ClassCastException e) {
             log.warn("The value of the static validation parameter '{}' was not java.util.Set<String>",
                     SAML2AssertionValidationParameters.COND_VALID_AUDIENCES);
             context.setValidationFailureMessage("Unable to determine list of valid audiences");
@@ -101,8 +101,8 @@ public class AudienceRestrictionConditionValidator implements ConditionValidator
                 + "against the list of valid audiences: {}",
                 validAudiences.toString());
 
-        AudienceRestriction audienceRestriction = (AudienceRestriction) condition;
-        List<Audience> audiences = audienceRestriction.getAudiences();
+        final AudienceRestriction audienceRestriction = (AudienceRestriction) condition;
+        final List<Audience> audiences = audienceRestriction.getAudiences();
         if (audiences == null || audiences.isEmpty()) {
             context.setValidationFailureMessage(String.format(
                     "'%s' condition in assertion '%s' is malformed as it does not contain any audiences",
@@ -110,15 +110,15 @@ public class AudienceRestrictionConditionValidator implements ConditionValidator
             return ValidationResult.INVALID;
         }
 
-        for (Audience audience : audiences) {
-            String audienceURI = StringSupport.trimOrNull(audience.getAudienceURI());
+        for (final Audience audience : audiences) {
+            final String audienceURI = StringSupport.trimOrNull(audience.getAudienceURI());
             if (validAudiences.contains(audienceURI)) {
                 log.debug("Matched valid audience: {}", audienceURI);
                 return ValidationResult.VALID;
             }
         }
 
-        String msg = String.format(
+        final String msg = String.format(
                 "None of the audiences within Assertion '%s' matched the list of valid audiances", assertion.getID());
         log.debug(msg);
         context.setValidationFailureMessage(msg);

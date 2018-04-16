@@ -27,8 +27,8 @@ import org.w3c.dom.Attr;
 public class EndPointReferenceUnmarshaller extends AbstractXMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject) {
-        EndPointReference endPointReference = (EndPointReference) parentSAMLObject;
+    protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject) {
+        final EndPointReference endPointReference = (EndPointReference) parentSAMLObject;
 
         if (childSAMLObject instanceof Address) {
             endPointReference.setAddress((Address) childSAMLObject);
@@ -36,12 +36,12 @@ public class EndPointReferenceUnmarshaller extends AbstractXMLObjectUnmarshaller
     }
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject fedObject, Attr attribute) {
+    protected void processAttribute(final XMLObject fedObject, final Attr attribute) {
 
     }
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject fedObject, String content) {
+    protected void processElementContent(final XMLObject fedObject, final String content) {
 
     }
 }

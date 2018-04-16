@@ -32,15 +32,15 @@ import org.w3c.dom.Attr;
 public class EntropyUnmarshaller extends AbstractWSTrustObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
-        Claims claims = (Claims) xmlObject;
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
+        final Claims claims = (Claims) xmlObject;
         XMLObjectSupport.unmarshallToAttributeMap(claims.getUnknownAttributes(), attribute);
     }
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        Claims claims = (Claims) parentXMLObject;
+        final Claims claims = (Claims) parentXMLObject;
         claims.getUnknownXMLObjects().add(childXMLObject);
     }
     

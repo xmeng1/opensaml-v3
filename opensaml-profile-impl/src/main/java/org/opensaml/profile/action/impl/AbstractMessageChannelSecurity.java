@@ -49,7 +49,7 @@ public abstract class AbstractMessageChannelSecurity extends AbstractProfileActi
     public AbstractMessageChannelSecurity() {
         //TODO this just returns the input PRC - need better default?
         parentContextLookupStrategy = new Function<ProfileRequestContext, BaseContext>() {
-            @Nullable public BaseContext apply(@Nullable ProfileRequestContext input) {
+            @Nullable public BaseContext apply(@Nullable final ProfileRequestContext input) {
                 return input;
             }
         };

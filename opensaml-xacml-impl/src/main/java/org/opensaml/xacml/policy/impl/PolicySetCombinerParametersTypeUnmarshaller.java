@@ -31,9 +31,9 @@ public class PolicySetCombinerParametersTypeUnmarshaller extends CombinerParamet
     
     /** {@inheritDoc} */
     @Override
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         if(attribute.getLocalName().equals(PolicySetCombinerParametersType.POLICY_SET_ID_REF_ATTRIB_NAME)){
-            PolicySetCombinerParametersType policySetCombinerParametersType = 
+            final PolicySetCombinerParametersType policySetCombinerParametersType = 
                 (PolicySetCombinerParametersType)xmlObject;
             policySetCombinerParametersType.setPolicySetIdRef(
                     StringSupport.trimOrNull(attribute.getValue()));

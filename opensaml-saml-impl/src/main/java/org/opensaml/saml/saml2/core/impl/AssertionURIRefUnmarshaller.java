@@ -31,8 +31,8 @@ import org.opensaml.saml.saml2.core.AssertionURIRef;
 public class AssertionURIRefUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject samlObject, String elementContent) {
-        AssertionURIRef assertionURIRef = (AssertionURIRef) samlObject;
+    protected void processElementContent(final XMLObject samlObject, final String elementContent) {
+        final AssertionURIRef assertionURIRef = (AssertionURIRef) samlObject;
         assertionURIRef.setAssertionURI(elementContent);
     }
 }

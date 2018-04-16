@@ -87,7 +87,7 @@ public class KeyStoreCredentialResolver extends AbstractCriteriaFilteringCredent
      * 
      */
     public KeyStoreCredentialResolver(@Nonnull final KeyStore store, @Nonnull final Map<String, String> passwords,
-            @Nullable UsageType usage) {
+            @Nullable final UsageType usage) {
         super();
 
         keyStore = Constraint.isNotNull(store, "Provided key store cannot be null");
@@ -95,7 +95,7 @@ public class KeyStoreCredentialResolver extends AbstractCriteriaFilteringCredent
 
         try {
             store.size();
-        } catch (KeyStoreException e) {
+        } catch (final KeyStoreException e) {
             throw new IllegalStateException("Keystore has not been initialized.");
         }
 
@@ -112,9 +112,9 @@ public class KeyStoreCredentialResolver extends AbstractCriteriaFilteringCredent
 
         checkCriteriaRequirements(criteriaSet);
 
-        String entityID = criteriaSet.get(EntityIdCriterion.class).getEntityId();
-        UsageCriterion usageCriteria = criteriaSet.get(UsageCriterion.class);
-        UsageType usage;
+        final String entityID = criteriaSet.get(EntityIdCriterion.class).getEntityId();
+        final UsageCriterion usageCriteria = criteriaSet.get(UsageCriterion.class);
+        final UsageType usage;
         if (usageCriteria != null) {
             usage = usageCriteria.getUsage();
         } else {
@@ -148,7 +148,7 @@ public class KeyStoreCredentialResolver extends AbstractCriteriaFilteringCredent
             return Collections.emptySet();
         }
 
-        Credential credential = buildCredential(keyStoreEntry, entityID, keystoreUsage);
+        final Credential credential = buildCredential(keyStoreEntry, entityID, keystoreUsage);
         return Collections.singleton(credential);
     }
 
@@ -219,13 +219,13 @@ public class KeyStoreCredentialResolver extends AbstractCriteriaFilteringCredent
 
         log.debug("Processing TrustedCertificateEntry from keystore");
 
-        X509Certificate cert = (X509Certificate) trustedCertEntry.getTrustedCertificate();
+        final X509Certificate cert = (X509Certificate) trustedCertEntry.getTrustedCertificate();
 
-        BasicX509Credential credential = new BasicX509Credential(cert);
+        final BasicX509Credential credential = new BasicX509Credential(cert);
         credential.setEntityId(entityID);
         credential.setUsageType(usage);
 
-        ArrayList<X509Certificate> certChain = new ArrayList<>();
+        final ArrayList<X509Certificate> certChain = new ArrayList<>();
         certChain.add(cert);
         credential.setEntityCertificateChain(certChain);
 
@@ -245,7 +245,7 @@ public class KeyStoreCredentialResolver extends AbstractCriteriaFilteringCredent
 
         log.debug("Processing PrivateKeyEntry from keystore");
 
-        BasicX509Credential credential = 
+        final BasicX509Credential credential = 
                 new BasicX509Credential((X509Certificate) privateKeyEntry.getCertificate(), 
                         privateKeyEntry.getPrivateKey());
         credential.setEntityId(entityID);
@@ -268,7 +268,7 @@ public class KeyStoreCredentialResolver extends AbstractCriteriaFilteringCredent
             @Nonnull final String entityID, @Nonnull final UsageType usage) {
         log.debug("Processing SecretKeyEntry from keystore");
 
-        BasicCredential credential = new BasicCredential(secretKeyEntry.getSecretKey());
+        final BasicCredential credential = new BasicCredential(secretKeyEntry.getSecretKey());
         credential.setEntityId(entityID);
         credential.setUsageType(usage);
 

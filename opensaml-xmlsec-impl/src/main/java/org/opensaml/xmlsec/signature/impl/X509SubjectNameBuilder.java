@@ -35,7 +35,8 @@ public class X509SubjectNameBuilder extends AbstractXMLObjectBuilder<X509Subject
     }
 
     /** {@inheritDoc} */
-    public X509SubjectName buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public X509SubjectName buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new X509SubjectNameImpl(namespaceURI, localName, namespacePrefix);
     }
 

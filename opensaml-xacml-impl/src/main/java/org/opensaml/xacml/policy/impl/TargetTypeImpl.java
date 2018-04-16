@@ -53,14 +53,14 @@ public class TargetTypeImpl extends AbstractXACMLObject implements TargetType {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected TargetTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected TargetTypeImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);       
     }
 
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         if(subjects != null){
             children.add(subjects);  
@@ -98,22 +98,22 @@ public class TargetTypeImpl extends AbstractXACMLObject implements TargetType {
     }
 
     /**{@inheritDoc}*/
-    public void setActions(ActionsType newActions) {
+    public void setActions(final ActionsType newActions) {
         this.actions = prepareForAssignment(this.actions,newActions);
     }
 
     /**{@inheritDoc}*/
-    public void setEnvironments(EnvironmentsType newEnvironments) {
+    public void setEnvironments(final EnvironmentsType newEnvironments) {
         this.environments = prepareForAssignment(this.environments,newEnvironments);
     }
 
     /**{@inheritDoc}*/
-    public void setResources(ResourcesType newResources) {
+    public void setResources(final ResourcesType newResources) {
         this.resources = prepareForAssignment(this.resources,newResources);
     }
 
     /**{@inheritDoc}*/
-    public void setSubjects(SubjectsType newSubjects) {
+    public void setSubjects(final SubjectsType newSubjects) {
         this.subjects = prepareForAssignment(this.subjects,newSubjects);
     }
 }

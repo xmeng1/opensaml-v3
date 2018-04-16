@@ -41,17 +41,17 @@ public class StaticDecryptionParametersResolver implements DecryptionParametersR
      *
      * @param parameters the static parameters instance to return
      */
-    public StaticDecryptionParametersResolver(DecryptionParameters parameters) {
+    public StaticDecryptionParametersResolver(final DecryptionParameters parameters) {
         params = Constraint.isNotNull(parameters, "Parameters instance may not be null");
     }
 
     /** {@inheritDoc} */
-    @Nonnull public Iterable<DecryptionParameters> resolve(CriteriaSet criteria) throws ResolverException {
+    @Nonnull public Iterable<DecryptionParameters> resolve(final CriteriaSet criteria) throws ResolverException {
         return Collections.singleton(params);
     }
 
     /** {@inheritDoc} */
-    @Nonnull public DecryptionParameters resolveSingle(CriteriaSet criteria) throws ResolverException {
+    @Nonnull public DecryptionParameters resolveSingle(final CriteriaSet criteria) throws ResolverException {
         return params;
     }
 

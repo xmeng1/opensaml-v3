@@ -61,7 +61,8 @@ public abstract class SSODescriptorImpl extends RoleDescriptorImpl implements SS
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected SSODescriptorImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected SSODescriptorImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         artifactResolutionServices = new XMLObjectChildrenList<>(this);
         singleLogoutServices = new XMLObjectChildrenList<>(this);
@@ -96,7 +97,7 @@ public abstract class SSODescriptorImpl extends RoleDescriptorImpl implements SS
     
     /** {@inheritDoc} */
     public List<Endpoint> getEndpoints() {
-        List<Endpoint> endpoints = new ArrayList<>();
+        final List<Endpoint> endpoints = new ArrayList<>();
         endpoints.addAll(artifactResolutionServices);
         endpoints.addAll(singleLogoutServices);
         endpoints.addAll(manageNameIDServices);
@@ -104,7 +105,7 @@ public abstract class SSODescriptorImpl extends RoleDescriptorImpl implements SS
     }
     
     /** {@inheritDoc} */
-    public List<Endpoint> getEndpoints(QName type) {
+    public List<Endpoint> getEndpoints(final QName type) {
         if(type.equals(ArtifactResolutionService.DEFAULT_ELEMENT_NAME)){
             return Collections.unmodifiableList(new ArrayList<Endpoint>(artifactResolutionServices));
         }else if(type.equals(SingleLogoutService.DEFAULT_ELEMENT_NAME)){
@@ -118,7 +119,7 @@ public abstract class SSODescriptorImpl extends RoleDescriptorImpl implements SS
     
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         
         children.addAll(super.getOrderedChildren());
         children.addAll(artifactResolutionServices);

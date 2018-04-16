@@ -40,7 +40,7 @@ public class ActionTypeImpl extends AbstractXACMLObject implements ActionType {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected ActionTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected ActionTypeImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         attributes = new XMLObjectChildrenList<>(this);
     }
@@ -52,7 +52,7 @@ public class ActionTypeImpl extends AbstractXACMLObject implements ActionType {
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         
         children.addAll(attributes);
         

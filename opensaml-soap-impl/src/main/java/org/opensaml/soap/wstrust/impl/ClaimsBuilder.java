@@ -31,7 +31,7 @@ public class ClaimsBuilder extends AbstractWSTrustObjectBuilder<Claims> {
     }
 
     /** {@inheritDoc} */
-    public Claims buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Claims buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new ClaimsImpl(namespaceURI, localName, namespacePrefix);
     }
 

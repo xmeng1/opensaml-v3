@@ -39,7 +39,8 @@ public class X509SerialNumberImpl extends AbstractXMLObject implements X509Seria
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected X509SerialNumberImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected X509SerialNumberImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -49,7 +50,7 @@ public class X509SerialNumberImpl extends AbstractXMLObject implements X509Seria
     }
 
     /** {@inheritDoc} */
-    public void setValue(BigInteger newValue) {
+    public void setValue(final BigInteger newValue) {
         value = prepareForAssignment(value, newValue);
     }
     

@@ -52,7 +52,7 @@ public class BasicHttpClientMessagePipeline<InboundMessageType, OutboundMessageT
     }
 
     /** {@inheritDoc} */
-    protected void setEncoder(MessageEncoder<OutboundMessageType> encoder) {
+    protected void setEncoder(final MessageEncoder<OutboundMessageType> encoder) {
         if (!(encoder instanceof HttpClientRequestMessageEncoder)) {
             throw new IllegalArgumentException("HttpClientRequestMessageEncoder is required");
         }
@@ -65,7 +65,7 @@ public class BasicHttpClientMessagePipeline<InboundMessageType, OutboundMessageT
     }
 
     /** {@inheritDoc} */
-    protected void setDecoder(MessageDecoder<InboundMessageType> decoder) {
+    protected void setDecoder(final MessageDecoder<InboundMessageType> decoder) {
         if (!(decoder instanceof HttpClientResponseMessageDecoder)) {
             throw new IllegalArgumentException("HttpClientResponseMessageDecoder is required");
         }

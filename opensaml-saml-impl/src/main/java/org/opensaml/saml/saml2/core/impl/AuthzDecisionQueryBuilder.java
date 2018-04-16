@@ -44,7 +44,8 @@ public class AuthzDecisionQueryBuilder extends AbstractSAMLObjectBuilder<AuthzDe
     }
 
     /** {@inheritDoc} */
-    public AuthzDecisionQuery buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public AuthzDecisionQuery buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new AuthzDecisionQueryImpl(namespaceURI, localName, namespacePrefix);
     }
 }

@@ -29,8 +29,8 @@ import org.w3c.dom.Element;
 public class EncryptedHeaderMarshaller extends AbstractWSSecurityObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        EncryptedHeader eh = (EncryptedHeader) xmlObject;
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
+        final EncryptedHeader eh = (EncryptedHeader) xmlObject;
         
         if (eh.getWSUId() != null) {
             XMLObjectSupport.marshallAttribute(EncryptedHeader.WSU_ID_ATTR_NAME, 

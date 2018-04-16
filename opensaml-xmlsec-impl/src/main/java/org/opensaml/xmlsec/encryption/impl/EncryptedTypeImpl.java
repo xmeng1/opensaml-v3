@@ -65,7 +65,8 @@ public abstract class EncryptedTypeImpl extends AbstractXMLObject implements Enc
      * @param elementLocalName local name
      * @param namespacePrefix namespace prefix
      */
-    protected EncryptedTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected EncryptedTypeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
     
@@ -75,8 +76,8 @@ public abstract class EncryptedTypeImpl extends AbstractXMLObject implements Enc
     }
     
     /** {@inheritDoc} */
-    public void setID(String newID) {
-        String oldID = this.id;
+    public void setID(final String newID) {
+        final String oldID = this.id;
         this.id = prepareForAssignment(this.id, newID);
         registerOwnID(oldID, this.id);
     }
@@ -87,7 +88,7 @@ public abstract class EncryptedTypeImpl extends AbstractXMLObject implements Enc
     }
     
     /** {@inheritDoc} */
-    public void setType(String newType) {
+    public void setType(final String newType) {
         this.type = prepareForAssignment(this.type, newType);
     }
     
@@ -97,7 +98,7 @@ public abstract class EncryptedTypeImpl extends AbstractXMLObject implements Enc
     }
     
     /** {@inheritDoc} */
-    public void setMimeType(String newMimeType) {
+    public void setMimeType(final String newMimeType) {
         this.mimeType = prepareForAssignment(this.mimeType, newMimeType);
     }
     
@@ -107,7 +108,7 @@ public abstract class EncryptedTypeImpl extends AbstractXMLObject implements Enc
     }
     
     /** {@inheritDoc} */
-    public void setEncoding(String newEncoding) {
+    public void setEncoding(final String newEncoding) {
         this.encoding = prepareForAssignment(this.encoding, newEncoding);
     }
 
@@ -117,7 +118,7 @@ public abstract class EncryptedTypeImpl extends AbstractXMLObject implements Enc
     }
 
     /** {@inheritDoc} */
-    public void setEncryptionMethod(EncryptionMethod newEncryptionMethod) {
+    public void setEncryptionMethod(final EncryptionMethod newEncryptionMethod) {
         this.encryptionMethod = prepareForAssignment(this.encryptionMethod, newEncryptionMethod);
     }
 
@@ -127,7 +128,7 @@ public abstract class EncryptedTypeImpl extends AbstractXMLObject implements Enc
     }
 
     /** {@inheritDoc} */
-    public void setKeyInfo(KeyInfo newKeyInfo) {
+    public void setKeyInfo(final KeyInfo newKeyInfo) {
         this.keyInfo = prepareForAssignment(this.keyInfo, newKeyInfo);
     }
 
@@ -137,7 +138,7 @@ public abstract class EncryptedTypeImpl extends AbstractXMLObject implements Enc
     }
 
     /** {@inheritDoc} */
-    public void setCipherData(CipherData newCipherData) {
+    public void setCipherData(final CipherData newCipherData) {
         this.cipherData = prepareForAssignment(this.cipherData, newCipherData);
     }
 
@@ -147,13 +148,13 @@ public abstract class EncryptedTypeImpl extends AbstractXMLObject implements Enc
     }
 
     /** {@inheritDoc} */
-    public void setEncryptionProperties(EncryptionProperties newEncryptionProperties) {
+    public void setEncryptionProperties(final EncryptionProperties newEncryptionProperties) {
         this.encryptionProperties = prepareForAssignment(this.encryptionProperties, newEncryptionProperties);
     }
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         
         if (encryptionMethod != null) {
             children.add(encryptionMethod);

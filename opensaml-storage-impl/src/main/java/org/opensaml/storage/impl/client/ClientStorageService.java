@@ -67,7 +67,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Implementation of {@link StorageService} that stores data in-memory in a shared session attribute.
+ * Implementation of {@link org.opensaml.storage.StorageService} that stores data in-memory in a
+ * shared session attribute.
  * 
  * <p>The data for this service is managed in a {@link ClientStorageServiceStore} object, which must
  * be created by some operation within the container for this implementation to function. Actual
@@ -242,13 +243,14 @@ public class ClientStorageService extends AbstractMapBackedStorageService implem
 
     /** {@inheritDoc} */
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(final FilterConfig filterConfig) throws ServletException {
         
     }
 
     /** {@inheritDoc} */
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
+    public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain)
+            throws IOException,
             ServletException {
         // This is just a no-op available to preserve compatibility with web.xml references to the
         // older storage plugin that saved modified data back to a cookie on every response.
@@ -543,7 +545,7 @@ public class ClientStorageService extends AbstractMapBackedStorageService implem
                     }
                     
                     final JsonObject contextRecords = (JsonObject) context.getValue();
-                    for (Map.Entry<String,JsonValue> record : contextRecords.entrySet()) {
+                    for (final Map.Entry<String,JsonValue> record : contextRecords.entrySet()) {
                     
                         final JsonObject fields = (JsonObject) record.getValue();
                         Long exp = null;

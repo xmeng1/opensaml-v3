@@ -42,7 +42,8 @@ public class AuthenticatingAuthorityBuilder extends AbstractSAMLObjectBuilder<Au
     }
 
     /** {@inheritDoc} */
-    public AuthenticatingAuthority buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public AuthenticatingAuthority buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new AuthenticatingAuthorityImpl(namespaceURI, localName, namespacePrefix);
     }
 }

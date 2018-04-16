@@ -31,7 +31,7 @@ public class PrimaryBuilder extends AbstractWSTrustObjectBuilder<Primary> {
     }
 
     /** {@inheritDoc} */
-    public Primary buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Primary buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new PrimaryImpl(namespaceURI, localName, namespacePrefix);
     }
 

@@ -32,7 +32,8 @@ public class CarriedKeyNameImpl extends XSStringImpl implements CarriedKeyName {
      * @param elementLocalName local name
      * @param namespacePrefix namespace prefix
      */
-    protected CarriedKeyNameImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected CarriedKeyNameImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

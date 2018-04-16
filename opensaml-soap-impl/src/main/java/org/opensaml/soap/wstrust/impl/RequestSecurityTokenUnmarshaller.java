@@ -31,8 +31,8 @@ import org.w3c.dom.Attr;
 public class RequestSecurityTokenUnmarshaller extends AbstractWSTrustObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
-        RequestSecurityToken rst = (RequestSecurityToken) xmlObject;
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
+        final RequestSecurityToken rst = (RequestSecurityToken) xmlObject;
         if (RequestSecurityToken.CONTEXT_ATTRIB_NAME.equals(attribute.getLocalName())) {
             rst.setContext(attribute.getValue());
         } else {
@@ -41,9 +41,9 @@ public class RequestSecurityTokenUnmarshaller extends AbstractWSTrustObjectUnmar
     }
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        RequestSecurityToken rst = (RequestSecurityToken) parentXMLObject;
+        final RequestSecurityToken rst = (RequestSecurityToken) parentXMLObject;
         rst.getUnknownXMLObjects().add(childXMLObject);
     }
 

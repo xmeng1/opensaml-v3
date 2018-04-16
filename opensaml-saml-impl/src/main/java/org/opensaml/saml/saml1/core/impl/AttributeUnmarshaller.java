@@ -30,12 +30,12 @@ import org.opensaml.saml.saml1.core.Attribute;
 public class AttributeUnmarshaller extends AttributeDesignatorUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
+    protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
 
-        Attribute attribute = (Attribute) parentSAMLObject;
+        final Attribute attribute = (Attribute) parentSAMLObject;
 
-        QName childQName = childSAMLObject.getElementQName();
+        final QName childQName = childSAMLObject.getElementQName();
         if ("AttributeValue".equals(childQName.getLocalPart())
                 && childQName.getNamespaceURI().equals(SAMLConstants.SAML1_NS)) {
             attribute.getAttributeValues().add(childSAMLObject);

@@ -35,8 +35,9 @@ import org.w3c.dom.Element;
 public class NewIDMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallElementContent(XMLObject samlObject, Element domElement) throws MarshallingException {
-        NewID newID = (NewID) samlObject;
+    protected void marshallElementContent(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
+        final NewID newID = (NewID) samlObject;
 
         if (newID.getNewID() != null) {
             ElementSupport.appendTextContent(domElement, newID.getNewID());

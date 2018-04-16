@@ -53,7 +53,7 @@ public class FaultImpl extends AbstractXMLObject implements Fault {
      * @param elementLocalName name of the element
      * @param namespacePrefix namespace prefix of the element
      */
-    protected FaultImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected FaultImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -63,7 +63,7 @@ public class FaultImpl extends AbstractXMLObject implements Fault {
     }
 
     /** {@inheritDoc} */
-    public void setCode(FaultCode newFaultCode) {
+    public void setCode(final FaultCode newFaultCode) {
         faultCode = prepareForAssignment(faultCode, newFaultCode);
     }
 
@@ -73,7 +73,7 @@ public class FaultImpl extends AbstractXMLObject implements Fault {
     }
 
     /** {@inheritDoc} */
-    public void setMessage(FaultString newMessage) {
+    public void setMessage(final FaultString newMessage) {
         message = prepareForAssignment(message, newMessage);
     }
 
@@ -83,7 +83,7 @@ public class FaultImpl extends AbstractXMLObject implements Fault {
     }
 
     /** {@inheritDoc} */
-    public void setActor(FaultActor newActor) {
+    public void setActor(final FaultActor newActor) {
         actor = prepareForAssignment(actor, newActor);
     }
 
@@ -93,13 +93,13 @@ public class FaultImpl extends AbstractXMLObject implements Fault {
     }
 
     /** {@inheritDoc} */
-    public void setDetail(Detail newDetail) {
+    public void setDetail(final Detail newDetail) {
         detail = prepareForAssignment(detail, newDetail);
     }
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         children.add(faultCode);
         children.add(message);

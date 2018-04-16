@@ -31,8 +31,8 @@ import org.opensaml.saml.saml2.core.Audience;
 public class AudienceUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject samlObject, String elementContent) {
-        Audience audience = (Audience) samlObject;
+    protected void processElementContent(final XMLObject samlObject, final String elementContent) {
+        final Audience audience = (Audience) samlObject;
         audience.setAudienceURI(elementContent);
     }
 }

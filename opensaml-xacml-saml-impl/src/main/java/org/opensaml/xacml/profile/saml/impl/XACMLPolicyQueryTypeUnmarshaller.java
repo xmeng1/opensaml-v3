@@ -28,8 +28,9 @@ import org.opensaml.xacml.profile.saml.XACMLPolicyQueryType;
 public class XACMLPolicyQueryTypeUnmarshaller extends RequestAbstractTypeUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentObject, XMLObject childObject) throws UnmarshallingException {
-        XACMLPolicyQueryType xacmlpolicyquery = (XACMLPolicyQueryType) parentObject;
+    protected void processChildElement(final XMLObject parentObject, final XMLObject childObject)
+            throws UnmarshallingException {
+        final XACMLPolicyQueryType xacmlpolicyquery = (XACMLPolicyQueryType) parentObject;
 
         if (childObject instanceof RequestType) {
             xacmlpolicyquery.getRequests().add((RequestType) childObject);

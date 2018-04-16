@@ -37,18 +37,19 @@ import org.w3c.dom.Attr;
 public class AuthnContextDeclUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        AuthnContextDecl authnCtcDecl = (AuthnContextDecl) parentXMLObject;
+        final AuthnContextDecl authnCtcDecl = (AuthnContextDecl) parentXMLObject;
 
         authnCtcDecl.getUnknownXMLObjects().add(childXMLObject);
     }
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
-        AuthnContextDecl authnCtcDecl = (AuthnContextDecl) xmlObject;
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
+        final AuthnContextDecl authnCtcDecl = (AuthnContextDecl) xmlObject;
 
-        QName attribQName = QNameSupport.constructQName(attribute.getNamespaceURI(), attribute.getLocalName(), attribute
+        final QName attribQName = QNameSupport.constructQName(attribute.getNamespaceURI(), attribute.getLocalName(),
+                attribute
                 .getPrefix());
 
         if (attribute.isId()) {
@@ -59,8 +60,8 @@ public class AuthnContextDeclUnmarshaller extends AbstractSAMLObjectUnmarshaller
     }
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject xmlObject, String elementContent) {
-        AuthnContextDecl authnCtcDecl = (AuthnContextDecl) xmlObject;
+    protected void processElementContent(final XMLObject xmlObject, final String elementContent) {
+        final AuthnContextDecl authnCtcDecl = (AuthnContextDecl) xmlObject;
 
         authnCtcDecl.setTextContent(elementContent);
     }

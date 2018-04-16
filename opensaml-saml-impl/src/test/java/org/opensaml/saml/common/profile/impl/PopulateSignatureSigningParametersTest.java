@@ -25,6 +25,7 @@ import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
 import net.shibboleth.utilities.java.support.resolver.ResolverException;
 
 import org.opensaml.core.OpenSAMLInitBaseTestCase;
+import org.opensaml.messaging.context.MessageContext;
 import org.opensaml.messaging.context.navigate.ChildContextLookup;
 import org.opensaml.profile.RequestContextBuilder;
 import org.opensaml.profile.action.ActionTestingSupport;
@@ -65,7 +66,7 @@ public class PopulateSignatureSigningParametersTest extends OpenSAMLInitBaseTest
         prc.setOutboundMessageContext(null);
         
         action.execute(prc);
-        ActionTestingSupport.assertEvent(prc, EventIds.INVALID_PROFILE_CTX);
+        ActionTestingSupport.assertEvent(prc, EventIds.INVALID_MSG_CTX);
     }
     
     @Test public void testResolverError() throws Exception {
@@ -73,7 +74,7 @@ public class PopulateSignatureSigningParametersTest extends OpenSAMLInitBaseTest
         action.initialize();
         
         action.execute(prc);
-        ActionTestingSupport.assertEvent(prc, EventIds.INVALID_SEC_CFG);
+        ActionTestingSupport.assertEvent(prc, EventIds.MESSAGE_PROC_ERROR);
     }    
 
     @Test public void testSuccess() throws Exception {
@@ -87,18 +88,16 @@ public class PopulateSignatureSigningParametersTest extends OpenSAMLInitBaseTest
     }    
 
     @Test public void testCopy() throws Exception {
+        // Test copy from PRC to MessageContext
         action.setSignatureSigningParametersResolver(new MockResolver(true));
-        action.setExistingParametersContextLookupStrategy(
-                Functions.compose(new ChildContextLookup(SecurityParametersContext.class),
-                        new OutboundMessageContextLookup()));
+        action.setExistingParametersContextLookupStrategy(new ChildContextLookup(SecurityParametersContext.class));
         action.setSecurityParametersContextLookupStrategy(
-                new ChildContextLookup<ProfileRequestContext,SecurityParametersContext>(
-                        SecurityParametersContext.class, true));
+                Functions.compose(
+                        new ChildContextLookup<MessageContext,SecurityParametersContext>(SecurityParametersContext.class, true),
+                        new OutboundMessageContextLookup()));
         action.initialize();
         
-        prc.getOutboundMessageContext().getSubcontext(
-                SecurityParametersContext.class, true).setSignatureSigningParameters(
-                        new SignatureSigningParameters());
+        prc.getSubcontext(SecurityParametersContext.class, true).setSignatureSigningParameters(new SignatureSigningParameters());
         
         action.execute(prc);
         ActionTestingSupport.assertProceedEvent(prc);

@@ -31,7 +31,8 @@ public class DataReferenceImpl extends ReferenceTypeImpl implements DataReferenc
      * @param elementLocalName local name
      * @param namespacePrefix namespace prefix
      */
-    protected DataReferenceImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected DataReferenceImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

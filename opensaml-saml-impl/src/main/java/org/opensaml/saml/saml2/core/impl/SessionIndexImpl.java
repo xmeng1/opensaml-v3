@@ -42,7 +42,7 @@ public class SessionIndexImpl extends AbstractSAMLObject implements SessionIndex
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected SessionIndexImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected SessionIndexImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -52,7 +52,7 @@ public class SessionIndexImpl extends AbstractSAMLObject implements SessionIndex
     }
 
     /** {@inheritDoc} */
-    public void setSessionIndex(String newSessionIndex) {
+    public void setSessionIndex(final String newSessionIndex) {
         this.sessionIndex = prepareForAssignment(this.sessionIndex, newSessionIndex);
     }
 

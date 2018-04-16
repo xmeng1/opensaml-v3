@@ -27,9 +27,9 @@ import org.opensaml.xmlsec.signature.SPKIData;
 public class SPKIDataUnmarshaller extends AbstractXMLSignatureUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        SPKIData spkiData = (SPKIData) parentXMLObject;
+        final SPKIData spkiData = (SPKIData) parentXMLObject;
 
         // SPKIData contains an unbounded sequence of pairs of a single SPKISexp
         // and an optional, single wildcard <any> element. Let the Validator

@@ -51,7 +51,7 @@ public class ClaimsImpl extends AbstractWSTrustObject implements Claims {
      * @param elementLocalName The local name of the element
      * @param namespacePrefix The namespace prefix of the element
      */
-    public ClaimsImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public ClaimsImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         unknownChildren = new IndexedXMLObjectChildrenList<>(this);
         unknownAttributes = new AttributeMap(this);
@@ -63,7 +63,7 @@ public class ClaimsImpl extends AbstractWSTrustObject implements Claims {
     }
 
     /** {@inheritDoc} */
-    public void setDialect(String newDialect) {
+    public void setDialect(final String newDialect) {
         dialect = prepareForAssignment(dialect, newDialect);
     }
 
@@ -78,13 +78,13 @@ public class ClaimsImpl extends AbstractWSTrustObject implements Claims {
     }
 
     /** {@inheritDoc} */
-    public List<XMLObject> getUnknownXMLObjects(QName typeOrName) {
+    public List<XMLObject> getUnknownXMLObjects(final QName typeOrName) {
         return (List<XMLObject>) unknownChildren.subList(typeOrName);
     }
     
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         children.addAll(unknownChildren);
         return Collections.unmodifiableList(children);
     }

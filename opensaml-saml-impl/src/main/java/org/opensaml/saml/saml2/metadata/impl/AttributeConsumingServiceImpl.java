@@ -61,7 +61,8 @@ public class AttributeConsumingServiceImpl extends AbstractSAMLObject implements
      * @param elementLocalName local name
      * @param namespacePrefix prefix
      */
-    protected AttributeConsumingServiceImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AttributeConsumingServiceImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         serviceNames = new XMLObjectChildrenList<>(this);
         serviceDescriptions = new XMLObjectChildrenList<>(this);
@@ -74,7 +75,7 @@ public class AttributeConsumingServiceImpl extends AbstractSAMLObject implements
     }
 
     /** {@inheritDoc} */
-    public void setIndex(int theIndex) {
+    public void setIndex(final int theIndex) {
         if (this.index != theIndex) {
             releaseThisandParentDOM();
             this.index = theIndex;
@@ -96,7 +97,7 @@ public class AttributeConsumingServiceImpl extends AbstractSAMLObject implements
     }
     
     /** {@inheritDoc} */
-    public void setIsDefault(Boolean newIsDefault){
+    public void setIsDefault(final Boolean newIsDefault){
         if(newIsDefault != null){
             isDefault = prepareForAssignment(isDefault, new XSBooleanValue(newIsDefault, false));
         }else{
@@ -105,7 +106,7 @@ public class AttributeConsumingServiceImpl extends AbstractSAMLObject implements
     }
 
     /** {@inheritDoc} */
-    public void setIsDefault(XSBooleanValue newIsDefault) {
+    public void setIsDefault(final XSBooleanValue newIsDefault) {
         isDefault = prepareForAssignment(isDefault, newIsDefault);
     }
 
@@ -126,7 +127,7 @@ public class AttributeConsumingServiceImpl extends AbstractSAMLObject implements
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         children.addAll(serviceNames);
         children.addAll(serviceDescriptions);

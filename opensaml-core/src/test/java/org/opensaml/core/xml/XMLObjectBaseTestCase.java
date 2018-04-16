@@ -29,16 +29,7 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.namespace.QName;
 
-import net.shibboleth.utilities.java.support.xml.AttributeSupport;
-import net.shibboleth.utilities.java.support.xml.ParserPool;
-import net.shibboleth.utilities.java.support.xml.QNameSupport;
-import net.shibboleth.utilities.java.support.xml.SerializeSupport;
-import net.shibboleth.utilities.java.support.xml.XMLParserException;
-
 import org.custommonkey.xmlunit.Diff;
-
-import net.shibboleth.utilities.java.support.xml.XMLAssertTestNG;
-
 import org.custommonkey.xmlunit.XMLUnit;
 import org.opensaml.core.OpenSAMLInitBaseTestCase;
 import org.opensaml.core.xml.config.XMLObjectProviderRegistrySupport;
@@ -57,6 +48,13 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+
+import net.shibboleth.utilities.java.support.xml.AttributeSupport;
+import net.shibboleth.utilities.java.support.xml.ParserPool;
+import net.shibboleth.utilities.java.support.xml.QNameSupport;
+import net.shibboleth.utilities.java.support.xml.SerializeSupport;
+import net.shibboleth.utilities.java.support.xml.XMLAssertTestNG;
+import net.shibboleth.utilities.java.support.xml.XMLParserException;
 
 /**
  * Base test case class for tests that operate on XMLObjects.
@@ -178,6 +176,24 @@ public abstract class XMLObjectBaseTestCase extends OpenSAMLInitBaseTestCase {
      */
     protected <T extends XMLObject> T unmarshallElement(String elementFile) {
         try {
+            return unmarshallElement(elementFile, false);
+        } catch (XMLParserException | UnmarshallingException e) {
+            // Won't happen due to flag being passed
+            Assert.fail("Unable to parse or unmarshall element file " + elementFile + ": " + e);
+            return null;
+        }
+    }
+    
+    /**
+     * Unmarshalls an element file into its XMLObject.
+     * 
+     * @param propagateErrors if true, checked exceptions will be thrown, if false then they cause assertion of test failure
+     * @return the XMLObject from the file
+     * 
+     */
+    protected <T extends XMLObject> T unmarshallElement(String elementFile, boolean propagateErrors) 
+            throws XMLParserException, UnmarshallingException {
+        try {
             final Document doc = parseXMLDocument(elementFile);
             final Element element = doc.getDocumentElement();
             final Unmarshaller unmarshaller = getUnmarshaller(element);
@@ -185,9 +201,17 @@ public abstract class XMLObjectBaseTestCase extends OpenSAMLInitBaseTestCase {
             Assert.assertNotNull(object);
             return object;
         } catch (final XMLParserException e) {
-            Assert.fail("Unable to parse element file " + elementFile);
+            if (propagateErrors) {
+                throw e;
+            } else {
+                Assert.fail("Unable to parse element file " + elementFile);
+            }
         } catch (final UnmarshallingException e) {
-            Assert.fail("Unmarshalling failed when parsing element file " + elementFile + ": " + e);
+            if (propagateErrors) {
+                throw e;
+            } else {
+                Assert.fail("Unmarshalling failed when parsing element file " + elementFile + ": " + e);
+            }
         }
 
         return null;

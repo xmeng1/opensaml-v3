@@ -32,8 +32,8 @@ import org.opensaml.soap.soap11.Envelope;
 public class EnvelopeBodyHandler extends AbstractMessageHandler<Envelope> {
 
     /** {@inheritDoc} */
-    protected void doInvoke(@Nonnull MessageContext<Envelope> messageContext) throws MessageHandlerException {
-        Envelope env = (Envelope) messageContext.getSubcontext(SOAP11Context.class).getEnvelope();
+    protected void doInvoke(@Nonnull final MessageContext<Envelope> messageContext) throws MessageHandlerException {
+        final Envelope env = (Envelope) messageContext.getSubcontext(SOAP11Context.class).getEnvelope();
         if (env == null) {
             throw new MessageHandlerException("MessageContext did not contain a SOAP Envelope");
         }

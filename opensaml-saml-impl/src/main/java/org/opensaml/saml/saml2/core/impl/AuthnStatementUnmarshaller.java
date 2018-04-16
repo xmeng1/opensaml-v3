@@ -39,7 +39,8 @@ import com.google.common.base.Strings;
 public class AuthnStatementUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentObject, XMLObject childObject) throws UnmarshallingException {
+    protected void processChildElement(final XMLObject parentObject, final XMLObject childObject)
+            throws UnmarshallingException {
         final AuthnStatement authnStatement = (AuthnStatement) parentObject;
         if (childObject instanceof SubjectLocality) {
             authnStatement.setSubjectLocality((SubjectLocality) childObject);
@@ -51,7 +52,7 @@ public class AuthnStatementUnmarshaller extends AbstractSAMLObjectUnmarshaller {
     }
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject samlObject, final Attr attribute) throws UnmarshallingException {
         final AuthnStatement authnStatement = (AuthnStatement) samlObject;
         
         if (attribute.getNamespaceURI() == null) {

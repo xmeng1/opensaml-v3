@@ -45,7 +45,7 @@ public abstract class AbstractMessageDecoder<MessageType> extends AbstractInitia
      * 
      * @param context the message context
      */
-    protected void setMessageContext(MessageContext<MessageType> context) {
+    protected void setMessageContext(final MessageContext<MessageType> context) {
         messageContext = context;
     }
 

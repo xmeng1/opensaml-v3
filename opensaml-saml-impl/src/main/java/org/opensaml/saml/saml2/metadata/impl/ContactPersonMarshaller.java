@@ -33,8 +33,9 @@ import org.w3c.dom.Element;
 public class ContactPersonMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject samlObject, Element domElement) throws MarshallingException {
-        ContactPerson person = (ContactPerson) samlObject;
+    protected void marshallAttributes(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
+        final ContactPerson person = (ContactPerson) samlObject;
 
         if (person.getType() != null) {
             domElement.setAttributeNS(null, ContactPerson.CONTACT_TYPE_ATTRIB_NAME, person.getType().toString());

@@ -33,8 +33,8 @@ public class AttributeValueTypeMarshaller extends AbstractXACMLObjectMarshaller 
     
     /** {@inheritDoc} */
     @Override
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        AttributeValueType attributeValue = (AttributeValueType) xmlObject;
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
+        final AttributeValueType attributeValue = (AttributeValueType) xmlObject;
 
         if(!Strings.isNullOrEmpty(attributeValue.getDataType())){
             domElement.setAttributeNS(null,AttributeAssignmentType.DATA_TYPE_ATTRIB_NAME, attributeValue.getDataType());
@@ -45,8 +45,9 @@ public class AttributeValueTypeMarshaller extends AbstractXACMLObjectMarshaller 
 
     /** {@inheritDoc} */
     @Override
-    protected void marshallElementContent(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        AttributeValueType attributeValue = (AttributeValueType) xmlObject;
+    protected void marshallElementContent(final XMLObject xmlObject, final Element domElement)
+            throws MarshallingException {
+        final AttributeValueType attributeValue = (AttributeValueType) xmlObject;
 
         if (attributeValue.getValue() != null) {
             ElementSupport.appendTextContent(domElement, attributeValue.getValue());

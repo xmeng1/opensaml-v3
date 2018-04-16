@@ -39,7 +39,7 @@ public class AsynchronousImpl extends AbstractSAMLObject implements Asynchronous
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AsynchronousImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AsynchronousImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

@@ -33,8 +33,9 @@ import org.w3c.dom.Element;
 public class AttributeConsumingServiceMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject samlObject, Element domElement) throws MarshallingException {
-        AttributeConsumingService service = (AttributeConsumingService) samlObject;
+    protected void marshallAttributes(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
+        final AttributeConsumingService service = (AttributeConsumingService) samlObject;
 
         domElement.setAttributeNS(null, AttributeConsumingService.INDEX_ATTRIB_NAME, Integer.toString(service
                 .getIndex()));

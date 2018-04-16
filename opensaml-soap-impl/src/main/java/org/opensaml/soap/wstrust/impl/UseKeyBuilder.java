@@ -31,7 +31,7 @@ public class UseKeyBuilder extends AbstractWSTrustObjectBuilder<UseKey> {
     }
 
     /** {@inheritDoc} */
-    public UseKey buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public UseKey buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new UseKeyImpl(namespaceURI, localName, namespacePrefix);
     }
 

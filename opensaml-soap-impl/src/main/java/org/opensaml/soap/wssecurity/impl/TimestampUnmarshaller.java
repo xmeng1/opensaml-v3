@@ -37,9 +37,9 @@ import org.w3c.dom.Attr;
 public class TimestampUnmarshaller extends AbstractWSSecurityObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        Timestamp timestamp = (Timestamp) parentXMLObject;
+        final Timestamp timestamp = (Timestamp) parentXMLObject;
         
         if (childXMLObject instanceof Created) {
             timestamp.setCreated((Created) childXMLObject);
@@ -51,10 +51,10 @@ public class TimestampUnmarshaller extends AbstractWSSecurityObjectUnmarshaller 
     }
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
-        Timestamp timestamp = (Timestamp) xmlObject;
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
+        final Timestamp timestamp = (Timestamp) xmlObject;
         
-        QName attrName =
+        final QName attrName =
             QNameSupport.constructQName(attribute.getNamespaceURI(), attribute.getLocalName(), attribute.getPrefix());
         if (Timestamp.WSU_ID_ATTR_NAME.equals(attrName)) {
             timestamp.setWSUId(attribute.getValue());

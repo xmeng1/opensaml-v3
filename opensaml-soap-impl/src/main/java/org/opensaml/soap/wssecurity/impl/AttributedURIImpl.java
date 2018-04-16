@@ -42,7 +42,7 @@ public class AttributedURIImpl extends AbstractWSSecurityObject implements Attri
      * @param elementLocalName name of the element
      * @param namespacePrefix namespace prefix of the element
      */
-    public AttributedURIImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public AttributedURIImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         attributes = new AttributeMap(this);
     }
@@ -53,7 +53,7 @@ public class AttributedURIImpl extends AbstractWSSecurityObject implements Attri
     }
 
     /** {@inheritDoc} */
-    public void setValue(String newValue) {
+    public void setValue(final String newValue) {
         value = prepareForAssignment(value, newValue);
     }
 
@@ -63,8 +63,8 @@ public class AttributedURIImpl extends AbstractWSSecurityObject implements Attri
     }
 
     /** {@inheritDoc} */
-    public void setWSUId(String newId) {
-        String oldId = id;
+    public void setWSUId(final String newId) {
+        final String oldId = id;
         id = prepareForAssignment(id, newId);
         registerOwnID(oldId, id);
         manageQualifiedAttributeNamespace(IdBearing.WSU_ID_ATTR_NAME, id != null);

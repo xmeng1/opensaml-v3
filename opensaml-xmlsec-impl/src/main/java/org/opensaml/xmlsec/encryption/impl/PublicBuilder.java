@@ -34,7 +34,7 @@ public class PublicBuilder extends AbstractXMLObjectBuilder<Public> implements X
     }
 
     /** {@inheritDoc} */
-    public Public buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Public buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new PublicImpl(namespaceURI, localName, namespacePrefix);
     }
 

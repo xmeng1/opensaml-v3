@@ -35,7 +35,8 @@ public class LogoutResponseImpl extends StatusResponseTypeImpl implements Logout
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected LogoutResponseImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected LogoutResponseImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 }

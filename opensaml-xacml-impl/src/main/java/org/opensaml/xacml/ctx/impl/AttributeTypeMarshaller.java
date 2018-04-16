@@ -32,8 +32,9 @@ public class AttributeTypeMarshaller extends AbstractXACMLObjectMarshaller {
     }
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject samlElement, Element domElement) throws MarshallingException {
-        AttributeType attribute = (AttributeType) samlElement;
+    protected void marshallAttributes(final XMLObject samlElement, final Element domElement)
+            throws MarshallingException {
+        final AttributeType attribute = (AttributeType) samlElement;
 
         if (attribute.getIssuer() != null) {
             domElement.setAttributeNS(null, AttributeType.ISSUER_ATTRIB_NAME, attribute.getIssuer());

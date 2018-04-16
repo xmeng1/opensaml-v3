@@ -26,7 +26,8 @@ import org.opensaml.xacml.policy.AttributeDesignatorType;
 public class AttributeDesignatorTypeImplBuilder extends AbstractXACMLObjectBuilder<AttributeDesignatorType> {
 
     /** {@inheritDoc} */
-    public AttributeDesignatorType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public AttributeDesignatorType buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
        return new AttributeDesignatorTypeImpl(namespaceURI,localName,namespacePrefix);
     }
 

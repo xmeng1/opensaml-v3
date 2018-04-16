@@ -39,7 +39,7 @@ import com.google.common.base.Strings;
 public class AssertionUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    public XMLObject unmarshall(Element domElement) throws UnmarshallingException {
+    public XMLObject unmarshall(final Element domElement) throws UnmarshallingException {
         // After regular unmarshalling, check the minor version and set ID-ness if not SAML 1.0
         final Assertion assertion = (Assertion) super.unmarshall(domElement);
         if (assertion.getMinorVersion() != 0 && !Strings.isNullOrEmpty(assertion.getID())) {
@@ -49,7 +49,7 @@ public class AssertionUnmarshaller extends AbstractSAMLObjectUnmarshaller {
     }
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
+    protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
 
         final Assertion assertion = (Assertion) parentSAMLObject;
@@ -69,7 +69,7 @@ public class AssertionUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
 // Checkstyle: CyclomaticComplexity OFF
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject samlObject, final Attr attribute) throws UnmarshallingException {
 
         final Assertion assertion = (Assertion) samlObject;
 
@@ -82,7 +82,7 @@ public class AssertionUnmarshaller extends AbstractSAMLObjectUnmarshaller {
                     && !Strings.isNullOrEmpty(attribute.getValue())) {
                 assertion.setIssueInstant(new DateTime(attribute.getValue(), ISOChronology.getInstanceUTC()));
             } else if (Assertion.MAJORVERSION_ATTRIB_NAME.equals(attribute.getLocalName())) {
-                int major;
+                final int major;
                 try {
                     major = Integer.parseInt(attribute.getValue());
                     if (major != 1) {
@@ -92,7 +92,7 @@ public class AssertionUnmarshaller extends AbstractSAMLObjectUnmarshaller {
                     throw new UnmarshallingException(n);
                 }
             } else if (Assertion.MINORVERSION_ATTRIB_NAME.equals(attribute.getLocalName())) {
-                int minor;
+                final int minor;
                 try {
                     minor = Integer.parseInt(attribute.getValue());
                 } catch (final NumberFormatException n) {

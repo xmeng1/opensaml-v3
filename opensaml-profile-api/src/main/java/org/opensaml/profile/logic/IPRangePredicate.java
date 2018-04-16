@@ -28,6 +28,8 @@ import javax.servlet.http.HttpServletRequest;
 import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
 import net.shibboleth.utilities.java.support.logic.Constraint;
 import net.shibboleth.utilities.java.support.net.IPRange;
+import net.shibboleth.utilities.java.support.primitive.DeprecationSupport;
+import net.shibboleth.utilities.java.support.primitive.DeprecationSupport.ObjectType;
 
 import org.opensaml.messaging.context.BaseContext;
 
@@ -63,7 +65,11 @@ public class IPRangePredicate implements Predicate<BaseContext> {
      * 
      * @deprecated
      */
-    public void setAddressRanges(@Nonnull @NonnullElements Iterable<IPRange> ranges) {
+    @Deprecated
+    public void setAddressRanges(@Nonnull @NonnullElements final Iterable<IPRange> ranges) {
+        DeprecationSupport.warn(ObjectType.METHOD, getClass().getName() + ".setAddressRanges(Iterable)", null,
+                "setAddressRanges(Collection)");
+
         Constraint.isNotNull(ranges, "Address range collection cannot be null");
         
         addressRanges = new ArrayList<>();
@@ -79,7 +85,7 @@ public class IPRangePredicate implements Predicate<BaseContext> {
      * 
      * @since 3.3.0
      */
-    public void setRanges(@Nonnull @NonnullElements Collection<IPRange> ranges) {
+    public void setRanges(@Nonnull @NonnullElements final Collection<IPRange> ranges) {
         Constraint.isNotNull(ranges, "Address range collection cannot be null");
         
         addressRanges = new ArrayList<>(Collections2.filter(ranges, Predicates.notNull()));

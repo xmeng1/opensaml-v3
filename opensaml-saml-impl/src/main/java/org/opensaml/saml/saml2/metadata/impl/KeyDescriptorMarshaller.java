@@ -31,11 +31,11 @@ public class KeyDescriptorMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
     @Override
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        KeyDescriptor keyDescriptor = (KeyDescriptor) xmlObject;
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
+        final KeyDescriptor keyDescriptor = (KeyDescriptor) xmlObject;
 
         if (keyDescriptor.getUse() != null) {
-            UsageType use = keyDescriptor.getUse();
+            final UsageType use = keyDescriptor.getUse();
             // UsageType enum contains more values than are allowed by SAML 2 schema
             if (use.equals(UsageType.SIGNING) || use.equals(UsageType.ENCRYPTION)) {
                 domElement.setAttributeNS(null, KeyDescriptor.USE_ATTRIB_NAME, use.toString().toLowerCase());

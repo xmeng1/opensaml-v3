@@ -30,8 +30,8 @@ import org.w3c.dom.Element;
 public class EndpointReferenceTypeMarshaller extends AbstractWSAddressingObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        EndpointReferenceType eprType = (EndpointReferenceType) xmlObject;
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
+        final EndpointReferenceType eprType = (EndpointReferenceType) xmlObject;
         XMLObjectSupport.marshallAttributeMap(eprType.getUnknownAttributes(), domElement);
     }
 

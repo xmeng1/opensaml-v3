@@ -35,7 +35,8 @@ public class X509CertificateBuilder extends AbstractXMLObjectBuilder<X509Certifi
     }
 
     /** {@inheritDoc} */
-    public X509Certificate buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public X509Certificate buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new X509CertificateImpl(namespaceURI, localName, namespacePrefix);
     }
 

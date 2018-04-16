@@ -92,40 +92,40 @@ public class InlineSelfEncryptionParametersStrategy
 
     /** {@inheritDoc} */
     @Nullable
-    public List<EncryptionParameters> apply(@Nullable Pair<ProfileRequestContext, EncryptionParameters> input) {
+    public List<EncryptionParameters> apply(@Nullable final Pair<ProfileRequestContext, EncryptionParameters> input) {
         if (input == null || input.getFirst() == null) {
             log.debug("Input Pair or ProfileRequestContext was null, skipping");
             return Collections.emptyList();
         }
         
-        List<Credential> credentials = resolveCredentials(input.getFirst());
+        final List<Credential> credentials = resolveCredentials(input.getFirst());
         if (credentials.isEmpty()) {
             log.debug("No self-encryption credentials were resolved, skipping further processing");
             return Collections.emptyList();
         }
         log.debug("Resolved {} self-encryption credentials", credentials.size());
         
-        List<EncryptionConfiguration> baseConfigs = resolveBaseConfigurations(input.getFirst());
+        final List<EncryptionConfiguration> baseConfigs = resolveBaseConfigurations(input.getFirst());
         log.debug("Resolved {} base EncryptionConfigurations", baseConfigs.size());
         
-        ArrayList<EncryptionParameters> encParams = new ArrayList<>();
+        final ArrayList<EncryptionParameters> encParams = new ArrayList<>();
         
-        for (Credential cred : credentials) {
-            BasicEncryptionConfiguration selfConfig = new BasicEncryptionConfiguration();
+        for (final Credential cred : credentials) {
+            final BasicEncryptionConfiguration selfConfig = new BasicEncryptionConfiguration();
             selfConfig.setKeyTransportEncryptionCredentials(Collections.singletonList(cred));
             if (input.getSecond() != null && input.getSecond().getDataEncryptionAlgorithm() != null) {
                 selfConfig.setDataEncryptionAlgorithms(Collections.singletonList(
                         input.getSecond().getDataEncryptionAlgorithm()));
             }
             
-            ArrayList<EncryptionConfiguration> configs = new ArrayList<>();
+            final ArrayList<EncryptionConfiguration> configs = new ArrayList<>();
             configs.add(selfConfig);
             configs.addAll(baseConfigs);
             
             try {
                 Iterables.addAll(encParams, encParamsresolver.resolve(
                         new CriteriaSet(new EncryptionConfigurationCriterion(configs))));
-            } catch (ResolverException e) {
+            } catch (final ResolverException e) {
                 log.error("Error resolving self-encryption parameters for Credential '{}', " 
                         + "params from other Credentials may still succeed", cred, e);
             }
@@ -146,11 +146,11 @@ public class InlineSelfEncryptionParametersStrategy
     @Nonnull protected List<Credential> resolveCredentials(
             @Nonnull final ProfileRequestContext profileRequestContext) {
         try {
-            ArrayList<Credential> credentials = new ArrayList<>();
+            final ArrayList<Credential> credentials = new ArrayList<>();
             Iterables.addAll(credentials, credentialResolver.resolve(
                     new CriteriaSet(new UsageCriterion(UsageType.ENCRYPTION))));
             return credentials;
-        } catch (ResolverException e) {
+        } catch (final ResolverException e) {
             log.error("Error resolving IdP encryption credentials", e);
             return Collections.emptyList();
         }

@@ -52,7 +52,7 @@ public class ClientTLSSecurityParametersContext extends BaseContext {
      * 
      * @param flag true if should evaluate, false otherwise
      */
-    public void setEvaluateClientCertificate(boolean flag) {
+    public void setEvaluateClientCertificate(final boolean flag) {
         evaluateClientCertificate = flag;
     }
 

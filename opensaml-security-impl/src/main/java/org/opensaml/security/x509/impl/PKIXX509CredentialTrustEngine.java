@@ -124,7 +124,8 @@ public class PKIXX509CredentialTrustEngine implements PKIXTrustEngine<X509Creden
     }
 
     /** {@inheritDoc} */
-    public boolean validate(@Nonnull final X509Credential untrustedCredential, @Nullable CriteriaSet trustBasisCriteria)
+    public boolean validate(@Nonnull final X509Credential untrustedCredential,
+            @Nullable final CriteriaSet trustBasisCriteria)
         throws SecurityException {
         
         log.debug("Attempting PKIX validation of untrusted credential");
@@ -142,9 +143,9 @@ public class PKIXX509CredentialTrustEngine implements PKIXTrustEngine<X509Creden
         if (getPKIXResolver().supportsTrustedNameResolution()) {
             try {
                 trustedNames = pkixResolver.resolveTrustedNames(trustBasisCriteria);
-            } catch (UnsupportedOperationException e) {
+            } catch (final UnsupportedOperationException e) {
                 throw new SecurityException("Error resolving trusted names", e);
-            } catch (ResolverException e) {
+            } catch (final ResolverException e) {
                 throw new SecurityException("Error resolving trusted names", e);
             }
         } else {
@@ -153,7 +154,7 @@ public class PKIXX509CredentialTrustEngine implements PKIXTrustEngine<X509Creden
 
         try {
             return validate(untrustedCredential, trustedNames, pkixResolver.resolve(trustBasisCriteria));
-        } catch (ResolverException e) {
+        } catch (final ResolverException e) {
             throw new SecurityException("Error resolving trusted credentials", e);
         }
     }
@@ -181,13 +182,13 @@ public class PKIXX509CredentialTrustEngine implements PKIXTrustEngine<X509Creden
             return false;
         }
 
-        for (PKIXValidationInformation validationInfo : validationInfoSet) {
+        for (final PKIXValidationInformation validationInfo : validationInfoSet) {
             try {
                 if (getPKIXTrustEvaluator().validate(validationInfo, untrustedX509Credential)) {
                     log.debug("Credential trust established via PKIX validation");
                     return true;
                 }
-            } catch (SecurityException e) {
+            } catch (final SecurityException e) {
                 // log the operational error, but allow other validation info sets to be tried
                 log.debug("Error performing PKIX validation on untrusted credential", e);
             }

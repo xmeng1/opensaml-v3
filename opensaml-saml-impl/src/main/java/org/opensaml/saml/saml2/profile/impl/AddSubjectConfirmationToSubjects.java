@@ -122,7 +122,7 @@ public class AddSubjectConfirmationToSubjects extends AbstractProfileAction {
         
         // Default pulls from servlet request.
         addressLookupStrategy = new Function<ProfileRequestContext,String>() {
-            public String apply(ProfileRequestContext input) {
+            public String apply(final ProfileRequestContext input) {
                 final String address = getHttpServletRequest() != null ? getHttpServletRequest().getRemoteAddr() : null;
                 log.debug("{} Setting confirmation data Address to {}", getLogPrefix(),
                         address != null ? address : "(none)");
@@ -132,7 +132,7 @@ public class AddSubjectConfirmationToSubjects extends AbstractProfileAction {
         
         // Default pulls from inbound message context and a SAMLMessageInfoContext child.
         inResponseToLookupStrategy = new Function<ProfileRequestContext,String>() {
-            public String apply(ProfileRequestContext input) {
+            public String apply(final ProfileRequestContext input) {
                 if (response != null && response.getInResponseTo() != null) {
                     log.debug("{} Setting confirmation data InResponseTo to {}", getLogPrefix(),
                             response.getInResponseTo());
@@ -145,7 +145,7 @@ public class AddSubjectConfirmationToSubjects extends AbstractProfileAction {
         
         // Default pulls from SAML endpoint on outbound message context.
         recipientLookupStrategy = new Function<ProfileRequestContext,String>() {
-            public String apply(ProfileRequestContext input) {
+            public String apply(final ProfileRequestContext input) {
                 if (input.getOutboundMessageContext() != null) {
                     try {
                         final URI uri = SAMLBindingSupport.getEndpointURL(input.getOutboundMessageContext());
@@ -154,7 +154,7 @@ public class AddSubjectConfirmationToSubjects extends AbstractProfileAction {
                             log.debug("{} Setting confirmation data Recipient to {}", getLogPrefix(), url);
                             return url;
                         }
-                    } catch (BindingException e) {
+                    } catch (final BindingException e) {
                         log.debug("{} Error getting response endpoint", getLogPrefix(), e);
                     }
                 }
@@ -165,7 +165,7 @@ public class AddSubjectConfirmationToSubjects extends AbstractProfileAction {
         
         // Default is 5 minutes.
         lifetimeLookupStrategy = new Function<ProfileRequestContext,Long>() {
-            public Long apply(ProfileRequestContext input) {
+            public Long apply(final ProfileRequestContext input) {
                 log.debug("{} Setting confirmation data NotOnOrAfter to 5 minutes from now", getLogPrefix());
                 return 5 * 60 * 1000L;
             }

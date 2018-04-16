@@ -31,8 +31,8 @@ import org.opensaml.saml.saml2.metadata.TelephoneNumber;
 public class TelephoneNumberUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject samlObject, String elementContent) {
-        TelephoneNumber number = (TelephoneNumber) samlObject;
+    protected void processElementContent(final XMLObject samlObject, final String elementContent) {
+        final TelephoneNumber number = (TelephoneNumber) samlObject;
 
         number.setNumber(elementContent);
     }

@@ -33,10 +33,10 @@ import org.w3c.dom.Attr;
 public class BinaryExchangeUnmarshaller extends XSStringUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
-        BinaryExchange binaryExchange = (BinaryExchange) xmlObject;
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
+        final BinaryExchange binaryExchange = (BinaryExchange) xmlObject;
         
-        String attrName = attribute.getLocalName();
+        final String attrName = attribute.getLocalName();
         if (BinaryExchange.VALUE_TYPE_ATTRIB_NAME.equals(attrName)) {
             binaryExchange.setValueType(attribute.getValue());
         } else if (BinaryExchange.ENCODING_TYPE_ATTRIB_NAME.equals(attrName)) {

@@ -30,9 +30,9 @@ import org.opensaml.soap.wstrust.Encryption;
 public class EncryptionUnmarshaller extends AbstractWSTrustObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        Encryption enc = (Encryption) parentXMLObject;
+        final Encryption enc = (Encryption) parentXMLObject;
         enc.setUnknownXMLObject(childXMLObject);
     }
 

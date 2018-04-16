@@ -41,9 +41,9 @@ public class ExtensionsUnmarshaller extends AbstractSAMLObjectUnmarshaller {
     /**
      * {@inheritDoc}
      */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        Extensions extensions = (Extensions) parentXMLObject;
+        final Extensions extensions = (Extensions) parentXMLObject;
 
         extensions.getUnknownXMLObjects().add(childXMLObject);
     }
@@ -51,14 +51,14 @@ public class ExtensionsUnmarshaller extends AbstractSAMLObjectUnmarshaller {
     /**
      * {@inheritDoc}
      */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         log.debug("Ignorning unknown attribute {}", attribute.getLocalName());
     }
 
     /**
      * {@inheritDoc}
      */
-    protected void processElementContent(XMLObject xmlObject, String elementContent) {
+    protected void processElementContent(final XMLObject xmlObject, final String elementContent) {
         log.debug("Ignoring element content {}", elementContent);
     }
 }

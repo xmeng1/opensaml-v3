@@ -90,14 +90,14 @@ public class URIContentReference implements ConfigurableContentReference {
     /** {@inheritDoc} */
     public void createReference(@Nonnull final XMLSignature signature) {
         try {
-            Transforms dsigTransforms = new Transforms(signature.getDocument());
-            for (String transform : getTransforms()) {
+            final Transforms dsigTransforms = new Transforms(signature.getDocument());
+            for (final String transform : getTransforms()) {
                 dsigTransforms.addTransform(transform);
             }
             signature.addDocument(referenceID, dsigTransforms, digestAlgorithm);
-        } catch (TransformationException e) {
+        } catch (final TransformationException e) {
             log.error("Error while creating transforms", e);
-        } catch (XMLSignatureException e) {
+        } catch (final XMLSignatureException e) {
             log.error("Error while adding content reference", e);
         }
     }

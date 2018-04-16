@@ -42,7 +42,8 @@ public class DelegationRestrictionTypeBuilder extends AbstractSAMLObjectBuilder<
     }
 
     /** {@inheritDoc} */
-    public DelegationRestrictionType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public DelegationRestrictionType buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new DelegationRestrictionTypeImpl(namespaceURI, localName, namespacePrefix);
     }
 

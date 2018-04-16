@@ -35,7 +35,8 @@ public class OrganizationURLImpl extends LocalizedURIImpl implements Organizatio
      * @param elementLocalName name
      * @param namespacePrefix prefix
      */
-    protected OrganizationURLImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected OrganizationURLImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

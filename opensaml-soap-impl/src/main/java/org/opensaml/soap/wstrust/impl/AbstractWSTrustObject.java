@@ -32,7 +32,8 @@ public abstract class AbstractWSTrustObject extends AbstractXMLObject implements
      * @param elementLocalName name of the element
      * @param namespacePrefix namespace prefix of the element
      */
-    public AbstractWSTrustObject(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public AbstractWSTrustObject(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

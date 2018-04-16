@@ -47,7 +47,7 @@ public class AuthnQueryImpl extends SubjectQueryImpl implements AuthnQuery {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AuthnQueryImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AuthnQueryImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -57,7 +57,7 @@ public class AuthnQueryImpl extends SubjectQueryImpl implements AuthnQuery {
     }
 
     /** {@inheritDoc} */
-    public void setSessionIndex(String newSessionIndex) {
+    public void setSessionIndex(final String newSessionIndex) {
         this.sessionIndex = prepareForAssignment(this.sessionIndex, newSessionIndex);
     }
 
@@ -67,13 +67,13 @@ public class AuthnQueryImpl extends SubjectQueryImpl implements AuthnQuery {
     }
 
     /** {@inheritDoc} */
-    public void setRequestedAuthnContext(RequestedAuthnContext newRequestedAuthnContext) {
+    public void setRequestedAuthnContext(final RequestedAuthnContext newRequestedAuthnContext) {
         this.requestedAuthnContext = prepareForAssignment(this.requestedAuthnContext, newRequestedAuthnContext);
     }
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         if (super.getOrderedChildren() != null) {
             children.addAll(super.getOrderedChildren());

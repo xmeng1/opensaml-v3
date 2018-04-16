@@ -31,7 +31,8 @@ public class RequestedAttachedReferenceBuilder extends AbstractWSTrustObjectBuil
     }
 
     /** {@inheritDoc} */
-    public RequestedAttachedReference buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public RequestedAttachedReference buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new RequestedAttachedReferenceImpl(namespaceURI, localName, namespacePrefix);
     }
 

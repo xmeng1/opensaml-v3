@@ -54,7 +54,8 @@ public class SubjectConfirmationImpl extends AbstractSAMLObject implements Subje
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected SubjectConfirmationImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected SubjectConfirmationImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -72,7 +73,7 @@ public class SubjectConfirmationImpl extends AbstractSAMLObject implements Subje
     }
 
     /** {@inheritDoc} */
-    public void setSOAP11MustUnderstand(Boolean newMustUnderstand) {
+    public void setSOAP11MustUnderstand(final Boolean newMustUnderstand) {
         if (newMustUnderstand != null) {
             soap11MustUnderstand = prepareForAssignment(soap11MustUnderstand, 
                     new XSBooleanValue(newMustUnderstand, true));
@@ -84,7 +85,7 @@ public class SubjectConfirmationImpl extends AbstractSAMLObject implements Subje
     }
 
     /** {@inheritDoc} */
-    public void setSOAP11MustUnderstand(XSBooleanValue newMustUnderstand) {
+    public void setSOAP11MustUnderstand(final XSBooleanValue newMustUnderstand) {
             soap11MustUnderstand = prepareForAssignment(soap11MustUnderstand, newMustUnderstand);
             manageQualifiedAttributeNamespace(MustUnderstandBearing.SOAP11_MUST_UNDERSTAND_ATTR_NAME, 
                     soap11MustUnderstand != null);
@@ -96,7 +97,7 @@ public class SubjectConfirmationImpl extends AbstractSAMLObject implements Subje
     }
 
     /** {@inheritDoc} */
-    public void setSOAP11Actor(String newActor) {
+    public void setSOAP11Actor(final String newActor) {
         soap11Actor = prepareForAssignment(soap11Actor, newActor);
         manageQualifiedAttributeNamespace(ActorBearing.SOAP11_ACTOR_ATTR_NAME, soap11Actor != null);
     }
@@ -107,7 +108,7 @@ public class SubjectConfirmationImpl extends AbstractSAMLObject implements Subje
     }
 
     /** {@inheritDoc} */
-    public void setMethod(String newMethod) {
+    public void setMethod(final String newMethod) {
         method = prepareForAssignment(method, newMethod);
     }
 
@@ -117,14 +118,14 @@ public class SubjectConfirmationImpl extends AbstractSAMLObject implements Subje
     }
 
     /** {@inheritDoc} */
-    public void setSubjectConfirmationData(SubjectConfirmationData newSubjectConfirmationData) {
+    public void setSubjectConfirmationData(final SubjectConfirmationData newSubjectConfirmationData) {
         subjectConfirmationData = prepareForAssignment(subjectConfirmationData, newSubjectConfirmationData);
 
     }
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         if (subjectConfirmationData != null) {
             children.add(subjectConfirmationData);

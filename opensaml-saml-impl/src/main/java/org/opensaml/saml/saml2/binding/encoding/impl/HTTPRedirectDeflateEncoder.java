@@ -72,24 +72,24 @@ public class HTTPRedirectDeflateEncoder extends BaseSAML2MessageEncoder {
 
     /** {@inheritDoc} */
     protected void doEncode() throws MessageEncodingException {
-        MessageContext<SAMLObject> messageContext = getMessageContext();
-        SAMLObject outboundMessage = messageContext.getMessage();
+        final MessageContext<SAMLObject> messageContext = getMessageContext();
+        final SAMLObject outboundMessage = messageContext.getMessage();
 
-        String endpointURL = getEndpointURL(messageContext).toString();
+        final String endpointURL = getEndpointURL(messageContext).toString();
 
         removeSignature(outboundMessage);
 
-        String encodedMessage = deflateAndBase64Encode(outboundMessage);
+        final String encodedMessage = deflateAndBase64Encode(outboundMessage);
 
-        String redirectURL = buildRedirectURL(messageContext, endpointURL, encodedMessage);
+        final String redirectURL = buildRedirectURL(messageContext, endpointURL, encodedMessage);
 
-        HttpServletResponse response = getHttpServletResponse();
+        final HttpServletResponse response = getHttpServletResponse();
         HttpServletSupport.addNoCacheHeaders(response);
         HttpServletSupport.setUTF8Encoding(response);
 
         try {
             response.sendRedirect(redirectURL);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new MessageEncodingException("Problem sending HTTP redirect", e);
         }
     }
@@ -99,9 +99,9 @@ public class HTTPRedirectDeflateEncoder extends BaseSAML2MessageEncoder {
      * 
      * @param message current message context
      */
-    protected void removeSignature(SAMLObject message) {
+    protected void removeSignature(final SAMLObject message) {
         if (message instanceof SignableSAMLObject) {
-            SignableSAMLObject signableMessage = (SignableSAMLObject) message;
+            final SignableSAMLObject signableMessage = (SignableSAMLObject) message;
             if (signableMessage.isSigned()) {
                 log.debug("Removing SAML protocol message signature");
                 signableMessage.setSignature(null);
@@ -118,19 +118,19 @@ public class HTTPRedirectDeflateEncoder extends BaseSAML2MessageEncoder {
      * 
      * @throws MessageEncodingException thrown if there is a problem compressing the message
      */
-    protected String deflateAndBase64Encode(SAMLObject message) throws MessageEncodingException {
+    protected String deflateAndBase64Encode(final SAMLObject message) throws MessageEncodingException {
         log.debug("Deflating and Base64 encoding SAML message");
         try {
-            String messageStr = SerializeSupport.nodeToString(marshallMessage(message));
+            final String messageStr = SerializeSupport.nodeToString(marshallMessage(message));
 
-            ByteArrayOutputStream bytesOut = new ByteArrayOutputStream();
-            Deflater deflater = new Deflater(Deflater.DEFLATED, true);
-            DeflaterOutputStream deflaterStream = new DeflaterOutputStream(bytesOut, deflater);
+            final ByteArrayOutputStream bytesOut = new ByteArrayOutputStream();
+            final Deflater deflater = new Deflater(Deflater.DEFLATED, true);
+            final DeflaterOutputStream deflaterStream = new DeflaterOutputStream(bytesOut, deflater);
             deflaterStream.write(messageStr.getBytes("UTF-8"));
             deflaterStream.finish();
 
             return Base64Support.encode(bytesOut.toByteArray(), Base64Support.UNCHUNKED);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new MessageEncodingException("Unable to DEFLATE and Base64 encode SAML message", e);
         }
     }
@@ -146,21 +146,22 @@ public class HTTPRedirectDeflateEncoder extends BaseSAML2MessageEncoder {
      * 
      * @throws MessageEncodingException thrown if the SAML message is neither a RequestAbstractType or Response
      */
-    protected String buildRedirectURL(MessageContext<SAMLObject> messageContext, String endpoint, String message)
+    protected String buildRedirectURL(final MessageContext<SAMLObject> messageContext, final String endpoint,
+            final String message)
             throws MessageEncodingException {
         log.debug("Building URL to redirect client to");
         
         URLBuilder urlBuilder = null;
         try {
             urlBuilder = new URLBuilder(endpoint);
-        } catch (MalformedURLException e) {
+        } catch (final MalformedURLException e) {
             throw new MessageEncodingException("Endpoint URL " + endpoint + " is not a valid URL", e);
         }
 
-        List<Pair<String, String>> queryParams = urlBuilder.getQueryParams();
+        final List<Pair<String, String>> queryParams = urlBuilder.getQueryParams();
         queryParams.clear();
         
-        SAMLObject outboundMessage = messageContext.getMessage();
+        final SAMLObject outboundMessage = messageContext.getMessage();
 
         if (outboundMessage instanceof RequestAbstractType) {
             queryParams.add(new Pair<>("SAMLRequest", message));
@@ -171,18 +172,18 @@ public class HTTPRedirectDeflateEncoder extends BaseSAML2MessageEncoder {
                     "SAML message is neither a SAML RequestAbstractType or StatusResponseType");
         }
 
-        String relayState = SAMLBindingSupport.getRelayState(messageContext);
+        final String relayState = SAMLBindingSupport.getRelayState(messageContext);
         if (SAMLBindingSupport.checkRelayState(relayState)) {
             queryParams.add(new Pair<>("RelayState", relayState));
         }
 
-        SignatureSigningParameters signingParameters = 
+        final SignatureSigningParameters signingParameters = 
                 SAMLMessageSecuritySupport.getContextSigningParameters(messageContext);
         if (signingParameters != null && signingParameters.getSigningCredential() != null) {
-            String sigAlgURI =  getSignatureAlgorithmURI(signingParameters);
-            Pair<String, String> sigAlg = new Pair<>("SigAlg", sigAlgURI);
+            final String sigAlgURI =  getSignatureAlgorithmURI(signingParameters);
+            final Pair<String, String> sigAlg = new Pair<>("SigAlg", sigAlgURI);
             queryParams.add(sigAlg);
-            String sigMaterial = urlBuilder.buildQueryString();
+            final String sigMaterial = urlBuilder.buildQueryString();
 
             queryParams.add(new Pair<>("Signature", generateSignature(
                     signingParameters.getSigningCredential(), sigAlgURI, sigMaterial)));
@@ -203,7 +204,7 @@ public class HTTPRedirectDeflateEncoder extends BaseSAML2MessageEncoder {
      * @throws MessageEncodingException thrown if the algorithm URI is not supplied explicitly and 
      *          could not be derived from the supplied credential
      */
-    protected String getSignatureAlgorithmURI(SignatureSigningParameters signingParameters)
+    protected String getSignatureAlgorithmURI(final SignatureSigningParameters signingParameters)
             throws MessageEncodingException {
         
         if (signingParameters.getSignatureAlgorithm() != null) {
@@ -224,7 +225,8 @@ public class HTTPRedirectDeflateEncoder extends BaseSAML2MessageEncoder {
      * 
      * @throws MessageEncodingException there is an error computing the signature
      */
-    protected String generateSignature(Credential signingCredential, String algorithmURI, String queryString)
+    protected String generateSignature(final Credential signingCredential, final String algorithmURI,
+            final String queryString)
             throws MessageEncodingException {
 
         log.debug(String.format("Generating signature with key type '%s', algorithm URI '%s' over query string '%s'",
@@ -232,7 +234,7 @@ public class HTTPRedirectDeflateEncoder extends BaseSAML2MessageEncoder {
 
         String b64Signature = null;
         try {
-            byte[] rawSignature =
+            final byte[] rawSignature =
                     XMLSigningUtil.signWithURI(signingCredential, algorithmURI, queryString.getBytes("UTF-8"));
             b64Signature = Base64Support.encode(rawSignature, Base64Support.UNCHUNKED);
             log.debug("Generated digital signature value (base64-encoded) {}", b64Signature);

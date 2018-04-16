@@ -42,7 +42,7 @@ public class SAML1ArtifactType0002Builder implements SAML1ArtifactBuilder<SAML1A
 
     /** {@inheritDoc} */
     @Override
-    @Nullable public SAML1ArtifactType0002 buildArtifact(@Nonnull @NotEmpty byte[] artifact) {
+    @Nullable public SAML1ArtifactType0002 buildArtifact(@Nonnull @NotEmpty final byte[] artifact) {
         try {
             return SAML1ArtifactType0002.parseArtifact(artifact);
         } catch (final IllegalArgumentException e) {
@@ -90,7 +90,7 @@ public class SAML1ArtifactType0002Builder implements SAML1ArtifactBuilder<SAML1A
      * @return the index of the attribute resolution service
      */
     @Nullable protected String getArsEndpointUrl(@Nonnull final MessageContext<SAMLObject> requestContext) {
-        SAMLArtifactContext artifactContext = getArtifactContext(requestContext);
+        final SAMLArtifactContext artifactContext = getArtifactContext(requestContext);
 
         if (artifactContext == null || artifactContext.getSourceArtifactResolutionServiceEndpointURL() == null) {
             log.warn("No artifact resolution service endpoint URL is available");

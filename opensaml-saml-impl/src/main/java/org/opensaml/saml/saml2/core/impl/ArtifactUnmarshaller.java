@@ -31,8 +31,8 @@ import org.opensaml.saml.saml2.core.Artifact;
 public class ArtifactUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject samlObject, String elementContent) {
-        Artifact artifact = (Artifact) samlObject;
+    protected void processElementContent(final XMLObject samlObject, final String elementContent) {
+        final Artifact artifact = (Artifact) samlObject;
 
         artifact.setArtifact(elementContent);
     }

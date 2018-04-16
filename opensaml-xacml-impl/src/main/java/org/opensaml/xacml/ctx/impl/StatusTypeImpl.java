@@ -47,7 +47,7 @@ public class StatusTypeImpl extends AbstractXACMLObject implements StatusType {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected StatusTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected StatusTypeImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -57,13 +57,13 @@ public class StatusTypeImpl extends AbstractXACMLObject implements StatusType {
     }
 
     /** {@inheritDoc} */
-    public void setStatusCode(StatusCodeType newStatusCode) {
+    public void setStatusCode(final StatusCodeType newStatusCode) {
         statusCode = prepareForAssignment(this.statusCode, newStatusCode);
     }
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         if (statusCode != null) {
             children.add(statusCode);
@@ -86,7 +86,7 @@ public class StatusTypeImpl extends AbstractXACMLObject implements StatusType {
     }
 
     /** {@inheritDoc} */
-    public void setStatusMessage(StatusMessageType newStatusMessage) {
+    public void setStatusMessage(final StatusMessageType newStatusMessage) {
         this.statusMessage = prepareForAssignment(this.statusMessage, newStatusMessage);
     }
 
@@ -96,7 +96,7 @@ public class StatusTypeImpl extends AbstractXACMLObject implements StatusType {
     }
 
     /** {@inheritDoc} */
-    public void setStatusDetail(StatusDetailType newStatusDetail) {
+    public void setStatusDetail(final StatusDetailType newStatusDetail) {
         this.statusDetail = prepareForAssignment(this.statusDetail, newStatusDetail);
     }
 }

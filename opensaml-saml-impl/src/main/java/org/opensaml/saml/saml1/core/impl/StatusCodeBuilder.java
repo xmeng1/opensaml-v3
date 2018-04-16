@@ -40,7 +40,7 @@ public class StatusCodeBuilder extends AbstractSAMLObjectBuilder<StatusCode> {
     }
 
     /** {@inheritDoc} */
-    public StatusCode buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public StatusCode buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new StatusCodeImpl(namespaceURI, localName, namespacePrefix);
     }
 }

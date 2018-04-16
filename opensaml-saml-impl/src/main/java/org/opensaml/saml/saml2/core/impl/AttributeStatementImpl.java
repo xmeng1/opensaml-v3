@@ -47,7 +47,8 @@ public class AttributeStatementImpl extends AbstractSAMLObject implements Attrib
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AttributeStatementImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AttributeStatementImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         indexedChildren = new IndexedXMLObjectChildrenList<>(this);
     }
@@ -65,7 +66,7 @@ public class AttributeStatementImpl extends AbstractSAMLObject implements Attrib
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         children.addAll(indexedChildren);
         

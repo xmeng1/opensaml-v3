@@ -44,7 +44,8 @@ public class CipherReferenceImpl extends AbstractXMLObject implements CipherRefe
      * @param elementLocalName local name
      * @param namespacePrefix namespace prefix
      */
-    protected CipherReferenceImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected CipherReferenceImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -54,7 +55,7 @@ public class CipherReferenceImpl extends AbstractXMLObject implements CipherRefe
     }
 
     /** {@inheritDoc} */
-    public void setURI(String newURI) {
+    public void setURI(final String newURI) {
         this.uri = prepareForAssignment(this.uri, newURI);
     }
 
@@ -64,13 +65,13 @@ public class CipherReferenceImpl extends AbstractXMLObject implements CipherRefe
     }
 
     /** {@inheritDoc} */
-    public void setTransforms(Transforms newTransforms) {
+    public void setTransforms(final Transforms newTransforms) {
         this.transforms = prepareForAssignment(this.transforms, newTransforms);
     }
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         if (transforms != null) {
             children.add(transforms);

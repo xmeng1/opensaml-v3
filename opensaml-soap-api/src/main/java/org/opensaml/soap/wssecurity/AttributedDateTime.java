@@ -42,7 +42,8 @@ public interface AttributedDateTime extends XSString, IdBearing, AttributeExtens
      * @deprecated replaced by use of a {@link DateTimeFormatter} 
      *              configured via {@link #setDateTimeFormatter(DateTimeFormatter)}.
      * 
-     * */
+     */
+    @Deprecated
     public static final String DEFAULT_DATETIME_FORMAT= "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
     /**

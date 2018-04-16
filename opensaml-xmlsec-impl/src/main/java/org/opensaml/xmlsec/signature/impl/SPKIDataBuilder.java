@@ -34,7 +34,7 @@ public class SPKIDataBuilder extends AbstractXMLObjectBuilder<SPKIData> implemen
     }
 
     /** {@inheritDoc} */
-    public SPKIData buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public SPKIData buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new SPKIDataImpl(namespaceURI, localName, namespacePrefix);
     }
 

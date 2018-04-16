@@ -45,7 +45,8 @@ public abstract class AlgorithmIdentifierTypeImpl extends AbstractXMLObject impl
      * @param elementLocalName local name
      * @param namespacePrefix namespace prefix
      */
-    protected AlgorithmIdentifierTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AlgorithmIdentifierTypeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -55,7 +56,7 @@ public abstract class AlgorithmIdentifierTypeImpl extends AbstractXMLObject impl
     }
 
     /** {@inheritDoc} */
-    public void setAlgorithm(@Nullable String newAlgorithm) {
+    public void setAlgorithm(@Nullable final String newAlgorithm) {
         algorithm = prepareForAssignment(this.algorithm, newAlgorithm);
     }
 
@@ -65,13 +66,13 @@ public abstract class AlgorithmIdentifierTypeImpl extends AbstractXMLObject impl
     }
 
     /** {@inheritDoc} */
-    public void setParameters(@Nullable XMLObject newParameters) {
+    public void setParameters(@Nullable final XMLObject newParameters) {
         parameters = prepareForAssignment(parameters, newParameters);
     }
     
     /** {@inheritDoc} */
     @Nullable public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         
         if (parameters != null) {
             children.add(parameters);

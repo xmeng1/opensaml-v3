@@ -54,7 +54,7 @@ public class UsernameTokenImpl extends AbstractWSSecurityObject implements Usern
      * @param elementLocalName name of the element
      * @param namespacePrefix namespace prefix of the element
      */
-    public UsernameTokenImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public UsernameTokenImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         unknownAttributes = new AttributeMap(this);
         unknownChildren = new IndexedXMLObjectChildrenList<>(this);
@@ -66,7 +66,7 @@ public class UsernameTokenImpl extends AbstractWSSecurityObject implements Usern
     }
 
     /** {@inheritDoc} */
-    public void setUsername(Username newUsername) {
+    public void setUsername(final Username newUsername) {
         username = prepareForAssignment(username, newUsername);
     }
 
@@ -76,8 +76,8 @@ public class UsernameTokenImpl extends AbstractWSSecurityObject implements Usern
     }
 
     /** {@inheritDoc} */
-    public void setWSUId(String newId) {
-        String oldId = id;
+    public void setWSUId(final String newId) {
+        final String oldId = id;
         id = prepareForAssignment(id, newId);
         registerOwnID(oldId, id);
         manageQualifiedAttributeNamespace(IdBearing.WSU_ID_ATTR_NAME, id != null);
@@ -94,13 +94,13 @@ public class UsernameTokenImpl extends AbstractWSSecurityObject implements Usern
     }
 
     /** {@inheritDoc} */
-    public List<XMLObject> getUnknownXMLObjects(QName typeOrName) {
+    public List<XMLObject> getUnknownXMLObjects(final QName typeOrName) {
         return (List<XMLObject>) unknownChildren.subList(typeOrName);
     }
     
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         if (username != null) {
             children.add(username);
         }

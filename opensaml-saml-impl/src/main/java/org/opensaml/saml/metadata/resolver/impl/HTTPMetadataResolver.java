@@ -23,11 +23,12 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Timer;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.net.ssl.SSLPeerUnverifiedException;
 
 import net.shibboleth.utilities.java.support.component.ComponentSupport;
+import net.shibboleth.utilities.java.support.primitive.DeprecationSupport;
+import net.shibboleth.utilities.java.support.primitive.DeprecationSupport.ObjectType;
 import net.shibboleth.utilities.java.support.resolver.ResolverException;
 
 import org.apache.http.Header;
@@ -365,6 +366,7 @@ public class HTTPMetadataResolver extends AbstractReloadingMetadataResolver {
      */
     protected HttpClientContext buildHttpClientContext() {
         //TODO when we remove this deprecated method, change called method to @Nonnull for request
+        DeprecationSupport.warn(ObjectType.METHOD, getClass().getName() + ".buildHttpClientContext()", null, null);
         return buildHttpClientContext(null);
     }
     

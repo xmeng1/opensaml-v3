@@ -32,7 +32,7 @@ import org.opensaml.saml.saml2.metadata.Endpoint;
 import org.opensaml.saml.saml2.metadata.NameIDFormat;
 
 /**
- * Concreate implementation of {@link org.opensaml.saml.saml2.metadata.AuthnAuthorityDescriptor}.
+ * Concrete implementation of {@link org.opensaml.saml.saml2.metadata.AuthnAuthorityDescriptor}.
  */
 public class AuthnAuthorityDescriptorImpl extends RoleDescriptorImpl implements AuthnAuthorityDescriptor {
 
@@ -52,7 +52,8 @@ public class AuthnAuthorityDescriptorImpl extends RoleDescriptorImpl implements 
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AuthnAuthorityDescriptorImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AuthnAuthorityDescriptorImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         authnQueryServices = new XMLObjectChildrenList<>(this);
         assertionIDRequestServices = new XMLObjectChildrenList<>(this);
@@ -76,14 +77,14 @@ public class AuthnAuthorityDescriptorImpl extends RoleDescriptorImpl implements 
     
     /** {@inheritDoc} */
     public List<Endpoint> getEndpoints() {
-        List<Endpoint> endpoints = new ArrayList<>();
+        final List<Endpoint> endpoints = new ArrayList<>();
         endpoints.addAll(authnQueryServices);
         endpoints.addAll(assertionIDRequestServices);
         return Collections.unmodifiableList(endpoints);
     }
     
     /** {@inheritDoc} */
-    public List<Endpoint> getEndpoints(QName type) {
+    public List<Endpoint> getEndpoints(final QName type) {
         if(type.equals(AuthnQueryService.DEFAULT_ELEMENT_NAME)){
             return Collections.unmodifiableList(new ArrayList<Endpoint>(authnQueryServices));
         }else if(type.equals(AssertionIDRequestService.DEFAULT_ELEMENT_NAME)){
@@ -95,7 +96,7 @@ public class AuthnAuthorityDescriptorImpl extends RoleDescriptorImpl implements 
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         children.addAll(super.getOrderedChildren());
         children.addAll(authnQueryServices);

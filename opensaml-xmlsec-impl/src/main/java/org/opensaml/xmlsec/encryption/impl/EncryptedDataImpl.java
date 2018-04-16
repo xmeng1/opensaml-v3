@@ -31,7 +31,8 @@ public class EncryptedDataImpl extends EncryptedTypeImpl implements EncryptedDat
      * @param elementLocalName local name
      * @param namespacePrefix namespace prefix
      */
-    protected EncryptedDataImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected EncryptedDataImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

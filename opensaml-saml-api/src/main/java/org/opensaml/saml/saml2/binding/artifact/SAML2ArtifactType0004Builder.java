@@ -42,7 +42,7 @@ public class SAML2ArtifactType0004Builder implements SAML2ArtifactBuilder<SAML2A
 
     /** {@inheritDoc} */
     @Override
-    @Nullable public SAML2ArtifactType0004 buildArtifact(@Nonnull @NotEmpty byte[] artifact) {
+    @Nullable public SAML2ArtifactType0004 buildArtifact(@Nonnull @NotEmpty final byte[] artifact) {
         return SAML2ArtifactType0004.parseArtifact(artifact);
     }
 
@@ -137,7 +137,7 @@ public class SAML2ArtifactType0004Builder implements SAML2ArtifactBuilder<SAML2A
      * @return 4-byte array representing integer
      */
     @Nonnull @NotEmpty private byte[] intToByteArray(final int integer) {
-        byte[] intBytes = new byte[4];
+        final byte[] intBytes = new byte[4];
         intBytes[0] = (byte) ((integer & 0xff000000) >>> 24);
         intBytes[1] = (byte) ((integer & 0x00ff0000) >>> 16);
         intBytes[2] = (byte) ((integer & 0x0000ff00) >>> 8);

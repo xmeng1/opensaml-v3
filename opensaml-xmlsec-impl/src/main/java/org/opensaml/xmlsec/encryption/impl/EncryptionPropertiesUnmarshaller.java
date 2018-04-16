@@ -29,8 +29,8 @@ import org.w3c.dom.Attr;
 public class EncryptionPropertiesUnmarshaller extends AbstractXMLEncryptionUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
-        EncryptionProperties ep = (EncryptionProperties) xmlObject;
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
+        final EncryptionProperties ep = (EncryptionProperties) xmlObject;
 
         if (attribute.getLocalName().equals(EncryptionProperties.ID_ATTRIB_NAME)) {
             ep.setID(attribute.getValue());
@@ -41,9 +41,9 @@ public class EncryptionPropertiesUnmarshaller extends AbstractXMLEncryptionUnmar
     }
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        EncryptionProperties ep = (EncryptionProperties) parentXMLObject;
+        final EncryptionProperties ep = (EncryptionProperties) parentXMLObject;
 
         if (childXMLObject instanceof EncryptionProperty) {
             ep.getEncryptionProperties().add((EncryptionProperty) childXMLObject);

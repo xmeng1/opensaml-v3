@@ -32,7 +32,8 @@ public class X509IssuerNameImpl extends XSStringImpl implements X509IssuerName {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected X509IssuerNameImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected X509IssuerNameImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

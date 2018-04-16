@@ -87,7 +87,7 @@ public final class X509IssuerSerialCriterion implements Criterion {
     
     /** {@inheritDoc} */
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("BindingCriterion [issuerName=");
         builder.append(issuerName.getName());
         builder.append(", serialNumber=");
@@ -105,7 +105,7 @@ public final class X509IssuerSerialCriterion implements Criterion {
     }
 
     /** {@inheritDoc} */
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }
@@ -115,7 +115,7 @@ public final class X509IssuerSerialCriterion implements Criterion {
         }
 
         if (obj instanceof X509IssuerSerialCriterion) {
-            X509IssuerSerialCriterion other = (X509IssuerSerialCriterion) obj;
+            final X509IssuerSerialCriterion other = (X509IssuerSerialCriterion) obj;
             return issuerName.equals(other.issuerName) && serialNumber.equals(other.serialNumber);
         }
 

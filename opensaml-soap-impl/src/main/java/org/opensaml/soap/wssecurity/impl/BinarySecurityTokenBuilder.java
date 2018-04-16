@@ -30,7 +30,8 @@ public class BinarySecurityTokenBuilder extends AbstractWSSecurityObjectBuilder<
     }
 
     /** {@inheritDoc} */
-    public BinarySecurityToken buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public BinarySecurityToken buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new BinarySecurityTokenImpl(namespaceURI, localName, namespacePrefix);
     }
 

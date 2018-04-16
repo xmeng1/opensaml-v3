@@ -33,8 +33,9 @@ public class AttributeTypeUnmarshaller extends AbstractXACMLObjectUnmarshaller {
     }
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentObject, XMLObject childObject) throws UnmarshallingException {
-        AttributeType attribute = (AttributeType) parentObject;
+    protected void processChildElement(final XMLObject parentObject, final XMLObject childObject)
+            throws UnmarshallingException {
+        final AttributeType attribute = (AttributeType) parentObject;
      
         if (childObject instanceof AttributeValueType) {
             attribute.getAttributeValues().add((AttributeValueType)childObject);
@@ -44,9 +45,9 @@ public class AttributeTypeUnmarshaller extends AbstractXACMLObjectUnmarshaller {
     }
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
 
-        AttributeType attrib = (AttributeType) xmlObject;
+        final AttributeType attrib = (AttributeType) xmlObject;
 
         if (attribute.getLocalName().equals(AttributeType.ATTRIBUTEID_ATTTRIB_NAME)) {
             attrib.setAttributeID(attribute.getValue());

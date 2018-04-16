@@ -30,9 +30,9 @@ import org.opensaml.xmlsec.encryption.EncryptedKey;
 public class EncryptedElementTypeUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
+    protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
-        EncryptedElementType eet = (EncryptedElementType) parentSAMLObject;
+        final EncryptedElementType eet = (EncryptedElementType) parentSAMLObject;
 
         if (childSAMLObject instanceof EncryptedData) {
             eet.setEncryptedData((EncryptedData) childSAMLObject);

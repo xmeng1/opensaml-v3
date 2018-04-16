@@ -31,7 +31,7 @@ public class ResourceTypeImplBuilder extends AbstractXACMLObjectBuilder<Resource
     }
 
     /** {@inheritDoc} */
-    public ResourceType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public ResourceType buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new ResourceTypeImpl(namespaceURI, localName, namespacePrefix);
     }
 }

@@ -42,7 +42,7 @@ public class RequesterIDImpl extends AbstractSAMLObject implements RequesterID {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected RequesterIDImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected RequesterIDImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -52,7 +52,7 @@ public class RequesterIDImpl extends AbstractSAMLObject implements RequesterID {
     }
 
     /** {@inheritDoc} */
-    public void setRequesterID(String newRequesterID) {
+    public void setRequesterID(final String newRequesterID) {
         this.requesterID = prepareForAssignment(this.requesterID, newRequesterID);
     }
 

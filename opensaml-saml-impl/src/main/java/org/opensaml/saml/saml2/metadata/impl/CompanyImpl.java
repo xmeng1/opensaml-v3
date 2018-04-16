@@ -42,7 +42,7 @@ public class CompanyImpl extends AbstractSAMLObject implements Company {
      * @param elementLocalName local name
      * @param namespacePrefix prefix
      */
-    protected CompanyImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected CompanyImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -52,7 +52,7 @@ public class CompanyImpl extends AbstractSAMLObject implements Company {
     }
 
     /** {@inheritDoc} */
-    public void setName(String newName) {
+    public void setName(final String newName) {
         companyName = prepareForAssignment(companyName, newName);
     }
 

@@ -50,7 +50,8 @@ public class RequestSecurityTokenResponseImpl extends AbstractWSTrustObject impl
      * @param elementLocalName The local name of the element
      * @param namespacePrefix The namespace prefix of the element
      */
-    public RequestSecurityTokenResponseImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public RequestSecurityTokenResponseImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         unknownChildren = new IndexedXMLObjectChildrenList<>(this);
         unknownAttributes = new AttributeMap(this);
@@ -62,7 +63,7 @@ public class RequestSecurityTokenResponseImpl extends AbstractWSTrustObject impl
     }
 
     /** {@inheritDoc} */
-    public void setContext(String newContext) {
+    public void setContext(final String newContext) {
         context = prepareForAssignment(context, newContext);
     }
 
@@ -72,7 +73,7 @@ public class RequestSecurityTokenResponseImpl extends AbstractWSTrustObject impl
     }
 
     /** {@inheritDoc} */
-    public List<XMLObject> getUnknownXMLObjects(QName typeOrName) {
+    public List<XMLObject> getUnknownXMLObjects(final QName typeOrName) {
         return (List<XMLObject>) unknownChildren.subList(typeOrName);
     }
 
@@ -83,7 +84,7 @@ public class RequestSecurityTokenResponseImpl extends AbstractWSTrustObject impl
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         children.addAll(unknownChildren);
         return Collections.unmodifiableList(children);
     }

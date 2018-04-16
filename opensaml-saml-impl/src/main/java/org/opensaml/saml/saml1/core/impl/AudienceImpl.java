@@ -38,7 +38,7 @@ public class AudienceImpl extends AbstractSAMLObject implements Audience {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AudienceImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AudienceImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -48,7 +48,7 @@ public class AudienceImpl extends AbstractSAMLObject implements Audience {
     }
 
     /** {@inheritDoc} */
-    public void setUri(String s) {
+    public void setUri(final String s) {
 
         uri = prepareForAssignment(uri, s);
     }

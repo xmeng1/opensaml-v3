@@ -40,7 +40,7 @@ public class IPHintImpl extends AbstractSAMLObject implements IPHint {
      * @param elementLocalName the elementLocalName
      * @param namespacePrefix the namespacePrefix
      */
-    protected IPHintImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected IPHintImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -50,7 +50,7 @@ public class IPHintImpl extends AbstractSAMLObject implements IPHint {
     }
 
     /** {@inheritDoc} */
-    public void setHint(String newHint) {
+    public void setHint(final String newHint) {
         hint = prepareForAssignment(hint, newHint);
     }
 

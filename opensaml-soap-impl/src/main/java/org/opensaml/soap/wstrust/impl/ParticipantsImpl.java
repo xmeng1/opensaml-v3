@@ -51,7 +51,7 @@ public class ParticipantsImpl extends AbstractWSTrustObject implements Participa
      * @param elementLocalName The local name of the element
      * @param namespacePrefix The namespace prefix of the element
      */
-    public ParticipantsImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public ParticipantsImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         participants = new ArrayList<>();
         unknownChildren = new IndexedXMLObjectChildrenList<>(this);
@@ -63,7 +63,7 @@ public class ParticipantsImpl extends AbstractWSTrustObject implements Participa
     }
 
     /** {@inheritDoc} */
-    public void setPrimary(Primary newPrimary) {
+    public void setPrimary(final Primary newPrimary) {
         primary = prepareForAssignment(primary, newPrimary);
     }
 
@@ -78,13 +78,13 @@ public class ParticipantsImpl extends AbstractWSTrustObject implements Participa
     }
 
     /** {@inheritDoc} */
-    public List<XMLObject> getUnknownXMLObjects(QName typeOrName) {
+    public List<XMLObject> getUnknownXMLObjects(final QName typeOrName) {
         return (List<XMLObject>) unknownChildren.subList(typeOrName);
     }
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        List<XMLObject> children = new ArrayList<>();
+        final List<XMLObject> children = new ArrayList<>();
         if (primary != null) {
             children.add(primary);
         }

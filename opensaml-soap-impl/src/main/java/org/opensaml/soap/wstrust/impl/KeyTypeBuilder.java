@@ -31,7 +31,7 @@ public class KeyTypeBuilder extends AbstractWSTrustObjectBuilder<KeyType> {
     }
 
     /** {@inheritDoc} */
-    public KeyType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public KeyType buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new KeyTypeImpl(namespaceURI, localName, namespacePrefix);
     }
 

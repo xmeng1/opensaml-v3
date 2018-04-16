@@ -31,8 +31,8 @@ import org.opensaml.saml.saml2.core.GetComplete;
 public class GetCompleteUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject samlObject, String elementContent) {
-        GetComplete gc = (GetComplete) samlObject;
+    protected void processElementContent(final XMLObject samlObject, final String elementContent) {
+        final GetComplete gc = (GetComplete) samlObject;
 
         gc.setGetComplete(elementContent);
     }

@@ -41,7 +41,7 @@ public interface ElementExtensibleXMLObject extends XMLObject {
      * @param typeOrName the QName of the statements to return
      * @return list of XMLObjects added to this XMLObject as part of the "any" content model
      * 
-     * TODO: think this should be typed List<? extends XMLObject> 
+     * TODO: think this should be typed List&lt;? extends XMLObject&gt; 
      */
     @Nonnull public List<XMLObject> getUnknownXMLObjects(@Nonnull final QName typeOrName);
 }

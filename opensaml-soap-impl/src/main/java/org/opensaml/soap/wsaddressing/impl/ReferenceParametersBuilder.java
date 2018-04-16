@@ -31,7 +31,8 @@ public class ReferenceParametersBuilder extends AbstractWSAddressingObjectBuilde
     }
 
     /** {@inheritDoc} */
-    public ReferenceParameters buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public ReferenceParameters buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new ReferenceParametersImpl(namespaceURI, localName, namespacePrefix);
     }
 

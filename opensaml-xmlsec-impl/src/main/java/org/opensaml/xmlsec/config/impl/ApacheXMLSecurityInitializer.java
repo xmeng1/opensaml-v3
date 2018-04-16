@@ -33,7 +33,7 @@ public class ApacheXMLSecurityInitializer implements Initializer {
 
     /** {@inheritDoc} */
     public void init() throws InitializationException {
-        String lineBreakPropName = "org.apache.xml.security.ignoreLineBreaks";
+        final String lineBreakPropName = "org.apache.xml.security.ignoreLineBreaks";
         // Don't override if it was set explicitly
         if (System.getProperty(lineBreakPropName) == null) {
             System.setProperty(lineBreakPropName, "true");

@@ -35,7 +35,8 @@ public class X509IssuerSerialBuilder extends AbstractXMLObjectBuilder<X509Issuer
     }
 
     /** {@inheritDoc} */
-    public X509IssuerSerial buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public X509IssuerSerial buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new X509IssuerSerialImpl(namespaceURI, localName, namespacePrefix);
     }
 

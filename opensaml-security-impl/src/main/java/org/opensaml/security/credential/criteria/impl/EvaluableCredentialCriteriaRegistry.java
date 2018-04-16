@@ -74,20 +74,20 @@ public final class EvaluableCredentialCriteriaRegistry {
             throws SecurityException {
         Constraint.isNotNull(criteria, "Criteria to map cannot be null");
         
-        Logger log = getLogger();
-        Class<? extends EvaluableCredentialCriterion> clazz = lookup(criteria.getClass());
+        final Logger log = getLogger();
+        final Class<? extends EvaluableCredentialCriterion> clazz = lookup(criteria.getClass());
 
         if (clazz != null) {
             log.debug("Registry located evaluable criteria class {} for criteria class {}", clazz.getName(), criteria
                     .getClass().getName());
 
             try {
-                Constructor<? extends EvaluableCredentialCriterion> constructor = 
+                final Constructor<? extends EvaluableCredentialCriterion> constructor = 
                         clazz.getConstructor(new Class[] { criteria.getClass() });
 
                 return constructor.newInstance(new Object[] { criteria });
 
-            } catch (java.lang.SecurityException | InstantiationException | IllegalAccessException 
+            } catch (final java.lang.SecurityException | InstantiationException | IllegalAccessException 
                     | IllegalArgumentException | InvocationTargetException | NoSuchMethodException e) {
                 log.error("Error instantiating new EvaluableCredentialCriterion instance", e);
                 throw new SecurityException("Could not create new EvaluableCredentialCriterion", e);
@@ -122,7 +122,7 @@ public final class EvaluableCredentialCriteriaRegistry {
         Constraint.isNotNull(criteriaClass, "Criterion class to register cannot be null");
         Constraint.isNotNull(evaluableClass, "Evaluable class to register cannot be null");
         
-        Logger log = getLogger();
+        final Logger log = getLogger();
         log.debug("Registering class {} as evaluator for class {}", evaluableClass.getName(), criteriaClass.getName());
 
         registry.put(criteriaClass, evaluableClass);
@@ -136,7 +136,7 @@ public final class EvaluableCredentialCriteriaRegistry {
     public static synchronized void deregister(@Nonnull final Class<? extends Criterion> criteriaClass) {
         Constraint.isNotNull(criteriaClass, "Criterion class to unregister cannot be null");
         
-        Logger log = getLogger();
+        final Logger log = getLogger();
         log.debug("Deregistering evaluator for class {}", criteriaClass.getName());
         registry.remove(criteriaClass);
     }
@@ -145,7 +145,7 @@ public final class EvaluableCredentialCriteriaRegistry {
      * Clear all mappings from the registry.
      */
     public static synchronized void clearRegistry() {
-        Logger log = getLogger();
+        final Logger log = getLogger();
         log.debug("Clearing evaluable criteria registry");
 
         registry.clear();
@@ -192,7 +192,7 @@ public final class EvaluableCredentialCriteriaRegistry {
         final Properties defaultMappings = new Properties();
         try {
             defaultMappings.load(inStream);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             log.error("Error loading properties file from resource stream", e);
             return;
         }
@@ -204,26 +204,26 @@ public final class EvaluableCredentialCriteriaRegistry {
     /**
      * Load a set of criteria-evaluator mappings from the supplied properties set.
      * 
-     * @param mappings properies set where the key is the criteria class name, the value is the evaluator class name
+     * @param mappings properties set where the key is the criteria class name, the value is the evaluator class name
      */
     public static synchronized void loadMappings(@Nonnull final Properties mappings) {
         Constraint.isNotNull(mappings, "Mappings to load cannot be null");
         
-        Logger log = getLogger();
-        for (Object key : mappings.keySet()) {
+        final Logger log = getLogger();
+        for (final Object key : mappings.keySet()) {
             if (!(key instanceof String)) {
                 log.error("Properties key was not an instance of String, was '{}', skipping...", 
                         key.getClass().getName());
                 continue;
             }
-            String criteriaName = (String) key;
-            String evaluatorName = mappings.getProperty(criteriaName);
+            final String criteriaName = (String) key;
+            final String evaluatorName = mappings.getProperty(criteriaName);
 
-            ClassLoader classLoader = XMLObjectProviderRegistrySupport.class.getClassLoader();
+            final ClassLoader classLoader = XMLObjectProviderRegistrySupport.class.getClassLoader();
             Class criteriaClass = null;
             try {
                 criteriaClass = classLoader.loadClass(criteriaName);
-            } catch (ClassNotFoundException e) {
+            } catch (final ClassNotFoundException e) {
                 log.error("Could not find criteria class '{}', skipping registration", criteriaName);
                 continue;
             }
@@ -231,7 +231,7 @@ public final class EvaluableCredentialCriteriaRegistry {
             Class evaluableClass = null;
             try {
                 evaluableClass = classLoader.loadClass(evaluatorName);
-            } catch (ClassNotFoundException e) {
+            } catch (final ClassNotFoundException e) {
                 log.error("Could not find evaluator class '{}', skipping registration", criteriaName);
                 continue;
             }

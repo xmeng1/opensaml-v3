@@ -31,8 +31,8 @@ import org.opensaml.saml.saml2.core.AuthenticatingAuthority;
 public class AuthenticatingAuthorityUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject samlObject, String elementContent) {
-        AuthenticatingAuthority authenticatingAuthority = (AuthenticatingAuthority) samlObject;
+    protected void processElementContent(final XMLObject samlObject, final String elementContent) {
+        final AuthenticatingAuthority authenticatingAuthority = (AuthenticatingAuthority) samlObject;
         authenticatingAuthority.setURI(elementContent);
     }
 }

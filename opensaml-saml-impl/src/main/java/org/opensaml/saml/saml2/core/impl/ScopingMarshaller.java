@@ -33,8 +33,9 @@ import org.w3c.dom.Element;
 public class ScopingMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject samlObject, Element domElement) throws MarshallingException {
-        Scoping scoping = (Scoping) samlObject;
+    protected void marshallAttributes(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
+        final Scoping scoping = (Scoping) samlObject;
 
         if (scoping.getProxyCount() != null) {
             domElement.setAttributeNS(null, Scoping.PROXY_COUNT_ATTRIB_NAME, scoping.getProxyCount().toString());

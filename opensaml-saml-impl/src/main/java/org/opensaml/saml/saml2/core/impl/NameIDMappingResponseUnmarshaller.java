@@ -29,9 +29,9 @@ import org.opensaml.saml.saml2.core.NameIDMappingResponse;
 public class NameIDMappingResponseUnmarshaller extends StatusResponseTypeUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
+    protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
-        NameIDMappingResponse resp = (NameIDMappingResponse) parentSAMLObject;
+        final NameIDMappingResponse resp = (NameIDMappingResponse) parentSAMLObject;
 
         if (childSAMLObject instanceof NameID) {
             resp.setNameID((NameID) childSAMLObject);

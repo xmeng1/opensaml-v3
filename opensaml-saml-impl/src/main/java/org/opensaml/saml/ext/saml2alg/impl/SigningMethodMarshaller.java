@@ -29,8 +29,8 @@ import org.w3c.dom.Element;
 public class SigningMethodMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        SigningMethod signingMethod = (SigningMethod) xmlObject;
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
+        final SigningMethod signingMethod = (SigningMethod) xmlObject;
         
         if (signingMethod.getAlgorithm() != null) {
             domElement.setAttributeNS(null, SigningMethod.ALGORITHM_ATTRIB_NAME, signingMethod.getAlgorithm());

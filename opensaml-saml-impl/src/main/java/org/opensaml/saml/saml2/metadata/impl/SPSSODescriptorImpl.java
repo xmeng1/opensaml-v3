@@ -61,7 +61,8 @@ public class SPSSODescriptorImpl extends SSODescriptorImpl implements SPSSODescr
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected SPSSODescriptorImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected SPSSODescriptorImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         assertionConsumerServices = new XMLObjectChildrenList<>(this);
         attributeConsumingServices = new XMLObjectChildrenList<>(this);
@@ -81,7 +82,7 @@ public class SPSSODescriptorImpl extends SSODescriptorImpl implements SPSSODescr
     }
     
     /** {@inheritDoc} */
-    public void setAuthnRequestsSigned(Boolean newIsSigned) {
+    public void setAuthnRequestsSigned(final Boolean newIsSigned) {
         if(newIsSigned != null){
             authnRequestSigned = prepareForAssignment(authnRequestSigned, new XSBooleanValue(newIsSigned, false));
         }else{
@@ -90,7 +91,7 @@ public class SPSSODescriptorImpl extends SSODescriptorImpl implements SPSSODescr
     }
 
     /** {@inheritDoc} */
-    public void setAuthnRequestsSigned(XSBooleanValue isSigned) {
+    public void setAuthnRequestsSigned(final XSBooleanValue isSigned) {
         authnRequestSigned = prepareForAssignment(authnRequestSigned, isSigned);
     }
     
@@ -108,7 +109,7 @@ public class SPSSODescriptorImpl extends SSODescriptorImpl implements SPSSODescr
     }
     
     /** {@inheritDoc} */
-    public void setWantAssertionsSigned(Boolean wantAssestionSigned) {
+    public void setWantAssertionsSigned(final Boolean wantAssestionSigned) {
         if(wantAssestionSigned != null){
             assertionSigned = prepareForAssignment(assertionSigned, new XSBooleanValue(wantAssestionSigned, false));
         }else{
@@ -117,7 +118,7 @@ public class SPSSODescriptorImpl extends SSODescriptorImpl implements SPSSODescr
     }
 
     /** {@inheritDoc} */
-    public void setWantAssertionsSigned(XSBooleanValue wantAssestionSigned) {
+    public void setWantAssertionsSigned(final XSBooleanValue wantAssestionSigned) {
         this.assertionSigned = prepareForAssignment(this.assertionSigned, wantAssestionSigned);
     }
 
@@ -138,21 +139,21 @@ public class SPSSODescriptorImpl extends SSODescriptorImpl implements SPSSODescr
     
     /** {@inheritDoc} */
     public AttributeConsumingService getDefaultAttributeConsumingService(){
-        AttributeConsumingServiceSelector selector = new AttributeConsumingServiceSelector();
+        final AttributeConsumingServiceSelector selector = new AttributeConsumingServiceSelector();
         selector.setRoleDescriptor(this);
         return selector.selectService();
     }
     
     /** {@inheritDoc} */
     public List<Endpoint> getEndpoints() {
-        List<Endpoint> endpoints = new ArrayList<>();
+        final List<Endpoint> endpoints = new ArrayList<>();
         endpoints.addAll(super.getEndpoints());
         endpoints.addAll(assertionConsumerServices);
         return Collections.unmodifiableList(endpoints);
     }
     
     /** {@inheritDoc} */
-    public List<Endpoint> getEndpoints(QName type) {
+    public List<Endpoint> getEndpoints(final QName type) {
         if(type.equals(AssertionConsumerService.DEFAULT_ELEMENT_NAME)){
             return Collections.unmodifiableList(new ArrayList<Endpoint>(assertionConsumerServices));
         }else{
@@ -162,7 +163,7 @@ public class SPSSODescriptorImpl extends SSODescriptorImpl implements SPSSODescr
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         children.addAll(super.getOrderedChildren());
         children.addAll(assertionConsumerServices);

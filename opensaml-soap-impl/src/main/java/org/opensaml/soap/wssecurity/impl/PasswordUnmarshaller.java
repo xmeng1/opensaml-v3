@@ -30,8 +30,8 @@ import org.w3c.dom.Attr;
 public class PasswordUnmarshaller extends AttributedStringUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
-        Password password= (Password) xmlObject;
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
+        final Password password= (Password) xmlObject;
         if (Password.TYPE_ATTRIB_NAME.equals(attribute.getLocalName())) {
             password.setType(attribute.getValue());
         } else {

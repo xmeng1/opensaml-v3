@@ -31,7 +31,7 @@ public class ForwardableBuilder extends AbstractWSTrustObjectBuilder<Forwardable
     }
 
     /** {@inheritDoc} */
-    public Forwardable buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Forwardable buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new ForwardableImpl(namespaceURI, localName, namespacePrefix);
     }
 

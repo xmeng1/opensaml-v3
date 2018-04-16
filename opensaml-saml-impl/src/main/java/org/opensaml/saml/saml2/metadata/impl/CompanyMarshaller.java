@@ -35,8 +35,9 @@ import org.w3c.dom.Element;
 public class CompanyMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallElementContent(XMLObject samlObject, Element domElement) throws MarshallingException {
-        Company company = (Company) samlObject;
+    protected void marshallElementContent(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
+        final Company company = (Company) samlObject;
 
         if (company.getName() != null) {
             ElementSupport.appendTextContent(domElement, company.getName());

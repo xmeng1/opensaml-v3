@@ -41,7 +41,8 @@ public class AttributeStatementImpl extends SubjectStatementImpl implements Attr
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AttributeStatementImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AttributeStatementImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         attributes = new XMLObjectChildrenList<>(this);
     }
@@ -53,7 +54,7 @@ public class AttributeStatementImpl extends SubjectStatementImpl implements Attr
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        List<XMLObject> list = new ArrayList<>(attributes.size() + 1);
+        final List<XMLObject> list = new ArrayList<>(attributes.size() + 1);
 
         if (super.getOrderedChildren() != null) {
             list.addAll(super.getOrderedChildren());

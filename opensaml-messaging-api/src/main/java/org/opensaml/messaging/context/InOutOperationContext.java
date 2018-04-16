@@ -17,6 +17,7 @@
 
 package org.opensaml.messaging.context;
 
+import javax.annotation.Nullable;
 
 /**
 * An operation context which represents concretely a message exchange pattern involving an 
@@ -29,14 +30,13 @@ package org.opensaml.messaging.context;
 public class InOutOperationContext<InboundMessageType, OutboundMessageType> extends BaseContext {
 
     /** The inbound message context. */
-    private MessageContext<InboundMessageType> inboundContext;
+    @Nullable private MessageContext<InboundMessageType> inboundContext;
 
     /** The outbound message context. */
-    private MessageContext<OutboundMessageType> outboundContext;
+    @Nullable private MessageContext<OutboundMessageType> outboundContext;
 
     /** Constructor. Sets ID to a generated UUID and creation time to now. */
     protected InOutOperationContext() {
-        super();
     }
 
     /**
@@ -45,9 +45,8 @@ public class InOutOperationContext<InboundMessageType, OutboundMessageType> exte
      * @param inbound the inbound message context
      * @param outbound the outbound message context
      */
-    public InOutOperationContext(MessageContext<InboundMessageType> inbound,
-            MessageContext<OutboundMessageType> outbound) {
-        this();
+    public InOutOperationContext(@Nullable final MessageContext<InboundMessageType> inbound,
+            @Nullable final MessageContext<OutboundMessageType> outbound) {
 
         setInboundMessageContext(inbound);
         setOutboundMessageContext(outbound);
@@ -59,7 +58,7 @@ public class InOutOperationContext<InboundMessageType, OutboundMessageType> exte
      * 
      * @return the inbound message context
      */
-    public MessageContext<InboundMessageType> getInboundMessageContext() {
+    @Nullable public MessageContext<InboundMessageType> getInboundMessageContext() {
         return inboundContext;
     }
     
@@ -68,7 +67,7 @@ public class InOutOperationContext<InboundMessageType, OutboundMessageType> exte
      * 
      * @param context inbound message context, may be null
      */
-    public void setInboundMessageContext(MessageContext<InboundMessageType> context) {
+    public void setInboundMessageContext(@Nullable final MessageContext<InboundMessageType> context) {
         // Unlink the old context from this parent
         if (inboundContext != null) {
             inboundContext.setParent(null);
@@ -87,7 +86,7 @@ public class InOutOperationContext<InboundMessageType, OutboundMessageType> exte
      * 
      * @return the outbound message context
      */
-    public MessageContext<OutboundMessageType> getOutboundMessageContext() {
+    @Nullable public MessageContext<OutboundMessageType> getOutboundMessageContext() {
         return outboundContext;
     }
     
@@ -96,7 +95,7 @@ public class InOutOperationContext<InboundMessageType, OutboundMessageType> exte
      * 
      * @param context outbound message context, may be null
      */
-    public void setOutboundMessageContext(MessageContext<OutboundMessageType> context) {
+    public void setOutboundMessageContext(@Nullable final MessageContext<OutboundMessageType> context) {
         // Unlink the old context from this parent
         if (outboundContext != null) {
             outboundContext.setParent(null);

@@ -66,7 +66,8 @@ public class SubjectConfirmationDataImpl extends AbstractSAMLObject implements S
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected SubjectConfirmationDataImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected SubjectConfirmationDataImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         unknownAttributes = new AttributeMap(this);
         unknownChildren = new IndexedXMLObjectChildrenList<>(this);
@@ -78,7 +79,7 @@ public class SubjectConfirmationDataImpl extends AbstractSAMLObject implements S
     }
 
     /** {@inheritDoc} */
-    public void setNotBefore(DateTime newNotBefore) {
+    public void setNotBefore(final DateTime newNotBefore) {
         this.notBefore = prepareForAssignment(this.notBefore, newNotBefore);
     }
 
@@ -88,7 +89,7 @@ public class SubjectConfirmationDataImpl extends AbstractSAMLObject implements S
     }
 
     /** {@inheritDoc} */
-    public void setNotOnOrAfter(DateTime newNotOnOrAfter) {
+    public void setNotOnOrAfter(final DateTime newNotOnOrAfter) {
         this.notOnOrAfter = prepareForAssignment(this.notOnOrAfter, newNotOnOrAfter);
     }
 
@@ -98,7 +99,7 @@ public class SubjectConfirmationDataImpl extends AbstractSAMLObject implements S
     }
 
     /** {@inheritDoc} */
-    public void setRecipient(String newRecipient) {
+    public void setRecipient(final String newRecipient) {
         this.recipient = prepareForAssignment(this.recipient, newRecipient);
     }
 
@@ -108,7 +109,7 @@ public class SubjectConfirmationDataImpl extends AbstractSAMLObject implements S
     }
 
     /** {@inheritDoc} */
-    public void setInResponseTo(String newInResponseTo) {
+    public void setInResponseTo(final String newInResponseTo) {
         this.inResponseTo = prepareForAssignment(this.inResponseTo, newInResponseTo);
     }
 
@@ -118,7 +119,7 @@ public class SubjectConfirmationDataImpl extends AbstractSAMLObject implements S
     }
 
     /** {@inheritDoc} */
-    public void setAddress(String newAddress) {
+    public void setAddress(final String newAddress) {
         this.address = prepareForAssignment(this.address, newAddress);
     }
     
@@ -137,7 +138,7 @@ public class SubjectConfirmationDataImpl extends AbstractSAMLObject implements S
     }
     
     /** {@inheritDoc} */
-    public List<XMLObject> getUnknownXMLObjects(QName typeOrName) {
+    public List<XMLObject> getUnknownXMLObjects(final QName typeOrName) {
         return (List<XMLObject>) unknownChildren.subList(typeOrName);
     }
 

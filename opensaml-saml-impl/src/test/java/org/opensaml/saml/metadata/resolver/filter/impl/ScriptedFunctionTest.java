@@ -25,6 +25,7 @@ import javax.script.ScriptException;
 
 import net.shibboleth.ext.spring.resource.ResourceHelper;
 import net.shibboleth.utilities.java.support.resource.Resource;
+import net.shibboleth.utilities.java.support.testing.TestSupport;
 
 import org.opensaml.core.xml.XMLObject;
 import org.opensaml.core.xml.XMLObjectBaseTestCase;
@@ -45,20 +46,15 @@ public class ScriptedFunctionTest extends XMLObjectBaseTestCase {
     static final String FILE_7 = "/org/opensaml/saml/metadata/resolver/filter/impl/script.js";
     static final String FILE_8 = "/org/opensaml/saml/metadata/resolver/filter/impl/script8.js";
         
-    private boolean isV8() {
-        final String ver = System.getProperty("java.version");
-        return ver.startsWith("1.8");
-    }
-
     private String script() {
-        if (isV8()) {
+        if (TestSupport.isJavaV8OrLater()) {
             return SCRIPT_8;
         }
         return SCRIPT_7;
     }
     
     private String file() {
-        if (isV8()) {
+        if (TestSupport.isJavaV8OrLater()) {
             return FILE_8;
         }
         return FILE_7;

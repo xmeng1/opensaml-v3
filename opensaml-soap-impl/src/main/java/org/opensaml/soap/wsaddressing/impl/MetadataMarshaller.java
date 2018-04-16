@@ -31,8 +31,8 @@ import org.w3c.dom.Element;
 public class MetadataMarshaller extends AbstractWSAddressingObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        Metadata metadata = (Metadata) xmlObject;
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
+        final Metadata metadata = (Metadata) xmlObject;
         XMLObjectSupport.marshallAttributeMap(metadata.getUnknownAttributes(), domElement);
     }
 

@@ -45,7 +45,7 @@ public class LifetimeImpl extends AbstractWSTrustObject implements Lifetime {
      * @param elementLocalName The local name of the element
      * @param namespacePrefix The namespace prefix of the element
      */
-    public LifetimeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public LifetimeImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -60,18 +60,18 @@ public class LifetimeImpl extends AbstractWSTrustObject implements Lifetime {
     }
 
     /** {@inheritDoc} */
-    public void setCreated(Created newCreated) {
+    public void setCreated(final Created newCreated) {
         created = prepareForAssignment(created, newCreated);
     }
 
     /** {@inheritDoc} */
-    public void setExpires(Expires newExpires) {
+    public void setExpires(final Expires newExpires) {
         expires = prepareForAssignment(expires, newExpires);
     }
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         if (created != null) {
             children.add(created);
         }

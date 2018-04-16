@@ -42,7 +42,8 @@ public class EntityAttributesImpl extends AbstractSAMLObject implements EntityAt
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected EntityAttributesImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected EntityAttributesImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         attributeInfo = new IndexedXMLObjectChildrenList<>(this);
     }
@@ -72,7 +73,7 @@ public class EntityAttributesImpl extends AbstractSAMLObject implements EntityAt
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         if (attributeInfo.size() == 0) {
             return null;

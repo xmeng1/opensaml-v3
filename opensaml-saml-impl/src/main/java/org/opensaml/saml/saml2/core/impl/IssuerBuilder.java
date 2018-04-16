@@ -40,7 +40,7 @@ public class IssuerBuilder extends AbstractSAMLObjectBuilder<Issuer> {
     }
 
     /** {@inheritDoc} */
-    public Issuer buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Issuer buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new IssuerImpl(namespaceURI, localName, namespacePrefix);
     }
 }

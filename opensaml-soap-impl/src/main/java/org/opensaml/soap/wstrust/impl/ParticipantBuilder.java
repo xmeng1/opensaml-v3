@@ -31,7 +31,7 @@ public class ParticipantBuilder extends AbstractWSTrustObjectBuilder<Participant
     }
 
     /** {@inheritDoc} */
-    public Participant buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Participant buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new ParticipantImpl(namespaceURI, localName, namespacePrefix);
     }
 

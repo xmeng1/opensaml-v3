@@ -30,10 +30,10 @@ import org.opensaml.xmlsec.signature.KeyInfo;
 public class SubjectConfirmationUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
+    protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
 
-        SubjectConfirmation subjectConfirmation = (SubjectConfirmation) parentSAMLObject;
+        final SubjectConfirmation subjectConfirmation = (SubjectConfirmation) parentSAMLObject;
 
         if (childSAMLObject instanceof ConfirmationMethod) {
             subjectConfirmation.getConfirmationMethods().add((ConfirmationMethod) childSAMLObject);

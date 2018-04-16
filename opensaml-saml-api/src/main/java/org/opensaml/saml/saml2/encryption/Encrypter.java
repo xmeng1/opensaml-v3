@@ -153,7 +153,7 @@ public class Encrypter extends org.opensaml.xmlsec.encryption.support.Encrypter 
      * @param dataEncParams the data encryption parameters
      * @param keyEncParams the key encryption parameters
      */
-    public Encrypter(DataEncryptionParameters dataEncParams, List<KeyEncryptionParameters> keyEncParams) {
+    public Encrypter(final DataEncryptionParameters dataEncParams, final List<KeyEncryptionParameters> keyEncParams) {
         super();
 
         this.encParams = dataEncParams;
@@ -168,10 +168,10 @@ public class Encrypter extends org.opensaml.xmlsec.encryption.support.Encrypter 
      * @param dataEncParams the data encryption parameters
      * @param keyEncParam the key encryption parameter
      */
-    public Encrypter(DataEncryptionParameters dataEncParams, KeyEncryptionParameters keyEncParam) {
+    public Encrypter(final DataEncryptionParameters dataEncParams, final KeyEncryptionParameters keyEncParam) {
         super();
 
-        List<KeyEncryptionParameters> keks = new ArrayList<>();
+        final List<KeyEncryptionParameters> keks = new ArrayList<>();
         keks.add(keyEncParam);
 
         this.encParams = dataEncParams;
@@ -185,10 +185,10 @@ public class Encrypter extends org.opensaml.xmlsec.encryption.support.Encrypter 
      * 
      * @param dataEncParams the data encryption parameters
      */
-    public Encrypter(DataEncryptionParameters dataEncParams) {
+    public Encrypter(final DataEncryptionParameters dataEncParams) {
         super();
 
-        List<KeyEncryptionParameters> keks = new ArrayList<>();
+        final List<KeyEncryptionParameters> keks = new ArrayList<>();
 
         this.encParams = dataEncParams;
         this.kekParamsList = keks;
@@ -222,7 +222,7 @@ public class Encrypter extends org.opensaml.xmlsec.encryption.support.Encrypter 
      * 
      * @param newIDGenerator the new IdentifierGenerator to use
      */
-    public void setIDGenerator(IdentifierGenerationStrategy newIDGenerator) {
+    public void setIDGenerator(final IdentifierGenerationStrategy newIDGenerator) {
         this.idGenerator = newIDGenerator;
     }
 
@@ -240,7 +240,7 @@ public class Encrypter extends org.opensaml.xmlsec.encryption.support.Encrypter 
      * 
      * @param newKeyPlacement The new key placement option to set
      */
-    public void setKeyPlacement(KeyPlacement newKeyPlacement) {
+    public void setKeyPlacement(final KeyPlacement newKeyPlacement) {
         this.keyPlacement = newKeyPlacement;
     }
 
@@ -251,7 +251,7 @@ public class Encrypter extends org.opensaml.xmlsec.encryption.support.Encrypter 
      * @return an EncryptedAssertion
      * @throws EncryptionException thrown when encryption generates an error
      */
-    public EncryptedAssertion encrypt(Assertion assertion) throws EncryptionException {
+    public EncryptedAssertion encrypt(final Assertion assertion) throws EncryptionException {
         logPreEncryption(assertion, "Assertion");
         return (EncryptedAssertion) encrypt(assertion, EncryptedAssertion.DEFAULT_ELEMENT_NAME);
     }
@@ -263,7 +263,7 @@ public class Encrypter extends org.opensaml.xmlsec.encryption.support.Encrypter 
      * @return an EncryptedID
      * @throws EncryptionException thrown when encryption generates an error
      */
-    public EncryptedID encryptAsID(Assertion assertion) throws EncryptionException {
+    public EncryptedID encryptAsID(final Assertion assertion) throws EncryptionException {
         logPreEncryption(assertion, "Assertion (as EncryptedID)");
         return (EncryptedID) encrypt(assertion, EncryptedID.DEFAULT_ELEMENT_NAME);
     }
@@ -275,7 +275,7 @@ public class Encrypter extends org.opensaml.xmlsec.encryption.support.Encrypter 
      * @return an EncryptedAttribute
      * @throws EncryptionException thrown when encryption generates an error
      */
-    public EncryptedAttribute encrypt(Attribute attribute) throws EncryptionException {
+    public EncryptedAttribute encrypt(final Attribute attribute) throws EncryptionException {
         logPreEncryption(attribute, "Attribute");
         return (EncryptedAttribute) encrypt(attribute, EncryptedAttribute.DEFAULT_ELEMENT_NAME);
     }
@@ -287,7 +287,7 @@ public class Encrypter extends org.opensaml.xmlsec.encryption.support.Encrypter 
      * @return an EncryptedID
      * @throws EncryptionException thrown when encryption generates an error
      */
-    public EncryptedID encrypt(NameID nameID) throws EncryptionException {
+    public EncryptedID encrypt(final NameID nameID) throws EncryptionException {
         logPreEncryption(nameID, "NameID");
         return (EncryptedID) encrypt(nameID, EncryptedID.DEFAULT_ELEMENT_NAME);
     }
@@ -299,7 +299,7 @@ public class Encrypter extends org.opensaml.xmlsec.encryption.support.Encrypter 
      * @return an EncryptedID
      * @throws EncryptionException thrown when encryption generates an error
      */
-    public EncryptedID encrypt(BaseID baseID) throws EncryptionException {
+    public EncryptedID encrypt(final BaseID baseID) throws EncryptionException {
         logPreEncryption(baseID, "BaseID");
         return (EncryptedID) encrypt(baseID, EncryptedID.DEFAULT_ELEMENT_NAME);
     }
@@ -311,7 +311,7 @@ public class Encrypter extends org.opensaml.xmlsec.encryption.support.Encrypter 
      * @return a NewEncryptedID
      * @throws EncryptionException thrown when encryption generates an error
      */
-    public NewEncryptedID encrypt(NewID newID) throws EncryptionException {
+    public NewEncryptedID encrypt(final NewID newID) throws EncryptionException {
         logPreEncryption(newID, "NewID");
         return (NewEncryptedID) encrypt(newID, NewEncryptedID.DEFAULT_ELEMENT_NAME);
     }
@@ -322,7 +322,7 @@ public class Encrypter extends org.opensaml.xmlsec.encryption.support.Encrypter 
      * @param xmlObject the XMLObject to encrypt
      * @param objectType String description of the type of object to encrypt
      */
-    private void logPreEncryption(XMLObject xmlObject, String objectType) {
+    private void logPreEncryption(final XMLObject xmlObject, final String objectType) {
         if (log.isDebugEnabled()) {
             try {
                 final Element dom = XMLObjectSupport.marshall(xmlObject);
@@ -342,37 +342,38 @@ public class Encrypter extends org.opensaml.xmlsec.encryption.support.Encrypter 
      * @return a specialization of {@link org.opensaml.saml.saml2.core.EncryptedElementType}
      * @throws EncryptionException thrown when encryption generates an error
      */
-    private EncryptedElementType encrypt(XMLObject xmlObject, QName encElementName) throws EncryptionException {
+    private EncryptedElementType encrypt(final XMLObject xmlObject, final QName encElementName)
+            throws EncryptionException {
 
         checkParams(encParams, kekParamsList);
 
-        EncryptedElementType encElement =
+        final EncryptedElementType encElement =
                 (EncryptedElementType) builderFactory.getBuilder(encElementName).buildObject(encElementName);
 
         // Marshall the containing element, we will need its Document context to pass
         // to the key encryption method
         checkAndMarshall(encElement);
-        Document ownerDocument = encElement.getDOM().getOwnerDocument();
+        final Document ownerDocument = encElement.getDOM().getOwnerDocument();
 
-        String encryptionAlgorithmURI = encParams.getAlgorithm();
+        final String encryptionAlgorithmURI = encParams.getAlgorithm();
         Key encryptionKey = CredentialSupport.extractEncryptionKey(encParams.getEncryptionCredential());
         if (encryptionKey == null) {
             encryptionKey = generateEncryptionKey(encryptionAlgorithmURI);
         }
 
-        EncryptedData encryptedData = encryptElement(xmlObject, encryptionKey, encryptionAlgorithmURI, false);
+        final EncryptedData encryptedData = encryptElement(xmlObject, encryptionKey, encryptionAlgorithmURI, false);
         if (encParams.getKeyInfoGenerator() != null) {
-            KeyInfoGenerator generator = encParams.getKeyInfoGenerator();
+            final KeyInfoGenerator generator = encParams.getKeyInfoGenerator();
             log.debug("Dynamically generating KeyInfo from Credential for EncryptedData using generator: {}", generator
                     .getClass().getName());
             try {
                 encryptedData.setKeyInfo(generator.generate(encParams.getEncryptionCredential()));
-            } catch (SecurityException e) {
+            } catch (final SecurityException e) {
                 throw new EncryptionException("Error generating EncryptedData KeyInfo", e);
             }
         }
 
-        List<EncryptedKey> encryptedKeys = new ArrayList<>();
+        final List<EncryptedKey> encryptedKeys = new ArrayList<>();
         if (kekParamsList != null && !kekParamsList.isEmpty()) {
             encryptedKeys.addAll(encryptKey(encryptionKey, kekParamsList, ownerDocument));
         }
@@ -391,8 +392,8 @@ public class Encrypter extends org.opensaml.xmlsec.encryption.support.Encrypter 
      * 
      * @throws EncryptionException thrown when processing encounters an error
      */
-    protected EncryptedElementType processElements(EncryptedElementType encElement, EncryptedData encData,
-            List<EncryptedKey> encKeys) throws EncryptionException {
+    protected EncryptedElementType processElements(final EncryptedElementType encElement, final EncryptedData encData,
+            final List<EncryptedKey> encKeys) throws EncryptionException {
         // First ensure certain elements/attributes are non-null, common to all cases.
         if (encData.getID() == null) {
             encData.setID(idGenerator.generateIdentifier());
@@ -408,7 +409,7 @@ public class Encrypter extends org.opensaml.xmlsec.encryption.support.Encrypter 
             encData.setKeyInfo(keyInfoBuilder.buildObject());
         }
 
-        for (EncryptedKey encKey : encKeys) {
+        for (final EncryptedKey encKey : encKeys) {
             if (encKey.getID() == null) {
                 encKey.setID(idGenerator.generateIdentifier());
             }
@@ -435,8 +436,8 @@ public class Encrypter extends org.opensaml.xmlsec.encryption.support.Encrypter 
      * @param encKeys the list of EncryptedKey objects
      * @return the processed EncryptedElementType instance
      */
-    protected EncryptedElementType placeKeysInline(EncryptedElementType encElement, EncryptedData encData,
-            List<EncryptedKey> encKeys) {
+    protected EncryptedElementType placeKeysInline(final EncryptedElementType encElement, final EncryptedData encData,
+            final List<EncryptedKey> encKeys) {
 
         log.debug("Placing EncryptedKey elements inline inside EncryptedData");
 
@@ -455,12 +456,12 @@ public class Encrypter extends org.opensaml.xmlsec.encryption.support.Encrypter 
      * @param encKeys the EncryptedKey(s) to store
      * @return the resulting specialization of EncryptedElementType
      */
-    protected EncryptedElementType placeKeysAsPeers(EncryptedElementType encElement, EncryptedData encData,
-            List<EncryptedKey> encKeys) {
+    protected EncryptedElementType placeKeysAsPeers(final EncryptedElementType encElement, final EncryptedData encData,
+            final List<EncryptedKey> encKeys) {
 
         log.debug("Placing EncryptedKey elements as peers of EncryptedData in EncryptedElementType");
 
-        for (EncryptedKey encKey : encKeys) {
+        for (final EncryptedKey encKey : encKeys) {
             if (encKey.getReferenceList() == null) {
                 encKey.setReferenceList(referenceListBuilder.buildObject());
             }
@@ -487,16 +488,16 @@ public class Encrypter extends org.opensaml.xmlsec.encryption.support.Encrypter 
      * @param encData the EncryptedData
      * @param encKey the EncryptedKey
      */
-    protected void linkSinglePeerKey(EncryptedData encData, EncryptedKey encKey) {
+    protected void linkSinglePeerKey(final EncryptedData encData, final EncryptedKey encKey) {
         log.debug("Linking single peer EncryptedKey with RetrievalMethod and DataReference");
         // Forward reference from EncryptedData to the EncryptedKey
-        RetrievalMethod rm = retrievalMethodBuilder.buildObject();
+        final RetrievalMethod rm = retrievalMethodBuilder.buildObject();
         rm.setURI("#" + encKey.getID());
         rm.setType(EncryptionConstants.TYPE_ENCRYPTED_KEY);
         encData.getKeyInfo().getRetrievalMethods().add(rm);
 
         // Back reference from the EncryptedKey to the EncryptedData
-        DataReference dr = dataReferenceBuilder.buildObject();
+        final DataReference dr = dataReferenceBuilder.buildObject();
         dr.setURI("#" + encData.getID());
         encKey.getReferenceList().getDataReferences().add(dr);
     }
@@ -507,14 +508,14 @@ public class Encrypter extends org.opensaml.xmlsec.encryption.support.Encrypter 
      * @param encData the EncryptedData
      * @param encKeys the list of EncryptedKeys
      */
-    protected void linkMultiplePeerKeys(EncryptedData encData, List<EncryptedKey> encKeys) {
+    protected void linkMultiplePeerKeys(final EncryptedData encData, final List<EncryptedKey> encKeys) {
         log.debug("Linking multiple peer EncryptedKeys with CarriedKeyName and DataReference");
         // Get the name of the data encryption key
-        List<KeyName> dataEncKeyNames = encData.getKeyInfo().getKeyNames();
-        String carriedKeyNameValue;
+        final List<KeyName> dataEncKeyNames = encData.getKeyInfo().getKeyNames();
+        final String carriedKeyNameValue;
         if (dataEncKeyNames.size() == 0 || Strings.isNullOrEmpty(dataEncKeyNames.get(0).getValue())) {
             // If there isn't one, autogenerate a random key name.
-            String keyNameValue = idGenerator.generateIdentifier();
+            final String keyNameValue = idGenerator.generateIdentifier();
             log.debug("EncryptedData encryption key had no KeyName, generated one for use in CarriedKeyName: {}",
                     keyNameValue);
 
@@ -530,14 +531,14 @@ public class Encrypter extends org.opensaml.xmlsec.encryption.support.Encrypter 
         }
 
         // Set carried key name of the multicast key in each EncryptedKey
-        for (EncryptedKey encKey : encKeys) {
+        for (final EncryptedKey encKey : encKeys) {
             if (encKey.getCarriedKeyName() == null) {
                 encKey.setCarriedKeyName(carriedKeyNameBuilder.buildObject());
             }
             encKey.getCarriedKeyName().setValue(carriedKeyNameValue);
 
             // Back reference from the EncryptedKeys to the EncryptedData
-            DataReference dr = dataReferenceBuilder.buildObject();
+            final DataReference dr = dataReferenceBuilder.buildObject();
             dr.setURI("#" + encData.getID());
             encKey.getReferenceList().getDataReferences().add(dr);
 

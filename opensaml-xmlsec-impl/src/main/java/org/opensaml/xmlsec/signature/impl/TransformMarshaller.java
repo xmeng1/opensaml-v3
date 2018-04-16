@@ -28,8 +28,8 @@ import org.w3c.dom.Element;
 public class TransformMarshaller extends AbstractXMLSignatureMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        Transform transform = (Transform) xmlObject;
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
+        final Transform transform = (Transform) xmlObject;
 
         if (transform.getAlgorithm() != null) {
             domElement.setAttributeNS(null, Transform.ALGORITHM_ATTRIB_NAME, transform.getAlgorithm());

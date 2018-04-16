@@ -40,7 +40,8 @@ public class DescriptionTypeImpl extends AbstractXACMLObject implements Descript
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected DescriptionTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected DescriptionTypeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
     
@@ -50,7 +51,7 @@ public class DescriptionTypeImpl extends AbstractXACMLObject implements Descript
     }
 
     /** {@inheritDoc} */
-    public void setValue(String arg0) {
+    public void setValue(final String arg0) {
         description = prepareForAssignment(this.description, arg0);
     }
 

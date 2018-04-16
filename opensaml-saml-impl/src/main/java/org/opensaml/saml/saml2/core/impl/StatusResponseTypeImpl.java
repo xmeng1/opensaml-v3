@@ -73,7 +73,8 @@ public abstract class StatusResponseTypeImpl extends AbstractSignableSAMLObject 
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected StatusResponseTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected StatusResponseTypeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         version = SAMLVersion.VERSION_20;
     }
@@ -84,7 +85,7 @@ public abstract class StatusResponseTypeImpl extends AbstractSignableSAMLObject 
     }
 
     /** {@inheritDoc} */
-    public void setVersion(SAMLVersion newVersion) {
+    public void setVersion(final SAMLVersion newVersion) {
         this.version = prepareForAssignment(this.version, newVersion);
     }
     
@@ -94,8 +95,8 @@ public abstract class StatusResponseTypeImpl extends AbstractSignableSAMLObject 
     }
 
     /** {@inheritDoc} */
-    public void setID(String newID) {
-        String oldID = this.id;
+    public void setID(final String newID) {
+        final String oldID = this.id;
         this.id = prepareForAssignment(this.id, newID);
         registerOwnID(oldID, this.id);
     }
@@ -106,7 +107,7 @@ public abstract class StatusResponseTypeImpl extends AbstractSignableSAMLObject 
     }
 
     /** {@inheritDoc} */
-    public void setInResponseTo(String newInResponseTo) {
+    public void setInResponseTo(final String newInResponseTo) {
         this.inResponseTo = prepareForAssignment(this.inResponseTo, newInResponseTo);
     }
 
@@ -116,7 +117,7 @@ public abstract class StatusResponseTypeImpl extends AbstractSignableSAMLObject 
     }
 
     /** {@inheritDoc} */
-    public void setIssueInstant(DateTime newIssueInstant) {
+    public void setIssueInstant(final DateTime newIssueInstant) {
         this.issueInstant = prepareForAssignment(this.issueInstant, newIssueInstant);
     }
 
@@ -126,7 +127,7 @@ public abstract class StatusResponseTypeImpl extends AbstractSignableSAMLObject 
     }
 
     /** {@inheritDoc} */
-    public void setDestination(String newDestination) {
+    public void setDestination(final String newDestination) {
         this.destination = prepareForAssignment(this.destination, newDestination);
     }
 
@@ -136,7 +137,7 @@ public abstract class StatusResponseTypeImpl extends AbstractSignableSAMLObject 
     }
 
     /** {@inheritDoc} */
-    public void setConsent(String newConsent) {
+    public void setConsent(final String newConsent) {
         this.consent = prepareForAssignment(this.consent, newConsent);
     }
 
@@ -146,7 +147,7 @@ public abstract class StatusResponseTypeImpl extends AbstractSignableSAMLObject 
     }
 
     /** {@inheritDoc} */
-    public void setIssuer(Issuer newIssuer) {
+    public void setIssuer(final Issuer newIssuer) {
         this.issuer = prepareForAssignment(this.issuer, newIssuer);
     }
 
@@ -156,7 +157,7 @@ public abstract class StatusResponseTypeImpl extends AbstractSignableSAMLObject 
     }
 
     /** {@inheritDoc} */
-    public void setExtensions(Extensions newExtensions) {
+    public void setExtensions(final Extensions newExtensions) {
         this.extensions = prepareForAssignment(this.extensions, newExtensions);
     }
 
@@ -166,7 +167,7 @@ public abstract class StatusResponseTypeImpl extends AbstractSignableSAMLObject 
     }
 
     /** {@inheritDoc} */
-    public void setStatus(Status newStatus) {
+    public void setStatus(final Status newStatus) {
         this.status = prepareForAssignment(this.status, newStatus);
     }
     
@@ -177,7 +178,7 @@ public abstract class StatusResponseTypeImpl extends AbstractSignableSAMLObject 
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         if (issuer != null){
             children.add(issuer);

@@ -64,7 +64,7 @@ public class EvaluableX509CertSelectorCredentialCriterion extends AbstractTriSta
             return false;
         }
 
-        X509Certificate entityCert = ((X509Credential) target).getEntityCertificate();
+        final X509Certificate entityCert = ((X509Credential) target).getEntityCertificate();
         if (entityCert == null) {
             log.info("X509Credential did not contain an entity certificate, cannot evaluate X509CertSelector criteria");
             return false;
@@ -75,7 +75,7 @@ public class EvaluableX509CertSelectorCredentialCriterion extends AbstractTriSta
     
     /** {@inheritDoc} */
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("EvaluableX509CertSelectorCredentialCriterion [certSelector=");
         builder.append("<contents not displayable>");
         builder.append("]");
@@ -88,7 +88,7 @@ public class EvaluableX509CertSelectorCredentialCriterion extends AbstractTriSta
     }
 
     /** {@inheritDoc} */
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }

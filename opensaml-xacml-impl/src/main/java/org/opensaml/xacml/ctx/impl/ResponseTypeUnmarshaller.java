@@ -32,9 +32,9 @@ public class ResponseTypeUnmarshaller extends AbstractXACMLObjectUnmarshaller {
     }
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        ResponseType response = (ResponseType) parentXMLObject;
+        final ResponseType response = (ResponseType) parentXMLObject;
         if (childXMLObject instanceof ResultType) {
             response.getResults().add((ResultType) childXMLObject);
         } else {

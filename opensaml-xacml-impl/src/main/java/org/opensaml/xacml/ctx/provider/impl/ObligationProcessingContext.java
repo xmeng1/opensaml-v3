@@ -32,7 +32,7 @@ public class ObligationProcessingContext {
      * 
      * @param authzResult result of a XACML authorization request
      */
-    public ObligationProcessingContext(ResultType authzResult) {
+    public ObligationProcessingContext(final ResultType authzResult) {
         if (authzResult == null) {
             throw new IllegalArgumentException("Authorization request result may not be null");
         }

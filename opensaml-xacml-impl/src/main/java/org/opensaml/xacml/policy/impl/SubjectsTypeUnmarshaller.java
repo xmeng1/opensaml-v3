@@ -30,9 +30,9 @@ public class SubjectsTypeUnmarshaller extends AbstractXACMLObjectUnmarshaller {
     
     /** {@inheritDoc} */
     @Override
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        SubjectsType subjectsType = (SubjectsType) parentXMLObject;
+        final SubjectsType subjectsType = (SubjectsType) parentXMLObject;
         
         if(childXMLObject instanceof SubjectType){
             subjectsType.getSubjects().add((SubjectType)childXMLObject);

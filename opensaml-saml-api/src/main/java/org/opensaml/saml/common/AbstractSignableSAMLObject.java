@@ -45,7 +45,7 @@ public abstract class AbstractSignableSAMLObject extends AbstractSignableXMLObje
     }
 
     /** {@inheritDoc} */
-    public final boolean equals(Object obj) {
+    public final boolean equals(final Object obj) {
         if(obj == this){
             return true;
         }

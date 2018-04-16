@@ -28,8 +28,8 @@ import org.w3c.dom.Attr;
 public class NamedCurveUnmarshaller extends AbstractXMLSignatureUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
-        NamedCurve nc = (NamedCurve) xmlObject;
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
+        final NamedCurve nc = (NamedCurve) xmlObject;
 
         if (attribute.getLocalName().equals(NamedCurve.URI_ATTRIB_NAME)) {
             nc.setURI(attribute.getValue());

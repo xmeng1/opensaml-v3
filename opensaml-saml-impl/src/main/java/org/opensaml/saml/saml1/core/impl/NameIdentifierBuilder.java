@@ -40,7 +40,7 @@ public class NameIdentifierBuilder extends AbstractSAMLObjectBuilder<NameIdentif
     }
 
     /** {@inheritDoc} */
-    public NameIdentifier buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public NameIdentifier buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new NameIdentifierImpl(namespaceURI, localName, namespacePrefix);
     }
 }

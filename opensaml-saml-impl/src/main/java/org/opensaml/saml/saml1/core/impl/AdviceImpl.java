@@ -49,7 +49,7 @@ public class AdviceImpl extends AbstractSAMLObject implements Advice {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AdviceImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AdviceImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         assertionChildren = new IndexedXMLObjectChildrenList<>(this);
         unknownChildren = new IndexedXMLObjectChildrenList<>(this);
@@ -60,11 +60,12 @@ public class AdviceImpl extends AbstractSAMLObject implements Advice {
     public List<AssertionIDReference> getAssertionIDReferences() {
         //
         // The cast in the line below is unsafe. (it's checking against the erasure of l - which is List.
-        // We are, howeverever guaranteed by sublist that although l is 'just' a List it
+        // We are, however guaranteed by sublist that although l is 'just' a List it
         // will only contain <AssertionIDReferences> explicit code in IndexedXMLObjectChildrenList$ListView.indexCheck
         // helps us be sure.
 
-        QName assertionIDRefQName = new QName(SAMLConstants.SAML1_NS, AssertionIDReference.DEFAULT_ELEMENT_LOCAL_NAME);
+        final QName assertionIDRefQName =
+                new QName(SAMLConstants.SAML1_NS, AssertionIDReference.DEFAULT_ELEMENT_LOCAL_NAME);
         return (List<AssertionIDReference>) assertionChildren.subList(assertionIDRefQName);
     }
 
@@ -72,7 +73,7 @@ public class AdviceImpl extends AbstractSAMLObject implements Advice {
     @Override
     public List<Assertion> getAssertions() {
         // See Comment for getAssertionIDReference as to why this unsafe casting is OK
-        QName assertionQname = new QName(SAMLConstants.SAML1_NS, Assertion.DEFAULT_ELEMENT_LOCAL_NAME);
+        final QName assertionQname = new QName(SAMLConstants.SAML1_NS, Assertion.DEFAULT_ELEMENT_LOCAL_NAME);
         return (List<Assertion>) assertionChildren.subList(assertionQname);
     }
     
@@ -84,14 +85,14 @@ public class AdviceImpl extends AbstractSAMLObject implements Advice {
     
     /** {@inheritDoc} */
     @Override
-    public List<XMLObject> getUnknownXMLObjects(QName typeOrName) {
+    public List<XMLObject> getUnknownXMLObjects(final QName typeOrName) {
         return (List<XMLObject>) unknownChildren.subList(typeOrName);
     }
 
     /** {@inheritDoc} */
     @Override
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         
         children.addAll(assertionChildren);
         children.addAll(unknownChildren);

@@ -30,8 +30,8 @@ public class ActionMatchTypeMarshaller extends AbstractXACMLObjectMarshaller {
 
     /** {@inheritDoc} */
     @Override
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        ActionMatchType matchType = (ActionMatchType) xmlObject;
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
+        final ActionMatchType matchType = (ActionMatchType) xmlObject;
 
         if (!Strings.isNullOrEmpty(matchType.getMatchId())) {
             domElement.setAttributeNS(null, ActionMatchType.MATCH_ID_ATTRIB_NAME, matchType.getMatchId());

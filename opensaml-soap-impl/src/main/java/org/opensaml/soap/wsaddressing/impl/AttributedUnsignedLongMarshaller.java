@@ -31,14 +31,15 @@ import org.w3c.dom.Element;
 public class AttributedUnsignedLongMarshaller extends AbstractWSAddressingObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        AttributedUnsignedLong aul = (AttributedUnsignedLong) xmlObject;
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
+        final AttributedUnsignedLong aul = (AttributedUnsignedLong) xmlObject;
         XMLObjectSupport.marshallAttributeMap(aul.getUnknownAttributes(), domElement);
     }
 
     /** {@inheritDoc} */
-    protected void marshallElementContent(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        AttributedUnsignedLong aul = (AttributedUnsignedLong) xmlObject;
+    protected void marshallElementContent(final XMLObject xmlObject, final Element domElement)
+            throws MarshallingException {
+        final AttributedUnsignedLong aul = (AttributedUnsignedLong) xmlObject;
         if (aul.getValue() != null) {
             ElementSupport.appendTextContent(domElement, aul.getValue().toString());
         }

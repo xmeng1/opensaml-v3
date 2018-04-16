@@ -31,7 +31,7 @@ public class BinaryExchangeBuilder extends AbstractWSTrustObjectBuilder<BinaryEx
     }
 
     /** {@inheritDoc} */
-    public BinaryExchange buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public BinaryExchange buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new BinaryExchangeImpl(namespaceURI, localName, namespacePrefix);
     }
 

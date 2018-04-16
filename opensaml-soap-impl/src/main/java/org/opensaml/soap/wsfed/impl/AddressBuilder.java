@@ -37,7 +37,7 @@ public class AddressBuilder extends AbstractXMLObjectBuilder<Address> implements
     }
 
     /** {@inheritDoc} */
-    public Address buildObject(final String namespaceURI, final String localName, String namespacePrefix) {
+    public Address buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new AddressImpl(namespaceURI, localName, namespacePrefix);
     }
 }

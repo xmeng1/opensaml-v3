@@ -26,7 +26,8 @@ import org.opensaml.xacml.policy.RuleCombinerParametersType;
 public class RuleCombinerParametersTypeImplBuilder extends AbstractXACMLObjectBuilder<RuleCombinerParametersType> {
 
     /** {@inheritDoc} */
-    public RuleCombinerParametersType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public RuleCombinerParametersType buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new RuleCombinerParametersTypeImpl(namespaceURI,localName,namespacePrefix);
     }
 

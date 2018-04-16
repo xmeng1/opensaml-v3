@@ -44,7 +44,8 @@ public class ArtifactResolveBuilder extends AbstractSAMLObjectBuilder<ArtifactRe
     }
 
     /** {@inheritDoc} */
-    public ArtifactResolve buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public ArtifactResolve buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new ArtifactResolveImpl(namespaceURI, localName, namespacePrefix);
     }
 }

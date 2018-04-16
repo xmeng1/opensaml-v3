@@ -45,7 +45,8 @@ public class AttributeQueryImpl extends SubjectQueryImpl implements AttributeQue
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AttributeQueryImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AttributeQueryImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         attributes = new XMLObjectChildrenList<>(this);
     }
@@ -57,7 +58,7 @@ public class AttributeQueryImpl extends SubjectQueryImpl implements AttributeQue
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         if (super.getOrderedChildren() != null) {
             children.addAll(super.getOrderedChildren());

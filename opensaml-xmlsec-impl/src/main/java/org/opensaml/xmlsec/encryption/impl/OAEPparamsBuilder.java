@@ -35,7 +35,7 @@ public class OAEPparamsBuilder
     }
 
     /** {@inheritDoc} */
-    public OAEPparams buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public OAEPparams buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new OAEPparamsImpl(namespaceURI, localName, namespacePrefix);
     }
 

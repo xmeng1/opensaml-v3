@@ -110,9 +110,11 @@ public abstract class AbstractSubjectConfirmationValidator implements SubjectCon
     }
 
     /**
-     * Validates the <code>NotBefore</code> condition of the {@link SubjectConfirmationData}, if any is present.
+     * Validates the <code>NotBefore</code> condition of the
+     * {@link org.opensaml.saml.saml2.core.SubjectConfirmationData}, if any is present.
      * 
-     * @param confirmation confirmation method, with {@link SubjectConfirmationData}, being validated
+     * @param confirmation confirmation method, with {@link org.opensaml.saml.saml2.core.SubjectConfirmationData},
+     *  being validated
      * @param assertion assertion bearing the confirmation method
      * @param context current validation context
      * 
@@ -123,9 +125,9 @@ public abstract class AbstractSubjectConfirmationValidator implements SubjectCon
     @Nonnull protected ValidationResult validateNotBefore(@Nonnull final SubjectConfirmation confirmation, 
             @Nonnull final Assertion assertion, @Nonnull final ValidationContext context) 
                     throws AssertionValidationException {
-        DateTime skewedNow = new DateTime(ISOChronology.getInstanceUTC()).plus(SAML20AssertionValidator
+        final DateTime skewedNow = new DateTime(ISOChronology.getInstanceUTC()).plus(SAML20AssertionValidator
                 .getClockSkew(context));
-        DateTime notBefore = confirmation.getSubjectConfirmationData().getNotBefore();
+        final DateTime notBefore = confirmation.getSubjectConfirmationData().getNotBefore();
         
         log.debug("Evaluating SubjectConfirmationData NotBefore '{}' against 'skewed now' time '{}'",
                 notBefore, skewedNow);
@@ -140,9 +142,11 @@ public abstract class AbstractSubjectConfirmationValidator implements SubjectCon
     }
 
     /**
-     * Validates the <code>NotOnOrAfter</code> condition of the {@link SubjectConfirmationData}, if any is present.
+     * Validates the <code>NotOnOrAfter</code> condition of the
+     * {@link org.opensaml.saml.saml2.core.SubjectConfirmationData}, if any is present.
      * 
-     * @param confirmation confirmation method, with {@link SubjectConfirmationData}, being validated
+     * @param confirmation confirmation method, with {@link org.opensaml.saml.saml2.core.SubjectConfirmationData},
+     *  being validated
      * @param assertion assertion bearing the confirmation method
      * @param context current validation context
      * 
@@ -153,9 +157,9 @@ public abstract class AbstractSubjectConfirmationValidator implements SubjectCon
     @Nonnull protected ValidationResult validateNotOnOrAfter(@Nonnull final SubjectConfirmation confirmation, 
             @Nonnull final Assertion assertion, @Nonnull final ValidationContext context) 
                     throws AssertionValidationException {
-        DateTime skewedNow = new DateTime(ISOChronology.getInstanceUTC()).minus(SAML20AssertionValidator
+        final DateTime skewedNow = new DateTime(ISOChronology.getInstanceUTC()).minus(SAML20AssertionValidator
                 .getClockSkew(context));
-        DateTime notOnOrAfter = confirmation.getSubjectConfirmationData().getNotOnOrAfter();
+        final DateTime notOnOrAfter = confirmation.getSubjectConfirmationData().getNotOnOrAfter();
         
         log.debug("Evaluating SubjectConfirmationData NotOnOrAfter '{}' against 'skewed now' time '{}'",
                 notOnOrAfter, skewedNow);
@@ -170,7 +174,8 @@ public abstract class AbstractSubjectConfirmationValidator implements SubjectCon
     }
 
     /**
-     * Validates the <code>Recipient</code> condition of the {@link SubjectConfirmationData}, if any is present.
+     * Validates the <code>Recipient</code> condition of the
+     * {@link org.opensaml.saml.saml2.core.SubjectConfirmationData}, if any is present.
      * 
      * @param confirmation confirmation method being validated
      * @param assertion assertion bearing the confirmation method
@@ -183,18 +188,18 @@ public abstract class AbstractSubjectConfirmationValidator implements SubjectCon
     @Nonnull protected ValidationResult validateRecipient(@Nonnull final SubjectConfirmation confirmation, 
             @Nonnull final Assertion assertion, @Nonnull final ValidationContext context) 
                     throws AssertionValidationException {
-        String recipient = StringSupport.trimOrNull(confirmation.getSubjectConfirmationData().getRecipient());
+        final String recipient = StringSupport.trimOrNull(confirmation.getSubjectConfirmationData().getRecipient());
         if (recipient == null) {
             return ValidationResult.VALID;
         }
         
         log.debug("Evaluating SubjectConfirmationData@Recipient of : {}", recipient);
 
-        Set<String> validRecipients;
+        final Set<String> validRecipients;
         try {
             validRecipients = (Set<String>) context.getStaticParameters().get(
                     SAML2AssertionValidationParameters.SC_VALID_RECIPIENTS);
-        } catch (ClassCastException e) {
+        } catch (final ClassCastException e) {
             log.warn("The value of the static validation parameter '{}' was not java.util.Set<String>",
                     SAML2AssertionValidationParameters.SC_VALID_RECIPIENTS);
             context.setValidationFailureMessage(
@@ -226,7 +231,8 @@ public abstract class AbstractSubjectConfirmationValidator implements SubjectCon
     }
 
     /**
-     * Validates the <code>Address</code> condition of the {@link SubjectConfirmationData}, if any is present.
+     * Validates the <code>Address</code> condition of the {@link org.opensaml.saml.saml2.core.SubjectConfirmationData},
+     * if any is present.
      * 
      * @param confirmation confirmation method being validated
      * @param assertion assertion bearing the confirmation method
@@ -239,17 +245,17 @@ public abstract class AbstractSubjectConfirmationValidator implements SubjectCon
     @Nonnull protected ValidationResult validateAddress(@Nonnull final SubjectConfirmation confirmation, 
             @Nonnull final Assertion assertion, @Nonnull final ValidationContext context) 
                     throws AssertionValidationException {
-        String address = StringSupport.trimOrNull(confirmation.getSubjectConfirmationData().getAddress());
+        final String address = StringSupport.trimOrNull(confirmation.getSubjectConfirmationData().getAddress());
         if (address == null) {
             return ValidationResult.VALID;
         }
         
         log.debug("Evaluating SubjectConfirmationData@Address of : {}", address);
 
-        InetAddress[] confirmingAddresses;
+        final InetAddress[] confirmingAddresses;
         try {
             confirmingAddresses = InetAddress.getAllByName(address);
-        } catch (UnknownHostException e) {
+        } catch (final UnknownHostException e) {
             log.warn("The subject confirmation address '{}' in assetion '{}' can not be resolved " 
                     + "to a valid set of IP address(s)", address, assertion.getID());
             context.setValidationFailureMessage(String.format(
@@ -262,11 +268,11 @@ public abstract class AbstractSubjectConfirmationValidator implements SubjectCon
                     Arrays.asList(confirmingAddresses));
         }
 
-        Set<InetAddress> validAddresses;
+        final Set<InetAddress> validAddresses;
         try {
             validAddresses = (Set<InetAddress>) context.getStaticParameters().get(
                     SAML2AssertionValidationParameters.SC_VALID_ADDRESSES);
-        } catch (ClassCastException e) {
+        } catch (final ClassCastException e) {
             log.warn("The value of the static validation parameter '{}' was not java.util.Set<InetAddress>",
                     SAML2AssertionValidationParameters.SC_VALID_ADDRESSES);
             context.setValidationFailureMessage("Unable to determine list of valid subject confirmation addresses");
@@ -279,7 +285,7 @@ public abstract class AbstractSubjectConfirmationValidator implements SubjectCon
             return ValidationResult.INDETERMINATE;
         }
 
-        for (InetAddress confirmingAddress : confirmingAddresses) {
+        for (final InetAddress confirmingAddress : confirmingAddresses) {
             if (validAddresses.contains(confirmingAddress)) {
                 log.debug("Matched SubjectConfirmationData address '{}' to valid address",
                         confirmingAddress.getHostAddress());

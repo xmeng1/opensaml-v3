@@ -61,7 +61,7 @@ public final class PeerEntityIDCriterion implements Criterion {
      * @param peer The peerID to set.
      */
     public void setPeerID(@Nonnull final String peer) {
-        String trimmed = StringSupport.trimOrNull(peer);
+        final String trimmed = StringSupport.trimOrNull(peer);
         Constraint.isNotNull(trimmed, "Peer entity ID criteria cannot be null");
         
         peerID = trimmed;
@@ -69,7 +69,7 @@ public final class PeerEntityIDCriterion implements Criterion {
     
     /** {@inheritDoc} */
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("PeerEntityIDCriterion [peerID=");
         builder.append(peerID);
         builder.append("]");
@@ -82,7 +82,7 @@ public final class PeerEntityIDCriterion implements Criterion {
     }
 
     /** {@inheritDoc} */
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }

@@ -33,9 +33,10 @@ import org.w3c.dom.Element;
 public class ForwardableMarshaller extends AbstractWSTrustObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallElementContent(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        Forwardable forwardable = (Forwardable) xmlObject;
-        XSBooleanValue value= forwardable.getValue();
+    protected void marshallElementContent(final XMLObject xmlObject, final Element domElement)
+            throws MarshallingException {
+        final Forwardable forwardable = (Forwardable) xmlObject;
+        final XSBooleanValue value= forwardable.getValue();
         ElementSupport.appendTextContent(domElement, value.toString());
     }
 }

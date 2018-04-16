@@ -71,12 +71,23 @@ public class SecurityEnhancedTLSSocketFactoryTest {
         Assert.assertNull(httpContext.getAttribute(HttpClientSecurityConstants.CONTEXT_KEY_SERVER_TLS_CREDENTIAL_TRUSTED));
     }
     
+    @Test(expectedExceptions=SSLPeerUnverifiedException.class)
+    public void testDefaultFailNoTrustEngine() throws IOException {
+       X509Credential cred = getCredential("foo-1A1-good.crt");
+       
+       securityEnhancedSocketFactory = new SecurityEnhancedTLSSocketFactory(buildInnerSSLFactory(
+               Collections.singletonList((Certificate)cred.getEntityCertificate()), hostname), null);
+       Socket socket = securityEnhancedSocketFactory.createSocket(httpContext);
+       
+       securityEnhancedSocketFactory.connectSocket(0, socket, new HttpHost(hostname, 443, "https"), null, null, httpContext);
+    }
+    
     @Test
     public void testSuccessNoTrustEngine() throws IOException {
        X509Credential cred = getCredential("foo-1A1-good.crt");
        
        securityEnhancedSocketFactory = new SecurityEnhancedTLSSocketFactory(buildInnerSSLFactory(
-               Collections.singletonList((Certificate)cred.getEntityCertificate()), hostname), null);
+               Collections.singletonList((Certificate)cred.getEntityCertificate()), hostname), null, false);
        Socket socket = securityEnhancedSocketFactory.createSocket(httpContext);
        
        securityEnhancedSocketFactory.connectSocket(0, socket, new HttpHost(hostname, 443, "https"), null, null, httpContext);

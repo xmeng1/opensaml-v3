@@ -49,7 +49,7 @@ public class SignatureValidationConfigurationCriterion implements Criterion {
      *
      * @param configurations list of configuration instances
      */
-    public SignatureValidationConfigurationCriterion(@Nonnull @NonnullElements @NotEmpty
+    public SignatureValidationConfigurationCriterion(@Nonnull @NonnullElements @NotEmpty final
             List<SignatureValidationConfiguration> configurations) {
         Constraint.isNotNull(configurations, "List of configurations cannot be null");
         configs = new ArrayList<>(Collections2.filter(configurations, Predicates.notNull()));
@@ -62,7 +62,7 @@ public class SignatureValidationConfigurationCriterion implements Criterion {
      *
      * @param configurations varargs array of configuration instances
      */
-    public SignatureValidationConfigurationCriterion(@Nonnull @NonnullElements @NotEmpty
+    public SignatureValidationConfigurationCriterion(@Nonnull @NonnullElements @NotEmpty final
             SignatureValidationConfiguration... configurations) {
         Constraint.isNotNull(configurations, "List of configurations cannot be null");
         configs = new ArrayList<>(Collections2.filter(Arrays.asList(configurations), Predicates.notNull()));
@@ -81,7 +81,7 @@ public class SignatureValidationConfigurationCriterion implements Criterion {
     /** {@inheritDoc} */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("SignatureValidationConfigurationCriterion [configs=");
         builder.append(configs);
         builder.append("]");
@@ -96,7 +96,7 @@ public class SignatureValidationConfigurationCriterion implements Criterion {
 
     /** {@inheritDoc} */
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }

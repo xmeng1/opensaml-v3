@@ -34,7 +34,8 @@ public class AttributeValueTypeImplBuilder extends AbstractXACMLObjectBuilder<At
     }
 
     /** {@inheritDoc} */
-    public AttributeValueType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public AttributeValueType buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new AttributeValueTypeImpl(namespaceURI, localName, namespacePrefix);
     }
 }

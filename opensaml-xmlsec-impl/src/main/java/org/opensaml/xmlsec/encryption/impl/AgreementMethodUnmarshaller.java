@@ -31,8 +31,8 @@ import org.w3c.dom.Attr;
 public class AgreementMethodUnmarshaller extends AbstractXMLEncryptionUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
-        AgreementMethod am = (AgreementMethod) xmlObject;
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
+        final AgreementMethod am = (AgreementMethod) xmlObject;
 
         if (attribute.getLocalName().equals(AgreementMethod.ALGORITHM_ATTRIBUTE_NAME)) {
             am.setAlgorithm(attribute.getValue());
@@ -42,9 +42,9 @@ public class AgreementMethodUnmarshaller extends AbstractXMLEncryptionUnmarshall
     }
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        AgreementMethod am = (AgreementMethod) parentXMLObject;
+        final AgreementMethod am = (AgreementMethod) parentXMLObject;
 
         if (childXMLObject instanceof KANonce) {
             am.setKANonce((KANonce) childXMLObject);

@@ -232,7 +232,7 @@ public class BasicEncryptionParametersResolverTest extends XMLObjectBaseTestCase
         
         Assert.assertNotNull(params.getDataEncryptionCredential());
         Assert.assertNotNull(params.getDataEncryptionCredential().getSecretKey());
-        Assert.assertEquals(KeySupport.getKeyLength(params.getDataEncryptionCredential().getSecretKey()), new Integer(128));
+        Assert.assertEquals(KeySupport.getKeyLength(params.getDataEncryptionCredential().getSecretKey()), Integer.valueOf(128));
         Assert.assertEquals(params.getDataEncryptionAlgorithm(), defaultAES128DataAlgo);
         Assert.assertNotNull(params.getDataKeyInfoGenerator());
     }

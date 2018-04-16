@@ -42,7 +42,7 @@ public class AssertionIDRefBuilder extends AbstractSAMLObjectBuilder<AssertionID
     }
 
     /** {@inheritDoc} */
-    public AssertionIDRef buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public AssertionIDRef buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new AssertionIDRefImpl(namespaceURI, localName, namespacePrefix);
     }
 }

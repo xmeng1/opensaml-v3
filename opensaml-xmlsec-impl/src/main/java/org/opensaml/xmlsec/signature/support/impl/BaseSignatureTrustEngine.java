@@ -88,15 +88,15 @@ public abstract class BaseSignatureTrustEngine<TrustBasisType> implements Signat
         
         checkParams(signature, trustBasisCriteria);
         
-        SignatureValidationParametersCriterion validationCriterion = 
+        final SignatureValidationParametersCriterion validationCriterion = 
                 trustBasisCriteria.get(SignatureValidationParametersCriterion.class);
         if (validationCriterion != null) {
             log.debug("Performing signature algorithm whitelist/blacklist validation using params from CriteriaSet");
-            SignatureAlgorithmValidator algorithmValidator = 
+            final SignatureAlgorithmValidator algorithmValidator = 
                     new SignatureAlgorithmValidator(validationCriterion.getSignatureValidationParameters());
             try {
                 algorithmValidator.validate(signature);
-            } catch (SignatureException e) {
+            } catch (final SignatureException e) {
                 log.warn("XML signature failed algorithm whitelist/blacklist validation");
                 return false;
             }
@@ -125,11 +125,11 @@ public abstract class BaseSignatureTrustEngine<TrustBasisType> implements Signat
         
         checkParamsRaw(signature, content, algorithmURI, trustBasisCriteria);
         
-        SignatureValidationParametersCriterion validationCriterion = 
+        final SignatureValidationParametersCriterion validationCriterion = 
                 trustBasisCriteria.get(SignatureValidationParametersCriterion.class);
         if (validationCriterion != null) {
             log.debug("Performing signature algorithm whitelist/blacklist validation using params from CriteriaSet");
-            SignatureValidationParameters params = validationCriterion.getSignatureValidationParameters();
+            final SignatureValidationParameters params = validationCriterion.getSignatureValidationParameters();
             if (!AlgorithmSupport.validateAlgorithmURI(algorithmURI, params.getWhitelistedAlgorithms(), 
                     params.getBlacklistedAlgorithms())) {
                 log.warn("Simple/raw signature failed algorithm whitelist/blacklist validation");
@@ -190,11 +190,11 @@ public abstract class BaseSignatureTrustEngine<TrustBasisType> implements Signat
 
         if (signature.getKeyInfo() != null) {
 
-            KeyInfoCriterion keyInfoCriteria = new KeyInfoCriterion(signature.getKeyInfo());
-            CriteriaSet keyInfoCriteriaSet = new CriteriaSet(keyInfoCriteria);
+            final KeyInfoCriterion keyInfoCriteria = new KeyInfoCriterion(signature.getKeyInfo());
+            final CriteriaSet keyInfoCriteriaSet = new CriteriaSet(keyInfoCriteria);
 
             try {
-                for (Credential kiCred : getKeyInfoResolver().resolve(keyInfoCriteriaSet)) {
+                for (final Credential kiCred : getKeyInfoResolver().resolve(keyInfoCriteriaSet)) {
                     if (verifySignature(signature, kiCred)) {
                         log.debug("Successfully verified signature using KeyInfo-derived credential");
                         log.debug("Attempting to establish trust of KeyInfo-derived credential");
@@ -206,7 +206,7 @@ public abstract class BaseSignatureTrustEngine<TrustBasisType> implements Signat
                         }
                     }
                 }
-            } catch (ResolverException e) {
+            } catch (final ResolverException e) {
                 throw new SecurityException("Error resolving KeyInfo from KeyInfoResolver", e);
             }
         } else {
@@ -240,7 +240,7 @@ public abstract class BaseSignatureTrustEngine<TrustBasisType> implements Signat
     protected boolean verifySignature(@Nonnull final Signature signature, @Nonnull final Credential credential) {
         try {
             SignatureValidator.validate(signature, credential);
-        } catch (SignatureException e) {
+        } catch (final SignatureException e) {
             log.debug("Signature validation using candidate validation credential failed", e);
             return false;
         }

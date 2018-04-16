@@ -38,7 +38,7 @@ public class NamedCurveImpl extends AbstractXMLObject implements NamedCurve {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected NamedCurveImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected NamedCurveImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -48,7 +48,7 @@ public class NamedCurveImpl extends AbstractXMLObject implements NamedCurve {
     }
 
     /** {@inheritDoc} */
-    public void setURI(String newURI) {
+    public void setURI(final String newURI) {
         uri = prepareForAssignment(uri, newURI);
     }
     

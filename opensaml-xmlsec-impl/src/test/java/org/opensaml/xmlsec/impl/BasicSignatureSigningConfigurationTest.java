@@ -167,7 +167,7 @@ public class BasicSignatureSigningConfigurationTest {
         
         config.setSignatureHMACOutputLength(128);
         
-        Assert.assertEquals(config.getSignatureHMACOutputLength(), new Integer(128));
+        Assert.assertEquals(config.getSignatureHMACOutputLength(), Integer.valueOf(128));
         
         config.setSignatureHMACOutputLength(null);
         

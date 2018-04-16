@@ -40,7 +40,8 @@ public class DescriptionTypeImplBuilder extends AbstractXACMLObjectBuilder<Descr
     }
 
     /** {@inheritDoc} */
-    public DescriptionType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public DescriptionType buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new DescriptionTypeImpl(namespaceURI, localName, namespacePrefix);
     }
 

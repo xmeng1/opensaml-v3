@@ -33,7 +33,7 @@ public class DisplayNameImpl extends LocalizedNameImpl implements DisplayName {
      * @param elementLocalName the elementLocalName
      * @param namespacePrefix the namespacePrefix
      */
-    protected DisplayNameImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected DisplayNameImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 }

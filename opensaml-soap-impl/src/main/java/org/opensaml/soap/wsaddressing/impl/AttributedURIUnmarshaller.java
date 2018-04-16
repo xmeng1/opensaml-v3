@@ -30,16 +30,16 @@ import org.w3c.dom.Attr;
 public class AttributedURIUnmarshaller extends AbstractWSAddressingObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject xmlObject, String elementContent) {
+    protected void processElementContent(final XMLObject xmlObject, final String elementContent) {
         if (elementContent != null) {
-            AttributedURI attributedURI = (AttributedURI) xmlObject;
+            final AttributedURI attributedURI = (AttributedURI) xmlObject;
             attributedURI.setValue(elementContent);
         }
     }
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
-        AttributedURI attributedURI = (AttributedURI) xmlObject;
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
+        final AttributedURI attributedURI = (AttributedURI) xmlObject;
         XMLObjectSupport.unmarshallToAttributeMap(attributedURI.getUnknownAttributes(), attribute);
     }
 

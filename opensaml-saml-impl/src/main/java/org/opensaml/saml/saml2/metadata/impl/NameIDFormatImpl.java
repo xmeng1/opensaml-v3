@@ -43,7 +43,7 @@ public class NameIDFormatImpl extends AbstractSAMLObject implements NameIDFormat
      * @param namespacePrefix the prefix for the given namespace
 
      */
-    protected NameIDFormatImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected NameIDFormatImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -53,7 +53,7 @@ public class NameIDFormatImpl extends AbstractSAMLObject implements NameIDFormat
     }
 
     /** {@inheritDoc} */
-    public void setFormat(String newFormat) {
+    public void setFormat(final String newFormat) {
         this.format = prepareForAssignment(this.format, newFormat);
     }
 

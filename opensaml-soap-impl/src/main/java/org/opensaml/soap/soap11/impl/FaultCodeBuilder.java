@@ -27,7 +27,7 @@ import org.opensaml.soap.soap11.FaultCode;
 public class FaultCodeBuilder extends AbstractXMLObjectBuilder<FaultCode> implements SOAPObjectBuilder<FaultCode> {
 
     /** {@inheritDoc} */
-    public FaultCode buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public FaultCode buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new FaultCodeImpl(namespaceURI, localName, namespacePrefix);
     }
 

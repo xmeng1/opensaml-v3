@@ -47,7 +47,8 @@ public class ObligationTypeImpl extends AbstractXACMLObject implements Obligatio
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected ObligationTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected ObligationTypeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         attributeAssignments = new XMLObjectChildrenList<>(this);
     }
@@ -68,18 +69,18 @@ public class ObligationTypeImpl extends AbstractXACMLObject implements Obligatio
     }
 
     /** {@inheritDoc} */
-    public void setFulfillOn(EffectType newFulfillOn) {
+    public void setFulfillOn(final EffectType newFulfillOn) {
         fulFillOn = prepareForAssignment(this.fulFillOn, newFulfillOn);
     }
 
     /** {@inheritDoc} */
-    public void setObligationId(String newObligationId) {
+    public void setObligationId(final String newObligationId) {
         obligationId = prepareForAssignment(this.obligationId, newObligationId);
     }
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         if (!attributeAssignments.isEmpty()) {
             children.addAll(attributeAssignments);

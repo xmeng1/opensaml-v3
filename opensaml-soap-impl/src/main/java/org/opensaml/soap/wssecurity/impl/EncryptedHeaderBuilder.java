@@ -31,7 +31,8 @@ public class EncryptedHeaderBuilder extends AbstractWSSecurityObjectBuilder<Encr
     }
 
     /** {@inheritDoc} */
-    public EncryptedHeader buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public EncryptedHeader buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new EncryptedHeaderImpl(namespaceURI, localName, namespacePrefix);
     }
 

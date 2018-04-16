@@ -34,14 +34,14 @@ import org.w3c.dom.Attr;
 public class PolicyReferenceUnmarshaller extends AbstractWSPolicyObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
-        PolicyReference pr = (PolicyReference) xmlObject;
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
+        final PolicyReference pr = (PolicyReference) xmlObject;
 
-        QName uriName = new QName(PolicyReference.URI_ATTRIB_NAME);
-        QName digestName = new QName(PolicyReference.DIGEST_ATTRIB_NAME);
-        QName digestAlgorithmName = new QName(PolicyReference.DIGEST_ALGORITHM_ATTRIB_NAME);
+        final QName uriName = new QName(PolicyReference.URI_ATTRIB_NAME);
+        final QName digestName = new QName(PolicyReference.DIGEST_ATTRIB_NAME);
+        final QName digestAlgorithmName = new QName(PolicyReference.DIGEST_ALGORITHM_ATTRIB_NAME);
 
-        QName attribQName = 
+        final QName attribQName = 
             QNameSupport.constructQName(attribute.getNamespaceURI(), attribute.getLocalName(), attribute .getPrefix());
 
         if (uriName.equals(attribQName)) {

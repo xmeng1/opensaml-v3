@@ -30,7 +30,8 @@ public class TransformationParametersBuilder extends AbstractWSSecurityObjectBui
     }
 
     /** {@inheritDoc} */
-    public TransformationParameters buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public TransformationParameters buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new TransformationParametersImpl(namespaceURI, localName, namespacePrefix);
     }
 

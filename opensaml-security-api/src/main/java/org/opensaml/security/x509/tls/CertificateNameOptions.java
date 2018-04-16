@@ -56,7 +56,7 @@ public class CertificateNameOptions implements Cloneable {
      */
     private X500DNHandler x500DNHandler;
 
-    /** The format specifier for serializaing X.500 subject names to strings. */
+    /** The format specifier for serializing X.500 subject names to strings. */
     private String x500SubjectDNFormat;
 
     /** Constructor. */
@@ -80,7 +80,7 @@ public class CertificateNameOptions implements Cloneable {
      * 
      * @param flag new new evaluateSubjectCommonName value.
      */
-    public void setEvaluateSubjectCommonName(boolean flag) {
+    public void setEvaluateSubjectCommonName(final boolean flag) {
         evaluateSubjectCommonName = flag;
     }
 
@@ -98,13 +98,13 @@ public class CertificateNameOptions implements Cloneable {
      * 
      * @param flag the new evaluateSubjectDN value.
      */
-    public void setEvaluateSubjectDN(boolean flag) {
+    public void setEvaluateSubjectDN(final boolean flag) {
         evaluateSubjectDN = flag;
     }
     
     /**
      * Get the set of types of subject alternative names evaluate as derived issuer entity ID names,
-     * using integer constants defined in {@link org.opensaml.security.X509Support}.
+     * using integer constants defined in {@link org.opensaml.security.x509.X509Support}.
      * 
      * @return Returns the subjectAltNames.
      */
@@ -114,7 +114,7 @@ public class CertificateNameOptions implements Cloneable {
     
     /**
      * Set the set of types of subject alternative names evaluate as derived issuer entity ID names,
-     * using integer constants defined in {@link org.opensaml.security.X509Support}.
+     * using integer constants defined in {@link org.opensaml.security.x509.X509Support}.
      * 
      * @param names the set of types of subject alternative names
      */
@@ -144,7 +144,7 @@ public class CertificateNameOptions implements Cloneable {
      * 
      * @param handler the new x500DNHandler value.
      */
-    public void setX500DNHandler(X500DNHandler handler) {
+    public void setX500DNHandler(final X500DNHandler handler) {
         if (handler == null) {
             throw new IllegalArgumentException("X500DNHandler may not be null");
         }
@@ -165,16 +165,16 @@ public class CertificateNameOptions implements Cloneable {
      * 
      * @param format the new x500SubjectDNFormat value.
      */
-    public void setX500SubjectDNFormat(String format) {
+    public void setX500SubjectDNFormat(final String format) {
         x500SubjectDNFormat = format;
     }
     
     /** {@inheritDoc} */
     public CertificateNameOptions clone() {
-        CertificateNameOptions clonedOptions;
+        final CertificateNameOptions clonedOptions;
         try {
             clonedOptions = (CertificateNameOptions) super.clone();
-        } catch (CloneNotSupportedException e) {
+        } catch (final CloneNotSupportedException e) {
             // we know we're cloneable, so this will never happen
             return null;
         }

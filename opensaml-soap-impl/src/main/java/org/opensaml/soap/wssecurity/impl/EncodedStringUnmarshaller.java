@@ -28,8 +28,8 @@ import org.w3c.dom.Attr;
 public class EncodedStringUnmarshaller extends AttributedStringUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
-        EncodedString encodedString= (EncodedString) xmlObject;
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
+        final EncodedString encodedString= (EncodedString) xmlObject;
         if (EncodedString.ENCODING_TYPE_ATTRIB_NAME.equals(attribute.getLocalName())) {
             encodedString.setEncodingType(attribute.getValue());
         } else {

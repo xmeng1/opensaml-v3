@@ -44,7 +44,8 @@ public class AttributeServiceBuilder extends AbstractSAMLObjectBuilder<Attribute
     }
 
     /** {@inheritDoc} */
-    public AttributeService buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public AttributeService buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new AttributeServiceImpl(namespaceURI, localName, namespacePrefix);
     }
 }

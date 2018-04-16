@@ -17,9 +17,9 @@
 
 package org.opensaml.saml.common.messaging;
 
-import org.junit.Assert;
 import org.opensaml.core.config.ConfigurationService;
 import org.opensaml.saml.config.SAMLConfiguration;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 /**

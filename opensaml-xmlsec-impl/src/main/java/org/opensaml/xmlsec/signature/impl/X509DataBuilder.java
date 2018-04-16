@@ -34,7 +34,7 @@ public class X509DataBuilder extends AbstractXMLObjectBuilder<X509Data> implemen
     }
 
     /** {@inheritDoc} */
-    public X509Data buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public X509Data buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new X509DataImpl(namespaceURI, localName, namespacePrefix);
     }
 

@@ -98,7 +98,7 @@ public class SAMLProtocolAndRoleHandler extends AbstractMessageHandler {
     
     /** {@inheritDoc} */
     @Override
-    protected void doInvoke(MessageContext messageContext) throws MessageHandlerException {
+    protected void doInvoke(final MessageContext messageContext) throws MessageHandlerException {
         messageContext.getSubcontext(SAMLProtocolContext.class, true).setProtocol(samlProtocol);
         messageContext.getSubcontext(entityContextClass, true).setRole(peerRole);
     }

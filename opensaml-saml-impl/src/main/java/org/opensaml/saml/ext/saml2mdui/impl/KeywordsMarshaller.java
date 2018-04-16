@@ -37,11 +37,13 @@ public class KeywordsMarshaller extends AbstractSAMLObjectMarshaller {
     /**
      * {@inheritDoc}
      */
-    protected void marshallAttributes(XMLObject samlObject, Element domElement) throws MarshallingException {
-        Keywords words = (Keywords) samlObject;
+    protected void marshallAttributes(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
+        final Keywords words = (Keywords) samlObject;
 
         if (words.getXMLLang() != null) {
-            Attr attribute = AttributeSupport.constructAttribute(domElement.getOwnerDocument(), XMLConstants.XML_NS,
+            final Attr attribute = AttributeSupport.constructAttribute(domElement.getOwnerDocument(),
+                    XMLConstants.XML_NS,
                     LangBearing.XML_LANG_ATTR_LOCAL_NAME, XMLConstants.XML_PREFIX);
             attribute.setValue(words.getXMLLang());
             domElement.setAttributeNodeNS(attribute);
@@ -49,12 +51,13 @@ public class KeywordsMarshaller extends AbstractSAMLObjectMarshaller {
     }
 
     /** {@inheritDoc} */
-    protected void marshallElementContent(XMLObject samlObject, Element domElement) throws MarshallingException {
-        Keywords words = (Keywords) samlObject;
+    protected void marshallElementContent(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
+        final Keywords words = (Keywords) samlObject;
 
         if (words.getKeywords() != null) {
-            StringBuilder sb = new StringBuilder();
-            for (String s : words.getKeywords()) {
+            final StringBuilder sb = new StringBuilder();
+            for (final String s : words.getKeywords()) {
                 sb.append(s);
                 sb.append(' ');
             }

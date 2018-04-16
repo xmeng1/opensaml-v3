@@ -40,7 +40,7 @@ public class DelegateToImpl extends AbstractWSTrustObject implements DelegateTo 
      * @param elementLocalName The local name of the element
      * @param namespacePrefix The namespace prefix of the element
      */
-    public DelegateToImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public DelegateToImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -50,13 +50,13 @@ public class DelegateToImpl extends AbstractWSTrustObject implements DelegateTo 
     }
 
     /** {@inheritDoc} */
-    public void setUnknownXMLObject(XMLObject unknownObject) {
+    public void setUnknownXMLObject(final XMLObject unknownObject) {
         unknownChild = prepareForAssignment(unknownChild, unknownObject);
     }
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         if (unknownChild != null) {
             children.add(unknownChild);
         }

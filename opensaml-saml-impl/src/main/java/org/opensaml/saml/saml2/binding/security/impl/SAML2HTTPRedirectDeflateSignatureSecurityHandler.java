@@ -80,7 +80,8 @@ public class SAML2HTTPRedirectDeflateSignatureSecurityHandler extends BaseSAMLSi
      * @return a string representation of the signed content
      * @throws MessageHandlerException thrown if there is an error during request processing
      */
-    @Nonnull @NotEmpty private String buildSignedContentString(String queryString) throws MessageHandlerException {
+    @Nonnull @NotEmpty private String buildSignedContentString(final String queryString)
+            throws MessageHandlerException {
         final StringBuilder builder = new StringBuilder();
 
         // One of these two is mandatory

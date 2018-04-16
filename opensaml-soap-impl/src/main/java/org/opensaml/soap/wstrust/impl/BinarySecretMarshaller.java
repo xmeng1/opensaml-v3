@@ -33,8 +33,8 @@ import org.w3c.dom.Element;
 public class BinarySecretMarshaller extends XSBase64BinaryMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        BinarySecret bs = (BinarySecret) xmlObject;
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
+        final BinarySecret bs = (BinarySecret) xmlObject;
         if (bs.getType() != null) {
             domElement.setAttributeNS(null, BinarySecret.TYPE_ATTRIB_NAME, bs.getType());
         }

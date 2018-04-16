@@ -43,7 +43,7 @@ public class BinarySecretImpl extends XSBase64BinaryImpl implements BinarySecret
      * @param elementLocalName name of the element
      * @param namespacePrefix namespace prefix of the element
      */
-    public BinarySecretImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public BinarySecretImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         unknownChildren = new AttributeMap(this);
     }
@@ -54,7 +54,7 @@ public class BinarySecretImpl extends XSBase64BinaryImpl implements BinarySecret
     }
 
     /** {@inheritDoc} */
-    public void setType(String newType) {
+    public void setType(final String newType) {
         type = prepareForAssignment(type, newType);
     }
 

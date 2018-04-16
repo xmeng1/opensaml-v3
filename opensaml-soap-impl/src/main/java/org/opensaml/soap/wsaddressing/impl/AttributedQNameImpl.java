@@ -36,7 +36,7 @@ public class AttributedQNameImpl extends XSQNameImpl implements AttributedQName 
      * @param elementLocalName The local name of the element
      * @param namespacePrefix The namespace prefix of the element
      */
-    public AttributedQNameImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public AttributedQNameImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         unknownAttributes = new AttributeMap(this);
     }

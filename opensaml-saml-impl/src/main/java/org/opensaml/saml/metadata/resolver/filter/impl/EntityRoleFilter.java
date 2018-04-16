@@ -164,10 +164,10 @@ public class EntityRoleFilter implements MetadataFilter {
      */
     protected void filterEntitiesDescriptor(@Nonnull final EntitiesDescriptor descriptor) throws FilterException {
         // First we filter out any contained EntityDescriptors
-        List<EntityDescriptor> entityDescriptors = descriptor.getEntityDescriptors();
+        final List<EntityDescriptor> entityDescriptors = descriptor.getEntityDescriptors();
         if (entityDescriptors != null && !entityDescriptors.isEmpty()) {
-            List<EntityDescriptor> emptyEntityDescriptors = new ArrayList<>();
-            Iterator<EntityDescriptor> entityDescriptorsItr = entityDescriptors.iterator();
+            final List<EntityDescriptor> emptyEntityDescriptors = new ArrayList<>();
+            final Iterator<EntityDescriptor> entityDescriptorsItr = entityDescriptors.iterator();
             EntityDescriptor entityDescriptor;
             List<RoleDescriptor> entityRoles;
             while (entityDescriptorsItr.hasNext()) {
@@ -186,10 +186,10 @@ public class EntityRoleFilter implements MetadataFilter {
         }
 
         // Next, contained EntityDescriptors
-        List<EntitiesDescriptor> entitiesDescriptors = descriptor.getEntitiesDescriptors();
+        final List<EntitiesDescriptor> entitiesDescriptors = descriptor.getEntitiesDescriptors();
         if (entitiesDescriptors != null && !entitiesDescriptors.isEmpty()) {
-            List<EntitiesDescriptor> emptyEntitiesDescriptors = new ArrayList<>();
-            Iterator<EntitiesDescriptor> entitiesDescriptorsItr = entitiesDescriptors.iterator();
+            final List<EntitiesDescriptor> emptyEntitiesDescriptors = new ArrayList<>();
+            final Iterator<EntitiesDescriptor> entitiesDescriptorsItr = entitiesDescriptors.iterator();
             EntitiesDescriptor entitiesDescriptor;
             while (entitiesDescriptorsItr.hasNext()) {
                 entitiesDescriptor = entitiesDescriptorsItr.next();
@@ -219,10 +219,10 @@ public class EntityRoleFilter implements MetadataFilter {
      * @throws FilterException thrown if an effective role name can not be determined
      */
     protected void filterEntityDescriptor(@Nonnull final EntityDescriptor descriptor) throws FilterException {
-        List<RoleDescriptor> roles = descriptor.getRoleDescriptors();
+        final List<RoleDescriptor> roles = descriptor.getRoleDescriptors();
 
         if (roles != null && !roles.isEmpty()) {
-            Iterator<RoleDescriptor> rolesItr = roles.iterator();
+            final Iterator<RoleDescriptor> rolesItr = roles.iterator();
             QName roleName;
             while (rolesItr.hasNext()) {
                 roleName = getRoleName(rolesItr.next());

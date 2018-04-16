@@ -36,10 +36,10 @@ import com.google.common.base.Strings;
 public class AttributedDateTimeUnmarshaller extends AbstractWSSecurityObjectUnmarshaller {
     
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
-        AttributedDateTime dateTime = (AttributedDateTime) xmlObject;
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
+        final AttributedDateTime dateTime = (AttributedDateTime) xmlObject;
         
-        QName attrName =
+        final QName attrName =
             QNameSupport.constructQName(attribute.getNamespaceURI(), attribute.getLocalName(), attribute.getPrefix());
         if (AttributedDateTime.WSU_ID_ATTR_NAME.equals(attrName)) {
             dateTime.setWSUId(attribute.getValue());
@@ -50,8 +50,8 @@ public class AttributedDateTimeUnmarshaller extends AbstractWSSecurityObjectUnma
     }
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject xmlObject, String elementContent) {
-        AttributedDateTime dateTime = (AttributedDateTime) xmlObject;
+    protected void processElementContent(final XMLObject xmlObject, final String elementContent) {
+        final AttributedDateTime dateTime = (AttributedDateTime) xmlObject;
         if (!Strings.isNullOrEmpty(elementContent)) {
             dateTime.setValue(elementContent);
         }

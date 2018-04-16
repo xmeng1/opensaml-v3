@@ -50,7 +50,7 @@ public class IDPListImpl extends AbstractSAMLObject implements IDPList {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected IDPListImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected IDPListImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         idpEntries = new XMLObjectChildrenList<>(this);
     }
@@ -66,13 +66,13 @@ public class IDPListImpl extends AbstractSAMLObject implements IDPList {
     }
 
     /** {@inheritDoc} */
-    public void setGetComplete(GetComplete newGetComplete) {
+    public void setGetComplete(final GetComplete newGetComplete) {
         this.getComplete = prepareForAssignment(this.getComplete, newGetComplete);
     }
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         children.addAll(idpEntries);
         children.add(getComplete);
         if (children.size() > 0) {

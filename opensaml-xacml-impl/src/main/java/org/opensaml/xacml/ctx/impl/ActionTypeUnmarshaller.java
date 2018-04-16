@@ -32,8 +32,9 @@ public class ActionTypeUnmarshaller extends AbstractXACMLObjectUnmarshaller {
     }
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentObject, XMLObject childObject) throws UnmarshallingException {
-        ActionType action = (ActionType) parentObject;
+    protected void processChildElement(final XMLObject parentObject, final XMLObject childObject)
+            throws UnmarshallingException {
+        final ActionType action = (ActionType) parentObject;
 
         if (childObject instanceof AttributeType) {
             action.getAttributes().add((AttributeType) childObject);

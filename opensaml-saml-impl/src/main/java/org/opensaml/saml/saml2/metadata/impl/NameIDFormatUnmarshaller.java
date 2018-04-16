@@ -31,8 +31,8 @@ import org.opensaml.saml.saml2.metadata.NameIDFormat;
 public class NameIDFormatUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject samlObject, String elementContent) {
-        NameIDFormat format = (NameIDFormat) samlObject;
+    protected void processElementContent(final XMLObject samlObject, final String elementContent) {
+        final NameIDFormat format = (NameIDFormat) samlObject;
 
         format.setFormat(elementContent);
     }

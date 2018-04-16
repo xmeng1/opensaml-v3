@@ -47,20 +47,20 @@ public class EvidenceImpl extends AbstractSAMLObject implements Evidence {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected EvidenceImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected EvidenceImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         evidence = new IndexedXMLObjectChildrenList<>(this);
     }
 
     /** {@inheritDoc} */
     public List<AssertionIDReference> getAssertionIDReferences() {
-        QName qname = new QName(SAMLConstants.SAML1_NS, AssertionIDReference.DEFAULT_ELEMENT_LOCAL_NAME);
+        final QName qname = new QName(SAMLConstants.SAML1_NS, AssertionIDReference.DEFAULT_ELEMENT_LOCAL_NAME);
         return (List<AssertionIDReference>) evidence.subList(qname);
     }
 
     /** {@inheritDoc} */
     public List<Assertion> getAssertions() {
-        QName qname = new QName(SAMLConstants.SAML1_NS, Assertion.DEFAULT_ELEMENT_LOCAL_NAME);
+        final QName qname = new QName(SAMLConstants.SAML1_NS, Assertion.DEFAULT_ELEMENT_LOCAL_NAME);
         return (List<Assertion>) evidence.subList(qname);
     }
 
@@ -75,7 +75,7 @@ public class EvidenceImpl extends AbstractSAMLObject implements Evidence {
             return null;
         }
 
-        ArrayList<XMLObject> list = new ArrayList<>();
+        final ArrayList<XMLObject> list = new ArrayList<>();
         list.addAll(evidence);
 
         return Collections.unmodifiableList(list);

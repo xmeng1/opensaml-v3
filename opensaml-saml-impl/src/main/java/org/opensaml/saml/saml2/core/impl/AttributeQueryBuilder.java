@@ -44,7 +44,7 @@ public class AttributeQueryBuilder extends AbstractSAMLObjectBuilder<AttributeQu
     }
 
     /** {@inheritDoc} */
-    public AttributeQuery buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public AttributeQuery buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new AttributeQueryImpl(namespaceURI, localName, namespacePrefix);
     }
 }

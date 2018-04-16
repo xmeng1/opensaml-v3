@@ -32,7 +32,7 @@ public class DetailImpl extends AbstractExtensibleSOAPObject implements Detail {
      * @param elementLocalName name of the element
      * @param namespacePrefix namespace prefix of the element
      */
-    protected DetailImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected DetailImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 }

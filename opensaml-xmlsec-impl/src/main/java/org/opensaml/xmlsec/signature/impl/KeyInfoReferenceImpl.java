@@ -41,7 +41,8 @@ public class KeyInfoReferenceImpl extends AbstractXMLObject implements KeyInfoRe
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected KeyInfoReferenceImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected KeyInfoReferenceImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -51,8 +52,8 @@ public class KeyInfoReferenceImpl extends AbstractXMLObject implements KeyInfoRe
     }
 
     /** {@inheritDoc} */
-    public void setID(String newID) {
-        String oldID = id;
+    public void setID(final String newID) {
+        final String oldID = id;
         id = prepareForAssignment(id, newID);
         registerOwnID(oldID, id);
     }
@@ -63,7 +64,7 @@ public class KeyInfoReferenceImpl extends AbstractXMLObject implements KeyInfoRe
     }
 
     /** {@inheritDoc} */
-    public void setURI(String newURI) {
+    public void setURI(final String newURI) {
         uri = prepareForAssignment(uri, newURI);
     }
     

@@ -99,22 +99,22 @@ public class SAMLMessageInfoContext extends BaseContext {
     @Nullable protected String resolveMessageId() {
         final SAMLObject samlMessage = resolveSAMLMessage();
         if (samlMessage instanceof org.opensaml.saml.saml2.core.RequestAbstractType) {
-            org.opensaml.saml.saml2.core.RequestAbstractType request =  
+            final org.opensaml.saml.saml2.core.RequestAbstractType request =  
                     (org.opensaml.saml.saml2.core.RequestAbstractType) samlMessage;
             return request.getID();
         //SAML 2 Response
         } else if (samlMessage instanceof org.opensaml.saml.saml2.core.StatusResponseType) {
-            org.opensaml.saml.saml2.core.StatusResponseType response = 
+            final org.opensaml.saml.saml2.core.StatusResponseType response = 
                     (org.opensaml.saml.saml2.core.StatusResponseType) samlMessage;
             return response.getID();
         //SAML 1 Response
         } else if (samlMessage instanceof org.opensaml.saml.saml1.core.ResponseAbstractType) {
-            org.opensaml.saml.saml1.core.ResponseAbstractType response = 
+            final org.opensaml.saml.saml1.core.ResponseAbstractType response = 
                     (org.opensaml.saml.saml1.core.ResponseAbstractType) samlMessage;
             return response.getID();
         //SAML 1 Request
         } else if (samlMessage instanceof org.opensaml.saml.saml1.core.RequestAbstractType) {
-            org.opensaml.saml.saml1.core.RequestAbstractType request = 
+            final org.opensaml.saml.saml1.core.RequestAbstractType request = 
                     (org.opensaml.saml.saml1.core.RequestAbstractType) samlMessage;
             return request.getID();
         }
@@ -131,22 +131,22 @@ public class SAMLMessageInfoContext extends BaseContext {
         final SAMLObject samlMessage = resolveSAMLMessage();
         //SAML 2 Request
         if (samlMessage instanceof org.opensaml.saml.saml2.core.RequestAbstractType) {
-            org.opensaml.saml.saml2.core.RequestAbstractType request =  
+            final org.opensaml.saml.saml2.core.RequestAbstractType request =  
                     (org.opensaml.saml.saml2.core.RequestAbstractType) samlMessage;
             return request.getIssueInstant();
         //SAML 2 Response
         } else if (samlMessage instanceof org.opensaml.saml.saml2.core.StatusResponseType) {
-            org.opensaml.saml.saml2.core.StatusResponseType response = 
+            final org.opensaml.saml.saml2.core.StatusResponseType response = 
                     (org.opensaml.saml.saml2.core.StatusResponseType) samlMessage;
             return response.getIssueInstant();
         //SAML 1 Response
         } else if (samlMessage instanceof org.opensaml.saml.saml1.core.ResponseAbstractType) {
-            org.opensaml.saml.saml1.core.ResponseAbstractType response = 
+            final org.opensaml.saml.saml1.core.ResponseAbstractType response = 
                     (org.opensaml.saml.saml1.core.ResponseAbstractType) samlMessage;
             return response.getIssueInstant();
         //SAML 1 Request
         } else if (samlMessage instanceof org.opensaml.saml.saml1.core.RequestAbstractType) {
-            org.opensaml.saml.saml1.core.RequestAbstractType request = 
+            final org.opensaml.saml.saml1.core.RequestAbstractType request = 
                     (org.opensaml.saml.saml1.core.RequestAbstractType) samlMessage;
             return request.getIssueInstant();
         }

@@ -233,7 +233,7 @@ public abstract class AbstractEndpointResolver<EndpointType extends Endpoint>
      */
     // Checkstyle: CyclomaticComplexity OFF
     @Nonnull @NonnullElements private List<EndpointType> sortCandidates(
-            @Nonnull @NonnullElements List<Endpoint> candidates) {
+            @Nonnull @NonnullElements final List<Endpoint> candidates) {
         
         // Use a linked list, and move the default endpoint to the head of the list.
         // SAML defaulting rules apply to IndexedEnpdoint types, and require checking

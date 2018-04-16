@@ -42,7 +42,7 @@ public class SurNameImpl extends AbstractSAMLObject implements SurName {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected SurNameImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected SurNameImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -52,7 +52,7 @@ public class SurNameImpl extends AbstractSAMLObject implements SurName {
     }
 
     /** {@inheritDoc} */
-    public void setName(String newName) {
+    public void setName(final String newName) {
         name = prepareForAssignment(name, newName);
     }
 

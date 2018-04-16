@@ -55,7 +55,7 @@ public final class KeyInfoGenerationProfileCriterion implements Criterion {
     /** {@inheritDoc} */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("KeyInfoGenerationProfileCriterion [name=");
         builder.append(name);
         builder.append("]");
@@ -70,7 +70,7 @@ public final class KeyInfoGenerationProfileCriterion implements Criterion {
 
     /** {@inheritDoc} */
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }

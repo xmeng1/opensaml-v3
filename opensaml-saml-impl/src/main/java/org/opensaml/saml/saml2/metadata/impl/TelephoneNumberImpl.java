@@ -42,7 +42,8 @@ public class TelephoneNumberImpl extends AbstractSAMLObject implements Telephone
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected TelephoneNumberImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected TelephoneNumberImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -52,7 +53,7 @@ public class TelephoneNumberImpl extends AbstractSAMLObject implements Telephone
     }
 
     /** {@inheritDoc} */
-    public void setNumber(String newNumber) {
+    public void setNumber(final String newNumber) {
         number = prepareForAssignment(number, newNumber);
     }
 

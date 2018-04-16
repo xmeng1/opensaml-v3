@@ -31,7 +31,7 @@ public class ProblemIRIBuilder extends AbstractWSAddressingObjectBuilder<Problem
     }
 
     /** {@inheritDoc} */
-    public ProblemIRI buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public ProblemIRI buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new ProblemIRIImpl(namespaceURI, localName, namespacePrefix);
     }
 

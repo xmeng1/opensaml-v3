@@ -51,7 +51,7 @@ public class IDPEntryImpl extends AbstractSAMLObject implements IDPEntry {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected IDPEntryImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected IDPEntryImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -61,7 +61,7 @@ public class IDPEntryImpl extends AbstractSAMLObject implements IDPEntry {
     }
 
     /** {@inheritDoc} */
-    public void setProviderID(String newProviderID) {
+    public void setProviderID(final String newProviderID) {
         this.providerID = prepareForAssignment(this.providerID, newProviderID);
 
     }
@@ -72,7 +72,7 @@ public class IDPEntryImpl extends AbstractSAMLObject implements IDPEntry {
     }
 
     /** {@inheritDoc} */
-    public void setName(String newName) {
+    public void setName(final String newName) {
         this.name = prepareForAssignment(this.name, newName);
 
     }
@@ -83,7 +83,7 @@ public class IDPEntryImpl extends AbstractSAMLObject implements IDPEntry {
     }
 
     /** {@inheritDoc} */
-    public void setLoc(String newLoc) {
+    public void setLoc(final String newLoc) {
         this.loc = prepareForAssignment(this.loc, newLoc);
 
     }

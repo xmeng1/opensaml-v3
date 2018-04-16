@@ -67,7 +67,7 @@ public final class UsageCriterion implements Criterion {
     
     /** {@inheritDoc} */
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("UsageCriterion [credUsage=");
         builder.append(credUsage);
         builder.append("]");
@@ -80,7 +80,7 @@ public final class UsageCriterion implements Criterion {
     }
 
     /** {@inheritDoc} */
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }

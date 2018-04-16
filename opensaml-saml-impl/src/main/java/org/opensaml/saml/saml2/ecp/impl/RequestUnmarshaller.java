@@ -36,10 +36,10 @@ import org.w3c.dom.Attr;
 public class RequestUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        Request request = (Request) samlObject;
+    protected void processAttribute(final XMLObject samlObject, final Attr attribute) throws UnmarshallingException {
+        final Request request = (Request) samlObject;
         
-        QName attrName = QNameSupport.getNodeQName(attribute);
+        final QName attrName = QNameSupport.getNodeQName(attribute);
         if (Request.SOAP11_MUST_UNDERSTAND_ATTR_NAME.equals(attrName)) {
             request.setSOAP11MustUnderstand(XSBooleanValue.valueOf(attribute.getValue()));
         } else if (Request.SOAP11_ACTOR_ATTR_NAME.equals(attrName)) {
@@ -54,9 +54,9 @@ public class RequestUnmarshaller extends AbstractSAMLObjectUnmarshaller {
     }
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
+    protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
-        Request request = (Request) parentSAMLObject;
+        final Request request = (Request) parentSAMLObject;
         
         if (childSAMLObject instanceof Issuer) {
             request.setIssuer((Issuer) childSAMLObject);

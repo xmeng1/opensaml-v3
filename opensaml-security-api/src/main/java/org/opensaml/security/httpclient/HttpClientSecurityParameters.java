@@ -28,6 +28,7 @@ import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
 
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.AuthCache;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.conn.ssl.X509HostnameVerifier;
 import org.apache.http.impl.client.BasicCredentialsProvider;
@@ -41,6 +42,9 @@ public class HttpClientSecurityParameters {
     
     /** HttpClient credentials provider. */
     @Nullable private CredentialsProvider credentialsProvider;
+    
+    /** HttpClient {@link AuthCache} to allow pre-emptive authentication. */
+    @Nullable private AuthCache authCache;
     
     /** Optional trust engine used in evaluating server TLS credentials. */
     @Nullable private TrustEngine<? super X509Credential> tlsTrustEngine;
@@ -77,6 +81,29 @@ public class HttpClientSecurityParameters {
     public void setCredentialsProvider(@Nullable final CredentialsProvider provider) {
         credentialsProvider = provider;
     }
+    
+    /**
+     * Get an instance of {@link AuthCache} used for authentication by the HttpClient instance.
+     * 
+     * @return the cache, or null
+     * 
+     * @since 3.4.0
+     */
+    @Nullable public AuthCache getAuthCache() {
+        return authCache;
+    }
+    
+    /**
+     * Set an instance of {@link AuthCache} used for authentication by the HttpClient instance.
+     * 
+     * @param cache the auth cache
+     * 
+     * @since 3.4.0
+     */
+    public void setAuthCache(@Nullable final AuthCache cache) {
+        authCache = cache;
+    }
+    
     
     /**
      * A convenience method to set a (single) username and password used for BASIC authentication.
@@ -118,7 +145,7 @@ public class HttpClientSecurityParameters {
             if (authScope == null) {
                 authScope = new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT);
             }
-            BasicCredentialsProvider provider = new BasicCredentialsProvider();
+            final BasicCredentialsProvider provider = new BasicCredentialsProvider();
             provider.setCredentials(authScope, credentials);
             credentialsProvider = provider;
         } else {

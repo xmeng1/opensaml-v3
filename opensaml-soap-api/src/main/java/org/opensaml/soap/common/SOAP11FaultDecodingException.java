@@ -36,7 +36,7 @@ public class SOAP11FaultDecodingException extends MessageDecodingException {
      *
      * @param soapFault the SOAP 1.1 fault being represented
      */
-    public SOAP11FaultDecodingException(Fault soapFault) {
+    public SOAP11FaultDecodingException(final Fault soapFault) {
         super();
         fault = soapFault; 
     }
@@ -47,7 +47,7 @@ public class SOAP11FaultDecodingException extends MessageDecodingException {
      * @param soapFault the SOAP 1.1 fault being represented
      * @param message a textual exception message
      */
-    public SOAP11FaultDecodingException(Fault soapFault, String message) {
+    public SOAP11FaultDecodingException(final Fault soapFault, final String message) {
         super(message);
         fault = soapFault; 
     }

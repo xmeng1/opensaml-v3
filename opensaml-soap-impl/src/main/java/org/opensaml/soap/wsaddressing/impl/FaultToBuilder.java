@@ -31,7 +31,7 @@ public class FaultToBuilder extends AbstractWSAddressingObjectBuilder<FaultTo> {
     }
 
     /** {@inheritDoc} */
-    public FaultTo buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public FaultTo buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new FaultToImpl(namespaceURI, localName, namespacePrefix);
     }
 

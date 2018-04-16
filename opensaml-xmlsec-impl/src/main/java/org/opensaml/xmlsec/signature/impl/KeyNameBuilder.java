@@ -34,7 +34,7 @@ public class KeyNameBuilder extends AbstractXMLObjectBuilder<KeyName> implements
     }
 
     /** {@inheritDoc} */
-    public KeyName buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public KeyName buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new KeyNameImpl(namespaceURI, localName, namespacePrefix);
     }
 

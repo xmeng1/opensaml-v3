@@ -57,7 +57,7 @@ public class WSAddressingContext extends BaseContext {
      * 
      * @param uri the new Action URI value
      */
-    public void setActionURI(String uri) {
+    public void setActionURI(final String uri) {
         actionURI = StringSupport.trimOrNull(uri);
     }
     
@@ -75,7 +75,7 @@ public class WSAddressingContext extends BaseContext {
      * 
      * @param uri the new Fault Action URI value
      */
-    public void setFaultActionURI(String uri) {
+    public void setFaultActionURI(final String uri) {
         faultActionURI = StringSupport.trimOrNull(uri);
     }
     
@@ -93,7 +93,7 @@ public class WSAddressingContext extends BaseContext {
      * 
      * @param uri the new MessageID URI value
      */
-    public void setMessageIDURI(String uri) {
+    public void setMessageIDURI(final String uri) {
         messageIDURI = StringSupport.trimOrNull(uri);
     }
 
@@ -111,7 +111,7 @@ public class WSAddressingContext extends BaseContext {
      * 
      * @param uri the RelatesTo URI value
      */
-    public void setRelatesToURI(String uri) {
+    public void setRelatesToURI(final String uri) {
         relatesToURI = StringSupport.trimOrNull(uri);
     }
 
@@ -129,7 +129,7 @@ public class WSAddressingContext extends BaseContext {
      * 
      * @param value the RelatesTo RelationshipType attribute value
      */
-    public void setRelatesToRelationshipType(String value) {
+    public void setRelatesToRelationshipType(final String value) {
         relatesToRelationshipType = StringSupport.trimOrNull(value);
     }
 

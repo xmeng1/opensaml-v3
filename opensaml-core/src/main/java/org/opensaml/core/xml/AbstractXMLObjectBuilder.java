@@ -53,7 +53,7 @@ public abstract class AbstractXMLObjectBuilder<XMLObjectType extends XMLObject> 
     /** {@inheritDoc} */
     @Nonnull public XMLObjectType buildObject(@Nullable final String namespaceURI, @Nonnull final String localName,
             @Nullable final String namespacePrefix, @Nullable final QName schemaType) {
-        XMLObjectType xmlObject;
+        final XMLObjectType xmlObject;
 
         xmlObject = buildObject(namespaceURI, localName, namespacePrefix);
         ((AbstractXMLObject) xmlObject).setSchemaType(schemaType);
@@ -63,12 +63,12 @@ public abstract class AbstractXMLObjectBuilder<XMLObjectType extends XMLObject> 
 
     /** {@inheritDoc} */
     @Nonnull public XMLObjectType buildObject(@Nonnull final Element element) {
-        XMLObjectType xmlObject;
+        final XMLObjectType xmlObject;
 
-        String localName = element.getLocalName();
-        String nsURI = element.getNamespaceURI();
-        String nsPrefix = element.getPrefix();
-        QName schemaType = DOMTypeSupport.getXSIType(element);
+        final String localName = element.getLocalName();
+        final String nsURI = element.getNamespaceURI();
+        final String nsPrefix = element.getPrefix();
+        final QName schemaType = DOMTypeSupport.getXSIType(element);
 
         xmlObject = buildObject(nsURI, localName, nsPrefix, schemaType);
 

@@ -112,8 +112,8 @@ public class MemoryStorageService extends AbstractMapBackedStorageService implem
                 try {
                     writeLock.lock();
                     
-                    Collection<Map<String, MutableStorageRecord>> contexts = getContextMap().values();
-                    Iterator<Map<String, MutableStorageRecord>> i = contexts.iterator();
+                    final Collection<Map<String, MutableStorageRecord>> contexts = getContextMap().values();
+                    final Iterator<Map<String, MutableStorageRecord>> i = contexts.iterator();
                     while (i.hasNext()) {
                         final Map<String, MutableStorageRecord> context = i.next(); 
                         if (reapWithLock(context, now)) {

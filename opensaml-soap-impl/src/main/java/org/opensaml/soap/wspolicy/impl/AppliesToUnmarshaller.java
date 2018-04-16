@@ -30,15 +30,15 @@ import org.w3c.dom.Attr;
 public class AppliesToUnmarshaller extends AbstractWSPolicyObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
-        AppliesTo at = (AppliesTo) xmlObject;
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
+        final AppliesTo at = (AppliesTo) xmlObject;
         XMLObjectSupport.unmarshallToAttributeMap(at.getUnknownAttributes(), attribute);
     }
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        AppliesTo at = (AppliesTo) parentXMLObject;
+        final AppliesTo at = (AppliesTo) parentXMLObject;
         at.getUnknownXMLObjects().add(childXMLObject);
     }
 

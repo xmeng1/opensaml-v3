@@ -44,7 +44,7 @@ public class ServiceNameBuilder extends AbstractSAMLObjectBuilder<ServiceName> {
     }
 
     /** {@inheritDoc} */
-    public ServiceName buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public ServiceName buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new ServiceNameImpl(namespaceURI, localName, namespacePrefix);
     }
 }

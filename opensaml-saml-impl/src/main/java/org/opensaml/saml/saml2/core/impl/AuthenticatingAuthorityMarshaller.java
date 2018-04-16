@@ -35,8 +35,9 @@ import org.w3c.dom.Element;
 public class AuthenticatingAuthorityMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallElementContent(XMLObject samlObject, Element domElement) throws MarshallingException {
-        AuthenticatingAuthority authenticatingAuthority = (AuthenticatingAuthority) samlObject;
+    protected void marshallElementContent(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
+        final AuthenticatingAuthority authenticatingAuthority = (AuthenticatingAuthority) samlObject;
         ElementSupport.appendTextContent(domElement, authenticatingAuthority.getURI());
     }
 }

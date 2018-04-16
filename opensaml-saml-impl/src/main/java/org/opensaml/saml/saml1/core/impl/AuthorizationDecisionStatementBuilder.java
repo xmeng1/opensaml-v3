@@ -40,7 +40,8 @@ public class AuthorizationDecisionStatementBuilder extends AbstractSAMLObjectBui
     }
 
     /** {@inheritDoc} */
-    public AuthorizationDecisionStatement buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public AuthorizationDecisionStatement buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new AuthorizationDecisionStatementImpl(namespaceURI, localName, namespacePrefix);
     }
 }

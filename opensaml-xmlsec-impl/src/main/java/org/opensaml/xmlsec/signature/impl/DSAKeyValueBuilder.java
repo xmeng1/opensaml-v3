@@ -35,7 +35,7 @@ public class DSAKeyValueBuilder extends AbstractXMLObjectBuilder<DSAKeyValue> im
     }
 
     /** {@inheritDoc} */
-    public DSAKeyValue buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public DSAKeyValue buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new DSAKeyValueImpl(namespaceURI, localName, namespacePrefix);
     }
 

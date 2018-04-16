@@ -29,8 +29,8 @@ import org.w3c.dom.Element;
 public class DigestMethodMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        DigestMethod digestMethod = (DigestMethod) xmlObject;
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
+        final DigestMethod digestMethod = (DigestMethod) xmlObject;
         
         if (digestMethod.getAlgorithm() != null) {
             domElement.setAttributeNS(null, DigestMethod.ALGORITHM_ATTRIB_NAME, digestMethod.getAlgorithm());

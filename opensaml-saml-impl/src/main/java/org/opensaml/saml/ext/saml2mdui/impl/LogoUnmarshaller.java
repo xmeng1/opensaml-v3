@@ -32,14 +32,14 @@ import org.w3c.dom.Attr;
 public class LogoUnmarshaller extends AbstractSAMLObjectUnmarshaller {
     
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject samlObject, String elementContent) {
+    protected void processElementContent(final XMLObject samlObject, final String elementContent) {
         final Logo logo = (Logo) samlObject;
 
         logo.setURL(elementContent);
     }
     
     /**  {@inheritDoc} */
-    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject samlObject, final Attr attribute) throws UnmarshallingException {
         final Logo logo = (Logo) samlObject;
 
         if (attribute.getLocalName().equals(LangBearing.XML_LANG_ATTR_LOCAL_NAME)

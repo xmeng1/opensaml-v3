@@ -92,7 +92,7 @@ public final class AlgorithmSupport {
      * @param algorithm the algorithm descriptor to evaluate
      * @return true if the algorithm may be used for key encryption, false otherwise
      */
-    public static boolean isDataEncryptionAlgorithm(@Nullable AlgorithmDescriptor algorithm) {
+    public static boolean isDataEncryptionAlgorithm(@Nullable final AlgorithmDescriptor algorithm) {
         if (algorithm == null) {
             return false;
         }
@@ -124,7 +124,7 @@ public final class AlgorithmSupport {
             return false;
         }
         
-        Key key = CredentialSupport.extractSigningKey(credential);
+        final Key key = CredentialSupport.extractSigningKey(credential);
         if (key == null) {
             return false;
         }
@@ -166,7 +166,7 @@ public final class AlgorithmSupport {
             return false;
         }
         
-        Key key = CredentialSupport.extractEncryptionKey(credential);
+        final Key key = CredentialSupport.extractEncryptionKey(credential);
         if (key == null) {
             return false;
         }
@@ -203,14 +203,14 @@ public final class AlgorithmSupport {
             @Nonnull final AlgorithmDescriptor algorithm) {
         
         if (algorithm instanceof KeySpecifiedAlgorithm) {
-            String specifiedKey = ((KeySpecifiedAlgorithm)algorithm).getKey();
+            final String specifiedKey = ((KeySpecifiedAlgorithm)algorithm).getKey();
             if (!specifiedKey.equals(key.getAlgorithm())) {
                 return false;
             }
         }
         
         if (algorithm instanceof KeyLengthSpecifiedAlgorithm) {
-            Integer specifiedKeyLength = ((KeyLengthSpecifiedAlgorithm)algorithm).getKeyLength();
+            final Integer specifiedKeyLength = ((KeyLengthSpecifiedAlgorithm)algorithm).getKeyLength();
             if (!specifiedKeyLength.equals(KeySupport.getKeyLength(key))) {
                 return false;
             }
@@ -226,9 +226,9 @@ public final class AlgorithmSupport {
      * @return the Java algorithm identifier, or null if the mapping is unavailable or indeterminable from the URI
      */
     @Nullable public static String getAlgorithmID(@Nonnull final String algorithmURI) {
-        AlgorithmRegistry registry = getGlobalAlgorithmRegistry();
+        final AlgorithmRegistry registry = getGlobalAlgorithmRegistry();
         if (registry != null){
-            AlgorithmDescriptor descriptor = registry.get(algorithmURI);
+            final AlgorithmDescriptor descriptor = registry.get(algorithmURI);
             if (descriptor != null) {
                 return descriptor.getJCAAlgorithmID();
             }
@@ -254,9 +254,9 @@ public final class AlgorithmSupport {
      * @return true if URI indicates HMAC, false otherwise
      */
     public static boolean isHMAC(@Nonnull final String signatureAlgorithm) {
-        AlgorithmRegistry registry = getGlobalAlgorithmRegistry();
+        final AlgorithmRegistry registry = getGlobalAlgorithmRegistry();
         if (registry != null){
-            AlgorithmDescriptor descriptor = registry.get(signatureAlgorithm);
+            final AlgorithmDescriptor descriptor = registry.get(signatureAlgorithm);
             if (descriptor != null) {
                 return descriptor.getType().equals(AlgorithmDescriptor.AlgorithmType.Mac);
             }
@@ -271,9 +271,9 @@ public final class AlgorithmSupport {
      * @return the Java key algorithm specifier, or null if the mapping is unavailable or indeterminable from the URI
      */
     @Nullable public static String getKeyAlgorithm(@Nonnull final String algorithmURI) {
-        AlgorithmRegistry registry = getGlobalAlgorithmRegistry();
+        final AlgorithmRegistry registry = getGlobalAlgorithmRegistry();
         if (registry != null){
-            AlgorithmDescriptor descriptor = registry.get(algorithmURI);
+            final AlgorithmDescriptor descriptor = registry.get(algorithmURI);
             if (descriptor != null && descriptor instanceof KeySpecifiedAlgorithm) {
                 return ((KeySpecifiedAlgorithm)descriptor).getKey();
             }
@@ -289,10 +289,10 @@ public final class AlgorithmSupport {
      *         indeterminable from the URI
      */
     @Nullable public static Integer getKeyLength(@Nonnull final String algorithmURI) {
-        Logger log = getLogger();
-        AlgorithmRegistry registry = getGlobalAlgorithmRegistry();
+        final Logger log = getLogger();
+        final AlgorithmRegistry registry = getGlobalAlgorithmRegistry();
         if (registry != null){
-            AlgorithmDescriptor descriptor = registry.get(algorithmURI);
+            final AlgorithmDescriptor descriptor = registry.get(algorithmURI);
             if (descriptor != null && descriptor instanceof KeyLengthSpecifiedAlgorithm) {
                 return ((KeyLengthSpecifiedAlgorithm)descriptor).getKeyLength();
             }
@@ -312,8 +312,8 @@ public final class AlgorithmSupport {
      */
     @Nonnull public static SecretKey generateSymmetricKey(@Nonnull final String algoURI)
             throws NoSuchAlgorithmException, KeyException {
-        Logger log = getLogger();
-        String jceAlgorithmName = getKeyAlgorithm(algoURI);
+        final Logger log = getLogger();
+        final String jceAlgorithmName = getKeyAlgorithm(algoURI);
         if (Strings.isNullOrEmpty(jceAlgorithmName)) {
             log.error("Mapping from algorithm URI '" + algoURI
                     + "' to key algorithm not available, key generation failed");
@@ -337,7 +337,7 @@ public final class AlgorithmSupport {
             log.error("Key length could not be determined from algorithm URI, can't generate key");
             throw new KeyException("Key length not determinable from algorithm URI, could not generate new key");
         }
-        KeyGenerator keyGenerator = KeyGenerator.getInstance(jceAlgorithmName);
+        final KeyGenerator keyGenerator = KeyGenerator.getInstance(jceAlgorithmName);
         keyGenerator.init(keyLength);
         return keyGenerator.generateKey();
     }
@@ -351,9 +351,9 @@ public final class AlgorithmSupport {
      * @throws NoSuchProviderException  provider not found
      * @throws NoSuchAlgorithmException  algorithm not found
      */
-    @Nonnull public static KeyPair generateKeyPair(@Nonnull final String algoURI, int keyLength) 
+    @Nonnull public static KeyPair generateKeyPair(@Nonnull final String algoURI, final int keyLength) 
             throws NoSuchAlgorithmException, NoSuchProviderException {
-        String jceAlgorithmName = getKeyAlgorithm(algoURI);
+        final String jceAlgorithmName = getKeyAlgorithm(algoURI);
         return KeySupport.generateKeyPair(jceAlgorithmName, keyLength, null);
     }
 
@@ -367,7 +367,7 @@ public final class AlgorithmSupport {
      */
     @Nonnull public static Credential generateSymmetricKeyAndCredential(@Nonnull final String algorithmURI) 
             throws NoSuchAlgorithmException, KeyException {
-        SecretKey key = generateSymmetricKey(algorithmURI);
+        final SecretKey key = generateSymmetricKey(algorithmURI);
         return new BasicCredential(key);
     }
 
@@ -381,10 +381,11 @@ public final class AlgorithmSupport {
      * @throws NoSuchAlgorithmException algorithm not found
      * @throws NoSuchProviderException provider not found
      */
-    @Nonnull public static Credential generateKeyPairAndCredential(@Nonnull final String algorithmURI, int keyLength,
-            boolean includePrivate) throws NoSuchAlgorithmException, NoSuchProviderException {
-        KeyPair keyPair = generateKeyPair(algorithmURI, keyLength);
-        BasicCredential credential = new BasicCredential(keyPair.getPublic());
+    @Nonnull public static Credential generateKeyPairAndCredential(@Nonnull final String algorithmURI,
+            final int keyLength,
+            final boolean includePrivate) throws NoSuchAlgorithmException, NoSuchProviderException {
+        final KeyPair keyPair = generateKeyPair(algorithmURI, keyLength);
+        final BasicCredential credential = new BasicCredential(keyPair.getPublic());
         if (includePrivate) {
             credential.setPrivateKey(keyPair.getPrivate());
         }

@@ -29,7 +29,8 @@ public class ActionMatchTypeImplBuilder extends AbstractXACMLObjectBuilder<Actio
     }
 
     /** {@inheritDoc} */
-    public ActionMatchType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public ActionMatchType buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new ActionMatchTypeImpl(namespaceURI, localName, namespacePrefix);
     }
 }

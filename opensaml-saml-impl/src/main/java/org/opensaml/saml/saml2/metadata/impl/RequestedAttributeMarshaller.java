@@ -33,8 +33,9 @@ import org.w3c.dom.Element;
 public class RequestedAttributeMarshaller extends AttributeMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject samlObject, Element domElement) throws MarshallingException {
-        RequestedAttribute requestedAttribute = (RequestedAttribute) samlObject;
+    protected void marshallAttributes(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
+        final RequestedAttribute requestedAttribute = (RequestedAttribute) samlObject;
 
         if (requestedAttribute.isRequiredXSBoolean() != null) {
             domElement.setAttributeNS(null, RequestedAttribute.IS_REQUIRED_ATTRIB_NAME, requestedAttribute

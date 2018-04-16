@@ -38,7 +38,8 @@ public class ActionNamespaceImpl extends AbstractSAMLObject implements ActionNam
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected ActionNamespaceImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected ActionNamespaceImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
     
@@ -50,7 +51,7 @@ public class ActionNamespaceImpl extends AbstractSAMLObject implements ActionNam
 
     /** {@inheritDoc} */
     @Override
-    public void setValue(String newValue) {
+    public void setValue(final String newValue) {
         value = prepareForAssignment(value, newValue);
     }
 

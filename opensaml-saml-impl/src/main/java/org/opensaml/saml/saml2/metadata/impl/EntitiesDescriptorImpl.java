@@ -60,7 +60,8 @@ public class EntitiesDescriptorImpl extends AbstractSignableSAMLObject implement
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected EntitiesDescriptorImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected EntitiesDescriptorImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         orderedDescriptors = new IndexedXMLObjectChildrenList<>(this);
     }
@@ -71,7 +72,7 @@ public class EntitiesDescriptorImpl extends AbstractSignableSAMLObject implement
     }
 
     /** {@inheritDoc} */
-    public void setName(String newName) {
+    public void setName(final String newName) {
         this.name = prepareForAssignment(this.name, newName);
     }
 
@@ -81,8 +82,8 @@ public class EntitiesDescriptorImpl extends AbstractSignableSAMLObject implement
     }
 
     /** {@inheritDoc} */
-    public void setID(String newID) {
-        String oldID = this.id;
+    public void setID(final String newID) {
+        final String oldID = this.id;
         this.id = prepareForAssignment(this.id, newID);
         registerOwnID(oldID, this.id);
     }
@@ -93,7 +94,7 @@ public class EntitiesDescriptorImpl extends AbstractSignableSAMLObject implement
             return true;
         }
         
-        DateTime now = new DateTime();
+        final DateTime now = new DateTime();
         return now.isBefore(validUntil);
     }
 
@@ -103,7 +104,7 @@ public class EntitiesDescriptorImpl extends AbstractSignableSAMLObject implement
     }
 
     /** {@inheritDoc} */
-    public void setValidUntil(DateTime newValidUntil) {
+    public void setValidUntil(final DateTime newValidUntil) {
         validUntil = prepareForAssignment(validUntil, newValidUntil);
     }
 
@@ -113,7 +114,7 @@ public class EntitiesDescriptorImpl extends AbstractSignableSAMLObject implement
     }
 
     /** {@inheritDoc} */
-    public void setCacheDuration(Long duration) {
+    public void setCacheDuration(final Long duration) {
         cacheDuration = prepareForAssignment(cacheDuration, duration);
     }
 
@@ -123,7 +124,7 @@ public class EntitiesDescriptorImpl extends AbstractSignableSAMLObject implement
     }
 
     /** {@inheritDoc} */
-    public void setExtensions(Extensions newExtensions) {
+    public void setExtensions(final Extensions newExtensions) {
         extensions = prepareForAssignment(extensions, newExtensions);
     }
 
@@ -144,7 +145,7 @@ public class EntitiesDescriptorImpl extends AbstractSignableSAMLObject implement
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         if(getSignature() != null){
             children.add(getSignature());

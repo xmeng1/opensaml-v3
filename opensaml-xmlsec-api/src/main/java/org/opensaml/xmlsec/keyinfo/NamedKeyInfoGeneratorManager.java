@@ -62,7 +62,7 @@ public class NamedKeyInfoGeneratorManager {
      * 
      * @param newValue the new option value
      */
-    public void setUseDefaultManager(boolean newValue) {
+    public void setUseDefaultManager(final boolean newValue) {
         useDefaultManager = newValue;
     }
     
@@ -107,7 +107,7 @@ public class NamedKeyInfoGeneratorManager {
      * @param factory the factory to register
      */
     public void registerFactory(@Nonnull final String name, @Nonnull final KeyInfoGeneratorFactory factory) {
-        KeyInfoGeneratorManager manager = getManager(name);
+        final KeyInfoGeneratorManager manager = getManager(name);
         manager.registerFactory(factory);
     }
     
@@ -118,7 +118,7 @@ public class NamedKeyInfoGeneratorManager {
      * @param factory the factory to de-register
      */
     public void deregisterFactory(@Nonnull final String name, @Nonnull final KeyInfoGeneratorFactory factory) {
-        KeyInfoGeneratorManager manager = managers.get(name);
+        final KeyInfoGeneratorManager manager = managers.get(name);
         if (manager == null) {
             throw new IllegalArgumentException("Manager with name '" + name + "' does not exist");
         }

@@ -40,9 +40,9 @@ import org.w3c.dom.Attr;
 public class ContactPersonUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
+    protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
-        ContactPerson person = (ContactPerson) parentSAMLObject;
+        final ContactPerson person = (ContactPerson) parentSAMLObject;
 
         if (childSAMLObject instanceof Extensions) {
             person.setExtensions((Extensions) childSAMLObject);
@@ -62,8 +62,8 @@ public class ContactPersonUnmarshaller extends AbstractSAMLObjectUnmarshaller {
     }
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
-        ContactPerson person = (ContactPerson) samlObject;
+    protected void processAttribute(final XMLObject samlObject, final Attr attribute) throws UnmarshallingException {
+        final ContactPerson person = (ContactPerson) samlObject;
 
         if (attribute.getNamespaceURI() == null) {
             if (attribute.getLocalName().equals(ContactPerson.CONTACT_TYPE_ATTRIB_NAME)) {

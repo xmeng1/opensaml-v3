@@ -30,9 +30,9 @@ public class ResourcesTypeUnmarshaller extends AbstractXACMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
     @Override
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        ResourcesType resourcesType = (ResourcesType) parentXMLObject;
+        final ResourcesType resourcesType = (ResourcesType) parentXMLObject;
         
         if (childXMLObject instanceof ResourceType){
             resourcesType.getResources().add((ResourceType)childXMLObject);

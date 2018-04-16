@@ -42,7 +42,7 @@ public class ArtifactBuilder extends AbstractSAMLObjectBuilder<Artifact> {
     }
 
     /** {@inheritDoc} */
-    public Artifact buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Artifact buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new ArtifactImpl(namespaceURI, localName, namespacePrefix);
     }
 }

@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<test:SimpleElement xmlns:test="http://www.example.org/testObjects"><test:SimpleElement>Content1</test:SimpleElement><test:SimpleElement>Content2</test:SimpleElement><test:SimpleElement><test:SimpleElement>Content3</test:SimpleElement></test:SimpleElement></test:SimpleElement>
+<test:SimpleElement xmlns:test="http://www.example.org/testObjects"><test:SimpleElement>Con<![CDATA[tent]]>1</test:SimpleElement><test:SimpleElement><![CDATA[Con]]>tent2</test:SimpleElement><test:SimpleElement><test:SimpleElement>Content<![CDATA[3]]></test:SimpleElement></test:SimpleElement></test:SimpleElement>

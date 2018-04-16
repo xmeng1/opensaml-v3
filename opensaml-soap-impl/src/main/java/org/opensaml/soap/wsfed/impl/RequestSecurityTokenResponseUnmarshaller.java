@@ -28,8 +28,8 @@ import org.w3c.dom.Attr;
 public class RequestSecurityTokenResponseUnmarshaller extends AbstractXMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject) {
-        RequestSecurityTokenResponse response = (RequestSecurityTokenResponse) parentSAMLObject;
+    protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject) {
+        final RequestSecurityTokenResponse response = (RequestSecurityTokenResponse) parentSAMLObject;
 
         if (childSAMLObject instanceof RequestedSecurityToken) {
             response.getRequestedSecurityToken().add((RequestedSecurityToken) childSAMLObject);
@@ -39,12 +39,12 @@ public class RequestSecurityTokenResponseUnmarshaller extends AbstractXMLObjectU
     }
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject fedObject, Attr attribute) {
+    protected void processAttribute(final XMLObject fedObject, final Attr attribute) {
 
     }
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject fedObject, String content) {
+    protected void processElementContent(final XMLObject fedObject, final String content) {
 
     }
 }

@@ -79,22 +79,22 @@ public class HttpClientResponseSOAP11Decoder<MessageType extends XMLObject>
      * 
      * @param newBodyHandler The bodyHandler to set.
      */
-    public void setBodyHandler(MessageHandler<MessageType> newBodyHandler) {
+    public void setBodyHandler(final MessageHandler<MessageType> newBodyHandler) {
         bodyHandler = newBodyHandler;
     }
 
     /** {@inheritDoc} */
     protected void doDecode() throws MessageDecodingException {
-        MessageContext<MessageType> messageContext = new MessageContext<>();
-        HttpResponse response = getHttpResponse();
+        final MessageContext<MessageType> messageContext = new MessageContext<>();
+        final HttpResponse response = getHttpResponse();
         
         log.debug("Unmarshalling SOAP message");
         try {
-            int responseStatusCode = response.getStatusLine().getStatusCode();
+            final int responseStatusCode = response.getStatusLine().getStatusCode();
             
             switch(responseStatusCode) {
                 case HttpStatus.SC_OK:
-                    SOAP11Context soapContext = messageContext.getSubcontext(SOAP11Context.class, true);
+                    final SOAP11Context soapContext = messageContext.getSubcontext(SOAP11Context.class, true);
                     processSuccessResponse(response, soapContext);
                     break;
                 case HttpStatus.SC_INTERNAL_SERVER_ERROR:
@@ -104,14 +104,14 @@ public class HttpClientResponseSOAP11Decoder<MessageType extends XMLObject>
                             + responseStatusCode);
             }
             
-        } catch (IOException e) {
+        } catch (final IOException e) {
             log.error("Unable to obtain input stream from HttpResponse", e);
             throw new MessageDecodingException("Unable to obtain input stream from HttpResponse", e);
         } finally {
             if (response instanceof CloseableHttpResponse) {
                 try {
                     ((CloseableHttpResponse)response).close();
-                } catch (IOException e) {
+                } catch (final IOException e) {
                     log.warn("Error closing HttpResponse", e);
                 }
             }
@@ -119,7 +119,7 @@ public class HttpClientResponseSOAP11Decoder<MessageType extends XMLObject>
         
         try {
             getBodyHandler().invoke(messageContext);
-        } catch (MessageHandlerException e) {
+        } catch (final MessageHandlerException e) {
             log.error("Error processing SOAP Envelope body", e);
             throw new MessageDecodingException("Error processing SOAP Envelope body", e);
         }
@@ -142,16 +142,16 @@ public class HttpClientResponseSOAP11Decoder<MessageType extends XMLObject>
      * @throws MessageDecodingException  if message can not be unmarshalled
      * @throws IOException if there is a problem with the response entity input stream
      */
-    protected void processSuccessResponse(HttpResponse httpResponse, SOAP11Context soapContext) 
+    protected void processSuccessResponse(final HttpResponse httpResponse, final SOAP11Context soapContext) 
             throws MessageDecodingException, IOException {
         
         if (httpResponse.getEntity() == null) {
             throw new MessageDecodingException("No response body from server");
         }
-        Envelope soapMessage = (Envelope) unmarshallMessage(httpResponse.getEntity().getContent());
+        final Envelope soapMessage = (Envelope) unmarshallMessage(httpResponse.getEntity().getContent());
         
         // Defensive sanity check, otherwise body handler could later fail non-gracefully with runtime exception
-        Fault fault = getFault(soapMessage);
+        final Fault fault = getFault(soapMessage);
         if (fault != null) {
             throw new SOAP11FaultDecodingException(fault);
         }
@@ -169,15 +169,15 @@ public class HttpClientResponseSOAP11Decoder<MessageType extends XMLObject>
      * @throws MessageDecodingException if message can not be unmarshalled
      * @throws IOException if there is a problem with the response entity input stream
      */
-    protected MessageDecodingException buildFaultException(HttpResponse response) 
+    protected MessageDecodingException buildFaultException(final HttpResponse response) 
             throws MessageDecodingException, IOException {
         
         if (response.getEntity() == null) {
             throw new MessageDecodingException("No response body from server");
         }
-        Envelope soapMessage = (Envelope) unmarshallMessage(response.getEntity().getContent());
+        final Envelope soapMessage = (Envelope) unmarshallMessage(response.getEntity().getContent());
         
-        Fault fault = getFault(soapMessage);
+        final Fault fault = getFault(soapMessage);
         if (fault == null) {
             throw new MessageDecodingException("HTTP status code was 500 but SOAP response did not contain a Fault");
         }
@@ -201,9 +201,9 @@ public class HttpClientResponseSOAP11Decoder<MessageType extends XMLObject>
      * @param soapMessage the SOAP 1.1. Envelope being processed
      * @return the first Fault element found, or null
      */
-    protected Fault getFault(Envelope soapMessage) {
+    protected Fault getFault(final Envelope soapMessage) {
         if (soapMessage.getBody() != null) {
-            List<XMLObject> faults = soapMessage.getBody().getUnknownXMLObjects(Fault.DEFAULT_ELEMENT_NAME);
+            final List<XMLObject> faults = soapMessage.getBody().getUnknownXMLObjects(Fault.DEFAULT_ELEMENT_NAME);
             if (!faults.isEmpty()) {
                 return (Fault) faults.get(0);
             } else {

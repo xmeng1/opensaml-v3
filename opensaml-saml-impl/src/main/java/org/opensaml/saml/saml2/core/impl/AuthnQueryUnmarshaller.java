@@ -33,7 +33,7 @@ import org.w3c.dom.Attr;
 public class AuthnQueryUnmarshaller extends SubjectQueryUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
+    protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
         final AuthnQuery query = (AuthnQuery) parentSAMLObject;
     
@@ -45,7 +45,7 @@ public class AuthnQueryUnmarshaller extends SubjectQueryUnmarshaller {
     }
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject samlObject, final Attr attribute) throws UnmarshallingException {
         final AuthnQuery query = (AuthnQuery) samlObject;
 
         if (attribute.getLocalName().equals(AuthnQuery.SESSION_INDEX_ATTRIB_NAME)

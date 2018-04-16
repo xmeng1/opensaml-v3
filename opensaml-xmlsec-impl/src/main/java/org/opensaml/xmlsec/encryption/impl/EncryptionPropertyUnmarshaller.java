@@ -32,8 +32,8 @@ import org.w3c.dom.Attr;
 public class EncryptionPropertyUnmarshaller extends AbstractXMLEncryptionUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
-        EncryptionProperty ep = (EncryptionProperty) xmlObject;
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
+        final EncryptionProperty ep = (EncryptionProperty) xmlObject;
 
         if (attribute.getLocalName().equals(EncryptionProperty.ID_ATTRIB_NAME)) {
             ep.setID(attribute.getValue());
@@ -41,7 +41,7 @@ public class EncryptionPropertyUnmarshaller extends AbstractXMLEncryptionUnmarsh
         } else if (attribute.getLocalName().equals(EncryptionProperty.TARGET_ATTRIB_NAME)) {
             ep.setTarget(attribute.getValue());
         } else {
-            QName attributeName = QNameSupport.getNodeQName(attribute);
+            final QName attributeName = QNameSupport.getNodeQName(attribute);
             if (attribute.isId()) {
                 ep.getUnknownAttributes().registerID(attributeName);
             }
@@ -50,9 +50,9 @@ public class EncryptionPropertyUnmarshaller extends AbstractXMLEncryptionUnmarsh
     }
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        EncryptionProperty ep = (EncryptionProperty) parentXMLObject;
+        final EncryptionProperty ep = (EncryptionProperty) parentXMLObject;
 
         // <any> content model
         ep.getUnknownXMLObjects().add(childXMLObject);

@@ -44,7 +44,8 @@ public class IDPSSODescriptorBuilder extends AbstractSAMLObjectBuilder<IDPSSODes
     }
 
     /** {@inheritDoc} */
-    public IDPSSODescriptor buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public IDPSSODescriptor buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new IDPSSODescriptorImpl(namespaceURI, localName, namespacePrefix);
     }
 }

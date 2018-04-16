@@ -62,7 +62,8 @@ public class XACMLAuthzDecisionQueryTypeImpl extends RequestAbstractTypeImpl imp
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected XACMLAuthzDecisionQueryTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected XACMLAuthzDecisionQueryTypeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         setElementNamespacePrefix(namespacePrefix);
         policies = new XMLObjectChildrenList<>(this);
@@ -81,7 +82,7 @@ public class XACMLAuthzDecisionQueryTypeImpl extends RequestAbstractTypeImpl imp
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         if (super.getOrderedChildren() != null) {
             children.addAll(super.getOrderedChildren());
@@ -143,12 +144,12 @@ public class XACMLAuthzDecisionQueryTypeImpl extends RequestAbstractTypeImpl imp
     }
 
     /** {@inheritDoc} */
-    public void setCombinePolicies(XSBooleanValue combine) {
+    public void setCombinePolicies(final XSBooleanValue combine) {
         combinePolicies = prepareForAssignment(combinePolicies, combine);
     }
 
     /** {@inheritDoc} */
-    public void setCombinePolicies(Boolean combine) {
+    public void setCombinePolicies(final Boolean combine) {
         if (combine != null) {
             combinePolicies = prepareForAssignment(combinePolicies, new XSBooleanValue(combine, false));
         } else {
@@ -158,12 +159,12 @@ public class XACMLAuthzDecisionQueryTypeImpl extends RequestAbstractTypeImpl imp
     }
 
     /** {@inheritDoc} */
-    public void setInputContextOnly(XSBooleanValue flag) {
+    public void setInputContextOnly(final XSBooleanValue flag) {
         inputContextOnly = prepareForAssignment(inputContextOnly, flag);
     }
 
     /** {@inheritDoc} */
-    public void setInputContextOnly(Boolean flag) {
+    public void setInputContextOnly(final Boolean flag) {
         if (flag != null) {
             inputContextOnly = prepareForAssignment(inputContextOnly, new XSBooleanValue(flag, false));
         } else {
@@ -172,17 +173,17 @@ public class XACMLAuthzDecisionQueryTypeImpl extends RequestAbstractTypeImpl imp
     }
 
     /** {@inheritDoc} */
-    public void setRequest(RequestType req) {
+    public void setRequest(final RequestType req) {
         request = prepareForAssignment(this.request, req);
     }
 
     /** {@inheritDoc} */
-    public void setReturnContext(XSBooleanValue flag) {
+    public void setReturnContext(final XSBooleanValue flag) {
         returnContext = prepareForAssignment(returnContext, flag);
     }
 
     /** {@inheritDoc} */
-    public void setReturnContext(Boolean flag) {
+    public void setReturnContext(final Boolean flag) {
         if (flag != null) {
             returnContext = prepareForAssignment(returnContext, new XSBooleanValue(flag, false));
         } else {
@@ -206,7 +207,7 @@ public class XACMLAuthzDecisionQueryTypeImpl extends RequestAbstractTypeImpl imp
     }
 
     /** {@inheritDoc} */
-    public void setReferencedPolicies(ReferencedPoliciesType pols) {
+    public void setReferencedPolicies(final ReferencedPoliciesType pols) {
         referencedPolicies = prepareForAssignment(referencedPolicies, pols);
     }
 }

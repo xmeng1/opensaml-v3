@@ -34,7 +34,7 @@ public class MgmtDataBuilder extends AbstractXMLObjectBuilder<MgmtData> implemen
     }
 
     /** {@inheritDoc} */
-    public MgmtData buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public MgmtData buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new MgmtDataImpl(namespaceURI, localName, namespacePrefix);
     }
 

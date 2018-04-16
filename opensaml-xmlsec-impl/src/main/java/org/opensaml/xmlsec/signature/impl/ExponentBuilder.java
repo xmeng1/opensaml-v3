@@ -34,7 +34,7 @@ public class ExponentBuilder extends AbstractXMLObjectBuilder<Exponent> implemen
     }
 
     /** {@inheritDoc} */
-    public Exponent buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Exponent buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new ExponentImpl(namespaceURI, localName, namespacePrefix);
     }
 

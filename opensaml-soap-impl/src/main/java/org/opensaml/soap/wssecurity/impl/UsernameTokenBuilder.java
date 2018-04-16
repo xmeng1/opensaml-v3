@@ -31,7 +31,7 @@ public class UsernameTokenBuilder extends
     }
 
     /** {@inheritDoc} */
-    public UsernameToken buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public UsernameToken buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new UsernameTokenImpl(namespaceURI, localName, namespacePrefix);
     }
 

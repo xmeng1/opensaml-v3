@@ -39,12 +39,12 @@ public class AlgorithmRuntimeSupportedPredicate implements Predicate<String> {
      *
      * @param algorithmRegistry the algorithm registry instance to use
      */
-    public AlgorithmRuntimeSupportedPredicate(AlgorithmRegistry algorithmRegistry) {
+    public AlgorithmRuntimeSupportedPredicate(final AlgorithmRegistry algorithmRegistry) {
         registry = Constraint.isNotNull(algorithmRegistry, "AlgorithmRegistry may not be null");
     }
 
     /** {@inheritDoc} */
-    public boolean apply(@Nullable String input) {
+    public boolean apply(@Nullable final String input) {
         return registry.isRuntimeSupported(input);
     }
 

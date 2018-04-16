@@ -57,27 +57,28 @@ public class SignatureMarshaller implements Marshaller {
     }
 
     /** {@inheritDoc} */
-    public Element marshall(XMLObject xmlObject) throws MarshallingException {
+    public Element marshall(final XMLObject xmlObject) throws MarshallingException {
         try {
-            Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+            final Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
             return marshall(xmlObject, document);
-        } catch (ParserConfigurationException e) {
+        } catch (final ParserConfigurationException e) {
             throw new MarshallingException("Unable to create Document to place marshalled elements in", e);
         }
     }
 
     /** {@inheritDoc} */
-    public Element marshall(XMLObject xmlObject, Element parentElement) throws MarshallingException {
-        Element signatureElement = createSignatureElement((SignatureImpl) xmlObject, parentElement.getOwnerDocument());
+    public Element marshall(final XMLObject xmlObject, final Element parentElement) throws MarshallingException {
+        final Element signatureElement =
+                createSignatureElement((SignatureImpl) xmlObject, parentElement.getOwnerDocument());
         ElementSupport.appendChildElement(parentElement, signatureElement);
         return signatureElement;
     }
 
     /** {@inheritDoc} */
-    public Element marshall(XMLObject xmlObject, Document document) throws MarshallingException {
-        Element signatureElement = createSignatureElement((SignatureImpl) xmlObject, document);
+    public Element marshall(final XMLObject xmlObject, final Document document) throws MarshallingException {
+        final Element signatureElement = createSignatureElement((SignatureImpl) xmlObject, document);
 
-        Element documentRoot = document.getDocumentElement();
+        final Element documentRoot = document.getDocumentElement();
         if (documentRoot != null) {
             document.replaceChild(signatureElement, documentRoot);
         } else {
@@ -97,7 +98,8 @@ public class SignatureMarshaller implements Marshaller {
      * 
      * @throws MarshallingException thrown if the signature can not be constructed
      */
-    private Element createSignatureElement(Signature signature, Document document) throws MarshallingException {
+    private Element createSignatureElement(final Signature signature, final Document document)
+            throws MarshallingException {
         log.debug("Starting to marshall {}", signature.getElementQName());
 
         try {
@@ -112,16 +114,16 @@ public class SignatureMarshaller implements Marshaller {
             }
 
             log.debug("Adding content to XMLSignature.");
-            for (ContentReference contentReference : signature.getContentReferences()) {
+            for (final ContentReference contentReference : signature.getContentReferences()) {
                 contentReference.createReference(dsig);
             }
 
             log.debug("Creating Signature DOM element");
-            Element signatureElement = dsig.getElement();
+            final Element signatureElement = dsig.getElement();
 
             if (signature.getKeyInfo() != null) {
-                Marshaller keyInfoMarshaller = XMLObjectProviderRegistrySupport.getMarshallerFactory().getMarshaller(
-                        KeyInfo.DEFAULT_ELEMENT_NAME);
+                final Marshaller keyInfoMarshaller = XMLObjectProviderRegistrySupport.getMarshallerFactory()
+                        .getMarshaller(KeyInfo.DEFAULT_ELEMENT_NAME);
                 keyInfoMarshaller.marshall(signature.getKeyInfo(), signatureElement);
             }
 

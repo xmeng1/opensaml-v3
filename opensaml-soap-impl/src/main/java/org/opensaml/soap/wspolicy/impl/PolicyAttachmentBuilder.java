@@ -31,7 +31,8 @@ public class PolicyAttachmentBuilder extends AbstractWSPolicyObjectBuilder<Polic
     }
 
     /** {@inheritDoc} */
-    public PolicyAttachment buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public PolicyAttachment buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new PolicyAttachmentImpl(namespaceURI, localName, namespacePrefix);
     }
 

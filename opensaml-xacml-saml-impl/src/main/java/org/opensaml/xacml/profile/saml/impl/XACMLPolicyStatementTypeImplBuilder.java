@@ -35,7 +35,8 @@ public class XACMLPolicyStatementTypeImplBuilder extends AbstractSAMLObjectBuild
     }
 
     /** {@inheritDoc} */
-    public XACMLPolicyStatementType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public XACMLPolicyStatementType buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new XACMLPolicyStatementTypeImpl(namespaceURI, localName, namespacePrefix);
     }
 }

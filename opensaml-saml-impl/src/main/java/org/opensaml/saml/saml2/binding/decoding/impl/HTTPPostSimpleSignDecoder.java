@@ -42,8 +42,8 @@ public class HTTPPostSimpleSignDecoder extends HTTPPostDecoder {
      * 
      * @param messageContext the current message context
      */
-    protected void populateBindingContext(MessageContext<SAMLObject> messageContext) {
-        SAMLBindingContext bindingContext = messageContext.getSubcontext(SAMLBindingContext.class, true);
+    protected void populateBindingContext(final MessageContext<SAMLObject> messageContext) {
+        final SAMLBindingContext bindingContext = messageContext.getSubcontext(SAMLBindingContext.class, true);
         bindingContext.setBindingUri(getBindingURI());
         bindingContext.setBindingDescriptor(getBindingDescriptor());
         bindingContext.setHasBindingSignature(

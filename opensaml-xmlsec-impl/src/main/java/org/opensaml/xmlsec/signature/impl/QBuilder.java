@@ -34,7 +34,7 @@ public class QBuilder extends AbstractXMLObjectBuilder<Q> implements XMLSignatur
     }
 
     /** {@inheritDoc} */
-    public Q buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Q buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new QImpl(namespaceURI, localName, namespacePrefix);
     }
 

@@ -43,7 +43,8 @@ public class CombinerParameterTypeImpl extends AbstractXACMLObject implements Co
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected CombinerParameterTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix){
+    protected CombinerParameterTypeImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI,elementLocalName,namespacePrefix);
     }
     
@@ -58,18 +59,18 @@ public class CombinerParameterTypeImpl extends AbstractXACMLObject implements Co
     }
 
     /** {@inheritDoc} */
-    public void setAttributeValue(AttributeValueType newValue) {
+    public void setAttributeValue(final AttributeValueType newValue) {
         this.value = prepareForAssignment(this.value,newValue);
     }
 
     /** {@inheritDoc} */
-    public void setParameterName(String newName){
+    public void setParameterName(final String newName){
         this.name = prepareForAssignment(this.name,newName);
     }
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();        
+        final ArrayList<XMLObject> children = new ArrayList<>();        
         
         if(value != null){
             children.add(value);

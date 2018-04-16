@@ -32,7 +32,7 @@ public class KeySizeImpl extends XSIntegerImpl implements KeySize {
      * @param elementLocalName local name
      * @param namespacePrefix namespace prefix
      */
-    protected KeySizeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected KeySizeImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

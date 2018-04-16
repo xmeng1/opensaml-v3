@@ -50,7 +50,8 @@ public class KeyDescriptorImpl extends AbstractSAMLObject implements KeyDescript
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected KeyDescriptorImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected KeyDescriptorImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         encryptionMethods = new XMLObjectChildrenList<>(this);
         keyUseType = UsageType.UNSPECIFIED;
@@ -62,7 +63,7 @@ public class KeyDescriptorImpl extends AbstractSAMLObject implements KeyDescript
     }
 
     /** {@inheritDoc} */
-    public void setUse(UsageType newType) {
+    public void setUse(final UsageType newType) {
         if (newType != null) {
             keyUseType = prepareForAssignment(keyUseType, newType);
         } else {
@@ -76,7 +77,7 @@ public class KeyDescriptorImpl extends AbstractSAMLObject implements KeyDescript
     }
 
     /** {@inheritDoc} */
-    public void setKeyInfo(KeyInfo newKeyInfo) {
+    public void setKeyInfo(final KeyInfo newKeyInfo) {
         keyInfo = prepareForAssignment(keyInfo, newKeyInfo);
     }
 
@@ -87,7 +88,7 @@ public class KeyDescriptorImpl extends AbstractSAMLObject implements KeyDescript
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         children.add(keyInfo);
         children.addAll(encryptionMethods);

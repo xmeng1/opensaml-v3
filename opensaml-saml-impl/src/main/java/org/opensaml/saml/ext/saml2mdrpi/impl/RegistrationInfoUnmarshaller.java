@@ -32,7 +32,8 @@ import org.w3c.dom.Attr;
 public class RegistrationInfoUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentObject, XMLObject childObject) throws UnmarshallingException {
+    protected void processChildElement(final XMLObject parentObject, final XMLObject childObject)
+            throws UnmarshallingException {
         final RegistrationInfo info = (RegistrationInfo) parentObject;
         
         if (childObject instanceof RegistrationPolicy) {
@@ -43,7 +44,7 @@ public class RegistrationInfoUnmarshaller extends AbstractSAMLObjectUnmarshaller
     }
     
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject samlObject, final Attr attribute) throws UnmarshallingException {
         final RegistrationInfo info = (RegistrationInfo) samlObject;
         
         if (attribute.getNamespaceURI() == null) {

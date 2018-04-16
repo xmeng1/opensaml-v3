@@ -126,23 +126,12 @@ public class DefaultLocalErrorPredicate implements Predicate<ProfileRequestConte
      * 
      * @param events locally handled events
      */
-    public void setLocalEvents(@Nonnull @NonnullElements final Collection<String> events) {
-        if (events == null) {
-            localEvents = Collections.emptySet();
-        } else {
-            localEvents = new HashSet<>(events.size());
-            for (final String e : events) {
-                final String trimmed = StringSupport.trimOrNull(e);
-                if (trimmed != null) {
-                    localEvents.add(trimmed);
-                }
-            }
-        }
+    public void setLocalEvents(@Nullable final Collection<String> events) {
+        localEvents = new HashSet<>(StringSupport.normalizeStringCollection(events));
     }
     
 // Checkstyle: CyclomaticComplexity OFF
     /** {@inheritDoc} */
-    @Override
     public boolean apply(@Nullable final ProfileRequestContext input) {
         
         if (input == null) {

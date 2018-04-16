@@ -40,7 +40,7 @@ public class LogoBuilder extends AbstractSAMLObjectBuilder<Logo> {
     }
 
     /** {@inheritDoc} */
-    public Logo buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Logo buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new LogoImpl(namespaceURI, localName, namespacePrefix);
     }
 }

@@ -47,7 +47,7 @@ public class AuthenticatorImpl extends AbstractWSTrustObject implements Authenti
      * @param elementLocalName name of the element
      * @param namespacePrefix namespace prefix of the element
      */
-    public AuthenticatorImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public AuthenticatorImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         unknownChildren = new IndexedXMLObjectChildrenList<>(this);
     }
@@ -58,7 +58,7 @@ public class AuthenticatorImpl extends AbstractWSTrustObject implements Authenti
     }
 
     /** {@inheritDoc} */
-    public void setCombinedHash(CombinedHash newCombinedHash) {
+    public void setCombinedHash(final CombinedHash newCombinedHash) {
         combinedHash = prepareForAssignment(combinedHash, newCombinedHash);
     }
 
@@ -68,13 +68,13 @@ public class AuthenticatorImpl extends AbstractWSTrustObject implements Authenti
     }
 
     /** {@inheritDoc} */
-    public List<XMLObject> getUnknownXMLObjects(QName typeOrName) {
+    public List<XMLObject> getUnknownXMLObjects(final QName typeOrName) {
         return (List<XMLObject>) unknownChildren.subList(typeOrName);
     }
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         if (combinedHash != null) {
             children.add(combinedHash);
         }

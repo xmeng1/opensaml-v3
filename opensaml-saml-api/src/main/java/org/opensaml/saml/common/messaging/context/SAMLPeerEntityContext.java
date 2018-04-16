@@ -87,7 +87,7 @@ public class SAMLPeerEntityContext extends AbstractAuthenticatableSAMLEntityCont
      * 
      * @param useResource whether to use the Resource attribute of some SAML 1 queries to resolve the entity ID
      */
-    public void setUseSAML1QueryResourceAsEntityId(boolean useResource) {
+    public void setUseSAML1QueryResourceAsEntityId(final boolean useResource) {
         useSAML1QueryResourceAsEntityId = useResource;
     }
 
@@ -101,22 +101,22 @@ public class SAMLPeerEntityContext extends AbstractAuthenticatableSAMLEntityCont
         final SAMLObject samlMessage = resolveSAMLMessage();
         //SAML 2 Request
         if (samlMessage instanceof org.opensaml.saml.saml2.core.RequestAbstractType) {
-            org.opensaml.saml.saml2.core.RequestAbstractType request =  
+            final org.opensaml.saml.saml2.core.RequestAbstractType request =  
                     (org.opensaml.saml.saml2.core.RequestAbstractType) samlMessage;
             return processSaml2Request(request);
         //SAML 2 Response
         } else if (samlMessage instanceof org.opensaml.saml.saml2.core.StatusResponseType) {
-            org.opensaml.saml.saml2.core.StatusResponseType response = 
+            final org.opensaml.saml.saml2.core.StatusResponseType response = 
                     (org.opensaml.saml.saml2.core.StatusResponseType) samlMessage;
             return processSaml2Response(response);
         //SAML 1 Response
         } else if (samlMessage instanceof org.opensaml.saml.saml1.core.Response) {
-            org.opensaml.saml.saml1.core.Response response = 
+            final org.opensaml.saml.saml1.core.Response response = 
                     (org.opensaml.saml.saml1.core.Response) samlMessage;
             return processSaml1Response(response);
         //SAML 1 Request
         } else if (samlMessage instanceof org.opensaml.saml.saml1.core.Request) {
-            org.opensaml.saml.saml1.core.Request request = 
+            final org.opensaml.saml.saml1.core.Request request = 
                     (org.opensaml.saml.saml1.core.Request) samlMessage;
             return processSaml1Request(request);
         }
@@ -183,7 +183,7 @@ public class SAMLPeerEntityContext extends AbstractAuthenticatableSAMLEntityCont
         final List<Assertion> assertions = response.getAssertions();
         if (assertions != null && assertions.size() > 0) {
             log.info("Attempting to extract issuer from enclosed SAML 1.x Assertion(s)");
-            for (Assertion assertion : assertions) {
+            for (final Assertion assertion : assertions) {
                 if (assertion != null && assertion.getIssuer() != null) {
                     if (issuer != null && !issuer.equals(assertion.getIssuer())) {
                         log.warn("SAML 1.x assertions, within response '{}' contain different issuer IDs, " 

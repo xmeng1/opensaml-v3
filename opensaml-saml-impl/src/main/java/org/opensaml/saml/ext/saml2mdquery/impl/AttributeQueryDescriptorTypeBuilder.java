@@ -33,7 +33,8 @@ public class AttributeQueryDescriptorTypeBuilder extends AbstractSAMLObjectBuild
     }
 
     /** {@inheritDoc} */
-    public AttributeQueryDescriptorType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public AttributeQueryDescriptorType buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new AttributeQueryDescriptorTypeImpl(namespaceURI, localName, namespacePrefix);
     }
 }

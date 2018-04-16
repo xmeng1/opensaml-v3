@@ -66,7 +66,7 @@ public class EvaluableUsageCredentialCriterion extends AbstractTriStatePredicate
             return isNullInputSatisfies();
         }
         
-        UsageType credUsage = target.getUsageType();
+        final UsageType credUsage = target.getUsageType();
         if (credUsage == null) {
             log.info("Could not evaluate criteria, credential contained no usage specifier");
             return isUnevaluableSatisfies();
@@ -91,7 +91,7 @@ public class EvaluableUsageCredentialCriterion extends AbstractTriStatePredicate
     
     /** {@inheritDoc} */
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("EvaluableUsageCredentialCriterion [usage=");
         builder.append(usage);
         builder.append("]");
@@ -104,7 +104,7 @@ public class EvaluableUsageCredentialCriterion extends AbstractTriStatePredicate
     }
 
     /** {@inheritDoc} */
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }

@@ -33,9 +33,9 @@ import org.opensaml.saml.saml1.core.SubjectQuery;
 public abstract class SubjectQueryUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
+    protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
-        SubjectQuery query = (SubjectQuery) parentSAMLObject;
+        final SubjectQuery query = (SubjectQuery) parentSAMLObject;
 
         if (childSAMLObject instanceof Subject) {
             query.setSubject((Subject) childSAMLObject);

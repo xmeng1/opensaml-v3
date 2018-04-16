@@ -36,8 +36,9 @@ import org.opensaml.saml.saml2.core.AuthnContextDeclRef;
 public class AuthnContextUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentObject, XMLObject childObject) throws UnmarshallingException {
-        AuthnContext authnContext = (AuthnContext) parentObject;
+    protected void processChildElement(final XMLObject parentObject, final XMLObject childObject)
+            throws UnmarshallingException {
+        final AuthnContext authnContext = (AuthnContext) parentObject;
         if (childObject instanceof AuthnContextClassRef) {
             authnContext.setAuthnContextClassRef((AuthnContextClassRef) childObject);
         } else if (childObject instanceof AuthnContextDecl) {

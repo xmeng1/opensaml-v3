@@ -45,7 +45,7 @@ public class ApplyTypeImpl extends AbstractXACMLObject implements ApplyType {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected ApplyTypeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected ApplyTypeImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);     
         expressions = new XMLObjectChildrenList<>(this);
     }
@@ -61,13 +61,13 @@ public class ApplyTypeImpl extends AbstractXACMLObject implements ApplyType {
     }
 
     /** {@inheritDoc} */
-    public void setFunctionId(String id) {
+    public void setFunctionId(final String id) {
         this.functionId = prepareForAssignment(this.functionId,id);
     }
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren(){   
-        ArrayList<XMLObject> children = new ArrayList<>();        
+        final ArrayList<XMLObject> children = new ArrayList<>();        
             
         if(!expressions.isEmpty()){
             children.addAll(expressions);

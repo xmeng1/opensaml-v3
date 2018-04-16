@@ -99,7 +99,7 @@ public class ExplicitKeySignatureTrustEngine extends BaseSignatureTrustEngine<It
             criteriaSet.add(new KeyAlgorithmCriterion(jcaAlgorithm), true);
         }
 
-        Iterable<Credential> trustedCredentials;
+        final Iterable<Credential> trustedCredentials;
         try {
             trustedCredentials = getCredentialResolver().resolve(criteriaSet);
         } catch (final ResolverException e) {
@@ -141,7 +141,7 @@ public class ExplicitKeySignatureTrustEngine extends BaseSignatureTrustEngine<It
             criteriaSet.add(new KeyAlgorithmCriterion(jcaAlgorithm), true);
         }
 
-        Iterable<Credential> trustedCredentials;
+        final Iterable<Credential> trustedCredentials;
         try {
             trustedCredentials = getCredentialResolver().resolve(criteriaSet);
         } catch (final ResolverException e) {

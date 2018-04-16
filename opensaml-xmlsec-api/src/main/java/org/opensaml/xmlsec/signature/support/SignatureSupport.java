@@ -99,7 +99,7 @@ public final class SignatureSupport {
         Constraint.isNotNull(signature, "Signature cannot be null");
         Constraint.isNotNull(parameters, "Signature signing parameters cannot be null");
 
-        Logger log = getLogger();
+        final Logger log = getLogger();
         
         // Signing credential
         if (signature.getSigningCredential() == null) {
@@ -131,10 +131,10 @@ public final class SignatureSupport {
         }
     
         // Reference(s) digest method
-        String paramsDigestAlgo = parameters.getSignatureReferenceDigestMethod();
-        for (ContentReference cr : signature.getContentReferences()) {
+        final String paramsDigestAlgo = parameters.getSignatureReferenceDigestMethod();
+        for (final ContentReference cr : signature.getContentReferences()) {
             if (cr instanceof ConfigurableContentReference) {
-                ConfigurableContentReference configurableReference = (ConfigurableContentReference) cr;
+                final ConfigurableContentReference configurableReference = (ConfigurableContentReference) cr;
                 if (paramsDigestAlgo != null) {
                     configurableReference.setDigestAlgorithm(paramsDigestAlgo);
                 }
@@ -147,12 +147,12 @@ public final class SignatureSupport {
     
         // KeyInfo
         if (signature.getKeyInfo() == null) {
-            KeyInfoGenerator kiGenerator = parameters.getKeyInfoGenerator();
+            final KeyInfoGenerator kiGenerator = parameters.getKeyInfoGenerator();
             if (kiGenerator != null) {
                 try {
-                    KeyInfo keyInfo = kiGenerator.generate(signature.getSigningCredential());
+                    final KeyInfo keyInfo = kiGenerator.generate(signature.getSigningCredential());
                     signature.setKeyInfo(keyInfo);
-                } catch (SecurityException e) {
+                } catch (final SecurityException e) {
                     log.error("Error generating KeyInfo from credential", e);
                     throw e;
                 }
@@ -181,16 +181,16 @@ public final class SignatureSupport {
         Constraint.isNotNull(signable, "Signable XMLObject cannot be null");
         Constraint.isNotNull(parameters, "Signature signing parameters cannot be null");
 
-        XMLObjectBuilder<Signature> signatureBuilder =
+        final XMLObjectBuilder<Signature> signatureBuilder =
                 (XMLObjectBuilder<Signature>) XMLObjectProviderRegistrySupport.getBuilderFactory().getBuilder(
                         Signature.DEFAULT_ELEMENT_NAME);
-        Signature signature = signatureBuilder.buildObject(Signature.DEFAULT_ELEMENT_NAME);
+        final Signature signature = signatureBuilder.buildObject(Signature.DEFAULT_ELEMENT_NAME);
 
         signable.setSignature(signature);
 
         SignatureSupport.prepareSignatureParams(signature, parameters);
 
-        Marshaller marshaller = XMLObjectProviderRegistrySupport.getMarshallerFactory().getMarshaller(signable);
+        final Marshaller marshaller = XMLObjectProviderRegistrySupport.getMarshallerFactory().getMarshaller(signable);
         marshaller.marshall(signable);
 
         Signer.signObject(signature);

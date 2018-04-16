@@ -30,8 +30,10 @@ import org.opensaml.xacml.profile.saml.XACMLAuthzDecisionStatementType;
 public class XACMLAuthzDecisionStatementTypeUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentObject, XMLObject childObject) throws UnmarshallingException {
-        XACMLAuthzDecisionStatementType xacmlauthzdecisionstatement = (XACMLAuthzDecisionStatementType) parentObject;
+    protected void processChildElement(final XMLObject parentObject, final XMLObject childObject)
+            throws UnmarshallingException {
+        final XACMLAuthzDecisionStatementType xacmlauthzdecisionstatement =
+                (XACMLAuthzDecisionStatementType) parentObject;
 
         if (childObject instanceof RequestType) {
             xacmlauthzdecisionstatement.setRequest((RequestType) childObject);

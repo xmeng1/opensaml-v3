@@ -100,13 +100,13 @@ public abstract class AbstractSAMLArtifact implements SAMLArtifact {
     }
 
     /** {@inheritDoc} */
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (o == this) {
             return true;
         }
 
         if (o instanceof AbstractSAMLArtifact) {
-            AbstractSAMLArtifact otherArtifact = (AbstractSAMLArtifact) o;
+            final AbstractSAMLArtifact otherArtifact = (AbstractSAMLArtifact) o;
             return Arrays.equals(getArtifactBytes(), otherArtifact.getArtifactBytes());
         }
 

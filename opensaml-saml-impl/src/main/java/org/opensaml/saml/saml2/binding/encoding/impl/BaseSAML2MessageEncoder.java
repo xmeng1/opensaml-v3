@@ -42,10 +42,10 @@ public abstract class BaseSAML2MessageEncoder extends BaseHttpServletResponseXML
      * 
      * @throws MessageEncodingException throw if no relying party endpoint is available
      */
-    protected URI getEndpointURL(MessageContext<SAMLObject> messageContext) throws MessageEncodingException {
+    protected URI getEndpointURL(final MessageContext<SAMLObject> messageContext) throws MessageEncodingException {
         try {
             return SAMLBindingSupport.getEndpointURL(messageContext);
-        } catch (BindingException e) {
+        } catch (final BindingException e) {
             throw new MessageEncodingException("Could not obtain message endpoint URL", e);
         }
     }

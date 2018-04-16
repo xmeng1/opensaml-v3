@@ -33,9 +33,9 @@ public class ResourceMatchTypeUnmarshaller extends AbstractXACMLObjectUnmarshall
 
     /** {@inheritDoc} */
     @Override
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         if (attribute.getLocalName().equals(ResourceMatchType.MATCH_ID_ATTRIB_NAME)) {
-            ResourceMatchType matchType = (ResourceMatchType) xmlObject;
+            final ResourceMatchType matchType = (ResourceMatchType) xmlObject;
             matchType.setMatchId(StringSupport.trimOrNull(attribute.getValue()));
         } else {
             super.processAttribute(xmlObject, attribute);
@@ -44,9 +44,9 @@ public class ResourceMatchTypeUnmarshaller extends AbstractXACMLObjectUnmarshall
 
     /** {@inheritDoc} */
     @Override
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        ResourceMatchType matchType = (ResourceMatchType) parentXMLObject;
+        final ResourceMatchType matchType = (ResourceMatchType) parentXMLObject;
         
         if (childXMLObject instanceof AttributeValueType) {
             matchType.setAttributeValue((AttributeValueType) childXMLObject);

@@ -40,7 +40,8 @@ public class AdditionalMetadataLocationBuilder extends AbstractSAMLObjectBuilder
     }
 
     /** {@inheritDoc} */
-    public AdditionalMetadataLocation buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public AdditionalMetadataLocation buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new AdditionalMetadataLocationImpl(namespaceURI, localName, namespacePrefix);
     }
 }

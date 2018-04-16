@@ -31,8 +31,9 @@ import org.w3c.dom.Element;
 public class ConfirmationMethodMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallElementContent(XMLObject samlObject, Element domElement) throws MarshallingException {
-        ConfirmationMethod confirmationMethod = (ConfirmationMethod) samlObject;
+    protected void marshallElementContent(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
+        final ConfirmationMethod confirmationMethod = (ConfirmationMethod) samlObject;
 
         ElementSupport.appendTextContent(domElement, confirmationMethod.getConfirmationMethod());
     }

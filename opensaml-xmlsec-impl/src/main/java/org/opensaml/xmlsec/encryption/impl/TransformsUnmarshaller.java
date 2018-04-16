@@ -28,9 +28,9 @@ import org.opensaml.xmlsec.signature.Transform;
 public class TransformsUnmarshaller extends AbstractXMLEncryptionUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        Transforms transforms = (Transforms) parentXMLObject;
+        final Transforms transforms = (Transforms) parentXMLObject;
 
         if (childXMLObject instanceof Transform) {
             transforms.getTransforms().add((Transform) childXMLObject);

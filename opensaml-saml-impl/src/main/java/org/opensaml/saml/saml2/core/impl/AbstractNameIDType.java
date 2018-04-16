@@ -50,7 +50,8 @@ public class AbstractNameIDType extends AbstractSAMLObject implements NameIDType
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AbstractNameIDType(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AbstractNameIDType(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -60,7 +61,7 @@ public class AbstractNameIDType extends AbstractSAMLObject implements NameIDType
     }
     
     /** {@inheritDoc} */
-    public void setValue(String newName) {
+    public void setValue(final String newName) {
         this.name = prepareForAssignment(this.name, newName);
     }
     
@@ -70,7 +71,7 @@ public class AbstractNameIDType extends AbstractSAMLObject implements NameIDType
     }
 
     /** {@inheritDoc} */
-    public void setNameQualifier(String newNameQualifier) {
+    public void setNameQualifier(final String newNameQualifier) {
         this.nameQualifier = prepareForAssignment(this.nameQualifier, newNameQualifier);
     }
 
@@ -80,7 +81,7 @@ public class AbstractNameIDType extends AbstractSAMLObject implements NameIDType
     }
 
     /** {@inheritDoc} */
-    public void setSPNameQualifier(String newSPNameQualifier) {
+    public void setSPNameQualifier(final String newSPNameQualifier) {
         this.spNameQualifier = prepareForAssignment(this.spNameQualifier, newSPNameQualifier);
     }
 
@@ -90,7 +91,7 @@ public class AbstractNameIDType extends AbstractSAMLObject implements NameIDType
     }
 
     /** {@inheritDoc} */
-    public void setFormat(String newFormat) {
+    public void setFormat(final String newFormat) {
         this.format = prepareForAssignment(this.format, newFormat);
     }
 
@@ -100,7 +101,7 @@ public class AbstractNameIDType extends AbstractSAMLObject implements NameIDType
     }
 
     /** {@inheritDoc} */
-    public void setSPProvidedID(String newSPProvidedID) {
+    public void setSPProvidedID(final String newSPProvidedID) {
         this.spProvidedID = prepareForAssignment(this.spProvidedID, newSPProvidedID);
     }
 

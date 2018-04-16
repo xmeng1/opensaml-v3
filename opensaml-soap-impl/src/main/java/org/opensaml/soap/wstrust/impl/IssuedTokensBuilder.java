@@ -31,7 +31,7 @@ public class IssuedTokensBuilder extends AbstractWSTrustObjectBuilder<IssuedToke
     }
 
     /** {@inheritDoc} */
-    public IssuedTokens buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public IssuedTokens buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new IssuedTokensImpl(namespaceURI, localName, namespacePrefix);
     }
 

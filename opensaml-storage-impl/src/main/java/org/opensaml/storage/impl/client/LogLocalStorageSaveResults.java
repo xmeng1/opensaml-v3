@@ -32,7 +32,7 @@ import net.shibboleth.utilities.java.support.annotation.constraint.NotEmpty;
 /**
  * An action that logs the results of Local Storage-based {@link ClientStorageService} save operations.
  * 
- * @event {@link EventIds#PROCEED_EVENT_ID}
+ * @event {@link org.opensaml.profile.action.EventIds#PROCEED_EVENT_ID}
  * 
  * @param <InboundMessageType>
  * @param <OutboundMessageType>

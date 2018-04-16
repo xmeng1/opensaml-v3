@@ -33,7 +33,7 @@ public class ReasonImpl extends XSStringImpl implements Reason {
      * @param elementLocalName The local name of the element
      * @param namespacePrefix The namespace prefix of the element
      */
-    public ReasonImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public ReasonImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

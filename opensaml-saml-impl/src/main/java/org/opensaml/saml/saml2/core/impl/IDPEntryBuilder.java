@@ -42,7 +42,7 @@ public class IDPEntryBuilder extends AbstractSAMLObjectBuilder<IDPEntry> {
     }
 
     /** {@inheritDoc} */
-    public IDPEntry buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public IDPEntry buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new IDPEntryImpl(namespaceURI, localName, namespacePrefix);
     }
 }

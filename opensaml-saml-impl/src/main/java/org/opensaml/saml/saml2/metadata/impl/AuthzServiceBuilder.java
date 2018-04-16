@@ -40,7 +40,7 @@ public class AuthzServiceBuilder extends AbstractSAMLObjectBuilder<AuthzService>
     }
 
     /** {@inheritDoc} */
-    public AuthzService buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public AuthzService buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new AuthzServiceImpl(namespaceURI, localName, namespacePrefix);
     }
 }

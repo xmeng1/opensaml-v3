@@ -34,7 +34,7 @@ public class ResultTypeImplBuilder extends AbstractXACMLObjectBuilder<ResultType
     }
 
     /** {@inheritDoc} */
-    public ResultType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public ResultType buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new ResultTypeImpl(namespaceURI, localName, namespacePrefix);
     }
 }

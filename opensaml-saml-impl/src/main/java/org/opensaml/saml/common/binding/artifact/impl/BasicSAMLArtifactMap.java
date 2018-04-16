@@ -35,6 +35,7 @@ import net.shibboleth.utilities.java.support.annotation.constraint.Positive;
 import net.shibboleth.utilities.java.support.component.AbstractInitializableComponent;
 import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
 import net.shibboleth.utilities.java.support.logic.Constraint;
+import net.shibboleth.utilities.java.support.primitive.TimerSupport;
 
 import org.joda.time.DateTime;
 import org.opensaml.saml.common.SAMLObject;
@@ -82,7 +83,7 @@ public class BasicSAMLArtifactMap extends AbstractInitializableComponent impleme
 
         if (cleanupInterval > 0) {
             cleanupTask = new Cleanup();
-            cleanupTaskTimer = new Timer(true);
+            cleanupTaskTimer = new Timer(TimerSupport.getTimerName(this), true);
             cleanupTaskTimer.schedule(cleanupTask, cleanupInterval * 1000, cleanupInterval * 1000);
         }
     }

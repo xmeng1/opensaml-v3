@@ -26,7 +26,8 @@ import org.opensaml.xacml.policy.VariableReferenceType;
 public class VariableReferenceTypeImplBuilder extends AbstractXACMLObjectBuilder<VariableReferenceType> {
 
     /** {@inheritDoc} */
-    public VariableReferenceType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public VariableReferenceType buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new VariableReferenceTypeImpl(namespaceURI,localName,namespacePrefix);
     }
 

@@ -34,7 +34,7 @@ public class PGPDataBuilder extends AbstractXMLObjectBuilder<PGPData> implements
     }
 
     /** {@inheritDoc} */
-    public PGPData buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public PGPData buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new PGPDataImpl(namespaceURI, localName, namespacePrefix);
     }
 

@@ -186,7 +186,7 @@ public abstract class BaseSAMLSimpleSignatureSecurityHandler extends AbstractMes
      * @throws MessageHandlerException thrown if there are errors during the signature validation process
      * 
      */
-    private void doEvaluate(@Nonnull @NotEmpty final byte[] signature, @Nonnull @NotEmpty byte[] signedContent,
+    private void doEvaluate(@Nonnull @NotEmpty final byte[] signature, @Nonnull @NotEmpty final byte[] signedContent,
             @Nonnull @NotEmpty final String algorithmURI, @Nonnull final MessageContext messageContext)
                     throws MessageHandlerException {
 
@@ -279,7 +279,7 @@ public abstract class BaseSAMLSimpleSignatureSecurityHandler extends AbstractMes
                     return false;
                 }
             } else {
-                for (Credential cred : candidateCredentials) {
+                for (final Credential cred : candidateCredentials) {
                     if (engine.validate(signature, signedContent, algorithmURI, criteriaSet, cred)) {
                         log.debug("{} Simple signature validation succeeded with a request-derived credential",
                                 getLogPrefix());
@@ -289,7 +289,7 @@ public abstract class BaseSAMLSimpleSignatureSecurityHandler extends AbstractMes
                 log.warn("{} Signature validation using request-derived credentials failed", getLogPrefix());
                 return false;
             }
-        } catch (SecurityException e) {
+        } catch (final SecurityException e) {
             log.warn("{} Error evaluating the request's simple signature using the trust engine", getLogPrefix(), e);
             throw new MessageHandlerException("Error during trust engine evaluation of the simple signature", e);
         }
@@ -320,7 +320,7 @@ public abstract class BaseSAMLSimpleSignatureSecurityHandler extends AbstractMes
      * @throws MessageHandlerException thrown if there is an error during request processing
      */
     @Nullable protected byte[] getSignature() throws MessageHandlerException {
-        String signature = getHttpServletRequest().getParameter("Signature");
+        final String signature = getHttpServletRequest().getParameter("Signature");
         if (Strings.isNullOrEmpty(signature)) {
             return null;
         }

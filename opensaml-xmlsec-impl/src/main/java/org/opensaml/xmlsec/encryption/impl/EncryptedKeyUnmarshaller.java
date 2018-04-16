@@ -30,8 +30,8 @@ import org.w3c.dom.Attr;
 public class EncryptedKeyUnmarshaller extends EncryptedTypeUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
-        EncryptedKey ek = (EncryptedKey) xmlObject;
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
+        final EncryptedKey ek = (EncryptedKey) xmlObject;
 
         if (attribute.getLocalName().equals(EncryptedKey.RECIPIENT_ATTRIB_NAME)) {
             ek.setRecipient(attribute.getValue());
@@ -41,9 +41,9 @@ public class EncryptedKeyUnmarshaller extends EncryptedTypeUnmarshaller {
     }
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        EncryptedKey ek = (EncryptedKey) parentXMLObject;
+        final EncryptedKey ek = (EncryptedKey) parentXMLObject;
 
         if (childXMLObject instanceof ReferenceList) {
             ek.setReferenceList((ReferenceList) childXMLObject);

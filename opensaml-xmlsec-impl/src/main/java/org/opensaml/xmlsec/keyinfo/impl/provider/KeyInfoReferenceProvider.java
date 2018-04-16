@@ -59,14 +59,14 @@ public class KeyInfoReferenceProvider extends AbstractKeyInfoProvider {
             @Nonnull final XMLObject keyInfoChild, @Nullable final CriteriaSet criteriaSet,
             @Nonnull final KeyInfoResolutionContext kiContext) throws SecurityException {
 
-        KeyInfoReference ref = getKeyInfoReference(keyInfoChild);
+        final KeyInfoReference ref = getKeyInfoReference(keyInfoChild);
         if (ref == null) {
             return null;
         }
 
         log.debug("Attempting to follow same-document KeyInfoReference");
 
-        XMLObject target = ref.resolveIDFromRoot(ref.getURI().substring(1));
+        final XMLObject target = ref.resolveIDFromRoot(ref.getURI().substring(1));
         if (target == null) {
             log.warn("KeyInfoReference URI could not be dereferenced");
             return null;
@@ -81,9 +81,9 @@ public class KeyInfoReferenceProvider extends AbstractKeyInfoProvider {
         log.debug("Recursively processing KeyInfoReference referent");
         
         // Copy the existing CriteriaSet, excluding the KeyInfoCriteria, which is reset to the target.
-        CriteriaSet newCriteria = new CriteriaSet();
+        final CriteriaSet newCriteria = new CriteriaSet();
         newCriteria.add(new KeyInfoCriterion((KeyInfo) target));
-        for (Criterion crit : criteriaSet) {
+        for (final Criterion crit : criteriaSet) {
             if (!(crit instanceof KeyInfoCriterion)) {
                 newCriteria.add(crit);
             }
@@ -91,15 +91,15 @@ public class KeyInfoReferenceProvider extends AbstractKeyInfoProvider {
         
         // Resolve the new target and copy the results into a collection to return.
         try {
-            Iterable<Credential> creds = resolver.resolve(newCriteria);
+            final Iterable<Credential> creds = resolver.resolve(newCriteria);
             if (creds != null) {
-                Collection<Credential> result = new ArrayList<>();
-                for (Credential c : creds) {
+                final Collection<Credential> result = new ArrayList<>();
+                for (final Credential c : creds) {
                     result.add(c);
                 }
                 return result;
             }
-        } catch (ResolverException e) {
+        } catch (final ResolverException e) {
             log.error("Exception while resolving credentials from KeyInfoReference referent", e);
         }
         
@@ -114,8 +114,8 @@ public class KeyInfoReferenceProvider extends AbstractKeyInfoProvider {
      */
     @Nullable protected KeyInfoReference getKeyInfoReference(@Nonnull final XMLObject xmlObject) {
         if (xmlObject instanceof KeyInfoReference) {
-            KeyInfoReference ref = (KeyInfoReference) xmlObject;
-            String uri = ref.getURI();
+            final KeyInfoReference ref = (KeyInfoReference) xmlObject;
+            final String uri = ref.getURI();
             if (uri != null && uri.startsWith("#")) {
                 return ref;
             } else {

@@ -31,7 +31,8 @@ public class RequestedTokenCancelledBuilder extends AbstractWSTrustObjectBuilder
     }
 
     /** {@inheritDoc} */
-    public RequestedTokenCancelled buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public RequestedTokenCancelled buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new RequestedTokenCancelledImpl(namespaceURI, localName, namespacePrefix);
     }
 

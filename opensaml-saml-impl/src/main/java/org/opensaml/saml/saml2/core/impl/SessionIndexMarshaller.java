@@ -35,8 +35,9 @@ import org.w3c.dom.Element;
 public class SessionIndexMarshaller extends AbstractSAMLObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallElementContent(XMLObject samlObject, Element domElement) throws MarshallingException {
-        SessionIndex si = (SessionIndex) samlObject;
+    protected void marshallElementContent(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
+        final SessionIndex si = (SessionIndex) samlObject;
 
         if (si.getSessionIndex() != null) {
             ElementSupport.appendTextContent(domElement, si.getSessionIndex());

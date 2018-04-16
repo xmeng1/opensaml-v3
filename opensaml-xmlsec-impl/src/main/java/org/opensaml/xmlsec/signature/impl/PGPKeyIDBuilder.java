@@ -34,7 +34,7 @@ public class PGPKeyIDBuilder extends AbstractXMLObjectBuilder<PGPKeyID> implemen
     }
 
     /** {@inheritDoc} */
-    public PGPKeyID buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public PGPKeyID buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new PGPKeyIDImpl(namespaceURI, localName, namespacePrefix);
     }
 

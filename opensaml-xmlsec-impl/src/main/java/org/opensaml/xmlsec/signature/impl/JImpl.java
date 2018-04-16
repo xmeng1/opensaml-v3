@@ -31,7 +31,7 @@ public class JImpl extends CryptoBinaryImpl implements J {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected JImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected JImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

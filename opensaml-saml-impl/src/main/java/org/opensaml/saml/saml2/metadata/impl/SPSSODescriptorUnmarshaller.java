@@ -35,7 +35,7 @@ import org.w3c.dom.Attr;
 public class SPSSODescriptorUnmarshaller extends SSODescriptorUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
+    protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
         final SPSSODescriptor descriptor = (SPSSODescriptor) parentSAMLObject;
 
@@ -49,7 +49,7 @@ public class SPSSODescriptorUnmarshaller extends SSODescriptorUnmarshaller {
     }
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject samlObject, final Attr attribute) throws UnmarshallingException {
         final SPSSODescriptor descriptor = (SPSSODescriptor) samlObject;
 
         if (attribute.getNamespaceURI() == null) {

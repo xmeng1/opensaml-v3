@@ -35,7 +35,7 @@ public class ServiceNameImpl extends LocalizedNameImpl implements ServiceName {
      * @param elementLocalName local name
      * @param namespacePrefix prefix
      */
-    protected ServiceNameImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected ServiceNameImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

@@ -30,8 +30,8 @@ import org.w3c.dom.Attr;
 public class UseKeyUnmarshaller extends AbstractWSTrustObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
-        UseKey uk = (UseKey) xmlObject;
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
+        final UseKey uk = (UseKey) xmlObject;
         
         if (UseKey.SIG_ATTRIB_NAME.equals(attribute.getLocalName())) {
             uk.setSig(attribute.getValue());
@@ -41,9 +41,9 @@ public class UseKeyUnmarshaller extends AbstractWSTrustObjectUnmarshaller {
     }
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        UseKey uk = (UseKey) parentXMLObject;
+        final UseKey uk = (UseKey) parentXMLObject;
         uk.setUnknownXMLObject(childXMLObject);
     }
 }

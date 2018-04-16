@@ -39,7 +39,7 @@ public class AppliesToImpl extends AbstractXMLObject implements AppliesTo {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AppliesToImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AppliesToImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -49,13 +49,13 @@ public class AppliesToImpl extends AbstractXMLObject implements AppliesTo {
     }
 
     /** {@inheritDoc} */
-    public void setEndPointReference(EndPointReference reference) {
+    public void setEndPointReference(final EndPointReference reference) {
         endPointReference = prepareForAssignment(endPointReference, reference);
     }
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         children.add(endPointReference);
 

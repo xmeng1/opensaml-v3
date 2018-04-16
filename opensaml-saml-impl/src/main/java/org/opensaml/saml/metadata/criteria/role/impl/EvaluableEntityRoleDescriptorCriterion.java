@@ -60,12 +60,12 @@ public class EvaluableEntityRoleDescriptorCriterion implements EvaluableRoleDesc
     }
     
     /** {@inheritDoc} */
-    public boolean apply(RoleDescriptor input) {
+    public boolean apply(final RoleDescriptor input) {
         if (input == null) {
             return false;
         }
         
-        QName schemaType = input.getSchemaType();
+        final QName schemaType = input.getSchemaType();
         if (schemaType != null && Objects.equals(role, schemaType)) {
             return true;
         }
@@ -79,7 +79,7 @@ public class EvaluableEntityRoleDescriptorCriterion implements EvaluableRoleDesc
     }
 
     /** {@inheritDoc} */
-    public boolean equals(Object other) {
+    public boolean equals(final Object other) {
         if (this == other) {
             return true;
         }

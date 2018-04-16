@@ -31,7 +31,7 @@ public class RenewingBuilder extends AbstractWSTrustObjectBuilder<Renewing> {
     }
 
     /** {@inheritDoc} */
-    public Renewing buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Renewing buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new RenewingImpl(namespaceURI, localName, namespacePrefix);
     }
 

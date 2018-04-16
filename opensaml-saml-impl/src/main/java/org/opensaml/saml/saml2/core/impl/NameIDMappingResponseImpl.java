@@ -44,7 +44,8 @@ public class NameIDMappingResponseImpl extends StatusResponseTypeImpl implements
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected NameIDMappingResponseImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected NameIDMappingResponseImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -54,7 +55,7 @@ public class NameIDMappingResponseImpl extends StatusResponseTypeImpl implements
     }
 
     /** {@inheritDoc} */
-    public void setNameID(NameID newNameID) {
+    public void setNameID(final NameID newNameID) {
         this.nameID = prepareForAssignment(this.nameID, newNameID);
     }
 
@@ -64,13 +65,13 @@ public class NameIDMappingResponseImpl extends StatusResponseTypeImpl implements
     }
 
     /** {@inheritDoc} */
-    public void setEncryptedID(EncryptedID newEncryptedID) {
+    public void setEncryptedID(final EncryptedID newEncryptedID) {
         this.encryptedID = prepareForAssignment(this.encryptedID, newEncryptedID);
     }
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         if (super.getOrderedChildren() != null) {
             children.addAll(super.getOrderedChildren());

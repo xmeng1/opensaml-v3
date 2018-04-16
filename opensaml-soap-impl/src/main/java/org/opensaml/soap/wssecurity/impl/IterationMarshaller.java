@@ -32,8 +32,9 @@ import org.w3c.dom.Element;
 public class IterationMarshaller extends AbstractWSSecurityObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallElementContent(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        Iteration iteration = (Iteration) xmlObject;
+    protected void marshallElementContent(final XMLObject xmlObject, final Element domElement)
+            throws MarshallingException {
+        final Iteration iteration = (Iteration) xmlObject;
         
         if (iteration.getValue() != null) {
             ElementSupport.appendTextContent(domElement, iteration.getValue().toString());

@@ -31,7 +31,8 @@ public class RequestedUnattachedReferenceBuilder extends AbstractWSTrustObjectBu
     }
 
     /** {@inheritDoc} */
-    public RequestedUnattachedReference buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public RequestedUnattachedReference buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new RequestedUnattachedReferenceImpl(namespaceURI, localName, namespacePrefix);
     }
 

@@ -31,7 +31,7 @@ public class DelegateToBuilder extends AbstractWSTrustObjectBuilder<DelegateTo> 
     }
 
     /** {@inheritDoc} */
-    public DelegateTo buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public DelegateTo buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new DelegateToImpl(namespaceURI, localName, namespacePrefix);
     }
 

@@ -43,7 +43,7 @@ public class X509CRLImpl extends AbstractXMLObject implements X509CRL {
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected X509CRLImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected X509CRLImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -53,7 +53,7 @@ public class X509CRLImpl extends AbstractXMLObject implements X509CRL {
     }
 
     /** {@inheritDoc} */
-    public void setValue(String newValue) {
+    public void setValue(final String newValue) {
         // Dump our cached DOM if the new value really is new
         final String currentCert = B64_CRL_STORE.get(b64CRLIndex);
         final String b64Cert = prepareForAssignment(currentCert, newValue);

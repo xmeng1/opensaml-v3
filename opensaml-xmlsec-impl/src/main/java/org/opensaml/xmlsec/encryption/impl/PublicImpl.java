@@ -33,7 +33,7 @@ public class PublicImpl extends CryptoBinaryImpl implements Public {
      * @param elementLocalName local name
      * @param namespacePrefix namespace prefix
      */
-    protected PublicImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected PublicImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

@@ -52,12 +52,12 @@ public abstract class AbstractSimpleSingletonFactory<Input, Output>
     }
     
     /** {@inheritDoc} */
-    protected synchronized Output get(Input input) {
+    protected synchronized Output get(final Input input) {
         return map.get(input);
     }
     
     /** {@inheritDoc} */
-    protected synchronized void put(Input input, Output output) {
+    protected synchronized void put(final Input input, final Output output) {
         map.put(input, output);
     }
     

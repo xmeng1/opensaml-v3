@@ -59,7 +59,7 @@ public class TimestampImpl extends AbstractWSSecurityObject implements Timestamp
      * @param elementLocalName name of the element
      * @param namespacePrefix namespace prefix of the element
      */
-    public TimestampImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public TimestampImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         unknownAttributes = new AttributeMap(this);
         unknownChildren = new IndexedXMLObjectChildrenList<>(this);
@@ -76,12 +76,12 @@ public class TimestampImpl extends AbstractWSSecurityObject implements Timestamp
     }
 
     /** {@inheritDoc} */
-    public void setCreated(Created newCreated) {
+    public void setCreated(final Created newCreated) {
         created = prepareForAssignment(created, newCreated);
     }
 
     /** {@inheritDoc} */
-    public void setExpires(Expires newExpires) {
+    public void setExpires(final Expires newExpires) {
         expires = prepareForAssignment(expires, newExpires);
     }
  
@@ -91,8 +91,8 @@ public class TimestampImpl extends AbstractWSSecurityObject implements Timestamp
     }
 
     /** {@inheritDoc} */
-    public void setWSUId(String newId) {
-        String oldId = id;
+    public void setWSUId(final String newId) {
+        final String oldId = id;
         id = prepareForAssignment(id, newId);
         registerOwnID(oldId, id);
         manageQualifiedAttributeNamespace(IdBearing.WSU_ID_ATTR_NAME, id != null);
@@ -109,13 +109,13 @@ public class TimestampImpl extends AbstractWSSecurityObject implements Timestamp
     }
 
     /** {@inheritDoc} */
-    public List<XMLObject> getUnknownXMLObjects(QName typeOrName) {
+    public List<XMLObject> getUnknownXMLObjects(final QName typeOrName) {
         return (List<XMLObject>) unknownChildren.subList(typeOrName);
     }
     
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
         if (created != null) {
             children.add(created);
         }

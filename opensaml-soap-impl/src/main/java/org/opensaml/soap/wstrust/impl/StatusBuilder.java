@@ -31,7 +31,7 @@ public class StatusBuilder extends AbstractWSTrustObjectBuilder<Status> {
     }
 
     /** {@inheritDoc} */
-    public Status buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Status buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new StatusImpl(namespaceURI, localName, namespacePrefix);
     }
 

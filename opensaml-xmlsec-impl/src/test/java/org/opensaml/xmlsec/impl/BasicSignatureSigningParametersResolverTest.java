@@ -257,7 +257,7 @@ public class BasicSignatureSigningParametersResolverTest extends XMLObjectBaseTe
         Assert.assertEquals(params.getSignatureAlgorithm(), SignatureConstants.ALGO_ID_MAC_HMAC_SHA256);
         Assert.assertEquals(params.getSignatureReferenceDigestMethod(), SignatureConstants.ALGO_ID_DIGEST_SHA256);
         Assert.assertEquals(params.getSignatureCanonicalizationAlgorithm(), defaultC14N);
-        Assert.assertEquals(params.getSignatureHMACOutputLength(), new Integer(160));
+        Assert.assertEquals(params.getSignatureHMACOutputLength(), Integer.valueOf(160));
         Assert.assertNotNull(params.getKeyInfoGenerator());
     }
     

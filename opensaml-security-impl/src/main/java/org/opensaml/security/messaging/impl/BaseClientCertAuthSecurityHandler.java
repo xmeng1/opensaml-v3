@@ -488,7 +488,7 @@ public abstract class BaseClientCertAuthSecurityHandler extends BaseTrustEngineS
     @Nullable protected String getCommonName(@Nonnull final X509Certificate cert) {
         final List<String> names = X509Support.getCommonNames(cert.getSubjectX500Principal());
         if (names != null && !names.isEmpty()) {
-            String name = names.get(0);
+            final String name = names.get(0);
             log.debug("{} Extracted common name from certificate: {}", getLogPrefix(), name);
             return name;
         }
@@ -528,10 +528,10 @@ public abstract class BaseClientCertAuthSecurityHandler extends BaseTrustEngineS
     @Nonnull @NonnullElements protected List<String> getAltNames(@Nonnull final X509Certificate cert,
             @Nonnull final Integer altNameType) {
         log.debug("{} Extracting alt names from certificate of type: {}", getLogPrefix(), altNameType.toString());
-        Integer[] nameTypes = new Integer[] {altNameType};
-        List altNames = X509Support.getAltNames(cert, nameTypes);
-        List<String> names = new ArrayList<>();
-        for (Object altNameValue : altNames) {
+        final Integer[] nameTypes = new Integer[] {altNameType};
+        final List altNames = X509Support.getAltNames(cert, nameTypes);
+        final List<String> names = new ArrayList<>();
+        for (final Object altNameValue : altNames) {
             if (!(altNameValue instanceof String)) {
                 log.debug("{} Skipping non-String certificate alt name value", getLogPrefix());
             } else {

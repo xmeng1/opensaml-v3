@@ -192,7 +192,7 @@ public abstract class BaseContext implements Iterable<BaseContext> {
         // Note: This will throw if replace == false and existing != null.
         // In that case, no link management happens, which is what we want, to leave things in a consistent state.
         log.trace("Attempting to store a subcontext with type '{}' with replace option '{}'", 
-                new Object[]{subcontext.getClass().getName(), new Boolean(replace).toString()});
+                new Object[]{subcontext.getClass().getName(), Boolean.valueOf(replace).toString()});
         subcontexts.add(subcontext, replace);
         
         // Manage parent/child links
@@ -267,7 +267,7 @@ public abstract class BaseContext implements Iterable<BaseContext> {
      */
     public void clearSubcontexts() {
         log.trace("Clearing all subcontexts from context with type '{}'", this.getClass().getName());
-        for (BaseContext subcontext : subcontexts) {
+        for (final BaseContext subcontext : subcontexts) {
             subcontext.setParent(null);
         }
         subcontexts.clear();
@@ -305,7 +305,7 @@ public abstract class BaseContext implements Iterable<BaseContext> {
      * @return the new subcontext instance
      */
     @Nonnull protected <T extends BaseContext> T createSubcontext(@Nonnull final Class<T> clazz) {
-        Constructor<T> constructor;
+        final Constructor<T> constructor;
         try {
             constructor = clazz.getConstructor();
             return constructor.newInstance();
@@ -343,7 +343,7 @@ public abstract class BaseContext implements Iterable<BaseContext> {
          *
          * @param iterator the iterator instance to decorator
          */
-        protected ContextSetNoRemoveIteratorDecorator(Iterator<BaseContext> iterator) {
+        protected ContextSetNoRemoveIteratorDecorator(final Iterator<BaseContext> iterator) {
             wrappedIterator = iterator;
         }
 

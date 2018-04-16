@@ -30,8 +30,8 @@ import com.google.common.base.Strings;
 public class PasswordMarshaller extends AttributedStringMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        Password password = (Password) xmlObject;
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
+        final Password password = (Password) xmlObject;
         if (!Strings.isNullOrEmpty(password.getType())) {
             domElement.setAttributeNS(null, Password.TYPE_ATTRIB_NAME, password.getType());
         }

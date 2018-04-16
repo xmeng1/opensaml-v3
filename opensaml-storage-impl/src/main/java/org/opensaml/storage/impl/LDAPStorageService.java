@@ -110,7 +110,7 @@ public class LDAPStorageService extends AbstractStorageService implements Storag
 
     /** {@inheritDoc} */
     @Override public boolean create(@Nonnull @NotEmpty final String context, @Nonnull @NotEmpty final String key,
-            @Nonnull @NotEmpty final String value, @Nullable @Positive Long expiration) throws IOException {
+            @Nonnull @NotEmpty final String value, @Nullable @Positive final Long expiration) throws IOException {
         if (expiration != null) {
             throw new UnsupportedOperationException("Expiration not supported");
         }
@@ -119,7 +119,7 @@ public class LDAPStorageService extends AbstractStorageService implements Storag
         try {
             merge(entry);
             return true;
-        } catch (LdapException e) {
+        } catch (final LdapException e) {
             log.error("LDAP merge operation failed", e);
             throw new IOException(e);
         }
@@ -131,7 +131,7 @@ public class LDAPStorageService extends AbstractStorageService implements Storag
         SearchResult result = null;
         try {
             result = search(context, key).getResult();
-        } catch (LdapException e) {
+        } catch (final LdapException e) {
             if (e.getResultCode() != ResultCode.NO_SUCH_OBJECT) {
                 log.error("LDAP search operation failed", e);
                 throw new IOException(e);
@@ -167,7 +167,7 @@ public class LDAPStorageService extends AbstractStorageService implements Storag
         try {
             merge(entry);
             return true;
-        } catch (LdapException e) {
+        } catch (final LdapException e) {
             log.error("LDAP merge operation failed", e);
             throw new IOException(e);
         }
@@ -193,7 +193,7 @@ public class LDAPStorageService extends AbstractStorageService implements Storag
         try {
             deleteAttribute(context, key);
             return true;
-        } catch (LdapException e) {
+        } catch (final LdapException e) {
             log.error("LDAP modify operation failed", e);
             throw new IOException(e);
         }
@@ -220,7 +220,7 @@ public class LDAPStorageService extends AbstractStorageService implements Storag
     @Override public void deleteContext(@Nonnull @NotEmpty final String context) throws IOException {
         try {
             delete(context);
-        } catch (LdapException e) {
+        } catch (final LdapException e) {
             log.error("LDAP delete operation failed", e);
             throw new IOException(e);
         }

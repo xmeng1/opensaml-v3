@@ -24,7 +24,7 @@ import org.opensaml.xacml.policy.DefaultsType;
 public class DefaultsTypeImplBuilder extends AbstractXACMLObjectBuilder<DefaultsType> {
 
     /** {@inheritDoc} */
-    public DefaultsType buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public DefaultsType buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new DefaultsTypeImpl(namespaceURI, localName, namespacePrefix);
 
     }

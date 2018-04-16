@@ -20,13 +20,13 @@ package org.opensaml.saml.metadata.resolver.impl;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
-import org.junit.Assert;
 import org.opensaml.core.criterion.EntityIdCriterion;
 import org.opensaml.core.xml.XMLObject;
 import org.opensaml.core.xml.XMLObjectBaseTestCase;
 import org.opensaml.core.xml.persist.MapLoadSaveManager;
 import org.opensaml.saml.saml2.metadata.EntityDescriptor;
 import org.opensaml.security.crypto.JCAConstants;
+import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;

@@ -31,8 +31,8 @@ import com.google.common.base.Strings;
 public class UsernameTokenMarshaller extends AbstractWSSecurityObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallAttributes(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        UsernameToken usernameToken = (UsernameToken) xmlObject;
+    protected void marshallAttributes(final XMLObject xmlObject, final Element domElement) throws MarshallingException {
+        final UsernameToken usernameToken = (UsernameToken) xmlObject;
         
         if (!Strings.isNullOrEmpty(usernameToken.getWSUId())) {
             XMLObjectSupport.marshallAttribute(UsernameToken.WSU_ID_ATTR_NAME, usernameToken.getWSUId(), domElement,

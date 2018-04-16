@@ -34,7 +34,7 @@ import org.w3c.dom.Attr;
 public class ChannelBindingsUnmarshaller extends XSBase64BinaryUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         final ChannelBindings cb = (ChannelBindings) xmlObject;
         
         final QName attrName = QNameSupport.getNodeQName(attribute);

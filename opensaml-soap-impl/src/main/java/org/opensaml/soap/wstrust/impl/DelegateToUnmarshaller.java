@@ -29,9 +29,9 @@ import org.opensaml.soap.wstrust.DelegateTo;
 public class DelegateToUnmarshaller extends AbstractWSTrustObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        DelegateTo delegateTo = (DelegateTo) parentXMLObject;
+        final DelegateTo delegateTo = (DelegateTo) parentXMLObject;
         delegateTo.setUnknownXMLObject(childXMLObject);
     }
 

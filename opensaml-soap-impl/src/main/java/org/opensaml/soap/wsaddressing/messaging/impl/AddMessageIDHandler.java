@@ -75,9 +75,9 @@ public class AddMessageIDHandler extends AbstractHeaderGeneratingMessageHandler 
 
     /** {@inheritDoc} */
     protected void doInvoke(@Nonnull final MessageContext messageContext) throws MessageHandlerException {
-        String id = getMessageID(messageContext);
+        final String id = getMessageID(messageContext);
         log.debug("Issuing WS-Addressing MessageID: {}", id);
-        MessageID messageID = (MessageID) XMLObjectSupport.buildXMLObject(MessageID.ELEMENT_NAME);
+        final MessageID messageID = (MessageID) XMLObjectSupport.buildXMLObject(MessageID.ELEMENT_NAME);
         messageID.setValue(id);
         decorateGeneratedHeader(messageContext, messageID);
         SOAPMessagingSupport.addHeaderBlock(messageContext, messageID);
@@ -90,8 +90,8 @@ public class AddMessageIDHandler extends AbstractHeaderGeneratingMessageHandler 
      * 
      * @return the retrieved or generated message ID
      */
-    @Nonnull protected String getMessageID(MessageContext messageContext) {
-        WSAddressingContext addressing = messageContext.getSubcontext(WSAddressingContext.class, false);
+    @Nonnull protected String getMessageID(final MessageContext messageContext) {
+        final WSAddressingContext addressing = messageContext.getSubcontext(WSAddressingContext.class, false);
         if (addressing != null && addressing.getMessageIDURI() != null) {
             return addressing.getMessageIDURI();
         } else if (getIdentifierGenerationStrategy() != null) {

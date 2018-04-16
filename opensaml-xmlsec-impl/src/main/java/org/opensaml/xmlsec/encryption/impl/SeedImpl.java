@@ -33,7 +33,7 @@ public class SeedImpl extends CryptoBinaryImpl implements Seed {
      * @param elementLocalName local name
      * @param namespacePrefix namespace prefix
      */
-    protected SeedImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected SeedImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

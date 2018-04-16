@@ -65,7 +65,7 @@ public class EncryptedHeaderImpl extends AbstractWSSecurityObject implements Enc
      * @param elementLocalName name of the element
      * @param namespacePrefix namespace prefix of the element
      */
-    public EncryptedHeaderImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    public EncryptedHeaderImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -75,7 +75,7 @@ public class EncryptedHeaderImpl extends AbstractWSSecurityObject implements Enc
     }
 
     /** {@inheritDoc} */
-    public void setEncryptedData(EncryptedData newEncryptedData) {
+    public void setEncryptedData(final EncryptedData newEncryptedData) {
         encryptedData = prepareForAssignment(encryptedData, newEncryptedData);
     }
 
@@ -85,8 +85,8 @@ public class EncryptedHeaderImpl extends AbstractWSSecurityObject implements Enc
     }
 
     /** {@inheritDoc} */
-    public void setWSUId(String newId) {
-        String oldId = wsuId;
+    public void setWSUId(final String newId) {
+        final String oldId = wsuId;
         wsuId = prepareForAssignment(wsuId, newId);
         registerOwnID(oldId, wsuId);
         manageQualifiedAttributeNamespace(IdBearing.WSU_ID_ATTR_NAME, wsuId != null);
@@ -106,7 +106,7 @@ public class EncryptedHeaderImpl extends AbstractWSSecurityObject implements Enc
     }
 
     /** {@inheritDoc} */
-    public void setSOAP11MustUnderstand(Boolean newMustUnderstand) {
+    public void setSOAP11MustUnderstand(final Boolean newMustUnderstand) {
         if (newMustUnderstand != null) {
             soap11MustUnderstand = prepareForAssignment(soap11MustUnderstand, 
                     new XSBooleanValue(newMustUnderstand, true));
@@ -118,7 +118,7 @@ public class EncryptedHeaderImpl extends AbstractWSSecurityObject implements Enc
     }
 
     /** {@inheritDoc} */
-    public void setSOAP11MustUnderstand(XSBooleanValue newMustUnderstand) {
+    public void setSOAP11MustUnderstand(final XSBooleanValue newMustUnderstand) {
             soap11MustUnderstand = prepareForAssignment(soap11MustUnderstand, newMustUnderstand);
             manageQualifiedAttributeNamespace(MustUnderstandBearing.SOAP11_MUST_UNDERSTAND_ATTR_NAME, 
                     soap11MustUnderstand != null);
@@ -130,7 +130,7 @@ public class EncryptedHeaderImpl extends AbstractWSSecurityObject implements Enc
     }
 
     /** {@inheritDoc} */
-    public void setSOAP11Actor(String newActor) {
+    public void setSOAP11Actor(final String newActor) {
         soap11Actor = prepareForAssignment(soap11Actor, newActor);
         manageQualifiedAttributeNamespace(ActorBearing.SOAP11_ACTOR_ATTR_NAME, soap11Actor != null);
     }
@@ -149,7 +149,7 @@ public class EncryptedHeaderImpl extends AbstractWSSecurityObject implements Enc
     }
 
     /** {@inheritDoc} */
-    public void setSOAP12MustUnderstand(Boolean newMustUnderstand) {
+    public void setSOAP12MustUnderstand(final Boolean newMustUnderstand) {
         if (newMustUnderstand != null) {
             soap12MustUnderstand = prepareForAssignment(soap12MustUnderstand, 
                     new XSBooleanValue(newMustUnderstand, false));
@@ -160,7 +160,7 @@ public class EncryptedHeaderImpl extends AbstractWSSecurityObject implements Enc
     }
 
     /** {@inheritDoc} */
-    public void setSOAP12MustUnderstand(XSBooleanValue newMustUnderstand) {
+    public void setSOAP12MustUnderstand(final XSBooleanValue newMustUnderstand) {
             soap12MustUnderstand = prepareForAssignment(soap12MustUnderstand, newMustUnderstand);
             manageQualifiedAttributeNamespace(SOAP12_MUST_UNDERSTAND_ATTR_NAME,  soap12MustUnderstand != null);
     }
@@ -171,7 +171,7 @@ public class EncryptedHeaderImpl extends AbstractWSSecurityObject implements Enc
     }
 
     /** {@inheritDoc} */
-    public void setSOAP12Role(String newRole) {
+    public void setSOAP12Role(final String newRole) {
         soap12Role = prepareForAssignment(soap12Role, newRole);
         manageQualifiedAttributeNamespace(RoleBearing.SOAP12_ROLE_ATTR_NAME, soap12Role != null);
     }
@@ -190,7 +190,7 @@ public class EncryptedHeaderImpl extends AbstractWSSecurityObject implements Enc
     }
 
     /** {@inheritDoc} */
-    public void setSOAP12Relay(Boolean newRelay) {
+    public void setSOAP12Relay(final Boolean newRelay) {
         if (newRelay != null) {
             soap12Relay = prepareForAssignment(soap12Relay, 
                     new XSBooleanValue(newRelay, false));
@@ -201,14 +201,14 @@ public class EncryptedHeaderImpl extends AbstractWSSecurityObject implements Enc
     }
 
     /** {@inheritDoc} */
-    public void setSOAP12Relay(XSBooleanValue newRelay) {
+    public void setSOAP12Relay(final XSBooleanValue newRelay) {
             soap12Relay = prepareForAssignment(soap12Relay, newRelay);
             manageQualifiedAttributeNamespace(RelayBearing.SOAP12_RELAY_ATTR_NAME, soap12Relay != null);
     }
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        LazyList<XMLObject> children = new LazyList<>();
+        final LazyList<XMLObject> children = new LazyList<>();
         if (encryptedData != null) {
             children.add(encryptedData);
         }

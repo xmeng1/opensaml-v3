@@ -52,7 +52,7 @@ public class SAML2ArtifactBuilderFactory {
      * 
      * @return artifact builder for the given type
      */
-    public SAML2ArtifactBuilder getArtifactBuilder(byte[] type) {
+    public SAML2ArtifactBuilder getArtifactBuilder(final byte[] type) {
         return artifactBuilders.get(new String(type));
     }
     
@@ -63,7 +63,7 @@ public class SAML2ArtifactBuilderFactory {
      * 
      * @return constructed artifact
      */
-    public AbstractSAML2Artifact buildArtifact(String base64Artifact){
+    public AbstractSAML2Artifact buildArtifact(final String base64Artifact){
         return buildArtifact(Base64Support.decode(base64Artifact));
     }
 
@@ -74,16 +74,16 @@ public class SAML2ArtifactBuilderFactory {
      * 
      * @return constructed artifact
      */
-    public AbstractSAML2Artifact buildArtifact(byte[] artifact) {
+    public AbstractSAML2Artifact buildArtifact(final byte[] artifact) {
         if(artifact == null){
             return null;
         }
         
-        byte[] type = new byte[2];
+        final byte[] type = new byte[2];
         type[0] = artifact[0];
         type[1] = artifact[1];
 
-        SAML2ArtifactBuilder<?> artifactBuilder = getArtifactBuilder(type);
+        final SAML2ArtifactBuilder<?> artifactBuilder = getArtifactBuilder(type);
         if (artifactBuilder == null) {
             throw new IllegalArgumentException("Saw unsupported artifact type: " + new String(type));
         }

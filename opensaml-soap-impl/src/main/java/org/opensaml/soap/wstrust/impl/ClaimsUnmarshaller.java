@@ -32,8 +32,8 @@ import org.w3c.dom.Attr;
 public class ClaimsUnmarshaller extends AbstractWSTrustObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
-        Claims claims = (Claims) xmlObject;
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
+        final Claims claims = (Claims) xmlObject;
         if (Claims.DIALECT_ATTRIB_NAME.equals(attribute.getLocalName())) {
             claims.setDialect(attribute.getValue());
         } else {
@@ -42,9 +42,9 @@ public class ClaimsUnmarshaller extends AbstractWSTrustObjectUnmarshaller {
     }
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
-        Claims claims = (Claims) parentXMLObject;
+        final Claims claims = (Claims) parentXMLObject;
         claims.getUnknownXMLObjects().add(childXMLObject);
     }
 

@@ -41,9 +41,9 @@ public class SimplePayloadBodyHandler<MessageType extends XMLObject> extends Abs
     private Logger log = LoggerFactory.getLogger(SimplePayloadBodyHandler.class);
 
     /** {@inheritDoc} */
-    protected void doInvoke(MessageContext messageContext) throws MessageHandlerException {
-        Envelope env = (Envelope) messageContext.getSubcontext(SOAP11Context.class).getEnvelope();
-        List<XMLObject> bodyChildren = env.getBody().getUnknownXMLObjects();
+    protected void doInvoke(final MessageContext messageContext) throws MessageHandlerException {
+        final Envelope env = (Envelope) messageContext.getSubcontext(SOAP11Context.class).getEnvelope();
+        final List<XMLObject> bodyChildren = env.getBody().getUnknownXMLObjects();
         if (bodyChildren == null || bodyChildren.isEmpty()) {
             throw new MessageHandlerException("SOAP Envelope Body contained no children");
         } else if (bodyChildren.size() > 1) {

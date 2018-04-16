@@ -58,7 +58,7 @@ import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
 
 /**
- * Action that sets {@link Status} content in a {@link Response} obtained from
+ * Action that sets {@link Status} content in a {@link StatusResponseType} obtained from
  * a lookup strategy, typically from the outbound message context.
  * 
  * <p>If the message already contains status information, this action will overwrite it.</p>
@@ -159,7 +159,7 @@ public class AddStatusToResponse extends AbstractProfileAction {
      * 
      * @param codes list of status code values to insert
      */
-    public void setStatusCodes(@Nonnull @NonnullElements List<String> codes) {
+    public void setStatusCodes(@Nonnull @NonnullElements final List<String> codes) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         
         Constraint.isNotNull(codes, "Status code list cannot be null");
@@ -300,7 +300,7 @@ public class AddStatusToResponse extends AbstractProfileAction {
             Constraint.isNotNull(mappings, "Status code mappings cannot be null");
             
             codeMappings = new HashMap<>(mappings.size());
-            for (Map.Entry<String,List<String>> entry : mappings.entrySet()) {
+            for (final Map.Entry<String,List<String>> entry : mappings.entrySet()) {
                 final String event = StringSupport.trimOrNull(entry.getKey());
                 if (event != null && entry.getValue() != null) {
                     codeMappings.put(event, new ArrayList<>(Collections2.filter(entry.getValue(),

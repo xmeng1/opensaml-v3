@@ -31,7 +31,6 @@ import com.google.common.base.Function;
 public class SAMLMessageContextIssuerFunction implements Function<MessageContext,String> {
 
     /** {@inheritDoc} */
-    @Override
     @Nullable public String apply(@Nullable final MessageContext input) {
         
         if (input != null) {

@@ -39,7 +39,7 @@ public class AttributeImpl extends AttributeDesignatorImpl implements Attribute 
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AttributeImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AttributeImpl(final String namespaceURI, final String elementLocalName, final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
         attributeValues = new XMLObjectChildrenList<>(this);
     }

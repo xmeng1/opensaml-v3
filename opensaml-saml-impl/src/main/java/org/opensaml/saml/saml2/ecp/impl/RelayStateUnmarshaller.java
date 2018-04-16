@@ -34,10 +34,10 @@ import org.w3c.dom.Attr;
 public class RelayStateUnmarshaller extends XSStringUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
-        RelayState relayState = (RelayState) xmlObject;
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
+        final RelayState relayState = (RelayState) xmlObject;
         
-        QName attrName = QNameSupport.getNodeQName(attribute);
+        final QName attrName = QNameSupport.getNodeQName(attribute);
         if (RelayState.SOAP11_MUST_UNDERSTAND_ATTR_NAME.equals(attrName)) {
             relayState.setSOAP11MustUnderstand(XSBooleanValue.valueOf(attribute.getValue()));
         } else if (RelayState.SOAP11_ACTOR_ATTR_NAME.equals(attrName)) {

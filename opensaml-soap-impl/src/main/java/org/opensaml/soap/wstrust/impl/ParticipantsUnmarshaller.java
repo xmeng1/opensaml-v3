@@ -31,9 +31,9 @@ import org.opensaml.soap.wstrust.Primary;
 public class ParticipantsUnmarshaller extends AbstractWSTrustObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject) 
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject) 
             throws UnmarshallingException {
-        Participants participants = (Participants) parentXMLObject;
+        final Participants participants = (Participants) parentXMLObject;
         
         if (childXMLObject instanceof Primary) {
             participants.setPrimary((Primary) childXMLObject);

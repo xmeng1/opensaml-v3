@@ -37,7 +37,8 @@ public class DiscoveryResponseImpl extends IndexedEndpointImpl implements Discov
      * @param elementLocalName the local name
      * @param namespacePrefix the prefix
      */
-    protected DiscoveryResponseImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected DiscoveryResponseImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 }

@@ -37,20 +37,22 @@ public class LocalizedNameMarshaller extends AbstractSAMLObjectMarshaller {
     /**
      * {@inheritDoc}
      */
-    protected void marshallAttributes(XMLObject samlObject, Element domElement) throws MarshallingException {
-        LocalizedName name = (LocalizedName) samlObject;
+    protected void marshallAttributes(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
+        final LocalizedName name = (LocalizedName) samlObject;
 
         if (name.getXMLLang() != null) {
-            Attr attribute = AttributeSupport.constructAttribute(domElement.getOwnerDocument(), XMLConstants.XML_NS,
-                    LangBearing.XML_LANG_ATTR_LOCAL_NAME, XMLConstants.XML_PREFIX);
+            final Attr attribute = AttributeSupport.constructAttribute(domElement.getOwnerDocument(),
+                    XMLConstants.XML_NS, LangBearing.XML_LANG_ATTR_LOCAL_NAME, XMLConstants.XML_PREFIX);
             attribute.setValue(name.getXMLLang());
             domElement.setAttributeNodeNS(attribute);
         }
     }
 
     /** {@inheritDoc} */
-    protected void marshallElementContent(XMLObject samlObject, Element domElement) throws MarshallingException {
-        LocalizedName name = (LocalizedName) samlObject;
+    protected void marshallElementContent(final XMLObject samlObject, final Element domElement)
+            throws MarshallingException {
+        final LocalizedName name = (LocalizedName) samlObject;
 
         if (name.getValue() != null) {
             ElementSupport.appendTextContent(domElement, name.getValue());

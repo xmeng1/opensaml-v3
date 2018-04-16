@@ -59,7 +59,8 @@ public class AuthnStatementImpl extends AbstractSAMLObject implements AuthnState
      * @param elementLocalName the local name of the XML element this Object represents
      * @param namespacePrefix the prefix for the given namespace
      */
-    protected AuthnStatementImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected AuthnStatementImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -69,7 +70,7 @@ public class AuthnStatementImpl extends AbstractSAMLObject implements AuthnState
     }
 
     /** {@inheritDoc} */
-    public void setSubjectLocality(SubjectLocality newSubjectLocality) {
+    public void setSubjectLocality(final SubjectLocality newSubjectLocality) {
         this.subjectLocality = prepareForAssignment(this.subjectLocality, newSubjectLocality);
     }
 
@@ -79,7 +80,7 @@ public class AuthnStatementImpl extends AbstractSAMLObject implements AuthnState
     }
 
     /** {@inheritDoc} */
-    public void setAuthnContext(AuthnContext newAuthnContext) {
+    public void setAuthnContext(final AuthnContext newAuthnContext) {
         this.authnContext = prepareForAssignment(this.authnContext, newAuthnContext);
     }
 
@@ -89,7 +90,7 @@ public class AuthnStatementImpl extends AbstractSAMLObject implements AuthnState
     }
 
     /** {@inheritDoc} */
-    public void setAuthnInstant(DateTime newAuthnInstant) {
+    public void setAuthnInstant(final DateTime newAuthnInstant) {
         this.authnInstant = prepareForAssignment(this.authnInstant, newAuthnInstant);
     }
 
@@ -99,7 +100,7 @@ public class AuthnStatementImpl extends AbstractSAMLObject implements AuthnState
     }
 
     /** {@inheritDoc} */
-    public void setSessionIndex(String newSessionIndex) {
+    public void setSessionIndex(final String newSessionIndex) {
         this.sessionIndex = prepareForAssignment(this.sessionIndex, newSessionIndex);
     }
 
@@ -109,13 +110,13 @@ public class AuthnStatementImpl extends AbstractSAMLObject implements AuthnState
     }
 
     /** {@inheritDoc} */
-    public void setSessionNotOnOrAfter(DateTime newSessionNotOnOrAfter) {
+    public void setSessionNotOnOrAfter(final DateTime newSessionNotOnOrAfter) {
         this.sessionNotOnOrAfter = prepareForAssignment(this.sessionNotOnOrAfter, newSessionNotOnOrAfter);
     }
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         children.add(subjectLocality);
         children.add(authnContext);

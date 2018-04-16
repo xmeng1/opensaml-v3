@@ -76,7 +76,7 @@ public final class SAMLBindingSupport {
      * @param relayState the relay state to set
      */
     public static void setRelayState(@Nonnull final MessageContext<SAMLObject> messageContext, 
-            @Nullable String relayState) {
+            @Nullable final String relayState) {
         messageContext.getSubcontext(SAMLBindingContext.class, true).setRelayState(relayState);
     }
     
@@ -133,7 +133,7 @@ public final class SAMLBindingSupport {
                 && !Strings.isNullOrEmpty(endpoint.getResponseLocation())) {
             try {
                 return new URI(endpoint.getResponseLocation());
-            } catch (URISyntaxException e) {
+            } catch (final URISyntaxException e) {
                 throw new BindingException("The endpoint response location " + endpoint.getResponseLocation()
                         + " is not a valid URL", e);
             }
@@ -143,7 +143,7 @@ public final class SAMLBindingSupport {
             }
             try {
                 return new URI(endpoint.getLocation());
-            } catch (URISyntaxException e) {
+            } catch (final URISyntaxException e) {
                 throw new BindingException("The endpoint location " + endpoint.getLocation()
                         + " is not a valid URL", e);
             }
@@ -261,17 +261,17 @@ public final class SAMLBindingSupport {
         String messageDestination = null;
         //SAML 2 Request
         if (samlMessage instanceof org.opensaml.saml.saml2.core.RequestAbstractType) {
-            org.opensaml.saml.saml2.core.RequestAbstractType request =  
+            final org.opensaml.saml.saml2.core.RequestAbstractType request =  
                     (org.opensaml.saml.saml2.core.RequestAbstractType) samlMessage;
             messageDestination = StringSupport.trimOrNull(request.getDestination());
         //SAML 2 Response
         } else if (samlMessage instanceof org.opensaml.saml.saml2.core.StatusResponseType) {
-            org.opensaml.saml.saml2.core.StatusResponseType response = 
+            final org.opensaml.saml.saml2.core.StatusResponseType response = 
                     (org.opensaml.saml.saml2.core.StatusResponseType) samlMessage;
             messageDestination = StringSupport.trimOrNull(response.getDestination());
         //SAML 1 Response
         } else if (samlMessage instanceof org.opensaml.saml.saml1.core.ResponseAbstractType) {
-            org.opensaml.saml.saml1.core.ResponseAbstractType response = 
+            final org.opensaml.saml.saml1.core.ResponseAbstractType response = 
                     (org.opensaml.saml.saml1.core.ResponseAbstractType) samlMessage;
             messageDestination = StringSupport.trimOrNull(response.getRecipient());
         //SAML 1 Request
@@ -315,11 +315,11 @@ public final class SAMLBindingSupport {
      * @param artifactEndpointIndex the endpoint index byte array, must have length == 2, and big endian byte order.
      * @return the convert integer value
      */
-    @Nonnull public static int convertSAML2ArtifactEndpointIndex(@Nonnull byte[] artifactEndpointIndex) {
+    @Nonnull public static int convertSAML2ArtifactEndpointIndex(@Nonnull final byte[] artifactEndpointIndex) {
         Constraint.isNotNull(artifactEndpointIndex, "Artifact endpoint index cannot be null");
         Constraint.isTrue(artifactEndpointIndex.length == 2, "Artifact endpoint index length was not 2, was: "
                 + artifactEndpointIndex.length);
-        short value = ByteBuffer.wrap(artifactEndpointIndex).order(ByteOrder.BIG_ENDIAN).getShort();
+        final short value = ByteBuffer.wrap(artifactEndpointIndex).order(ByteOrder.BIG_ENDIAN).getShort();
         return (int) Constraint.isGreaterThanOrEqual(0, value, 
                 "Input value was too large, resulting in a negative 16-bit short");
     }

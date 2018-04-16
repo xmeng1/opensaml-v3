@@ -32,7 +32,8 @@ public class OriginatorKeyInfoImpl extends KeyInfoImpl implements OriginatorKeyI
      * @param elementLocalName local name
      * @param namespacePrefix namespace prefix
      */
-    protected OriginatorKeyInfoImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected OriginatorKeyInfoImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 

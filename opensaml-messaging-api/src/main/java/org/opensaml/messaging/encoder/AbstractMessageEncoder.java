@@ -37,7 +37,7 @@ public abstract class AbstractMessageEncoder<MessageType> extends AbstractInitia
 
     /** {@inheritDoc} */
     @Override
-    public synchronized void setMessageContext(MessageContext<MessageType> context) {
+    public synchronized void setMessageContext(final MessageContext<MessageType> context) {
         ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
         ComponentSupport.ifDestroyedThrowDestroyedComponentException(this);
 

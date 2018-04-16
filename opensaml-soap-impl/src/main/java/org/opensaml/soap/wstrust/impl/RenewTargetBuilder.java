@@ -33,7 +33,7 @@ public class RenewTargetBuilder extends AbstractWSTrustObjectBuilder<RenewTarget
 
     /** {@inheritDoc} */
     @Override
-    public RenewTarget buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public RenewTarget buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new RenewTargetImpl(namespaceURI, localName, namespacePrefix);
     }
 

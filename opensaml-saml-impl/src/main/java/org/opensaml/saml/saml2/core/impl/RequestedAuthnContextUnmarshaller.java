@@ -36,7 +36,7 @@ import org.w3c.dom.Attr;
 public class RequestedAuthnContextUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentSAMLObject, XMLObject childSAMLObject)
+    protected void processChildElement(final XMLObject parentSAMLObject, final XMLObject childSAMLObject)
             throws UnmarshallingException {
         final RequestedAuthnContext rac = (RequestedAuthnContext) parentSAMLObject;
         
@@ -50,7 +50,7 @@ public class RequestedAuthnContextUnmarshaller extends AbstractSAMLObjectUnmarsh
     }
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject samlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject samlObject, final Attr attribute) throws UnmarshallingException {
         final RequestedAuthnContext rac = (RequestedAuthnContext) samlObject;
 
         if (attribute.getLocalName().equals(RequestedAuthnContext.COMPARISON_ATTRIB_NAME)

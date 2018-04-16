@@ -114,7 +114,7 @@ public class BasicWhitelistBlacklistConfiguration implements WhitelistBlacklistC
      * 
      * @param flag true if should merge, false otherwise
      */
-    public void setWhitelistMerge(boolean flag) {
+    public void setWhitelistMerge(final boolean flag) {
         whitelistMerge = flag;
     }
 
@@ -157,7 +157,7 @@ public class BasicWhitelistBlacklistConfiguration implements WhitelistBlacklistC
      * 
      * @param flag true if should merge, false otherwise
      */
-    public void setBlacklistMerge(boolean flag) {
+    public void setBlacklistMerge(final boolean flag) {
         blacklistMerge = flag;
     }
 
@@ -171,7 +171,7 @@ public class BasicWhitelistBlacklistConfiguration implements WhitelistBlacklistC
      * 
      * @param value the precedence value
      */
-    public void setWhitelistBlacklistPrecedence(@Nonnull Precedence value) {
+    public void setWhitelistBlacklistPrecedence(@Nonnull final Precedence value) {
         precedence = Constraint.isNotNull(value, "Precedence may not be null");
     }
 

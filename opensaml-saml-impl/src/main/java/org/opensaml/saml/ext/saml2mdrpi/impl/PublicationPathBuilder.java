@@ -34,7 +34,8 @@ public class PublicationPathBuilder extends AbstractSAMLObjectBuilder<Publicatio
     }
 
     /** {@inheritDoc} */
-    public PublicationPath buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public PublicationPath buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new PublicationPathImpl(namespaceURI, localName, namespacePrefix);
     }
 }

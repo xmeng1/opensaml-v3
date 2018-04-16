@@ -27,8 +27,8 @@ import org.opensaml.saml.ext.saml2mdquery.ActionNamespace;
 public class ActionNamespaceUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject samlObject, String elementContent) {
-        ActionNamespace actionNamespace = (ActionNamespace) samlObject;
+    protected void processElementContent(final XMLObject samlObject, final String elementContent) {
+        final ActionNamespace actionNamespace = (ActionNamespace) samlObject;
 
         actionNamespace.setValue(elementContent);
     }

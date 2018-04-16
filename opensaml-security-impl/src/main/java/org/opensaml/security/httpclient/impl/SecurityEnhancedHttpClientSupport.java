@@ -46,10 +46,10 @@ public final class SecurityEnhancedHttpClientSupport {
     /**
      * Build an instance of TLS-capable {@link LayeredConnectionSocketFactory} 
      * wrapped by {@link SecurityEnhancedTLSSocketFactory}, configured for 
-     * server TLS based on a {@link TrustEngine}.
+     * server TLS based on a mandatory {@link TrustEngine} supplied at runtime.
      * 
      * <p>
-     * Equivalent to {@link #buildTLSSocketFactory(true, false)}.
+     * Equivalent to {@link #buildTLSSocketFactory(boolean, boolean)} called with true, false.
      * </p>
      * 
      * @return a new instance of security-enhanced TLS socket factory 
@@ -61,17 +61,36 @@ public final class SecurityEnhancedHttpClientSupport {
     /**
      * Build an instance of TLS-capable {@link LayeredConnectionSocketFactory} 
      * wrapped by {@link SecurityEnhancedTLSSocketFactory}, configured for 
-     * server TLS based on a {@link TrustEngine} and additionally configured for 
-     * client TLS support via context client TLS credential.
+     * server TLS based on a mandatory {@link TrustEngine} supplied at runtime,
+     * and additionally configured for optional client TLS support via context client TLS credential.
      * 
      * <p>
-     * Equivalent to {@link #buildTLSSocketFactory(true, true)}.
+     * Equivalent to {@link #buildTLSSocketFactory(boolean, boolean)} called with true, true.
      * </p>
      * 
      * @return a new instance of security-enhanced TLS socket factory 
      */
     @Nonnull public static LayeredConnectionSocketFactory buildTLSSocketFactoryWithClientTLS() {
         return buildTLSSocketFactory(true, true);
+    }
+    
+    /**
+     * Build an instance of TLS-capable {@link LayeredConnectionSocketFactory} 
+     * wrapped by {@link SecurityEnhancedTLSSocketFactory},
+     * configured for optional client TLS support via context client TLS credential.
+     * 
+     * <p>
+     * Server TLS will be based on the default JSSE trust mechanism.
+     * </p>
+     * 
+     * <p>
+     * Equivalent to {@link #buildTLSSocketFactory(boolean, boolean)} called with false, true.
+     * </p>
+     * 
+     * @return a new instance of security-enhanced TLS socket factory 
+     */
+    @Nonnull public static LayeredConnectionSocketFactory buildTLSSocketFactoryWithClientTLSOnly() {
+        return buildTLSSocketFactory(false, true);
     }
     
     /**
@@ -86,7 +105,8 @@ public final class SecurityEnhancedHttpClientSupport {
      * <p>
      * If <code>supportTrustEngine</code> is true, then the wrapped factory will be configured
      * with a "no trust" {@link X509TrustManager}, to allow the actual server TLS trust evaluation
-     * to be performed by a {@link TrustEngine}, as documented in {@link SecurityEnhancedTLSSocketFactory}.
+     * to be performed by a mandatory {@link TrustEngine} supplied at runtime,
+     * as documented in {@link SecurityEnhancedTLSSocketFactory}.
      * </p>
      * 
      * <p>
@@ -103,7 +123,7 @@ public final class SecurityEnhancedHttpClientSupport {
     @Nonnull public static LayeredConnectionSocketFactory buildTLSSocketFactory(final boolean supportTrustEngine, 
             final boolean supportClientTLS) {
         
-        TLSSocketFactoryBuilder wrappedFactoryBuilder = new TLSSocketFactoryBuilder();
+        final TLSSocketFactoryBuilder wrappedFactoryBuilder = new TLSSocketFactoryBuilder();
         
         if (supportTrustEngine || supportClientTLS) {
             wrappedFactoryBuilder.setHostnameVerifier(new AllowAllHostnameVerifier());
@@ -118,7 +138,8 @@ public final class SecurityEnhancedHttpClientSupport {
                         Collections.<KeyManager>singletonList(new ThreadLocalX509CredentialKeyManager()));
             }
             
-            return new SecurityEnhancedTLSSocketFactory(wrappedFactoryBuilder.build(), new StrictHostnameVerifier());
+            return new SecurityEnhancedTLSSocketFactory(wrappedFactoryBuilder.build(), new StrictHostnameVerifier(), 
+                    supportTrustEngine);
             
         } else {
             return HttpClientSupport.buildStrictTLSSocketFactory();

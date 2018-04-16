@@ -46,7 +46,7 @@ public class XSBooleanUnmarshaller extends AbstractXMLObjectUnmarshaller {
     /** {@inheritDoc} */
     @Override
     protected void processElementContent(@Nonnull final XMLObject xmlObject, @Nonnull final String elementContent) {
-        XSBoolean xsiBoolean = (XSBoolean) xmlObject;
+        final XSBoolean xsiBoolean = (XSBoolean) xmlObject;
         xsiBoolean.setValue(XSBooleanValue.valueOf(elementContent));
     }
 }

@@ -36,7 +36,7 @@ public class DetailBuilder extends AbstractXMLObjectBuilder<Detail> implements S
     }
     
     /** {@inheritDoc} */
-    public Detail buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Detail buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new DetailImpl(namespaceURI, localName, namespacePrefix);
     }
 }

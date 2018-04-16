@@ -37,7 +37,7 @@ public class BodyBuilder extends AbstractXMLObjectBuilder<Body> implements SOAPO
     }
     
     /** {@inheritDoc} */
-    public Body buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public Body buildObject(final String namespaceURI, final String localName, final String namespacePrefix) {
         return new BodyImpl(namespaceURI, localName, namespacePrefix);
     }
 }

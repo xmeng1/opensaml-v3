@@ -115,7 +115,7 @@ public class BasicMessagePipeline<InboundMessageType, OutboundMessageType>
      * 
      * @param handler the new handler
      */
-    public void setOutboundTransportHandler(MessageHandler<OutboundMessageType> handler) {
+    public void setOutboundTransportHandler(final MessageHandler<OutboundMessageType> handler) {
         outboundTransportHandler = handler;
     }
 
@@ -129,7 +129,7 @@ public class BasicMessagePipeline<InboundMessageType, OutboundMessageType>
      * 
      * @param handler the new handler
      */
-    public void setInboundHandler(MessageHandler<InboundMessageType> handler) {
+    public void setInboundHandler(final MessageHandler<InboundMessageType> handler) {
         inboundHandler = handler;
     }
 

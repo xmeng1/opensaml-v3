@@ -124,7 +124,7 @@ public final class HttpClientSecuritySupport {
      * @param replace whether a non-null security parameter value should replace an existing context value
      */
     public static void marshalSecurityParameters(@Nonnull final HttpClientContext context, 
-            @Nullable final HttpClientSecurityParameters securityParameters, boolean replace) {
+            @Nullable final HttpClientSecurityParameters securityParameters, final boolean replace) {
         if (securityParameters == null) {
             return;
         }
@@ -136,7 +136,13 @@ public final class HttpClientSecuritySupport {
             }
         }
         
-        setContextValue(context, CONTEXT_KEY_TRUST_ENGINE, 
+        if (securityParameters.getAuthCache() != null) {
+            if (replace || context.getAuthCache() == null) {
+                context.setAuthCache(securityParameters.getAuthCache());
+            }
+        }
+        
+        setContextValue(context, CONTEXT_KEY_TRUST_ENGINE,
                 securityParameters.getTLSTrustEngine(), replace);
         
         setContextValue(context, CONTEXT_KEY_CRITERIA_SET,
@@ -145,10 +151,10 @@ public final class HttpClientSecuritySupport {
         setContextValue(context, CONTEXT_KEY_TLS_PROTOCOLS,
                 securityParameters.getTLSProtocols(), replace);
         
-        setContextValue(context, CONTEXT_KEY_TLS_CIPHER_SUITES, 
+        setContextValue(context, CONTEXT_KEY_TLS_CIPHER_SUITES,
                 securityParameters.getTLSCipherSuites(), replace);
         
-        setContextValue(context, CONTEXT_KEY_HOSTNAME_VERIFIER, 
+        setContextValue(context, CONTEXT_KEY_HOSTNAME_VERIFIER,
                 securityParameters.getHostnameVerifier(), replace);
         
         setContextValue(context, CONTEXT_KEY_CLIENT_TLS_CREDENTIAL,
@@ -165,7 +171,7 @@ public final class HttpClientSecuritySupport {
      * @param replace whether a non-null argument value should replace an existing context value
      */
     public static void setContextValue(@Nonnull final HttpClientContext context, 
-            @Nonnull final String attributeName, @Nullable Object attributeValue, boolean replace) {
+            @Nonnull final String attributeName, @Nullable final Object attributeValue, final boolean replace) {
         if (attributeValue == null) {
             return;
         }

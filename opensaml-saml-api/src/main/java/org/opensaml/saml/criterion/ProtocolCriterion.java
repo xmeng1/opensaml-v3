@@ -52,7 +52,7 @@ public final class ProtocolCriterion implements Criterion {
     /** {@inheritDoc} */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("ProtocolCriterion [protocol=");
         builder.append(protocol);
         builder.append("]");
@@ -67,7 +67,7 @@ public final class ProtocolCriterion implements Criterion {
 
     /** {@inheritDoc} */
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }

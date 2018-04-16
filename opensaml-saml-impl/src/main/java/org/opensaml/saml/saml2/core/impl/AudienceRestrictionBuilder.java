@@ -42,7 +42,8 @@ public class AudienceRestrictionBuilder extends AbstractSAMLObjectBuilder<Audien
     }
 
     /** {@inheritDoc} */
-    public AudienceRestriction buildObject(String namespaceURI, String localName, String namespacePrefix) {
+    public AudienceRestriction buildObject(final String namespaceURI, final String localName,
+            final String namespacePrefix) {
         return new AudienceRestrictionImpl(namespaceURI, localName, namespacePrefix);
     }
 }

@@ -60,7 +60,7 @@ public class SAMLBindingContext extends BaseContext {
      * 
      * @param state relay state associated with this protocol exchange
      */
-    public void setRelayState(@Nullable String state) {
+    public void setRelayState(@Nullable final String state) {
         relayState = StringSupport.trimOrNull(state);
     }
 
@@ -140,7 +140,7 @@ public class SAMLBindingContext extends BaseContext {
      * 
      * @param flag true if required, false otherwise
      */
-    public void setIntendedDestinationEndpointURIRequired(boolean flag) {
+    public void setIntendedDestinationEndpointURIRequired(final boolean flag) {
         isIntendedDestinationEndpointURIRequired = flag;
     }
 

@@ -29,19 +29,19 @@ import org.w3c.dom.Attr;
 public class XSStringUnmarshaller extends AbstractXMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processChildElement(XMLObject parentXMLObject, XMLObject childXMLObject)
+    protected void processChildElement(final XMLObject parentXMLObject, final XMLObject childXMLObject)
             throws UnmarshallingException {
         // no children
     }
 
     /** {@inheritDoc} */
-    protected void processAttribute(XMLObject xmlObject, Attr attribute) throws UnmarshallingException {
+    protected void processAttribute(final XMLObject xmlObject, final Attr attribute) throws UnmarshallingException {
         // no attributes
     }
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject xmlObject, String elementContent) {
-        XSString xsiString = (XSString) xmlObject;
+    protected void processElementContent(final XMLObject xmlObject, final String elementContent) {
+        final XSString xsiString = (XSString) xmlObject;
 
         xsiString.setValue(elementContent);
     }

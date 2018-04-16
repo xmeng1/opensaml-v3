@@ -27,8 +27,8 @@ import org.opensaml.saml.saml1.core.AssertionArtifact;
 public class AssertionArtifactUnmarshaller extends AbstractSAMLObjectUnmarshaller {
 
     /** {@inheritDoc} */
-    protected void processElementContent(XMLObject samlObject, String elementContent) {
-        AssertionArtifact assertionArtifact = (AssertionArtifact) samlObject;
+    protected void processElementContent(final XMLObject samlObject, final String elementContent) {
+        final AssertionArtifact assertionArtifact = (AssertionArtifact) samlObject;
 
         assertionArtifact.setAssertionArtifact(elementContent);
     }

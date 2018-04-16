@@ -31,8 +31,9 @@ import org.w3c.dom.Element;
 public class SaltMarshaller extends AbstractWSSecurityObjectMarshaller {
 
     /** {@inheritDoc} */
-    protected void marshallElementContent(XMLObject xmlObject, Element domElement) throws MarshallingException {
-        Salt salt = (Salt) xmlObject;
+    protected void marshallElementContent(final XMLObject xmlObject, final Element domElement)
+            throws MarshallingException {
+        final Salt salt = (Salt) xmlObject;
         ElementSupport.appendTextContent(domElement, salt.getValue());
     }
 

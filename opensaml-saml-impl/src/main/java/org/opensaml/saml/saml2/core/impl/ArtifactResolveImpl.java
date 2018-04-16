@@ -44,7 +44,8 @@ public class ArtifactResolveImpl extends RequestAbstractTypeImpl implements Arti
      * @param elementLocalName element name
      * @param namespacePrefix namespace prefix
      */
-    protected ArtifactResolveImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+    protected ArtifactResolveImpl(final String namespaceURI, final String elementLocalName,
+            final String namespacePrefix) {
         super(namespaceURI, elementLocalName, namespacePrefix);
     }
 
@@ -54,13 +55,13 @@ public class ArtifactResolveImpl extends RequestAbstractTypeImpl implements Arti
     }
 
     /** {@inheritDoc} */
-    public void setArtifact(Artifact newArtifact) {
+    public void setArtifact(final Artifact newArtifact) {
         this.artifact = prepareForAssignment(this.artifact, newArtifact);
     }
 
     /** {@inheritDoc} */
     public List<XMLObject> getOrderedChildren() {
-        ArrayList<XMLObject> children = new ArrayList<>();
+        final ArrayList<XMLObject> children = new ArrayList<>();
 
         if (super.getOrderedChildren() != null) {
             children.addAll(super.getOrderedChildren());
