@@ -19,6 +19,7 @@ package org.opensaml.security.x509;
 
 import java.io.InputStream;
 import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.security.cert.CertificateParsingException;
 import java.security.cert.X509CRL;
 import java.security.cert.X509Certificate;
@@ -34,6 +35,7 @@ import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 import org.opensaml.security.SecurityException;
 import org.opensaml.security.crypto.KeySupport;
+import org.opensaml.security.crypto.KeySupportTest;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -234,6 +236,12 @@ public class X509SupportTest {
 
     /** A PEM encoded CRL. */
     private String crlDER = "/data/crl.der";
+    
+    /** An EC certificate. */
+    private String certEC = "/data/ec-certificate.pem";
+    
+    /** An EC private key. */
+    private String keyEC = "/data/ec-privkey-nopass.pem";
 
     @BeforeMethod
     protected void setUp() throws Exception {
@@ -571,6 +579,28 @@ public class X509SupportTest {
         Assert.assertNotNull(crls);
         Assert.assertEquals(crls.size(), 1);
     }
+    
+    /** Test decoding and matching EC keypair. */
+    @Test
+    public void testEC() throws Exception {
+        InputStream certInS = X509SupportTest.class.getResourceAsStream(certEC);
+
+        byte[] certBytes = new byte[certInS.available()];
+        certInS.read(certBytes);
+
+        Collection<X509Certificate> certs = X509Support.decodeCertificates(certBytes);
+        Assert.assertNotNull(certs);
+        Assert.assertEquals(certs.size(), 1);
+        
+        PublicKey pubkey = certs.iterator().next().getPublicKey();
+        Assert.assertNotNull(pubkey);
+
+        PrivateKey key = KeySupport.decodePrivateKey(KeySupportTest.class.getResourceAsStream(keyEC), null);
+        Assert.assertNotNull(key);
+        
+        Assert.assertTrue(KeySupport.matchKeyPair(pubkey, key));
+    }
+
 
     /**
      * Get the alt names from the certificate.
