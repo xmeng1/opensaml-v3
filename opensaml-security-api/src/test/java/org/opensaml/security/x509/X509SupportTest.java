@@ -580,8 +580,12 @@ public class X509SupportTest {
         Assert.assertEquals(crls.size(), 1);
     }
     
-    /** Test decoding and matching EC keypair. */
-    @Test
+    /**
+     * Test decoding and matching EC keypair.
+     * 
+     * TODO: enable once OpenJDK7/8 are unneeded.
+     */
+    @Test(enabled=false)
     public void testEC() throws Exception {
         InputStream certInS = X509SupportTest.class.getResourceAsStream(certEC);
 
