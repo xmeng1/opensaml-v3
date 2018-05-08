@@ -26,6 +26,8 @@ import org.opensaml.security.credential.Credential;
 import org.opensaml.security.credential.impl.CollectionCredentialResolver;
 import org.opensaml.xmlsec.keyinfo.KeyInfoCredentialResolver;
 
+import net.shibboleth.utilities.java.support.annotation.ParameterName;
+
 /**
  * An implementation of {@link KeyInfoCredentialResolver} which uses a {@link Collection} as the
  * underlying credential source.
@@ -86,7 +88,8 @@ public class CollectionKeyInfoCredentialResolver extends CollectionCredentialRes
      *
      * @param credentials the credential collection which is the backing store for the resolver
      */
-    public CollectionKeyInfoCredentialResolver(@Nonnull final Collection<Credential> credentials) {
+    public CollectionKeyInfoCredentialResolver(
+            @Nonnull @ParameterName(name="credentials") final Collection<Credential> credentials) {
         super(credentials);
     }
 

@@ -26,15 +26,16 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
-import net.shibboleth.utilities.java.support.resolver.ResolverException;
-
 import org.opensaml.core.criterion.EntityIdCriterion;
 import org.opensaml.security.x509.PKIXValidationInformation;
 import org.opensaml.security.x509.PKIXValidationInformationResolver;
 import org.opensaml.security.x509.TrustedNamesCriterion;
 
 import com.google.common.collect.ImmutableSet;
+
+import net.shibboleth.utilities.java.support.annotation.ParameterName;
+import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
+import net.shibboleth.utilities.java.support.resolver.ResolverException;
 
 /**
  * An implementation of {@link PKIXValidationInformationResolver} which always returns a static, fixed set of
@@ -59,8 +60,9 @@ public class StaticPKIXValidationInformationResolver implements PKIXValidationIn
      * @param info list of PKIX validation information to return
      * @param names set of trusted names to return
      */
-    public StaticPKIXValidationInformationResolver(@Nullable final List<PKIXValidationInformation> info,
-            @Nullable final Set<String> names) {
+    public StaticPKIXValidationInformationResolver(
+            @Nullable @ParameterName(name="info") final List<PKIXValidationInformation> info,
+            @Nullable @ParameterName(name="names") final Set<String> names) {
         this(info, names, false);
     }
 
@@ -72,8 +74,10 @@ public class StaticPKIXValidationInformationResolver implements PKIXValidationIn
      * @param supportDynamicNames whether resolver should support dynamic extraction of trusted names
      *        from an instance of {@link TrustedNamesCriterion} in the criteria set
      */
-    public StaticPKIXValidationInformationResolver(@Nullable final List<PKIXValidationInformation> info,
-            @Nullable final Set<String> names, final boolean supportDynamicNames) {
+    public StaticPKIXValidationInformationResolver(
+            @Nullable @ParameterName(name="info") final List<PKIXValidationInformation> info,
+            @Nullable @ParameterName(name="names") final Set<String> names,
+            @ParameterName(name="supportDynamicNames") final boolean supportDynamicNames) {
         if (info != null) {
             pkixInfo = new ArrayList<>(info);
         } else {
@@ -90,6 +94,7 @@ public class StaticPKIXValidationInformationResolver implements PKIXValidationIn
     }
 
     /** {@inheritDoc} */
+    @Override
     @Nonnull public Set<String> resolveTrustedNames(@Nullable final CriteriaSet criteriaSet) throws ResolverException {
         if (criteriaSet == null) {
             return ImmutableSet.copyOf(trustedNames);
@@ -112,17 +117,20 @@ public class StaticPKIXValidationInformationResolver implements PKIXValidationIn
     }
 
     /** {@inheritDoc} */
+    @Override
     public boolean supportsTrustedNameResolution() {
         return true;
     }
 
     /** {@inheritDoc} */
+    @Override
     @Nonnull public Iterable<PKIXValidationInformation> resolve(@Nullable final CriteriaSet criteria)
             throws ResolverException {
         return pkixInfo;
     }
 
     /** {@inheritDoc} */
+    @Override
     @Nullable public PKIXValidationInformation resolveSingle(@Nullable final CriteriaSet criteria)
             throws ResolverException {
         if (!pkixInfo.isEmpty()) {

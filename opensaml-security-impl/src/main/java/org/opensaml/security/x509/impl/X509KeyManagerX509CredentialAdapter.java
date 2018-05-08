@@ -29,13 +29,14 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.net.ssl.X509KeyManager;
 
-import net.shibboleth.utilities.java.support.logic.Constraint;
-import net.shibboleth.utilities.java.support.primitive.StringSupport;
-
 import org.opensaml.security.credential.AbstractCredential;
 import org.opensaml.security.credential.Credential;
 import org.opensaml.security.credential.UsageType;
 import org.opensaml.security.x509.X509Credential;
+
+import net.shibboleth.utilities.java.support.annotation.ParameterName;
+import net.shibboleth.utilities.java.support.logic.Constraint;
+import net.shibboleth.utilities.java.support.primitive.StringSupport;
 
 /** A class that wraps a {@link X509KeyManager} and exposes it as an {@link X509Credential}. */
 public class X509KeyManagerX509CredentialAdapter extends AbstractCredential implements X509Credential {
@@ -52,17 +53,20 @@ public class X509KeyManagerX509CredentialAdapter extends AbstractCredential impl
      * @param manager wrapped key manager
      * @param alias alias used to reference the credential in the key manager
      */
-    public X509KeyManagerX509CredentialAdapter(@Nonnull final X509KeyManager manager, @Nonnull final String alias) {
+    public X509KeyManagerX509CredentialAdapter(@Nonnull @ParameterName(name="manager") final X509KeyManager manager,
+            @Nonnull @ParameterName(name="alias") final String alias) {
         keyManager = Constraint.isNotNull(manager, "Key manager cannot be null");
         credentialAlias = Constraint.isNotNull(StringSupport.trimOrNull(alias), "Entity alias cannot be null");
     }
 
     /** {@inheritDoc} */
+    @Override
     @Nullable public Collection<X509CRL> getCRLs() {
         return Collections.EMPTY_LIST;
     }
 
     /** {@inheritDoc} */
+    @Override
     @Nonnull public X509Certificate getEntityCertificate() {
         final X509Certificate[] certs = keyManager.getCertificateChain(credentialAlias);
         if (certs != null && certs.length > 0) {
@@ -73,6 +77,7 @@ public class X509KeyManagerX509CredentialAdapter extends AbstractCredential impl
     }
 
     /** {@inheritDoc} */
+    @Override
     @Nonnull public Collection<X509Certificate> getEntityCertificateChain() {
         final X509Certificate[] certs = keyManager.getCertificateChain(credentialAlias);
         if (certs != null && certs.length > 0) {
@@ -83,26 +88,31 @@ public class X509KeyManagerX509CredentialAdapter extends AbstractCredential impl
     }
 
     /** {@inheritDoc} */
+    @Override
     @Nullable public PrivateKey getPrivateKey() {
         return keyManager.getPrivateKey(credentialAlias);
     }
 
     /** {@inheritDoc} */
+    @Override
     @Nullable public PublicKey getPublicKey() {
         return getEntityCertificate().getPublicKey();
     }
 
     /** {@inheritDoc} */
+    @Override
     @Nonnull public Class<? extends Credential> getCredentialType() {
         return X509Credential.class;
     }
 
     /** {@inheritDoc} */
+    @Override
     public void setEntityId(@Nullable final String newEntityID) {
         super.setEntityId(newEntityID);
     }
 
     /** {@inheritDoc} */
+    @Override
     public void setUsageType(@Nonnull final UsageType newUsageType) {
         super.setUsageType(newUsageType);
     }

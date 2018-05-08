@@ -26,10 +26,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.xml.namespace.QName;
 
-import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
-import net.shibboleth.utilities.java.support.annotation.constraint.NotLive;
-import net.shibboleth.utilities.java.support.annotation.constraint.Unmodifiable;
-
 import org.opensaml.core.xml.XMLObject;
 import org.opensaml.saml.common.xml.SAMLConstants;
 import org.opensaml.saml.metadata.resolver.filter.FilterException;
@@ -39,6 +35,11 @@ import org.opensaml.saml.saml2.metadata.EntityDescriptor;
 import org.opensaml.saml.saml2.metadata.RoleDescriptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import net.shibboleth.utilities.java.support.annotation.ParameterName;
+import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
+import net.shibboleth.utilities.java.support.annotation.constraint.NotLive;
+import net.shibboleth.utilities.java.support.annotation.constraint.Unmodifiable;
 
 /**
  * A filter that removes roles from an entity descriptor. For those roles specified within the SAML metadata
@@ -75,7 +76,7 @@ public class EntityRoleFilter implements MetadataFilter {
      * 
      * @param keptRoles list of roles NOT removed by this filter
      */
-    public EntityRoleFilter(@Nullable final List<QName> keptRoles) {
+    public EntityRoleFilter(@Nullable @ParameterName(name="keptRoles") final List<QName> keptRoles) {
         roleWhiteList = new ArrayList<>();
 
         if (keptRoles != null) {

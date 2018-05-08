@@ -24,12 +24,6 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.shibboleth.utilities.java.support.annotation.constraint.NotEmpty;
-import net.shibboleth.utilities.java.support.logic.Constraint;
-import net.shibboleth.utilities.java.support.primitive.DeprecationSupport;
-import net.shibboleth.utilities.java.support.primitive.DeprecationSupport.ObjectType;
-import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
-
 import org.opensaml.core.xml.XMLObject;
 import org.opensaml.saml.metadata.resolver.filter.FilterException;
 import org.opensaml.saml.metadata.resolver.filter.MetadataFilter;
@@ -51,6 +45,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Function;
+
+import net.shibboleth.utilities.java.support.annotation.ParameterName;
+import net.shibboleth.utilities.java.support.annotation.constraint.NotEmpty;
+import net.shibboleth.utilities.java.support.logic.Constraint;
+import net.shibboleth.utilities.java.support.primitive.DeprecationSupport;
+import net.shibboleth.utilities.java.support.primitive.DeprecationSupport.ObjectType;
+import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
 
 /**
  * A metadata filter that validates XML signatures.
@@ -88,7 +89,7 @@ public class SignatureValidationFilter implements MetadataFilter {
      * 
      * @param engine the trust engine used to validate signatures on incoming metadata.
      */
-    public SignatureValidationFilter(@Nonnull final SignatureTrustEngine engine) {
+    public SignatureValidationFilter(@Nonnull @ParameterName(name="engine") final SignatureTrustEngine engine) {
         Constraint.isNotNull(engine, "SignatureTrustEngine cannot be null");
         
         requireSignedRoot = true;

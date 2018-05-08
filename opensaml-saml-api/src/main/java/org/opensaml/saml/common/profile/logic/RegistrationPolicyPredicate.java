@@ -24,15 +24,16 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
-import net.shibboleth.utilities.java.support.annotation.constraint.NotLive;
-import net.shibboleth.utilities.java.support.annotation.constraint.Unmodifiable;
-import net.shibboleth.utilities.java.support.primitive.StringSupport;
-
 import org.opensaml.saml.ext.saml2mdrpi.RegistrationInfo;
 import org.opensaml.saml.ext.saml2mdrpi.RegistrationPolicy;
 
 import com.google.common.collect.ImmutableSet;
+
+import net.shibboleth.utilities.java.support.annotation.ParameterName;
+import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
+import net.shibboleth.utilities.java.support.annotation.constraint.NotLive;
+import net.shibboleth.utilities.java.support.annotation.constraint.Unmodifiable;
+import net.shibboleth.utilities.java.support.primitive.StringSupport;
 
 /**
  * Predicate to determine whether one of a set of names matches an entity's
@@ -48,7 +49,7 @@ public class RegistrationPolicyPredicate  extends AbstractRegistrationInfoPredic
      * 
      * @param policies the policies to test for
      */
-    public RegistrationPolicyPredicate(@Nullable final Collection<String> policies) {
+    public RegistrationPolicyPredicate(@Nullable @ParameterName(name="policies") final Collection<String> policies) {
         policySet = new HashSet<>(StringSupport.normalizeStringCollection(policies));
     }
 

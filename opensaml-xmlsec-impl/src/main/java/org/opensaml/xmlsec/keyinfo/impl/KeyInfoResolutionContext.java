@@ -26,11 +26,12 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.shibboleth.utilities.java.support.collection.LazyMap;
-import net.shibboleth.utilities.java.support.collection.LazySet;
-
 import org.opensaml.security.credential.Credential;
 import org.opensaml.xmlsec.signature.KeyInfo;
+
+import net.shibboleth.utilities.java.support.annotation.ParameterName;
+import net.shibboleth.utilities.java.support.collection.LazyMap;
+import net.shibboleth.utilities.java.support.collection.LazySet;
 
 
 /**
@@ -73,7 +74,8 @@ public class KeyInfoResolutionContext {
      * @param credentials a reference to the collection in which credentials previously
      *          resolved in a processing flow are being stored
      */
-    public KeyInfoResolutionContext(@Nonnull final Collection<Credential> credentials) {
+    public KeyInfoResolutionContext(
+            @Nonnull @ParameterName(name="credentials") final Collection<Credential> credentials) {
         resolvedCredentials = Collections.unmodifiableCollection(credentials);
         properties = new LazyMap<>();
         keyNames = new LazySet<>();

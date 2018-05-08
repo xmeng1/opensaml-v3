@@ -20,9 +20,10 @@ package org.opensaml.messaging.context.navigate;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.shibboleth.utilities.java.support.logic.Constraint;
-
 import org.opensaml.messaging.context.MessageContext;
+
+import net.shibboleth.utilities.java.support.annotation.ParameterName;
+import net.shibboleth.utilities.java.support.logic.Constraint;
 
 /**
  * A {@link ContextDataLookupFunction} that returns the message from a {@link MessageContext}.
@@ -39,7 +40,7 @@ public class MessageLookup<T> implements ContextDataLookupFunction<MessageContex
      * 
      * @param type message type to look up
      */
-    public MessageLookup(@Nonnull final Class<T> type) {
+    public MessageLookup(@Nonnull @ParameterName(name="type") final Class<T> type) {
         messageType = Constraint.isNotNull(type, "Message type cannot be null");
     }
     

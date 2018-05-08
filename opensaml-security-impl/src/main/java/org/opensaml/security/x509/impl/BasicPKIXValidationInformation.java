@@ -25,6 +25,8 @@ import javax.annotation.Nullable;
 
 import org.opensaml.security.x509.PKIXValidationInformation;
 
+import net.shibboleth.utilities.java.support.annotation.ParameterName;
+
 /**
  * Basic implementation of {@link PKIXValidationInformation}.
  */
@@ -46,8 +48,10 @@ public class BasicPKIXValidationInformation implements PKIXValidationInformation
      * @param crls CRLs used during validation
      * @param depth max verification path depth
      */
-    public BasicPKIXValidationInformation(@Nullable final Collection<X509Certificate> anchors,
-            @Nullable final Collection<X509CRL> crls, @Nullable final Integer depth) {
+    public BasicPKIXValidationInformation(
+            @Nullable @ParameterName(name="anchors") final Collection<X509Certificate> anchors,
+            @Nullable @ParameterName(name="crls") final Collection<X509CRL> crls,
+            @Nullable @ParameterName(name="depth") final Integer depth) {
 
         verificationDepth = depth;
         trustAnchors = anchors;

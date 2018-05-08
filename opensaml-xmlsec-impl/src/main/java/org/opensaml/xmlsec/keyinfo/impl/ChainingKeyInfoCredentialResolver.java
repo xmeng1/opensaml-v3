@@ -24,6 +24,8 @@ import javax.annotation.Nonnull;
 import org.opensaml.security.credential.impl.AbstractChainingCredentialResolver;
 import org.opensaml.xmlsec.keyinfo.KeyInfoCredentialResolver;
 
+import net.shibboleth.utilities.java.support.annotation.ParameterName;
+
 /**
  * A concrete implementation of {@link AbstractChainingCredentialResolver} which is scoped to 
  * the {@link KeyInfoCredentialResolver} type.
@@ -36,7 +38,8 @@ public class ChainingKeyInfoCredentialResolver extends AbstractChainingCredentia
      *
      * @param resolverChain the chain of KeyInfo credential resolvers
      */
-    public ChainingKeyInfoCredentialResolver(@Nonnull final List<KeyInfoCredentialResolver> resolverChain) {
+    public ChainingKeyInfoCredentialResolver(
+            @Nonnull @ParameterName(name="resolverChain") final List<KeyInfoCredentialResolver> resolverChain) {
         super(resolverChain);
     }
     
