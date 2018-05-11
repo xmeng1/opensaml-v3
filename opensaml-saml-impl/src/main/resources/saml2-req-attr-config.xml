@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XMLTooling xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns:req-attr="urn:oasis:names:tc:SAML:protocol:ext:req-attr" xmlns="http://www.opensaml.org/xmltooling-config"
+            xsi:schemaLocation="http://www.opensaml.org/xmltooling-config ../../src/schema/xmltooling-config.xsd">
+
+  <!-- SAML 2.0 SAML V2.0 Protocol Extension For Requesting Attributes Per Request -->
+  <ObjectProviders>
+
+    <!-- Publication provider -->
+    <ObjectProvider qualifiedName="req-attr:RequestedAttributes">
+      <BuilderClass className="org.opensaml.saml.ext.reqattr.impl.RequestedAttributesBuilder" />
+      <MarshallingClass className="org.opensaml.saml.ext.reqattr.impl.RequestedAttributesMarshaller" />
+      <UnmarshallingClass className="org.opensaml.saml.ext.reqattr.impl.RequestedAttributesUnmarshaller" />
+    </ObjectProvider>
+ 
+  </ObjectProviders>
+</XMLTooling>

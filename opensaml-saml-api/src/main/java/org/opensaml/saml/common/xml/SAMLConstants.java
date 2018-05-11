@@ -161,6 +161,12 @@ public final class SAMLConstants {
     /** SAML 2.0 Protocol Async Logout extension QName prefix. */
     public static final String SAML20PASLO_PREFIX ="aslo";
     
+    /** SAML SAML V2.0 "Protocol Extension For Requesting Attributes Per Request" namespace. */
+    public static final String SAML20PREQ_ATTR_NS = "urn:oasis:names:tc:SAML:protocol:ext:req-attr";
+
+    /** SAML SAML V2.0 "Protocol Extension For Requesting Attributes Per Request" prefix. */
+    public static final String SAML20PREQ_ATTRR_PREFIX = "req-attr";
+
     /** SAML 2.0 Metadata schema Id. */
     public static final String SAML20MD_SCHEMA_LOCATION = SCHEMA_DIR + "saml-schema-metadata-2.0.xsd";
 
