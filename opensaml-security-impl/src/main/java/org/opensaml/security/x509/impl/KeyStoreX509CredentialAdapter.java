@@ -67,7 +67,7 @@ public class KeyStoreX509CredentialAdapter extends AbstractCredential implements
      * @param alias alias to the credential to be exposed
      * @param password password to the key to be exposed
      */
-    public KeyStoreX509CredentialAdapter(@Nonnull @ParameterName(name="store") final KeyStore store, 
+    public KeyStoreX509CredentialAdapter(@Nonnull @ParameterName(name="store") final KeyStore store,
             @Nonnull @ParameterName(name="alias") final String alias,
             @Nullable  @ParameterName(name="password") final char[] password) {
         keyStore = Constraint.isNotNull(store, "Keystore cannot be null");
