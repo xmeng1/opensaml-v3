@@ -239,14 +239,12 @@ public class XMLConfigurator {
                         (Element) objectProvider.getElementsByTagNameNS(XMLTOOLING_CONFIG_NS, "BuilderClass").item(0);
                 final XMLObjectBuilder<?> builder = (XMLObjectBuilder<?>) createClassInstance(configuration);
 
-                configuration =
-                        (Element) objectProvider.getElementsByTagNameNS(XMLTOOLING_CONFIG_NS, "MarshallingClass").item(
-                                0);
+                configuration = (Element) objectProvider
+                        .getElementsByTagNameNS(XMLTOOLING_CONFIG_NS, "MarshallingClass").item(0);
                 final Marshaller marshaller = (Marshaller) createClassInstance(configuration);
 
-                configuration =
-                        (Element) objectProvider.getElementsByTagNameNS(XMLTOOLING_CONFIG_NS, "UnmarshallingClass")
-                                .item(0);
+                configuration = (Element) objectProvider
+                        .getElementsByTagNameNS(XMLTOOLING_CONFIG_NS, "UnmarshallingClass").item(0);
                 final Unmarshaller unmarshaller = (Unmarshaller) createClassInstance(configuration);
 
                 getRegistry().registerObjectProvider(objectProviderName, builder, marshaller, unmarshaller);
