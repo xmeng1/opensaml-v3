@@ -78,7 +78,7 @@ public class XMLConfigurator {
     /** Pool of parsers used to read and validate configurations. */
     private BasicParserPool parserPool;
 
-    /** Schema used to validate configruation files. */
+    /** Schema used to validate configuration files. */
     private Schema configurationSchema;
 
     /** The provider registry instance to use. */
@@ -170,7 +170,7 @@ public class XMLConfigurator {
     /**
      * Loads the configuration document.
      * 
-     * @param configuration the configurationd document
+     * @param configuration the configuration document
      * @throws XMLConfigurationException thrown if the configuration file(s) cannot be read or invalid
      */
     public void load(@Nonnull final Document configuration) throws XMLConfigurationException {
@@ -251,7 +251,7 @@ public class XMLConfigurator {
 
                 getRegistry().registerObjectProvider(objectProviderName, builder, marshaller, unmarshaller);
 
-                log.debug("{} intialized and configuration cached", objectProviderName);
+                log.debug("{} initialized and configuration cached", objectProviderName);
             } catch (final XMLConfigurationException e) {
                 log.error("Error initializing object provier {}", objectProvider, e);
                 // clean up any parts of the object provider that might have been registered before the failure
