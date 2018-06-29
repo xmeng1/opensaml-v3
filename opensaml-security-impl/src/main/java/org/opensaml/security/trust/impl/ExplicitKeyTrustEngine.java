@@ -20,16 +20,17 @@ package org.opensaml.security.trust.impl;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.shibboleth.utilities.java.support.logic.Constraint;
-import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
-import net.shibboleth.utilities.java.support.resolver.ResolverException;
-
 import org.opensaml.security.SecurityException;
 import org.opensaml.security.credential.Credential;
 import org.opensaml.security.credential.CredentialResolver;
 import org.opensaml.security.trust.TrustedCredentialTrustEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import net.shibboleth.utilities.java.support.annotation.ParameterName;
+import net.shibboleth.utilities.java.support.logic.Constraint;
+import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
+import net.shibboleth.utilities.java.support.resolver.ResolverException;
 
 /**
  * Trust engine that evaluates a credential's key against key(s) expressed within a set of trusted credentials obtained
@@ -54,18 +55,20 @@ public class ExplicitKeyTrustEngine implements TrustedCredentialTrustEngine<Cred
      * 
      * @param resolver credential resolver which is used to resolve trusted credentials
      */
-    public ExplicitKeyTrustEngine(@Nonnull final CredentialResolver resolver) {
+    public ExplicitKeyTrustEngine(@Nonnull @ParameterName(name="resolver") final CredentialResolver resolver) {
         credentialResolver = Constraint.isNotNull(resolver, "Credential resolver cannot be null");
 
         trustEvaluator = new ExplicitKeyTrustEvaluator();
     }
 
     /** {@inheritDoc} */
+    @Override
     @Nonnull public CredentialResolver getCredentialResolver() {
         return credentialResolver;
     }
 
     /** {@inheritDoc} */
+    @Override
     public boolean validate(@Nonnull final Credential untrustedCredential,
             @Nullable final CriteriaSet trustBasisCriteria) throws SecurityException {
 

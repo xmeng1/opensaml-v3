@@ -34,15 +34,16 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.shibboleth.utilities.java.support.logic.Constraint;
-import net.shibboleth.utilities.java.support.primitive.StringSupport;
-
 import org.opensaml.security.credential.AbstractCredential;
 import org.opensaml.security.credential.Credential;
 import org.opensaml.security.credential.UsageType;
 import org.opensaml.security.x509.X509Credential;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import net.shibboleth.utilities.java.support.annotation.ParameterName;
+import net.shibboleth.utilities.java.support.logic.Constraint;
+import net.shibboleth.utilities.java.support.primitive.StringSupport;
 
 /** A wrapper that changes a {@link KeyStore} in to a {@link X509Credential}. */
 public class KeyStoreX509CredentialAdapter extends AbstractCredential implements X509Credential {
@@ -66,8 +67,9 @@ public class KeyStoreX509CredentialAdapter extends AbstractCredential implements
      * @param alias alias to the credential to be exposed
      * @param password password to the key to be exposed
      */
-    public KeyStoreX509CredentialAdapter(@Nonnull final KeyStore store, @Nonnull final String alias,
-            @Nullable final char[] password) {
+    public KeyStoreX509CredentialAdapter(@Nonnull @ParameterName(name="store") final KeyStore store,
+            @Nonnull @ParameterName(name="alias") final String alias,
+            @Nullable  @ParameterName(name="password") final char[] password) {
         keyStore = Constraint.isNotNull(store, "Keystore cannot be null");
         credentialAlias = Constraint.isNotNull(StringSupport.trimOrNull(alias),
                 "Keystore alias cannot be null or empty");
@@ -75,11 +77,13 @@ public class KeyStoreX509CredentialAdapter extends AbstractCredential implements
     }
 
     /** {@inheritDoc} */
+    @Override
     @Nullable public Collection<X509CRL> getCRLs() {
         return Collections.EMPTY_LIST;
     }
 
     /** {@inheritDoc} */
+    @Override
     @Nonnull public X509Certificate getEntityCertificate() {
         try {
             return (X509Certificate) keyStore.getCertificate(credentialAlias);
@@ -90,6 +94,7 @@ public class KeyStoreX509CredentialAdapter extends AbstractCredential implements
     }
 
     /** {@inheritDoc} */
+    @Override
     @Nonnull public Collection<X509Certificate> getEntityCertificateChain() {
         List<X509Certificate> certsCollection = Collections.EMPTY_LIST;
 
@@ -108,6 +113,7 @@ public class KeyStoreX509CredentialAdapter extends AbstractCredential implements
     }
 
     /** {@inheritDoc} */
+    @Override
     @Nullable public PrivateKey getPrivateKey() {
         try {
             return (PrivateKey) keyStore.getKey(credentialAlias, keyPassword);
@@ -118,21 +124,25 @@ public class KeyStoreX509CredentialAdapter extends AbstractCredential implements
     }
 
     /** {@inheritDoc} */
+    @Override
     @Nullable public PublicKey getPublicKey() {
         return getEntityCertificate().getPublicKey();
     }
 
     /** {@inheritDoc} */
+    @Override
     @Nonnull public Class<? extends Credential> getCredentialType() {
         return X509Credential.class;
     }
 
     /** {@inheritDoc} */
+    @Override
     public void setEntityId(@Nullable final String newEntityID) {
         super.setEntityId(newEntityID);
     }
 
     /** {@inheritDoc} */
+    @Override
     public void setUsageType(@Nonnull final UsageType newUsageType) {
         super.setUsageType(newUsageType);
     }

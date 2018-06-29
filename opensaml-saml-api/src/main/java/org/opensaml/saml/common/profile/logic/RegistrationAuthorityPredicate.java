@@ -24,14 +24,15 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import org.opensaml.saml.ext.saml2mdrpi.RegistrationInfo;
+
+import com.google.common.collect.ImmutableSet;
+
+import net.shibboleth.utilities.java.support.annotation.ParameterName;
 import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
 import net.shibboleth.utilities.java.support.annotation.constraint.NotLive;
 import net.shibboleth.utilities.java.support.annotation.constraint.Unmodifiable;
 import net.shibboleth.utilities.java.support.primitive.StringSupport;
-
-import org.opensaml.saml.ext.saml2mdrpi.RegistrationInfo;
-
-import com.google.common.collect.ImmutableSet;
 
 /**
  * Predicate to determine whether one of a set of names matches an entity's
@@ -47,7 +48,7 @@ public class RegistrationAuthorityPredicate  extends AbstractRegistrationInfoPre
      * 
      * @param names the authority names to test for
      */
-    public RegistrationAuthorityPredicate(@Nullable final Collection<String> names) {
+    public RegistrationAuthorityPredicate(@Nullable@ParameterName(name="names") final Collection<String> names) {
         authorities = new HashSet<>(StringSupport.normalizeStringCollection(names));
     }
 

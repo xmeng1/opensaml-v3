@@ -25,14 +25,15 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.shibboleth.utilities.java.support.logic.Constraint;
-import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
-import net.shibboleth.utilities.java.support.resolver.ResolverException;
-
 import org.opensaml.security.credential.Credential;
 import org.opensaml.security.credential.CredentialResolver;
 import org.opensaml.security.criteria.KeyNameCriterion;
 import org.opensaml.security.criteria.PublicKeyCriterion;
+
+import net.shibboleth.utilities.java.support.annotation.ParameterName;
+import net.shibboleth.utilities.java.support.logic.Constraint;
+import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
+import net.shibboleth.utilities.java.support.resolver.ResolverException;
 
 /**
  * A simple specialization of {@link BasicProviderKeyInfoCredentialResolver}
@@ -78,8 +79,9 @@ public class LocalKeyInfoCredentialResolver extends BasicProviderKeyInfoCredenti
      * @param keyInfoProviders the list of {@link KeyInfoProvider}s to use in this resolver
      * @param localCredentialResolver resolver of local credentials
      */
-    public LocalKeyInfoCredentialResolver(@Nonnull final List<KeyInfoProvider> keyInfoProviders,
-            @Nonnull final CredentialResolver localCredentialResolver) {
+    public LocalKeyInfoCredentialResolver(
+            @Nonnull @ParameterName(name="keyInfoProviders") final List<KeyInfoProvider> keyInfoProviders,
+            @Nonnull  @ParameterName(name="localCredentialResolver") final CredentialResolver localCredentialResolver) {
         super(keyInfoProviders);
         
         localCredResolver = Constraint.isNotNull(localCredentialResolver, "Local credential resolver cannot be null");
@@ -98,6 +100,7 @@ public class LocalKeyInfoCredentialResolver extends BasicProviderKeyInfoCredenti
     }
 
     /** {@inheritDoc} */
+    @Override
     protected void postProcess(@Nonnull final KeyInfoResolutionContext kiContext,
             @Nullable final CriteriaSet criteriaSet, @Nonnull final List<Credential> credentials)
                     throws ResolverException {

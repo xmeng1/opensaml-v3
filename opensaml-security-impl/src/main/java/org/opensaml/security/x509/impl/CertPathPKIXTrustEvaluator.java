@@ -41,8 +41,6 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.shibboleth.utilities.java.support.logic.Constraint;
-
 import org.opensaml.security.SecurityException;
 import org.opensaml.security.x509.InternalX500DNHandler;
 import org.opensaml.security.x509.PKIXTrustEvaluator;
@@ -53,6 +51,9 @@ import org.opensaml.security.x509.X509Credential;
 import org.opensaml.security.x509.X509Support;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import net.shibboleth.utilities.java.support.annotation.ParameterName;
+import net.shibboleth.utilities.java.support.logic.Constraint;
 
 /**
  * An implementation of {@link PKIXTrustEvaluator} that is based on the Java CertPath API.
@@ -82,12 +83,14 @@ public class CertPathPKIXTrustEvaluator implements PKIXTrustEvaluator {
      * 
      * @param newOptions PKIX validation options
      */
-    public CertPathPKIXTrustEvaluator(@Nonnull final PKIXValidationOptions newOptions) {
+    public CertPathPKIXTrustEvaluator(
+            @Nonnull final @ParameterName(name="newOptions") PKIXValidationOptions newOptions) {
         options = Constraint.isNotNull(newOptions, "PKIXValidationOptions cannot be null");
         x500DNHandler = new InternalX500DNHandler();
     }
     
     /** {@inheritDoc} */
+    @Override
     @Nonnull public PKIXValidationOptions getPKIXValidationOptions() {
         return options;
     }
@@ -124,6 +127,7 @@ public class CertPathPKIXTrustEvaluator implements PKIXTrustEvaluator {
     }
 
     /** {@inheritDoc} */
+    @Override
     public boolean validate(@Nonnull final PKIXValidationInformation validationInfo,
             @Nonnull final X509Credential untrustedCredential) throws SecurityException {
         

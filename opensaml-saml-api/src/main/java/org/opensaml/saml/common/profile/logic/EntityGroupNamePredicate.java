@@ -25,13 +25,6 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
-import net.shibboleth.utilities.java.support.annotation.constraint.NotLive;
-import net.shibboleth.utilities.java.support.annotation.constraint.Unmodifiable;
-import net.shibboleth.utilities.java.support.primitive.StringSupport;
-import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
-import net.shibboleth.utilities.java.support.resolver.ResolverException;
-
 import org.opensaml.core.criterion.EntityIdCriterion;
 import org.opensaml.saml.metadata.EntityGroupName;
 import org.opensaml.saml.metadata.resolver.MetadataResolver;
@@ -43,6 +36,14 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableSet;
+
+import net.shibboleth.utilities.java.support.annotation.ParameterName;
+import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
+import net.shibboleth.utilities.java.support.annotation.constraint.NotLive;
+import net.shibboleth.utilities.java.support.annotation.constraint.Unmodifiable;
+import net.shibboleth.utilities.java.support.primitive.StringSupport;
+import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
+import net.shibboleth.utilities.java.support.resolver.ResolverException;
 
 /**
  * Predicate to determine whether one of a set of names matches any of an entity's containing
@@ -67,7 +68,7 @@ public class EntityGroupNamePredicate implements Predicate<EntityDescriptor> {
      * 
      * @param names the group names to test for
      */
-    public EntityGroupNamePredicate(@Nullable final Collection<String> names) {
+    public EntityGroupNamePredicate(@Nullable @ParameterName(name="names") final Collection<String> names) {
         this(names, null);
     }
     
@@ -79,8 +80,8 @@ public class EntityGroupNamePredicate implements Predicate<EntityDescriptor> {
      * 
      * @since 3.4.0
      */
-    public EntityGroupNamePredicate(@Nullable final Collection<String> names,
-            @Nullable final MetadataResolver resolver) {
+    public EntityGroupNamePredicate(@Nullable @ParameterName(name="names") final Collection<String> names,
+            @Nullable @ParameterName(name="resolver") final MetadataResolver resolver) {
         
         groupNames = new HashSet<>(StringSupport.normalizeStringCollection(names));
         
@@ -104,6 +105,7 @@ public class EntityGroupNamePredicate implements Predicate<EntityDescriptor> {
     
 // Checkstyle: CyclomaticComplexity OFF
     /** {@inheritDoc} */
+    @Override
     public boolean apply(@Nullable final EntityDescriptor input) {
         
         if (input == null) {

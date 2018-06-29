@@ -31,9 +31,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.crypto.SecretKey;
 
-import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
-import net.shibboleth.utilities.java.support.resolver.ResolverException;
-
 import org.opensaml.core.xml.XMLObject;
 import org.opensaml.security.SecurityException;
 import org.opensaml.security.credential.BasicCredential;
@@ -49,6 +46,10 @@ import org.opensaml.xmlsec.signature.KeyName;
 import org.opensaml.xmlsec.signature.KeyValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import net.shibboleth.utilities.java.support.annotation.ParameterName;
+import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
+import net.shibboleth.utilities.java.support.resolver.ResolverException;
 
 /**
  * Implementation of {@link KeyInfoCredentialResolver} which resolves credentials based on a {@link KeyInfo} element
@@ -119,7 +120,8 @@ public class BasicProviderKeyInfoCredentialResolver extends AbstractCriteriaFilt
      * 
      * @param keyInfoProviders the list of KeyInfoProvider's to use in this resolver
      */
-    public BasicProviderKeyInfoCredentialResolver(@Nonnull final List<KeyInfoProvider> keyInfoProviders) {
+    public BasicProviderKeyInfoCredentialResolver(
+            @Nonnull @ParameterName(name="keyInfoProviders") final List<KeyInfoProvider> keyInfoProviders) {
         super();
 
         providers = new ArrayList<>();
@@ -136,6 +138,7 @@ public class BasicProviderKeyInfoCredentialResolver extends AbstractCriteriaFilt
     }
 
     /** {@inheritDoc} */
+    @Override
     @Nonnull protected Iterable<Credential> resolveFromSource(@Nullable final CriteriaSet criteriaSet)
             throws ResolverException {
         

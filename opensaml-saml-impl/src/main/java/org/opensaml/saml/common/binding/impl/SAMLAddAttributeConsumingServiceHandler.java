@@ -17,11 +17,18 @@
 
 package org.opensaml.saml.common.binding.impl;
 
+import java.util.List;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import net.shibboleth.utilities.java.support.logic.Constraint;
 
+import org.opensaml.core.xml.XMLObject;
+import org.opensaml.core.xml.io.MarshallingException;
+import org.opensaml.core.xml.io.UnmarshallingException;
+import org.opensaml.core.xml.util.XMLObjectSupport;
+import org.opensaml.core.xml.util.XMLObjectSupport.CloneOutputOption;
 import org.opensaml.messaging.context.MessageContext;
 import org.opensaml.messaging.context.navigate.ChildContextLookup;
 import org.opensaml.messaging.handler.AbstractMessageHandler;
@@ -29,8 +36,11 @@ import org.opensaml.messaging.handler.MessageHandlerException;
 import org.opensaml.saml.common.messaging.context.AttributeConsumingServiceContext;
 import org.opensaml.saml.common.messaging.context.SAMLMetadataContext;
 import org.opensaml.saml.common.messaging.context.SAMLPeerEntityContext;
+import org.opensaml.saml.ext.reqattr.RequestedAttributes;
 import org.opensaml.saml.saml2.core.AuthnRequest;
+import org.opensaml.saml.saml2.core.Extensions;
 import org.opensaml.saml.saml2.metadata.AttributeConsumingService;
+import org.opensaml.saml.saml2.metadata.RequestedAttribute;
 import org.opensaml.saml.saml2.metadata.SPSSODescriptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,12 +60,16 @@ public class SAMLAddAttributeConsumingServiceHandler extends AbstractMessageHand
     /** Lookup strategy for {@link SAMLMetadataContext}. */
     @Nonnull private Function<MessageContext,SAMLMetadataContext> metadataContextLookupStrategy;
    
-    /** Lookup strategy for an {@link AttributeConsumingService} index. */
-    @Nullable private Function<MessageContext,Integer> indexLookupStrategy;
+    /** Lookup strategy for an {@link AuthnRequest} index. */
+    @Nonnull private Function<MessageContext, AuthnRequest> authnRequestLookupStrategy;
 
-    /** {@link AttributeConsumingService} index. */
-    @Nullable private Integer index;
+    /** {@link AttributeConsumingService} index - if specified. */
     
+    @Nullable private Integer index;
+
+    /** {@link RequestedAttribute} list - if specified. */
+    @Nullable private List<RequestedAttribute> requestedAttributes;
+
     /**
      * Constructor.
      */
@@ -65,7 +79,7 @@ public class SAMLAddAttributeConsumingServiceHandler extends AbstractMessageHand
                 Functions.compose(
                         new ChildContextLookup<SAMLPeerEntityContext,SAMLMetadataContext>(SAMLMetadataContext.class),
                         new ChildContextLookup<MessageContext,SAMLPeerEntityContext>(SAMLPeerEntityContext.class));
-        indexLookupStrategy = new AuthnRequestIndexLookup();
+        authnRequestLookupStrategy = new AuthnRequestLookup();
     }
 
     /**
@@ -83,9 +97,9 @@ public class SAMLAddAttributeConsumingServiceHandler extends AbstractMessageHand
      * 
      * @param strategy lookup strategy
      */
-    public void setIndexLookupStrategy(@Nullable final Function<MessageContext,Integer> strategy) {
-        indexLookupStrategy = Constraint.isNotNull(strategy,
-                "AttributeConsumingService index lookup strategy cannot be null");
+    public void setIndexLookupStrategy(@Nullable final Function<MessageContext,AuthnRequest> strategy) {
+        authnRequestLookupStrategy = Constraint.isNotNull(strategy,
+                "AuthnRequest lookup strategy cannot be null");
     }
     
     /** {@inheritDoc} */
@@ -95,15 +109,23 @@ public class SAMLAddAttributeConsumingServiceHandler extends AbstractMessageHand
         if (!super.doPreInvoke(messageContext)) {
             return false;
         }
-        
-        if (indexLookupStrategy != null) {
-            index = indexLookupStrategy.apply(messageContext);
+
+        final AuthnRequest authn = authnRequestLookupStrategy.apply(messageContext);
+
+        if (authn != null) {
+            index = authn.getAttributeConsumingServiceIndex();
+            requestedAttributes = getRequestedAttributes(authn);
+
+            if (index != null && requestedAttributes != null && !requestedAttributes.isEmpty()) {
+                log.info("{} AuthnRequest from {} contained a AttributeConsumingServiceIndex"
+                        + " and RequestedAttributes; ignoring the RequestedAttributes.",
+                        getLogPrefix(), authn.getProviderName());
+                requestedAttributes = null;
+            }
         }
-        
         return true;
     }
 
-// Checkstyle: ReturnCount OFF
     /** {@inheritDoc}*/
     @Override protected void doInvoke(@Nonnull final MessageContext messageContext) throws MessageHandlerException {
         final SAMLMetadataContext metadataContext = metadataContextLookupStrategy.apply(messageContext);
@@ -128,8 +150,14 @@ public class SAMLAddAttributeConsumingServiceHandler extends AbstractMessageHand
             }
         }
         if (null == acs) {
-            log.debug("{} Selecting default AttributeConsumingService, if any", getLogPrefix());
-            acs = ssoDescriptor.getDefaultAttributeConsumingService();
+            if (requestedAttributes != null && !requestedAttributes.isEmpty()) {
+                log.debug("{} Creating AttributeConsumingService with requested Attributes {}", 
+                        getLogPrefix(), requestedAttributes);
+                acs = attributeConsumingServiceFromRequestedAttributes();
+            } else {
+                log.debug("{} Selecting default AttributeConsumingService, if any", getLogPrefix());
+                acs = ssoDescriptor.getDefaultAttributeConsumingService();
+            }
         }
         if (null != acs) {
             log.debug("{} Selected AttributeConsumingService with index {}", getLogPrefix(), acs.getIndex());
@@ -139,23 +167,57 @@ public class SAMLAddAttributeConsumingServiceHandler extends AbstractMessageHand
             log.debug("{} No AttributeConsumingService selected", getLogPrefix());
         }
     }
-// Checkstyle: ReturnCount ON
 
-    /** Default lookup function that reads from a SAML 2 {@link AuthnRequest}. */
-    private class AuthnRequestIndexLookup implements Function<MessageContext,Integer> {
+    /** Generate an {@link AttributeConsumingService } from the {@link RequestedAttributes}.
+     * @return a suitable AttributeConsumingService
+     * @throws MessageHandlerException when the cloning failed
+     */
+    private AttributeConsumingService attributeConsumingServiceFromRequestedAttributes() 
+            throws MessageHandlerException {
+        final AttributeConsumingService newAcs = (AttributeConsumingService)
+                XMLObjectSupport.buildXMLObject(AttributeConsumingService.DEFAULT_ELEMENT_NAME);
+        for (final RequestedAttribute attribute: requestedAttributes) {
+            try {
+                newAcs.getRequestAttributes().add(
+                        XMLObjectSupport.cloneXMLObject(attribute, CloneOutputOption.DropDOM));
+            } catch (final MarshallingException | UnmarshallingException e) {
+                log.warn("{} Error cloning requested Attributes", getLogPrefix(), e);
+                throw new MessageHandlerException(e);
+            }
+        }
+        return newAcs;
+    }
+
+    /** Grab the {@link RequestedAttribute} (if any) from the {@link AuthnRequest}.
+     * @param authn the request to interrogate
+     * @return null or the list.
+     */
+    private List<RequestedAttribute> getRequestedAttributes(final AuthnRequest authn) {
+        final Extensions extensions = authn.getExtensions();
+        if (extensions == null) {
+            return null;
+        }
+        final List<XMLObject> bindings = extensions.getUnknownXMLObjects(RequestedAttributes.DEFAULT_ELEMENT_NAME);
+        if (bindings == null || bindings.isEmpty()) {
+            return null;
+        }
+        return ((RequestedAttributes)bindings.get(0)).getRequestedAttributes();
+    }
+
+    /** Default lookup function that find a SAML 2 {@link AuthnRequest}. */
+    private class AuthnRequestLookup implements Function<MessageContext,AuthnRequest> {
 
         /** {@inheritDoc} */
         @Override
-        public Integer apply(@Nullable final MessageContext input) {
+        public AuthnRequest apply(@Nullable final MessageContext input) {
             if (input != null) {
                 final Object message = input.getMessage();
                 if (message != null && message instanceof AuthnRequest) {
-                    return ((AuthnRequest) message).getAttributeConsumingServiceIndex();
+                    return (AuthnRequest) message;
                 }
             }
             
             return null;
         }
-        
     }
 }

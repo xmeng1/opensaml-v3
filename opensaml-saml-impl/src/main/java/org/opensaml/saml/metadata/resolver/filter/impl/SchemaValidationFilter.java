@@ -24,14 +24,6 @@ import javax.annotation.Nullable;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.validation.Validator;
 
-import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
-import net.shibboleth.utilities.java.support.logic.Constraint;
-import net.shibboleth.utilities.java.support.primitive.DeprecationSupport;
-import net.shibboleth.utilities.java.support.primitive.DeprecationSupport.ObjectType;
-import net.shibboleth.utilities.java.support.primitive.StringSupport;
-import net.shibboleth.utilities.java.support.xml.ClasspathResolver;
-import net.shibboleth.utilities.java.support.xml.SchemaBuilder;
-
 import org.opensaml.core.xml.XMLObject;
 import org.opensaml.saml.common.xml.SAMLSchemaBuilder;
 import org.opensaml.saml.metadata.resolver.filter.FilterException;
@@ -39,6 +31,15 @@ import org.opensaml.saml.metadata.resolver.filter.MetadataFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
+
+import net.shibboleth.utilities.java.support.annotation.ParameterName;
+import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
+import net.shibboleth.utilities.java.support.logic.Constraint;
+import net.shibboleth.utilities.java.support.primitive.DeprecationSupport;
+import net.shibboleth.utilities.java.support.primitive.DeprecationSupport.ObjectType;
+import net.shibboleth.utilities.java.support.primitive.StringSupport;
+import net.shibboleth.utilities.java.support.xml.ClasspathResolver;
+import net.shibboleth.utilities.java.support.xml.SchemaBuilder;
 
 /**
  * A metadata filter that schema validates an incoming metadata file.
@@ -59,7 +60,7 @@ public class SchemaValidationFilter implements MetadataFilter {
      * 
      * @param builder SAML schema source to use
      */
-    public SchemaValidationFilter(@Nonnull final SAMLSchemaBuilder builder) {
+    public SchemaValidationFilter(@Nonnull @ParameterName(name="builder") final SAMLSchemaBuilder builder) {
         this(builder, null);
     }
 
@@ -77,9 +78,8 @@ public class SchemaValidationFilter implements MetadataFilter {
      * @param builder SAML schema source to use
      * @param extensionSchemas classpath-based location of metadata extension schemas
      */
-    @Deprecated
-    public SchemaValidationFilter(@Nonnull final SAMLSchemaBuilder builder,
-            @Nullable @NonnullElements final String[] extensionSchemas) {
+    @Deprecated public SchemaValidationFilter(@Nonnull @ParameterName(name="builder") final SAMLSchemaBuilder builder,
+            @Nullable @NonnullElements @ParameterName(name="extensionSchemas") final String[] extensionSchemas) {
         samlSchemaBuilder = Constraint.isNotNull(builder, "SAMLSchemaBuilder cannot be null");
         
         if (extensionSchemas != null) {

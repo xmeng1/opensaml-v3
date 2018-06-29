@@ -22,10 +22,6 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.shibboleth.utilities.java.support.logic.Constraint;
-import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
-import net.shibboleth.utilities.java.support.resolver.ResolverException;
-
 import org.opensaml.security.SecurityException;
 import org.opensaml.security.x509.PKIXTrustEngine;
 import org.opensaml.security.x509.PKIXTrustEvaluator;
@@ -34,6 +30,11 @@ import org.opensaml.security.x509.PKIXValidationInformationResolver;
 import org.opensaml.security.x509.X509Credential;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import net.shibboleth.utilities.java.support.annotation.ParameterName;
+import net.shibboleth.utilities.java.support.logic.Constraint;
+import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
+import net.shibboleth.utilities.java.support.resolver.ResolverException;
 
 /**
  * Trust engine implementation which evaluates an {@link X509Credential} token based on PKIX validation processing using
@@ -62,7 +63,8 @@ public class PKIXX509CredentialTrustEngine implements PKIXTrustEngine<X509Creden
      * 
      * @param resolver credential resolver used to resolve trusted credentials
      */
-    public PKIXX509CredentialTrustEngine(@Nonnull final PKIXValidationInformationResolver resolver) {
+    public PKIXX509CredentialTrustEngine(
+            @Nonnull @ParameterName(name="resolver") final PKIXValidationInformationResolver resolver) {
         this(resolver, new CertPathPKIXTrustEvaluator(), new BasicX509CredentialNameEvaluator());
     }
     
@@ -72,8 +74,9 @@ public class PKIXX509CredentialTrustEngine implements PKIXTrustEngine<X509Creden
      * @param resolver credential resolver used to resolve trusted credentials
      * @param nameEvaluator the X.509 credential name evaluator to use (may be null)
      */
-    public PKIXX509CredentialTrustEngine(@Nonnull final PKIXValidationInformationResolver resolver,
-            @Nullable final X509CredentialNameEvaluator nameEvaluator) {
+    public PKIXX509CredentialTrustEngine(
+            @Nonnull @ParameterName(name="resolver") final PKIXValidationInformationResolver resolver,
+            @Nullable @ParameterName(name="nameEvaluator") final X509CredentialNameEvaluator nameEvaluator) {
         this(resolver, new CertPathPKIXTrustEvaluator(), null);
     }
     
@@ -84,9 +87,10 @@ public class PKIXX509CredentialTrustEngine implements PKIXTrustEngine<X509Creden
      * @param pkixEvaluator the PKIX trust evaluator to use
      * @param nameEvaluator the X.509 credential name evaluator to use (may be null)
      */
-    public PKIXX509CredentialTrustEngine(@Nonnull final PKIXValidationInformationResolver resolver,
-            @Nonnull final PKIXTrustEvaluator pkixEvaluator,
-            @Nullable final X509CredentialNameEvaluator nameEvaluator) {
+    public PKIXX509CredentialTrustEngine(
+            @Nonnull @ParameterName(name="resolver") final PKIXValidationInformationResolver resolver,
+            @Nonnull @ParameterName(name="pkixEvaluator") final PKIXTrustEvaluator pkixEvaluator,
+            @Nullable @ParameterName(name="nameEvaluator") final X509CredentialNameEvaluator nameEvaluator) {
 
         pkixResolver = Constraint.isNotNull(resolver, "PKIX trust information resolver cannot be null");
         pkixTrustEvaluator = Constraint.isNotNull(pkixEvaluator, "PKIX trust evaluator may not be null");
@@ -94,6 +98,7 @@ public class PKIXX509CredentialTrustEngine implements PKIXTrustEngine<X509Creden
     }
 
     /** {@inheritDoc} */
+    @Override
     @Nonnull public PKIXValidationInformationResolver getPKIXResolver() {
         return pkixResolver;
     }
@@ -124,6 +129,7 @@ public class PKIXX509CredentialTrustEngine implements PKIXTrustEngine<X509Creden
     }
 
     /** {@inheritDoc} */
+    @Override
     public boolean validate(@Nonnull final X509Credential untrustedCredential,
             @Nullable final CriteriaSet trustBasisCriteria)
         throws SecurityException {

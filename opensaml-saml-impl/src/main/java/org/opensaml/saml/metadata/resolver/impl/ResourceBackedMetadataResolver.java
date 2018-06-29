@@ -20,12 +20,13 @@ package org.opensaml.saml.metadata.resolver.impl;
 import java.io.IOException;
 import java.util.Timer;
 
-import net.shibboleth.utilities.java.support.resolver.ResolverException;
-import net.shibboleth.utilities.java.support.resource.Resource;
-
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import net.shibboleth.utilities.java.support.annotation.ParameterName;
+import net.shibboleth.utilities.java.support.resolver.ResolverException;
+import net.shibboleth.utilities.java.support.resource.Resource;
 
 /**
  * A metadata provider that reads metadata from a {#link {@link Resource}.
@@ -48,7 +49,8 @@ public class ResourceBackedMetadataResolver extends AbstractReloadingMetadataRes
      * 
      * @throws IOException thrown if there is a problem retrieving information about the resource
      */
-    public ResourceBackedMetadataResolver(final Timer timer, final Resource resource) throws IOException {
+    public ResourceBackedMetadataResolver(@ParameterName(name="timer") final Timer timer,
+            @ParameterName(name="resource") final Resource resource) throws IOException {
         super(timer);
 
         if (!resource.exists()) {
@@ -64,7 +66,7 @@ public class ResourceBackedMetadataResolver extends AbstractReloadingMetadataRes
      * 
      * @throws IOException thrown if there is a problem retrieving information about the resource
      */
-    public ResourceBackedMetadataResolver(final Resource resource) throws IOException {
+    public ResourceBackedMetadataResolver(@ParameterName(name="resource") final Resource resource) throws IOException {
 
         if (!resource.exists()) {
             throw new IOException("Resource " + resource.getDescription() + " does not exist.");

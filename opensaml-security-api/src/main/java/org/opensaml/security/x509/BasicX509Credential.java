@@ -28,11 +28,12 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.crypto.SecretKey;
 
-import net.shibboleth.utilities.java.support.collection.LazySet;
-import net.shibboleth.utilities.java.support.logic.Constraint;
-
 import org.opensaml.security.credential.BasicCredential;
 import org.opensaml.security.credential.Credential;
+
+import net.shibboleth.utilities.java.support.annotation.ParameterName;
+import net.shibboleth.utilities.java.support.collection.LazySet;
+import net.shibboleth.utilities.java.support.logic.Constraint;
 
 /**
  * A basic implementation of {@link X509Credential}.
@@ -53,7 +54,8 @@ public class BasicX509Credential extends BasicCredential implements X509Credenti
      *
      * @param entityCertificate the credential entity certificate
      */
-    public BasicX509Credential(@Nonnull final X509Certificate entityCertificate) {
+    public BasicX509Credential(
+            @Nonnull @ParameterName(name="entityCertificate") final X509Certificate entityCertificate) {
         super();
         setEntityCertificate(entityCertificate);
     }
@@ -64,18 +66,22 @@ public class BasicX509Credential extends BasicCredential implements X509Credenti
      * @param entityCertificate the credential entity certificate
      * @param privateKey the credential private key
      */
-    public BasicX509Credential(@Nonnull final X509Certificate entityCertificate, @Nonnull final PrivateKey privateKey) {
+    public BasicX509Credential(
+            @Nonnull @ParameterName(name="entityCertificate") final X509Certificate entityCertificate,
+            @ParameterName(name="privateKey") @Nonnull final PrivateKey privateKey) {
         super();
         setEntityCertificate(entityCertificate);
         setPrivateKey(privateKey);
     }
 
     /** {@inheritDoc} */
+    @Override
     @Nonnull public Class<? extends Credential> getCredentialType() {
         return X509Credential.class;
     }
 
     /** {@inheritDoc} */
+    @Override
     @Nullable public Collection<X509CRL> getCRLs() {
         return crls;
     }
@@ -90,6 +96,7 @@ public class BasicX509Credential extends BasicCredential implements X509Credenti
     }
 
     /** {@inheritDoc} */
+    @Override
     @Nonnull public X509Certificate getEntityCertificate() {
         return entityCert;
     }
@@ -105,6 +112,7 @@ public class BasicX509Credential extends BasicCredential implements X509Credenti
     }
     
     /** {@inheritDoc} */
+    @Override
     @Nonnull public PublicKey getPublicKey() {
         return getEntityCertificate().getPublicKey();
     }
@@ -115,11 +123,13 @@ public class BasicX509Credential extends BasicCredential implements X509Credenti
      * 
      * @param newPublicKey not supported
      */
+    @Override
     public void setPublicKey(final PublicKey newPublicKey) {
         throw new UnsupportedOperationException("Public key may not be set explicitly on an X509 credential");
     }
 
     /** {@inheritDoc} */
+    @Override
     @Nonnull public Collection<X509Certificate> getEntityCertificateChain() {
         if (entityCertChain == null) {
             final LazySet<X509Certificate> constructedChain = new LazySet<>();
@@ -147,6 +157,7 @@ public class BasicX509Credential extends BasicCredential implements X509Credenti
      *  
      *  @return null
      */
+    @Override
     @Nullable public SecretKey getSecretKey() {
         return null;
     }
@@ -156,6 +167,7 @@ public class BasicX509Credential extends BasicCredential implements X509Credenti
      *  
      *  @param newSecretKey unsupported
      */
+    @Override
     public void setSecretKey(final SecretKey newSecretKey) {
         throw new UnsupportedOperationException("An X509Credential may not contain a secret key");
     }

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<req-attr:RequestedAttributes xmlns:req-attr="urn:oasis:names:tc:SAML:protocol:ext:req-attr" xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata">
+    <md:RequestedAttribute Name="attribName1"/>
+    <md:RequestedAttribute Name="attribName2"/>
+    <md:RequestedAttribute Name="attribName3"/>
+</req-attr:RequestedAttributes>

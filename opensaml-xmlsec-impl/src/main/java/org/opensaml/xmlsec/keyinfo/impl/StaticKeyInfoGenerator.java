@@ -20,8 +20,6 @@ package org.opensaml.xmlsec.keyinfo.impl;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.shibboleth.utilities.java.support.logic.Constraint;
-
 import org.opensaml.core.xml.config.XMLObjectProviderRegistrySupport;
 import org.opensaml.core.xml.io.Marshaller;
 import org.opensaml.core.xml.io.MarshallingException;
@@ -32,6 +30,9 @@ import org.opensaml.security.credential.Credential;
 import org.opensaml.xmlsec.keyinfo.KeyInfoGenerator;
 import org.opensaml.xmlsec.signature.KeyInfo;
 import org.w3c.dom.Element;
+
+import net.shibboleth.utilities.java.support.annotation.ParameterName;
+import net.shibboleth.utilities.java.support.logic.Constraint;
 
 /**
  * Implementation of {@link KeyInfoGenerator} which always returns static {@link KeyInfo} data.
@@ -61,11 +62,12 @@ public class StaticKeyInfoGenerator implements KeyInfoGenerator {
      *
      * @param newKeyInfo the KeyInfo used as the basis to return new KeyInfo objects from this generator
      */
-    public StaticKeyInfoGenerator(@Nonnull final KeyInfo newKeyInfo) {
+    public StaticKeyInfoGenerator(@Nonnull @ParameterName(name="newKeyInfo") final KeyInfo newKeyInfo) {
         setKeyInfo(newKeyInfo);
     }
 
     /** {@inheritDoc} */
+    @Override
     @Nonnull public KeyInfo generate(@Nullable final Credential credential) throws SecurityException {
         if (keyInfo.getParent() == null) {
             return keyInfo;

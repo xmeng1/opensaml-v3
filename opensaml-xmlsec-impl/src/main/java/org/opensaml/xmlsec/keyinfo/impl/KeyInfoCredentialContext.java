@@ -22,6 +22,8 @@ import javax.annotation.Nonnull;
 import org.opensaml.security.credential.CredentialContext;
 import org.opensaml.xmlsec.signature.KeyInfo;
 
+import net.shibboleth.utilities.java.support.annotation.ParameterName;
+
 /**
  * Context for credentials resolved from a {@link KeyInfo} element.
  */
@@ -35,7 +37,7 @@ public class KeyInfoCredentialContext implements CredentialContext {
      *
      * @param ki the KeyInfo context 
      */
-    public KeyInfoCredentialContext(@Nonnull final KeyInfo ki) {
+    public KeyInfoCredentialContext(@Nonnull @ParameterName(name="ki") final KeyInfo ki) {
        keyInfo = ki; 
     }
     

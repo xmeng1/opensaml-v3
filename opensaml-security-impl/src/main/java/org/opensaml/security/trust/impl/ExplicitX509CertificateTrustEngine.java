@@ -20,10 +20,6 @@ package org.opensaml.security.trust.impl;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.shibboleth.utilities.java.support.logic.Constraint;
-import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
-import net.shibboleth.utilities.java.support.resolver.ResolverException;
-
 import org.opensaml.security.SecurityException;
 import org.opensaml.security.credential.Credential;
 import org.opensaml.security.credential.CredentialResolver;
@@ -31,6 +27,11 @@ import org.opensaml.security.trust.TrustedCredentialTrustEngine;
 import org.opensaml.security.x509.X509Credential;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import net.shibboleth.utilities.java.support.annotation.ParameterName;
+import net.shibboleth.utilities.java.support.logic.Constraint;
+import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
+import net.shibboleth.utilities.java.support.resolver.ResolverException;
 
 /**
  * Trust engine that evaluates a credential's X.509 certificate against certificates expressed within a set of trusted
@@ -56,18 +57,21 @@ public class ExplicitX509CertificateTrustEngine implements TrustedCredentialTrus
      * 
      * @param resolver credential resolver which is used to resolve trusted credentials
      */
-    public ExplicitX509CertificateTrustEngine(@Nonnull final CredentialResolver resolver) {
+    public ExplicitX509CertificateTrustEngine(
+            @Nonnull @ParameterName(name="resolver") final CredentialResolver resolver) {
         credentialResolver = Constraint.isNotNull(resolver, "Credential resolver cannot be null");
 
         trustEvaluator = new ExplicitX509CertificateTrustEvaluator();
     }
 
     /** {@inheritDoc} */
+    @Override
     @Nonnull public CredentialResolver getCredentialResolver() {
         return credentialResolver;
     }
 
     /** {@inheritDoc} */
+    @Override
     public boolean validate(@Nonnull final X509Credential untrustedCredential,
             @Nullable final CriteriaSet trustBasisCriteria) throws SecurityException {
 

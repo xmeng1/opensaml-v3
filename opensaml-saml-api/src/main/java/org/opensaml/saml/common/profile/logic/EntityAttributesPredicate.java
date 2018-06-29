@@ -26,20 +26,8 @@ import java.util.regex.Pattern;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
-import net.shibboleth.utilities.java.support.annotation.constraint.NotEmpty;
-import net.shibboleth.utilities.java.support.annotation.constraint.NotLive;
-import net.shibboleth.utilities.java.support.annotation.constraint.Unmodifiable;
-import net.shibboleth.utilities.java.support.logic.Constraint;
-import net.shibboleth.utilities.java.support.primitive.StringSupport;
-
 import org.joda.time.DateTime;
 import org.opensaml.core.xml.XMLObject;
-import org.opensaml.saml.ext.saml2mdattr.EntityAttributes;
-import org.opensaml.saml.saml2.core.Attribute;
-import org.opensaml.saml.saml2.metadata.EntitiesDescriptor;
-import org.opensaml.saml.saml2.metadata.EntityDescriptor;
-import org.opensaml.saml.saml2.metadata.Extensions;
 import org.opensaml.core.xml.schema.XSAny;
 import org.opensaml.core.xml.schema.XSBase64Binary;
 import org.opensaml.core.xml.schema.XSBoolean;
@@ -47,6 +35,11 @@ import org.opensaml.core.xml.schema.XSDateTime;
 import org.opensaml.core.xml.schema.XSInteger;
 import org.opensaml.core.xml.schema.XSString;
 import org.opensaml.core.xml.schema.XSURI;
+import org.opensaml.saml.ext.saml2mdattr.EntityAttributes;
+import org.opensaml.saml.saml2.core.Attribute;
+import org.opensaml.saml.saml2.metadata.EntitiesDescriptor;
+import org.opensaml.saml.saml2.metadata.EntityDescriptor;
+import org.opensaml.saml.saml2.metadata.Extensions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,6 +48,14 @@ import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+
+import net.shibboleth.utilities.java.support.annotation.ParameterName;
+import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
+import net.shibboleth.utilities.java.support.annotation.constraint.NotEmpty;
+import net.shibboleth.utilities.java.support.annotation.constraint.NotLive;
+import net.shibboleth.utilities.java.support.annotation.constraint.Unmodifiable;
+import net.shibboleth.utilities.java.support.logic.Constraint;
+import net.shibboleth.utilities.java.support.primitive.StringSupport;
 
 /**
  * Predicate to determine whether an {@link EntityDescriptor} or its parent groups contain an {@link EntityAttributes}
@@ -79,7 +80,8 @@ public class EntityAttributesPredicate implements Predicate<EntityDescriptor> {
      * 
      * @param candidates the {@link Candidate} criteria to check for
      */
-    public EntityAttributesPredicate(@Nonnull @NonnullElements final Collection<Candidate> candidates) {
+    public EntityAttributesPredicate(
+            @Nonnull @NonnullElements @ParameterName(name="candidates") final Collection<Candidate> candidates) {
         
         Constraint.isNotNull(candidates, "Attribute collection cannot be null");
         
@@ -95,8 +97,9 @@ public class EntityAttributesPredicate implements Predicate<EntityDescriptor> {
      * @param candidates the {@link Candidate} criteria to check for
      * @param trim true iff the values found in the metadata should be trimmed before comparison
      */
-    public EntityAttributesPredicate(@Nonnull @NonnullElements final Collection<Candidate> candidates,
-            final boolean trim) {
+    public EntityAttributesPredicate(
+            @Nonnull @NonnullElements @ParameterName(name="candidates") final Collection<Candidate> candidates,
+            @ParameterName(name="trim") final boolean trim) {
         
         Constraint.isNotNull(candidates, "Attribute collection cannot be null");
         
@@ -113,8 +116,10 @@ public class EntityAttributesPredicate implements Predicate<EntityDescriptor> {
      * @param trim true iff the values found in the metadata should be trimmed before comparison
      * @param all true iff all the criteria must match to be a successful test
      */
-    public EntityAttributesPredicate(@Nonnull @NonnullElements final Collection<Candidate> candidates,
-            final boolean trim, final boolean all) {
+    public EntityAttributesPredicate(
+            @Nonnull @NonnullElements @ParameterName(name="candidates") final Collection<Candidate> candidates,
+            @ParameterName(name="trim") final boolean trim,
+            @ParameterName(name="all") final boolean all) {
         
         Constraint.isNotNull(candidates, "Attribute collection cannot be null");
         
@@ -144,6 +149,7 @@ public class EntityAttributesPredicate implements Predicate<EntityDescriptor> {
 
 // Checkstyle: CyclomaticComplexity OFF
     /** {@inheritDoc} */
+    @Override
     public boolean apply(@Nullable final EntityDescriptor input) {
         if (input == null) {
             return false;
@@ -330,6 +336,7 @@ public class EntityAttributesPredicate implements Predicate<EntityDescriptor> {
         }
                 
         /** {@inheritDoc} */
+        @Override
         public boolean apply(@Nonnull final Candidate input) {
             final List<String> tagvals = input.values;
             final List<Pattern> tagexps = input.regexps;

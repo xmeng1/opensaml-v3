@@ -27,11 +27,6 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
-import net.shibboleth.utilities.java.support.annotation.constraint.NotLive;
-import net.shibboleth.utilities.java.support.annotation.constraint.Unmodifiable;
-import net.shibboleth.utilities.java.support.logic.Constraint;
-
 import org.opensaml.xmlsec.encryption.EncryptedData;
 import org.opensaml.xmlsec.encryption.EncryptedKey;
 import org.slf4j.Logger;
@@ -40,6 +35,12 @@ import org.slf4j.LoggerFactory;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableList;
+
+import net.shibboleth.utilities.java.support.annotation.ParameterName;
+import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
+import net.shibboleth.utilities.java.support.annotation.constraint.NotLive;
+import net.shibboleth.utilities.java.support.annotation.constraint.Unmodifiable;
+import net.shibboleth.utilities.java.support.logic.Constraint;
 
 /**
  * An implementation of {@link EncryptedKeyResolver} which chains multiple other resolver implementations together,
@@ -58,7 +59,8 @@ public class ChainingEncryptedKeyResolver extends AbstractEncryptedKeyResolver {
      * 
      * @param encKeyResolvers the chain of encrypted key resolvers
      */
-    public ChainingEncryptedKeyResolver(@Nonnull final List<EncryptedKeyResolver> encKeyResolvers) {
+    public ChainingEncryptedKeyResolver(
+            @Nonnull @ParameterName(name="encKeyResolvers") final List<EncryptedKeyResolver> encKeyResolvers) {
         Constraint.isNotNull(encKeyResolvers, "List of EncryptedKeyResolvers cannot be null");
         resolvers = new ArrayList<>(Collections2.filter(encKeyResolvers, Predicates.notNull()));
     }
@@ -69,8 +71,9 @@ public class ChainingEncryptedKeyResolver extends AbstractEncryptedKeyResolver {
      * @param encKeyResolvers the chain of encrypted key resolvers
      * @param recipients the set of recipients
      */
-    public ChainingEncryptedKeyResolver(@Nonnull final List<EncryptedKeyResolver> encKeyResolvers,
-            @Nullable final Set<String> recipients) {
+    public ChainingEncryptedKeyResolver(
+            @Nonnull @ParameterName(name="encKeyResolvers") final List<EncryptedKeyResolver> encKeyResolvers,
+            @Nullable @ParameterName(name="recipients") final Set<String> recipients) {
         super(recipients);
         Constraint.isNotNull(encKeyResolvers, "List of EncryptedKeyResolvers cannot be null");
         resolvers = new ArrayList<>(Collections2.filter(encKeyResolvers, Predicates.notNull()));
@@ -82,8 +85,9 @@ public class ChainingEncryptedKeyResolver extends AbstractEncryptedKeyResolver {
      * @param encKeyResolvers the chain of encrypted key resolvers
      * @param recipient the recipient
      */
-    public ChainingEncryptedKeyResolver(@Nonnull final List<EncryptedKeyResolver> encKeyResolvers,
-            @Nullable final String recipient) {
+    public ChainingEncryptedKeyResolver(
+            @Nonnull @ParameterName(name="encKeyResolvers") final List<EncryptedKeyResolver> encKeyResolvers,
+            @Nullable @ParameterName(name="recipient") final String recipient) {
         this(encKeyResolvers, Collections.singleton(recipient));
     }
 
@@ -130,6 +134,7 @@ public class ChainingEncryptedKeyResolver extends AbstractEncryptedKeyResolver {
         }
 
         /** {@inheritDoc} */
+        @Override
         @Nonnull public Iterator<EncryptedKey> iterator() {
             return new ChainingIterator(parent, encryptedData);
         }

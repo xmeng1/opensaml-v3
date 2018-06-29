@@ -23,12 +23,6 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
-import net.shibboleth.utilities.java.support.annotation.constraint.NotLive;
-import net.shibboleth.utilities.java.support.annotation.constraint.Unmodifiable;
-import net.shibboleth.utilities.java.support.logic.Constraint;
-import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
-
 import org.opensaml.security.SecurityException;
 import org.opensaml.security.trust.TrustEngine;
 import org.slf4j.Logger;
@@ -37,6 +31,13 @@ import org.slf4j.LoggerFactory;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableList;
+
+import net.shibboleth.utilities.java.support.annotation.ParameterName;
+import net.shibboleth.utilities.java.support.annotation.constraint.NonnullElements;
+import net.shibboleth.utilities.java.support.annotation.constraint.NotLive;
+import net.shibboleth.utilities.java.support.annotation.constraint.Unmodifiable;
+import net.shibboleth.utilities.java.support.logic.Constraint;
+import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
 
 /**
  * Evaluate a token in sequence using a chain of subordinate trust engines. If the token may be established as trusted
@@ -57,7 +58,7 @@ public class ChainingTrustEngine<TokenType> implements TrustEngine<TokenType> {
      * 
      * @param chain the list of trust engines in the chain
      */
-    public ChainingTrustEngine(@Nonnull final List<TrustEngine<? super TokenType>> chain) {
+    public ChainingTrustEngine(@Nonnull @ParameterName(name="chain") final List<TrustEngine<? super TokenType>> chain) {
         Constraint.isNotNull(chain, "TrustEngine list cannot be null");
         engines = new ArrayList<>(Collections2.filter(chain, Predicates.notNull()));
     }
@@ -72,6 +73,7 @@ public class ChainingTrustEngine<TokenType> implements TrustEngine<TokenType> {
     }
 
     /** {@inheritDoc} */
+    @Override
     public boolean validate(@Nonnull final TokenType token, @Nullable final CriteriaSet trustBasisCriteria)
             throws SecurityException {
         for (final TrustEngine<? super TokenType> engine : engines) {

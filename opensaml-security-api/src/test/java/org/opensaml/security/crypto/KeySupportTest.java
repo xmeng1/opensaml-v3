@@ -64,6 +64,9 @@ public class KeySupportTest {
     /** Location of encrypted, PEM formatted, DSA private key. */
     private String dsaPrivKeyPEMEncrypt = "/data/dsa-privkey-changeit-pass.pem";
 
+    /** Location of non-encrypted, PEM formatted, EC private key. */
+    private String ecPrivKeyPEMNoEncrypt = "/data/ec-privkey-nopass.pem";
+
     /** Test decoding an RSA private key, in PEM format, without encryption. */
     @Test
     public void testDecodeRSAPrivateKeyPEMNoEncrypt() throws Exception {
@@ -98,7 +101,14 @@ public class KeySupportTest {
     @Test
     public void testDecodeDSAPrivateKeyDERNoEncrypt() throws Exception {
         testPrivKey(dsaPrivKeyDERNoEncrypt, null, "DSA");
+    }    
+    
+    /** Test decoding an EC private key, in PEM format, without encryption. */
+    @Test
+    public void testDecodeECPrivateKeyPEMNoEncrypt() throws Exception {
+        testPrivKey(ecPrivKeyPEMNoEncrypt, null, "EC");
     }
+    
     
     /** Test deriving a public key from an RSA and DSA private key. */
     @Test

@@ -20,9 +20,10 @@ package org.opensaml.messaging.context.navigate;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.shibboleth.utilities.java.support.logic.Constraint;
-
 import org.opensaml.messaging.context.BaseContext;
+
+import net.shibboleth.utilities.java.support.annotation.ParameterName;
+import net.shibboleth.utilities.java.support.logic.Constraint;
 
 /**
  * A {@link ContextDataLookupFunction} that gets the child context of a given parent context.
@@ -47,7 +48,7 @@ public class ChildContextLookup<ParentContext extends BaseContext, ChildContext 
      * 
      * @param type child context type to look up
      */
-    public ChildContextLookup(@Nonnull final Class<ChildContext> type) {
+    public ChildContextLookup(@Nonnull @ParameterName(name="type") final Class<ChildContext> type) {
         childType = Constraint.isNotNull(type, "Child context type cannot be null");
         autocreate = false;
     }
@@ -58,7 +59,8 @@ public class ChildContextLookup<ParentContext extends BaseContext, ChildContext 
      * @param type child context type to look up
      * @param createContext whether to create the child context if it does not exist
      */
-    public ChildContextLookup(@Nonnull final Class<ChildContext> type, final boolean createContext) {
+    public ChildContextLookup(@Nonnull @ParameterName(name="type") final Class<ChildContext> type,
+            @ParameterName(name="createContext") final boolean createContext) {
         childType = Constraint.isNotNull(type, "Child context type cannot be null");
         autocreate = createContext;
     }

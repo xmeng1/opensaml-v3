@@ -20,9 +20,10 @@ package org.opensaml.messaging.context.navigate;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.shibboleth.utilities.java.support.logic.Constraint;
-
 import org.opensaml.messaging.context.BaseContext;
+
+import net.shibboleth.utilities.java.support.annotation.ParameterName;
+import net.shibboleth.utilities.java.support.logic.Constraint;
 
 /**
  * A {@link ContextDataLookupFunction} that recurses up the parent chain of the input via 
@@ -43,7 +44,8 @@ public class RecursiveTypedParentContextLookup<StartContext extends BaseContext,
      *
      * @param targetClass the target parent class 
      */
-    public RecursiveTypedParentContextLookup(@Nonnull final Class<ParentContext> targetClass) {
+    public RecursiveTypedParentContextLookup(
+            @Nonnull @ParameterName(name="targetClass") final Class<ParentContext> targetClass) {
         parentClass = Constraint.isNotNull(targetClass, "Parent Class may not be null");
     }
 
